@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<script src="html-string.js"></script>
+<script>
+'use strict';
+
+function bench() {
+  let results = [];
+  let holder = [];
+  let parser = new DOMParser();
+  const repeat = 10;
+  for (var i = 0; i < repeat; ++i) {
+    let start = performance.now();
+
+    let doc = parser.parseFromString(html, "text/html");
+    holder.push(doc);
+
+    let end = performance.now();
+
+    results.push(end - start);
+    console.log(i);
+  }
+
+  console.log(results.reduce((a, b) => { return a + b; }) / repeat);
+}
+
+bench();
+</script>
+</head>
+<body>
+test
+</body>
+</html>
