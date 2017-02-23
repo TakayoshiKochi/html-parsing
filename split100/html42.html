@@ -1,0 +1,850 @@
+  agent should also allow the user to request that the <code id=the-select-element:the-option-element-15><a href=#the-option-element>option</a></code> whose <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-7>selectedness</a> is true, if any, be unselected. Upon this
+  request being conveyed to the user agent, and before the relevant user interaction event  is queued (e.g. before the <code id=the-select-element:event-click-2><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event), the user agent must set the <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-8>selectedness</a> of that <code id=the-select-element:the-option-element-16><a href=#the-option-element>option</a></code> element to
+  false, set its <a href=#concept-option-dirtiness id=the-select-element:concept-option-dirtiness-2>dirtiness</a> to true, and then
+  <a href=#send-select-update-notifications id=the-select-element:send-select-update-notifications-2>send <code>select</code> update notifications</a>.</p>
+
+  <p>If <a href=#nodes-are-inserted id=the-select-element:nodes-are-inserted>nodes are inserted</a> or <a href=#nodes-are-removed id=the-select-element:nodes-are-removed>nodes are removed</a> causing the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-10>list of options</a> to gain or lose one or more
+  <code id=the-select-element:the-option-element-17><a href=#the-option-element>option</a></code> elements, or if an <code id=the-select-element:the-option-element-18><a href=#the-option-element>option</a></code> element in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-11>list of options</a> <dfn id=ask-for-a-reset>asks for
+  a reset</dfn>, then, if the <code id=the-select-element:the-select-element-19><a href=#the-select-element>select</a></code> element's <code id=the-select-element:attr-select-multiple-8><a href=#attr-select-multiple>multiple</a></code> attribute is absent, the user agent must run the
+  first applicable set of steps from the following list:</p>
+
+  <dl class=switch><dt>If the <code id=the-select-element:the-select-element-20><a href=#the-select-element>select</a></code>
+   element's <a href=#concept-select-size id=the-select-element:concept-select-size-5>display size</a> is 1, and no <code id=the-select-element:the-option-element-19><a href=#the-option-element>option</a></code>
+   elements in the <code id=the-select-element:the-select-element-21><a href=#the-select-element>select</a></code> element's <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-12>list of
+   options</a> have their <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-9>selectedness</a> set to
+   true<dd><p>Set the <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-10>selectedness</a> of the first
+   <code id=the-select-element:the-option-element-20><a href=#the-option-element>option</a></code> element in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-13>list of
+   options</a> in <a id=the-select-element:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> that is not <a href=#concept-option-disabled id=the-select-element:concept-option-disabled-2>disabled</a>, if any, to true.<dt>If two or more <code id=the-select-element:the-option-element-21><a href=#the-option-element>option</a></code> elements in the <code id=the-select-element:the-select-element-22><a href=#the-select-element>select</a></code> element's <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-14>list of options</a> have their <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-11>selectedness</a> set to true<dd><p>Set the <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-12>selectedness</a> of all but the last
+   <code id=the-select-element:the-option-element-22><a href=#the-option-element>option</a></code> element with its <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-13>selectedness</a> set to true in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-15>list of options</a> in <a id=the-select-element:tree-order-3 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> to
+   false.</dl>
+
+  <p>If the <code id=the-select-element:attr-select-multiple-9><a href=#attr-select-multiple>multiple</a></code> attribute is present, and the
+  element is not <a href=#concept-fe-disabled id=the-select-element:concept-fe-disabled-2>disabled</a>, then the user agent should
+  allow the user to <dfn id=concept-select-toggle>toggle</dfn> the <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-14>selectedness</a> of the <code id=the-select-element:the-option-element-23><a href=#the-option-element>option</a></code> elements in
+  its <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-16>list of options</a> that are themselves not <a href=#concept-option-disabled id=the-select-element:concept-option-disabled-3>disabled</a>. Upon such an element being <a href=#concept-select-toggle id=the-select-element:concept-select-toggle>toggled</a> (either through a click, or through a <a href=#using-the-option-element-to-define-a-command id=the-select-element:using-the-option-element-to-define-a-command-2>menu command</a>, or any other mechanism), and before the relevant user
+  interaction event  is queued (e.g. before a related <code id=the-select-element:event-click-3><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event), the <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-15>selectedness</a> of the <code id=the-select-element:the-option-element-24><a href=#the-option-element>option</a></code> element must
+  be changed (from true to false or false to true), the <a href=#concept-option-dirtiness id=the-select-element:concept-option-dirtiness-3>dirtiness</a> of the element must be set to true, and the
+  user agent must <a href=#send-select-update-notifications id=the-select-element:send-select-update-notifications-3>send <code>select</code> update notifications</a>.</p>
+
+  <p>When the user agent is to <dfn id=send-select-update-notifications>send <code>select</code> update notifications</dfn>, <a href=#queue-a-task id=the-select-element:queue-a-task>queue
+  a task</a>, using the <a href=#user-interaction-task-source id=the-select-element:user-interaction-task-source>user interaction task source</a>, to run these steps:</p>
+
+  <ol><li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-select-element:concept-event-fire data-x-internal=concept-event-fire>Fire an event</a> named <code id=the-select-element:event-input><a href=#event-input>input</a></code> at the <code id=the-select-element:the-select-element-23><a href=#the-select-element>select</a></code> element, with the <code id=the-select-element:dom-event-bubbles><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true.<li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-select-element:concept-event-fire-2 data-x-internal=concept-event-fire>Fire an event</a> named <code id=the-select-element:event-change><a href=#event-change>change</a></code> at the <code id=the-select-element:the-select-element-24><a href=#the-select-element>select</a></code> element, with the <code id=the-select-element:dom-event-bubbles-2><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true.</ol>
+
+  <p>The <a href=#concept-form-reset-control id=the-select-element:concept-form-reset-control>reset algorithm</a> for <code id=the-select-element:the-select-element-25><a href=#the-select-element>select</a></code>
+  elements is to go through all the <code id=the-select-element:the-option-element-25><a href=#the-option-element>option</a></code> elements in the element's <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-17>list of options</a>, set their <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-16>selectedness</a> to true if the <code id=the-select-element:the-option-element-26><a href=#the-option-element>option</a></code>
+  element has a <code id=the-select-element:attr-option-selected><a href=#attr-option-selected>selected</a></code> attribute, and false otherwise,
+  set their <a href=#concept-option-dirtiness id=the-select-element:concept-option-dirtiness-4>dirtiness</a> to false, and then have the
+  <code id=the-select-element:the-option-element-27><a href=#the-option-element>option</a></code> elements <a href=#ask-for-a-reset id=the-select-element:ask-for-a-reset>ask for a reset</a>.</p>
+
+  
+
+  <p>
+  The <code id=the-select-element:attr-fae-form-2><a href=#attr-fae-form>form</a></code> attribute is used to explicitly associate the <code id=the-select-element:the-select-element-26><a href=#the-select-element>select</a></code> element with its <a href=#form-owner id=the-select-element:form-owner>form owner</a>.
+  The <code id=the-select-element:attr-fe-name-2><a href=#attr-fe-name>name</a></code> attribute represents the element's name.
+  The <code id=the-select-element:attr-fe-disabled-2><a href=#attr-fe-disabled>disabled</a></code> attribute is used to make the control non-interactive and to prevent its value from being submitted.
+  The <code id=the-select-element:attr-fe-autofocus-2><a href=#attr-fe-autofocus>autofocus</a></code> attribute controls focus.
+  The <code id=the-select-element:attr-fe-autocomplete-2><a href=#attr-fe-autocomplete>autocomplete</a></code> attribute controls how the user agent provides autofill behavior.
+  </p>
+
+  <p>A <code id=the-select-element:the-select-element-27><a href=#the-select-element>select</a></code> element that is not <a href=#concept-fe-disabled id=the-select-element:concept-fe-disabled-3>disabled</a> is
+  <i id=the-select-element:concept-fe-mutable><a href=#concept-fe-mutable>mutable</a></i>.</p>
+
+
+  <dl class=domintro><dt><var>select</var> . <code id=the-select-element:dom-select-type-2><a href=#dom-select-type>type</a></code><dd>
+
+    <p>Returns "<code>select-multiple</code>" if the element has a <code id=the-select-element:attr-select-multiple-10><a href=#attr-select-multiple>multiple</a></code> attribute, and "<code>select-one</code>"
+    otherwise.</p>
+
+   <dt><var>select</var> . <code id=the-select-element:dom-select-options-2><a href=#dom-select-options>options</a></code><dd>
+
+    <p>Returns an <code id=the-select-element:htmloptionscollection-2><a href=#htmloptionscollection>HTMLOptionsCollection</a></code> of the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-18>list of options</a>.</p>
+
+   <dt><var>select</var> . <code id=the-select-element:dom-select-length-2><a href=#dom-select-length>length</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the number of elements in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-19>list of
+    options</a>.</p>
+
+    <p>When set to a smaller number, truncates the number of <code id=the-select-element:the-option-element-28><a href=#the-option-element>option</a></code> elements in the
+    <code id=the-select-element:the-select-element-28><a href=#the-select-element>select</a></code>.</p>
+
+    <p>When set to a greater number, adds new blank <code id=the-select-element:the-option-element-29><a href=#the-option-element>option</a></code> elements to the
+    <code id=the-select-element:the-select-element-29><a href=#the-select-element>select</a></code>.</p>
+
+   <dt><var>element</var> = <var>select</var> . <code id=the-select-element:dom-select-item-2><a href=#dom-select-item>item</a></code>(<var>index</var>)<dt><var>select</var>[<var>index</var>]<dd>
+
+    <p>Returns the item with index <var>index</var> from the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-20>list of options</a>. The items are sorted in <a id=the-select-element:tree-order-4 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree
+    order</a>.</p>
+
+   <dt><var>element</var> = <var>select</var> . <code id=the-select-element:dom-select-nameditem-2><a href=#dom-select-nameditem>namedItem</a></code>(<var>name</var>)<dd>
+
+    <p>Returns the first item with <a href=https://dom.spec.whatwg.org/#concept-id id=the-select-element:concept-id data-x-internal=concept-id>ID</a> or <code id=the-select-element:attr-option-name><a href=#attr-option-name>name</a></code> <var>name</var> from the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-21>list of options</a>.</p>
+
+    <p>Returns null if no element with that <a href=https://dom.spec.whatwg.org/#concept-id id=the-select-element:concept-id-2 data-x-internal=concept-id>ID</a> could be found.</p>
+
+   <dt><var>select</var> . <code id=the-select-element:dom-select-add-2><a href=#dom-select-add>add</a></code>(<var>element</var> [, <var>before</var> ] )<dd>
+
+    <p>Inserts <var>element</var> before the node given by <var>before</var>.</p>
+
+    <p>The <var>before</var> argument can be a number, in which case <var>element</var> is inserted before the item with that number, or an element from the
+    <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-22>list of options</a>, in which case <var>element</var> is inserted before that element.</p>
+
+    <p>If <var>before</var> is omitted, null, or a number out of range, then <var>element</var> will be added at the end of the list.</p>
+
+    <p>This method will throw a <a id=the-select-element:hierarchyrequesterror href=https://heycam.github.io/webidl/#hierarchyrequesterror data-x-internal=hierarchyrequesterror>"<code>HierarchyRequestError</code>"</a> <code id=the-select-element:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if
+    <var>element</var> is an ancestor of the element into which it is to be inserted.</p>
+
+   <dt><var>select</var> . <code id=the-select-element:dom-select-selectedoptions-2><a href=#dom-select-selectedoptions>selectedOptions</a></code><dd>
+
+    <p>Returns an <code id=the-select-element:htmlcollection-2><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> of the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-23>list
+    of options</a> that are selected.</p>
+
+   <dt><var>select</var> . <code id=the-select-element:dom-select-selectedindex-2><a href=#dom-select-selectedindex>selectedIndex</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the index of the first selected item, if any, or −1 if there is no selected
+    item.</p>
+
+    <p>Can be set, to change the selection.</p>
+
+   <dt><var>select</var> . <code id=the-select-element:dom-select-value-2><a href=#dom-select-value>value</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the <a href=#concept-option-value id=the-select-element:concept-option-value-2>value</a> of the first selected item, if
+    any, or the empty string if there is no selected item.</p>
+
+    <p>Can be set, to change the selection.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-select-type><code>type</code></dfn> IDL attribute, on getting, must
+  return the string "<code>select-one</code>" if the <code id=the-select-element:attr-select-multiple-11><a href=#attr-select-multiple>multiple</a></code> attribute is absent, and the string "<code>select-multiple</code>" if the <code id=the-select-element:attr-select-multiple-12><a href=#attr-select-multiple>multiple</a></code>
+  attribute is present.</p>
+
+  <p>The <dfn id=dom-select-options><code>options</code></dfn> IDL attribute must return an
+  <code id=the-select-element:htmloptionscollection-3><a href=#htmloptionscollection>HTMLOptionsCollection</a></code> rooted at the <code id=the-select-element:the-select-element-30><a href=#the-select-element>select</a></code> node, whose filter matches
+  the elements in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-24>list of options</a>.</p>
+
+  <p>The <code id=the-select-element:dom-select-options-3><a href=#dom-select-options>options</a></code> collection is also mirrored on the
+  <code id=the-select-element:htmlselectelement><a href=#htmlselectelement>HTMLSelectElement</a></code> object. The <a id=the-select-element:supported-property-indices href=https://heycam.github.io/webidl/#dfn-supported-property-indices data-x-internal=supported-property-indices>supported property indices</a> at any instant
+  are the indices supported by the object returned by the <code id=the-select-element:dom-select-options-4><a href=#dom-select-options>options</a></code> attribute at that instant.</p>
+
+  <p>The <dfn id=dom-select-length><code>length</code></dfn> IDL attribute must return the
+  number of nodes <a href=https://dom.spec.whatwg.org/#represented-by-the-collection id=the-select-element:represented-by-the-collection data-x-internal=represented-by-the-collection>represented</a> by the <code id=the-select-element:dom-select-options-5><a href=#dom-select-options>options</a></code> collection. On setting, it must act like the attribute
+  of the same name on the <code id=the-select-element:dom-select-options-6><a href=#dom-select-options>options</a></code> collection.</p>
+
+  <p>The <dfn id=dom-select-item><code>item(<var>index</var>)</code></dfn> method
+  must return the value returned by <a href=https://dom.spec.whatwg.org/#dom-htmlcollection-item id=the-select-element:dom-htmlcollection-item data-x-internal=dom-htmlcollection-item>the method of the same
+  name</a> on the <code id=the-select-element:dom-select-options-7><a href=#dom-select-options>options</a></code> collection, when invoked with
+  the same argument.</p>
+
+  <p>The <dfn id=dom-select-nameditem><code>namedItem(<var>name</var>)</code></dfn>
+  method must return the value returned by <a href=https://dom.spec.whatwg.org/#dom-htmlcollection-nameditem id=the-select-element:dom-htmlcollection-nameditem data-x-internal=dom-htmlcollection-nameditem>the
+  method of the same name</a> on the <code id=the-select-element:dom-select-options-8><a href=#dom-select-options>options</a></code> collection,
+  when invoked with the same argument.</p>
+
+  <p id=dom-select-setter>When the user agent is to <a id=the-select-element:set-the-value-of-a-new-indexed-property href=https://heycam.github.io/webidl/#dfn-set-the-value-of-a-new-indexed-property data-x-internal=set-the-value-of-a-new-indexed-property>set the value of a new indexed
+  property</a> or <a id=the-select-element:set-the-value-of-an-existing-indexed-property href=https://heycam.github.io/webidl/#dfn-set-the-value-of-an-existing-indexed-property data-x-internal=set-the-value-of-an-existing-indexed-property>set the value of an existing indexed property</a> for a
+  <code id=the-select-element:the-select-element-31><a href=#the-select-element>select</a></code> element, it must instead run <a href=#dom-htmloptionscollection-setter>the
+  corresponding algorithm</a> on the <code id=the-select-element:the-select-element-32><a href=#the-select-element>select</a></code> element's <code id=the-select-element:dom-select-options-9><a href=#dom-select-options>options</a></code> collection.</p>
+
+  <p>Similarly, the <dfn id=dom-select-add><code>add()</code></dfn> method must act like its
+  namesake method on that same <code id=the-select-element:dom-select-options-10><a href=#dom-select-options>options</a></code> collection.</p>
+
+  <p>The <dfn id=dom-select-remove><code>remove()</code></dfn> method must act like its
+  namesake method on that same <code id=the-select-element:dom-select-options-11><a href=#dom-select-options>options</a></code> collection when it
+  has arguments, and like its namesake method on the <code id=the-select-element:childnode><a data-x-internal=childnode href=https://dom.spec.whatwg.org/#interface-childnode>ChildNode</a></code> interface implemented by
+  the <code id=the-select-element:htmlselectelement-2><a href=#htmlselectelement>HTMLSelectElement</a></code> ancestor interface <code id=the-select-element:element-2><a data-x-internal=element href=https://dom.spec.whatwg.org/#interface-element>Element</a></code> when it has no
+  arguments.</p>
+
+  <p>The <dfn id=dom-select-selectedoptions><code>selectedOptions</code></dfn> IDL attribute
+  must return an <code id=the-select-element:htmlcollection-3><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> rooted at the <code id=the-select-element:the-select-element-33><a href=#the-select-element>select</a></code> node, whose filter
+  matches the elements in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-25>list of options</a> that
+  have their <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-17>selectedness</a> set to true.</p>
+
+  <p>The <dfn id=dom-select-selectedindex><code>selectedIndex</code></dfn> IDL attribute, on
+  getting, must return the <a href=#concept-option-index id=the-select-element:concept-option-index>index</a> of the first
+  <code id=the-select-element:the-option-element-30><a href=#the-option-element>option</a></code> element in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-26>list of
+  options</a> in <a id=the-select-element:tree-order-5 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> that has its <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-18>selectedness</a> set to true, if any. If there isn't one,
+  then it must return −1.</p>
+
+  <p>On setting, the <code id=the-select-element:dom-select-selectedindex-3><a href=#dom-select-selectedindex>selectedIndex</a></code> attribute must set
+  the <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-19>selectedness</a> of all the <code id=the-select-element:the-option-element-31><a href=#the-option-element>option</a></code>
+  elements in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-27>list of options</a> to false, and
+  then the <code id=the-select-element:the-option-element-32><a href=#the-option-element>option</a></code> element in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-28>list of
+  options</a> whose <a href=#concept-option-index id=the-select-element:concept-option-index-2>index</a> is the given new value, if
+  any, must have its <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-20>selectedness</a> set to true and
+  its <a href=#concept-option-dirtiness id=the-select-element:concept-option-dirtiness-5>dirtiness</a> set to true.</p>
+
+  <p class=note>This can result in no element having a <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-21>selectedness</a> set to true even in the case of the
+  <code id=the-select-element:the-select-element-34><a href=#the-select-element>select</a></code> element having no <code id=the-select-element:attr-select-multiple-13><a href=#attr-select-multiple>multiple</a></code>
+  attribute and a <a href=#concept-select-size id=the-select-element:concept-select-size-6>display size</a> of 1.</p>
+
+  <p>The <dfn id=dom-select-value><code>value</code></dfn> IDL attribute, on getting, must
+  return the <a href=#concept-option-value id=the-select-element:concept-option-value-3>value</a> of the first <code id=the-select-element:the-option-element-33><a href=#the-option-element>option</a></code>
+  element in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-29>list of options</a> in <a id=the-select-element:tree-order-6 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree
+  order</a> that has its <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-22>selectedness</a> set to
+  true, if any. If there isn't one, then it must return the empty string.</p>
+
+  <p>On setting, the <code id=the-select-element:dom-select-value-3><a href=#dom-select-value>value</a></code> attribute must set the <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-23>selectedness</a> of all the <code id=the-select-element:the-option-element-34><a href=#the-option-element>option</a></code> elements
+  in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-30>list of options</a> to false, and then the
+  first <code id=the-select-element:the-option-element-35><a href=#the-option-element>option</a></code> element in the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-31>list of
+  options</a>, in <a id=the-select-element:tree-order-7 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>, whose <a href=#concept-option-value id=the-select-element:concept-option-value-4>value</a>
+  is equal to the given new value, if any, must have its <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-24>selectedness</a> set to true and its <a href=#concept-option-dirtiness id=the-select-element:concept-option-dirtiness-6>dirtiness</a> set to true.</p>
+
+  <p class=note>This can result in no element having a <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-25>selectedness</a> set to true even in the case of the
+  <code id=the-select-element:the-select-element-35><a href=#the-select-element>select</a></code> element having no <code id=the-select-element:attr-select-multiple-14><a href=#attr-select-multiple>multiple</a></code>
+  attribute and a <a href=#concept-select-size id=the-select-element:concept-select-size-7>display size</a> of 1.</p>
+
+  <p>The <dfn id=dom-select-multiple><code>multiple</code></dfn>, <dfn id=dom-select-required><code>required</code></dfn>, and <dfn id=dom-select-size><code>size</code></dfn> IDL attributes must <a href=#reflect id=the-select-element:reflect>reflect</a> the
+  respective content attributes of the same name. The <code id=the-select-element:dom-select-size-2><a href=#dom-select-size>size</a></code> IDL
+  attribute has a default value of zero.</p> 
+
+  <p class=note>For historical reasons, the default value of the <code id=the-select-element:dom-select-size-3><a href=#dom-select-size>size</a></code> IDL attribute does not return the actual size used, which, in
+  the absence of the <code id=the-select-element:attr-select-size-5><a href=#attr-select-size>size</a></code> content attribute, is either 1 or 4
+  depending on the presence of the <code id=the-select-element:attr-select-multiple-15><a href=#attr-select-multiple>multiple</a></code>
+  attribute.</p>
+
+  <p>The <code id=the-select-element:dom-cva-willvalidate-2><a href=#dom-cva-willvalidate>willValidate</a></code>, <code id=the-select-element:dom-cva-validity-2><a href=#dom-cva-validity>validity</a></code>, and <code id=the-select-element:dom-cva-validationmessage-2><a href=#dom-cva-validationmessage>validationMessage</a></code> IDL attributes, and the <code id=the-select-element:dom-cva-checkvalidity-2><a href=#dom-cva-checkvalidity>checkValidity()</a></code>, <code id=the-select-element:dom-cva-reportvalidity-2><a href=#dom-cva-reportvalidity>reportValidity()</a></code>, and <code id=the-select-element:dom-cva-setcustomvalidity-2><a href=#dom-cva-setcustomvalidity>setCustomValidity()</a></code> methods, are part of the
+  <a href=#the-constraint-validation-api id=the-select-element:the-constraint-validation-api>constraint validation API</a>. The <code id=the-select-element:dom-lfe-labels-2><a href=#dom-lfe-labels>labels</a></code> IDL
+  attribute provides a list of the element's <code id=the-select-element:the-label-element><a href=#the-label-element>label</a></code>s. The <code id=the-select-element:dom-fe-autofocus-2><a href=#dom-fe-autofocus>autofocus</a></code>, <code id=the-select-element:dom-fe-disabled-2><a href=#dom-fe-disabled>disabled</a></code>, <code id=the-select-element:dom-fae-form-2><a href=#dom-fae-form>form</a></code>, and <code id=the-select-element:dom-fe-name-2><a href=#dom-fe-name>name</a></code> IDL attributes are
+  part of the element's forms API.</p>
+
+  
+
+
+  <div class=example>
+
+   <p>The following example shows how a <code id=the-select-element:the-select-element-36><a href=#the-select-element>select</a></code> element can be used to offer the user
+   with a set of options from which the user can select a single option. The default option is
+   preselected.</p>
+
+   <pre>&lt;p>
+ &lt;label for="unittype">Select unit type:&lt;/label>
+ &lt;select id="unittype" name="unittype">
+  &lt;option value="1"> Miner &lt;/option>
+  &lt;option value="2"> Puffer &lt;/option>
+  &lt;option value="3" selected> Snipey &lt;/option>
+  &lt;option value="4"> Max &lt;/option>
+  &lt;option value="5"> Firebot &lt;/option>
+ &lt;/select>
+&lt;/p></pre>
+
+   <p>When there is no default option, a placeholder can be used instead:</p>
+
+   <pre>&lt;select name="unittype" <strong>required</strong>>
+ <strong>&lt;option value=""> Select unit type &lt;/option></strong>
+ &lt;option value="1"> Miner &lt;/option>
+ &lt;option value="2"> Puffer &lt;/option>
+ &lt;option value="3"> Snipey &lt;/option>
+ &lt;option value="4"> Max &lt;/option>
+ &lt;option value="5"> Firebot &lt;/option>
+&lt;/select></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here, the user is offered a set of options from which they can select any number. By default,
+   all five options are selected.</p>
+
+   <pre>&lt;p>
+ &lt;label for="allowedunits">Select unit types to enable on this map:&lt;/label>
+ &lt;select id="allowedunits" name="allowedunits" multiple>
+  &lt;option value="1" selected> Miner &lt;/option>
+  &lt;option value="2" selected> Puffer &lt;/option>
+  &lt;option value="3" selected> Snipey &lt;/option>
+  &lt;option value="4" selected> Max &lt;/option>
+  &lt;option value="5" selected> Firebot &lt;/option>
+ &lt;/select>
+&lt;/p></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Sometimes, a user has to select one or more items. This example shows such an interface.</p>
+
+   <pre>&lt;p>Select the songs from that you would like on your Act II Mix Tape:&lt;/p>
+&lt;select multiple required name="act2">
+ &lt;option value="s1">It Sucks to Be Me (Reprise)
+ &lt;option value="s2">There is Life Outside Your Apartment
+ &lt;option value="s3">The More You Ruv Someone
+ &lt;option value="s4">Schadenfreude
+ &lt;option value="s5">I Wish I Could Go Back to College
+ &lt;option value="s6">The Money Song
+ &lt;option value="s7">School for Monsters
+ &lt;option value="s8">The Money Song (Reprise)
+ &lt;option value="s9">There's a Fine, Fine Line (Reprise)
+ &lt;option value="s10">What Do You Do With a B.A. in English? (Reprise)
+ &lt;option value="s11">For Now
+&lt;/select></pre>
+
+  </div>
+
+
+
+  <h4 id=the-datalist-element>4.10.8 The <dfn><code>datalist</code></dfn> element<a href=#the-datalist-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> datalist<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome partial"><span>Chrome (limited)</span> <span>20+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox partial"><span>Firefox (limited)</span> <span>4+</span></span><span class="ie partial"><span>IE (limited)</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.4.3+</span></span><span class="edge partial"><span>Edge (limited)</span> <span>12+</span></span><span class="opera partial"><span>Opera (limited)</span> <span>15+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=datalist">caniuse.com</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-datalist-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-datalist-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-datalist-element:phrasing-content-2>Phrasing content</a>.<dt><a href=#concept-element-contexts id=the-datalist-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-datalist-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-datalist-element:concept-element-content-model>Content model</a>:<dd>Either: <a href=#phrasing-content-2 id=the-datalist-element:phrasing-content-2-3>phrasing content</a>.<dd>Or: Zero or more <code id=the-datalist-element:the-option-element><a href=#the-option-element>option</a></code> and <a href=#script-supporting-elements-2 id=the-datalist-element:script-supporting-elements-2>script-supporting</a> elements.<dt><a href=#concept-element-tag-omission id=the-datalist-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-datalist-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-datalist-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-datalist-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-datalist-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmldatalistelement>HTMLDataListElement</dfn> : <a href=#htmlelement id=the-datalist-element:htmlelement>HTMLElement</a> {
+  [SameObject] readonly attribute <a id=the-datalist-element:htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-datalist-options id=the-datalist-element:dom-datalist-options>options</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-datalist-element:the-datalist-element><a href=#the-datalist-element>datalist</a></code> element represents a set of <code id=the-datalist-element:the-option-element-2><a href=#the-option-element>option</a></code> elements that
+  represent predefined options for other controls. In the rendering, the <code id=the-datalist-element:the-datalist-element-2><a href=#the-datalist-element>datalist</a></code>
+  element <a href=#represents id=the-datalist-element:represents>represents</a> nothing and it, along with its children, should
+  be hidden.</p>
+
+  <p>The <code id=the-datalist-element:the-datalist-element-3><a href=#the-datalist-element>datalist</a></code> element can be used in two ways. In the simplest case, the
+  <code id=the-datalist-element:the-datalist-element-4><a href=#the-datalist-element>datalist</a></code> element has just <code id=the-datalist-element:the-option-element-3><a href=#the-option-element>option</a></code> element children.</p>
+
+  <div class=example>
+
+   <pre>&lt;label>
+ Sex:
+ &lt;input name=sex list=sexes>
+ &lt;datalist id=sexes>
+  &lt;option value="Female">
+  &lt;option value="Male">
+ &lt;/datalist>
+&lt;/label></pre>
+
+  </div>
+
+  <p>In the more elaborate case, the <code id=the-datalist-element:the-datalist-element-5><a href=#the-datalist-element>datalist</a></code> element can be given contents that are to
+  be displayed for down-level clients that don't support <code id=the-datalist-element:the-datalist-element-6><a href=#the-datalist-element>datalist</a></code>. In this case, the
+  <code id=the-datalist-element:the-option-element-4><a href=#the-option-element>option</a></code> elements are provided inside a <code id=the-datalist-element:the-select-element><a href=#the-select-element>select</a></code> element inside the
+  <code id=the-datalist-element:the-datalist-element-7><a href=#the-datalist-element>datalist</a></code> element.</p>
+
+  <div class=example>
+
+   <pre>&lt;label>
+ Sex:
+ &lt;input name=sex list=sexes>
+&lt;/label>
+&lt;datalist id=sexes>
+ &lt;label>
+  or select from the list:
+  &lt;select name=sex>
+   &lt;option value="">
+   &lt;option>Female
+   &lt;option>Male
+  &lt;/select>
+ &lt;/label>
+&lt;/datalist></pre>
+
+  </div>
+
+  <p>The <code id=the-datalist-element:the-datalist-element-8><a href=#the-datalist-element>datalist</a></code> element is hooked up to an <code id=the-datalist-element:the-input-element><a href=#the-input-element>input</a></code> element using the <code id=the-datalist-element:attr-input-list><a href=#attr-input-list>list</a></code> attribute on the <code id=the-datalist-element:the-input-element-2><a href=#the-input-element>input</a></code> element.</p>
+
+  <p>Each <code id=the-datalist-element:the-option-element-5><a href=#the-option-element>option</a></code> element that is a descendant of the <code id=the-datalist-element:the-datalist-element-9><a href=#the-datalist-element>datalist</a></code> element,
+  that is not <a href=#concept-option-disabled id=the-datalist-element:concept-option-disabled>disabled</a>, and whose <a href=#concept-option-value id=the-datalist-element:concept-option-value>value</a> is a string that isn't the empty string, represents a
+  suggestion. Each suggestion has a <a href=#concept-option-value id=the-datalist-element:concept-option-value-2>value</a> and a <a href=#concept-option-label id=the-datalist-element:concept-option-label>label</a>.
+
+
+  <dl class=domintro><dt><var>datalist</var> . <code id=the-datalist-element:dom-datalist-options-2><a href=#dom-datalist-options>options</a></code><dd>
+    <p>Returns an <code id=the-datalist-element:htmlcollection-2><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> of the <code id=the-datalist-element:the-option-element-6><a href=#the-option-element>option</a></code> elements of the
+    <code id=the-datalist-element:the-datalist-element-10><a href=#the-datalist-element>datalist</a></code> element.</p>
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-datalist-options><code>options</code></dfn> IDL attribute must return an
+  <code id=the-datalist-element:htmlcollection-3><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> rooted at the <code id=the-datalist-element:the-datalist-element-11><a href=#the-datalist-element>datalist</a></code> node, whose filter matches
+  <code id=the-datalist-element:the-option-element-7><a href=#the-option-element>option</a></code> elements.</p>
+
+  <p><strong>Constraint validation</strong>: If an element has a <code id=the-datalist-element:the-datalist-element-12><a href=#the-datalist-element>datalist</a></code> element
+  ancestor, it is <a href=#barred-from-constraint-validation id=the-datalist-element:barred-from-constraint-validation>barred from constraint validation</a>.</p>
+
+  
+
+
+
+  <h4 id=the-optgroup-element>4.10.9 The <dfn><code>optgroup</code></dfn> element<a href=#the-optgroup-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-optgroup-element:concept-element-categories>Categories</a>:<dd>None.<dt><a href=#concept-element-contexts id=the-optgroup-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>As a child of a <code id=the-optgroup-element:the-select-element><a href=#the-select-element>select</a></code> element.<dt><a href=#concept-element-content-model id=the-optgroup-element:concept-element-content-model>Content model</a>:<dd>Zero or more <code id=the-optgroup-element:the-option-element><a href=#the-option-element>option</a></code> and <a href=#script-supporting-elements-2 id=the-optgroup-element:script-supporting-elements-2>script-supporting</a> elements.<dt><a href=#concept-element-tag-omission id=the-optgroup-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>An <code id=the-optgroup-element:the-optgroup-element><a href=#the-optgroup-element>optgroup</a></code> element's <a href=#syntax-end-tag id=the-optgroup-element:syntax-end-tag>end tag</a> can be omitted
+   if the <code id=the-optgroup-element:the-optgroup-element-2><a href=#the-optgroup-element>optgroup</a></code> element  is
+   immediately followed by another <code id=the-optgroup-element:the-optgroup-element-3><a href=#the-optgroup-element>optgroup</a></code> element, or if  there is no more content in
+   the parent element.<dt><a href=#concept-element-attributes id=the-optgroup-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-optgroup-element:global-attributes>Global attributes</a><dd><code id=the-optgroup-element:attr-optgroup-disabled><a href=#attr-optgroup-disabled>disabled</a></code> — Whether the form control is disabled<dd><code id=the-optgroup-element:attr-optgroup-label><a href=#attr-optgroup-label>label</a></code> — User-visible label<dt><a href=#concept-element-dom id=the-optgroup-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-optgroup-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmloptgroupelement>HTMLOptGroupElement</dfn> : <a href=#htmlelement id=the-optgroup-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-optgroup-element:cereactions>CEReactions</a>] attribute boolean <a href=#dom-optgroup-disabled id=the-optgroup-element:dom-optgroup-disabled>disabled</a>;
+  [<a href=#cereactions id=the-optgroup-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-optgroup-label id=the-optgroup-element:dom-optgroup-label>label</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-optgroup-element:the-optgroup-element-4><a href=#the-optgroup-element>optgroup</a></code> element <a href=#represents id=the-optgroup-element:represents>represents</a> a group of <code id=the-optgroup-element:the-option-element-2><a href=#the-option-element>option</a></code>
+  elements with a common label.</p>
+
+  <p>The element's group of <code id=the-optgroup-element:the-option-element-3><a href=#the-option-element>option</a></code> elements consists of the <code id=the-optgroup-element:the-option-element-4><a href=#the-option-element>option</a></code>
+  elements that are children of the <code id=the-optgroup-element:the-optgroup-element-5><a href=#the-optgroup-element>optgroup</a></code> element.</p>
+
+  
+
+  <p>When showing <code id=the-optgroup-element:the-option-element-5><a href=#the-option-element>option</a></code> elements in <code id=the-optgroup-element:the-select-element-2><a href=#the-select-element>select</a></code> elements, user agents should
+  show the <code id=the-optgroup-element:the-option-element-6><a href=#the-option-element>option</a></code> elements of such groups as being related to each other and separate
+  from other <code id=the-optgroup-element:the-option-element-7><a href=#the-option-element>option</a></code> elements.</p>
+
+  
+
+  <p>The <dfn id=attr-optgroup-disabled><code>disabled</code></dfn> attribute is a
+  <a href=#boolean-attribute id=the-optgroup-element:boolean-attribute>boolean attribute</a> and can be used to <a href=#concept-option-disabled id=the-optgroup-element:concept-option-disabled>disable</a> a group of <code id=the-optgroup-element:the-option-element-8><a href=#the-option-element>option</a></code> elements
+  together.</p>
+
+  <p>The <dfn id=attr-optgroup-label><code>label</code></dfn> attribute must be specified. Its
+  value gives the name of the group, for the purposes of the user interface. User
+  agents should use this attribute's value when labeling the group of <code id=the-optgroup-element:the-option-element-9><a href=#the-option-element>option</a></code> elements
+  in a <code id=the-optgroup-element:the-select-element-3><a href=#the-select-element>select</a></code> element.</p>
+
+  
+
+  <p>The <dfn id=dom-optgroup-disabled><code>disabled</code></dfn> and <dfn id=dom-optgroup-label><code>label</code></dfn> attributes must <a href=#reflect id=the-optgroup-element:reflect>reflect</a> the
+  respective content attributes of the same name.</p>
+
+  
+
+  <p class=note>There is no way to select an <code id=the-optgroup-element:the-optgroup-element-6><a href=#the-optgroup-element>optgroup</a></code> element. Only
+  <code id=the-optgroup-element:the-option-element-10><a href=#the-option-element>option</a></code> elements can be selected. An <code id=the-optgroup-element:the-optgroup-element-7><a href=#the-optgroup-element>optgroup</a></code> element merely provides a
+  label for a group of <code id=the-optgroup-element:the-option-element-11><a href=#the-option-element>option</a></code> elements.</p>
+
+  <div class=example>
+
+   <p>The following snippet shows how a set of lessons from three courses could be offered in a
+   <code id=the-optgroup-element:the-select-element-4><a href=#the-select-element>select</a></code> drop-down widget:</p>
+
+   <pre>&lt;form action="courseselector.dll" method="get">
+ &lt;p>Which course would you like to watch today?
+ &lt;p>&lt;label>Course:
+  &lt;select name="c">
+   &lt;optgroup label="8.01 Physics I: Classical Mechanics">
+    &lt;option value="8.01.1">Lecture 01: Powers of Ten
+    &lt;option value="8.01.2">Lecture 02: 1D Kinematics
+    &lt;option value="8.01.3">Lecture 03: Vectors
+   &lt;optgroup label="8.02 Electricity and Magnestism">
+    &lt;option value="8.02.1">Lecture 01: What holds our world together?
+    &lt;option value="8.02.2">Lecture 02: Electric Field
+    &lt;option value="8.02.3">Lecture 03: Electric Flux
+   &lt;optgroup label="8.03 Physics III: Vibrations and Waves">
+    &lt;option value="8.03.1">Lecture 01: Periodic Phenomenon
+    &lt;option value="8.03.2">Lecture 02: Beats
+    &lt;option value="8.03.3">Lecture 03: Forced Oscillations with Damping
+  &lt;/select>
+ &lt;/label>
+ &lt;p>&lt;input type=submit value="▶ Play">
+&lt;/form></pre>
+
+  </div>
+
+
+
+  <h4 id=the-option-element>4.10.10 The <dfn><code>option</code></dfn> element<a href=#the-option-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-option-element:concept-element-categories>Categories</a>:<dd>None.<dt><a href=#concept-element-contexts id=the-option-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>As a child of a <code id=the-option-element:the-select-element><a href=#the-select-element>select</a></code> element.<dd>As a child of a <code id=the-option-element:the-datalist-element><a href=#the-datalist-element>datalist</a></code> element.<dd>As a child of an <code id=the-option-element:the-optgroup-element><a href=#the-optgroup-element>optgroup</a></code> element.<dt><a href=#concept-element-content-model id=the-option-element:concept-element-content-model>Content model</a>:<dd>If the element has a <code id=the-option-element:attr-option-label><a href=#attr-option-label>label</a></code> attribute and a <code id=the-option-element:attr-option-value><a href=#attr-option-value>value</a></code> attribute: <a href=#concept-content-nothing id=the-option-element:concept-content-nothing>Nothing</a>.<dd>If the element has a <code id=the-option-element:attr-option-label-2><a href=#attr-option-label>label</a></code> attribute but no <code id=the-option-element:attr-option-value-2><a href=#attr-option-value>value</a></code> attribute: <a href=#text-content id=the-option-element:text-content>Text</a>.<dd>If the element has no <code id=the-option-element:attr-option-label-3><a href=#attr-option-label>label</a></code> attribute and is not a
+   child of a <code id=the-option-element:the-datalist-element-2><a href=#the-datalist-element>datalist</a></code> element: <a href=#text-content id=the-option-element:text-content-2>Text</a> that is not
+   <a href=#inter-element-whitespace id=the-option-element:inter-element-whitespace>inter-element whitespace</a>.<dd>If the element has no <code id=the-option-element:attr-option-label-4><a href=#attr-option-label>label</a></code> attribute and is a child
+   of a <code id=the-option-element:the-datalist-element-3><a href=#the-datalist-element>datalist</a></code> element: <a href=#text-content id=the-option-element:text-content-3>Text</a>.<dt><a href=#concept-element-tag-omission id=the-option-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>An <code id=the-option-element:the-option-element><a href=#the-option-element>option</a></code> element's <a href=#syntax-end-tag id=the-option-element:syntax-end-tag>end tag</a> can be omitted if
+   the <code id=the-option-element:the-option-element-2><a href=#the-option-element>option</a></code> element is immediately followed by another <code id=the-option-element:the-option-element-3><a href=#the-option-element>option</a></code> element, or
+   if it is immediately followed by an <code id=the-option-element:the-optgroup-element-2><a href=#the-optgroup-element>optgroup</a></code> element, or if there is no more content
+   in the parent element.<dt><a href=#concept-element-attributes id=the-option-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-option-element:global-attributes>Global attributes</a><dd><code id=the-option-element:attr-option-disabled><a href=#attr-option-disabled>disabled</a></code> — Whether the form control is disabled<dd><code id=the-option-element:attr-option-label-5><a href=#attr-option-label>label</a></code> — User-visible label<dd><code id=the-option-element:attr-option-selected><a href=#attr-option-selected>selected</a></code> — Whether the option is selected by default<dd><code id=the-option-element:attr-option-value-3><a href=#attr-option-value>value</a></code> — Value to be used for <a href=#form-submission-2 id=the-option-element:form-submission-2>form submission</a><dt><a href=#concept-element-dom id=the-option-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-option-element:htmlconstructor>HTMLConstructor</a>, NamedConstructor=<a href=#dom-option id=the-option-element:dom-option>Option</a>(optional DOMString text = "", optional DOMString value, optional boolean defaultSelected = false, optional boolean selected = false)]
+interface <dfn id=htmloptionelement>HTMLOptionElement</dfn> : <a href=#htmlelement id=the-option-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-option-element:cereactions>CEReactions</a>] attribute boolean <a href=#dom-option-disabled id=the-option-element:dom-option-disabled>disabled</a>;
+  readonly attribute <a href=#htmlformelement id=the-option-element:htmlformelement>HTMLFormElement</a>? <a href=#dom-option-form id=the-option-element:dom-option-form>form</a>;
+  [<a href=#cereactions id=the-option-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-option-label id=the-option-element:dom-option-label>label</a>;
+  [<a href=#cereactions id=the-option-element:cereactions-3>CEReactions</a>] attribute boolean <a href=#dom-option-defaultselected id=the-option-element:dom-option-defaultselected>defaultSelected</a>;
+  attribute boolean <a href=#dom-option-selected id=the-option-element:dom-option-selected>selected</a>;
+  [<a href=#cereactions id=the-option-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-option-value id=the-option-element:dom-option-value>value</a>;
+
+  [<a href=#cereactions id=the-option-element:cereactions-5>CEReactions</a>] attribute DOMString <a href=#dom-option-text id=the-option-element:dom-option-text>text</a>;
+  readonly attribute long <a href=#dom-option-index id=the-option-element:dom-option-index>index</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-option-element:the-option-element-4><a href=#the-option-element>option</a></code> element <a href=#represents id=the-option-element:represents>represents</a> an option in a <code id=the-option-element:the-select-element-2><a href=#the-select-element>select</a></code>
+  element or as part of a list of suggestions in a <code id=the-option-element:the-datalist-element-4><a href=#the-datalist-element>datalist</a></code> element.</p>
+
+  <p>In certain circumstances described in the definition of the <code id=the-option-element:the-select-element-3><a href=#the-select-element>select</a></code> element, an
+  <code id=the-option-element:the-option-element-5><a href=#the-option-element>option</a></code> element can be a <code id=the-option-element:the-select-element-4><a href=#the-select-element>select</a></code> element's <a href=#placeholder-label-option id=the-option-element:placeholder-label-option>placeholder label
+  option</a>. A <a href=#placeholder-label-option id=the-option-element:placeholder-label-option-2>placeholder label option</a> does not represent an actual option, but
+  instead represents a label for the <code id=the-option-element:the-select-element-5><a href=#the-select-element>select</a></code> control.</p>
+
+  <p>The <dfn id=attr-option-disabled><code>disabled</code></dfn> attribute is a <a href=#boolean-attribute id=the-option-element:boolean-attribute>boolean
+  attribute</a>. An <code id=the-option-element:the-option-element-6><a href=#the-option-element>option</a></code> element is <dfn id=concept-option-disabled>disabled</dfn> if its <code id=the-option-element:attr-option-disabled-2><a href=#attr-option-disabled>disabled</a></code> attribute is present or if it is a child of an
+  <code id=the-option-element:the-optgroup-element-3><a href=#the-optgroup-element>optgroup</a></code> element whose <code id=the-option-element:attr-optgroup-disabled><a href=#attr-optgroup-disabled>disabled</a></code> attribute
+  is present.</p>
+
+  
+
+  <p>An <code id=the-option-element:the-option-element-7><a href=#the-option-element>option</a></code> element that is <a href=#attr-option-disabled id=the-option-element:attr-option-disabled-3>disabled</a> must
+  prevent any <code id=the-option-element:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> events that are <a href=#queue-a-task id=the-option-element:queue-a-task>queued</a> on the <a href=#user-interaction-task-source id=the-option-element:user-interaction-task-source>user interaction task source</a> from being dispatched on the
+  element.</p>
+
+  
+
+  <p>The <dfn id=attr-option-label><code>label</code></dfn> attribute provides a label for
+  element. The <dfn id=concept-option-label>label</dfn> of an <code id=the-option-element:the-option-element-8><a href=#the-option-element>option</a></code> element is
+  the value of the <code id=the-option-element:attr-option-label-6><a href=#attr-option-label>label</a></code> content attribute, if there is one and its value is not the empty string,
+  or, otherwise, the value of the element's <code id=the-option-element:dom-option-text-2><a href=#dom-option-text>text</a></code> IDL
+  attribute.</p>
+
+  <p>The <code id=the-option-element:attr-option-label-7><a href=#attr-option-label>label</a></code> content attribute, if specified, must not be
+  empty.</p>
+
+  <p>The <dfn id=attr-option-value><code>value</code></dfn> attribute provides a value for
+  element. The <dfn id=concept-option-value>value</dfn> of an <code id=the-option-element:the-option-element-9><a href=#the-option-element>option</a></code> element is
+  the value of the <code id=the-option-element:attr-option-value-4><a href=#attr-option-value>value</a></code> content attribute, if there is one,
+  or, if there is not, the value of the element's <code id=the-option-element:dom-option-text-3><a href=#dom-option-text>text</a></code> IDL
+  attribute.</p>
+
+  <p>The <dfn id=attr-option-selected><code>selected</code></dfn> attribute is a <a href=#boolean-attribute id=the-option-element:boolean-attribute-2>boolean
+  attribute</a>. It represents the default <a href=#concept-option-selectedness id=the-option-element:concept-option-selectedness>selectedness</a> of the element.</p>
+
+  
+
+  <p>The <dfn id=concept-option-dirtiness>dirtiness</dfn> of an <code id=the-option-element:the-option-element-10><a href=#the-option-element>option</a></code> element is
+  a boolean state, initially false. It controls whether adding or removing the <code id=the-option-element:attr-option-selected-2><a href=#attr-option-selected>selected</a></code> content attribute has any effect.</p>
+
+  <p>The <dfn id=concept-option-selectedness>selectedness</dfn> of an <code id=the-option-element:the-option-element-11><a href=#the-option-element>option</a></code>
+  element is a boolean state, initially false. Except where otherwise specified, when the element is
+  created, its <a href=#concept-option-selectedness id=the-option-element:concept-option-selectedness-2>selectedness</a> must be set to true if
+  the element has a <code id=the-option-element:attr-option-selected-3><a href=#attr-option-selected>selected</a></code> attribute. Whenever an
+  <code id=the-option-element:the-option-element-12><a href=#the-option-element>option</a></code> element's <code id=the-option-element:attr-option-selected-4><a href=#attr-option-selected>selected</a></code> attribute is
+  added, if its <a href=#concept-option-dirtiness id=the-option-element:concept-option-dirtiness>dirtiness</a> is false, its <a href=#concept-option-selectedness id=the-option-element:concept-option-selectedness-3>selectedness</a> must be set to true. Whenever an
+  <code id=the-option-element:the-option-element-13><a href=#the-option-element>option</a></code> element's <code id=the-option-element:attr-option-selected-5><a href=#attr-option-selected>selected</a></code> attribute is
+  <em>removed</em>, if its <a href=#concept-option-dirtiness id=the-option-element:concept-option-dirtiness-2>dirtiness</a> is false, its
+  <a href=#concept-option-selectedness id=the-option-element:concept-option-selectedness-4>selectedness</a> must be set to false.</p>
+
+  <p class=note>The <code id=the-option-element:dom-option-2><a href=#dom-option>Option()</a></code> constructor, when called with three
+  or fewer arguments, overrides the initial state of the <a href=#concept-option-selectedness id=the-option-element:concept-option-selectedness-5>selectedness</a> state to always be false even if the third
+  argument is true (implying that a <code id=the-option-element:attr-option-selected-6><a href=#attr-option-selected>selected</a></code> attribute is
+  to be set). The fourth argument can be used to explicitly set the initial <a href=#concept-option-selectedness id=the-option-element:concept-option-selectedness-6>selectedness</a> state when using the constructor.</p>
+
+  
+
+  
+
+  <p>A <code id=the-option-element:the-select-element-6><a href=#the-select-element>select</a></code> element whose <code id=the-option-element:attr-select-multiple><a href=#attr-select-multiple>multiple</a></code>
+  attribute is not specified must not have more than one descendant <code id=the-option-element:the-option-element-14><a href=#the-option-element>option</a></code> element with
+  its <code id=the-option-element:attr-option-selected-7><a href=#attr-option-selected>selected</a></code> attribute set.</p>
+
+  
+
+  <p>An <code id=the-option-element:the-option-element-15><a href=#the-option-element>option</a></code> element's <dfn id=concept-option-index>index</dfn> is the number of
+  <code id=the-option-element:the-option-element-16><a href=#the-option-element>option</a></code> elements that are in the same <a href=#concept-select-option-list id=the-option-element:concept-select-option-list>list of
+  options</a> but that come before it in <a id=the-option-element:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>. If the <code id=the-option-element:the-option-element-17><a href=#the-option-element>option</a></code>
+  element is not in a <a href=#concept-select-option-list id=the-option-element:concept-select-option-list-2>list of options</a>, then the
+  <code id=the-option-element:the-option-element-18><a href=#the-option-element>option</a></code> element's <a href=#concept-option-index id=the-option-element:concept-option-index>index</a> is zero.</p>
+
+  
+
+
+  <dl class=domintro><dt><var>option</var> . <code id=the-option-element:dom-option-selected-2><a href=#dom-option-selected>selected</a></code><dd>
+
+    <p>Returns true if the element is selected, and false otherwise.</p>
+
+    <p>Can be set, to override the current state of the element.</p>
+
+   <dt><var>option</var> . <code id=the-option-element:dom-option-index-2><a href=#dom-option-index>index</a></code><dd>
+
+    <p>Returns the index of the element in its <code id=the-option-element:the-select-element-7><a href=#the-select-element>select</a></code> element's <code id=the-option-element:dom-select-options><a href=#dom-select-options>options</a></code> list.</p>
+
+   <dt><var>option</var> . <code id=the-option-element:dom-option-form-2><a href=#dom-option-form>form</a></code><dd>
+
+    <p>Returns the element's <code id=the-option-element:the-form-element><a href=#the-form-element>form</a></code> element, if any, or null otherwise.</p>
+
+   <dt><var>option</var> . <code id=the-option-element:dom-option-text-4><a href=#dom-option-text>text</a></code><dd>
+
+    <p>Same as <code id=the-option-element:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code>, except that spaces are collapsed and <code id=the-option-element:the-script-element><a href=#the-script-element>script</a></code> elements are skipped.</p>
+
+   <dt><var>option</var> = new <code id=the-option-element:dom-option-3><a href=#dom-option>Option</a></code>( [ <var>text</var> [, <var>value</var> [, <var>defaultSelected</var> [, <var>selected</var> ] ] ] ] )<dd>
+
+    <p>Returns a new <code id=the-option-element:the-option-element-19><a href=#the-option-element>option</a></code> element.</p>
+
+    <p>The <var>text</var> argument sets the contents of the element.</p>
+
+    <p>The <var>value</var> argument sets the <code id=the-option-element:attr-option-value-5><a href=#attr-option-value>value</a></code>
+    attribute.</p>
+
+    <p>The <var>defaultSelected</var> argument sets the <code id=the-option-element:attr-option-selected-8><a href=#attr-option-selected>selected</a></code> attribute.</p>
+
+    <p>The <var>selected</var> argument sets whether or not the element is selected. If it
+    is omitted, even if the <var>defaultSelected</var> argument is true, the element is not
+    selected.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-option-disabled><code>disabled</code></dfn> IDL attribute must
+  <a href=#reflect id=the-option-element:reflect>reflect</a> the content attribute of the same name. The <dfn id=dom-option-defaultselected><code>defaultSelected</code></dfn> IDL attribute must
+  <a href=#reflect id=the-option-element:reflect-2>reflect</a> the <code id=the-option-element:attr-option-selected-9><a href=#attr-option-selected>selected</a></code> content attribute.</p>
+
+  <p>The <dfn id=dom-option-label><code>label</code></dfn> IDL attribute, on getting, if there
+  is a <code id=the-option-element:attr-option-label-8><a href=#attr-option-label>label</a></code> content attribute, must return that attribute's
+  value; otherwise, it must return the element's <a href=#concept-option-label id=the-option-element:concept-option-label>label</a>.
+  On setting, the element's <code id=the-option-element:attr-option-label-9><a href=#attr-option-label>label</a></code> content attribute must be
+  set to the new value.</p>
+
+  <p>The <dfn id=dom-option-value><code>value</code></dfn> IDL attribute, on getting, must
+  return the element's <a href=#concept-option-value id=the-option-element:concept-option-value>value</a>. On setting, the element's
+  <code id=the-option-element:attr-option-value-6><a href=#attr-option-value>value</a></code> content attribute must be set to the new value.</p>
+
+  <p>The <dfn id=dom-option-selected><code>selected</code></dfn> IDL attribute, on getting,
+  must return true if the element's <a href=#concept-option-selectedness id=the-option-element:concept-option-selectedness-7>selectedness</a>
+  is true, and false otherwise. On setting, it must set the element's <a href=#concept-option-selectedness id=the-option-element:concept-option-selectedness-8>selectedness</a> to the new value, set its <a href=#concept-option-dirtiness id=the-option-element:concept-option-dirtiness-3>dirtiness</a> to true, and then cause the element to
+  <a href=#ask-for-a-reset id=the-option-element:ask-for-a-reset>ask for a reset</a>.</p>
+
+  <p>The <dfn id=dom-option-index><code>index</code></dfn> IDL attribute must return the
+  element's <a href=#concept-option-index id=the-option-element:concept-option-index-2>index</a>.</p>
+
+  <p>The <dfn id=dom-option-text><code>text</code></dfn> IDL attribute, on getting, must
+  return the result of <a href=#strip-and-collapse-whitespace id=the-option-element:strip-and-collapse-whitespace>stripping and collapsing
+  whitespace</a> from the concatenation of <a href=https://dom.spec.whatwg.org/#concept-cd-data id=the-option-element:concept-cd-data data-x-internal=concept-cd-data>data</a> of all the
+  <code id=the-option-element:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node descendants of the <code id=the-option-element:the-option-element-20><a href=#the-option-element>option</a></code> element, in <a id=the-option-element:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>,
+  excluding any that are descendants of descendants of the <code id=the-option-element:the-option-element-21><a href=#the-option-element>option</a></code> element that are
+  themselves <code id=the-option-element:the-script-element-2><a href=#the-script-element>script</a></code> or <a id=the-option-element:svg-script href=https://www.w3.org/TR/SVG11/script.html#ScriptElement data-x-internal=svg-script>SVG <code>script</code></a> elements.</p>
+
+  <p>On setting, the <code id=the-option-element:dom-option-text-5><a href=#dom-option-text>text</a></code> attribute must act as if the
+  <code id=the-option-element:textcontent-2><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute on the element had been set to the new value.</p>
+
+  <p>The <dfn id=dom-option-form><code>form</code></dfn> IDL attribute's behavior depends on
+  whether the <code id=the-option-element:the-option-element-22><a href=#the-option-element>option</a></code> element is in a <code id=the-option-element:the-select-element-8><a href=#the-select-element>select</a></code> element or not. If the
+  <code id=the-option-element:the-option-element-23><a href=#the-option-element>option</a></code> has a <code id=the-option-element:the-select-element-9><a href=#the-select-element>select</a></code> element as its parent, or has an
+  <code id=the-option-element:the-optgroup-element-4><a href=#the-optgroup-element>optgroup</a></code> element as its parent and that <code id=the-option-element:the-optgroup-element-5><a href=#the-optgroup-element>optgroup</a></code> element has a
+  <code id=the-option-element:the-select-element-10><a href=#the-select-element>select</a></code> element as its parent, then the <code id=the-option-element:dom-option-form-3><a href=#dom-option-form>form</a></code> IDL
+  attribute must return the same value as the <code id=the-option-element:dom-fae-form><a href=#dom-fae-form>form</a></code> IDL attribute
+  on that <code id=the-option-element:the-select-element-11><a href=#the-select-element>select</a></code> element. Otherwise, it must return null.</p>
+
+  <p>A constructor is provided for creating <code id=the-option-element:htmloptionelement><a href=#htmloptionelement>HTMLOptionElement</a></code> objects (in addition to
+  the factory methods from DOM such as <code id=the-option-element:dom-document-createelement><a data-x-internal=dom-document-createelement href=https://dom.spec.whatwg.org/#dom-document-createelement>createElement()</a></code>):
+  <dfn id=dom-option><code>Option(<var>text</var>, <var>value</var>,
+  <var>defaultSelected</var>, <var>selected</var>)</code></dfn>.  When invoked, the constructor must
+  perform the following steps:</p>
+
+  <ol><li><p>Let <var>document</var> be the <a href=#current-global-object id=the-option-element:current-global-object>current global object</a>'s <a href=#concept-document-window id=the-option-element:concept-document-window>associated <code>Document</code></a>.<li><p>Let <var>option</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-create-element id=the-option-element:create-an-element data-x-internal=create-an-element>creating an
+   element</a> given <var>document</var>, <code id=the-option-element:the-option-element-24><a href=#the-option-element>option</a></code>, and the <a id=the-option-element:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML
+   namespace</a>.<li><p>If <var>text</var> is not the empty string, then append to <var>option</var> a new
+   <code id=the-option-element:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node whose data is <var>text</var>.<li><p>If <var>value</var> is given, then <a href=https://dom.spec.whatwg.org/#concept-element-attributes-set-value id=the-option-element:concept-element-attributes-set-value data-x-internal=concept-element-attributes-set-value>set
+   an attribute value</a> for <var>option</var> using "<code id=the-option-element:attr-option-value-7><a href=#attr-option-value>value</a></code>" and <var>value</var>.<li><p>If <var>defaultSelected</var> is true, then <a href=https://dom.spec.whatwg.org/#concept-element-attributes-set-value id=the-option-element:concept-element-attributes-set-value-2 data-x-internal=concept-element-attributes-set-value>set an attribute value</a> for <var>option</var>
+   using "<code id=the-option-element:attr-option-selected-10><a href=#attr-option-selected>selected</a></code>" and the empty string.<li><p>If <var>selected</var> is true, then set <var>option</var>'s <a href=#concept-option-selectedness id=the-option-element:concept-option-selectedness-9>selectedness</a> to true; otherwise set its <a href=#concept-option-selectedness id=the-option-element:concept-option-selectedness-10>selectedness</a> to false (even if
+   <var>defaultSelected</var> is true).<li><p>Return <var>option</var>.</ol>
+
+  
+
+
+
+
+  <h4 id=the-textarea-element>4.10.11 The <dfn><code>textarea</code></dfn> element<a href=#the-textarea-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=15291" title="Allow textarea@pattern (input@pattern is specced already so why not)">15291</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-textarea-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-textarea-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-textarea-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#interactive-content-2 id=the-textarea-element:interactive-content-2>Interactive content</a>.<dd><a href=#category-listed id=the-textarea-element:category-listed>Listed</a>, <a href=#category-label id=the-textarea-element:category-label>labelable</a>, <a href=#category-submit id=the-textarea-element:category-submit>submittable</a>, and <a href=#category-reset id=the-textarea-element:category-reset>resettable</a> <a href=#form-associated-element id=the-textarea-element:form-associated-element>form-associated element</a>.<dd><a href=#palpable-content-2 id=the-textarea-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-textarea-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-textarea-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-textarea-element:concept-element-content-model>Content model</a>:<dd><a href=#text-content id=the-textarea-element:text-content>Text</a>.<dt><a href=#concept-element-tag-omission id=the-textarea-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-textarea-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-textarea-element:global-attributes>Global attributes</a><dd><code id=the-textarea-element:attr-fe-autocomplete><a href=#attr-fe-autocomplete>autocomplete</a></code> — Hint for form autofill feature<dd><code id=the-textarea-element:attr-fe-autofocus><a href=#attr-fe-autofocus>autofocus</a></code> — Automatically focus the form control when the page is loaded<dd><code id=the-textarea-element:attr-textarea-cols><a href=#attr-textarea-cols>cols</a></code> — Maximum number of characters per line<dd><code id=the-textarea-element:attr-fe-dirname><a href=#attr-fe-dirname>dirname</a></code> — Name of form control to use for sending the element's <a href=#the-directionality id=the-textarea-element:the-directionality>directionality</a> in <a href=#form-submission-2 id=the-textarea-element:form-submission-2>form submission</a><dd><code id=the-textarea-element:attr-fe-disabled><a href=#attr-fe-disabled>disabled</a></code> — Whether the form control is disabled<dd><code id=the-textarea-element:attr-fae-form><a href=#attr-fae-form>form</a></code> — Associates the control with a <code id=the-textarea-element:the-form-element><a href=#the-form-element>form</a></code> element<dd><code id=the-textarea-element:attr-fe-inputmode><a href=#attr-fe-inputmode>inputmode</a></code> — Hint for selecting an input modality<dd><code id=the-textarea-element:attr-textarea-maxlength><a href=#attr-textarea-maxlength>maxlength</a></code> — Maximum length of value<dd><code id=the-textarea-element:attr-textarea-minlength><a href=#attr-textarea-minlength>minlength</a></code> — Minimum length of value<dd><code id=the-textarea-element:attr-fe-name><a href=#attr-fe-name>name</a></code> — Name of form control to use for <a href=#form-submission-2 id=the-textarea-element:form-submission-2-2>form submission</a> and in the <code id=the-textarea-element:dom-form-elements><a href=#dom-form-elements>form.elements</a></code> API <dd><code id=the-textarea-element:attr-textarea-placeholder><a href=#attr-textarea-placeholder>placeholder</a></code> — User-visible label to be placed within the form control<dd><code id=the-textarea-element:attr-textarea-readonly><a href=#attr-textarea-readonly>readonly</a></code> — Whether to allow the value to be edited by the user<dd><code id=the-textarea-element:attr-textarea-required><a href=#attr-textarea-required>required</a></code> — Whether the control is required for <a href=#form-submission-2 id=the-textarea-element:form-submission-2-3>form submission</a><dd><code id=the-textarea-element:attr-textarea-rows><a href=#attr-textarea-rows>rows</a></code> — Number of lines to show<dd><code id=the-textarea-element:attr-textarea-wrap><a href=#attr-textarea-wrap>wrap</a></code> — How the value of the form control is to be wrapped for <a href=#form-submission-2 id=the-textarea-element:form-submission-2-4>form submission</a><dt><a href=#concept-element-dom id=the-textarea-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-textarea-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmltextareaelement>HTMLTextAreaElement</dfn> : <a href=#htmlelement id=the-textarea-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-textarea-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-fe-autocomplete id=the-textarea-element:dom-fe-autocomplete>autocomplete</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-2>CEReactions</a>] attribute boolean <a href=#dom-fe-autofocus id=the-textarea-element:dom-fe-autofocus>autofocus</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-3>CEReactions</a>] attribute unsigned long <a href=#dom-textarea-cols id=the-textarea-element:dom-textarea-cols>cols</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-textarea-dirname id=the-textarea-element:dom-textarea-dirname>dirName</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-5>CEReactions</a>] attribute boolean <a href=#dom-fe-disabled id=the-textarea-element:dom-fe-disabled>disabled</a>;
+  readonly attribute <a href=#htmlformelement id=the-textarea-element:htmlformelement>HTMLFormElement</a>? <a href=#dom-fae-form id=the-textarea-element:dom-fae-form>form</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-6>CEReactions</a>] attribute DOMString <a href=#dom-textarea-inputmode id=the-textarea-element:dom-textarea-inputmode>inputMode</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-7>CEReactions</a>] attribute long <a href=#dom-textarea-maxlength id=the-textarea-element:dom-textarea-maxlength>maxLength</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-8>CEReactions</a>] attribute long <a href=#dom-textarea-minlength id=the-textarea-element:dom-textarea-minlength>minLength</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-9>CEReactions</a>] attribute DOMString <a href=#dom-fe-name id=the-textarea-element:dom-fe-name>name</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-10>CEReactions</a>] attribute DOMString <a href=#dom-textarea-placeholder id=the-textarea-element:dom-textarea-placeholder>placeholder</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-11>CEReactions</a>] attribute boolean <a href=#dom-textarea-readonly id=the-textarea-element:dom-textarea-readonly>readOnly</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-12>CEReactions</a>] attribute boolean <a href=#dom-textarea-required id=the-textarea-element:dom-textarea-required>required</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-13>CEReactions</a>] attribute unsigned long <a href=#dom-textarea-rows id=the-textarea-element:dom-textarea-rows>rows</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-14>CEReactions</a>] attribute DOMString <a href=#dom-textarea-wrap id=the-textarea-element:dom-textarea-wrap>wrap</a>;
+
+  readonly attribute DOMString <a href=#dom-textarea-type id=the-textarea-element:dom-textarea-type>type</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-15>CEReactions</a>] attribute DOMString <a href=#dom-textarea-defaultvalue id=the-textarea-element:dom-textarea-defaultvalue>defaultValue</a>;
+  [<a href=#cereactions id=the-textarea-element:cereactions-16>CEReactions</a>, TreatNullAs=EmptyString] attribute DOMString <a href=#dom-textarea-value id=the-textarea-element:dom-textarea-value>value</a>;
+  readonly attribute unsigned long <a href=#dom-textarea-textlength id=the-textarea-element:dom-textarea-textlength>textLength</a>;
+
+  readonly attribute boolean <a href=#dom-cva-willvalidate id=the-textarea-element:dom-cva-willvalidate>willValidate</a>;
+  readonly attribute <a href=#validitystate id=the-textarea-element:validitystate>ValidityState</a> <a href=#dom-cva-validity id=the-textarea-element:dom-cva-validity>validity</a>;
+  readonly attribute DOMString <a href=#dom-cva-validationmessage id=the-textarea-element:dom-cva-validationmessage>validationMessage</a>;
+  boolean <a href=#dom-cva-checkvalidity id=the-textarea-element:dom-cva-checkvalidity>checkValidity</a>();
+  boolean <a href=#dom-cva-reportvalidity id=the-textarea-element:dom-cva-reportvalidity>reportValidity</a>();
+  void <a href=#dom-cva-setcustomvalidity id=the-textarea-element:dom-cva-setcustomvalidity>setCustomValidity</a>(DOMString error);
+
+  [SameObject] readonly attribute <a id=the-textarea-element:nodelist href=https://dom.spec.whatwg.org/#interface-nodelist data-x-internal=nodelist>NodeList</a> <a href=#dom-lfe-labels id=the-textarea-element:dom-lfe-labels>labels</a>;
+
+  void <a href=#dom-textarea/input-select id=the-textarea-element:dom-textarea/input-select>select</a>();
+  attribute unsigned long <a href=#dom-textarea/input-selectionstart id=the-textarea-element:dom-textarea/input-selectionstart>selectionStart</a>;
+  attribute unsigned long <a href=#dom-textarea/input-selectionend id=the-textarea-element:dom-textarea/input-selectionend>selectionEnd</a>;
+  attribute DOMString <a href=#dom-textarea/input-selectiondirection id=the-textarea-element:dom-textarea/input-selectiondirection>selectionDirection</a>;
+  void <a href=#dom-textarea/input-setrangetext id=the-textarea-element:dom-textarea/input-setrangetext>setRangeText</a>(DOMString replacement);
+  void <a href=#dom-textarea/input-setrangetext id=the-textarea-element:dom-textarea/input-setrangetext-2>setRangeText</a>(DOMString replacement, unsigned long start, unsigned long end, optional <a href=#selectionmode id=the-textarea-element:selectionmode>SelectionMode</a> selectionMode = "preserve");
+  void <a href=#dom-textarea/input-setselectionrange id=the-textarea-element:dom-textarea/input-setselectionrange>setSelectionRange</a>(unsigned long start, unsigned long end, optional DOMString direction);
+};</pre>
+   </dl>
+
+  <p>The <code id=the-textarea-element:the-textarea-element><a href=#the-textarea-element>textarea</a></code> element <a href=#represents id=the-textarea-element:represents>represents</a> a multiline plain text edit
+  control for the element's <dfn id=concept-textarea-raw-value>raw
+  value</dfn>. The contents of the control represent the control's default value.</p>
+
+  
+
+  <p>The <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value>raw value</a> of a <code id=the-textarea-element:the-textarea-element-2><a href=#the-textarea-element>textarea</a></code>
+  control must be initially the empty string.</p>
+
+  <p class=note>This element <a href=#bidireq>has rendering requirements involving the
+  bidirectional algorithm</a>.</p>
+
+  
+
+  <p>The <dfn id=attr-textarea-readonly><code>readonly</code></dfn> attribute is a
+  <a href=#boolean-attribute id=the-textarea-element:boolean-attribute>boolean attribute</a> used to control whether the text can be edited by the user or
+  not.</p>
+
+  <div class=example>
+
+   <p>In this example, a text control is marked read-only because it represents a read-only
+   file:</p>
+
+   <pre>Filename: &lt;code>/etc/bash.bashrc&lt;/code>
+&lt;textarea name="buffer" readonly>
+# System-wide .bashrc file for interactive bash(1) shells.
+
+# To enable the settings / commands in this file for login shells as well,
+# this file has to be sourced in /etc/profile.
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] &amp;amp;&amp;amp; return
+
+...&lt;/textarea></pre>
+
+  </div>
+
+  
+
+  <p><strong>Constraint validation</strong>: If the <code id=the-textarea-element:attr-textarea-readonly-2><a href=#attr-textarea-readonly>readonly</a></code> attribute is specified on a <code id=the-textarea-element:the-textarea-element-3><a href=#the-textarea-element>textarea</a></code>
+  element, the element is <a href=#barred-from-constraint-validation id=the-textarea-element:barred-from-constraint-validation>barred from constraint validation</a>.</p>
+
+  <p>A <code id=the-textarea-element:the-textarea-element-4><a href=#the-textarea-element>textarea</a></code> element is <a href=#concept-fe-mutable id=the-textarea-element:concept-fe-mutable>mutable</a> if it is
+  neither <a href=#concept-fe-disabled id=the-textarea-element:concept-fe-disabled>disabled</a> nor has a <code id=the-textarea-element:attr-textarea-readonly-3><a href=#attr-textarea-readonly>readonly</a></code> attribute specified.</p>
+
+  <p>When a <code id=the-textarea-element:the-textarea-element-5><a href=#the-textarea-element>textarea</a></code> is <a href=#concept-fe-mutable id=the-textarea-element:concept-fe-mutable-2>mutable</a>, its <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value-2>raw value</a> should be editable by the user: the user agent
+  should allow the user to edit, insert, and remove text, and to insert and remove line breaks in
+  the form of U+000A LINE FEED (LF) characters. Any time the user causes the element's <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value-3>raw value</a> to change, the user agent must <a href=#queue-a-task id=the-textarea-element:queue-a-task>queue a
+  task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-textarea-element:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=the-textarea-element:event-input><a href=#event-input>input</a></code> at the <code id=the-textarea-element:the-textarea-element-6><a href=#the-textarea-element>textarea</a></code> element, with the <code id=the-textarea-element:dom-event-bubbles><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true. User agents may wait for
+  a suitable break in the user's interaction before queuing the task; for example, a user agent
+  could wait for the user to have not hit a key for 100ms, so as to only fire the event when the
+  user pauses, instead of continuously for each keystroke.</p>
+  
+
+  <p>A <code id=the-textarea-element:the-textarea-element-7><a href=#the-textarea-element>textarea</a></code> element has a <dfn id=concept-textarea-dirty>dirty value
+  flag</dfn>, which must be initially set to false, and must be set to true whenever the user
+  interacts with the control in a way that changes the <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value-4>raw
+  value</a>.</p>
+
+  <p>The <a href=https://dom.spec.whatwg.org/#concept-node-clone-ext id=the-textarea-element:concept-node-clone-ext data-x-internal=concept-node-clone-ext>cloning steps</a> for <code id=the-textarea-element:the-textarea-element-8><a href=#the-textarea-element>textarea</a></code>
+  elements must propagate the <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value-5>raw value</a> and <a href=#concept-textarea-dirty id=the-textarea-element:concept-textarea-dirty>dirty value flag</a> from the node being cloned to the
+  copy.</p>
+
+  <p>When the <code id=the-textarea-element:the-textarea-element-9><a href=#the-textarea-element>textarea</a></code> element's <code id=the-textarea-element:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute changes value,
+  if the element's <a href=#concept-textarea-dirty id=the-textarea-element:concept-textarea-dirty-2>dirty value flag</a> is false, then the
+  element's <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value-6>raw value</a> must be set to the value of
+  the element's <code id=the-textarea-element:textcontent-2><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute.</p>
+
+  <p>The <a href=#concept-form-reset-control id=the-textarea-element:concept-form-reset-control>reset algorithm</a> for <code id=the-textarea-element:the-textarea-element-10><a href=#the-textarea-element>textarea</a></code>
+  elements is to set the <a href=#concept-textarea-dirty id=the-textarea-element:concept-textarea-dirty-3>dirty value flag</a> back to
+  false, and set the <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value-7>raw value</a> of element to the
+  value of the element's <code id=the-textarea-element:textcontent-3><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute.</p>
+
+  <p>When a <code id=the-textarea-element:the-textarea-element-11><a href=#the-textarea-element>textarea</a></code> element is popped off the <a href=#stack-of-open-elements id=the-textarea-element:stack-of-open-elements>stack of open elements</a> of
+  an <a href=#html-parser id=the-textarea-element:html-parser>HTML parser</a> or <a href=#xml-parser id=the-textarea-element:xml-parser>XML parser</a>, then the user agent must invoke the
+  element's <a href=#concept-form-reset-control id=the-textarea-element:concept-form-reset-control-2>reset algorithm</a>.</p>
+
+  
+  
+  <p>If the element is <a href=#concept-fe-mutable id=the-textarea-element:concept-fe-mutable-3>mutable</a>, the user agent should allow
+  the user to change the writing direction of the element, setting it either to a left-to-right
+  writing direction or a right-to-left writing direction. If the user does so, the user agent must
+  then run the following steps:</p>
+
+  <ol><li><p>Set the element's <code id=the-textarea-element:the-dir-attribute><a href=#the-dir-attribute>dir</a></code> attribute to "<code id=the-textarea-element:attr-dir-ltr><a href=#attr-dir-ltr>ltr</a></code>" if the user selected a left-to-right writing direction, and
+   "<code id=the-textarea-element:attr-dir-rtl><a href=#attr-dir-rtl>rtl</a></code>" if the user selected a right-to-left writing
+   direction.<li><p><a href=#queue-a-task id=the-textarea-element:queue-a-task-2>Queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-textarea-element:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named
+   <code id=the-textarea-element:event-input-2><a href=#event-input>input</a></code> at the <code id=the-textarea-element:the-textarea-element-12><a href=#the-textarea-element>textarea</a></code> element, with the <code id=the-textarea-element:dom-event-bubbles-2><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true.</ol>
+
+  
+
+  <p>The <dfn id=attr-textarea-cols><code>cols</code></dfn> attribute specifies the expected
+  maximum number of characters per line. If the <code id=the-textarea-element:attr-textarea-cols-2><a href=#attr-textarea-cols>cols</a></code>
+  attribute is specified, its value must be a <a href=#valid-non-negative-integer id=the-textarea-element:valid-non-negative-integer>valid non-negative integer</a> greater than
+  zero. If applying the <a href=#rules-for-parsing-non-negative-integers id=the-textarea-element:rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</a> to
+  the attribute's value results in a number greater than zero, then the element's <dfn id=attr-textarea-cols-value>character width</dfn> is that value; otherwise, it is
+  20.</p>
+
+  
+
+  <p>The user agent may use the <code id=the-textarea-element:the-textarea-element-13><a href=#the-textarea-element>textarea</a></code> element's <a href=#attr-textarea-cols-value id=the-textarea-element:attr-textarea-cols-value>character width</a> as a hint to the user as to how many
+  characters the server prefers per line (e.g. for visual user agents by making the width of the
+  control be that many characters). In visual renderings, the user agent should wrap the user's
+  input in the rendering so that each line is no wider than this number of characters.</p>
+
+  
+
+  <p>The <dfn id=attr-textarea-rows><code>rows</code></dfn> attribute specifies the number of
+  lines to show. If the <code id=the-textarea-element:attr-textarea-rows-2><a href=#attr-textarea-rows>rows</a></code> attribute is specified, its
+  value must be a <a href=#valid-non-negative-integer id=the-textarea-element:valid-non-negative-integer-2>valid non-negative integer</a> greater than zero. If
+  applying the <a href=#rules-for-parsing-non-negative-integers id=the-textarea-element:rules-for-parsing-non-negative-integers-2>rules for parsing non-negative integers</a> to the attribute's value results
+  in a number greater than zero, then the element's <dfn id=attr-textarea-rows-value>character
+  height</dfn> is that value; otherwise, it is 2.</p>
+
+  
+
+  <p>Visual user agents should set the height of the control to the number of lines given by <a href=#attr-textarea-rows-value id=the-textarea-element:attr-textarea-rows-value>character height</a>.</p>
+
+  
+
+  <p>The <dfn id=attr-textarea-wrap><code>wrap</code></dfn> attribute is an <a href=#enumerated-attribute id=the-textarea-element:enumerated-attribute>enumerated
+  attribute</a> with two keywords and states: the <dfn id=attr-textarea-wrap-soft><code>soft</code></dfn> keyword which maps to the <a href=#attr-textarea-wrap-soft-state id=the-textarea-element:attr-textarea-wrap-soft-state>Soft</a> state, and the <dfn id=attr-textarea-wrap-hard><code>hard</code></dfn> keyword which maps to the <a href=#attr-textarea-wrap-hard-state id=the-textarea-element:attr-textarea-wrap-hard-state>Hard</a> state. The <i id=the-textarea-element:missing-value-default><a href=#missing-value-default>missing value default</a></i> is the
+  <a href=#attr-textarea-wrap-soft-state id=the-textarea-element:attr-textarea-wrap-soft-state-2>Soft</a> state.</p>
+
+  <p>The <dfn id=attr-textarea-wrap-soft-state>Soft</dfn> state indicates that the text in the
+  <code id=the-textarea-element:the-textarea-element-14><a href=#the-textarea-element>textarea</a></code> is not to be wrapped when it is submitted (though it can still be wrapped in
+  the rendering).</p>
+
+  <p>The <dfn id=attr-textarea-wrap-hard-state>Hard</dfn> state indicates that the text in the
+  <code id=the-textarea-element:the-textarea-element-15><a href=#the-textarea-element>textarea</a></code> is to have newlines added by the user agent so that the text is wrapped when
+  it is submitted.</p>
+
+  <p>If the element's <code id=the-textarea-element:attr-textarea-wrap-2><a href=#attr-textarea-wrap>wrap</a></code> attribute is in the <a href=#attr-textarea-wrap-hard-state id=the-textarea-element:attr-textarea-wrap-hard-state-2>Hard</a> state, the <code id=the-textarea-element:attr-textarea-cols-3><a href=#attr-textarea-cols>cols</a></code> attribute must be specified.</p>
+
+  
+
+  
+
+  <p>For historical reasons, the element's value is normalized in three different ways for three
+  different purposes. The <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value-8>raw value</a> is the value as
+  it was originally set. It is not normalized. The <a href=#concept-fe-api-value id=the-textarea-element:concept-fe-api-value>API
+  value</a> is the value used in the <code id=the-textarea-element:dom-textarea-value-2><a href=#dom-textarea-value>value</a></code> IDL
+  attribute, <code id=the-textarea-element:dom-textarea-textlength-2><a href=#dom-textarea-textlength>textLength</a></code> IDL attribute, and by the
+  <code id=the-textarea-element:attr-fe-maxlength><a href=#attr-fe-maxlength>maxlength</a></code> and <code id=the-textarea-element:attr-fe-minlength><a href=#attr-fe-minlength>minlength</a></code> content attributes. It is normalized so that line
+  breaks use U+000A LINE FEED (LF) characters. Finally, there is the <a href=#concept-fe-value id=the-textarea-element:concept-fe-value>value</a>, as used in form submission and other processing models in
+  this specification. It is normalized so that line breaks use U+000D CARRIAGE RETURN U+000A LINE
+  FEED (CRLF) character pairs, and in addition, if necessary given the element's <code id=the-textarea-element:attr-textarea-wrap-3><a href=#attr-textarea-wrap>wrap</a></code> attribute, additional line breaks are inserted to wrap the
+  text at the given width.</p>
+
+  <p>The algorithm for obtaining the element's <a href=#concept-fe-api-value id=the-textarea-element:concept-fe-api-value-2>API value</a>
+  is to return the element's <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value-9>raw value</a> with the
+  <a href=#textarea-line-break-normalisation-transformation id=the-textarea-element:textarea-line-break-normalisation-transformation>textarea line break normalization transformation</a> applied. The
+  <dfn id=textarea-line-break-normalisation-transformation>textarea line break
+  normalization transformation</dfn> is the following algorithm, as applied to a string:</p>
+
+  <ol><li><p>Replace every U+000D CARRIAGE RETURN U+000A LINE FEED (CRLF) character pair with a single
+   U+000A LINE FEED (LF) character.<li><p>Replace every remaining U+000D CARRIAGE RETURN character with a single U+000A LINE FEED
+   (LF) character.</ol>
+
+  <p>The element's <a href=#concept-fe-value id=the-textarea-element:concept-fe-value-2>value</a> is defined to be the element's <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value-10>raw value</a> with the <a href=#textarea-wrapping-transformation id=the-textarea-element:textarea-wrapping-transformation>textarea wrapping
+  transformation</a> applied. The <dfn id=textarea-wrapping-transformation>textarea wrapping transformation</dfn> is the following
+  algorithm, as applied to a string:</p>
+
+  <ol><li><p>Replace every occurrence of a U+000D CARRIAGE RETURN (CR) character not followed by a
+   U+000A LINE FEED (LF) character, and every occurrence of a U+000A LINE FEED (LF) character not
+   preceded by a U+000D CARRIAGE RETURN (CR) character, by a two-character string consisting of a

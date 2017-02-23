@@ -1,0 +1,849 @@
+<!DOCTYPE html><html lang=en-US-x-hixie><meta charset=utf-8><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name=viewport><title>HTML Standard</title><meta content=#3c790a name=theme-color><link rel=stylesheet href=https://resources.whatwg.org/standard.css><script defer="" src=https://resources.whatwg.org/dfn.js></script><script>
+   function toggleStatus(div) {
+     div.parentNode.classList.toggle('wrapped');
+   }
+  </script><link rel=icon href=https://resources.whatwg.org/logo.svg><style>
+   [hidden] { display: none; }
+
+   .bad, .bad *:not(.X\58X) { color: gray; border-color: gray; background: transparent; }
+
+   .fingerprint { position: absolute; right: 0; z-index: 5; }
+   @media (max-width: 767px) {
+     .fingerprint { max-width: 35px; }
+   }
+
+   .status { min-height: 0.6em; font: 1em sans-serif; width: 9em; padding: 0.3em; position: absolute; z-index: 8; right: 0.3em; background: #EEE; color: black; box-shadow: 0 0 3px #999; overflow: hidden; margin: -2em 0 0 0; border-collapse: initial; border-spacing: initial; }
+   .status:hover { z-index: 9; }
+   .status:focus-within { z-index: 9; }
+   .status.wrapped > :not(input) { display: none; }
+   .status > input { position: absolute; left: 0; top: 0; width: 1em; height: 1em; border: none; background: transparent; padding: 0; margin: 0; }
+   .status > p { font-size: 0.6em; margin: 0; padding: 0; }
+   .status > p + p { padding-top: 0.5em; }
+   .status > p > strong { margin-left: 1.5em; }
+   .status > .support { display: block; }
+   .status > .support > span { padding: 0.2em 0; display: block; display: table; }
+   .status > .support > span.partial { color: #666666; filter: grayscale(50%); }
+   .status > .support > span.no { color: #CCCCCC; filter: grayscale(100%); }
+   .status > .support > span.no::before { opacity: 0.5; }
+   .status > .support > span:first-of-type { padding-top: 0.5em; }
+   .status > .support > span > span { padding: 0 0.5em; display: table-cell; vertical-align: top; }
+   .status > .support > span > span:first-child { width: 100%; }
+   .status > .support > span > span:last-child { width: 100%; white-space: pre; padding: 0; }
+   .status > .support > span::before { content: ' '; display: table-cell; min-width: 1.5em; height: 1.5em; background: no-repeat center center; background-size: contain; text-align: right; font-size: 0.75em; font-weight: bold; }
+   .status > .support > .and_chr::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+   .status > .support > .and_ff::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+   .status > .support > .and_uc::before { background-image: url(https://resources.whatwg.org/browser-logos/uc.png); } /* UC Browser for Android */
+   .status > .support > .android::before { background-image: url(https://resources.whatwg.org/browser-logos/android.svg); }
+   .status > .support > .bb::before { background-image: url(https://resources.whatwg.org/browser-logos/bb.jpg); } /* Blackberry Browser */
+   .status > .support > .chrome::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+   .status > .support > .edge::before { background-image: url(https://resources.whatwg.org/browser-logos/edge.svg); }
+   .status > .support > .firefox::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+   .status > .support > .ie::before { background-image: url(https://resources.whatwg.org/browser-logos/ie.png); }
+   .status > .support > .ie_mob::before { background-image: url(https://resources.whatwg.org/browser-logos/ie-mobile.svg); }
+   .status > .support > .ios_saf::before { background-image: url(https://resources.whatwg.org/browser-logos/safari-ios.svg); }
+   .status > .support > .op_mini::before { background-image: url(https://resources.whatwg.org/browser-logos/opera-mini.png); }
+   .status > .support > .op_mob::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.png); }
+   .status > .support > .opera::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.png); }
+   .status > .support > .safari::before { background-image: url(https://resources.whatwg.org/browser-logos/safari.png); }
+   .status > .support > .samsung::before { background-image: url(https://resources.whatwg.org/browser-logos/samsung.png); }
+   .status > .caniuse { text-align: right; font-style: italic; }
+   .status > .caniuse + p { margin-top: 0.5em; border-top: 1px solid silver; }
+
+   @media (max-width: 767px) {
+     .status { right: -9em; }
+   }
+
+   .applies .yes, .yesno .yes { background: yellow; }
+   .yesno .yes, .yesno .no { text-align: center; }
+
+   .applies thead th > * { display: block; }
+   .applies thead code { display: block; }
+   .applies td { text-align: center; }
+
+   .matrix, .matrix td { border: hidden; text-align: right; }
+   .matrix { margin-left: 2em; }
+
+   .vertical-summary-table tr > th[rowspan="2"]:first-child + th,
+   .vertical-summary-table tr > td[rowspan="2"]:first-child + td { border-bottom: hidden; }
+
+   .dice-example { border-collapse: collapse; border-style: hidden solid solid hidden; border-width: thin; margin-left: 3em; }
+   .dice-example caption { width: 30em; font-size: smaller; font-style: italic; padding: 0.75em 0; text-align: left; }
+   .dice-example td, .dice-example th { border: solid thin; width: 1.35em; height: 1.05em; text-align: center; padding: 0; }
+
+   td.eg { border-width: thin; text-align: center; }
+
+   #table-example-1 { border: solid thin; border-collapse: collapse; margin-left: 3em; }
+   #table-example-1 caption { padding-bottom: 0.5em; }
+   #table-example-1 thead, #table-example-1 tbody { border: none; }
+   #table-example-1 th, #table-example-1 td { border: solid thin; }
+   #table-example-1 th { font-weight: normal; }
+   #table-example-1 td { border-style: none solid; vertical-align: top; }
+   #table-example-1 th { padding: 0.5em; vertical-align: middle; text-align: center; }
+   #table-example-1 tbody tr:first-child td { padding-top: 0.5em; }
+   #table-example-1 tbody tr:last-child td { padding-bottom: 1.5em; }
+   #table-example-1 tbody td:first-child { padding-left: 2.5em; padding-right: 0; width: 9em; }
+   #table-example-1 tbody td:first-child::after { content: leader(". "); }
+   #table-example-1 tbody td { padding-left: 2em; padding-right: 2em; }
+   #table-example-1 tbody td:first-child + td { width: 10em; }
+   #table-example-1 tbody td:first-child + td ~ td { width: 2.5em; }
+   #table-example-1 tbody td:first-child + td + td + td ~ td { width: 1.25em; }
+
+   .apple-table-examples { border: none; border-collapse: separate; border-spacing: 1.5em 0em; width: 40em; margin-left: 3em; }
+   .apple-table-examples * { font-family: "Times", serif; }
+   .apple-table-examples td, .apple-table-examples th { border: none; white-space: nowrap; padding-top: 0; padding-bottom: 0; }
+   .apple-table-examples tbody th:first-child { border-left: none; width: 100%; }
+   .apple-table-examples thead th:first-child ~ th { font-size: smaller; font-weight: bolder; border-bottom: solid 2px; text-align: center; }
+   .apple-table-examples tbody th::after, .apple-table-examples tfoot th::after { content: leader(". ") }
+   .apple-table-examples tbody th, .apple-table-examples tfoot th { font: inherit; text-align: left; }
+   .apple-table-examples td { text-align: right; vertical-align: top; }
+   .apple-table-examples.e1 tbody tr:last-child td { border-bottom: solid 1px; }
+   .apple-table-examples.e1 tbody + tbody tr:last-child td { border-bottom: double 3px; }
+   .apple-table-examples.e2 th[scope=row] { padding-left: 1em; }
+   .apple-table-examples sup { line-height: 0; }
+
+   .three-column-nowrap tr > td:first-child,
+   .three-column-nowrap tr > td:first-child + td,
+   .three-column-nowrap tr > td:first-child + td + td { white-space: nowrap; }
+
+   .details-example img { vertical-align: top; }
+
+   #base64-table {
+     white-space: nowrap;
+     font-size: 0.6em;
+     column-width: 6em;
+     column-count: 5;
+     column-gap: 1em;
+     -moz-column-width: 6em;
+     -moz-column-count: 5;
+     -moz-column-gap: 1em;
+     -webkit-column-width: 6em;
+     -webkit-column-count: 5;
+     -webkit-column-gap: 1em;
+   }
+   #base64-table thead { display: none; }
+   #base64-table * { border: none; }
+   #base64-table tbody td:first-child:after { content: ':'; }
+   #base64-table tbody td:last-child { text-align: right; }
+
+   #named-character-references-table {
+     white-space: nowrap;
+     font-size: 0.6em;
+     column-width: 30em;
+     column-gap: 1em;
+     -moz-column-width: 30em;
+     -moz-column-gap: 1em;
+     -webkit-column-width: 30em;
+     -webkit-column-gap: 1em;
+   }
+   #named-character-references-table > table > tbody > tr > td:first-child + td,
+   #named-character-references-table > table > tbody > tr > td:last-child { text-align: center; }
+   #named-character-references-table > table > tbody > tr > td:last-child:hover > span { position: absolute; top: auto; left: auto; margin-left: 0.5em; line-height: 1.2; font-size: 5em; border: outset; padding: 0.25em 0.5em; background: white; width: 1.25em; height: auto; text-align: center; }
+   #named-character-references-table > table > tbody > tr#entity-CounterClockwiseContourIntegral > td:first-child { font-size: 0.5em; }
+
+   .glyph.control { color: red; }
+
+   #table-example-1 * { font-family: "Essays1743", serif; line-height: 1.01em; }
+   @font-face {
+     font-family: 'Essays1743';
+     src: url('/fonts/Essays1743.ttf');
+   }
+   @font-face {
+     font-family: 'Essays1743';
+     font-weight: bold;
+     src: url('/fonts/Essays1743-Bold.ttf');
+   }
+   @font-face {
+     font-family: 'Essays1743';
+     font-style: italic;
+     src: url('/fonts/Essays1743-Italic.ttf');
+   }
+   @font-face {
+     font-family: 'Essays1743';
+     font-style: italic;
+     font-weight: bold;
+     src: url('/fonts/Essays1743-BoldItalic.ttf');
+   }
+
+   @media (max-width: 767px) {
+     #abstractimg { width: 100%; }
+   }
+   #abstractimg, #abstractimg text { font: inherit; }
+   #abstractimg rect { fill: #424242; }
+   #abstractimg text { fill: #ffffff; font-size: 18px }
+   #abstractimg .top { word-spacing: 50px; text-anchor: middle; }
+   #abstractimg .left, #abstractimg .bottom { word-spacing: 12px; }
+   #abstractimg .right { font-size: 25px; }
+  </style>
+  <script data-file-issue-url=https://github.com/whatwg/html/issues/new async="" src=https://resources.whatwg.org/file-issue.js></script>
+  <header id=head class="head with-buttons">
+   <p><a href=https://whatwg.org/ class=logo><img src=https://resources.whatwg.org/logo.svg width=100 alt=WHATWG height=100></a></p>
+   <hgroup><h1 class=allcaps>HTML</h1><h2 id=living-standard class="no-num no-toc">Living Standard — Last Updated <span class=pubdate>6 February 2017</span></h2></hgroup>
+   
+   <nav>
+    <div>
+     <a id=multipage-link href=https://whatwg.org/html><span><strong>Multipage Version</strong> <code>whatwg.org/html</code></span></a>
+     <a href=https://html.spec.whatwg.org/><span><strong>One-Page Version</strong> <code>html.spec.whatwg.org</code></span></a>
+     <a href=https://whatwg.org/pdf><span><strong>PDF Version</strong> <code>whatwg.org/pdf</code></span></a>
+     <a href=https://github.com/whatwg/html/wiki/Translations><span><strong>Translations</strong> <code>日本語 • 简体中文</code></span></a>
+     
+    </div>
+    <div>
+     <a href=https://whatwg.org/faq class=misc><span><strong>FAQ</strong> <code>whatwg.org/faq</code></span></a>
+     <a href=https://wiki.whatwg.org/wiki/IRC class=comms><span><strong>Join us on IRC</strong> <code>#whatwg on Freenode</code></span></a>
+    </div>
+    <div>
+     <a href=https://github.com/whatwg/html class=changes><span><strong>Contribute on GitHub</strong> <code>whatwg/html repository</code></span></a>
+     <a href=https://github.com/whatwg/html/commits class=changes><span><strong>Commits</strong> <code>on GitHub</code></span></a>
+     <a href=https://twitter.com/htmlstandard class=changes><span><strong>Twitter Updates</strong> <code>@htmlstandard</code></span></a>
+    </div>
+    <div>
+     <a href="https://www.w3.org/Bugs/Public/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;component=HTML&amp;product=WHATWG" class=feedback><span><strong>Legacy Open Bugs</strong> <code>filed in Bugzilla</code></span></a>
+     <a href=https://github.com/whatwg/html/issues class=feedback><span><strong>Open Issues</strong> <code>filed on GitHub</code></span></a>
+     <a href=https://whatwg.org/newbug class=feedback><span><strong>Open an Issue</strong> <code>whatwg.org/newbug</code></span></a>
+    </div>
+   </nav>
+  </header>
+
+  <hr>
+
+  <div id=configUI></div>
+
+  <h2 id=table-of-contents class="no-num no-toc">Table of contents</h2>
+  <ol class="brief toc"><li><a href=#toc-introduction>1 Introduction</a><li><a href=#toc-infrastructure>2 Common infrastructure</a><li><a href=#toc-dom>3 Semantics, structure, and APIs of HTML documents</a><li><a href=#toc-semantics>4 The elements of HTML</a><li><a href=#toc-microdata>5 Microdata</a><li><a href=#toc-editing>6 User interaction</a><li><a href=#toc-browsers>7 Loading Web pages</a><li><a href=#toc-webappapis>8 Web application APIs</a><li><a href=#toc-comms>9 Communication</a><li><a href=#toc-workers>10 Web workers</a><li><a href=#toc-webstorage>11 Web storage</a><li><a href=#toc-syntax>12 The HTML syntax</a><li><a href=#toc-the-xhtml-syntax>13 The XML syntax</a><li><a href=#toc-rendering>14 Rendering</a><li><a href=#toc-obsolete>15 Obsolete features</a><li><a href=#toc-iana>16 IANA considerations</a><li><a href=#toc-index>Index</a><li><a href=#toc-references>References</a><li><a href=#toc-acknowledgments>Acknowledgments</a></ol>
+
+  <h2 id=contents class="no-num no-toc">Full table of contents</h2>
+  <ol class=toc><li id=toc-introduction><a href=#introduction>1 Introduction</a><ol><li><a href=#abstract>1.1 Where does this specification fit?</a><li><a href=#is-this-html5?>1.2 Is this HTML5?</a><li><a href=#background>1.3 Background</a><li><a href=#audience>1.4 Audience</a><li><a href=#scope>1.5 Scope</a><li><a href=#history-2>1.6 History</a><li><a href=#design-notes>1.7 Design notes</a><ol><li><a href=#serialisability-of-script-execution>1.7.1 Serializability of script execution</a><li><a href=#compliance-with-other-specifications>1.7.2 Compliance with other specifications</a><li><a href=#extensibility>1.7.3 Extensibility</a></ol><li><a href=#html-vs-xhtml>1.8 HTML vs XML syntax</a><li><a href=#structure-of-this-specification>1.9 Structure of this specification</a><ol><li><a href=#how-to-read-this-specification>1.9.1 How to read this specification</a><li><a href=#typographic-conventions>1.9.2 Typographic conventions</a></ol><li><a href=#fingerprint>1.10 Privacy concerns</a><ol><li><a href=#fingerprint-postMessage>1.10.1 Cross-site communication</a></ol><li><a href=#a-quick-introduction-to-html>1.11 A quick introduction to HTML</a><ol><li><a href=#writing-secure-applications-with-html>1.11.1 Writing secure applications with HTML</a><li><a href=#common-pitfalls-to-avoid-when-using-the-scripting-apis>1.11.2 Common pitfalls to avoid when using the scripting APIs</a><li><a href=#how-to-catch-mistakes-when-writing-html:-validators-and-conformance-checkers>1.11.3 How to catch mistakes when writing HTML: validators and conformance checkers</a></ol><li><a href=#conformance-requirements-for-authors>1.12 Conformance requirements for authors</a><ol><li><a href=#presentational-markup>1.12.1 Presentational markup</a><li><a href=#syntax-errors>1.12.2 Syntax errors</a><li><a href=#restrictions-on-content-models-and-on-attribute-values>1.12.3 Restrictions on content models and on attribute values</a></ol><li><a href=#suggested-reading>1.13 Suggested reading</a></ol><li id=toc-infrastructure><a href=#infrastructure>2 Common infrastructure</a><ol><li><a href=#terminology>2.1 Terminology</a><ol><li><a href=#resources>2.1.1 Resources</a><li><a href=#xml>2.1.2 XML compatibility</a><li><a href=#dom-trees>2.1.3 DOM trees</a><li><a href=#scripting-2>2.1.4 Scripting</a><li><a href=#plugins>2.1.5 Plugins</a><li><a href=#encoding-terminology>2.1.6 Character encodings</a><li><a href=#conformance-classes>2.1.7 Conformance classes</a><li><a href=#dependencies>2.1.8 Dependencies</a><li><a href=#extensibility-2>2.1.9 Extensibility</a><li><a href=#interactions-with-xpath-and-xslt>2.1.10 Interactions with XPath and XSLT</a></ol><li><a href=#case-sensitivity-and-string-comparison>2.2 Case-sensitivity and string comparison</a><li><a href=#common-microsyntaxes>2.3 Common microsyntaxes</a><ol><li><a href=#common-parser-idioms>2.3.1 Common parser idioms</a><li><a href=#boolean-attributes>2.3.2 Boolean attributes</a><li><a href=#keywords-and-enumerated-attributes>2.3.3 Keywords and enumerated attributes</a><li><a href=#numbers>2.3.4 Numbers</a><ol><li><a href=#signed-integers>2.3.4.1 Signed integers</a><li><a href=#non-negative-integers>2.3.4.2 Non-negative integers</a><li><a href=#floating-point-numbers>2.3.4.3 Floating-point numbers</a><li><a href=#percentages-and-dimensions>2.3.4.4 Percentages and lengths</a><li><a href=#non-zero-percentages-and-lengths>2.3.4.5 Non-zero percentages and lengths</a><li><a href=#lists-of-floating-point-numbers>2.3.4.6 Lists of floating-point numbers</a><li><a href=#lists-of-dimensions>2.3.4.7 Lists of dimensions</a></ol><li><a href=#dates-and-times>2.3.5 Dates and times</a><ol><li><a href=#months>2.3.5.1 Months</a><li><a href=#dates>2.3.5.2 Dates</a><li><a href=#yearless-dates>2.3.5.3 Yearless dates</a><li><a href=#times>2.3.5.4 Times</a><li><a href=#local-dates-and-times>2.3.5.5 Local dates and times</a><li><a href=#time-zones>2.3.5.6 Time zones</a><li><a href=#global-dates-and-times>2.3.5.7 Global dates and times</a><li><a href=#weeks>2.3.5.8 Weeks</a><li><a href=#durations>2.3.5.9 Durations</a><li><a href=#vaguer-moments-in-time>2.3.5.10 Vaguer moments in time</a></ol><li><a href=#colours>2.3.6 Colors</a><li><a href=#space-separated-tokens>2.3.7 Space-separated tokens</a><li><a href=#comma-separated-tokens>2.3.8 Comma-separated tokens</a><li><a href=#syntax-references>2.3.9 References</a><li><a href=#mq>2.3.10 Media queries</a></ol><li><a href=#urls>2.4 URLs</a><ol><li><a href=#terminology-2>2.4.1 Terminology</a><li><a href=#resolving-urls>2.4.2 Parsing URLs</a><li><a href=#dynamic-changes-to-base-urls>2.4.3 Dynamic changes to base URLs</a></ol><li><a href=#fetching-resources>2.5 Fetching resources</a><ol><li><a href=#terminology-3>2.5.1 Terminology</a><li><a href=#content-type-sniffing>2.5.2 Determining the type of a resource</a><li><a href=#extracting-character-encodings-from-meta-elements>2.5.3 Extracting character encodings from <code>meta</code> elements</a><li><a href=#cors-settings-attributes>2.5.4 CORS settings attributes</a><li><a href=#referrer-policy-attributes>2.5.5 Referrer policy attributes</a></ol><li><a href=#common-dom-interfaces>2.6 Common DOM interfaces</a><ol><li><a href=#reflecting-content-attributes-in-idl-attributes>2.6.1 Reflecting content attributes in IDL attributes</a><li><a href=#collections>2.6.2 Collections</a><ol><li><a href=#the-htmlallcollection-interface>2.6.2.1 The <code>HTMLAllCollection</code> interface</a><li><a href=#the-htmlformcontrolscollection-interface>2.6.2.2 The <code>HTMLFormControlsCollection</code> interface</a><li><a href=#the-htmloptionscollection-interface>2.6.2.3 The <code>HTMLOptionsCollection</code> interface</a></ol><li><a href=#the-domstringlist-interface>2.6.3 The <code>DOMStringList</code> interface</a><li><a href=#garbage-collection>2.6.4 Garbage collection</a></ol><li><a href=#safe-passing-of-structured-data>2.7 Safe passing of structured data</a><ol><li><a href=#cloneable-objects>2.7.1 Cloneable objects</a><li><a href=#transferable-objects>2.7.2 Transferable objects</a><li><a href=#structuredclonewithtransfer>2.7.3 StructuredCloneWithTransfer ( <var>input</var>,
+  <var>transferList</var>, <var>targetRealm</var> )</a><li><a href=#structuredclone>2.7.4 StructuredClone ( <var>input</var>, <var>targetRealm</var>
+  [ , <var>memory</var> ] )</a><li><a href=#istransferable>2.7.5 IsTransferable ( <var>O</var> )</a><li><a href=#transfer-abstract-op>2.7.6 Transfer ( <var>input</var>, <var>targetRealm</var> )</a><li><a href=#performing-structured-clones-from-other-specifications>2.7.7 Performing structured clones from other specifications</a><li><a href=#monkey-patch-for-blob-and-filelist-objects>2.7.8 Monkey patch for <code>Blob</code> and <code>FileList</code> objects</a></ol></ol><li id=toc-dom><a href=#dom>3 Semantics, structure, and APIs of HTML documents</a><ol><li><a href=#documents>3.1 Documents</a><ol><li><a href=#the-document-object>3.1.1 The <code>Document</code> object</a><li><a href=#resource-metadata-management>3.1.2 Resource metadata management</a><li><a href=#dom-tree-accessors>3.1.3 DOM tree accessors</a></ol><li><a href=#elements>3.2 Elements</a><ol><li><a href=#semantics-2>3.2.1 Semantics</a><li><a href=#elements-in-the-dom>3.2.2 Elements in the DOM</a><li><a href=#html-element-constructors>3.2.3 HTML element constructors</a><li><a href=#element-definitions>3.2.4 Element definitions</a><ol><li><a href=#attributes>3.2.4.1 Attributes</a></ol><li><a href=#content-models>3.2.5 Content models</a><ol><li><a href=#the-nothing-content-model>3.2.5.1 The "nothing" content model</a><li><a href=#kinds-of-content>3.2.5.2 Kinds of content</a><ol><li><a href=#metadata-content>3.2.5.2.1 Metadata content</a><li><a href=#flow-content>3.2.5.2.2 Flow content</a><li><a href=#sectioning-content>3.2.5.2.3 Sectioning content</a><li><a href=#heading-content>3.2.5.2.4 Heading content</a><li><a href=#phrasing-content>3.2.5.2.5 Phrasing content</a><li><a href=#embedded-content-2>3.2.5.2.6 Embedded content</a><li><a href=#interactive-content>3.2.5.2.7 Interactive content</a><li><a href=#palpable-content>3.2.5.2.8 Palpable content</a><li><a href=#script-supporting-elements>3.2.5.2.9 Script-supporting elements</a></ol><li><a href=#transparent-content-models>3.2.5.3 Transparent content models</a><li><a href=#paragraphs>3.2.5.4 Paragraphs</a></ol><li><a href=#global-attributes>3.2.6 Global attributes</a><ol><li><a href=#the-title-attribute>3.2.6.1 The <code>title</code> attribute</a><li><a href=#the-lang-and-xml:lang-attributes>3.2.6.2 The <code>lang</code> and <code>xml:lang</code> attributes</a><li><a href=#the-translate-attribute>3.2.6.3 The <code>translate</code> attribute</a><li><a href=#the-dir-attribute>3.2.6.4 The <code>dir</code> attribute</a><li><a href=#the-style-attribute>3.2.6.5 The <code>style</code> attribute</a><li><a href=#embedding-custom-non-visible-data-with-the-data-*-attributes>3.2.6.6 Embedding custom non-visible data with the <code>data-*</code> attributes</a></ol><li><a href=#the-innertext-idl-attribute>3.2.7 The <code>innerText</code> IDL attribute</a><li><a href=#requirements-relating-to-the-bidirectional-algorithm>3.2.8 Requirements relating to the bidirectional algorithm</a><ol><li><a href=#authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters>3.2.8.1 Authoring conformance criteria for bidirectional-algorithm formatting characters</a><li><a href=#user-agent-conformance-criteria>3.2.8.2 User agent conformance criteria</a></ol><li><a href=#wai-aria>3.2.9 Requirements related to ARIA and to platform accessibility APIs</a></ol></ol><li id=toc-semantics><a href=#semantics>4 The elements of HTML</a><ol><li><a href=#the-root-element>4.1 The document element</a><ol><li><a href=#the-html-element>4.1.1 The <code>html</code> element</a></ol><li><a href=#document-metadata>4.2 Document metadata</a><ol><li><a href=#the-head-element>4.2.1 The <code>head</code> element</a><li><a href=#the-title-element>4.2.2 The <code>title</code> element</a><li><a href=#the-base-element>4.2.3 The <code>base</code> element</a><li><a href=#the-link-element>4.2.4 The <code>link</code> element</a><li><a href=#the-meta-element>4.2.5 The <code>meta</code> element</a><ol><li><a href=#standard-metadata-names>4.2.5.1 Standard metadata names</a><li><a href=#other-metadata-names>4.2.5.2 Other metadata names</a><li><a href=#pragma-directives>4.2.5.3 Pragma directives</a><li><a href=#other-pragma-directives>4.2.5.4 Other pragma directives</a><li><a href=#charset>4.2.5.5 Specifying the document's character encoding</a></ol><li><a href=#the-style-element>4.2.6 The <code>style</code> element</a><li><a href=#interactions-of-styling-and-scripting>4.2.7 Interactions of styling and scripting</a></ol><li><a href=#sections>4.3 Sections</a><ol><li><a href=#the-body-element>4.3.1 The <code>body</code> element</a><li><a href=#the-article-element>4.3.2 The <code>article</code> element</a><li><a href=#the-section-element>4.3.3 The <code>section</code> element</a><li><a href=#the-nav-element>4.3.4 The <code>nav</code> element</a><li><a href=#the-aside-element>4.3.5 The <code>aside</code> element</a><li><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>4.3.6 The <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code>, and
+  <code>h6</code> elements</a><li><a href=#the-hgroup-element>4.3.7 The <code>hgroup</code> element</a><li><a href=#the-header-element>4.3.8 The <code>header</code> element</a><li><a href=#the-footer-element>4.3.9 The <code>footer</code> element</a><li><a href=#the-address-element>4.3.10 The <code>address</code> element</a><li><a href=#headings-and-sections>4.3.11 Headings and sections</a><ol><li><a href=#outlines>4.3.11.1 Creating an outline</a><li><a href=#sample-outlines>4.3.11.2 Sample outlines</a><li><a href=#exposing-outlines-to-users>4.3.11.3 Exposing outlines to users</a></ol><li><a href=#usage-summary-2>4.3.12 Usage summary</a><ol><li><a href=#article-or-section>4.3.12.1 Article or section?</a></ol></ol><li><a href=#grouping-content>4.4 Grouping content</a><ol><li><a href=#the-p-element>4.4.1 The <code>p</code> element</a><li><a href=#the-hr-element>4.4.2 The <code>hr</code> element</a><li><a href=#the-pre-element>4.4.3 The <code>pre</code> element</a><li><a href=#the-blockquote-element>4.4.4 The <code>blockquote</code> element</a><li><a href=#the-ol-element>4.4.5 The <code>ol</code> element</a><li><a href=#the-ul-element>4.4.6 The <code>ul</code> element</a><li><a href=#the-li-element>4.4.7 The <code>li</code> element</a><li><a href=#the-dl-element>4.4.8 The <code>dl</code> element</a><li><a href=#the-dt-element>4.4.9 The <code>dt</code> element</a><li><a href=#the-dd-element>4.4.10 The <code>dd</code> element</a><li><a href=#the-figure-element>4.4.11 The <code>figure</code> element</a><li><a href=#the-figcaption-element>4.4.12 The <code>figcaption</code> element</a><li><a href=#the-main-element>4.4.13 The <code>main</code> element</a><li><a href=#the-div-element>4.4.14 The <code>div</code> element</a></ol><li><a href=#text-level-semantics>4.5 Text-level semantics</a><ol><li><a href=#the-a-element>4.5.1 The <code>a</code> element</a><li><a href=#the-em-element>4.5.2 The <code>em</code> element</a><li><a href=#the-strong-element>4.5.3 The <code>strong</code> element</a><li><a href=#the-small-element>4.5.4 The <code>small</code> element</a><li><a href=#the-s-element>4.5.5 The <code>s</code> element</a><li><a href=#the-cite-element>4.5.6 The <code>cite</code> element</a><li><a href=#the-q-element>4.5.7 The <code>q</code> element</a><li><a href=#the-dfn-element>4.5.8 The <code>dfn</code> element</a><li><a href=#the-abbr-element>4.5.9 The <code>abbr</code> element</a><li><a href=#the-ruby-element>4.5.10 The <code>ruby</code> element</a><li><a href=#the-rt-element>4.5.11 The <code>rt</code> element</a><li><a href=#the-rp-element>4.5.12 The <code>rp</code> element</a><li><a href=#the-data-element>4.5.13 The <code>data</code> element</a><li><a href=#the-time-element>4.5.14 The <code>time</code> element</a><li><a href=#the-code-element>4.5.15 The <code>code</code> element</a><li><a href=#the-var-element>4.5.16 The <code>var</code> element</a><li><a href=#the-samp-element>4.5.17 The <code>samp</code> element</a><li><a href=#the-kbd-element>4.5.18 The <code>kbd</code> element</a><li><a href=#the-sub-and-sup-elements>4.5.19 The <code>sub</code> and <code>sup</code> elements</a><li><a href=#the-i-element>4.5.20 The <code>i</code> element</a><li><a href=#the-b-element>4.5.21 The <code>b</code> element</a><li><a href=#the-u-element>4.5.22 The <code>u</code> element</a><li><a href=#the-mark-element>4.5.23 The <code>mark</code> element</a><li><a href=#the-bdi-element>4.5.24 The <code>bdi</code> element</a><li><a href=#the-bdo-element>4.5.25 The <code>bdo</code> element</a><li><a href=#the-span-element>4.5.26 The <code>span</code> element</a><li><a href=#the-br-element>4.5.27 The <code>br</code> element</a><li><a href=#the-wbr-element>4.5.28 The <code>wbr</code> element</a><li><a href=#usage-summary>4.5.29 Usage summary</a></ol><li><a href=#links>4.6 Links</a><ol><li><a href=#introduction-2>4.6.1 Introduction</a><li><a href=#links-created-by-a-and-area-elements>4.6.2 Links created by <code>a</code> and <code>area</code> elements</a><li><a href=#api-for-a-and-area-elements>4.6.3 API for <code>a</code> and <code>area</code> elements</a><li><a href=#following-hyperlinks>4.6.4 Following hyperlinks</a><li><a href=#downloading-resources>4.6.5 Downloading resources</a><ol><li><a href=#hyperlink-auditing>4.6.5.1 Hyperlink auditing</a></ol><li><a href=#linkTypes>4.6.6 Link types</a><ol><li><a href=#rel-alternate>4.6.6.1 Link type "<code>alternate</code>"</a><li><a href=#link-type-author>4.6.6.2 Link type "<code>author</code>"</a><li><a href=#link-type-bookmark>4.6.6.3 Link type "<code>bookmark</code>"</a><li><a href=#link-type-dns-prefetch>4.6.6.4 Link type "<code>dns-prefetch</code>"</a><li><a href=#link-type-external>4.6.6.5 Link type "<code>external</code>"</a><li><a href=#link-type-help>4.6.6.6 Link type "<code>help</code>"</a><li><a href=#rel-icon>4.6.6.7 Link type "<code>icon</code>"</a><li><a href=#link-type-license>4.6.6.8 Link type "<code>license</code>"</a><li><a href=#link-type-nofollow>4.6.6.9 Link type "<code>nofollow</code>"</a><li><a href=#link-type-noreferrer>4.6.6.10 Link type "<code>noreferrer</code>"</a><li><a href=#link-type-noopener>4.6.6.11 Link type "<code>noopener</code>"</a><li><a href=#link-type-pingback>4.6.6.12 Link type "<code>pingback</code>"</a><li><a href=#link-type-preconnect>4.6.6.13 Link type "<code>preconnect</code>"</a><li><a href=#link-type-prefetch>4.6.6.14 Link type "<code>prefetch</code>"</a><li><a href=#link-type-preload>4.6.6.15 Link type "<code>preload</code>"</a><li><a href=#link-type-prerender>4.6.6.16 Link type "<code>prerender</code>"</a><li><a href=#link-type-search>4.6.6.17 Link type "<code>search</code>"</a><li><a href=#link-type-stylesheet>4.6.6.18 Link type "<code>stylesheet</code>"</a><li><a href=#link-type-tag>4.6.6.19 Link type "<code>tag</code>"</a><li><a href=#sequential-link-types>4.6.6.20 Sequential link types</a><ol><li><a href=#link-type-next>4.6.6.20.1 Link type "<code>next</code>"</a><li><a href=#link-type-prev>4.6.6.20.2 Link type "<code>prev</code>"</a></ol><li><a href=#other-link-types>4.6.6.21 Other link types</a></ol></ol><li><a href=#edits>4.7 Edits</a><ol><li><a href=#the-ins-element>4.7.1 The <code>ins</code> element</a><li><a href=#the-del-element>4.7.2 The <code>del</code> element</a><li><a href=#attributes-common-to-ins-and-del-elements>4.7.3 Attributes common to <code>ins</code> and <code>del</code> elements</a><li><a href=#edits-and-paragraphs>4.7.4 Edits and paragraphs</a><li><a href=#edits-and-lists>4.7.5 Edits and lists</a><li><a href=#edits-and-tables>4.7.6 Edits and tables</a></ol><li><a href=#embedded-content>4.8 Embedded content</a><ol><li><a href=#the-picture-element>4.8.1 The <code>picture</code> element</a><li><a href=#the-source-element>4.8.2 The <code>source</code> element</a><li><a href=#the-img-element>4.8.3 The <code>img</code> element</a><li><a href=#images>4.8.4 Images</a><ol><li><a href=#introduction-3>4.8.4.1 Introduction</a><ol><li><a href=#adaptive-images>4.8.4.1.1 Adaptive images</a></ol><li><a href=#attributes-common-to-source-and-img-elements>4.8.4.2 Attributes common to <code>source</code> and <code>img</code> elements</a><ol><li><a href=#srcset-attributes>4.8.4.2.1 Srcset attributes</a><li><a href=#sizes-attributes>4.8.4.2.2 Sizes attributes</a></ol><li><a href=#images-processing-model>4.8.4.3 Processing model</a><ol><li><a href=#when-to-obtain-images>4.8.4.3.1 When to obtain images</a><li><a href=#reacting-to-dom-mutations>4.8.4.3.2 Reacting to DOM mutations</a><li><a href=#the-list-of-available-images>4.8.4.3.3 The list of available images</a><li><a href=#updating-the-image-data>4.8.4.3.4 Updating the image data</a><li><a href=#selecting-an-image-source>4.8.4.3.5 Selecting an image source</a><li><a href=#updating-the-source-set>4.8.4.3.6 Updating the source set</a><li><a href=#parsing-a-srcset-attribute>4.8.4.3.7 Parsing a srcset attribute</a><li><a href=#parsing-a-sizes-attribute>4.8.4.3.8 Parsing a sizes attribute</a><li><a href=#normalizing-the-source-densities>4.8.4.3.9 Normalizing the source densities</a><li><a href=#reacting-to-environment-changes>4.8.4.3.10 Reacting to environment changes</a></ol><li><a href=#alt>4.8.4.4 Requirements for providing text to act as an alternative for images</a><ol><li><a href=#general-guidelines>4.8.4.4.1 General guidelines</a><li><a href=#a-link-or-button-containing-nothing-but-the-image>4.8.4.4.2 A link or button containing nothing but the image</a><li><a href=#a-phrase-or-paragraph-with-an-alternative-graphical-representation:-charts,-diagrams,-graphs,-maps,-illustrations>4.8.4.4.3 A phrase or paragraph with an alternative graphical representation: charts, diagrams, graphs, maps, illustrations</a><li><a href=#a-short-phrase-or-label-with-an-alternative-graphical-representation:-icons,-logos>4.8.4.4.4 A short phrase or label with an alternative graphical representation: icons, logos</a><li><a href=#text-that-has-been-rendered-to-a-graphic-for-typographical-effect>4.8.4.4.5 Text that has been rendered to a graphic for typographical effect</a><li><a href=#a-graphical-representation-of-some-of-the-surrounding-text>4.8.4.4.6 A graphical representation of some of the surrounding text</a><li><a href=#ancillary-images>4.8.4.4.7 Ancillary images</a><li><a href="#a-purely-decorative-image-that-doesn't-add-any-information">4.8.4.4.8 A purely decorative image that doesn't add any information</a><li><a href=#a-group-of-images-that-form-a-single-larger-picture-with-no-links>4.8.4.4.9 A group of images that form a single larger picture with no links</a><li><a href=#a-group-of-images-that-form-a-single-larger-picture-with-links>4.8.4.4.10 A group of images that form a single larger picture with links</a><li><a href=#a-key-part-of-the-content>4.8.4.4.11 A key part of the content</a><li><a href=#an-image-not-intended-for-the-user>4.8.4.4.12 An image not intended for the user</a><li><a href=#an-image-in-an-e-mail-or-private-document-intended-for-a-specific-person-who-is-known-to-be-able-to-view-images>4.8.4.4.13 An image in an e-mail or private document intended for a specific person who is known to be able to view images</a><li><a href=#guidance-for-markup-generators>4.8.4.4.14 Guidance for markup generators</a><li><a href=#guidance-for-conformance-checkers>4.8.4.4.15 Guidance for conformance checkers</a></ol></ol><li><a href=#the-iframe-element>4.8.5 The <code>iframe</code> element</a><li><a href=#the-embed-element>4.8.6 The <code>embed</code> element</a><li><a href=#the-object-element>4.8.7 The <code>object</code> element</a><li><a href=#the-param-element>4.8.8 The <code>param</code> element</a><li><a href=#the-video-element>4.8.9 The <code>video</code> element</a><li><a href=#the-audio-element>4.8.10 The <code>audio</code> element</a><li><a href=#the-track-element>4.8.11 The <code>track</code> element</a><li><a href=#media-elements>4.8.12 Media elements</a><ol><li><a href=#error-codes>4.8.12.1 Error codes</a><li><a href=#location-of-the-media-resource>4.8.12.2 Location of the media resource</a><li><a href=#mime-types>4.8.12.3 MIME types</a><li><a href=#network-states>4.8.12.4 Network states</a><li><a href=#loading-the-media-resource>4.8.12.5 Loading the media resource</a><li><a href=#offsets-into-the-media-resource>4.8.12.6 Offsets into the media resource</a><li><a href=#ready-states>4.8.12.7 Ready states</a><li><a href=#playing-the-media-resource>4.8.12.8 Playing the media resource</a><li><a href=#seeking>4.8.12.9 Seeking</a><li><a href=#media-resources-with-multiple-media-tracks>4.8.12.10 Media resources with multiple media tracks</a><ol><li><a href=#audiotracklist-and-videotracklist-objects>4.8.12.10.1 <code>AudioTrackList</code> and <code>VideoTrackList</code> objects</a><li><a href=#selecting-specific-audio-and-video-tracks-declaratively>4.8.12.10.2 Selecting specific audio and video tracks declaratively</a></ol><li><a href=#timed-text-tracks>4.8.12.11 Timed text tracks</a><ol><li><a href=#text-track-model>4.8.12.11.1 Text track model</a><li><a href=#sourcing-in-band-text-tracks>4.8.12.11.2 Sourcing in-band text tracks</a><li><a href=#sourcing-out-of-band-text-tracks>4.8.12.11.3 Sourcing out-of-band text tracks</a><li><a href=#guidelines-for-exposing-cues-in-various-formats-as-text-track-cues>4.8.12.11.4 Guidelines for exposing cues in various formats as text track cues</a><li><a href=#text-track-api>4.8.12.11.5 Text track API</a><li><a href=#text-tracks-describing-chapters>4.8.12.11.6 Text tracks describing chapters</a><li><a href=#cue-events>4.8.12.11.7 Event handlers for objects of the text track APIs</a><li><a href=#best-practices-for-metadata-text-tracks>4.8.12.11.8 Best practices for metadata text tracks</a></ol><li><a href=#identifying-a-track-kind-through-a-url>4.8.12.12 Identifying a track kind through a URL</a><li><a href=#user-interface>4.8.12.13 User interface</a><li><a href=#time-ranges>4.8.12.14 Time ranges</a><li><a href=#the-trackevent-interface>4.8.12.15 The <code>TrackEvent</code> interface</a><li><a href=#mediaevents>4.8.12.16 Event summary</a><li><a href=#security-and-privacy-considerations>4.8.12.17 Security and privacy considerations</a><li><a href=#best-practices-for-authors-using-media-elements>4.8.12.18 Best practices for authors using media elements</a><li><a href=#best-practices-for-implementors-of-media-elements>4.8.12.19 Best practices for implementors of media elements</a></ol><li><a href=#the-map-element>4.8.13 The <code>map</code> element</a><li><a href=#the-area-element>4.8.14 The <code>area</code> element</a><li><a href=#image-maps>4.8.15 Image maps</a><ol><li><a href=#authoring>4.8.15.1 Authoring</a><li><a href=#image-map-processing-model>4.8.15.2 Processing model</a></ol><li><a href=#mathml>4.8.16 MathML</a><li><a href=#svg-0>4.8.17 SVG</a><li><a href=#dimension-attributes>4.8.18 Dimension attributes</a></ol><li><a href=#tables>4.9 Tabular data</a><ol><li><a href=#the-table-element>4.9.1 The <code>table</code> element</a><ol><li><a href=#table-descriptions-techniques>4.9.1.1 Techniques for describing tables</a><li><a href=#table-layout-techniques>4.9.1.2 Techniques for table design</a></ol><li><a href=#the-caption-element>4.9.2 The <code>caption</code> element</a><li><a href=#the-colgroup-element>4.9.3 The <code>colgroup</code> element</a><li><a href=#the-col-element>4.9.4 The <code>col</code> element</a><li><a href=#the-tbody-element>4.9.5 The <code>tbody</code> element</a><li><a href=#the-thead-element>4.9.6 The <code>thead</code> element</a><li><a href=#the-tfoot-element>4.9.7 The <code>tfoot</code> element</a><li><a href=#the-tr-element>4.9.8 The <code>tr</code> element</a><li><a href=#the-td-element>4.9.9 The <code>td</code> element</a><li><a href=#the-th-element>4.9.10 The <code>th</code> element</a><li><a href=#attributes-common-to-td-and-th-elements>4.9.11 Attributes common to <code>td</code> and <code>th</code> elements</a><li><a href=#table-processing-model>4.9.12 Processing model</a><ol><li><a href=#forming-a-table>4.9.12.1 Forming a table</a><li><a href=#header-and-data-cell-semantics>4.9.12.2 Forming relationships between data cells and header cells</a></ol><li><a href=#table-examples>4.9.13 Examples</a></ol><li><a href=#forms>4.10 Forms</a><ol><li><a href=#introduction-4>4.10.1 Introduction</a><ol><li><a href="#writing-a-form's-user-interface">4.10.1.1 Writing a form's user interface</a><li><a href=#implementing-the-server-side-processing-for-a-form>4.10.1.2 Implementing the server-side processing for a form</a><li><a href=#configuring-a-form-to-communicate-with-a-server>4.10.1.3 Configuring a form to communicate with a server</a><li><a href=#client-side-form-validation>4.10.1.4 Client-side form validation</a><li><a href=#enabling-client-side-automatic-filling-of-form-controls>4.10.1.5 Enabling client-side automatic filling of form controls</a><li><a href=#improving-the-user-experience-on-mobile-devices>4.10.1.6 Improving the user experience on mobile devices</a><li><a href=#the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality>4.10.1.7 The difference between the field type, the autofill field name, and the input modality</a><li><a href=#input-author-notes>4.10.1.8 Date, time, and number formats</a></ol><li><a href=#categories>4.10.2 Categories</a><li><a href=#the-form-element>4.10.3 The <code>form</code> element</a><li><a href=#the-label-element>4.10.4 The <code>label</code> element</a><li><a href=#the-input-element>4.10.5 The <code>input</code> element</a><ol><li><a href=#states-of-the-type-attribute>4.10.5.1 States of the <code>type</code> attribute</a><ol><li><a href="#hidden-state-(type=hidden)">4.10.5.1.1 Hidden state (<code>type=hidden</code>)</a><li><a href="#text-(type=text)-state-and-search-state-(type=search)">4.10.5.1.2 Text (<code>type=text</code>) state and Search state (<code>type=search</code>)</a><li><a href="#telephone-state-(type=tel)">4.10.5.1.3 Telephone state (<code>type=tel</code>)</a><li><a href="#url-state-(type=url)">4.10.5.1.4 URL state (<code>type=url</code>)</a><li><a href="#e-mail-state-(type=email)">4.10.5.1.5 E-mail state (<code>type=email</code>)</a><li><a href="#password-state-(type=password)">4.10.5.1.6 Password state (<code>type=password</code>)</a><li><a href="#date-state-(type=date)">4.10.5.1.7 Date state (<code>type=date</code>)</a><li><a href="#month-state-(type=month)">4.10.5.1.8 Month state (<code>type=month</code>)</a><li><a href="#week-state-(type=week)">4.10.5.1.9 Week state (<code>type=week</code>)</a><li><a href="#time-state-(type=time)">4.10.5.1.10 Time state (<code>type=time</code>)</a><li><a href="#local-date-and-time-state-(type=datetime-local)">4.10.5.1.11 Local Date and Time state (<code>type=datetime-local</code>)</a><li><a href="#number-state-(type=number)">4.10.5.1.12 Number state (<code>type=number</code>)</a><li><a href="#range-state-(type=range)">4.10.5.1.13 Range state (<code>type=range</code>)</a><li><a href="#color-state-(type=color)">4.10.5.1.14 Color state (<code>type=color</code>)</a><li><a href="#checkbox-state-(type=checkbox)">4.10.5.1.15 Checkbox state (<code>type=checkbox</code>)</a><li><a href="#radio-button-state-(type=radio)">4.10.5.1.16 Radio Button state (<code>type=radio</code>)</a><li><a href="#file-upload-state-(type=file)">4.10.5.1.17 File Upload state (<code>type=file</code>)</a><li><a href="#submit-button-state-(type=submit)">4.10.5.1.18 Submit Button state (<code>type=submit</code>)</a><li><a href="#image-button-state-(type=image)">4.10.5.1.19 Image Button state (<code>type=image</code>)</a><li><a href="#reset-button-state-(type=reset)">4.10.5.1.20 Reset Button state (<code>type=reset</code>)</a><li><a href="#button-state-(type=button)">4.10.5.1.21 Button state (<code>type=button</code>)</a></ol><li><a href=#input-impl-notes>4.10.5.2 Implementation notes regarding localization of form controls</a><li><a href=#common-input-element-attributes>4.10.5.3 Common <code>input</code> element attributes</a><ol><li><a href=#the-maxlength-and-minlength-attributes>4.10.5.3.1 The <code>maxlength</code> and <code>minlength</code> attributes</a><li><a href=#the-size-attribute>4.10.5.3.2 The <code>size</code> attribute</a><li><a href=#the-readonly-attribute>4.10.5.3.3 The <code>readonly</code> attribute</a><li><a href=#the-required-attribute>4.10.5.3.4 The <code>required</code> attribute</a><li><a href=#the-multiple-attribute>4.10.5.3.5 The <code>multiple</code> attribute</a><li><a href=#the-pattern-attribute>4.10.5.3.6 The <code>pattern</code> attribute</a><li><a href=#the-min-and-max-attributes>4.10.5.3.7 The <code>min</code> and <code>max</code> attributes</a><li><a href=#the-step-attribute>4.10.5.3.8 The <code>step</code> attribute</a><li><a href=#the-list-attribute>4.10.5.3.9 The <code>list</code> attribute</a><li><a href=#the-placeholder-attribute>4.10.5.3.10 The <code>placeholder</code> attribute</a></ol><li><a href=#common-input-element-apis>4.10.5.4 Common <code>input</code> element APIs</a><li><a href=#common-input-element-events>4.10.5.5 Common event behaviors</a></ol><li><a href=#the-button-element>4.10.6 The <code>button</code> element</a><li><a href=#the-select-element>4.10.7 The <code>select</code> element</a><li><a href=#the-datalist-element>4.10.8 The <code>datalist</code> element</a><li><a href=#the-optgroup-element>4.10.9 The <code>optgroup</code> element</a><li><a href=#the-option-element>4.10.10 The <code>option</code> element</a><li><a href=#the-textarea-element>4.10.11 The <code>textarea</code> element</a><li><a href=#the-output-element>4.10.12 The <code>output</code> element</a><li><a href=#the-progress-element>4.10.13 The <code>progress</code> element</a><li><a href=#the-meter-element>4.10.14 The <code>meter</code> element</a><li><a href=#the-fieldset-element>4.10.15 The <code>fieldset</code> element</a><li><a href=#the-legend-element>4.10.16 The <code>legend</code> element</a><li><a href=#form-control-infrastructure>4.10.17 Form control infrastructure</a><ol><li><a href="#a-form-control's-value">4.10.17.1 A form control's value</a><li><a href=#mutability>4.10.17.2 Mutability</a><li><a href=#association-of-controls-and-forms>4.10.17.3 Association of controls and forms</a></ol><li><a href=#attributes-common-to-form-controls>4.10.18 Attributes common to form controls</a><ol><li><a href=#naming-form-controls:-the-name-attribute>4.10.18.1 Naming form controls: the <code>name</code> attribute</a><li><a href=#submitting-element-directionality:-the-dirname-attribute>4.10.18.2 Submitting element directionality: the <code>dirname</code> attribute</a><li><a href=#limiting-user-input-length:-the-maxlength-attribute>4.10.18.3 Limiting user input length: the <code>maxlength</code> attribute</a><li><a href=#setting-minimum-input-length-requirements:-the-minlength-attribute>4.10.18.4 Setting minimum input length requirements: the <code>minlength</code> attribute</a><li><a href=#enabling-and-disabling-form-controls:-the-disabled-attribute>4.10.18.5 Enabling and disabling form controls: the <code>disabled</code> attribute</a><li><a href=#form-submission>4.10.18.6 Form submission</a><ol><li><a href=#autofocusing-a-form-control:-the-autofocus-attribute>4.10.18.6.1 Autofocusing a form control: the <code>autofocus</code> attribute</a></ol><li><a href=#input-modalities:-the-inputmode-attribute>4.10.18.7 Input modalities: the <code>inputmode</code> attribute</a><li><a href=#autofill>4.10.18.8 Autofill</a><ol><li><a href=#autofilling-form-controls:-the-autocomplete-attribute>4.10.18.8.1 Autofilling form controls: the <code>autocomplete</code> attribute</a><li><a href=#autofill-processing-model>4.10.18.8.2 Processing model</a></ol></ol><li><a href=#textFieldSelection>4.10.19 APIs for the text control selections</a><li><a href=#constraints>4.10.20 Constraints</a><ol><li><a href=#definitions>4.10.20.1 Definitions</a><li><a href=#constraint-validation>4.10.20.2 Constraint validation</a><li><a href=#the-constraint-validation-api>4.10.20.3 The constraint validation API</a><li><a href=#security-forms>4.10.20.4 Security</a></ol><li><a href=#form-submission-2>4.10.21 Form submission</a><ol><li><a href=#introduction-5>4.10.21.1 Introduction</a><li><a href=#implicit-submission>4.10.21.2 Implicit submission</a><li><a href=#form-submission-algorithm>4.10.21.3 Form submission algorithm</a><li><a href=#constructing-form-data-set>4.10.21.4 Constructing the form data set</a><li><a href=#selecting-a-form-submission-encoding>4.10.21.5 Selecting a form submission encoding</a><li><a href=#url-encoded-form-data>4.10.21.6 URL-encoded form data</a><li><a href=#multipart-form-data>4.10.21.7 Multipart form data</a><li><a href=#plain-text-form-data>4.10.21.8 Plain text form data</a></ol><li><a href=#resetting-a-form>4.10.22 Resetting a form</a></ol><li><a href=#interactive-elements>4.11 Interactive elements</a><ol><li><a href=#the-details-element>4.11.1 The <code>details</code> element</a><li><a href=#the-summary-element>4.11.2 The <code>summary</code> element</a><li><a href=#the-menu-element>4.11.3 The <code>menu</code> element</a><li><a href=#the-menuitem-element>4.11.4 The <code>menuitem</code> element</a><li><a href=#context-menus>4.11.5 Context menus</a><ol><li><a href=#declaring-a-context-menu>4.11.5.1 Declaring a context menu</a><li><a href=#context-menu-processing-model>4.11.5.2 Processing model</a><li><a href=#the-relatedevent-interfaces>4.11.5.3 The <code>RelatedEvent</code> interfaces</a></ol><li><a href=#commands>4.11.6 Commands</a><ol><li><a href=#facets-2>4.11.6.1 Facets</a><li><a href=#using-the-a-element-to-define-a-command>4.11.6.2 Using the <code>a</code> element to define a command</a><li><a href=#using-the-button-element-to-define-a-command>4.11.6.3 Using the <code>button</code> element to define a command</a><li><a href=#using-the-input-element-to-define-a-command>4.11.6.4 Using the <code>input</code> element to define a command</a><li><a href=#using-the-option-element-to-define-a-command>4.11.6.5 Using the <code>option</code> element to define a command</a><li><a href=#using-the-menuitem-element-to-define-a-command>4.11.6.6 Using the <code>menuitem</code> element to define a
+  command</a><li><a href=#using-the-accesskey-attribute-on-a-label-element-to-define-a-command>4.11.6.7 Using the <code>accesskey</code> attribute
+  on a <code>label</code> element to define a command</a><li><a href=#using-the-accesskey-attribute-on-a-legend-element-to-define-a-command>4.11.6.8 Using the <code>accesskey</code> attribute
+  on a <code>legend</code> element to define a command</a><li><a href=#using-the-accesskey-attribute-to-define-a-command-on-other-elements>4.11.6.9 Using the <code>accesskey</code>
+  attribute to define a command on other elements</a></ol><li><a href=#the-dialog-element>4.11.7 The <code>dialog</code> element</a></ol><li><a href=#scripting-3>4.12 Scripting</a><ol><li><a href=#the-script-element>4.12.1 The <code>script</code> element</a><ol><li><a href=#script-processing-model>4.12.1.1 Processing model</a><li><a href=#scriptingLanguages>4.12.1.2 Scripting languages</a><li><a href=#restrictions-for-contents-of-script-elements>4.12.1.3 Restrictions for contents of <code>script</code> elements</a><li><a href=#inline-documentation-for-external-scripts>4.12.1.4 Inline documentation for external scripts</a><li><a href=#scriptTagXSLT>4.12.1.5 Interaction of <code>script</code> elements and XSLT</a></ol><li><a href=#the-noscript-element>4.12.2 The <code>noscript</code> element</a><li><a href=#the-template-element>4.12.3 The <code>template</code> element</a><ol><li><a href=#template-XSLT-XPath>4.12.3.1 Interaction of <code>template</code> elements with XSLT and XPath</a></ol><li><a href=#the-slot-element>4.12.4 The <code>slot</code> element</a><li><a href=#the-canvas-element>4.12.5 The <code>canvas</code> element</a><ol><li><a href=#2dcontext>4.12.5.1 The 2D rendering context</a><ol><li><a href=#implementation-notes>4.12.5.1.1 Implementation notes</a><li><a href=#the-canvas-state>4.12.5.1.2 The canvas state</a><li><a href=#line-styles>4.12.5.1.3 Line styles</a><li><a href=#text-styles>4.12.5.1.4 Text styles</a><li><a href=#building-paths>4.12.5.1.5 Building paths</a><li><a href=#path2d-objects>4.12.5.1.6 <code>Path2D</code> objects</a><li><a href=#transformations>4.12.5.1.7 Transformations</a><li><a href=#image-sources-for-2d-rendering-contexts>4.12.5.1.8 Image sources for 2D rendering contexts</a><li><a href=#fill-and-stroke-styles>4.12.5.1.9 Fill and stroke styles</a><li><a href=#drawing-rectangles-to-the-bitmap>4.12.5.1.10 Drawing rectangles to the bitmap</a><li><a href=#drawing-text-to-the-bitmap>4.12.5.1.11 Drawing text to the bitmap</a><li><a href=#drawing-paths-to-the-canvas>4.12.5.1.12 Drawing paths to the canvas</a><li><a href=#drawing-focus-rings-and-scrolling-paths-into-view>4.12.5.1.13 Drawing focus rings and scrolling paths into view</a><li><a href=#drawing-images>4.12.5.1.14 Drawing images</a><li><a href=#pixel-manipulation>4.12.5.1.15 Pixel manipulation</a><li><a href=#compositing>4.12.5.1.16 Compositing</a><li><a href=#image-smoothing>4.12.5.1.17 Image smoothing</a><li><a href=#shadows>4.12.5.1.18 Shadows</a><li><a href=#filters>4.12.5.1.19 Filters</a><li><a href=#working-with-externally-defined-svg-filters>4.12.5.1.20 Working with externally-defined SVG filters</a><li><a href=#drawing-model>4.12.5.1.21 Drawing model</a><li><a href=#best-practices>4.12.5.1.22 Best practices</a><li><a href=#examples>4.12.5.1.23 Examples</a></ol><li><a href=#the-imagebitmap-rendering-context>4.12.5.2 The <code>ImageBitmap</code> rendering context</a><ol><li><a href=#introduction-6>4.12.5.2.1 Introduction</a><li><a href=#the-imagebitmaprenderingcontext-interface>4.12.5.2.2 The <code>ImageBitmapRenderingContext</code> interface</a></ol><li><a href=#the-offscreencanvas-interface>4.12.5.3 The <code>OffscreenCanvas</code> interface</a><ol><li><a href=#the-offscreen-2d-rendering-context>4.12.5.3.1 The offscreen 2D rendering context</a></ol><li><a href=#colour-spaces-and-colour-correction>4.12.5.4 Color spaces and color correction</a><li><a href=#serialising-bitmaps-to-a-file>4.12.5.5 Serializing bitmaps to a file</a><li><a href=#security-with-canvas-elements>4.12.5.6 Security with <code>canvas</code> elements</a></ol></ol><li><a href=#custom-elements>4.13 Custom elements</a><ol><li><a href=#custom-elements-intro>4.13.1 Introduction</a><ol><li><a href=#custom-elements-autonomous-example>4.13.1.1 Creating an autonomous custom element</a><li><a href=#custom-elements-customized-builtin-example>4.13.1.2 Creating a customized built-in element</a><li><a href=#custom-elements-autonomous-drawbacks>4.13.1.3 Drawbacks of autonomous custom elements</a><li><a href=#custom-elements-upgrades-examples>4.13.1.4 Upgrading elements after their creation</a></ol><li><a href=#custom-element-conformance>4.13.2 Requirements for custom element constructors</a><li><a href=#custom-elements-core-concepts>4.13.3 Core concepts</a><li><a href=#custom-elements-api>4.13.4 The <code>CustomElementRegistry</code> interface</a><li><a href=#upgrades>4.13.5 Upgrades</a><li><a href=#custom-element-reactions>4.13.6 Custom element reactions</a></ol><li><a href=#common-idioms>4.14 Common idioms without dedicated elements</a><ol><li><a href=#the-main-part-of-the-content>4.14.1 The main part of the content</a><li><a href=#rel-up>4.14.2 Bread crumb navigation</a><li><a href=#tag-clouds>4.14.3 Tag clouds</a><li><a href=#conversations>4.14.4 Conversations</a><li><a href=#footnotes>4.14.5 Footnotes</a></ol><li><a href=#disabled-elements>4.15 Disabled elements</a><li><a href=#selectors>4.16 Matching HTML elements using selectors and CSS</a><ol><li><a href="#case-sensitivity-of-the-css-'attr()'-function">4.16.1 Case-sensitivity of the CSS 'attr()' function</a><li><a href=#case-sensitivity-of-selectors>4.16.2 Case-sensitivity of selectors</a><li><a href=#pseudo-classes>4.16.3 Pseudo-classes</a></ol></ol><li id=toc-microdata><a href=#microdata>5 Microdata</a><ol><li><a href=#introduction-7>5.1 Introduction</a><ol><li><a href=#overview>5.1.1 Overview</a><li><a href=#the-basic-syntax>5.1.2 The basic syntax</a><li><a href=#typed-items>5.1.3 Typed items</a><li><a href=#global-identifiers-for-items>5.1.4 Global identifiers for items</a><li><a href=#selecting-names-when-defining-vocabularies>5.1.5 Selecting names when defining vocabularies</a></ol><li><a href=#encoding-microdata>5.2 Encoding microdata</a><ol><li><a href=#the-microdata-model>5.2.1 The microdata model</a><li><a href=#items>5.2.2 Items</a><li><a href=#names:-the-itemprop-attribute>5.2.3 Names: the <code>itemprop</code> attribute</a><li><a href=#values>5.2.4 Values</a><li><a href=#associating-names-with-items>5.2.5 Associating names with items</a><li><a href=#microdata-and-other-namespaces>5.2.6 Microdata and other namespaces</a></ol><li><a href=#mdvocabs>5.3 Sample microdata vocabularies</a><ol><li><a href=#vcard>5.3.1 vCard</a><ol><li><a href=#conversion-to-vcard>5.3.1.1 Conversion to vCard</a><li><a href=#examples-2>5.3.1.2 Examples</a></ol><li><a href=#vevent>5.3.2 vEvent</a><ol><li><a href=#conversion-to-icalendar>5.3.2.1 Conversion to iCalendar</a><li><a href=#examples-3>5.3.2.2 Examples</a></ol><li><a href=#licensing-works>5.3.3 Licensing works</a><ol><li><a href=#examples-4>5.3.3.1 Examples</a></ol></ol><li><a href=#converting-html-to-other-formats>5.4 Converting HTML to other formats</a><ol><li><a href=#json>5.4.1 JSON</a></ol></ol><li id=toc-editing><a href=#editing>6 User interaction</a><ol><li><a href=#the-hidden-attribute>6.1 The <code>hidden</code> attribute</a><li><a href=#inert-subtrees>6.2 Inert subtrees</a><li><a href=#activation>6.3 Activation</a><li><a href=#focus>6.4 Focus</a><ol><li><a href=#introduction-8>6.4.1 Introduction</a><li><a href=#data-model>6.4.2 Data model</a><li><a href=#the-tabindex-attribute>6.4.3 The <code>tabindex</code> attribute</a><li><a href=#focus-processing-model>6.4.4 Processing model</a><li><a href=#sequential-focus-navigation>6.4.5 Sequential focus navigation</a><li><a href=#focus-management-apis>6.4.6 Focus management APIs</a></ol><li><a href=#assigning-keyboard-shortcuts>6.5 Assigning keyboard shortcuts</a><ol><li><a href=#introduction-9>6.5.1 Introduction</a><li><a href=#the-accesskey-attribute>6.5.2 The <code>accesskey</code> attribute</a><li><a href=#keyboard-shortcuts-processing-model>6.5.3 Processing
+  model</a></ol><li><a href=#editing-2>6.6 Editing</a><ol><li><a href=#contenteditable>6.6.1 Making document regions editable: The <code>contenteditable</code> content attribute</a><li><a href=#making-entire-documents-editable:-the-designmode-idl-attribute>6.6.2 Making entire documents editable: The <code>designMode</code> IDL attribute</a><li><a href=#best-practices-for-in-page-editors>6.6.3 Best practices for in-page editors</a><li><a href=#editing-apis>6.6.4 Editing APIs</a><li><a href=#spelling-and-grammar-checking>6.6.5 Spelling and grammar checking</a></ol><li><a href=#dnd>6.7 Drag and drop</a><ol><li><a href=#event-drag>6.7.1 Introduction</a><li><a href=#the-drag-data-store>6.7.2 The drag data store</a><li><a href=#the-datatransfer-interface>6.7.3 The <code>DataTransfer</code> interface</a><ol><li><a href=#the-datatransferitemlist-interface>6.7.3.1 The <code>DataTransferItemList</code> interface</a><li><a href=#the-datatransferitem-interface>6.7.3.2 The <code>DataTransferItem</code> interface</a></ol><li><a href=#the-dragevent-interface>6.7.4 The <code>DragEvent</code> interface</a><li><a href=#drag-and-drop-processing-model>6.7.5 Processing model</a><li><a href=#dndevents>6.7.6 Events summary</a><li><a href=#the-draggable-attribute>6.7.7 The <code>draggable</code> attribute</a><li><a href=#the-dropzone-attribute>6.7.8 The <code>dropzone</code> attribute</a><li><a href=#security-risks-in-the-drag-and-drop-model>6.7.9 Security risks in the drag-and-drop model</a></ol></ol><li id=toc-browsers><a href=#browsers>7 Loading Web pages</a><ol><li><a href=#windows>7.1 Browsing contexts</a><ol><li><a href=#nested-browsing-contexts>7.1.1 Nested browsing contexts</a><ol><li><a href=#navigating-nested-browsing-contexts-in-the-dom>7.1.1.1 Navigating nested browsing contexts in the DOM</a></ol><li><a href=#auxiliary-browsing-contexts>7.1.2 Auxiliary browsing contexts</a><ol><li><a href=#navigating-auxiliary-browsing-contexts-in-the-dom>7.1.2.1 Navigating auxiliary browsing contexts in the DOM</a></ol><li><a href=#security-nav>7.1.3 Security</a><li><a href=#groupings-of-browsing-contexts>7.1.4 Groupings of browsing contexts</a><li><a href=#browsing-context-names>7.1.5 Browsing context names</a><li><a href=#script-settings-for-browsing-contexts>7.1.6 Script settings for browsing contexts</a></ol><li><a href=#cross-origin-objects>7.2 Security infrastructure for <code>Window</code>,
+  <code>WindowProxy</code>, and <code>Location</code> objects</a><ol><li><a href=#integration-with-idl>7.2.1 Integration with IDL</a><li><a href=#shared-internal-slot:-crossoriginpropertydescriptormap>7.2.2 Shared internal slot: [[CrossOriginPropertyDescriptorMap]]</a><li><a href=#shared-abstract-operations>7.2.3 Shared abstract operations</a><ol><li><a href=#crossoriginproperties-(-o-)>7.2.3.1 CrossOriginProperties ( <var>O</var> )</a><li><a href=#isplatformobjectsameorigin-(-o-)>7.2.3.2 IsPlatformObjectSameOrigin ( <var>O</var> )</a><li><a href=#crossorigingetownpropertyhelper-(-o,-p-)>7.2.3.3 CrossOriginGetOwnPropertyHelper ( <var>O</var>, <var>P</var> )</a><li><a href=#crossoriginget-(-o,-p,-receiver-)>7.2.3.4 CrossOriginGet ( <var>O</var>, <var>P</var>, <var>Receiver</var> )</a><li><a href=#crossoriginset-(-o,-p,-v,-receiver-)>7.2.3.5 CrossOriginSet ( <var>O</var>, <var>P</var>, <var>V</var>,
+  <var>Receiver</var> )</a><li><a href=#crossoriginownpropertykeys-(-o-)>7.2.3.6 CrossOriginOwnPropertyKeys ( <var>O</var> )</a></ol></ol><li><a href=#the-window-object>7.3 The <code>Window</code> object</a><ol><li><a href=#apis-for-creating-and-navigating-browsing-contexts-by-name>7.3.1 APIs for creating and navigating browsing contexts by name</a><li><a href=#accessing-other-browsing-contexts>7.3.2 Accessing other browsing contexts</a><li><a href=#named-access-on-the-window-object>7.3.3 Named access on the <code>Window</code> object</a><li><a href=#garbage-collection-and-browsing-contexts>7.3.4 Garbage collection and browsing contexts</a><li><a href=#closing-browsing-contexts>7.3.5 Closing browsing contexts</a><li><a href=#browser-interface-elements>7.3.6 Browser interface elements</a></ol><li><a href=#the-windowproxy-exotic-object>7.4 The <code>WindowProxy</code> exotic object</a><ol><li><a href=#windowproxy-getprototypeof>7.4.1 [[GetPrototypeOf]] ( )</a><li><a href=#windowproxy-setprototypeof>7.4.2 [[SetPrototypeOf]] ( <var>V</var> )</a><li><a href=#windowproxy-isextensible>7.4.3 [[IsExtensible]] ( )</a><li><a href=#windowproxy-preventextensions>7.4.4 [[PreventExtensions]] ( )</a><li><a href=#windowproxy-getownproperty>7.4.5 [[GetOwnProperty]] ( <var>P</var> )</a><li><a href=#windowproxy-defineownproperty>7.4.6 [[DefineOwnProperty]] ( <var>P</var>, <var>Desc</var>
+  )</a><li><a href=#windowproxy-get>7.4.7 [[Get]] ( <var>P</var>, <var>Receiver</var> )</a><li><a href=#windowproxy-set>7.4.8 [[Set]] ( <var>P</var>, <var>V</var>, <var>Receiver</var> )</a><li><a href=#windowproxy-delete>7.4.9 [[Delete]] ( <var>P</var> )</a><li><a href=#windowproxy-ownpropertykeys>7.4.10 [[OwnPropertyKeys]] ( )</a></ol><li><a href=#origin>7.5 Origin</a><ol><li><a href=#relaxing-the-same-origin-restriction>7.5.1 Relaxing the same-origin restriction</a></ol><li><a href=#sandboxing>7.6 Sandboxing</a><li><a href=#history>7.7 Session history and navigation</a><ol><li><a href=#the-session-history-of-browsing-contexts>7.7.1 The session history of browsing contexts</a><li><a href=#the-history-interface>7.7.2 The <code>History</code> interface</a><li><a href=#history-notes>7.7.3 Implementation notes for session history</a><li><a href=#the-location-interface>7.7.4 The <code>Location</code> interface</a><ol><li><a href=#location-getprototypeof>7.7.4.1 [[GetPrototypeOf]] ( )</a><li><a href=#location-setprototypeof>7.7.4.2 [[SetPrototypeOf]] ( <var>V</var> )</a><li><a href=#location-isextensible>7.7.4.3 [[IsExtensible]] ( )</a><li><a href=#location-preventextensions>7.7.4.4 [[PreventExtensions]] ( )</a><li><a href=#location-getownproperty>7.7.4.5 [[GetOwnProperty]] ( <var>P</var> )</a><li><a href=#location-defineownproperty>7.7.4.6 [[DefineOwnProperty]] ( <var>P</var>, <var>Desc</var> )</a><li><a href=#location-get>7.7.4.7 [[Get]] ( <var>P</var>, <var>Receiver</var> )</a><li><a href=#location-set>7.7.4.8 [[Set]] ( <var>P</var>, <var>V</var>, <var>Receiver</var> )</a><li><a href=#location-delete>7.7.4.9 [[Delete]] ( <var>P</var> )</a><li><a href=#location-ownpropertykeys>7.7.4.10 [[OwnPropertyKeys]] ( )</a></ol></ol><li><a href=#browsing-the-web>7.8 Browsing the Web</a><ol><li><a href=#navigating-across-documents>7.8.1 Navigating across documents</a><li><a href=#read-html>7.8.2 Page load processing model for HTML files</a><li><a href=#read-xml>7.8.3 Page load processing model for XML files</a><li><a href=#read-text>7.8.4 Page load processing model for text files</a><li><a href=#read-multipart-x-mixed-replace>7.8.5 Page load processing model for <code>multipart/x-mixed-replace</code> resources</a><li><a href=#read-media>7.8.6 Page load processing model for media</a><li><a href=#read-plugin>7.8.7 Page load processing model for content that uses plugins</a><li><a href=#read-ua-inline>7.8.8 Page load processing model for inline
+  content that doesn't have a DOM</a><li><a href=#scroll-to-fragid>7.8.9 Navigating to a fragment</a><li><a href=#history-traversal>7.8.10 History traversal</a><ol><li><a href=#persisted-user-state-restoration>7.8.10.1 Persisted user state restoration</a><li><a href=#the-popstateevent-interface>7.8.10.2 The <code>PopStateEvent</code> interface</a><li><a href=#the-hashchangeevent-interface>7.8.10.3 The <code>HashChangeEvent</code> interface</a><li><a href=#the-pagetransitionevent-interface>7.8.10.4 The <code>PageTransitionEvent</code> interface</a></ol><li><a href=#unloading-documents>7.8.11 Unloading documents</a><ol><li><a href=#the-beforeunloadevent-interface>7.8.11.1 The <code>BeforeUnloadEvent</code> interface</a></ol><li><a href=#aborting-a-document-load>7.8.12 Aborting a document load</a></ol><li><a href=#offline>7.9 Offline Web applications</a><ol><li><a href=#introduction-10>7.9.1 Introduction</a><ol><li><a href=#supporting-offline-caching-for-legacy-applications>7.9.1.1 Supporting offline caching for legacy applications</a><li><a href=#appcacheevents>7.9.1.2 Event summary</a></ol><li><a href=#appcache>7.9.2 Application caches</a><li><a href=#manifests>7.9.3 The cache manifest syntax</a><ol><li><a href=#some-sample-manifests>7.9.3.1 Some sample manifests</a><li><a href=#writing-cache-manifests>7.9.3.2 Writing cache manifests</a><li><a href=#parsing-cache-manifests>7.9.3.3 Parsing cache manifests</a></ol><li><a href=#downloading-or-updating-an-application-cache>7.9.4 Downloading or updating an application cache</a><li><a href=#the-application-cache-selection-algorithm>7.9.5 The application cache selection algorithm</a><li><a href=#changesToNetworkingModel>7.9.6 Changes to the networking model</a><li><a href=#expiring-application-caches>7.9.7 Expiring application caches</a><li><a href=#disk-space>7.9.8 Disk space</a><li><a href=#security-concerns-with-offline-applications-caches>7.9.9 Security concerns with offline applications caches</a><li><a href=#application-cache-api>7.9.10 Application cache API</a><li><a href=#navigator.online>7.9.11 Browser state</a></ol></ol><li id=toc-webappapis><a href=#webappapis>8 Web application APIs</a><ol><li><a href=#scripting>8.1 Scripting</a><ol><li><a href=#introduction-11>8.1.1 Introduction</a><li><a href=#enabling-and-disabling-scripting>8.1.2 Enabling and disabling scripting</a><li><a href=#scripting-processing-model>8.1.3 Processing model</a><ol><li><a href=#definitions-2>8.1.3.1 Definitions</a><li><a href=#fetching-scripts>8.1.3.2 Fetching scripts</a><li><a href=#creating-scripts>8.1.3.3 Creating scripts</a><li><a href=#calling-scripts>8.1.3.4 Calling scripts</a><li><a href=#realms-settings-objects-global-objects>8.1.3.5 Realms, settings objects, and global objects</a><ol><li><a href=#entry>8.1.3.5.1 Entry</a><li><a href=#incumbent>8.1.3.5.2 Incumbent</a><li><a href=#current>8.1.3.5.3 Current</a><li><a href=#relevant>8.1.3.5.4 Relevant</a></ol><li><a href=#killing-scripts>8.1.3.6 Killing scripts</a><li><a href=#integration-with-the-javascript-job-queue>8.1.3.7 Integration with the JavaScript job queue</a><ol><li><a href=#enqueuejob(queuename,-job,-arguments)>8.1.3.7.1 EnqueueJob(<var>queueName</var>, <var>job</var>, <var>arguments</var>)</a></ol><li><a href=#integration-with-the-javascript-module-system>8.1.3.8 Integration with the JavaScript module system</a><ol><li><a href=#hostresolveimportedmodule(referencingmodule,-specifier)>8.1.3.8.1 HostResolveImportedModule(<var>referencingModule</var>, <var>specifier</var>)</a></ol><li><a href=#runtime-script-errors>8.1.3.9 Runtime script errors</a><ol><li><a href=#runtime-script-errors-in-documents>8.1.3.9.1 Runtime script errors in documents</a><li><a href=#the-errorevent-interface>8.1.3.9.2 The <code>ErrorEvent</code> interface</a></ol><li><a href=#unhandled-promise-rejections>8.1.3.10 Unhandled promise rejections</a><ol><li><a href=#the-hostpromiserejectiontracker-implementation>8.1.3.10.1 HostPromiseRejectionTracker(<var>promise</var>, <var>operation</var>)</a><li><a href=#the-promiserejectionevent-interface>8.1.3.10.2 The <code>PromiseRejectionEvent</code> interface</a></ol><li><a href=#hostensurecancompilestrings(callerrealm,-calleerealm)>8.1.3.11 HostEnsureCanCompileStrings(<var>callerRealm</var>, <var>calleeRealm</var>)</a></ol><li><a href=#event-loops>8.1.4 Event loops</a><ol><li><a href=#definitions-3>8.1.4.1 Definitions</a><li><a href=#event-loop-processing-model>8.1.4.2 Processing model</a><li><a href=#generic-task-sources>8.1.4.3 Generic task sources</a></ol><li><a href=#events>8.1.5 Events</a><ol><li><a href=#event-handler-attributes>8.1.5.1 Event handlers</a><li><a href=#event-handlers-on-elements,-document-objects,-and-window-objects>8.1.5.2 Event handlers on elements, <code>Document</code> objects, and <code>Window</code> objects</a><ol><li><a href=#idl-definitions>8.1.5.2.1 IDL definitions</a></ol><li><a href=#event-firing>8.1.5.3 Event firing</a></ol></ol><li><a href=#windoworworkerglobalscope-mixin>8.2 The <code>WindowOrWorkerGlobalScope</code> mixin</a><li><a href=#atob>8.3 Base64 utility methods</a><li><a href=#dynamic-markup-insertion>8.4 Dynamic markup insertion</a><ol><li><a href=#opening-the-input-stream>8.4.1 Opening the input stream</a><li><a href=#closing-the-input-stream>8.4.2 Closing the input stream</a><li><a href=#document.write()>8.4.3 <code>document.write()</code></a><li><a href=#document.writeln()>8.4.4 <code>document.writeln()</code></a></ol><li><a href=#timers>8.5 Timers</a><li><a href=#user-prompts>8.6 User prompts</a><ol><li><a href=#simple-dialogs>8.6.1 Simple dialogs</a><li><a href=#printing>8.6.2 Printing</a></ol><li><a href=#system-state-and-capabilities>8.7 System state and capabilities</a><ol><li><a href=#the-navigator-object>8.7.1 The <code>Navigator</code> object</a><ol><li><a href=#client-identification>8.7.1.1 Client identification</a><li><a href=#language-preferences>8.7.1.2 Language preferences</a><li><a href=#custom-handlers>8.7.1.3 Custom scheme and content handlers: the <code>registerProtocolHandler()</code> and <code>registerContentHandler()</code> methods</a><ol><li><a href=#security-and-privacy>8.7.1.3.1 Security and privacy</a><li><a href=#sample-handler-impl>8.7.1.3.2 Sample user interface</a></ol><li><a href=#cookies>8.7.1.4 Cookies</a><li><a href=#plugins-2>8.7.1.5 Plugins</a></ol></ol><li><a href=#images-2>8.8 Images</a><li><a href=#animation-frames>8.9 Animation Frames</a></ol><li id=toc-comms><a href=#comms>9 Communication</a><ol><li><a href=#the-messageevent-interfaces>9.1 The <code>MessageEvent</code> interfaces</a><li><a href=#server-sent-events>9.2 Server-sent events</a><ol><li><a href=#server-sent-events-intro>9.2.1 Introduction</a><li><a href=#the-eventsource-interface>9.2.2 The <code>EventSource</code> interface</a><li><a href=#sse-processing-model>9.2.3 Processing model</a><li><a href=#parsing-an-event-stream>9.2.4 Parsing an event stream</a><li><a href=#event-stream-interpretation>9.2.5 Interpreting an event stream</a><li><a href=#authoring-notes>9.2.6 Authoring notes</a><li><a href=#eventsource-push>9.2.7 Connectionless push and other features</a><li><a href=#garbage-collection-2>9.2.8 Garbage collection</a><li><a href=#implementation-advice>9.2.9 Implementation advice</a></ol><li><a href=#network>9.3 Web sockets</a><ol><li><a href=#network-intro>9.3.1 Introduction</a><li><a href=#the-websocket-interface>9.3.2 The <code>WebSocket</code> interface</a><li><a href=#feedback-from-the-protocol>9.3.3 Feedback from the protocol</a><li><a href=#ping-and-pong-frames>9.3.4 Ping and Pong frames</a><li><a href=#the-closeevent-interfaces>9.3.5 The <code>CloseEvent</code> interfaces</a><li><a href=#garbage-collection-3>9.3.6 Garbage collection</a></ol><li><a href=#web-messaging>9.4 Cross-document messaging</a><ol><li><a href=#introduction-12>9.4.1 Introduction</a><li><a href=#security-postmsg>9.4.2 Security</a><ol><li><a href=#authors>9.4.2.1 Authors</a><li><a href=#user-agents>9.4.2.2 User agents</a></ol><li><a href=#posting-messages>9.4.3 Posting messages</a></ol><li><a href=#channel-messaging>9.5 Channel messaging</a><ol><li><a href=#introduction-13>9.5.1 Introduction</a><ol><li><a href=#examples-5>9.5.1.1 Examples</a><li><a href=#ports-as-the-basis-of-an-object-capability-model-on-the-web>9.5.1.2 Ports as the basis of an object-capability model on the Web</a><li><a href=#ports-as-the-basis-of-abstracting-out-service-implementations>9.5.1.3 Ports as the basis of abstracting out service implementations</a></ol><li><a href=#message-channels>9.5.2 Message channels</a><li><a href=#message-ports>9.5.3 Message ports</a><li><a href=#broadcasting-to-many-ports>9.5.4 Broadcasting to many ports</a><li><a href=#ports-and-garbage-collection>9.5.5 Ports and garbage collection</a></ol><li><a href=#broadcasting-to-other-browsing-contexts>9.6 Broadcasting to other browsing contexts</a></ol><li id=toc-workers><a href=#workers>10 Web workers</a><ol><li><a href=#introduction-14>10.1 Introduction</a><ol><li><a href=#scope-2>10.1.1 Scope</a><li><a href=#examples-6>10.1.2 Examples</a><ol><li><a href=#a-background-number-crunching-worker>10.1.2.1 A background number-crunching worker</a><li><a href=#worker-used-for-background-i/o>10.1.2.2 Worker used for background I/O</a><li><a href=#module-worker-example>10.1.2.3 Using a JavaScript module as a worker</a><li><a href=#shared-workers-introduction>10.1.2.4 Shared workers introduction</a><li><a href=#shared-state-using-a-shared-worker>10.1.2.5 Shared state using a shared worker</a><li><a href=#delegation>10.1.2.6 Delegation</a></ol><li><a href=#tutorials>10.1.3 Tutorials</a><ol><li><a href=#creating-a-dedicated-worker>10.1.3.1 Creating a dedicated worker</a><li><a href=#communicating-with-a-dedicated-worker>10.1.3.2 Communicating with a dedicated worker</a><li><a href=#shared-workers>10.1.3.3 Shared workers</a></ol></ol><li><a href=#infrastructure-2>10.2 Infrastructure</a><ol><li><a href=#the-global-scope>10.2.1 The global scope</a><ol><li><a href=#the-workerglobalscope-common-interface>10.2.1.1 The <code>WorkerGlobalScope</code> common interface</a><li><a href=#dedicated-workers-and-the-dedicatedworkerglobalscope-interface>10.2.1.2 Dedicated workers and the <code>DedicatedWorkerGlobalScope</code> interface</a><li><a href=#shared-workers-and-the-sharedworkerglobalscope-interface>10.2.1.3 Shared workers and the <code>SharedWorkerGlobalScope</code> interface</a></ol><li><a href=#worker-event-loop>10.2.2 The event loop</a><li><a href="#the-worker's-lifetime">10.2.3 The worker's lifetime</a><li><a href=#worker-processing-model>10.2.4 Processing model</a><li><a href=#runtime-script-errors-2>10.2.5 Runtime script errors</a><li><a href=#creating-workers>10.2.6 Creating workers</a><ol><li><a href=#the-abstractworker-abstract-interface>10.2.6.1 The <code>AbstractWorker</code> abstract interface</a><li><a href=#script-settings-for-workers>10.2.6.2 Script settings for workers</a><li><a href=#dedicated-workers-and-the-worker-interface>10.2.6.3 Dedicated workers and the <code>Worker</code> interface</a><li><a href=#shared-workers-and-the-sharedworker-interface>10.2.6.4 Shared workers and the <code>SharedWorker</code> interface</a></ol><li><a href=#navigator.hardwareconcurrency>10.2.7 Concurrent hardware capabilities</a></ol><li><a href=#apis-available-to-workers>10.3 APIs available to workers</a><ol><li><a href=#importing-scripts-and-libraries>10.3.1 Importing scripts and libraries</a><li><a href=#the-workernavigator-object>10.3.2 The <code>WorkerNavigator</code> object</a><li><a href=#worker-locations>10.3.3 Worker locations</a></ol></ol><li id=toc-webstorage><a href=#webstorage>11 Web storage</a><ol><li><a href=#introduction-15>11.1 Introduction</a><li><a href=#storage>11.2 The API</a><ol><li><a href=#the-storage-interface>11.2.1 The <code>Storage</code> interface</a><li><a href=#the-sessionstorage-attribute>11.2.2 The <code>sessionStorage</code> attribute</a><li><a href=#the-localstorage-attribute>11.2.3 The <code>localStorage</code> attribute</a><li><a href=#the-storage-event>11.2.4 The <code>storage</code> event</a><ol><li><a href=#the-storageevent-interface>11.2.4.1 The <code>StorageEvent</code> interface</a></ol></ol><li><a href=#disk-space-2>11.3 Disk space</a><li><a href=#privacy>11.4 Privacy</a><ol><li><a href=#user-tracking>11.4.1 User tracking</a><li><a href=#sensitivity-of-data>11.4.2 Sensitivity of data</a></ol><li><a href=#security-storage>11.5 Security</a><ol><li><a href=#dns-spoofing-attacks>11.5.1 DNS spoofing attacks</a><li><a href=#cross-directory-attacks>11.5.2 Cross-directory attacks</a><li><a href=#implementation-risks>11.5.3 Implementation risks</a></ol></ol><li id=toc-syntax><a href=#syntax>12 The HTML syntax</a><ol><li><a href=#writing>12.1 Writing HTML documents</a><ol><li><a href=#the-doctype>12.1.1 The DOCTYPE</a><li><a href=#elements-2>12.1.2 Elements</a><ol><li><a href=#start-tags>12.1.2.1 Start tags</a><li><a href=#end-tags>12.1.2.2 End tags</a><li><a href=#attributes-2>12.1.2.3 Attributes</a><li><a href=#optional-tags>12.1.2.4 Optional tags</a><li><a href=#element-restrictions>12.1.2.5 Restrictions on content models</a><li><a href=#cdata-rcdata-restrictions>12.1.2.6 Restrictions on the contents of raw text and escapable raw text elements</a></ol><li><a href=#text-2>12.1.3 Text</a><ol><li><a href=#newlines>12.1.3.1 Newlines</a></ol><li><a href=#character-references>12.1.4 Character references</a><li><a href=#cdata-sections>12.1.5 CDATA sections</a><li><a href=#comments>12.1.6 Comments</a></ol><li><a href=#parsing>12.2 Parsing HTML documents</a><ol><li><a href=#overview-of-the-parsing-model>12.2.1 Overview of the parsing model</a><li><a href=#the-input-byte-stream>12.2.2 The input byte stream</a><ol><li><a href=#parsing-with-a-known-character-encoding>12.2.2.1 Parsing with a known character encoding</a><li><a href=#determining-the-character-encoding>12.2.2.2 Determining the character encoding</a><li><a href=#character-encodings>12.2.2.3 Character encodings</a><li><a href=#changing-the-encoding-while-parsing>12.2.2.4 Changing the encoding while parsing</a><li><a href=#preprocessing-the-input-stream>12.2.2.5 Preprocessing the input stream</a></ol><li><a href=#parse-state>12.2.3 Parse state</a><ol><li><a href=#the-insertion-mode>12.2.3.1 The insertion mode</a><li><a href=#the-stack-of-open-elements>12.2.3.2 The stack of open elements</a><li><a href=#the-list-of-active-formatting-elements>12.2.3.3 The list of active formatting elements</a><li><a href=#the-element-pointers>12.2.3.4 The element pointers</a><li><a href=#other-parsing-state-flags>12.2.3.5 Other parsing state flags</a></ol><li><a href=#tokenization>12.2.4 Tokenization</a><ol><li><a href=#data-state>12.2.4.1 Data state</a><li><a href=#rcdata-state>12.2.4.2 RCDATA state</a><li><a href=#rawtext-state>12.2.4.3 RAWTEXT state</a><li><a href=#script-data-state>12.2.4.4 Script data state</a><li><a href=#plaintext-state>12.2.4.5 PLAINTEXT state</a><li><a href=#tag-open-state>12.2.4.6 Tag open state</a><li><a href=#end-tag-open-state>12.2.4.7 End tag open state</a><li><a href=#tag-name-state>12.2.4.8 Tag name state</a><li><a href=#rcdata-less-than-sign-state>12.2.4.9 RCDATA less-than sign state</a><li><a href=#rcdata-end-tag-open-state>12.2.4.10 RCDATA end tag open state</a><li><a href=#rcdata-end-tag-name-state>12.2.4.11 RCDATA end tag name state</a><li><a href=#rawtext-less-than-sign-state>12.2.4.12 RAWTEXT less-than sign state</a><li><a href=#rawtext-end-tag-open-state>12.2.4.13 RAWTEXT end tag open state</a><li><a href=#rawtext-end-tag-name-state>12.2.4.14 RAWTEXT end tag name state</a><li><a href=#script-data-less-than-sign-state>12.2.4.15 Script data less-than sign state</a><li><a href=#script-data-end-tag-open-state>12.2.4.16 Script data end tag open state</a><li><a href=#script-data-end-tag-name-state>12.2.4.17 Script data end tag name state</a><li><a href=#script-data-escape-start-state>12.2.4.18 Script data escape start state</a><li><a href=#script-data-escape-start-dash-state>12.2.4.19 Script data escape start dash state</a><li><a href=#script-data-escaped-state>12.2.4.20 Script data escaped state</a><li><a href=#script-data-escaped-dash-state>12.2.4.21 Script data escaped dash state</a><li><a href=#script-data-escaped-dash-dash-state>12.2.4.22 Script data escaped dash dash state</a><li><a href=#script-data-escaped-less-than-sign-state>12.2.4.23 Script data escaped less-than sign state</a><li><a href=#script-data-escaped-end-tag-open-state>12.2.4.24 Script data escaped end tag open state</a><li><a href=#script-data-escaped-end-tag-name-state>12.2.4.25 Script data escaped end tag name state</a><li><a href=#script-data-double-escape-start-state>12.2.4.26 Script data double escape start state</a><li><a href=#script-data-double-escaped-state>12.2.4.27 Script data double escaped state</a><li><a href=#script-data-double-escaped-dash-state>12.2.4.28 Script data double escaped dash state</a><li><a href=#script-data-double-escaped-dash-dash-state>12.2.4.29 Script data double escaped dash dash state</a><li><a href=#script-data-double-escaped-less-than-sign-state>12.2.4.30 Script data double escaped less-than sign state</a><li><a href=#script-data-double-escape-end-state>12.2.4.31 Script data double escape end state</a><li><a href=#before-attribute-name-state>12.2.4.32 Before attribute name state</a><li><a href=#attribute-name-state>12.2.4.33 Attribute name state</a><li><a href=#after-attribute-name-state>12.2.4.34 After attribute name state</a><li><a href=#before-attribute-value-state>12.2.4.35 Before attribute value state</a><li><a href=#attribute-value-(double-quoted)-state>12.2.4.36 Attribute value (double-quoted) state</a><li><a href=#attribute-value-(single-quoted)-state>12.2.4.37 Attribute value (single-quoted) state</a><li><a href=#attribute-value-(unquoted)-state>12.2.4.38 Attribute value (unquoted) state</a><li><a href=#after-attribute-value-(quoted)-state>12.2.4.39 After attribute value (quoted) state</a><li><a href=#self-closing-start-tag-state>12.2.4.40 Self-closing start tag state</a><li><a href=#bogus-comment-state>12.2.4.41 Bogus comment state</a><li><a href=#markup-declaration-open-state>12.2.4.42 Markup declaration open state</a><li><a href=#comment-start-state>12.2.4.43 Comment start state</a><li><a href=#comment-start-dash-state>12.2.4.44 Comment start dash state</a><li><a href=#comment-state>12.2.4.45 Comment state</a><li><a href=#comment-less-than-sign-state>12.2.4.46 Comment less-than sign state</a><li><a href=#comment-less-than-sign-bang-state>12.2.4.47 Comment less-than sign bang state</a><li><a href=#comment-less-than-sign-bang-dash-state>12.2.4.48 Comment less-than sign bang dash state</a><li><a href=#comment-less-than-sign-bang-dash-dash-state>12.2.4.49 Comment less-than sign bang dash dash state</a><li><a href=#comment-end-dash-state>12.2.4.50 Comment end dash state</a><li><a href=#comment-end-state>12.2.4.51 Comment end state</a><li><a href=#comment-end-bang-state>12.2.4.52 Comment end bang state</a><li><a href=#doctype-state>12.2.4.53 DOCTYPE state</a><li><a href=#before-doctype-name-state>12.2.4.54 Before DOCTYPE name state</a><li><a href=#doctype-name-state>12.2.4.55 DOCTYPE name state</a><li><a href=#after-doctype-name-state>12.2.4.56 After DOCTYPE name state</a><li><a href=#after-doctype-public-keyword-state>12.2.4.57 After DOCTYPE public keyword state</a><li><a href=#before-doctype-public-identifier-state>12.2.4.58 Before DOCTYPE public identifier state</a><li><a href=#doctype-public-identifier-(double-quoted)-state>12.2.4.59 DOCTYPE public identifier (double-quoted) state</a><li><a href=#doctype-public-identifier-(single-quoted)-state>12.2.4.60 DOCTYPE public identifier (single-quoted) state</a><li><a href=#after-doctype-public-identifier-state>12.2.4.61 After DOCTYPE public identifier state</a><li><a href=#between-doctype-public-and-system-identifiers-state>12.2.4.62 Between DOCTYPE public and system identifiers state</a><li><a href=#after-doctype-system-keyword-state>12.2.4.63 After DOCTYPE system keyword state</a><li><a href=#before-doctype-system-identifier-state>12.2.4.64 Before DOCTYPE system identifier state</a><li><a href=#doctype-system-identifier-(double-quoted)-state>12.2.4.65 DOCTYPE system identifier (double-quoted) state</a><li><a href=#doctype-system-identifier-(single-quoted)-state>12.2.4.66 DOCTYPE system identifier (single-quoted) state</a><li><a href=#after-doctype-system-identifier-state>12.2.4.67 After DOCTYPE system identifier state</a><li><a href=#bogus-doctype-state>12.2.4.68 Bogus DOCTYPE state</a><li><a href=#cdata-section-state>12.2.4.69 CDATA section state</a><li><a href=#cdata-section-bracket-state>12.2.4.70 CDATA section bracket state</a><li><a href=#cdata-section-end-state>12.2.4.71 CDATA section end state</a><li><a href=#character-reference-state>12.2.4.72 Character reference state</a><li><a href=#numeric-character-reference-state>12.2.4.73 Numeric character reference state</a><li><a href=#hexademical-character-reference-start-state>12.2.4.74 Hexademical character reference start state</a><li><a href=#decimal-character-reference-start-state>12.2.4.75 Decimal character reference start state</a><li><a href=#hexademical-character-reference-state>12.2.4.76 Hexademical character reference state</a><li><a href=#decimal-character-reference-state>12.2.4.77 Decimal character reference state</a><li><a href=#numeric-character-reference-end-state>12.2.4.78 Numeric character reference end state</a><li><a href=#character-reference-end-state>12.2.4.79 Character reference end state</a></ol><li><a href=#tree-construction>12.2.5 Tree construction</a><ol><li><a href=#creating-and-inserting-nodes>12.2.5.1 Creating and inserting nodes</a><li><a href=#parsing-elements-that-contain-only-text>12.2.5.2 Parsing elements that contain only text</a><li><a href=#closing-elements-that-have-implied-end-tags>12.2.5.3 Closing elements that have implied end tags</a><li><a href=#parsing-main-inhtml>12.2.5.4 The rules for parsing tokens in HTML content</a><ol><li><a href=#the-initial-insertion-mode>12.2.5.4.1 The "initial" insertion mode</a><li><a href=#the-before-html-insertion-mode>12.2.5.4.2 The "before html" insertion mode</a><li><a href=#the-before-head-insertion-mode>12.2.5.4.3 The "before head" insertion mode</a><li><a href=#parsing-main-inhead>12.2.5.4.4 The "in head" insertion mode</a><li><a href=#parsing-main-inheadnoscript>12.2.5.4.5 The "in head noscript" insertion mode</a><li><a href=#the-after-head-insertion-mode>12.2.5.4.6 The "after head" insertion mode</a><li><a href=#parsing-main-inbody>12.2.5.4.7 The "in body" insertion mode</a><li><a href=#parsing-main-incdata>12.2.5.4.8 The "text" insertion mode</a><li><a href=#parsing-main-intable>12.2.5.4.9 The "in table" insertion mode</a><li><a href=#parsing-main-intabletext>12.2.5.4.10 The "in table text" insertion mode</a><li><a href=#parsing-main-incaption>12.2.5.4.11 The "in caption" insertion mode</a><li><a href=#parsing-main-incolgroup>12.2.5.4.12 The "in column group" insertion mode</a><li><a href=#parsing-main-intbody>12.2.5.4.13 The "in table body" insertion mode</a><li><a href=#parsing-main-intr>12.2.5.4.14 The "in row" insertion mode</a><li><a href=#parsing-main-intd>12.2.5.4.15 The "in cell" insertion mode</a><li><a href=#parsing-main-inselect>12.2.5.4.16 The "in select" insertion mode</a><li><a href=#parsing-main-inselectintable>12.2.5.4.17 The "in select in table" insertion mode</a><li><a href=#parsing-main-intemplate>12.2.5.4.18 The "in template" insertion mode</a><li><a href=#parsing-main-afterbody>12.2.5.4.19 The "after body" insertion mode</a><li><a href=#parsing-main-inframeset>12.2.5.4.20 The "in frameset" insertion mode</a><li><a href=#parsing-main-afterframeset>12.2.5.4.21 The "after frameset" insertion mode</a><li><a href=#the-after-after-body-insertion-mode>12.2.5.4.22 The "after after body" insertion mode</a><li><a href=#the-after-after-frameset-insertion-mode>12.2.5.4.23 The "after after frameset" insertion mode</a></ol><li><a href=#parsing-main-inforeign>12.2.5.5 The rules for parsing tokens in foreign content</a></ol><li><a href=#the-end>12.2.6 The end</a><li><a href=#coercing-an-html-dom-into-an-infoset>12.2.7 Coercing an HTML DOM into an infoset</a><li><a href=#an-introduction-to-error-handling-and-strange-cases-in-the-parser>12.2.8 An introduction to error handling and strange cases in the parser</a><ol><li><a href=#misnested-tags:-b-i-/b-/i>12.2.8.1 Misnested tags: &lt;b>&lt;i>&lt;/b>&lt;/i></a><li><a href=#misnested-tags:-b-p-/b-/p>12.2.8.2 Misnested tags: &lt;b>&lt;p>&lt;/b>&lt;/p></a><li><a href=#unexpected-markup-in-tables>12.2.8.3 Unexpected markup in tables</a><li><a href=#scripts-that-modify-the-page-as-it-is-being-parsed>12.2.8.4 Scripts that modify the page as it is being parsed</a><li><a href=#the-execution-of-scripts-that-are-moving-across-multiple-documents>12.2.8.5 The execution of scripts that are moving across multiple documents</a><li><a href=#unclosed-formatting-elements>12.2.8.6 Unclosed formatting elements</a></ol></ol><li><a href=#serialising-html-fragments>12.3 Serializing HTML fragments</a><li><a href=#parsing-html-fragments>12.4 Parsing HTML fragments</a><li><a href=#named-character-references>12.5 Named character references</a></ol><li id=toc-the-xhtml-syntax><a href=#the-xhtml-syntax>13 The XML syntax</a><ol><li><a href=#writing-xhtml-documents>13.1 Writing documents in the XML syntax</a><li><a href=#parsing-xhtml-documents>13.2 Parsing XML documents</a><li><a href=#serialising-xhtml-fragments>13.3 Serializing XML fragments</a><li><a href=#parsing-xhtml-fragments>13.4 Parsing XML fragments</a></ol><li id=toc-rendering><a href=#rendering>14 Rendering</a><ol><li><a href=#introduction-16>14.1 Introduction</a><li><a href=#the-css-user-agent-style-sheet-and-presentational-hints>14.2 The CSS user agent style sheet and presentational hints</a><li><a href=#non-replaced-elements>14.3 Non-replaced elements</a><ol><li><a href=#hidden-elements>14.3.1 Hidden elements</a><li><a href=#the-page>14.3.2 The page</a><li><a href=#flow-content-3>14.3.3 Flow content</a><li><a href=#phrasing-content-3>14.3.4 Phrasing content</a><li><a href=#bidi-rendering>14.3.5 Bidirectional text</a><li><a href=#quotes>14.3.6 Quotes</a><li><a href=#sections-and-headings>14.3.7 Sections and headings</a><li><a href=#lists>14.3.8 Lists</a><li><a href=#tables-2>14.3.9 Tables</a><li><a href=#margin-collapsing-quirks>14.3.10 Margin collapsing quirks</a><li><a href=#form-controls>14.3.11 Form controls</a><li><a href=#the-hr-element-2>14.3.12 The <code>hr</code> element</a><li><a href=#the-fieldset-and-legend-elements>14.3.13 The <code>fieldset</code> and <code>legend</code> elements</a></ol><li><a href=#replaced-elements>14.4 Replaced elements</a><ol><li><a href=#embedded-content-rendering-rules>14.4.1 Embedded content</a><li><a href=#images-3>14.4.2 Images</a><li><a href=#attributes-for-embedded-content-and-images>14.4.3 Attributes for embedded content and images</a><li><a href=#image-maps-2>14.4.4 Image maps</a></ol><li><a href=#widgets>14.5 Widgets</a><ol><li><a href=#introduction-17>14.5.1 Introduction</a><li><a href=#the-button-element-2>14.5.2 The <code>button</code> element</a><li><a href=#the-details-and-summary-elements>14.5.3 The <code>details</code> and <code>summary</code> elements</a><li><a href=#the-input-element-as-a-text-entry-widget>14.5.4 The <code>input</code> element as a text entry widget</a><li><a href=#the-input-element-as-domain-specific-widgets>14.5.5 The <code>input</code> element as domain-specific widgets</a><li><a href=#the-input-element-as-a-range-control>14.5.6 The <code>input</code> element as a range control</a><li><a href=#the-input-element-as-a-colour-well>14.5.7 The <code>input</code> element as a color
+  well</a><li><a href=#the-input-element-as-a-checkbox-and-radio-button-widgets>14.5.8 The <code>input</code> element as a checkbox and radio button widgets</a><li><a href=#the-input-element-as-a-file-upload-control>14.5.9 The <code>input</code> element as a file upload control</a><li><a href=#the-input-element-as-a-button>14.5.10 The <code>input</code> element as a button</a><li><a href=#the-marquee-element-2>14.5.11 The <code>marquee</code> element</a><li><a href=#the-meter-element-2>14.5.12 The <code>meter</code> element</a><li><a href=#the-progress-element-2>14.5.13 The <code>progress</code> element</a><li><a href=#the-select-element-2>14.5.14 The <code>select</code> element</a><li><a href=#the-textarea-element-2>14.5.15 The <code>textarea</code> element</a></ol><li><a href=#frames-and-framesets>14.6 Frames and framesets</a><li><a href=#interactive-media>14.7 Interactive media</a><ol><li><a href=#links,-forms,-and-navigation>14.7.1 Links, forms, and navigation</a><li><a href=#the-title-attribute-2>14.7.2 The <code>title</code> attribute</a><li><a href=#editing-hosts>14.7.3 Editing hosts</a><li><a href=#text-rendered-in-native-user-interfaces>14.7.4 Text rendered in native user interfaces</a></ol><li><a href=#print-media>14.8 Print media</a><li><a href=#unstyled-xml-documents>14.9 Unstyled XML documents</a></ol><li id=toc-obsolete><a href=#obsolete>15 Obsolete features</a><ol><li><a href=#obsolete-but-conforming-features>15.1 Obsolete but conforming features</a><ol><li><a href=#warnings-for-obsolete-but-conforming-features>15.1.1 Warnings for obsolete but conforming features</a></ol><li><a href=#non-conforming-features>15.2 Non-conforming features</a><li><a href=#requirements-for-implementations>15.3 Requirements for implementations</a><ol><li><a href=#the-applet-element>15.3.1 The <code>applet</code> element</a><li><a href=#the-marquee-element>15.3.2 The <code>marquee</code> element</a><li><a href=#frames>15.3.3 Frames</a><li><a href=#other-elements,-attributes-and-apis>15.3.4 Other elements, attributes and APIs</a></ol></ol><li id=toc-iana><a href=#iana>16 IANA considerations</a><ol><li><a href=#text/html>16.1 <code>text/html</code></a><li><a href=#multipart/x-mixed-replace>16.2 <code>multipart/x-mixed-replace</code></a><li><a href=#application/xhtml+xml>16.3 <code>application/xhtml+xml</code></a><li><a href=#text/cache-manifest>16.4 <code>text/cache-manifest</code></a><li><a href=#text/ping>16.5 <code>text/ping</code></a><li><a href=#application/microdata+json>16.6 <code>application/microdata+json</code></a><li><a href=#text/event-stream>16.7 <code>text/event-stream</code></a><li><a href=#ping-from>16.8 `<code>Ping-From</code>`</a><li><a href=#ping-to>16.9 `<code>Ping-To</code>`</a><li><a href=#last-event-id>16.10 `<code>Last-Event-ID</code>`</a><li><a href=#web+-scheme-prefix>16.11 <code>web+</code> scheme prefix</a></ol><li id=toc-index><a href=#index>Index</a><ol><li><a href=#elements-3>Elements</a><li><a href=#element-content-categories>Element content categories</a><li><a href=#attributes-3>Attributes</a><li><a href=#element-interfaces>Element Interfaces</a><li><a href=#all-interfaces>All Interfaces</a><li><a href=#events-2>Events</a><li><a href=#mime-types-2>MIME Types</a></ol><li id=toc-references><a href=#references>References</a><li id=toc-acknowledgments><a href=#acknowledgments>Acknowledgments</a></ol>
+
+  
+
+  <h2 id=introduction>1 Introduction<a href=#introduction class=self-link></a></h2><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23036" title="Either drop all mention of mutation events, or specify them in full detail">23036</a></div>
+
+  
+
+  <h3 id=abstract>1.1 Where does this specification fit?<a href=#abstract class=self-link></a></h3>
+
+  <p>This specification defines a big part of the Web platform, in lots of detail. Its place in the
+  Web platform specification stack relative to other specifications can be best summed up as
+  follows:</p>
+
+  <svg id=abstractimg width=398 role=img viewBox="0 0 398 359" height=359 aria-label="It consists of everything else, above such core technologies as HTTP, TLS, MQ, DOM, Unicode, Web IDL, MIME, URL, XML, JavaScript, and Encodings; below presentation-layer technologies like CSS, SVG, MathML, and NPAPI; and to the side of technologies like Geo, Fetch, CSP, JPEG, GIF, and PNG.">
+   <rect width=398 height=80></rect>
+   <text class=top x=199 y=45>CSS SVG MathML NPAPI</text>
+   <rect width=67 y=85 height=177></rect>
+   <text transform="translate(25 251) rotate(-90)" class=left>Geo Fetch CSP</text>
+   <text transform="translate(50 250) rotate(-90)" class=left>JPEG GIF PNG</text>
+   
+   <image xlink:href=images/abstract.jpeg width=326 x=72 y=85 height=177></image>
+   <text class=right x=130 y=250>THIS SPECIFICATION</text>
+   <rect width=398 y=267 height=92></rect>
+   <text class=bottom x=15 y=300>HTTP TLS MQ DOM Unicode Web IDL</text>
+   <text class=bottom x=18 y=330>MIME URL XML JavaScript Encodings</text>
+  </svg>
+
+  
+
+
+  <h3 id=is-this-html5?>1.2 Is this HTML5?<a href=#is-this-html5? class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>In short: Yes.</p>
+
+  <p>In more length: The term "HTML5" is widely used as a buzzword to refer to modern Web
+  technologies, many of which (though by no means all) are developed at the WHATWG. This document is
+  one such; others are available from <a href=https://whatwg.org/specs/>the WHATWG
+  specification index</a>.</p>
+
+  <p class=note>Although we have asked them to stop doing so, the W3C also republishes some parts
+  of this specification as separate documents.</p>
+
+
+  <h3 id=background>1.3 Background<a href=#background class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>HTML is the World Wide Web's core markup language. Originally, HTML was primarily designed as a
+  language for semantically describing scientific documents. Its general design, however, has
+  enabled it to be adapted, over the subsequent years, to describe a number of other types of
+  documents and even applications.</p>
+
+
+  <h3 id=audience>1.4 Audience<a href=#audience class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This specification is intended for authors of documents and scripts that use the features
+  defined in this specification, implementors of tools that operate on pages that
+  use the features defined in this specification, and individuals wishing to establish the
+  correctness of documents or implementations with respect to the requirements of this
+  specification.</p>
+
+  <p>This document is probably not suited to readers who do not already have at least a passing
+  familiarity with Web technologies, as in places it sacrifices clarity for precision, and brevity
+  for completeness. More approachable tutorials and authoring guides can provide a gentler
+  introduction to the topic.</p>
+
+  <p>In particular, familiarity with the basics of DOM is necessary for a complete understanding of
+  some of the more technical parts of this specification. An understanding of Web IDL, HTTP, XML,
+  Unicode, character encodings, JavaScript, and CSS will also be helpful in places but is not
+  essential.</p>
+
+
+  <h3 id=scope>1.5 Scope<a href=#scope class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This specification is limited to providing a semantic-level markup language and associated
+  semantic-level scripting APIs for authoring accessible pages on the Web ranging from static
+  documents to dynamic applications.</p>
+
+  <p>The scope of this specification does not include providing mechanisms for media-specific
+  customization of presentation (although default rendering rules for Web browsers are included at
+  the end of this specification, and several mechanisms for hooking into CSS are provided as part of
+  the language).</p>
+
+  <p>The scope of this specification is not to describe an entire operating system. In particular,
+  hardware configuration software, image manipulation tools, and applications that users would be
+  expected to use with high-end workstations on a daily basis are out of scope. In terms of
+  applications, this specification is targeted specifically at applications that would be expected
+  to be used by users on an occasional basis, or regularly but from disparate locations, with low
+  CPU requirements. Examples of such applications include online purchasing systems, searching
+  systems, games (especially multiplayer online games), public telephone books or address books,
+  communications software (e-mail clients, instant messaging clients, discussion software), document
+  editing software, etc.</p>
+
+
+  <h3 id=history-2>1.6 History<a href=#history-2 class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>For its first five years (1990-1995), HTML went through a number of revisions and experienced a
+  number of extensions, primarily hosted first at CERN, and then at the IETF.</p>
+
+  <p>With the creation of the W3C, HTML's development changed venue again. A first abortive attempt
+  at extending HTML in 1995 known as HTML 3.0 then made way to a more pragmatic approach known as
+  HTML 3.2, which was completed in 1997. HTML4 quickly followed later that same year.</p>
+
+  <p>The following year, the W3C membership decided to stop evolving HTML and instead begin work on
+  an XML-based equivalent, called XHTML.  This
+  effort started with a reformulation of HTML4 in XML, known as XHTML 1.0, which added no new
+  features except the new serialization, and which was completed in 2000. After XHTML 1.0, the W3C's
+  focus turned to making it easier for other working groups to extend XHTML, under the banner of
+  XHTML Modularization. In parallel with this, the W3C also worked on a new language that was not
+  compatible with the earlier HTML and XHTML languages, calling it XHTML2.</p>
+
+  <p>Around the time that HTML's evolution was stopped in 1998, parts of the API for HTML developed
+  by browser vendors were specified and published under the name DOM Level 1 (in 1998) and DOM Level
+  2 Core and DOM Level 2 HTML (starting in 2000 and culminating in 2003). These efforts then petered
+  out, with some DOM Level 3 specifications published in 2004 but the working group being closed
+  before all the Level 3 drafts were completed.</p>
+
+  <p>In 2003, the publication of XForms, a technology which was positioned as the next generation of
+  Web forms, sparked a renewed interest in evolving HTML itself, rather than finding replacements
+  for it. This interest was borne from the realization that XML's deployment as a Web technology was
+  limited to entirely new technologies (like RSS and later Atom), rather than as a replacement for
+  existing deployed technologies (like HTML).</p>
+
+  <p>A proof of concept to show that it was possible to extend HTML4's forms to provide many of the
+  features that XForms 1.0 introduced, without requiring browsers to implement rendering engines
+  that were incompatible with existing HTML Web pages, was the first result of this renewed
+  interest. At this early stage, while the draft was already publicly available, and input was
+  already being solicited from all sources, the specification was only under Opera Software's
+  copyright.</p>
+
+  <p>The idea that HTML's evolution should be reopened was tested at a W3C workshop in 2004, where
+  some of the principles that underlie the HTML5 work (described below), as well as the
+  aforementioned early draft proposal covering just forms-related features, were presented to the
+  W3C jointly by Mozilla and Opera. The proposal was rejected on the grounds that the proposal
+  conflicted with the previously chosen direction for the Web's evolution; the W3C staff and
+  membership voted to continue developing XML-based replacements instead.</p>
+
+  <p>Shortly thereafter, Apple, Mozilla, and Opera jointly announced their intent to continue
+  working on the effort under the umbrella of a new venue called the WHATWG. A public mailing list
+  was created, and the draft was moved to the WHATWG site. The copyright was subsequently amended to
+  be jointly owned by all three vendors, and to allow reuse of the specification.</p>
+
+  <p>The WHATWG was based on several core principles, in particular that technologies need to be
+  backwards compatible, that specifications and implementations need to match even if this means
+  changing the specification rather than the implementations, and that specifications need to be
+  detailed enough that implementations can achieve complete interoperability without
+  reverse-engineering each other.</p>
+
+  <p>The latter requirement in particular required that the scope of the HTML5 specification include
+  what had previously been specified in three separate documents: HTML4, XHTML1, and DOM2 HTML. It
+  also meant including significantly more detail than had previously been considered the norm.</p>
+
+  <p>In 2006, the W3C indicated an interest to participate in the development of HTML5 after all,
+  and in 2007 formed a working group chartered to work with the WHATWG on the development of the
+  HTML5 specification. Apple, Mozilla, and Opera allowed the W3C to publish the specification under
+  the W3C copyright, while keeping a version with the less restrictive license on the WHATWG
+  site.</p>
+
+  <p>For a number of years, both groups then worked together. In 2011, however, the groups came to
+  the conclusion that they had different goals: the W3C wanted to publish a "finished" version of
+  "HTML5", while the WHATWG wanted to continue working on a Living Standard for HTML, continuously
+  maintaining the specification rather than freezing it in a state with known problems, and adding
+  new features as needed to evolve the platform.</p>
+
+  <p>Since then, the WHATWG has been working on this specification (amongst others), and the W3C has
+  been copying fixes made by the WHATWG into their fork of the document (which also has other
+  changes).</p>
+
+
+
+  <h3 id=design-notes>1.7 Design notes<a href=#design-notes class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>It must be admitted that many aspects of HTML appear at first glance to be nonsensical and
+  inconsistent.</p>
+
+  <p>HTML, its supporting DOM APIs, as well as many of its supporting technologies, have been
+  developed over a period of several decades by a wide array of people with different priorities
+  who, in many cases, did not know of each other's existence.</p>
+
+  <p>Features have thus arisen from many sources, and have not always been designed in especially
+  consistent ways. Furthermore, because of the unique characteristics of the Web, implementation
+  bugs have often become de-facto, and now de-jure, standards, as content is often unintentionally
+  written in ways that rely on them before they can be fixed.</p>
+
+  <p>Despite all this, efforts have been made to adhere to certain design goals. These are described
+  in the next few subsections.</p>
+
+
+  
+
+  <h4 id=serialisability-of-script-execution>1.7.1 Serializability of script execution<a href=#serialisability-of-script-execution class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>To avoid exposing Web authors to the complexities of multithreading, the HTML and DOM APIs are
+  designed such that no script can ever detect the simultaneous execution of other scripts. Even
+  with <a href=#worker id=serialisability-of-script-execution:worker>workers</a>, the intent is that the behavior of implementations can
+  be thought of as completely serializing the execution of all scripts in all <a href=#browsing-context id=serialisability-of-script-execution:browsing-context>browsing contexts</a>.</p>
+
+  
+
+
+
+  <h4 id=compliance-with-other-specifications>1.7.2 Compliance with other specifications<a href=#compliance-with-other-specifications class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This specification interacts with and relies on a wide variety of other specifications. In
+  certain circumstances, unfortunately, conflicting needs have led to this specification violating
+  the requirements of these other specifications. Whenever this has occurred, the transgressions
+  have each been noted as a "<dfn id=willful-violation>willful violation</dfn>", and the reason for the violation has
+  been noted.</p>
+
+
+
+  <h4 id=extensibility>1.7.3 Extensibility<a href=#extensibility class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>HTML has a wide array of extensibility mechanisms that can be used for adding semantics in a
+  safe manner:</p>
+
+  <ul><li><p>Authors can use the <code id=extensibility:classes><a href=#classes>class</a></code> attribute to extend elements,
+   effectively creating their own elements, while using the most applicable existing "real" HTML
+   element, so that browsers and other tools that don't know of the extension can still support it
+   somewhat well. This is the tack used by microformats, for example.<li><p>Authors can include data for inline client-side scripts or server-side site-wide scripts
+   to process using the <code id=extensibility:attr-data-*><a href=#attr-data-*>data-*=""</a></code> attributes. These are guaranteed
+   to never be touched by browsers, and allow scripts to include data on HTML elements that scripts
+   can then look for and process.<li><p>Authors can use the <code id=extensibility:the-meta-element><a href=#the-meta-element>&lt;meta name="" content=""></a></code> mechanism to
+   include page-wide metadata by registering <a href=#concept-meta-extensions id=extensibility:concept-meta-extensions>extensions to
+   the predefined set of metadata names</a>.<li><p>Authors can use the <code id=extensibility:attr-hyperlink-rel><a href=#attr-hyperlink-rel>rel=""</a></code> mechanism to annotate
+   links with specific meanings by registering <a href=#concept-rel-extensions id=extensibility:concept-rel-extensions>extensions to
+   the predefined set of link types</a>. This is also used by microformats.<li><p>Authors can embed raw data using the <code id=extensibility:the-script-element><a href=#the-script-element>&lt;script type=""></a></code>
+   mechanism with a custom type, for further handling by inline or server-side scripts.<li><p>Authors can create <a href=#plugin id=extensibility:plugin>plugins</a> and invoke them using the
+   <code id=extensibility:the-embed-element><a href=#the-embed-element>embed</a></code> element. This is how Flash works.<li><p>Authors can extend APIs using the JavaScript prototyping mechanism. This is widely used by
+   script libraries, for instance.<li><p>Authors can use the microdata feature (the <code id=extensibility:attr-itemscope><a href=#attr-itemscope>itemscope=""</a></code> and <code id=extensibility:names:-the-itemprop-attribute><a href=#names:-the-itemprop-attribute>itemprop=""</a></code>
+   attributes) to embed nested name-value pairs of data to be shared with other applications and
+   sites.</ul>
+
+
+
+
+  <h3 id=html-vs-xhtml>1.8 HTML vs XML syntax<a href=#html-vs-xhtml class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This specification defines an abstract language for describing documents and applications, and
+  some APIs for interacting with in-memory representations of resources that use this language.</p>
+
+  <p>The in-memory representation is known as "DOM HTML", or "the DOM" for short.</p>
+
+  <p>There are various concrete syntaxes that can be used to transmit resources that use this
+  abstract language, two of which are defined in this specification.</p>
+
+  <p>The first such concrete syntax is the HTML syntax. This is the format suggested for most
+  authors. It is compatible with most legacy Web browsers. If a document is transmitted with the
+  <code id=html-vs-xhtml:text/html><a href=#text/html>text/html</a></code> <a id=html-vs-xhtml:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a>, then it will be processed as an HTML document by
+  Web browsers. This specification defines the latest HTML syntax, known simply as "HTML".</p>
+
+  <p>The second concrete syntax is XML. When a document is transmitted with an <a id=html-vs-xhtml:xml-mime-type href=https://mimesniff.spec.whatwg.org/#xml-mime-type data-x-internal=xml-mime-type>XML MIME
+  type</a>, such as <code id=html-vs-xhtml:application/xhtml+xml><a href=#application/xhtml+xml>application/xhtml+xml</a></code>, then it is treated as an XML document by
+  Web browsers, to be parsed by an XML processor. Authors are reminded that the processing for XML
+  and HTML differs; in particular, even minor syntax errors will prevent a document labeled as XML
+  from being rendered fully, whereas they would be ignored in the HTML syntax.</p>
+
+  <p class=note>The XML syntax for HTML was formerly referred to as "XHTML", but this
+  specification does not use that term (among other reasons, because no such term is used for the
+  HTML syntaxes of MathML and SVG).</p>
+
+  <p>The DOM, the HTML syntax, and the XML syntax cannot all represent the same content. For
+  example, namespaces cannot be represented using the HTML syntax, but they are supported in the DOM
+  and in the XML syntax. Similarly, documents that use the <code id=html-vs-xhtml:the-noscript-element><a href=#the-noscript-element>noscript</a></code> feature can be
+  represented using the HTML syntax, but cannot be represented with the DOM or in the XML syntax.
+  Comments that contain the string "<code>--></code>" can only be represented in the
+  DOM, not in the HTML and XML syntaxes.</p>
+
+
+  <h3 id=structure-of-this-specification>1.9 Structure of this specification<a href=#structure-of-this-specification class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This specification is divided into the following major sections:</p>
+
+  <dl><dt><a href=#introduction>Introduction</a><dd>Non-normative materials providing a context for the HTML standard.<dt><a href=#infrastructure>Common infrastructure</a><dd>The conformance classes, algorithms, definitions, and the common underpinnings of the rest of
+   the specification.<dt><a href=#dom>Semantics, structure, and APIs of HTML documents</a><dd>Documents are built from elements. These elements form a tree using the DOM. This section
+   defines the features of this DOM, as well as introducing the features common to all elements, and
+   the concepts used in defining elements.<dt><a href=#semantics>The elements of HTML</a><dd>Each element has a predefined meaning, which is explained in this section. Rules for authors
+   on how to use the element, along with user agent requirements for how to
+   handle each element, are also given. This includes large signature features of HTML such
+   as video playback and subtitles, form controls and form submission, and a 2D graphics API known
+   as the HTML canvas.<dt><a href=#microdata>Microdata</a><dd>This specification introduces a mechanism for adding machine-readable annotations to
+   documents, so that tools can extract trees of name-value pairs from the document. This section
+   describes this mechanism and some algorithms that can be used to convert HTML
+   documents into other formats. This section also defines some sample Microdata vocabularies
+   for contact information, calendar events, and licensing works.<dt><a href=#editing>User interaction</a><dd>HTML documents can provide a number of mechanisms for users to interact with and modify
+   content, which are described in this section, such as how focus works, and drag-and-drop.<dt><a href=#browsers>Loading Web pages</a><dd>HTML documents do not exist in a vacuum — this section defines many of the features
+   that affect environments that deal with multiple pages, such as Web browsers and offline
+   caching of Web applications.<dt><a href=#webappapis>Web application APIs</a><dd>This section introduces basic features for scripting of applications in HTML.<dt><a href=#workers>Web workers</a><dd>This section defines an API for background threads in JavaScript.<dt><a href=#comms>The communication APIs</a><dd>This section describes some mechanisms that applications written in HTML can use to
+   communicate with other applications from different domains running on the same client. It also
+   introduces a server-push event stream mechanism known as Server Sent Events or
+   <code id=structure-of-this-specification:eventsource><a href=#eventsource>EventSource</a></code>, and a two-way full-duplex socket protocol for scripts known as Web
+   Sockets.
+
+   <dt><a href=#webstorage>Web storage</a><dd>This section defines a client-side storage mechanism based on name-value pairs.<dt><a href=#syntax>The HTML syntax</a><dt><a href=#xhtml>The XML syntax</a><dd>All of these features would be for naught if they couldn't be represented in a serialized
+   form and sent to other people, and so these sections define the syntaxes of HTML and XML, along with rules for how to parse content using those syntaxes.<dt><a href=#rendering>Rendering</a><dd>This section defines the default rendering rules for Web browsers.</dl>
+
+  <p>There are also some appendices, listing <a href=#obsolete>obsolete features</a> and <a href=#iana>IANA considerations</a>, and several indices.</p>
+
+
+  
+
+  <h4 id=how-to-read-this-specification>1.9.1 How to read this specification<a href=#how-to-read-this-specification class=self-link></a></h4>
+
+  <p>This specification should be read like all other specifications. First, it should be read
+  cover-to-cover, multiple times. Then, it should be read backwards at least once. Then it should be
+  read by picking random sections from the contents list and following all the cross-references.</p>
+
+  <p>As described in the conformance requirements section below, this specification describes
+  conformance criteria for a variety of conformance classes. In particular, there are conformance
+  requirements that apply to <em>producers</em>, for example authors and the documents they create,
+  and there are conformance requirements that apply to <em>consumers</em>, for example Web browsers.
+  They can be distinguished by what they are requiring: a requirement on a producer states what is
+  allowed, while a requirement on a consumer states how software is to act.</p>
+
+  <div class=example>
+
+   <p>For example, "the <code>foo</code> attribute's value must be a <a href=#valid-integer id=how-to-read-this-specification:valid-integer>valid
+   integer</a>" is a requirement on producers, as it lays out the allowed values; in contrast,
+   the requirement "the <code>foo</code> attribute's value must be parsed using the
+   <a href=#rules-for-parsing-integers id=how-to-read-this-specification:rules-for-parsing-integers>rules for parsing integers</a>" is a requirement on consumers, as it describes how to
+   process the content.</p>
+
+  </div>
+
+  <p><strong>Requirements on producers have no bearing whatsoever on consumers.</strong></p>
+
+  <div class=example>
+
+   <p>Continuing the above example, a requirement stating that a particular attribute's value is
+   constrained to being a <a href=#valid-integer id=how-to-read-this-specification:valid-integer-2>valid integer</a> emphatically does <em>not</em> imply anything
+   about the requirements on consumers. It might be that the consumers are in fact required to treat
+   the attribute as an opaque string, completely unaffected by whether the value conforms to the
+   requirements or not. It might be (as in the previous example) that the consumers are required to
+   parse the value using specific rules that define how invalid (non-numeric in this case) values
+   are to be processed.</p>
+
+  </div>
+
+  
+
+
+
+  <h4 id=typographic-conventions>1.9.2 Typographic conventions<a href=#typographic-conventions class=self-link></a></h4>
+
+  <p>This is a definition, requirement, or explanation.</p>
+
+  <p class=note>This is a note.</p>
+
+  <p class=example>This is an example.</p>
+
+  <p class=XXX>This is an open issue.</p>
+
+  <p class=warning>This is a warning.</p>
+
+  <pre class="idl extract">interface <dfn>Example</dfn> {
+  // this is an IDL definition
+};</pre>
+
+  <dl class=domintro><dt><var>variable</var> = <var>object</var> . <code id=typographic-conventions:x-that><a href=#x-that>method</a></code>( [ <var>optionalArgument</var> ] )<dd>
+
+    <p>This is a note to authors describing the usage of an interface.</p>
+
+   </dl>
+
+  <pre class=css>/* this is a CSS fragment */</pre>
+
+  <p>The defining instance of a term is marked up like <dfn id=x-this>this</dfn>. Uses of that
+  term are marked up like <a href=#x-this id=typographic-conventions:x-this>this</a> or like <i id=typographic-conventions:x-this-2><a href=#x-this>this</a></i>.</p>
+
+  <p>The defining instance of an element, attribute, or API is marked up like <dfn id=x-that><code>this</code></dfn>. References to that element, attribute, or API are marked up
+  like <code id=typographic-conventions:x-that-2><a href=#x-that>this</a></code>.</p>
+
+  <p>Other code fragments are marked up <code>like this</code>.</p>
+
+  <p>Variables are marked up like <var>this</var>.</p>
+
+  <p>In an algorithm, steps in <a href=#synchronous-section id=typographic-conventions:synchronous-section>synchronous
+  sections</a> are marked with ⌛.</p>
+
+  <p>In some cases, requirements are given in the form of lists with conditions and corresponding
+  requirements. In such cases, the requirements that apply to a condition are always the first set
+  of requirements that follow the condition, even in the case of there being multiple sets of
+  conditions for those requirements. Such cases are presented as follows:</p>
+
+  <dl class=switch><dt>This is a condition
+   <dt>This is another condition
+   <dd>This is the requirement that applies to the conditions above.
+
+   <dt>This is a third condition
+   <dd>This is the requirement that applies to the third condition.
+
+  </dl>
+
+
+
+  <h3 id=fingerprint>1.10 Privacy concerns<a href=#fingerprint class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Some features of HTML trade user convenience for a measure of user privacy.</p>
+
+  <p>In general, due to the Internet's architecture, a user can be distinguished from another by the
+  user's IP address. IP addresses do not perfectly match to a user; as a user moves from device to
+  device, or from network to network, their IP address will change; similarly, NAT routing, proxy
+  servers, and shared computers enable packets that appear to all come from a single IP address to
+  actually map to multiple users. Technologies such as onion routing can be used to further
+  anonymize requests so that requests from a single user at one node on the Internet appear to come
+  from many disparate parts of the network.</p>
+
+  <p>However, the IP address used for a user's requests is not the only mechanism by which a user's
+  requests could be related to each other. Cookies, for example, are designed specifically to enable
+  this, and are the basis of most of the Web's session features that enable you to log into a site
+  with which you have an account.</p>
+
+  <p>There are other mechanisms that are more subtle. Certain characteristics of a user's system can
+  be used to distinguish groups of users from each other; by collecting enough such information, an
+  individual user's browser's "digital fingerprint" can be computed, which can be as good, if not
+  better, as an IP address in ascertaining which requests are from the same user.</p>
+
+  <p>Grouping requests in this manner, especially across multiple sites, can be used for both benign
+  (and even arguably positive) purposes, as well as for malevolent purposes. An example of a
+  reasonably benign purpose would be determining whether a particular person seems to prefer sites
+  with dog illustrations as opposed to sites with cat illustrations (based on how often they visit
+  the sites in question) and then automatically using the preferred illustrations on subsequent
+  visits to participating sites. Malevolent purposes, however, could include governments combining
+  information such as the person's home address (determined from the addresses they use when getting
+  driving directions on one site) with their apparent political affiliations (determined by
+  examining the forum sites that they participate in) to determine whether the person should be
+  prevented from voting in an election.</p>
+
+  <p>Since the malevolent purposes can be remarkably evil, user agent implementors are encouraged to
+  consider how to provide their users with tools to minimize leaking information that could be used
+  to fingerprint a user.</p>
+
+  <p>Unfortunately, as the first paragraph in this section implies, sometimes there is great benefit
+  to be derived from exposing the very information that can also be used for fingerprinting
+  purposes, so it's not as easy as simply blocking all possible leaks. For instance, the ability to
+  log into a site to post under a specific identity requires that the user's requests be
+  identifiable as all being from the same user, more or less by definition. More subtly, though,
+  information such as how wide text is, which is necessary for many effects that involve drawing
+  text onto a canvas (e.g. any effect that involves drawing a border around the text) also leaks
+  information that can be used to group a user's requests. (In this case, by potentially exposing,
+  via a brute force search, which fonts a user has installed, information which can vary
+  considerably from user to user.)</p>
+
+  <p>Features in this specification which can be <dfn id=fingerprinting-vector>used to
+  fingerprint the user</dfn> are marked as this paragraph is.
+  <a href=#fingerprinting-vector id=fingerprint:fingerprinting-vector class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a>
+  </p>
+
+  <p>Other features in the platform can be used for the same purpose, though, including, though not
+  limited to:</p>
+
+  <ul><li>The exact list of which features a user agents supports.<li>The maximum allowed stack depth for recursion in script.<li>Features that describe the user's environment, like Media Queries and the <code id=fingerprint:screen><a data-x-internal=screen href=https://drafts.csswg.org/cssom-view/#the-screen-interface>Screen</a></code>
+   object. <a href=#refsMQ>[MQ]</a> <a href=#refsCSSOMVIEW>[CSSOMVIEW]</a><li>The user's time zone.</ul>
+
+
+  <h4 id=fingerprint-postMessage>1.10.1 Cross-site communication<a href=#fingerprint-postMessage class=self-link></a></h4>
+
+  <p>The <code id=fingerprint-postMessage:dom-window-postmessage><a href=#dom-window-postmessage>postMessage()</a></code> API provides a mechanism by
+  which two sites can communicate directly. At first glance, this might appear to open a new way by
+  which the problems described above can occur. However, in practice, multiple mechanisms exist by
+  which two sites can communicate that predate this API: a site embedding another can send data via
+  an <code id=fingerprint-postMessage:the-iframe-element><a href=#the-iframe-element>iframe</a></code> element's dimensions; a site can use a cross-site image request with a
+  unique identifier known to the server to initiate a server-side data exchange; or indeed the
+  fingerprinting techniques described above can be used by two sites to uniquely identify a visitor
+  such that information can then be exchanged on the server side.</p>
+
+  <p>Fundamentally, users that do not trust a site to treat their information with respect have to
+  avoid visiting that site at all.</p>
+
+
+
+
+  <h3 id=a-quick-introduction-to-html>1.11 A quick introduction to HTML<a href=#a-quick-introduction-to-html class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>A basic HTML document looks like this:</p>
+
+  <pre id=intro-early-example>&lt;!DOCTYPE html>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>Sample page&lt;/title>
+ &lt;/head>
+ &lt;body>
+  &lt;h1>Sample page&lt;/h1>
+  &lt;p>This is a &lt;a href="demo.html">simple&lt;/a> sample.&lt;/p>
+  &lt;!-- this is a comment -->
+ &lt;/body>
+&lt;/html></pre>
+
+  <p>HTML documents consist of a tree of elements and text. Each element is denoted in the source by
+  a <a href=#syntax-start-tag id=a-quick-introduction-to-html:syntax-start-tag>start tag</a>, such as "<code>&lt;body></code>", and
+  an <a href=#syntax-end-tag id=a-quick-introduction-to-html:syntax-end-tag>end tag</a>, such as "<code>&lt;/body></code>".
+  (Certain start tags and end tags can in certain cases be <a href=#syntax-tag-omission id=a-quick-introduction-to-html:syntax-tag-omission>omitted</a> and are implied by other tags.)</p>
+
+  <p>Tags have to be nested such that elements are all completely within each other, without
+  overlapping:</p>
+
+  <pre class=bad>&lt;p>This is &lt;em>very &lt;strong>wrong&lt;/em>!&lt;/strong>&lt;/p></pre>
+  <pre>&lt;p>This &lt;em>is &lt;strong>correct&lt;/strong>.&lt;/em>&lt;/p></pre>
+
+  <p>This specification defines a set of elements that can be used in HTML, along with rules about
+  the ways in which the elements can be nested.</p>
+
+  <p>Elements can have attributes, which control how the elements work. In the example below, there
+  is a <a href=#hyperlink id=a-quick-introduction-to-html:hyperlink>hyperlink</a>, formed using the <code id=a-quick-introduction-to-html:the-a-element><a href=#the-a-element>a</a></code> element and its <code id=a-quick-introduction-to-html:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> attribute:</p>
+
+  <pre>&lt;a href="demo.html">simple&lt;/a></pre>
+
+  <p><a href=#syntax-attributes id=a-quick-introduction-to-html:syntax-attributes>Attributes</a> are placed inside the start tag, and consist
+  of a <a href=#syntax-attribute-name id=a-quick-introduction-to-html:syntax-attribute-name>name</a> and a <a href=#syntax-attribute-value id=a-quick-introduction-to-html:syntax-attribute-value>value</a>, separated by an "<code>=</code>" character.
+  The attribute value can remain <a href=#unquoted>unquoted</a> if it doesn't contain <a href=#space-character id=a-quick-introduction-to-html:space-character>space characters</a> or any of <code>"</code> <code>'</code> <code>`</code> <code>=</code> <code>&lt;</code> or
+  <code>></code>. Otherwise, it has to be quoted using either single or double quotes.
+  The value, along with the "<code>=</code>" character, can be omitted altogether if the
+  value is the empty string.</p>
+
+  <pre>&lt;!-- empty attributes -->
+&lt;input name=address disabled>
+&lt;input name=address disabled="">
+
+&lt;!-- attributes with a value -->
+&lt;input name=address maxlength=200>
+&lt;input name=address maxlength='200'>
+&lt;input name=address maxlength="200"></pre>
+
+  <p>HTML user agents (e.g. Web browsers) then <i>parse</i> this markup, turning it into a DOM
+  (Document Object Model) tree. A DOM tree is an in-memory representation of a document.</p>
+
+  <p>DOM trees contain several kinds of nodes, in particular a <code id=a-quick-introduction-to-html:documenttype><a data-x-internal=documenttype href=https://dom.spec.whatwg.org/#interface-documenttype>DocumentType</a></code> node,
+  <code id=a-quick-introduction-to-html:element><a data-x-internal=element href=https://dom.spec.whatwg.org/#interface-element>Element</a></code> nodes, <code id=a-quick-introduction-to-html:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> nodes, <code id=a-quick-introduction-to-html:comment-2><a data-x-internal=comment-2 href=https://dom.spec.whatwg.org/#interface-comment>Comment</a></code> nodes, and in some cases
+  <code id=a-quick-introduction-to-html:processinginstruction><a data-x-internal=processinginstruction href=https://dom.spec.whatwg.org/#interface-processinginstruction>ProcessingInstruction</a></code> nodes.</p>
+
+  <p>The <a href=#intro-early-example>markup snippet at the top of this section</a> would be
+  turned into the following DOM tree:</p>
+
+  <ul class=domTree><li class=t10>DOCTYPE: <code>html</code><li class=t1><code id=a-quick-introduction-to-html:the-html-element><a href=#the-html-element>html</a></code> <span class=t2><code id=a-quick-introduction-to-html:attr-lang class="attribute name"><a href=#attr-lang>lang</a></code>="<code class="attribute value">en</code>"</span><ul><li class=t1><code id=a-quick-introduction-to-html:the-head-element><a href=#the-head-element>head</a></code><ul><li class=t3><code id=a-quick-introduction-to-html:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>⏎␣␣</span><li class=t1><code id=a-quick-introduction-to-html:the-title-element><a href=#the-title-element>title</a></code><ul><li class=t3><code id=a-quick-introduction-to-html:text-3><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>Sample page</span></ul><li class=t3><code id=a-quick-introduction-to-html:text-4><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>⏎␣</span></ul><li class=t3><code id=a-quick-introduction-to-html:text-5><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>⏎␣</span><li class=t1><code id=a-quick-introduction-to-html:the-body-element><a href=#the-body-element>body</a></code><ul><li class=t3><code id=a-quick-introduction-to-html:text-6><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>⏎␣␣</span><li class=t1><code id=a-quick-introduction-to-html:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code><ul><li class=t3><code id=a-quick-introduction-to-html:text-7><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>Sample page</span></ul><li class=t3><code id=a-quick-introduction-to-html:text-8><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>⏎␣␣</span><li class=t1><code id=a-quick-introduction-to-html:the-p-element><a href=#the-p-element>p</a></code><ul><li class=t3><code id=a-quick-introduction-to-html:text-9><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>This is a </span><li class=t1><code id=a-quick-introduction-to-html:the-a-element-2><a href=#the-a-element>a</a></code> <span class=t2><code id=a-quick-introduction-to-html:attr-hyperlink-href-2 class="attribute name"><a href=#attr-hyperlink-href>href</a></code>="<code class="attribute value">demo.html</code>"</span><ul><li class=t3><code id=a-quick-introduction-to-html:text-10><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>simple</span></ul><li class=t3><code id=a-quick-introduction-to-html:text-11><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span> sample.</span></ul><li class=t3><code id=a-quick-introduction-to-html:text-12><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>⏎␣␣</span><li class=t8><code id=a-quick-introduction-to-html:comment-2-2><a data-x-internal=comment-2 href=https://dom.spec.whatwg.org/#interface-comment>#comment</a></code>: <span> this is a comment </span><li class=t3><code id=a-quick-introduction-to-html:text-13><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>⏎␣⏎</span></ul></ul></ul>
+
+  <p>The <a id=a-quick-introduction-to-html:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a> of this tree is the <code id=a-quick-introduction-to-html:the-html-element-2><a href=#the-html-element>html</a></code> element, which is the
+  element always found in that position in HTML documents. It contains two elements,
+  <code id=a-quick-introduction-to-html:the-head-element-2><a href=#the-head-element>head</a></code> and <code id=a-quick-introduction-to-html:the-body-element-2><a href=#the-body-element>body</a></code>, as well as a <code id=a-quick-introduction-to-html:text-14><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node between them.</p>
+
+  <p>There are many more <code id=a-quick-introduction-to-html:text-15><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> nodes in the DOM tree than one would initially expect,
+  because the source contains a number of spaces (represented here by "␣") and line breaks
+  ("⏎") that all end up as <code id=a-quick-introduction-to-html:text-16><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> nodes in the DOM. However, for historical
+  reasons not all of the spaces and line breaks in the original markup appear in the DOM. In
+  particular, all the whitespace before <code id=a-quick-introduction-to-html:the-head-element-3><a href=#the-head-element>head</a></code> start tag ends up being dropped silently,
+  and all the whitespace after the <code id=a-quick-introduction-to-html:the-body-element-3><a href=#the-body-element>body</a></code> end tag ends up placed at the end of the
+  <code id=a-quick-introduction-to-html:the-body-element-4><a href=#the-body-element>body</a></code>.</p>
+
+  <p>The <code id=a-quick-introduction-to-html:the-head-element-4><a href=#the-head-element>head</a></code> element contains a <code id=a-quick-introduction-to-html:the-title-element-2><a href=#the-title-element>title</a></code> element, which itself contains a
+  <code id=a-quick-introduction-to-html:text-17><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node with the text "Sample page". Similarly, the <code id=a-quick-introduction-to-html:the-body-element-5><a href=#the-body-element>body</a></code> element
+  contains an <code id=a-quick-introduction-to-html:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> element, a <code id=a-quick-introduction-to-html:the-p-element-2><a href=#the-p-element>p</a></code> element, and a comment.</p>
+
+  <hr>
+
+  <p>This DOM tree can be manipulated from scripts in the page. Scripts (typically in JavaScript)
+  are small programs that can be embedded using the <code id=a-quick-introduction-to-html:the-script-element><a href=#the-script-element>script</a></code> element or using <a href=#event-handler-content-attributes id=a-quick-introduction-to-html:event-handler-content-attributes>event
+  handler content attributes</a>. For example, here is a form with a script that sets the value
+  of the form's <code id=a-quick-introduction-to-html:the-output-element><a href=#the-output-element>output</a></code> element to say "Hello World":</p>
+
+  <pre>&lt;<a href=#the-form-element id=a-quick-introduction-to-html:the-form-element>form</a> <a href=#attr-form-name id=a-quick-introduction-to-html:attr-form-name>name</a>="main">
+ Result: &lt;<a href=#the-output-element id=a-quick-introduction-to-html:the-output-element-2>output</a> <a href=#attr-fe-name id=a-quick-introduction-to-html:attr-fe-name>name</a>="result">&lt;/output>
+ &lt;<a href=#the-script-element id=a-quick-introduction-to-html:the-script-element-2>script</a>>
+  <a href=#document id=a-quick-introduction-to-html:document>document</a>.<a href=#dom-document-forms id=a-quick-introduction-to-html:dom-document-forms>forms</a>.main.<a href=#dom-form-elements id=a-quick-introduction-to-html:dom-form-elements>elements</a>.result.<a href=#dom-output-value id=a-quick-introduction-to-html:dom-output-value>value</a> = 'Hello World';
+ &lt;/script>
+&lt;/form></pre>
+
+  <p>Each element in the DOM tree is represented by an object, and these objects have APIs so that
+  they can be manipulated. For instance, a link (e.g. the <code id=a-quick-introduction-to-html:the-a-element-3><a href=#the-a-element>a</a></code> element in the tree above)
+  can have its "<code id=a-quick-introduction-to-html:attr-hyperlink-href-3><a href=#attr-hyperlink-href>href</a></code>" attribute changed in several
+  ways:</p>
+
+  <pre>var a = <a href=#document id=a-quick-introduction-to-html:document-2>document</a>.<a href=#dom-document-links id=a-quick-introduction-to-html:dom-document-links>links</a>[0]; // obtain the first link in the document
+a.<a href=#dom-hyperlink-href id=a-quick-introduction-to-html:dom-hyperlink-href>href</a> = 'sample.html'; // change the destination URL of the link
+a.<a href=#dom-hyperlink-protocol id=a-quick-introduction-to-html:dom-hyperlink-protocol>protocol</a> = 'https'; // change just the scheme part of the URL
+a.setAttribute('href', 'https://example.com/'); // change the content attribute directly</pre>
+
+  <p>Since DOM trees are used as the way to represent HTML documents when they are processed and
+  presented by implementations (especially interactive implementations like Web browsers), this
+  specification is mostly phrased in terms of DOM trees, instead of the markup described above.</p>
+
+  <hr>
+
+  <p>HTML documents represent a media-independent description of interactive content. HTML documents
+  might be rendered to a screen, or through a speech synthesizer, or on a braille display. To
+  influence exactly how such rendering takes place, authors can use a styling language such as
+  CSS.</p>
+
+  <p>In the following example, the page has been made yellow-on-blue using CSS.</p>
+
+  <pre>&lt;!DOCTYPE html>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>Sample styled page&lt;/title>
+  &lt;style>
+   body { background: navy; color: yellow; }
+  &lt;/style>
+ &lt;/head>
+ &lt;body>

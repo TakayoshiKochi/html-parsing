@@ -1,0 +1,850 @@
+  
+
+
+  <h5 id=restrictions-for-contents-of-script-elements>4.12.1.3 <dfn>Restrictions for contents of <code>script</code> elements</dfn><a href=#restrictions-for-contents-of-script-elements class=self-link></a></h5>
+
+  <p class=note>The easiest and safest way to avoid the rather strange restrictions described in
+  this section is to always escape "<code>&lt;!--</code>" as "<code>&lt;\!--</code>", "<code>&lt;script</code>" as "<code>&lt;\script</code>", and "<code>&lt;/script</code>" as "<code>&lt;\/script</code>" when these sequences appear in literals in scripts (e.g. in
+  strings, regular expressions, or comments), and to avoid writing code that uses such constructs in
+  expressions. Doing so avoids the pitfalls that the restrictions in this section are prone to
+  triggering: namely, that, for historical reasons, parsing of <code id=restrictions-for-contents-of-script-elements:the-script-element><a href=#the-script-element>script</a></code> blocks in HTML is
+  a strange and exotic practice that acts unintuitively in the face of these sequences.</p>
+
+  <p>The <code id=restrictions-for-contents-of-script-elements:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> of a <code id=restrictions-for-contents-of-script-elements:the-script-element-2><a href=#the-script-element>script</a></code> element must match the <code>script</code> production in the following ABNF, the character set for which is Unicode.
+  <a href=#refsABNF>[ABNF]</a></p>
+
+  <pre>script        = outer *( comment-open inner comment-close outer )
+
+outer         = &lt; any string that doesn't contain a substring that matches not-in-outer >
+not-in-outer  = comment-open
+inner         = &lt; any string that doesn't contain a substring that matches not-in-inner >
+not-in-inner  = comment-close / script-open
+
+comment-open  = "&lt;!--"
+comment-close = "-->"
+script-open   = "&lt;" s c r i p t tag-end
+
+s             =  %x0053 ; U+0053 LATIN CAPITAL LETTER S
+s             =/ %x0073 ; U+0073 LATIN SMALL LETTER S
+c             =  %x0043 ; U+0043 LATIN CAPITAL LETTER C
+c             =/ %x0063 ; U+0063 LATIN SMALL LETTER C
+r             =  %x0052 ; U+0052 LATIN CAPITAL LETTER R
+r             =/ %x0072 ; U+0072 LATIN SMALL LETTER R
+i             =  %x0049 ; U+0049 LATIN CAPITAL LETTER I
+i             =/ %x0069 ; U+0069 LATIN SMALL LETTER I
+p             =  %x0050 ; U+0050 LATIN CAPITAL LETTER P
+p             =/ %x0070 ; U+0070 LATIN SMALL LETTER P
+t             =  %x0054 ; U+0054 LATIN CAPITAL LETTER T
+t             =/ %x0074 ; U+0074 LATIN SMALL LETTER T
+
+tag-end       =  %x0009 ; U+0009 CHARACTER TABULATION (tab)
+tag-end       =/ %x000A ; U+000A LINE FEED (LF)
+tag-end       =/ %x000C ; U+000C FORM FEED (FF)
+tag-end       =/ %x0020 ; U+0020 SPACE
+tag-end       =/ %x002F ; U+002F SOLIDUS (/)
+tag-end       =/ %x003E ; U+003E GREATER-THAN SIGN (>)</pre>
+
+  <p>When a <code id=restrictions-for-contents-of-script-elements:the-script-element-3><a href=#the-script-element>script</a></code> element contains <a href=#inline-documentation-for-external-scripts id=restrictions-for-contents-of-script-elements:inline-documentation-for-external-scripts>script documentation</a>, there are
+  further restrictions on the contents of the element, as described in the section below.</p>
+
+  <div class=example>
+
+   <p>The following script illustrates this issue. Suppose you have a script that contains a string,
+   as in:</p>
+
+   <pre>var example = 'Consider this string: &lt;!-- &lt;script>';
+console.log(example);</pre>
+
+   <p>If one were to put this string directly in a <code id=restrictions-for-contents-of-script-elements:the-script-element-4><a href=#the-script-element>script</a></code> block, it would violate the
+   restrictions above:</p>
+
+   <pre>&lt;script>
+  var example = 'Consider this string: &lt;!-- &lt;script>';
+  console.log(example);
+&lt;/script></pre>
+
+   <p>The bigger problem, though, and the reason why it would violate those restrictions, is that
+   actually the script would get parsed weirdly: <em>the script block above is not terminated</em>.
+   That is, what looks like a "<code>&lt;/script></code>" end tag in this snippet is
+   actually still part of the <code id=restrictions-for-contents-of-script-elements:the-script-element-5><a href=#the-script-element>script</a></code> block. The script doesn't execute (since it's not
+   terminated); if it somehow were to execute, as it might if the markup looked as follows, it would
+   fail because the script (highlighted here) is not valid JavaScript:</p>
+
+   <pre>&lt;script><mark>
+  var example = 'Consider this string: &lt;!-- &lt;script>';
+  console.log(example);
+&lt;/script>
+&lt;!-- despite appearances, this is actually part of the script still! -->
+&lt;script>
+ ... // this is the same script block still...
+</mark>&lt;/script></pre>
+
+   <p>What is going on here is that for legacy reasons, "<code>&lt;!--</code>" and "<code>&lt;script</code>" strings in <code id=restrictions-for-contents-of-script-elements:the-script-element-6><a href=#the-script-element>script</a></code> elements in HTML need to be balanced
+   in order for the parser to consider closing the block.</p>
+
+   <p>By escaping the problematic strings as mentioned at the top of this section, the problem is
+   avoided entirely:</p>
+
+   <pre>&lt;script><mark>
+  var example = 'Consider this string: &lt;\!-- &lt;\script>';
+  console.log(example);
+</mark>&lt;/script>
+&lt;!-- this is just a comment between script blocks -->
+&lt;script><mark>
+ ... // this is a new script block
+</mark>&lt;/script></pre>
+
+   <p>It is possible for these sequences to naturally occur in script expressions, as in the
+   following examples:</p>
+
+   <pre>if (x&lt;!--y) { ... }
+if ( player&lt;script ) { ... }</pre>
+
+   <p>In such cases the characters cannot be escaped, but the expressions can be rewritten so that
+   the sequences don't occur, as in:</p>
+
+   <pre>if (x &lt; !--y) { ... }
+if (!--y > x) { ... }
+if (!(--y) > x) { ... }
+if (player &lt; script) { ... }
+if (script > player) { ... }</pre>
+
+   <p>Doing this also avoids a different pitfall as well: for related historical reasons, the string
+   "&lt;!--" in <a href=#classic-script id=restrictions-for-contents-of-script-elements:classic-script>classic scripts</a> is actually treated as a line
+   comment start, just like "//".</p>
+
+  </div>
+
+
+  <h5 id=inline-documentation-for-external-scripts>4.12.1.4 <dfn>Inline documentation for external scripts</dfn><a href=#inline-documentation-for-external-scripts class=self-link></a></h5>
+
+  <p>If a <code id=inline-documentation-for-external-scripts:the-script-element><a href=#the-script-element>script</a></code> element's <code id=inline-documentation-for-external-scripts:attr-script-src><a href=#attr-script-src>src</a></code> attribute is
+  specified, then the contents of the <code id=inline-documentation-for-external-scripts:the-script-element-2><a href=#the-script-element>script</a></code> element, if any, must be such that the
+  value of the <code id=inline-documentation-for-external-scripts:dom-script-text><a href=#dom-script-text>text</a></code> IDL attribute, which is derived from the
+  element's contents, matches the <code>documentation</code> production in the following
+  ABNF, the character set for which is Unicode. <a href=#refsABNF>[ABNF]</a></p>
+
+  <pre>documentation = *( *( space / tab / comment ) [ line-comment ] newline )
+comment       = slash star *( not-star / star not-slash ) 1*star slash
+line-comment  = slash slash *not-newline
+
+; characters
+tab           = %x0009 ; U+0009 CHARACTER TABULATION (tab)
+newline       = %x000A ; U+000A LINE FEED (LF)
+space         = %x0020 ; U+0020 SPACE
+star          = %x002A ; U+002A ASTERISK (*)
+slash         = %x002F ; U+002F SOLIDUS (/)
+not-newline   = %x0000-0009 / %x000B-10FFFF
+                ; a <a href=#unicode-character id=inline-documentation-for-external-scripts:unicode-character>Unicode character</a> other than U+000A LINE FEED (LF)
+not-star      = %x0000-0029 / %x002B-10FFFF
+                ; a <a href=#unicode-character id=inline-documentation-for-external-scripts:unicode-character-2>Unicode character</a> other than U+002A ASTERISK (*)
+not-slash     = %x0000-002E / %x0030-10FFFF
+                ; a <a href=#unicode-character id=inline-documentation-for-external-scripts:unicode-character-3>Unicode character</a> other than U+002F SOLIDUS (/)</pre>
+
+  <p class=note>This corresponds to putting the contents of the element in JavaScript
+  comments.</p>
+
+  <p class=note>This requirement is in addition to the earlier restrictions on the syntax of
+  contents of <code id=inline-documentation-for-external-scripts:the-script-element-3><a href=#the-script-element>script</a></code> elements.</p>
+
+  <div class=example>
+
+   <p>This allows authors to include documentation, such as license information or API information,
+   inside their documents while still referring to external script files. The syntax is constrained
+   so that authors don't accidentally include what looks like valid script while also providing a
+   <code id=inline-documentation-for-external-scripts:attr-script-src-2><a href=#attr-script-src>src</a></code> attribute.</p>
+
+   <pre>&lt;script src="cool-effects.js">
+ // create new instances using:
+ //    var e = new Effect();
+ // start the effect using .play, stop using .stop:
+ //    e.play();
+ //    e.stop();
+&lt;/script></pre>
+
+  </div>
+
+
+  
+
+  <h5 id=scriptTagXSLT>4.12.1.5 Interaction of <code id=scriptTagXSLT:the-script-element><a href=#the-script-element>script</a></code> elements and XSLT<a href=#scriptTagXSLT class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This specification does not define how XSLT interacts with the <code id=scriptTagXSLT:the-script-element-2><a href=#the-script-element>script</a></code> element.
+  However, in the absence of another specification actually defining this, here are some guidelines
+  for implementors, based on existing implementations:</p>
+
+  <ul><li><p>When an XSLT transformation program is triggered by an <code>&lt;?xml-stylesheet?></code> processing instruction and the browser implements a
+   direct-to-DOM transformation, <code id=scriptTagXSLT:the-script-element-3><a href=#the-script-element>script</a></code> elements created by the XSLT processor need to
+   be marked <a href=#parser-inserted id=scriptTagXSLT:parser-inserted>"parser-inserted"</a> and run in document order (modulo scripts marked <code id=scriptTagXSLT:attr-script-defer><a href=#attr-script-defer>defer</a></code> or <code id=scriptTagXSLT:attr-script-async><a href=#attr-script-async>async</a></code>),
+   <a href=#immediately id=scriptTagXSLT:immediately>immediately</a>, as the transformation is occurring.<li><p>The <code id=scriptTagXSLT:dom-xsltprocessor-transformtodocument><a href=#dom-xsltprocessor-transformtodocument>XSLTProcessor.transformToDocument()</a></code> method
+   adds elements to a <code id=scriptTagXSLT:document><a href=#document>Document</a></code> that does not have a <a href=#concept-document-bc id=scriptTagXSLT:concept-document-bc>browsing context</a>, and, accordingly, any <code id=scriptTagXSLT:the-script-element-4><a href=#the-script-element>script</a></code>
+   elements they create need to have their <a href=#already-started id=scriptTagXSLT:already-started>"already started"</a> flag set in the
+   <a href=#prepare-a-script id=scriptTagXSLT:prepare-a-script>prepare a script</a> algorithm and never get executed (<a href=#concept-bc-noscript id=scriptTagXSLT:concept-bc-noscript>scripting is disabled</a>). Such <code id=scriptTagXSLT:the-script-element-5><a href=#the-script-element>script</a></code> elements
+   still need to be marked <a href=#parser-inserted id=scriptTagXSLT:parser-inserted-2>"parser-inserted"</a>, though, such that their <code id=scriptTagXSLT:dom-script-async><a href=#dom-script-async>async</a></code> IDL attribute will return false in the absence of an <code id=scriptTagXSLT:attr-script-async-2><a href=#attr-script-async>async</a></code> content attribute.<li><p>The <code id=scriptTagXSLT:dom-xsltprocessor-transformtofragment><a href=#dom-xsltprocessor-transformtofragment>XSLTProcessor.transformToFragment()</a></code> method
+   needs to create a fragment that is equivalent to one built manually by creating the elements
+   using <code id=scriptTagXSLT:dom-document-createelementns><a data-x-internal=dom-document-createelementns href=https://dom.spec.whatwg.org/#dom-document-createelementns>document.createElementNS()</a></code>. For instance,
+   it needs to create <code id=scriptTagXSLT:the-script-element-6><a href=#the-script-element>script</a></code> elements that aren't <a href=#parser-inserted id=scriptTagXSLT:parser-inserted-3>"parser-inserted"</a> and
+   that don't have their <a href=#already-started id=scriptTagXSLT:already-started-2>"already started"</a> flag set, so that they will execute when the
+   fragment is inserted into a document.</ul>
+
+  <p>The main distinction between the first two cases and the last case is that the first two
+  operate on <code id=scriptTagXSLT:document-2><a href=#document>Document</a></code>s and the last operates on a fragment.</p>
+
+  
+
+
+
+  <h4 id=the-noscript-element>4.12.2 The <dfn><code>noscript</code></dfn> element<a href=#the-noscript-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-noscript-element:concept-element-categories>Categories</a>:<dd><a href=#metadata-content-2 id=the-noscript-element:metadata-content-2>Metadata content</a>.<dd><a href=#flow-content-2 id=the-noscript-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-noscript-element:phrasing-content-2>Phrasing content</a>.<dt><a href=#concept-element-contexts id=the-noscript-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>In a <code id=the-noscript-element:the-head-element><a href=#the-head-element>head</a></code> element of an <a href=https://dom.spec.whatwg.org/#html-document id=the-noscript-element:html-documents data-x-internal=html-documents>HTML document</a>, if there are no ancestor <code id=the-noscript-element:the-noscript-element><a href=#the-noscript-element>noscript</a></code> elements.<dd>Where <a href=#phrasing-content-2 id=the-noscript-element:phrasing-content-2-2>phrasing content</a> is expected in <a id=the-noscript-element:html-documents-2 href=https://dom.spec.whatwg.org/#html-document data-x-internal=html-documents>HTML documents</a>, if there are no ancestor <code id=the-noscript-element:the-noscript-element-2><a href=#the-noscript-element>noscript</a></code> elements.<dt><a href=#concept-element-content-model id=the-noscript-element:concept-element-content-model>Content model</a>:<dd>When <a href=#concept-n-noscript id=the-noscript-element:concept-n-noscript>scripting is disabled</a>, in a <code id=the-noscript-element:the-head-element-2><a href=#the-head-element>head</a></code> element: in any order, zero or more <code id=the-noscript-element:the-link-element><a href=#the-link-element>link</a></code> elements, zero or more <code id=the-noscript-element:the-style-element><a href=#the-style-element>style</a></code> elements, and zero or more <code id=the-noscript-element:the-meta-element><a href=#the-meta-element>meta</a></code> elements.<dd>When <a href=#concept-n-noscript id=the-noscript-element:concept-n-noscript-2>scripting is disabled</a>, not in a <code id=the-noscript-element:the-head-element-3><a href=#the-head-element>head</a></code> element: <a href=#transparent id=the-noscript-element:transparent>transparent</a>, but there must be no <code id=the-noscript-element:the-noscript-element-3><a href=#the-noscript-element>noscript</a></code> element descendants.<dd>Otherwise: text that conforms to the requirements given in the prose.<dt><a href=#concept-element-tag-omission id=the-noscript-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-noscript-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-noscript-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-noscript-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-noscript-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-noscript-element:the-noscript-element-4><a href=#the-noscript-element>noscript</a></code> element <a href=#represents id=the-noscript-element:represents>represents</a> nothing if <a href=#concept-n-script id=the-noscript-element:concept-n-script>scripting is enabled</a>, and <a href=#represents id=the-noscript-element:represents-2>represents</a> its children if
+  <a href=#concept-n-noscript id=the-noscript-element:concept-n-noscript-3>scripting is disabled</a>. It is used to present different
+  markup to user agents that support scripting and those that don't support scripting, by affecting
+  how the document is parsed.</p>
+
+  <p>When used in <a id=the-noscript-element:html-documents-3 href=https://dom.spec.whatwg.org/#html-document data-x-internal=html-documents>HTML documents</a>, the allowed content model is as follows:</p>
+
+  <dl><dt>In a <code id=the-noscript-element:the-head-element-4><a href=#the-head-element>head</a></code> element, if <a href=#concept-n-noscript id=the-noscript-element:concept-n-noscript-4>scripting is
+   disabled</a> for the <code id=the-noscript-element:the-noscript-element-5><a href=#the-noscript-element>noscript</a></code> element<dd><p>The <code id=the-noscript-element:the-noscript-element-6><a href=#the-noscript-element>noscript</a></code> element must contain only <code id=the-noscript-element:the-link-element-2><a href=#the-link-element>link</a></code>, <code id=the-noscript-element:the-style-element-2><a href=#the-style-element>style</a></code>,
+   and <code id=the-noscript-element:the-meta-element-2><a href=#the-meta-element>meta</a></code> elements.<dt>In a <code id=the-noscript-element:the-head-element-5><a href=#the-head-element>head</a></code> element, if <a href=#concept-n-script id=the-noscript-element:concept-n-script-2>scripting is enabled</a>
+   for the <code id=the-noscript-element:the-noscript-element-7><a href=#the-noscript-element>noscript</a></code> element<dd><p>The <code id=the-noscript-element:the-noscript-element-8><a href=#the-noscript-element>noscript</a></code> element must contain only text, except that invoking the
+   <a href=#html-fragment-parsing-algorithm id=the-noscript-element:html-fragment-parsing-algorithm>HTML fragment parsing algorithm</a>  with
+   the <code id=the-noscript-element:the-noscript-element-9><a href=#the-noscript-element>noscript</a></code> element as the <var id=the-noscript-element:concept-frag-parse-context><a href=#concept-frag-parse-context>context</a></var>
+   element and the text contents as the <var>input</var> must result in a list of nodes
+   that consists only of <code id=the-noscript-element:the-link-element-3><a href=#the-link-element>link</a></code>, <code id=the-noscript-element:the-style-element-3><a href=#the-style-element>style</a></code>, and <code id=the-noscript-element:the-meta-element-3><a href=#the-meta-element>meta</a></code> elements that
+   would be conforming if they were children of the <code id=the-noscript-element:the-noscript-element-10><a href=#the-noscript-element>noscript</a></code> element, and no <a href=#parse-error id=the-noscript-element:parse-error>parse errors</a>.<dt>Outside of <code id=the-noscript-element:the-head-element-6><a href=#the-head-element>head</a></code> elements, if <a href=#concept-n-noscript id=the-noscript-element:concept-n-noscript-5>scripting is
+   disabled</a> for the <code id=the-noscript-element:the-noscript-element-11><a href=#the-noscript-element>noscript</a></code> element<dd><p>The <code id=the-noscript-element:the-noscript-element-12><a href=#the-noscript-element>noscript</a></code> element's content model is <a href=#transparent id=the-noscript-element:transparent-2>transparent</a>, with the
+   additional restriction that a <code id=the-noscript-element:the-noscript-element-13><a href=#the-noscript-element>noscript</a></code> element must not have a <code id=the-noscript-element:the-noscript-element-14><a href=#the-noscript-element>noscript</a></code>
+   element as an ancestor (that is, <code id=the-noscript-element:the-noscript-element-15><a href=#the-noscript-element>noscript</a></code> can't be nested).<dt>Outside of <code id=the-noscript-element:the-head-element-7><a href=#the-head-element>head</a></code> elements, if <a href=#concept-n-script id=the-noscript-element:concept-n-script-3>scripting is
+   enabled</a> for the <code id=the-noscript-element:the-noscript-element-16><a href=#the-noscript-element>noscript</a></code> element<dd>
+
+    <p>The <code id=the-noscript-element:the-noscript-element-17><a href=#the-noscript-element>noscript</a></code> element must contain only text, except that the text must be such
+    that running the following algorithm results in a conforming document with no
+    <code id=the-noscript-element:the-noscript-element-18><a href=#the-noscript-element>noscript</a></code> elements and no <code id=the-noscript-element:the-script-element><a href=#the-script-element>script</a></code> elements, and such that no step in the
+    algorithm throws an exception or causes an <a href=#html-parser id=the-noscript-element:html-parser>HTML parser</a> to flag a <a href=#parse-error id=the-noscript-element:parse-error-2>parse
+    error</a>:</p>
+    
+
+    <ol><li>Remove every <code id=the-noscript-element:the-script-element-2><a href=#the-script-element>script</a></code> element from the document.<li>Make a list of every <code id=the-noscript-element:the-noscript-element-19><a href=#the-noscript-element>noscript</a></code> element in the document. For every
+     <code id=the-noscript-element:the-noscript-element-20><a href=#the-noscript-element>noscript</a></code> element in that list, perform the following steps:
+
+      <ol><li>Let <var>s</var> be the <a href=#child-text-content id=the-noscript-element:child-text-content>child text content</a> of the <code id=the-noscript-element:the-noscript-element-21><a href=#the-noscript-element>noscript</a></code>
+       element.<li>Set the <code id=the-noscript-element:dom-outerhtml><a data-x-internal=dom-outerhtml href=https://w3c.github.io/DOM-Parsing/#widl-Element-outerHTML>outerHTML</a></code> attribute of the
+       <code id=the-noscript-element:the-noscript-element-22><a href=#the-noscript-element>noscript</a></code> element to the value of <var>s</var>. (This, as a
+       side-effect, causes the <code id=the-noscript-element:the-noscript-element-23><a href=#the-noscript-element>noscript</a></code> element to be removed from the document.) <a href=#refsDOMPARSING>[DOMPARSING]</a></ol>
+
+     </ol>
+
+   </dl>
+
+  <p class=note>All these contortions are required because, for historical reasons, the
+  <code id=the-noscript-element:the-noscript-element-24><a href=#the-noscript-element>noscript</a></code> element is handled differently by the <a href=#html-parser id=the-noscript-element:html-parser-2>HTML parser</a> based on
+  whether <a href=#scripting-flag id=the-noscript-element:scripting-flag>scripting was enabled or not</a> when the parser was
+  invoked.</p>
+
+  <p>The <code id=the-noscript-element:the-noscript-element-25><a href=#the-noscript-element>noscript</a></code> element must not be used in <a id=the-noscript-element:xml-documents href=https://dom.spec.whatwg.org/#xml-document data-x-internal=xml-documents>XML documents</a>.</p>
+
+  <p class=note>The <code id=the-noscript-element:the-noscript-element-26><a href=#the-noscript-element>noscript</a></code> element is only effective in <a href=#syntax id=the-noscript-element:syntax>the HTML
+  syntax</a>, it has no effect in <a href=#the-xhtml-syntax id=the-noscript-element:the-xhtml-syntax>the XML syntax</a>. This is because the way it works
+  is by essentially "turning off" the parser when scripts are enabled, so that the contents of the
+  element are treated as pure text and not as real elements. XML does not define a mechanism by
+  which to do this.</p>
+
+  
+
+  <p>The <code id=the-noscript-element:the-noscript-element-27><a href=#the-noscript-element>noscript</a></code> element has no other requirements. In particular, children of the
+  <code id=the-noscript-element:the-noscript-element-28><a href=#the-noscript-element>noscript</a></code> element are not exempt from <a href=#form-submission-2 id=the-noscript-element:form-submission-2>form submission</a>, scripting, and so
+  forth, even when <a href=#concept-n-script id=the-noscript-element:concept-n-script-4>scripting is enabled</a> for the element.</p>
+
+  
+
+  <div class=example>
+
+   <p>In the following example, a <code id=the-noscript-element:the-noscript-element-29><a href=#the-noscript-element>noscript</a></code> element is
+   used to provide fallback for a script.</p>
+
+   <pre>&lt;form action="calcSquare.php">
+ &lt;p>
+  &lt;label for=x>Number&lt;/label>:
+  &lt;input id="x" name="x" type="number">
+ &lt;/p>
+ &lt;script>
+  var x = document.getElementById('x');
+  var output = document.createElement('p');
+  output.textContent = 'Type a number; it will be squared right then!';
+  x.form.appendChild(output);
+  x.form.onsubmit = function () { return false; }
+  x.oninput = function () {
+    var v = x.valueAsNumber;
+    output.textContent = v + ' squared is ' + v * v;
+  };
+ &lt;/script>
+ &lt;noscript>
+  &lt;input type=submit value="Calculate Square">
+ &lt;/noscript>
+&lt;/form></pre>
+
+   <p>When script is disabled, a button appears to do the calculation on the server side. When
+   script is enabled, the value is computed on-the-fly instead.</p>
+
+   <p>The <code id=the-noscript-element:the-noscript-element-30><a href=#the-noscript-element>noscript</a></code> element is a blunt instrument. Sometimes, scripts might be enabled,
+   but for some reason the page's script might fail. For this reason, it's generally better to avoid
+   using <code id=the-noscript-element:the-noscript-element-31><a href=#the-noscript-element>noscript</a></code>, and to instead design the script to change the page from being a
+   scriptless page to a scripted page on the fly, as in the next example:</p>
+
+   <pre>&lt;form action="calcSquare.php">
+ &lt;p>
+  &lt;label for=x>Number&lt;/label>:
+  &lt;input id="x" name="x" type="number">
+ &lt;/p>
+ <strong>&lt;input id="submit" type=submit value="Calculate Square"></strong>
+ &lt;script>
+  var x = document.getElementById('x');
+  var output = document.createElement('p');
+  output.textContent = 'Type a number; it will be squared right then!';
+  x.form.appendChild(output);
+  x.form.onsubmit = function () { return false; }
+  x.oninput = function () {
+    var v = x.valueAsNumber;
+    output.textContent = v + ' squared is ' + v * v;
+  };
+<strong>  var submit = document.getElementById('submit');
+  submit.parentNode.removeChild(submit);</strong>
+ &lt;/script>
+&lt;/form></pre>
+
+   <p>The above technique is also useful in <a id=the-noscript-element:xml-documents-2 href=https://dom.spec.whatwg.org/#xml-document data-x-internal=xml-documents>XML documents</a>, since <code id=the-noscript-element:the-noscript-element-32><a href=#the-noscript-element>noscript</a></code>
+   is not allowed there.</p>
+
+  </div>
+
+
+  <h4 id=the-template-element>4.12.3 The <dfn><code>template</code></dfn> element<a href=#the-template-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> template<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>26+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>8+</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox yes"><span>Firefox</span> <span>22+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>7.1+</span></span><span class="edge yes"><span>Edge</span> <span>13+</span></span><span class="opera yes"><span>Opera</span> <span>15+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=template">caniuse.com</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-template-element:concept-element-categories>Categories</a>:<dd><a href=#metadata-content-2 id=the-template-element:metadata-content-2>Metadata content</a>.<dd><a href=#flow-content-2 id=the-template-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-template-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#script-supporting-elements-2 id=the-template-element:script-supporting-elements-2>Script-supporting element</a>.<dt><a href=#concept-element-contexts id=the-template-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#metadata-content-2 id=the-template-element:metadata-content-2-2>metadata content</a> is expected.<dd>Where <a href=#phrasing-content-2 id=the-template-element:phrasing-content-2-2>phrasing content</a> is expected.<dd>Where <a href=#script-supporting-elements-2 id=the-template-element:script-supporting-elements-2-2>script-supporting elements</a> are expected.<dd>As a child of a <code id=the-template-element:the-colgroup-element><a href=#the-colgroup-element>colgroup</a></code> element that doesn't have a <code id=the-template-element:attr-colgroup-span><a href=#attr-colgroup-span>span</a></code> attribute.<dt><a href=#concept-element-content-model id=the-template-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-template-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-template-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-template-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-template-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-template-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-template-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmltemplateelement>HTMLTemplateElement</dfn> : <a href=#htmlelement id=the-template-element:htmlelement>HTMLElement</a> {
+  readonly attribute <a id=the-template-element:documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment data-x-internal=documentfragment>DocumentFragment</a> <a href=#dom-template-content id=the-template-element:dom-template-content>content</a>;
+};</pre>
+</dl>
+
+  <p>The <code id=the-template-element:the-template-element><a href=#the-template-element>template</a></code> element is used to declare fragments of HTML that can be cloned and
+  inserted in the document by script.</p>
+
+  <p>In a rendering, the <code id=the-template-element:the-template-element-2><a href=#the-template-element>template</a></code> element <a href=#represents id=the-template-element:represents>represents</a> nothing.</p>
+
+  <p>The <a href=#template-contents id=the-template-element:template-contents>template contents</a> of a <code id=the-template-element:the-template-element-3><a href=#the-template-element>template</a></code> element are not children of the
+  element itself. Instead, they are stored in a <code id=the-template-element:documentfragment-2><a data-x-internal=documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment>DocumentFragment</a></code> associated with a
+  different <code id=the-template-element:document><a href=#document>Document</a></code> without a <a href=#browsing-context id=the-template-element:browsing-context>browsing context</a> so as to avoid the
+  <code id=the-template-element:the-template-element-4><a href=#the-template-element>template</a></code> contents interfering with the main <code id=the-template-element:document-2><a href=#document>Document</a></code>. (For example, this
+  avoids form controls from being submitted, scripts from executing, and so forth.) The
+  <a href=#template-contents id=the-template-element:template-contents-2>template contents</a> have <a href=#no-browsing-context>no conformance
+  requirements</a>.</p>
+
+  <div class=example>
+
+   <p>For example, consider the following document:</p>
+
+   
+
+   <pre>&lt;!doctype html>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>Homework&lt;/title>
+ &lt;body>
+  &lt;template id="template">&lt;p>Smile!&lt;/p>&lt;/template>
+  &lt;script>
+   let num = 3;
+   const fragment = document.getElementById('template').content.cloneNode(true);
+   while (num-- > 1) {
+     fragment.firstChild.before(fragment.firstChild.cloneNode(true));
+     fragment.firstChild.textContent += fragment.lastChild.textContent;
+   }
+   document.body.appendChild(fragment);
+  &lt;/script>
+&lt;/html></pre>
+
+   <p>The <code id=the-template-element:the-p-element><a href=#the-p-element>p</a></code> element in the <code id=the-template-element:the-template-element-5><a href=#the-template-element>template</a></code> is <em>not</em> a child of the
+   <code id=the-template-element:the-template-element-6><a href=#the-template-element>template</a></code> in the DOM; it is a child of the <code id=the-template-element:documentfragment-3><a data-x-internal=documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment>DocumentFragment</a></code> returned by
+   the <code id=the-template-element:the-template-element-7><a href=#the-template-element>template</a></code> element's <code id=the-template-element:dom-template-content-2><a href=#dom-template-content>content</a></code> IDL
+   attribute.</p>
+
+   <p>If the script were to call <code id=the-template-element:dom-node-appendchild><a data-x-internal=dom-node-appendchild href=https://dom.spec.whatwg.org/#dom-node-appendchild>appendChild()</a></code> on the
+   <code id=the-template-element:the-template-element-8><a href=#the-template-element>template</a></code> element, that would add a child to the <code id=the-template-element:the-template-element-9><a href=#the-template-element>template</a></code> element (as
+   for any other element); however, doing so is a violation of the <code id=the-template-element:the-template-element-10><a href=#the-template-element>template</a></code> element's
+   content model.</p>
+
+  </div>
+
+  <dl class=domintro><dt><var>template</var> . <code id=the-template-element:dom-template-content-3><a href=#dom-template-content>content</a></code><dd>
+
+    <p>Returns the <a href=#template-contents id=the-template-element:template-contents-3>template contents</a> (a <code id=the-template-element:documentfragment-4><a data-x-internal=documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment>DocumentFragment</a></code>).</p>
+
+   </dl>
+
+  
+
+  <p>Each <code id=the-template-element:the-template-element-11><a href=#the-template-element>template</a></code> element has an associated <code id=the-template-element:documentfragment-5><a data-x-internal=documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment>DocumentFragment</a></code> object that
+  is its <dfn id=template-contents>template contents</dfn>. When a <code id=the-template-element:the-template-element-12><a href=#the-template-element>template</a></code> element is created, the user
+  agent must run the following steps to establish the <a href=#template-contents id=the-template-element:template-contents-4>template contents</a>:</p>
+
+  <ol><li><p>Let <var>doc</var> be the <code id=the-template-element:the-template-element-13><a href=#the-template-element>template</a></code> element's <a id=the-template-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <a href=#appropriate-template-contents-owner-document id=the-template-element:appropriate-template-contents-owner-document>appropriate template contents owner
+   document</a>.<li><p>Create a <code id=the-template-element:documentfragment-6><a data-x-internal=documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment>DocumentFragment</a></code> object whose <a id=the-template-element:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is
+   <var>doc</var> and <a href=https://dom.spec.whatwg.org/#concept-documentfragment-host id=the-template-element:concept-documentfragment-host data-x-internal=concept-documentfragment-host>host</a> is the
+   <code id=the-template-element:the-template-element-14><a href=#the-template-element>template</a></code> element.<li><p>Set the <code id=the-template-element:the-template-element-15><a href=#the-template-element>template</a></code> element's <a href=#template-contents id=the-template-element:template-contents-5>template contents</a> to the newly
+   created <code id=the-template-element:documentfragment-7><a data-x-internal=documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment>DocumentFragment</a></code> object.</ol>
+
+  <p>A <code id=the-template-element:document-3><a href=#document>Document</a></code> <var>doc</var>'s <dfn id=appropriate-template-contents-owner-document>appropriate template contents owner
+  document</dfn> is the <code id=the-template-element:document-4><a href=#document>Document</a></code> returned by the following algorithm:</p>
+
+  <ol><li>
+
+    <p>If <var>doc</var> is not a <code id=the-template-element:document-5><a href=#document>Document</a></code> created by this algorithm, run
+    these substeps:</p>
+
+    <ol><li>
+
+      <p>If <var>doc</var> does not yet have an <dfn id=associated-inert-template-document>associated inert template
+      document</dfn> then run these substeps:</p>
+
+      <ol><li><p>Let <var>new doc</var> be a new <code id=the-template-element:document-6><a href=#document>Document</a></code> (that does not have a
+       <a href=#concept-document-bc id=the-template-element:concept-document-bc>browsing context</a>). This is "a
+       <code id=the-template-element:document-7><a href=#document>Document</a></code> created by this algorithm" for the purposes of the step
+       above.<li><p>If <var>doc</var> is an <a href=https://dom.spec.whatwg.org/#html-document id=the-template-element:html-documents data-x-internal=html-documents>HTML document</a>, mark
+       <var>new doc</var> as an <a href=https://dom.spec.whatwg.org/#html-document id=the-template-element:html-documents-2 data-x-internal=html-documents>HTML document</a>
+       also.<li><p>Let <var>doc</var>'s <a href=#associated-inert-template-document id=the-template-element:associated-inert-template-document>associated inert template document</a> be <var>new doc</var>.</ol>
+
+     <li><p>Set <var>doc</var> to <var>doc</var>'s <a href=#associated-inert-template-document id=the-template-element:associated-inert-template-document-2>associated inert
+     template document</a>.</ol>
+
+    <p class=note>Each <code id=the-template-element:document-8><a href=#document>Document</a></code> not created by this algorithm thus gets a single
+    <code id=the-template-element:document-9><a href=#document>Document</a></code> to act as its proxy for owning the <a href=#template-contents id=the-template-element:template-contents-6>template contents</a> of all
+    its <code id=the-template-element:the-template-element-16><a href=#the-template-element>template</a></code> elements, so that they aren't in a <a href=#browsing-context id=the-template-element:browsing-context-2>browsing context</a> and
+    thus remain inert (e.g. scripts do not run). Meanwhile, <code id=the-template-element:the-template-element-17><a href=#the-template-element>template</a></code> elements inside
+    <code id=the-template-element:document-10><a href=#document>Document</a></code> objects that <em>are</em> created by this algorithm just reuse the same
+    <code id=the-template-element:document-11><a href=#document>Document</a></code> owner for their contents.</p>
+
+   <li><p>Return <var>doc</var>.</ol>
+
+  <p id=template-adopting-steps>The <a href=https://dom.spec.whatwg.org/#concept-node-adopt-ext id=the-template-element:concept-node-adopt-ext data-x-internal=concept-node-adopt-ext>adopting steps</a>
+  (with <var>node</var> and <var>oldDocument</var> as parameters) for <code id=the-template-element:the-template-element-18><a href=#the-template-element>template</a></code> elements
+  are the following:</p>
+
+  <ol><li>
+
+    <p>Let <var>doc</var> be <var>node</var>'s <a id=the-template-element:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s
+    <a href=#appropriate-template-contents-owner-document id=the-template-element:appropriate-template-contents-owner-document-2>appropriate template contents owner document</a>.</p>
+
+    <p class=note><var>node</var>'s <a id=the-template-element:node-document-4 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is the <code id=the-template-element:document-12><a href=#document>Document</a></code> object
+    that <var>node</var> was just adopted <em>into</em>.</p>
+
+   <li><p><a href=https://dom.spec.whatwg.org/#concept-node-adopt id=the-template-element:concept-node-adopt data-x-internal=concept-node-adopt>Adopt</a> <var>node</var>'s
+   <a href=#template-contents id=the-template-element:template-contents-7>template contents</a> (a <code id=the-template-element:documentfragment-8><a data-x-internal=documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment>DocumentFragment</a></code> object) into <var>doc</var>.</ol>
+
+  <p>The <dfn id=dom-template-content><code>content</code></dfn> IDL attribute must return the
+  <code id=the-template-element:the-template-element-19><a href=#the-template-element>template</a></code> element's <a href=#template-contents id=the-template-element:template-contents-8>template contents</a>.</p>
+
+  <hr>
+
+  <p>The <a href=https://dom.spec.whatwg.org/#concept-node-clone-ext id=the-template-element:concept-node-clone-ext data-x-internal=concept-node-clone-ext>cloning steps</a> for a <code id=the-template-element:the-template-element-20><a href=#the-template-element>template</a></code>
+  element <var>node</var> being cloned to a copy <var>copy</var> must run the
+  following steps:</p>
+
+  <ol><li><p>If the <var>clone children flag</var> is not set in the calling <a href=https://dom.spec.whatwg.org/#concept-node-clone id=the-template-element:concept-node-clone data-x-internal=concept-node-clone>clone</a> algorithm, abort these steps.<li><p>Let <var>copied contents</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-node-clone id=the-template-element:concept-node-clone-2 data-x-internal=concept-node-clone>cloning</a> all the children of <var>node</var>'s
+   <a href=#template-contents id=the-template-element:template-contents-9>template contents</a>, with <var>document</var> set to <var>copy</var>'s <a href=#template-contents id=the-template-element:template-contents-10>template contents</a>'s <a id=the-template-element:node-document-5 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+   document</a>, and with the <var>clone children
+   flag</var> set.<li><p>Append <var>copied contents</var> to <var>copy</var>'s <a href=#template-contents id=the-template-element:template-contents-11>template
+   contents</a>.</ol>
+
+  
+
+  <div class=example>
+
+   <p>In this example, a script populates a table four-column with data from a data structure, using
+   a <code id=the-template-element:the-template-element-21><a href=#the-template-element>template</a></code> to provide the element structure instead of manually generating the
+   structure from markup.</p>
+
+   <pre>&lt;!DOCTYPE html>
+&lt;html lang='en'>
+&lt;title>Cat data&lt;/title>
+&lt;script>
+ // Data is hard-coded here, but could come from the server
+ var data = [
+   { name: 'Pillar', color: 'Ticked Tabby', sex: 'Female (neutered)', legs: 3 },
+   { name: 'Hedral', color: 'Tuxedo', sex: 'Male (neutered)', legs: 4 },
+ ];
+&lt;/script>
+&lt;table>
+ &lt;thead>
+  &lt;tr>
+   &lt;th>Name &lt;th>Color &lt;th>Sex &lt;th>Legs
+ &lt;tbody>
+  &lt;template id="row">
+   &lt;tr>&lt;td>&lt;td>&lt;td>&lt;td>
+  &lt;/template>
+&lt;/table>
+&lt;script>
+ var template = document.querySelector('#row');
+ for (var i = 0; i &lt; data.length; i += 1) {
+   var cat = data[i];
+   var clone = template.content.cloneNode(true);
+   var cells = clone.querySelectorAll('td');
+   cells[0].textContent = cat.name;
+   cells[1].textContent = cat.color;
+   cells[2].textContent = cat.sex;
+   cells[3].textContent = cat.legs;
+   template.parentNode.appendChild(clone);
+ }
+&lt;/script></pre>
+
+   <p>This example uses <code id=the-template-element:dom-node-clonenode><a data-x-internal=dom-node-clonenode href=https://dom.spec.whatwg.org/#dom-node-clonenode>cloneNode()</a></code> on the
+   <code id=the-template-element:the-template-element-22><a href=#the-template-element>template</a></code>'s contents; it could equivalently have used <code id=the-template-element:dom-document-importnode><a data-x-internal=dom-document-importnode href=https://dom.spec.whatwg.org/#dom-document-importnode>document.importNode()</a></code>, which does the same thing. The
+   only difference between these two APIs is when the <a id=the-template-element:node-document-6 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is updated: with
+   <code id=the-template-element:dom-node-clonenode-2><a data-x-internal=dom-node-clonenode href=https://dom.spec.whatwg.org/#dom-node-clonenode>cloneNode()</a></code> it is updated when the nodes are appended
+   with <code id=the-template-element:dom-node-appendchild-2><a data-x-internal=dom-node-appendchild href=https://dom.spec.whatwg.org/#dom-node-appendchild>appendChild()</a></code>, with <code id=the-template-element:dom-document-importnode-2><a data-x-internal=dom-document-importnode href=https://dom.spec.whatwg.org/#dom-document-importnode>document.importNode()</a></code> it is updated when the nodes are
+   cloned.</p>
+
+  </div>
+
+
+
+  
+
+  <h5 id=template-XSLT-XPath>4.12.3.1 Interaction of <code id=template-XSLT-XPath:the-template-element><a href=#the-template-element>template</a></code> elements with XSLT and XPath<a href=#template-XSLT-XPath class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This specification does not define how XSLT and XPath interact with the <code id=template-XSLT-XPath:the-template-element-2><a href=#the-template-element>template</a></code>
+  element. However, in the absence of another specification actually defining this, here are some
+  guidelines for implementors, which are intended to be consistent with other processing described
+  in this specification:</p>
+
+  <ul><li><p>An XSLT processor based on an XML parser that acts <a href=#xml-parser id=template-XSLT-XPath:xml-parser>as described
+   in this specification</a> needs to act as if <code id=template-XSLT-XPath:the-template-element-3><a href=#the-template-element>template</a></code> elements contain as
+   descendants their <a href=#template-contents id=template-XSLT-XPath:template-contents>template contents</a> for the purposes of the transform.<li><p>An XSLT processor that outputs a DOM needs to ensure that nodes that would go into a
+   <code id=template-XSLT-XPath:the-template-element-4><a href=#the-template-element>template</a></code> element are instead placed into the element's <a href=#template-contents id=template-XSLT-XPath:template-contents-2>template
+   contents</a>.<li><p>XPath evaluation using the XPath DOM API when applied to a <code id=template-XSLT-XPath:document><a href=#document>Document</a></code> parsed
+   using the <a href=#html-parser id=template-XSLT-XPath:html-parser>HTML parser</a> or the <a href=#xml-parser id=template-XSLT-XPath:xml-parser-2>XML parser</a> described in this specification
+   needs to ignore <a href=#template-contents id=template-XSLT-XPath:template-contents-3>template contents</a>.</p>
+
+  </ul>
+
+  
+
+
+
+  <h4 id=the-slot-element>4.12.4 The <dfn><code>slot</code></dfn> element<a href=#the-slot-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-slot-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-slot-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-slot-element:phrasing-content-2>Phrasing content</a>.<dt><a href=#concept-element-contexts id=the-slot-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-slot-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-slot-element:concept-element-content-model>Content model</a>:<dd><a href=#transparent id=the-slot-element:transparent>Transparent</a><dt><a href=#concept-element-tag-omission id=the-slot-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-slot-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-slot-element:global-attributes>Global attributes</a><dd><code id=the-slot-element:attr-slot-name><a href=#attr-slot-name>name</a></code> — Name of shadow tree slot<dt><a href=#concept-element-dom id=the-slot-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-slot-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlslotelement>HTMLSlotElement</dfn> : <a href=#htmlelement id=the-slot-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-slot-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-slot-name id=the-slot-element:dom-slot-name>name</a>;
+  sequence&lt;Node> <a href=#dom-slot-assignednodes id=the-slot-element:dom-slot-assignednodes>assignedNodes</a>(optional <a href=#assignednodesoptions id=the-slot-element:assignednodesoptions>AssignedNodesOptions</a> options);
+};
+
+dictionary <dfn id=assignednodesoptions>AssignedNodesOptions</dfn> {
+  boolean flatten = false;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-slot-element:the-slot-element><a href=#the-slot-element>slot</a></code> element defines a <a href=https://dom.spec.whatwg.org/#concept-slot id=the-slot-element:concept-slot data-x-internal=concept-slot>slot</a>. It is
+  typically used in a <a id=the-slot-element:shadow-tree href=https://dom.spec.whatwg.org/#concept-shadow-tree data-x-internal=shadow-tree>shadow tree</a>. A <code id=the-slot-element:the-slot-element-2><a href=#the-slot-element>slot</a></code> element <a href=#represents id=the-slot-element:represents>represents</a>
+  its <a id=the-slot-element:assigned-nodes href=https://dom.spec.whatwg.org/#slot-assigned-nodes data-x-internal=assigned-nodes>assigned nodes</a>, if any, and its contents otherwise.</p>
+
+  <p>The <dfn id=attr-slot-name><code>name</code></dfn> content attribute may contain any
+  string value. It represents a <a href=https://dom.spec.whatwg.org/#concept-slot id=the-slot-element:concept-slot-2 data-x-internal=concept-slot>slot</a>'s <a href=https://dom.spec.whatwg.org/#slot-name id=the-slot-element:slot-name data-x-internal=slot-name>name</a>.</p>
+
+  <dl class=domintro><dt><var>slot</var> . <code id=the-slot-element:dom-slot-name-2><a href=#dom-slot-name>name</a></code><dd>Can be used to get and set <var>slot</var>'s <a href=https://dom.spec.whatwg.org/#slot-name id=the-slot-element:slot-name-2 data-x-internal=slot-name>name</a>.<dt><var>slot</var> . <code id=the-slot-element:dom-slot-assignednodes-2><a href=#dom-slot-assignednodes>assignedNodes</a></code>()<dd>Returns <var>slot</var>'s <a id=the-slot-element:assigned-nodes-2 href=https://dom.spec.whatwg.org/#slot-assigned-nodes data-x-internal=assigned-nodes>assigned nodes</a>.<dt><var>slot</var> . <code id=the-slot-element:dom-slot-assignednodes-3><a href=#dom-slot-assignednodes>assignedNodes</a></code>({ flatten: true })<dd>Returns <var>slot</var>'s <a id=the-slot-element:assigned-nodes-3 href=https://dom.spec.whatwg.org/#slot-assigned-nodes data-x-internal=assigned-nodes>assigned nodes</a>, if any, and <var>slot</var>'s children
+   otherwise, and does the same for any <code id=the-slot-element:the-slot-element-3><a href=#the-slot-element>slot</a></code> elements encountered therein, recursively,
+   until there are no <code id=the-slot-element:the-slot-element-4><a href=#the-slot-element>slot</a></code> elements left.</dl>
+
+  <p>The <dfn id=dom-slot-name><code>name</code></dfn> IDL attribute must <a href=#reflect id=the-slot-element:reflect>reflect</a>
+  the content attribute of the same name.</p>
+
+  <p>The <dfn id=dom-slot-assignednodes><code>assignedNodes(<var>options</var>)</code></dfn>
+  method, when invoked, must run these steps:</p>
+
+  <ol><li><p>If the value of <var>options</var>'s <code>flatten</code> member is false, then
+   return this element's <a id=the-slot-element:assigned-nodes-4 href=https://dom.spec.whatwg.org/#slot-assigned-nodes data-x-internal=assigned-nodes>assigned nodes</a>.<li><p>Return the result of <a id=the-slot-element:finding-flattened-slotables href=https://dom.spec.whatwg.org/#find-flattened-slotables data-x-internal=finding-flattened-slotables>finding flattened slotables</a> with this element.</ol>
+
+
+
+  <h4 id=the-canvas-element>4.12.5 The <dfn id=canvas><code>canvas</code></dfn> element<a href=#the-canvas-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> canvas<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>3.2+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>3.6+</span></span><span class="ie yes"><span>IE</span> <span>9+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini partial"><span>Opera Mini (limited)</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>3+</span></span><span class="safari yes"><span>Safari</span> <span>4+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>9+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=canvas">caniuse.com</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-canvas-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-canvas-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-canvas-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#embedded-content-category id=the-canvas-element:embedded-content-category>Embedded content</a>.<dd><a href=#palpable-content-2 id=the-canvas-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-canvas-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#embedded-content-category id=the-canvas-element:embedded-content-category-2>embedded content</a> is expected.<dt><a href=#concept-element-content-model id=the-canvas-element:concept-element-content-model>Content model</a>:<dd><a href=#transparent id=the-canvas-element:transparent>Transparent</a>, but with no <a href=#interactive-content-2 id=the-canvas-element:interactive-content-2>interactive content</a> descendants except
+   for <code id=the-canvas-element:the-a-element><a href=#the-a-element>a</a></code> elements, <code id=the-canvas-element:the-img-element><a href=#the-img-element>img</a></code> elements with
+   <code id=the-canvas-element:attr-hyperlink-usemap><a href=#attr-hyperlink-usemap>usemap</a></code> attributes, <code id=the-canvas-element:the-button-element><a href=#the-button-element>button</a></code> elements,
+   <code id=the-canvas-element:the-input-element><a href=#the-input-element>input</a></code> elements whose <code id=the-canvas-element:attr-input-type><a href=#attr-input-type>type</a></code> attribute are in
+   the <a href="#checkbox-state-(type=checkbox)" id="the-canvas-element:checkbox-state-(type=checkbox)">Checkbox</a> or <a href="#radio-button-state-(type=radio)" id="the-canvas-element:radio-button-state-(type=radio)">Radio Button</a> states, <code id=the-canvas-element:the-input-element-2><a href=#the-input-element>input</a></code> elements that are
+   <a href=#concept-button id=the-canvas-element:concept-button>buttons</a>, <code id=the-canvas-element:the-select-element><a href=#the-select-element>select</a></code> elements with a <code id=the-canvas-element:attr-select-multiple><a href=#attr-select-multiple>multiple</a></code> attribute or a <a href=#concept-select-size id=the-canvas-element:concept-select-size>display size</a> greater than 1, and elements that would not be
+   <a href=#interactive-content-2 id=the-canvas-element:interactive-content-2-2>interactive content</a> except for having the <code id=the-canvas-element:attr-tabindex><a href=#attr-tabindex>tabindex</a></code> attribute specified.<dt><a href=#concept-element-tag-omission id=the-canvas-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-canvas-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-canvas-element:global-attributes>Global attributes</a><dd><code id=the-canvas-element:attr-canvas-width><a href=#attr-canvas-width>width</a></code> — Horizontal dimension<dd><code id=the-canvas-element:attr-canvas-height><a href=#attr-canvas-height>height</a></code> — Vertical dimension<dt><a href=#concept-element-dom id=the-canvas-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>typedef (<a href=#canvasrenderingcontext2d id=the-canvas-element:canvasrenderingcontext2d>CanvasRenderingContext2D</a> or <a id=the-canvas-element:webglrenderingcontext href=https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext data-x-internal=webglrenderingcontext>WebGLRenderingContext</a>) <dfn id=renderingcontext>RenderingContext</dfn>;
+
+[<a href=#htmlconstructor id=the-canvas-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlcanvaselement>HTMLCanvasElement</dfn> : <a href=#htmlelement id=the-canvas-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-canvas-element:cereactions>CEReactions</a>] attribute unsigned long <a href=#dom-canvas-width id=the-canvas-element:dom-canvas-width>width</a>;
+  [<a href=#cereactions id=the-canvas-element:cereactions-2>CEReactions</a>] attribute unsigned long <a href=#dom-canvas-height id=the-canvas-element:dom-canvas-height>height</a>;
+
+  <a href=#renderingcontext id=the-canvas-element:renderingcontext>RenderingContext</a>? <a href=#dom-canvas-getcontext id=the-canvas-element:dom-canvas-getcontext>getContext</a>(DOMString contextId, any... arguments);
+
+  USVString <a href=#dom-canvas-todataurl id=the-canvas-element:dom-canvas-todataurl>toDataURL</a>(optional DOMString type, optional any quality);
+  void <a href=#dom-canvas-toblob id=the-canvas-element:dom-canvas-toblob>toBlob</a>(<a href=#blobcallback id=the-canvas-element:blobcallback>BlobCallback</a> _callback, optional DOMString type, optional any quality);
+  <a href=#offscreencanvas id=the-canvas-element:offscreencanvas>OffscreenCanvas</a> <a href=#dom-canvas-transfercontroltooffscreen id=the-canvas-element:dom-canvas-transfercontroltooffscreen>transferControlToOffscreen</a>();
+};
+
+callback <dfn id=blobcallback>BlobCallback</dfn> = void (<a id=the-canvas-element:blob href=https://w3c.github.io/FileAPI/#blob data-x-internal=blob>Blob</a>? blob);</pre>
+   </dl>
+
+  <p>The <code id=the-canvas-element:the-canvas-element><a href=#the-canvas-element>canvas</a></code> element provides scripts with a resolution-dependent bitmap canvas,
+  which can be used for rendering graphs, game graphics, art, or other visual images on the fly.</p>
+
+  <p>Authors should not use the <code id=the-canvas-element:the-canvas-element-2><a href=#the-canvas-element>canvas</a></code> element in a document when a more suitable
+  element is available. For example, it is inappropriate to use a <code id=the-canvas-element:the-canvas-element-3><a href=#the-canvas-element>canvas</a></code> element to
+  render a page heading: if the desired presentation of the heading is graphically intense, it
+  should be marked up using appropriate elements (typically <code id=the-canvas-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>) and then styled using
+  CSS and supporting technologies such as Web Components.</p>
+
+  <p>When authors use the <code id=the-canvas-element:the-canvas-element-4><a href=#the-canvas-element>canvas</a></code> element, they must also provide content that, when
+  presented to the user, conveys essentially the same function or purpose as the
+  <code id=the-canvas-element:the-canvas-element-5><a href=#the-canvas-element>canvas</a></code>'s bitmap. This content may be placed as content of the <code id=the-canvas-element:the-canvas-element-6><a href=#the-canvas-element>canvas</a></code>
+  element. The contents of the <code id=the-canvas-element:the-canvas-element-7><a href=#the-canvas-element>canvas</a></code> element, if any, are the element's <a href=#fallback-content id=the-canvas-element:fallback-content>fallback
+  content</a>.</p>
+
+  <hr>
+
+  <p>In interactive visual media, if <a href=#concept-n-script id=the-canvas-element:concept-n-script>scripting is enabled</a> for
+  the <code id=the-canvas-element:the-canvas-element-8><a href=#the-canvas-element>canvas</a></code> element, and if support for <code id=the-canvas-element:the-canvas-element-9><a href=#the-canvas-element>canvas</a></code> elements has been enabled,
+  then the <code id=the-canvas-element:the-canvas-element-10><a href=#the-canvas-element>canvas</a></code> element <a href=#represents id=the-canvas-element:represents>represents</a> <a href=#embedded-content-category id=the-canvas-element:embedded-content-category-3>embedded content</a>
+  consisting of a dynamically created image, the element's bitmap.</p>
+
+  <p>In non-interactive, static, visual media, if the <code id=the-canvas-element:the-canvas-element-11><a href=#the-canvas-element>canvas</a></code> element has been
+  previously associated with a rendering context (e.g. if the page was viewed in an interactive
+  visual medium and is now being printed, or if some script that ran during the page layout process
+  painted on the element), then the <code id=the-canvas-element:the-canvas-element-12><a href=#the-canvas-element>canvas</a></code> element <a href=#represents id=the-canvas-element:represents-2>represents</a>
+  <a href=#embedded-content-category id=the-canvas-element:embedded-content-category-4>embedded content</a> with the element's current bitmap and size. Otherwise, the element
+  represents its <a href=#fallback-content id=the-canvas-element:fallback-content-2>fallback content</a> instead.</p>
+
+  <p>In non-visual media, and in visual media if <a href=#concept-n-noscript id=the-canvas-element:concept-n-noscript>scripting is
+  disabled</a> for the <code id=the-canvas-element:the-canvas-element-13><a href=#the-canvas-element>canvas</a></code> element or if support for <code id=the-canvas-element:the-canvas-element-14><a href=#the-canvas-element>canvas</a></code> elements
+  has been disabled, the <code id=the-canvas-element:the-canvas-element-15><a href=#the-canvas-element>canvas</a></code> element <a href=#represents id=the-canvas-element:represents-3>represents</a> its <a href=#fallback-content id=the-canvas-element:fallback-content-3>fallback
+  content</a> instead.</p>
+
+  
+  <p>When a <code id=the-canvas-element:the-canvas-element-16><a href=#the-canvas-element>canvas</a></code> element <a href=#represents id=the-canvas-element:represents-4>represents</a> <a href=#embedded-content-category id=the-canvas-element:embedded-content-category-5>embedded content</a>, the
+  user can still focus descendants of the <code id=the-canvas-element:the-canvas-element-17><a href=#the-canvas-element>canvas</a></code> element (in the <a href=#fallback-content id=the-canvas-element:fallback-content-4>fallback
+  content</a>). When an element is <a href=#focused id=the-canvas-element:focused>focused</a>, it is the target of keyboard interaction
+  events (even though the element itself is not visible). This allows authors to make an interactive
+  canvas keyboard-accessible: authors should have a one-to-one mapping of interactive regions to <i id=the-canvas-element:focusable-area><a href=#focusable-area>focusable areas</a></i> in the <a href=#fallback-content id=the-canvas-element:fallback-content-5>fallback content</a>. (Focus has no
+  effect on mouse interaction events.) <a href=#refsUIEVENTS>[UIEVENTS]</a></p> 
+
+  <p>An element whose nearest <code id=the-canvas-element:the-canvas-element-18><a href=#the-canvas-element>canvas</a></code> element ancestor is <a href=#being-rendered id=the-canvas-element:being-rendered>being rendered</a>
+  and <a href=#represents id=the-canvas-element:represents-5>represents</a> <a href=#embedded-content-category id=the-canvas-element:embedded-content-category-6>embedded content</a> is an element that is <dfn id=being-used-as-relevant-canvas-fallback-content>being used as
+  relevant canvas fallback content</dfn>.</p>
+
+  <hr>
+
+  <p>The <code id=the-canvas-element:the-canvas-element-19><a href=#the-canvas-element>canvas</a></code> element has two attributes to control the size of the element's bitmap:
+  <dfn id=attr-canvas-width><code>width</code></dfn> and <dfn id=attr-canvas-height><code>height</code></dfn>. These attributes, when specified, must have
+  values that are <a href=#valid-non-negative-integer id=the-canvas-element:valid-non-negative-integer>valid non-negative integers</a>. The <a href=#rules-for-parsing-non-negative-integers id=the-canvas-element:rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</a> must be used to obtain their
+  numeric values. If an attribute is missing, or if parsing its value returns an error, then the
+  default value must be used instead. The <code id=the-canvas-element:attr-canvas-width-2><a href=#attr-canvas-width>width</a></code>
+  attribute defaults to 300, and the <code id=the-canvas-element:attr-canvas-height-2><a href=#attr-canvas-height>height</a></code> attribute
+  defaults to 150.</p>
+
+  <p>The <a id=the-canvas-element:intrinsic-dimensions href=https://drafts.csswg.org/css2/conform.html#intrinsic data-x-internal=intrinsic-dimensions>intrinsic dimensions</a> of the <code id=the-canvas-element:the-canvas-element-20><a href=#the-canvas-element>canvas</a></code> element when it
+  <a href=#represents id=the-canvas-element:represents-6>represents</a> <a href=#embedded-content-category id=the-canvas-element:embedded-content-category-7>embedded content</a> are equal to the dimensions of the
+  element's bitmap.</p>
+
+  <p>The user agent must use a square pixel density consisting of one pixel of image data per
+  coordinate space unit for the bitmaps of a <code id=the-canvas-element:the-canvas-element-21><a href=#the-canvas-element>canvas</a></code> and its rendering contexts.</p>
+
+  <p class=note>A <code id=the-canvas-element:the-canvas-element-22><a href=#the-canvas-element>canvas</a></code> element can be sized arbitrarily by a style sheet, its
+  bitmap is then subject to the <a id="the-canvas-element:'object-fit'" href=https://drafts.csswg.org/css-images/#the-object-fit data-x-internal="'object-fit'">'object-fit'</a> CSS property.</p>
+
+  
+
+  <hr>
+
+  <p>The bitmaps of <code id=the-canvas-element:the-canvas-element-23><a href=#the-canvas-element>canvas</a></code> elements, the bitmaps of <code id=the-canvas-element:imagebitmap><a href=#imagebitmap>ImageBitmap</a></code> objects,
+  as well as some of the bitmaps of rendering contexts, such as those described in the sections on
+  the <code id=the-canvas-element:canvasrenderingcontext2d-2><a href=#canvasrenderingcontext2d>CanvasRenderingContext2D</a></code> and <code id=the-canvas-element:imagebitmaprenderingcontext><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> objects
+  below, have an <dfn id=concept-canvas-origin-clean>origin-clean</dfn> flag, which can be
+  set to true or false. Initially, when the <code id=the-canvas-element:the-canvas-element-24><a href=#the-canvas-element>canvas</a></code> element or <code id=the-canvas-element:imagebitmap-2><a href=#imagebitmap>ImageBitmap</a></code>
+  object is created, its bitmap's <a href=#concept-canvas-origin-clean id=the-canvas-element:concept-canvas-origin-clean>origin-clean</a>
+  flag must be set to true.</p>
+
+  <p>A <code id=the-canvas-element:the-canvas-element-25><a href=#the-canvas-element>canvas</a></code> element can have a rendering context bound to it. Initially, it does not
+  have a bound rendering context. To keep track of whether it has a rendering context or not, and
+  what kind of rendering context it is, a <code id=the-canvas-element:the-canvas-element-26><a href=#the-canvas-element>canvas</a></code> also has a <dfn id=concept-canvas-context-mode>canvas context mode</dfn>, which is initially <dfn id=concept-canvas-none>none</dfn> but can be changed to either <dfn id=concept-canvas-placeholder>placeholder</dfn>, <dfn id=concept-canvas-2d>2d</dfn>, <dfn id=concept-canvas-bitmaprenderer>bitmaprenderer</dfn>, or <dfn id=concept-canvas-webgl>webgl</dfn> by algorithms defined in this specification.</p>
+
+  <p>When its <a href=#concept-canvas-context-mode id=the-canvas-element:concept-canvas-context-mode>canvas context mode</a> is <a href=#concept-canvas-none id=the-canvas-element:concept-canvas-none>none</a>, a <code id=the-canvas-element:the-canvas-element-27><a href=#the-canvas-element>canvas</a></code> element has no rendering context,
+  and its bitmap must be fully transparent black with an <a href=#intrinsic-width id=the-canvas-element:intrinsic-width>intrinsic width</a> equal to the
+  numeric value of the element's <code id=the-canvas-element:attr-canvas-width-3><a href=#attr-canvas-width>width</a></code> attribute and an
+  <a href=#intrinsic-height id=the-canvas-element:intrinsic-height>intrinsic height</a> equal to the numeric value of the element's <code id=the-canvas-element:attr-canvas-height-3><a href=#attr-canvas-height>height</a></code> attribute, those values being interpreted in <a href=https://drafts.csswg.org/css-values/#px id="the-canvas-element:'px'" data-x-internal="'px'">CSS pixels</a>, and being updated as the attributes are set, changed, or
+  removed.</p>
+
+  <p>When its <a href=#concept-canvas-context-mode id=the-canvas-element:concept-canvas-context-mode-2>canvas context mode</a> is <a href=#concept-canvas-placeholder id=the-canvas-element:concept-canvas-placeholder>placeholder</a>, a <code id=the-canvas-element:the-canvas-element-28><a href=#the-canvas-element>canvas</a></code> element has no
+  rendering context. It serves as a placeholder for an <code id=the-canvas-element:offscreencanvas-2><a href=#offscreencanvas>OffscreenCanvas</a></code> object, and
+  the content of the <code id=the-canvas-element:the-canvas-element-29><a href=#the-canvas-element>canvas</a></code> element is updated by calling the <code id=the-canvas-element:offscreencontext-commit><a href=#offscreencontext-commit>commit()</a></code> method of the <code id=the-canvas-element:offscreencanvas-3><a href=#offscreencanvas>OffscreenCanvas</a></code>
+  object's rendering context.</p>
+
+  <p>When a <code id=the-canvas-element:the-canvas-element-30><a href=#the-canvas-element>canvas</a></code> element represents <a href=#embedded-content-category id=the-canvas-element:embedded-content-category-8>embedded content</a>, it provides a
+  <a id=the-canvas-element:paint-source href=https://drafts.csswg.org/css-images-4/#paint-source data-x-internal=paint-source>paint source</a> whose width is the element's <a href=#intrinsic-width id=the-canvas-element:intrinsic-width-2>intrinsic width</a>, whose height
+  is the element's <a href=#intrinsic-height id=the-canvas-element:intrinsic-height-2>intrinsic height</a>, and whose appearance is the element's bitmap.</p>
+
+  <p>Whenever the <code id=the-canvas-element:attr-canvas-width-4><a href=#attr-canvas-width>width</a></code> and <code id=the-canvas-element:attr-canvas-height-4><a href=#attr-canvas-height>height</a></code> content attributes are set, removed, changed, or
+  redundantly set to the value they already have, then the user agent must perform the action
+  from the row of the following table that corresponds to the <code id=the-canvas-element:the-canvas-element-31><a href=#the-canvas-element>canvas</a></code> element's <a href=#concept-canvas-context-mode id=the-canvas-element:concept-canvas-context-mode-3>context mode</a>.</p>
+
+  <table><thead><tr><th>
+      <p><a href=#concept-canvas-context-mode id=the-canvas-element:concept-canvas-context-mode-4>Context Mode</a></p>
+     <th>
+      <p>Action</p>
+
+   <tbody><tr><th>
+      <p><a href=#concept-canvas-2d id=the-canvas-element:concept-canvas-2d>2d</a></p>
+     <td>
+      <p>Follow the steps to <a href=#concept-canvas-set-bitmap-dimensions id=the-canvas-element:concept-canvas-set-bitmap-dimensions>set bitmap
+      dimensions</a> to the numeric values of the <code id=the-canvas-element:attr-canvas-width-5><a href=#attr-canvas-width>width</a></code>
+      and <code id=the-canvas-element:attr-canvas-height-5><a href=#attr-canvas-height>height</a></code> content attributes.</p>
+
+    <tr><th>
+      <p><a href=#concept-canvas-webgl id=the-canvas-element:concept-canvas-webgl>webgl</a></p>
+     <td>
+      <p>Follow the behavior defined in the WebGL specification. <a href=#refsWEBGL>[WEBGL]</a></p>
+
+    <tr><th>
+      <p><a href=#concept-canvas-bitmaprenderer id=the-canvas-element:concept-canvas-bitmaprenderer>bitmaprenderer</a></p>
+     <td>
+      <p>If the context's <a href=#concept-imagebitmaprenderingcontext-bitmap-mode id=the-canvas-element:concept-imagebitmaprenderingcontext-bitmap-mode>bitmap
+      mode</a> is set to <a href=#concept-imagebitmaprenderingcontext-blank id=the-canvas-element:concept-imagebitmaprenderingcontext-blank>blank</a>,
+      run the steps to <a href="#set-an-imagebitmaprenderingcontext's-output-bitmap" id="the-canvas-element:set-an-imagebitmaprenderingcontext's-output-bitmap">set an <code>ImageBitmapRenderingContext</code>'s output bitmap</a>,
+      passing the <code id=the-canvas-element:the-canvas-element-32><a href=#the-canvas-element>canvas</a></code> element's rendering context.</p>
+
+    <tr><th>
+      <p><a href=#concept-canvas-placeholder id=the-canvas-element:concept-canvas-placeholder-2>placeholder</a></p>
+     <td>
+      <p>Do nothing.</p>
+
+    <tr><th>
+      <p><a href=#concept-canvas-none id=the-canvas-element:concept-canvas-none-2>none</a></p>
+     <td>
+      <p>Do nothing.</p>
+  </table>
+
+  <p>The <dfn id=dom-canvas-width><code>width</code></dfn> and <dfn id=dom-canvas-height><code>height</code></dfn> IDL attributes must <a href=#reflect id=the-canvas-element:reflect>reflect</a> the
+  respective content attributes of the same name, with the same defaults.</p>
+
+  
+
+  <hr>
+
+  
+  <dl class=domintro><dt><var>context</var> = <var>canvas</var> . <code id=the-canvas-element:dom-canvas-getcontext-2><a href=#dom-canvas-getcontext>getContext</a></code>(<var>contextId</var> [, ... ] )<dd>
+
+    <p>Returns an object that exposes an API for drawing on the canvas. The first argument
+    specifies the desired API, either "<code id=the-canvas-element:canvas-context-2d><a href=#canvas-context-2d>2d</a></code>", "<code id=the-canvas-element:canvas-context-bitmaprenderer><a href=#canvas-context-bitmaprenderer>bitmaprenderer</a></code>" or "<code id=the-canvas-element:canvas-context-webgl><a href=#canvas-context-webgl>webgl</a></code>". Subsequent arguments are handled by that API.</p>
+
+    <p>This specification defines the "<code id=the-canvas-element:canvas-context-2d-2><a href=#canvas-context-2d>2d</a></code>" and "<code id=the-canvas-element:canvas-context-bitmaprenderer-2><a href=#canvas-context-bitmaprenderer>bitmaprenderer</a></code>" contexts below. There is also a
+    specification that defines a "<code id=the-canvas-element:canvas-context-webgl-2><a href=#canvas-context-webgl>webgl</a></code>" context.
+    <a href=#refsWEBGL>[WEBGL]</a></p>
+
+    <p>Returns null if the given context ID is not supported, or if the canvas has already been
+    initialized with another context type (e.g. trying to get a "<code id=the-canvas-element:canvas-context-2d-3><a href=#canvas-context-2d>2d</a></code>" context after getting a "<code id=the-canvas-element:canvas-context-webgl-3><a href=#canvas-context-webgl>webgl</a></code>" context).</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-canvas-getcontext><code>getContext(<var>contextId</var>,
+  <var>arguments...</var>)</code></dfn> method of the <code id=the-canvas-element:the-canvas-element-33><a href=#the-canvas-element>canvas</a></code> element, when invoked,
+  must run the steps in the cell of the following table whose column header describes the
+  <code id=the-canvas-element:the-canvas-element-34><a href=#the-canvas-element>canvas</a></code> element's <a href=#concept-canvas-context-mode id=the-canvas-element:concept-canvas-context-mode-5>canvas context
+  mode</a> and whose row header describes the method's first argument.</p>
+
+  <table><thead><tr><td>
+     <th><a href=#concept-canvas-none id=the-canvas-element:concept-canvas-none-3>none</a>
+     <th><a href=#concept-canvas-2d id=the-canvas-element:concept-canvas-2d-2>2d</a>
+     <th><a href=#concept-canvas-bitmaprenderer id=the-canvas-element:concept-canvas-bitmaprenderer-2>bitmaprenderer</a>
+     <th><a href=#concept-canvas-webgl id=the-canvas-element:concept-canvas-webgl-2>webgl</a>
+     <th><a href=#concept-canvas-placeholder id=the-canvas-element:concept-canvas-placeholder-3>placeholder</a>
+   <tbody><tr><th>"<dfn id=canvas-context-2d><code>2d</code></dfn>"
+     <td>
+
+      Follow the <a href=#2d-context-creation-algorithm id=the-canvas-element:2d-context-creation-algorithm>2D context creation algorithm</a> defined in the section below, passing
+      it the <code id=the-canvas-element:the-canvas-element-35><a href=#the-canvas-element>canvas</a></code> element and the method's <var>arguments...</var>, to obtain a
+      <code id=the-canvas-element:canvasrenderingcontext2d-3><a href=#canvasrenderingcontext2d>CanvasRenderingContext2D</a></code> object; if this does not throw an exception, then
+      set the <code id=the-canvas-element:the-canvas-element-36><a href=#the-canvas-element>canvas</a></code> element's <a href=#concept-canvas-context-mode id=the-canvas-element:concept-canvas-context-mode-6>context
+      mode</a> to <a href=#concept-canvas-2d id=the-canvas-element:concept-canvas-2d-3>2d</a>, and return the
+      <code id=the-canvas-element:canvasrenderingcontext2d-4><a href=#canvasrenderingcontext2d>CanvasRenderingContext2D</a></code> object.
+
+     <td>
+      Return the same object as was returned the last time the method was invoked with this same
+      first argument.
+     <td>
+      Return null.
+     <td>
+      Return null.
+     <td>
+      Throw an <a id=the-canvas-element:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-canvas-element:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.
+
+    <tr><th>"<dfn id=canvas-context-bitmaprenderer><code>bitmaprenderer</code></dfn>"
+     <td>
+
+      Follow the <a href=#imagebitmaprenderingcontext-creation-algorithm id=the-canvas-element:imagebitmaprenderingcontext-creation-algorithm><code>ImageBitmapRenderingContext</code> creation algorithm</a> defined
+      in the section below, passing it the <code id=the-canvas-element:the-canvas-element-37><a href=#the-canvas-element>canvas</a></code> element and the method's
+      <var>arguments...</var>, to obtain an <code id=the-canvas-element:imagebitmaprenderingcontext-2><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object; then
+      set the <code id=the-canvas-element:the-canvas-element-38><a href=#the-canvas-element>canvas</a></code> element's <a href=#concept-canvas-context-mode id=the-canvas-element:concept-canvas-context-mode-7>context
+      mode</a> to <a href=#concept-canvas-bitmaprenderer id=the-canvas-element:concept-canvas-bitmaprenderer-3>bitmaprenderer</a>, and return the
+      <code id=the-canvas-element:imagebitmaprenderingcontext-3><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object.
+
+     <td>
+      Return null.
+     <td>
+      Return the same object as was returned the last time the method was invoked with this same
+      first argument.
+     <td>
+      Return null.
+     <td>
+      Throw an <a id=the-canvas-element:invalidstateerror-2 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-canvas-element:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.
+
+    <tr><th>"<dfn id=canvas-context-webgl><code>webgl</code></dfn>", if the user agent supports the WebGL feature in its current configuration
+     <td>
+
+      Follow the instructions given in the WebGL specification's <i>Context Creation</i> section to
+      obtain either a <code id=the-canvas-element:webglrenderingcontext-2><a data-x-internal=webglrenderingcontext href=https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext>WebGLRenderingContext</a></code> or null; if the returned value is null,
+      then return null and abort these steps, otherwise, set the <code id=the-canvas-element:the-canvas-element-39><a href=#the-canvas-element>canvas</a></code> element's
+      <a href=#concept-canvas-context-mode id=the-canvas-element:concept-canvas-context-mode-8>context mode</a> to <a href=#concept-canvas-webgl id=the-canvas-element:concept-canvas-webgl-3>webgl</a>, and return the <code id=the-canvas-element:webglrenderingcontext-3><a data-x-internal=webglrenderingcontext href=https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext>WebGLRenderingContext</a></code>
+      object <a href=#refsWEBGL>[WEBGL]</a>
+
+     <td>
+      Return null.
+     <td>
+      Return null.
+     <td>
+      Return the same object as was returned the last time the method was invoked with this same
+      first argument.
+     <td>
+      Throw an <a id=the-canvas-element:invalidstateerror-3 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-canvas-element:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.
+
+    <tr><th>An unsupported value*
+     <td>
+      Return null.
+     <td>
+      Return null.
+     <td>
+      Return null.
+     <td>
+      Return null.
+     <td>
+      Throw an <a id=the-canvas-element:invalidstateerror-4 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-canvas-element:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.
+
+  </table>
+
+  <p class=tablenote><small>* For example, the "<code id=the-canvas-element:canvas-context-webgl-4><a href=#canvas-context-webgl>webgl</a></code>"
+  value in the case of a user agent having exhausted the graphics hardware's abilities and having no
+  software fallback implementation.</small></p>
+

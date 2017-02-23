@@ -1,0 +1,850 @@
+
+  <p>Authors are encouraged to use declarative alternatives to scripting where possible, as
+  declarative mechanisms are often more maintainable, and many users disable scripting.</p>
+
+  <div class=example>
+
+   <p>For example, instead of using script to show or hide a section to show more details, the
+   <code id=scripting-3:the-details-element><a href=#the-details-element>details</a></code> element could be used.</p>
+
+  </div>
+
+  <p>Authors are also encouraged to make their applications degrade gracefully in the absence of
+  scripting support.</p>
+
+  <div class=example>
+
+   <p>For example, if an author provides a link in a table header to dynamically resort the table,
+   the link could also be made to function without scripts by requesting the sorted table from the
+   server.</p>
+
+  </div>
+
+
+  <h4 id=the-script-element data-dfn-type=element data-lt=script>4.12.1 The <dfn id=script><code>script</code></dfn> element<a href=#the-script-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-script-element:concept-element-categories>Categories</a>:<dd><a href=#metadata-content-2 id=the-script-element:metadata-content-2>Metadata content</a>.<dd><a href=#flow-content-2 id=the-script-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-script-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#script-supporting-elements-2 id=the-script-element:script-supporting-elements-2>Script-supporting element</a>.<dt><a href=#concept-element-contexts id=the-script-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#metadata-content-2 id=the-script-element:metadata-content-2-2>metadata content</a> is expected.<dd>Where <a href=#phrasing-content-2 id=the-script-element:phrasing-content-2-2>phrasing content</a> is expected.<dd>Where <a href=#script-supporting-elements-2 id=the-script-element:script-supporting-elements-2-2>script-supporting elements</a> are expected.<dt><a href=#concept-element-content-model id=the-script-element:concept-element-content-model>Content model</a>:<dd>If there is no <code id=the-script-element:attr-script-src><a href=#attr-script-src>src</a></code>
+   attribute, depends on the value of the <code id=the-script-element:attr-script-type><a href=#attr-script-type>type</a></code> attribute, but must match
+   <a href=#restrictions-for-contents-of-script-elements id=the-script-element:restrictions-for-contents-of-script-elements>script content restrictions</a>.<dd>If there <em>is</em> a <code id=the-script-element:attr-script-src-2><a href=#attr-script-src>src</a></code>
+   attribute, the element must be either empty or contain only
+   <a href=#inline-documentation-for-external-scripts id=the-script-element:inline-documentation-for-external-scripts>script documentation</a> that also matches <a href=#restrictions-for-contents-of-script-elements id=the-script-element:restrictions-for-contents-of-script-elements-2>script
+   content restrictions</a>.<dt><a href=#concept-element-tag-omission id=the-script-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-script-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-script-element:global-attributes>Global attributes</a><dd><code id=the-script-element:attr-script-src-3><a href=#attr-script-src>src</a></code> — Address of the resource<dd><code id=the-script-element:attr-script-type-2><a href=#attr-script-type>type</a></code> — Type of embedded resource<dd><code id=the-script-element:attr-script-nomodule><a href=#attr-script-nomodule>nomodule</a></code> — Prevents execution in user agents that support <a href=#module-script id=the-script-element:module-script>module scripts</a><dd><code id=the-script-element:attr-script-charset><a href=#attr-script-charset>charset</a></code> — Character encoding of the external script resource<dd><code id=the-script-element:attr-script-async><a href=#attr-script-async>async</a></code> — Execute script when available, without blocking<dd><code id=the-script-element:attr-script-defer><a href=#attr-script-defer>defer</a></code> — Defer script execution<dd><code id=the-script-element:attr-script-crossorigin><a href=#attr-script-crossorigin>crossorigin</a></code> — How the element handles crossorigin requests<dd><code id=the-script-element:attr-script-nonce><a href=#attr-script-nonce>nonce</a></code> — Cryptographic nonce used in <cite>Content Security Policy</cite> checks <a href=#refsCSP>[CSP]</a><dd><code id=the-script-element:attr-script-integrity><a href=#attr-script-integrity>integrity</a></code> — Integrity metadata used in <cite>Subresource Integrity</cite> checks <a href=#refsSRI>[SRI]</a><dt><a href=#concept-element-dom id=the-script-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-script-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlscriptelement>HTMLScriptElement</dfn> : <a href=#htmlelement id=the-script-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-script-element:cereactions>CEReactions</a>] attribute USVString <a href=#dom-script-src id=the-script-element:dom-script-src>src</a>;
+  [<a href=#cereactions id=the-script-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-script-type id=the-script-element:dom-script-type>type</a>;
+  [<a href=#cereactions id=the-script-element:cereactions-3>CEReactions</a>] attribute boolean <a href=#dom-script-nomodule id=the-script-element:dom-script-nomodule>noModule</a>;
+  [<a href=#cereactions id=the-script-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-script-charset id=the-script-element:dom-script-charset>charset</a>;
+  [<a href=#cereactions id=the-script-element:cereactions-5>CEReactions</a>] attribute boolean <a href=#dom-script-async id=the-script-element:dom-script-async>async</a>;
+  [<a href=#cereactions id=the-script-element:cereactions-6>CEReactions</a>] attribute boolean <a href=#dom-script-defer id=the-script-element:dom-script-defer>defer</a>;
+  [<a href=#cereactions id=the-script-element:cereactions-7>CEReactions</a>] attribute DOMString? <a href=#dom-script-crossorigin id=the-script-element:dom-script-crossorigin>crossOrigin</a>;
+  [<a href=#cereactions id=the-script-element:cereactions-8>CEReactions</a>] attribute DOMString <a href=#dom-script-text id=the-script-element:dom-script-text>text</a>;
+  [<a href=#cereactions id=the-script-element:cereactions-9>CEReactions</a>] attribute DOMString <a href=#dom-script-nonce id=the-script-element:dom-script-nonce>nonce</a>;
+  [<a href=#cereactions id=the-script-element:cereactions-10>CEReactions</a>] attribute DOMString <a href=#dom-script-integrity id=the-script-element:dom-script-integrity>integrity</a>;
+
+
+  // <a href="#HTMLScriptElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-script-element:the-script-element><a href=#the-script-element>script</a></code> element allows authors to include dynamic script and data blocks in
+  their documents. The element does not <a href=#represents id=the-script-element:represents>represent</a> content for the
+  user.</p>
+
+  <p>The <dfn id=attr-script-type><code>type</code></dfn> attribute allows customization of
+  the type of script represented:</p>
+
+  <ul><li><p>Omitting the attribute, or setting it to a <a href=#javascript-mime-type id=the-script-element:javascript-mime-type>JavaScript MIME type</a>, means that
+    the script is a <a href=#classic-script id=the-script-element:classic-script>classic script</a>, to be interpreted according to the JavaScript <i id=the-script-element:js-prod-script><a data-x-internal=js-prod-script href=https://tc39.github.io/ecma262/#prod-Script>Script</a></i> top-level production. Classic scripts are affected by the
+    <code id=the-script-element:attr-script-charset-2><a href=#attr-script-charset>charset</a></code>, <code id=the-script-element:attr-script-async-2><a href=#attr-script-async>async</a></code>, and <code id=the-script-element:attr-script-defer-2><a href=#attr-script-defer>defer</a></code>
+    attributes. Authors should omit the attribute, instead of redundantly giving a <a href=#javascript-mime-type id=the-script-element:javascript-mime-type-2>JavaScript
+    MIME type</a>.<li><p>Setting the attribute to an <a id=the-script-element:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string
+    "<code>module</code>" means that the script is a <a href=#module-script id=the-script-element:module-script-2>module script</a>, to be
+    interpreted according to the JavaScript <i id=the-script-element:js-prod-module><a data-x-internal=js-prod-module href=https://tc39.github.io/ecma262/#prod-Module>Module</a></i> top-level
+    production. Module scripts are not affected by the <code id=the-script-element:attr-script-charset-3><a href=#attr-script-charset>charset</a></code> and <code id=the-script-element:attr-script-defer-3><a href=#attr-script-defer>defer</a></code>
+    attributes.<li><p>Setting the attribute to any other value means that the script is a <dfn id=data-block>data
+    block</dfn>, which is not processed. None of the <code id=the-script-element:the-script-element-2><a href=#the-script-element>script</a></code> attributes (except <code id=the-script-element:attr-script-type-3><a href=#attr-script-type>type</a></code> itself) have any effect on data blocks. Authors must use
+    a <a id=the-script-element:valid-mime-type href=https://mimesniff.spec.whatwg.org/#valid-mime-type data-x-internal=valid-mime-type>valid MIME type</a> that is not a <a href=#javascript-mime-type id=the-script-element:javascript-mime-type-3>JavaScript MIME type</a> to denote data
+    blocks.</ul>
+
+  <p class=note>The requirement that <a href=#data-block id=the-script-element:data-block>data blocks</a> must be denoted
+  using a <a id=the-script-element:valid-mime-type-2 href=https://mimesniff.spec.whatwg.org/#valid-mime-type data-x-internal=valid-mime-type>valid MIME type</a> is in place to avoid potential future collisions. If this
+  specification ever adds additional types of <a href=#the-script-element id=the-script-element:the-script-element-3>script</a>, they will be triggered by
+  setting the <code id=the-script-element:attr-script-type-4><a href=#attr-script-type>type</a></code> attribute to something which is not a
+  MIME type, like how the "<code>module</code>" value denotes <a href=#module-script id=the-script-element:module-script-3>module scripts</a>. By using a valid MIME type now, you ensure that your data block
+  will not ever be reinterpreted as a different script type, even in future user agents.</p>
+
+  <p><a href=#classic-script id=the-script-element:classic-script-2>Classic scripts</a> and <a href=#module-script id=the-script-element:module-script-4>module
+  scripts</a> may either be embedded inline or may be imported from an external file using the
+  <dfn data-dfn-for=script id=attr-script-src data-dfn-type=element-attr data-export=""><code>src</code></dfn> attribute, which if specified gives the <a id=the-script-element:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>
+  of the external script resource to use. If <code id=the-script-element:attr-script-src-4><a href=#attr-script-src>src</a></code> is specified,
+  it must be a <a href=#valid-non-empty-url-potentially-surrounded-by-spaces id=the-script-element:valid-non-empty-url-potentially-surrounded-by-spaces>valid non-empty URL potentially surrounded by spaces</a>. The contents of
+  inline <code id=the-script-element:the-script-element-4><a href=#the-script-element>script</a></code> elements, or the external script resource, must conform with the
+  requirements of the JavaScript specification's <i id=the-script-element:js-prod-script-2><a data-x-internal=js-prod-script href=https://tc39.github.io/ecma262/#prod-Script>Script</a></i> or <i id=the-script-element:js-prod-module-2><a data-x-internal=js-prod-module href=https://tc39.github.io/ecma262/#prod-Module>Module</a></i> productions, for <a href=#classic-script id=the-script-element:classic-script-3>classic
+  scripts</a> and <a href=#module-script id=the-script-element:module-script-5>module scripts</a> respectively. <a href=#refsJAVASCRIPT>[JAVASCRIPT]</a></p>
+
+  <p>When used to include <a href=#data-block id=the-script-element:data-block-2>data blocks</a>, the data must be embedded
+  inline, the format of the data must be given using the <code id=the-script-element:attr-script-type-5><a href=#attr-script-type>type</a></code> attribute, and the contents of the <code id=the-script-element:the-script-element-5><a href=#the-script-element>script</a></code>
+  element must conform to the requirements defined for the format used. The <code id=the-script-element:attr-script-src-5><a href=#attr-script-src>src</a></code>, <code id=the-script-element:attr-script-charset-4><a href=#attr-script-charset>charset</a></code>, <code id=the-script-element:attr-script-async-3><a href=#attr-script-async>async</a></code>, <code id=the-script-element:attr-script-nomodule-2><a href=#attr-script-nomodule>nomodule</a></code>,
+  <code id=the-script-element:attr-script-defer-4><a href=#attr-script-defer>defer</a></code>, <code id=the-script-element:attr-script-crossorigin-2><a href=#attr-script-crossorigin>crossorigin</a></code>, <code id=the-script-element:attr-script-nonce-2><a href=#attr-script-nonce>nonce</a></code>
+  and <code id=the-script-element:attr-script-integrity-2><a href=#attr-script-integrity>integrity</a></code> attributes must not be specified.</p>
+
+  <p>The <dfn id=attr-script-nomodule><code>nomodule</code></dfn> attribute is a <a href=#boolean-attribute id=the-script-element:boolean-attribute>boolean
+  attribute</a> that prevents a script from being executed in user agents that support
+  <a href=#module-script id=the-script-element:module-script-6>module scripts</a>. This allows selective execution of <a href=#module-script id=the-script-element:module-script-7>module scripts</a> in modern user agents and <a href=#classic-script id=the-script-element:classic-script-4>classic scripts</a> in older user agents, <a href=#script-nomodule-example>as shown
+  below</a>. The <code id=the-script-element:attr-script-nomodule-3><a href=#attr-script-nomodule>nomodule</a></code> attribute must not be
+  specified on <a href=#module-script id=the-script-element:module-script-8>module scripts</a> (and will be ignored if it
+  is).</p>
+
+  <p>The <dfn id=attr-script-charset><code>charset</code></dfn> attribute gives the character
+  encoding of the external script resource. The attribute must not be specified if the <code id=the-script-element:attr-script-src-6><a href=#attr-script-src>src</a></code> attribute is not present, or if the script is not a
+  <a href=#classic-script id=the-script-element:classic-script-5>classic script</a>. (<a href=#module-script id=the-script-element:module-script-9>Module scripts</a> are always
+  interpreted as UTF-8.) If the attribute is set, its value must be an <a id=the-script-element:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+  case-insensitive</a> match for one of the <a href=https://encoding.spec.whatwg.org/#label id=the-script-element:encoding-label data-x-internal=encoding-label>labels</a> of an
+  <a id=the-script-element:encoding href=https://encoding.spec.whatwg.org/#encoding data-x-internal=encoding>encoding</a>, and must specify the same <a id=the-script-element:encoding-2 href=https://encoding.spec.whatwg.org/#encoding data-x-internal=encoding>encoding</a> as the <code>charset</code> parameter of the <a href=#content-type id=the-script-element:content-type>Content-Type
+  metadata</a> of the external file, if any. <a href=#refsENCODING>[ENCODING]</a></p>
+
+  <p>The <dfn id=attr-script-async><code>async</code></dfn> and <dfn id=attr-script-defer><code>defer</code></dfn> attributes are <a href=#boolean-attribute id=the-script-element:boolean-attribute-2>boolean attributes</a> that indicate how the script should be evaluated. <a href=#classic-script id=the-script-element:classic-script-6>Classic scripts</a> may specify <code id=the-script-element:attr-script-defer-5><a href=#attr-script-defer>defer</a></code> or <code id=the-script-element:attr-script-async-4><a href=#attr-script-async>async</a></code>; <a href=#module-script id=the-script-element:module-script-10>module scripts</a> may specify <code id=the-script-element:attr-script-async-5><a href=#attr-script-async>async</a></code>.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> script-defer<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>8+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>3.5+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>3+</span></span><span class="safari yes"><span>Safari</span> <span>5+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>15+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=script-defer">caniuse.com</a><p class=support><strong>Support:</strong> script-async<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>8+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>3.6+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>3+</span></span><span class="safari yes"><span>Safari</span> <span>5.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>15+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=script-async">caniuse.com</a></div>
+
+  <p>There are several possible modes that can be selected using these attributes, and depending on
+  the script's type.</p>
+
+  <p>For <a href=#classic-script id=the-script-element:classic-script-7>classic scripts</a>, if the <code id=the-script-element:attr-script-async-6><a href=#attr-script-async>async</a></code> attribute is present, then the classic script will be
+  fetched <a href=#in-parallel id=the-script-element:in-parallel>in parallel</a> to parsing and evaluated as soon as it is available (potentially
+  before parsing completes). If the <code id=the-script-element:attr-script-async-7><a href=#attr-script-async>async</a></code> attribute is not
+  present but the <code id=the-script-element:attr-script-defer-6><a href=#attr-script-defer>defer</a></code> attribute is present, then the
+  classic script will be fetched <a href=#in-parallel id=the-script-element:in-parallel-2>in parallel</a> and evaluated when the page has finished
+  parsing. If neither attribute is present, then the script is fetched and evaluated immediately,
+  blocking parsing until these are both complete.</p>
+
+  <p>For <a href=#module-script id=the-script-element:module-script-11>module scripts</a>, if the <code id=the-script-element:attr-script-async-8><a href=#attr-script-async>async</a></code> attribute is present, then the module script and all its
+  dependencies will be fetched <a href=#in-parallel id=the-script-element:in-parallel-3>in parallel</a> to parsing, and the module script will
+  be evaluated as soon as it is available (potentially before parsing completes). Otherwise, the
+  module script and its dependencies will be fetched <a href=#in-parallel id=the-script-element:in-parallel-4>in parallel</a> to parsing and
+  evaluated when the page has finished parsing. (The <code id=the-script-element:attr-script-defer-7><a href=#attr-script-defer>defer</a></code>
+  attribute has no effect on module scripts.)</p>
+
+  <p>This is all summarized in the following schematic diagram:</p>
+
+  <p><img src=/images/asyncdefer.svg alt="With <script>, parsing is interrupted by fetching and execution. With <script defer>, fetching is parallel to parsing and execution takes place after all parsing has finished. And with <script async>, fetching is parallel to parsing but once it finishes parsing is interrupted to execute the script. The story for <script type=&quot;module&quot;> is similar to <script defer>, but the dependencies will be fetched as well, and the story for <script type=&quot;module&quot; async> is similar to <script async> with the extra dependency fetching." style="width: 80%; min-width: 820px;"></p>
+
+  <p class=note>The exact processing details for these attributes are, for mostly historical
+  reasons, somewhat non-trivial, involving a number of aspects of HTML. The implementation
+  requirements are therefore by necessity scattered throughout the specification. The algorithms
+  below (in this section) describe the core of this processing, but these algorithms reference and
+  are referenced by the parsing rules for <code id=the-script-element:the-script-element-6><a href=#the-script-element>script</a></code> <a href=#scriptTag>start</a> and <a href=#scriptEndTag>end</a> tags in HTML, <a href=#scriptForeignEndTag>in foreign content</a>,
+  and <a href=#scriptTagXML>in XML</a>, the rules for the <code id=the-script-element:dom-document-write><a href=#dom-document-write>document.write()</a></code> method, the handling of <a href=#scripting>scripting</a>, etc.</p>
+
+  <p>The <code id=the-script-element:attr-script-defer-8><a href=#attr-script-defer>defer</a></code> attribute may be specified even if the <code id=the-script-element:attr-script-async-9><a href=#attr-script-async>async</a></code> attribute is specified, to cause legacy Web browsers that
+  only support <code id=the-script-element:attr-script-defer-9><a href=#attr-script-defer>defer</a></code> (and not <code id=the-script-element:attr-script-async-10><a href=#attr-script-async>async</a></code>) to fall back to the <code id=the-script-element:attr-script-defer-10><a href=#attr-script-defer>defer</a></code> behavior instead of the blocking behavior that
+  is the default.</p>
+
+  <p>The <dfn id=attr-script-crossorigin><code>crossorigin</code></dfn> attribute is a
+  <a href=#cors-settings-attribute id=the-script-element:cors-settings-attribute>CORS settings attribute</a>. For <a href=#classic-script id=the-script-element:classic-script-8>classic scripts</a>,
+  it controls whether error information will be exposed, when the script is obtained from other <a href=#concept-origin id=the-script-element:concept-origin>origins</a>. For <a href=#module-script id=the-script-element:module-script-12>module scripts</a>, it
+  controls the <a href=https://fetch.spec.whatwg.org/#concept-request-credentials-mode id=the-script-element:concept-request-credentials-mode data-x-internal=concept-request-credentials-mode>credentials mode</a> used for
+  cross-origin requests.</p>
+
+  <p class=note>Unlike <a href=#classic-script id=the-script-element:classic-script-9>classic scripts</a>, <a href=#module-script id=the-script-element:module-script-13>module scripts</a> require the use of the <a href=https://fetch.spec.whatwg.org/#http-cors-protocol id=the-script-element:cors-protocol data-x-internal=cors-protocol>CORS protocol</a> for cross-origin fetching.</p>
+
+  <p>The <dfn data-dfn-for=script id=attr-script-nonce data-dfn-type=element-attr data-export=""><code>nonce</code></dfn> attribute represents a cryptographic nonce ("number
+  used once") which can be used by <cite>Content Security Policy</cite> to determine whether or not
+  the script specified by an element will be executed. The value is text. <a href=#refsCSP>[CSP]</a></p>
+
+  <p>The <dfn data-dfn-for=script id=attr-script-integrity data-dfn-type=element-attr data-export=""><code>integrity</code></dfn> attribute represents the <a href=https://fetch.spec.whatwg.org/#concept-request-integrity-metadata id=the-script-element:concept-request-integrity-metadata data-x-internal=concept-request-integrity-metadata>integrity metadata</a> for requests which this
+  element is responsible for. The value is text. The <code id=the-script-element:attr-script-integrity-3><a href=#attr-script-integrity>integrity</a></code> attribute must not be specified when embedding a
+  <a href=#module-script id=the-script-element:module-script-14>module script</a> or when the <code id=the-script-element:attr-script-src-7><a href=#attr-script-src>src</a></code> attribute is not
+  specified. <a href=#refsSRI>[SRI]</a></p>
+
+
+  <p>Changing the <code id=the-script-element:attr-script-src-8><a href=#attr-script-src>src</a></code>, <code id=the-script-element:attr-script-type-6><a href=#attr-script-type>type</a></code>, <code id=the-script-element:attr-script-charset-5><a href=#attr-script-charset>charset</a></code>, <code id=the-script-element:attr-script-nomodule-4><a href=#attr-script-nomodule>nomodule</a></code>, <code id=the-script-element:attr-script-async-11><a href=#attr-script-async>async</a></code>, <code id=the-script-element:attr-script-defer-11><a href=#attr-script-defer>defer</a></code>, <code id=the-script-element:attr-script-crossorigin-3><a href=#attr-script-crossorigin>crossorigin</a></code>, <code id=the-script-element:attr-script-nonce-3><a href=#attr-script-nonce>nonce</a></code>
+  and <code id=the-script-element:attr-script-integrity-4><a href=#attr-script-integrity>integrity</a></code> attributes dynamically has no direct
+  effect; these attributes are only used at specific times described below.</p> 
+
+  
+
+  <p>The IDL attributes <dfn id=dom-script-src><code>src</code></dfn>, <dfn id=dom-script-type><code>type</code></dfn>, <dfn id=dom-script-charset><code>charset</code></dfn>, <dfn id=dom-script-defer><code>defer</code></dfn>, <dfn id=dom-script-integrity><code>integrity</code></dfn>, and <dfn id=dom-script-nonce><code>nonce</code></dfn>, must each <a href=#reflect id=the-script-element:reflect>reflect</a> the respective
+  content attributes of the same name.</p>
+
+  <p>The <dfn id=dom-script-crossorigin><code>crossOrigin</code></dfn> IDL attribute must
+  <a href=#reflect id=the-script-element:reflect-2>reflect</a> the <code id=the-script-element:attr-script-crossorigin-4><a href=#attr-script-crossorigin>crossorigin</a></code> content attribute.</p>
+
+  <p>The <dfn id=dom-script-nomodule><code>noModule</code></dfn> IDL attribute must
+  <a href=#reflect id=the-script-element:reflect-3>reflect</a> the <code id=the-script-element:attr-script-nomodule-5><a href=#attr-script-nomodule>nomodule</a></code> content
+  attribute.</p>
+
+  <p>The <dfn id=dom-script-async><code>async</code></dfn> IDL attribute controls whether the
+  element will execute asynchronously or not. If the element's <a href=#non-blocking id=the-script-element:non-blocking>"non-blocking"</a> flag is
+  set, then, on getting, the <code id=the-script-element:dom-script-async-2><a href=#dom-script-async>async</a></code> IDL attribute must return
+  true, and on setting, the <a href=#non-blocking id=the-script-element:non-blocking-2>"non-blocking"</a> flag must first be unset, and then the
+  content attribute must be removed if the IDL attribute's new value is false, and must be set to
+  the empty string if the IDL attribute's new value is true. If the element's
+  <a href=#non-blocking id=the-script-element:non-blocking-3>"non-blocking"</a> flag is <em>not</em> set, the IDL attribute must <a href=#reflect id=the-script-element:reflect-4>reflect</a>
+  the <code id=the-script-element:attr-script-async-12><a href=#attr-script-async>async</a></code> content attribute.</p>
+
+  
+
+
+  <dl class=domintro><dt><var>script</var> . <code id=the-script-element:dom-script-text-2><a href=#dom-script-text>text</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the <a href=#child-text-content id=the-script-element:child-text-content>child text content</a> of the element.</p>
+
+    <p>Can be set, to replace the element's children with the given value.</p>
+
+   </dl>
+
+  
+
+  <p>The IDL attribute <dfn id=dom-script-text><code>text</code></dfn> must return the
+  <a href=#child-text-content id=the-script-element:child-text-content-2>child text content</a> of the <code id=the-script-element:the-script-element-7><a href=#the-script-element>script</a></code> element. On setting, it must act the
+  same way as the <code id=the-script-element:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute.</p>
+
+  
+
+
+  <p class=note>When inserted using the <code id=the-script-element:dom-document-write-2><a href=#dom-document-write>document.write()</a></code>
+  method, <code id=the-script-element:the-script-element-8><a href=#the-script-element>script</a></code> elements execute (typically blocking further script execution or HTML parsing), but when inserted using
+  <code id=the-script-element:dom-innerhtml><a data-x-internal=dom-innerhtml href=https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML>innerHTML</a></code> and <code id=the-script-element:dom-outerhtml><a data-x-internal=dom-outerhtml href=https://w3c.github.io/DOM-Parsing/#widl-Element-outerHTML>outerHTML</a></code>
+  attributes, they do not execute at all.</p>
+
+  <div class=example>
+
+   <p>In this example, two <code id=the-script-element:the-script-element-9><a href=#the-script-element>script</a></code> elements are used. One embeds an external
+   <a href=#classic-script id=the-script-element:classic-script-10>classic script</a>, and the other includes some data as a <a href=#data-block id=the-script-element:data-block-3>data block</a>.</p>
+
+   <pre>&lt;script src="game-engine.js">&lt;/script>
+&lt;script type="text/x-game-map">
+........U.........e
+o............A....e
+.....A.....AAA....e
+.A..AAA...AAAAA...e
+&lt;/script></pre>
+
+   <p>The data in this case might be used by the script to generate the map of a video game. The
+   data doesn't have to be used that way, though; maybe the map data is actually embedded in other
+   parts of the page's markup, and the data block here is just used by the site's search engine to
+   help users who are looking for particular features in their game maps.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following sample shows how a <code id=the-script-element:the-script-element-10><a href=#the-script-element>script</a></code> element can be used to define a function
+   that is then used by other parts of the document, as part of a <a href=#classic-script id=the-script-element:classic-script-11>classic script</a>. It
+   also shows how a <code id=the-script-element:the-script-element-11><a href=#the-script-element>script</a></code> element can be used to invoke script while the document is
+   being parsed, in this case to initialize the form's output.</p>
+
+   <pre>&lt;script>
+ function calculate(form) {
+   var price = 52000;
+   if (form.elements.brakes.checked)
+     price += 1000;
+   if (form.elements.radio.checked)
+     price += 2500;
+   if (form.elements.turbo.checked)
+     price += 5000;
+   if (form.elements.sticker.checked)
+     price += 250;
+   form.elements.result.value = price;
+ }
+&lt;/script>
+&lt;form name="pricecalc" onsubmit="return false" onchange="calculate(this)">
+ &lt;fieldset>
+  &lt;legend>Work out the price of your car&lt;/legend>
+  &lt;p>Base cost: £52000.&lt;/p>
+  &lt;p>Select additional options:&lt;/p>
+  &lt;ul>
+   &lt;li>&lt;label>&lt;input type=checkbox name=brakes> Ceramic brakes (£1000)&lt;/label>&lt;/li>
+   &lt;li>&lt;label>&lt;input type=checkbox name=radio> Satellite radio (£2500)&lt;/label>&lt;/li>
+   &lt;li>&lt;label>&lt;input type=checkbox name=turbo> Turbo charger (£5000)&lt;/label>&lt;/li>
+   &lt;li>&lt;label>&lt;input type=checkbox name=sticker> "XZ" sticker (£250)&lt;/label>&lt;/li>
+  &lt;/ul>
+  &lt;p>Total: £&lt;output name=result>&lt;/output>&lt;/p>
+ &lt;/fieldset>
+ &lt;script>
+  calculate(document.forms.pricecalc);
+ &lt;/script>
+&lt;/form></pre>
+
+  </div>
+
+  <div id=script-type-module-example-1 class=example>
+
+   <p>The following sample shows how a <code id=the-script-element:the-script-element-12><a href=#the-script-element>script</a></code> element can be used to include an
+   external <a href=#module-script id=the-script-element:module-script-15>module script</a>.
+
+   <pre>&lt;script type="module" src="app.js">&lt;/script></pre>
+
+   <p>This module, and all its dependencies (expressed through JavaScript <code>import</code> statements in the source file), will be fetched. Once the entire
+   resulting module tree has been imported, and the document has finished parsing, the contents of
+   <code>app.js</code> will be evaluated.</p>
+
+   <p>Additionally, if code from another <code id=the-script-element:the-script-element-13><a href=#the-script-element>script</a></code> element in the same <code id=the-script-element:window><a href=#window>Window</a></code>
+   imports the module from <code>app.js</code> (e.g. via <code>import
+   "./app.js";</code>), then the same <a href=#module-script id=the-script-element:module-script-16>module script</a> created by the
+   former <code id=the-script-element:the-script-element-14><a href=#the-script-element>script</a></code> element will be imported.</p>
+
+  </div>
+
+  <div id=script-nomodule-example class=example>
+
+  <p>This example shows how to include a <a href=#module-script id=the-script-element:module-script-17>module script</a> for modern user agents, and a
+  <a href=#classic-script id=the-script-element:classic-script-12>classic script</a> for older user agents:</p>
+
+  <pre>&lt;script type="module" src="app.js">&lt;/script>
+&lt;script nomodule src="classic-app-bundle.js">&lt;/script></pre>
+
+  <p>In modern user agents that support <a href=#module-script id=the-script-element:module-script-18>module scripts</a>, the
+  <code id=the-script-element:the-script-element-15><a href=#the-script-element>script</a></code> element with the <code id=the-script-element:attr-script-nomodule-6><a href=#attr-script-nomodule>nomodule</a></code> attribute
+  will be ignored, and the <code id=the-script-element:the-script-element-16><a href=#the-script-element>script</a></code> element with a <code id=the-script-element:attr-script-type-7><a href=#attr-script-type>type</a></code> of "<code>module</code>" will be fetched and
+  evaluated (as a <a href=#module-script id=the-script-element:module-script-19>module script</a>). Conversely, older user agents will ignore the
+  <code id=the-script-element:the-script-element-17><a href=#the-script-element>script</a></code> element with a <code id=the-script-element:attr-script-type-8><a href=#attr-script-type>type</a></code> of "<code>module</code>", as that is an unknown script type for them — but they will have no
+  problem fetching and evaluating the other <code id=the-script-element:the-script-element-18><a href=#the-script-element>script</a></code> element (as a <a href=#classic-script id=the-script-element:classic-script-13>classic
+  script</a>), since they do not implement the <code id=the-script-element:attr-script-nomodule-7><a href=#attr-script-nomodule>nomodule</a></code> attribute.</p>
+
+  </div>
+
+  <div id=script-type-module-example-2 class=example>
+
+   <p>The following sample shows how a <code id=the-script-element:the-script-element-19><a href=#the-script-element>script</a></code> element can be used to write an inline
+   <a href=#module-script id=the-script-element:module-script-20>module script</a> that performs a number of substitutions on the document's text, in
+   order to make for a more interesting reading experience (e.g. on a news site): <a href=#refsXKCD1288>[XKCD1288]</a></p>
+
+   <pre>&lt;script type="module">
+ import { walkAllTextNodeDescendants } from "./dom-utils.js";
+
+ const substitutions = new Map([
+   ["witnesses", "these dudes I know"]
+   ["allegedly", "kinda probably"]
+   ["new study", "Tumblr post"]
+   ["rebuild", "avenge"]
+   ["space", "spaaace"]
+   ["Google glass", "Virtual Boy"]
+   ["smartphone", "Pokédex"]
+   ["electric", "atomic"]
+   ["Senator", "Elf-Lord"]
+   ["car", "cat"]
+   ["election", "eating contest"]
+   ["Congressional leaders", "river spirits"]
+   ["homeland security", "Homestar Runner"]
+   ["could not be reached for comment", "is guilty and everyone knows it"]
+ ]);
+
+ function substitute(textNode) {
+   for (const [before, after] of substitutions.entries()) {
+     textNode.data = textNode.data.replace(new RegExp(`\\b${before}\\b`, "ig"), after);
+   }
+ }
+
+ walkAllTextNodeDescendants(document.body, substitute);
+&lt;/script></pre>
+
+   <p>Some notable features gained by using a module script include the ability to import functions
+   from other JavaScript modules, strict mode by default, and how top-level declarations do not
+   introduce new properties onto the <a href=#global-object id=the-script-element:global-object>global object</a>. Also note that no matter where
+   this <code id=the-script-element:the-script-element-20><a href=#the-script-element>script</a></code> element appears in the document, it will not be evaluated until both
+   document parsing has complete and its dependency (<code>dom-utils.js</code>) has been
+   fetched and evaluated.</p>
+
+  </div>
+
+  
+
+  <h5 id=script-processing-model>4.12.1.1 Processing model<a href=#script-processing-model class=self-link></a></h5>
+
+  <p>A <code id=script-processing-model:the-script-element><a href=#the-script-element>script</a></code> element has several associated pieces of state.</p>
+
+  <p>The first is a flag indicating whether or not the script block has been <dfn id=already-started>"already
+  started"</dfn>. Initially, <code id=script-processing-model:the-script-element-2><a href=#the-script-element>script</a></code> elements must have this flag unset (script blocks,
+  when created, are not "already started"). The <a href=https://dom.spec.whatwg.org/#concept-node-clone-ext id=script-processing-model:concept-node-clone-ext data-x-internal=concept-node-clone-ext>cloning
+  steps</a> for <code id=script-processing-model:the-script-element-3><a href=#the-script-element>script</a></code> elements must set the "already started" flag on the copy if
+  it is set on the element being cloned.</p>
+
+  <p>The second is a flag indicating whether the element was <dfn data-dfn-for=script id=parser-inserted data-dfn-type=dfn data-export="">"parser-inserted"</dfn>. Initially,
+  <code id=script-processing-model:the-script-element-4><a href=#the-script-element>script</a></code> elements must have this flag unset. It is set by the <a href=#html-parser id=script-processing-model:html-parser>HTML parser</a>
+  and the <a href=#xml-parser id=script-processing-model:xml-parser>XML parser</a> on <code id=script-processing-model:the-script-element-5><a href=#the-script-element>script</a></code> elements they insert and affects the
+  processing of those elements.</p>
+
+  <p>The third is a flag indicating whether the element will be <dfn id=non-blocking>"non-blocking"</dfn>.
+  Initially, <code id=script-processing-model:the-script-element-6><a href=#the-script-element>script</a></code> elements must have this flag set. It is unset by the <a href=#html-parser id=script-processing-model:html-parser-2>HTML
+  parser</a> and the <a href=#xml-parser id=script-processing-model:xml-parser-2>XML parser</a> on <code id=script-processing-model:the-script-element-7><a href=#the-script-element>script</a></code> elements they insert. In
+  addition, whenever a <code id=script-processing-model:the-script-element-8><a href=#the-script-element>script</a></code> element whose <a href=#non-blocking id=script-processing-model:non-blocking>"non-blocking"</a> flag is set
+  has an <code id=script-processing-model:attr-script-async><a href=#attr-script-async>async</a></code> content attribute added, the element's
+  <a href=#non-blocking id=script-processing-model:non-blocking-2>"non-blocking"</a> flag must be unset.</p> 
+
+  <p>The fourth is a flag indicating whether or not the script block is <dfn id=ready-to-be-parser-executed>"ready to be
+  parser-executed"</dfn>. Initially, <code id=script-processing-model:the-script-element-9><a href=#the-script-element>script</a></code> elements must have this flag unset (script
+  blocks, when created, are not "ready to be parser-executed"). This flag is used only for elements
+  that are also <a href=#parser-inserted id=script-processing-model:parser-inserted>"parser-inserted"</a>, to let the parser know when to execute the
+  script.</p>
+
+  <p>The fifth is <dfn id=concept-script-type>the script's type</dfn>, which is either "<code>classic</code>" or "<code>module</code>". It is determined when the script is
+  <a href=#prepare-a-script id=script-processing-model:prepare-a-script>prepared</a>, based on the <code id=script-processing-model:attr-script-type><a href=#attr-script-type>type</a></code> attribute of the element at that time.</p>
+
+  <p>The sixth is a flag indicating whether or not the script is <dfn id=concept-script-external>from an external file</dfn>. It is determined when the script is
+  <a href=#prepare-a-script id=script-processing-model:prepare-a-script-2>prepared</a>, based on the <code id=script-processing-model:attr-script-src><a href=#attr-script-src>src</a></code> attribute of the element at that time.</p>
+
+  <p>Finally, a <code id=script-processing-model:the-script-element-10><a href=#the-script-element>script</a></code> element has <dfn id=concept-script-script data-export="">the script's script</dfn>, which is a <a href=#concept-script id=script-processing-model:concept-script>script</a>
+  resulting from <a href=#prepare-a-script id=script-processing-model:prepare-a-script-3>preparing</a> the element. This is set
+  asynchronously after the classic script or module tree is fetched. Once it is set, either to a
+  <a href=#concept-script id=script-processing-model:concept-script-2>script</a> in the case of success or to null in the case of
+  failure, the fetching algorithms will note that <dfn id=the-script-is-ready>the script is ready</dfn>, which can trigger
+  other actions.  The user agent must <a href=#delay-the-load-event id=script-processing-model:delay-the-load-event>delay the load
+  event</a> of the element's <a id=script-processing-model:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> until <a href=#the-script-is-ready id=script-processing-model:the-script-is-ready>the script is
+  ready</a>.</p>
+
+  <hr>
+
+  <p>When a <code id=script-processing-model:the-script-element-11><a href=#the-script-element>script</a></code> element that is not marked as being <a href=#parser-inserted id=script-processing-model:parser-inserted-2>"parser-inserted"</a>
+  experiences one of the events listed in the following list, the user agent must
+  <a href=#immediately id=script-processing-model:immediately>immediately</a> <a href=#prepare-a-script id=script-processing-model:prepare-a-script-4>prepare</a> the <code id=script-processing-model:the-script-element-12><a href=#the-script-element>script</a></code>
+  element:</p>
+
+  <ul><li>The <code id=script-processing-model:the-script-element-13><a href=#the-script-element>script</a></code> element <a href=#becomes-connected id=script-processing-model:becomes-connected>becomes connected</a>.<li>The <code id=script-processing-model:the-script-element-14><a href=#the-script-element>script</a></code> element is <a id=script-processing-model:connected href=https://dom.spec.whatwg.org/#connected data-x-internal=connected>connected</a> and a node or document fragment is
+   <a href=#nodes-are-inserted id=script-processing-model:nodes-are-inserted>inserted</a> into the <code id=script-processing-model:the-script-element-15><a href=#the-script-element>script</a></code> element, after any
+   <code id=script-processing-model:the-script-element-16><a href=#the-script-element>script</a></code> elements <a href=#nodes-are-inserted id=script-processing-model:nodes-are-inserted-2>inserted</a> at that time.<li>The <code id=script-processing-model:the-script-element-17><a href=#the-script-element>script</a></code> element is <a id=script-processing-model:connected-2 href=https://dom.spec.whatwg.org/#connected data-x-internal=connected>connected</a> and has a <code id=script-processing-model:attr-script-src-2><a href=#attr-script-src>src</a></code> attribute set where previously the element had no such
+   attribute.</ul>
+
+  <p>To <dfn id=prepare-a-script data-export="">prepare a script</dfn>, the user agent must
+  act as follows:</p>
+
+  <ol><li>
+
+    <p>If the <code id=script-processing-model:the-script-element-18><a href=#the-script-element>script</a></code> element is marked as having <a href=#already-started id=script-processing-model:already-started>"already started"</a>, then
+    abort these steps at this point. The script is not executed.</p>
+
+   <li>
+
+    <p>If the element has its <a href=#parser-inserted id=script-processing-model:parser-inserted-3>"parser-inserted"</a> flag set, then set <var>was-parser-inserted</var> to true and unset the element's
+    <a href=#parser-inserted id=script-processing-model:parser-inserted-4>"parser-inserted"</a> flag. Otherwise, set <var>was-parser-inserted</var> to
+    false.</p>
+
+    <p class=note>This is done so that if parser-inserted <code id=script-processing-model:the-script-element-19><a href=#the-script-element>script</a></code> elements fail to run
+    when the parser tries to run them, e.g. because they are empty or specify an unsupported
+    scripting language, another script can later mutate them and cause them to run again.</p>
+
+    
+
+   <li>
+
+    <p>If <var>was-parser-inserted</var> is true and the element does not have an <code id=script-processing-model:attr-script-async-2><a href=#attr-script-async>async</a></code> attribute, then set the element's
+    <a href=#non-blocking id=script-processing-model:non-blocking-3>"non-blocking"</a> flag to true.</p>
+
+    <p class=note>This is done so that if a parser-inserted <code id=script-processing-model:the-script-element-20><a href=#the-script-element>script</a></code> element fails to
+    run when the parser tries to run it, but it is later executed after a script dynamically updates
+    it, it will execute in a non-blocking fashion even if the <code id=script-processing-model:attr-script-async-3><a href=#attr-script-async>async</a></code>
+    attribute isn't set.</p>
+
+   <li id=script-processing-empty>
+
+    <p>If the element has no <code id=script-processing-model:attr-script-src-3><a href=#attr-script-src>src</a></code> attribute, and its child
+    nodes, if any, consist only of comment nodes and empty <code id=script-processing-model:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> nodes, then abort
+    these steps at this point. The script is not executed.</p>
+
+   <li><p>If the element is not <a id=script-processing-model:connected-3 href=https://dom.spec.whatwg.org/#connected data-x-internal=connected>connected</a>, then abort these steps. The script is not
+   executed.<li id=script-processing-prepare>
+
+    <p>If either:</p>
+
+    <ul class=brief><li>the <code id=script-processing-model:the-script-element-21><a href=#the-script-element>script</a></code> element has a <code id=script-processing-model:attr-script-type-2><a href=#attr-script-type>type</a></code> attribute
+     and its value is the empty string, or<li>the <code id=script-processing-model:the-script-element-22><a href=#the-script-element>script</a></code> element has no <code id=script-processing-model:attr-script-type-3><a href=#attr-script-type>type</a></code> attribute
+     but it has a <code id=script-processing-model:attr-script-language><a href=#attr-script-language>language</a></code> attribute and <em>that</em>
+     attribute's value is the empty string, or<li>the <code id=script-processing-model:the-script-element-23><a href=#the-script-element>script</a></code> element has neither a <code id=script-processing-model:attr-script-type-4><a href=#attr-script-type>type</a></code>
+     attribute nor a <code id=script-processing-model:attr-script-language-2><a href=#attr-script-language>language</a></code> attribute, then</ul>
+
+    <p>...let <var>the script block's type string</var> for this <code id=script-processing-model:the-script-element-24><a href=#the-script-element>script</a></code> element be
+    "<code>text/javascript</code>".</p>
+
+    <p>Otherwise, if the <code id=script-processing-model:the-script-element-25><a href=#the-script-element>script</a></code> element has a <code id=script-processing-model:attr-script-type-5><a href=#attr-script-type>type</a></code> attribute, let <var>the script block's type string</var>
+    for this <code id=script-processing-model:the-script-element-26><a href=#the-script-element>script</a></code> element be the value of that attribute with any leading or
+    trailing sequences of <a href=#space-character id=script-processing-model:space-character>space characters</a> removed.</p> 
+
+    <p>Otherwise, the element has a non-empty <code id=script-processing-model:attr-script-language-3><a href=#attr-script-language>language</a></code>
+    attribute; let <var>the script block's type string</var> for this <code id=script-processing-model:the-script-element-27><a href=#the-script-element>script</a></code> element
+    be the concatenation of the string "<code>text/</code>" followed by the value of the
+    <code id=script-processing-model:attr-script-language-4><a href=#attr-script-language>language</a></code> attribute.</p>
+    
+
+    <p class=note>The <code id=script-processing-model:attr-script-language-5><a href=#attr-script-language>language</a></code> attribute is never
+    conforming, and is always ignored if there is a <code id=script-processing-model:attr-script-type-6><a href=#attr-script-type>type</a></code>
+    attribute present.</p>
+
+    <p>Determine <a href=#concept-script-type id=script-processing-model:concept-script-type>the script's type</a> as follows:</p>
+
+    <ul><li>If <var>the script block's type string</var> is an <a id=script-processing-model:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a>
+     match for any <a href=#javascript-mime-type id=script-processing-model:javascript-mime-type>JavaScript MIME type</a>, <a href=#concept-script-type id=script-processing-model:concept-script-type-2>the
+     script's type</a> is "<code>classic</code>".<li>If <var>the script block's type string</var> is an <a id=script-processing-model:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a>
+     match for the string "<code>module</code>", <a href=#concept-script-type id=script-processing-model:concept-script-type-3>the
+     script's type</a> is "<code>module</code>".<li>If neither of the above conditions are true, then abort these steps at this point. No
+     script is executed.</ul>
+
+   <li>
+
+    <p>If <var>was-parser-inserted</var> is true, then flag the element as
+    <a href=#parser-inserted id=script-processing-model:parser-inserted-5>"parser-inserted"</a> again, and set the element's <a href=#non-blocking id=script-processing-model:non-blocking-4>"non-blocking"</a> flag to
+    false.</p>
+
+   <li id=script-processing-start>
+
+    <p>Set the element's <a href=#already-started id=script-processing-model:already-started-2>"already started"</a> flag.</p>
+
+   <li>
+
+    <p>If the element is flagged as <a href=#parser-inserted id=script-processing-model:parser-inserted-6>"parser-inserted"</a>, but the element's
+    <a id=script-processing-model:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is not the <code id=script-processing-model:document><a href=#document>Document</a></code> of the parser that created the
+    element, then abort these steps.</p>
+
+   <li id=script-processing-noscript>
+
+    <p>If <a href=#concept-n-noscript id=script-processing-model:concept-n-noscript>scripting is disabled</a> for the <code id=script-processing-model:the-script-element-28><a href=#the-script-element>script</a></code>
+    element, then abort these steps at this point. The script is not executed.</p>
+
+    <p class=note>The definition of <a href=#concept-n-noscript id=script-processing-model:concept-n-noscript-2>scripting is disabled</a>
+    means that, amongst others, the following scripts will not execute: scripts in
+    <code id=script-processing-model:xmlhttprequest><a data-x-internal=xmlhttprequest href=https://xhr.spec.whatwg.org/#xmlhttprequest>XMLHttpRequest</a></code>'s <code id=script-processing-model:dom-xmlhttprequest-responsexml><a data-x-internal=dom-xmlhttprequest-responsexml href=https://xhr.spec.whatwg.org/#dom-xmlhttprequest-responsexml>responseXML</a></code>
+    documents, scripts in <code id=script-processing-model:domparser><a data-x-internal=domparser href=https://w3c.github.io/DOM-Parsing/#the-domparser-interface>DOMParser</a></code>-created documents, scripts in documents created by
+    <code id=script-processing-model:xsltprocessor><a href=#xsltprocessor>XSLTProcessor</a></code>'s <code id=script-processing-model:dom-xsltprocessor-transformtodocument><a href=#dom-xsltprocessor-transformtodocument>transformToDocument</a></code> feature, and scripts
+    that are first inserted by a script into a <code id=script-processing-model:document-2><a href=#document>Document</a></code> that was created using the
+    <code id=script-processing-model:dom-domimplementation-createdocument><a data-x-internal=dom-domimplementation-createdocument href=https://dom.spec.whatwg.org/#dom-domimplementation-createdocument>createDocument()</a></code> API. <a href=#refsXHR>[XHR]</a>
+    <a href=#refsDOMPARSING>[DOMPARSING]</a> <a href=#refsXSLTP>[XSLTP]</a> <a href=#refsDOM>[DOM]</a></p>
+
+
+   <li>
+
+   <p>If the <code id=script-processing-model:the-script-element-29><a href=#the-script-element>script</a></code> element has a <code id=script-processing-model:attr-script-nomodule><a href=#attr-script-nomodule>nomodule</a></code>
+   content attribute and <a href=#concept-script-type id=script-processing-model:concept-script-type-4>the script's type</a> is "<code>classic</code>", then abort these steps. The script is not executed.</p>
+
+   <p class=note>This means specifying <code id=script-processing-model:attr-script-nomodule-2><a href=#attr-script-nomodule>nomodule</a></code> on a
+   <a href=#module-script id=script-processing-model:module-script>module script</a> has no effect; the algorithm continues onward.</p>
+
+   <li id=script-processing-csp><p>If the <code id=script-processing-model:the-script-element-30><a href=#the-script-element>script</a></code> element does not have a <code id=script-processing-model:attr-script-src-4><a href=#attr-script-src>src</a></code> content attribute, and the <a id="script-processing-model:should-element's-inline-behavior-be-blocked-by-content-security-policy" href=https://w3c.github.io/webappsec-csp/#should-block-inline data-x-internal="should-element's-inline-behavior-be-blocked-by-content-security-policy">Should element's inline
+   behavior be blocked by Content Security Policy?</a> algorithm returns "<code>Blocked</code>" when executed upon the <code id=script-processing-model:the-script-element-31><a href=#the-script-element>script</a></code> element, "<code>script</code>", and the <code id=script-processing-model:the-script-element-32><a href=#the-script-element>script</a></code> element's <a href=#child-text-content id=script-processing-model:child-text-content>child text content</a>,
+   then abort these steps. The script is not executed. <a href=#refsCSP>[CSP]</a><li id=script-processing-for>
+
+    <p>If the <code id=script-processing-model:the-script-element-33><a href=#the-script-element>script</a></code> element has an <code id=script-processing-model:attr-script-event><a href=#attr-script-event>event</a></code>
+    attribute and a <code id=script-processing-model:attr-script-for><a href=#attr-script-for>for</a></code> attribute, and <a href=#concept-script-type id=script-processing-model:concept-script-type-5>the script's type</a> is "<code>classic</code>", then
+    run these substeps:</p>
+
+    <ol><li><p>Let <var>for</var> be the value of the <code id=script-processing-model:attr-script-for-2><a href=#attr-script-for>for</a></code>
+     attribute.<li><p>Let <var>event</var> be the value of the <code id=script-processing-model:attr-script-event-2><a href=#attr-script-event>event</a></code> attribute.<li><p><a href=#strip-leading-and-trailing-whitespace id=script-processing-model:strip-leading-and-trailing-whitespace>Strip leading and trailing whitespace</a> from <var>event</var> and
+     <var>for</var>.<li><p>If <var>for</var> is not an <a id=script-processing-model:ascii-case-insensitive-3 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the
+     string "<code>window</code>", then abort these steps at this point. The script is
+     not executed.<li><p>If <var>event</var> is not an <a id=script-processing-model:ascii-case-insensitive-4 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for
+     either the string "<code>onload</code>" or the string "<code>onload()</code>", then abort these steps at this point. The script is not
+     executed.</ol>
+
+   <li id=script-processing-encoding>
+
+    <p>If the <code id=script-processing-model:the-script-element-34><a href=#the-script-element>script</a></code> element has a <code id=script-processing-model:attr-script-charset><a href=#attr-script-charset>charset</a></code>
+    attribute, then let <var>encoding</var> be the result of <a id=script-processing-model:getting-an-encoding href=https://encoding.spec.whatwg.org/#concept-encoding-get data-x-internal=getting-an-encoding>getting an encoding</a> from
+    the value of the <code id=script-processing-model:attr-script-charset-2><a href=#attr-script-charset>charset</a></code> attribute.</p>
+
+    <p>If the <code id=script-processing-model:the-script-element-35><a href=#the-script-element>script</a></code> element does not have a <code id=script-processing-model:attr-script-charset-3><a href=#attr-script-charset>charset</a></code> attribute, or if <a id=script-processing-model:getting-an-encoding-2 href=https://encoding.spec.whatwg.org/#concept-encoding-get data-x-internal=getting-an-encoding>getting an encoding</a>
+    failed, let <var>encoding</var> be the same as <a href=https://dom.spec.whatwg.org/#concept-document-encoding id="script-processing-model:document's-character-encoding" data-x-internal="document's-character-encoding">the
+    encoding</a> of the <code id=script-processing-model:the-script-element-36><a href=#the-script-element>script</a></code> element's <a id=script-processing-model:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.</p>
+
+    <p class=note>If <a href=#concept-script-type id=script-processing-model:concept-script-type-6>the script's type</a> is "<code>module</code>", this encoding will be ignored.</p>
+
+   <li><p>Let <var>CORS setting</var> be the current state of the element's <code id=script-processing-model:attr-script-crossorigin><a href=#attr-script-crossorigin>crossorigin</a></code> content attribute.<li>
+    <p>Let <var>module script credentials mode</var> be determined by switching on <var>CORS
+    setting</var>:</p>
+
+    <dl class=switch><dt><a href=#attr-crossorigin-none id=script-processing-model:attr-crossorigin-none>No CORS</a><dd>"<code>omit</code>"<dt><a href=#attr-crossorigin-anonymous id=script-processing-model:attr-crossorigin-anonymous>Anonymous</a><dd>"<code>same-origin</code>"<dt><a href=#attr-crossorigin-none id=script-processing-model:attr-crossorigin-none-2>Use Credentials</a><dd>"<code>include</code>"</dl>
+   <li>
+
+    <p>If the <code id=script-processing-model:the-script-element-37><a href=#the-script-element>script</a></code> element has a <code id=script-processing-model:attr-script-nonce><a href=#attr-script-nonce>nonce</a></code>
+    attribute, then let <var>cryptographic nonce</var> be that attribute's value.</p>
+
+    <p>Otherwise, let <var>cryptographic nonce</var> be the empty string.</p>
+
+   <li>
+
+    <p>If the <code id=script-processing-model:the-script-element-38><a href=#the-script-element>script</a></code> element has an <code id=script-processing-model:attr-script-integrity><a href=#attr-script-integrity>integrity</a></code> attribute, then let <var>integrity
+    metadata</var> be that attribute's value.</p>
+
+    <p>Otherwise, let <var>integrity metadata</var> be the empty string.</p>
+
+   <li><p>Let <var>parser state</var> be "<code>parser-inserted</code>" if the
+   <code id=script-processing-model:the-script-element-39><a href=#the-script-element>script</a></code> element has been flagged as <a href=#parser-inserted id=script-processing-model:parser-inserted-7>"parser-inserted"</a>, and
+   "<code>not parser-inserted</code>" otherwise.<li><p>Let <var>settings</var> be the element's <a id=script-processing-model:node-document-4 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s
+   <code id=script-processing-model:window><a href=#window>Window</a></code> object's <a href=#environment-settings-object id=script-processing-model:environment-settings-object>environment settings object</a>.<li id=script-processing-src-prepare>
+
+    <p>If the element has a <code id=script-processing-model:attr-script-src-5><a href=#attr-script-src>src</a></code> content attribute, run these
+    substeps:</p>
+
+    <ol><li><p>Let <var>src</var> be the value of the element's <code id=script-processing-model:attr-script-src-6><a href=#attr-script-src>src</a></code> attribute.<li><p>If <var>src</var> is the empty string, <a href=#queue-a-task id=script-processing-model:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=script-processing-model:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=script-processing-model:event-error><a href=#event-error>error</a></code>
+     at the element, and abort these steps.<li><p>Set the element's <a href=#concept-script-external id=script-processing-model:concept-script-external>from an external file</a>
+     flag.<li><p><a href=#parse-a-url id=script-processing-model:parse-a-url>Parse</a> <var>src</var> relative to the element's
+     <a id=script-processing-model:node-document-5 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.<li><p>If the previous step failed, <a href=#queue-a-task id=script-processing-model:queue-a-task-2>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=script-processing-model:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=script-processing-model:event-error-2><a href=#event-error>error</a></code>
+     at the element, and abort these steps. Otherwise, let <var>url</var> be the <a href=#resulting-url-record id=script-processing-model:resulting-url-record>resulting URL
+     record</a>.<li>
+      <p>Switch on <a href=#concept-script-type id=script-processing-model:concept-script-type-7>the script's type</a>:</p>
+
+      <dl class=switch><dt>"<code>classic</code>"<dd>
+        <p><a href=#fetch-a-classic-script id=script-processing-model:fetch-a-classic-script>Fetch a classic script</a> given <var>url</var>, <var>settings</var>,
+        <var>cryptographic nonce</var>, <var>integrity metadata</var>, <var>parser state</var>,
+        <var>CORS setting</var>, and <var>encoding</var>.</p>
+       <dt>"<code>module</code>"<dd>
+        <p><a href=#fetch-a-module-script-tree id=script-processing-model:fetch-a-module-script-tree>Fetch a module script graph</a> given <var>url</var>, <var>settings</var>,
+        "<code>script</code>", <var>cryptographic nonce</var>, <var>parser state</var>,
+        and <var>module script credentials mode</var>.</p>
+       </dl>
+
+      <p>When the chosen algorithm asynchronously completes, set <a href=#concept-script-script id=script-processing-model:concept-script-script>the script's script</a> to the result. At that time,
+      <a href=#the-script-is-ready id=script-processing-model:the-script-is-ready-2>the script is ready</a>.</p>
+
+      <p>For performance reasons, user agents may start fetching the classic script or module tree
+      (as defined above) as soon as the <code id=script-processing-model:attr-script-src-7><a href=#attr-script-src>src</a></code> attribute is set,
+      instead, in the hope that the element will be inserted into the document (and that the <code id=script-processing-model:attr-script-crossorigin-2><a href=#attr-script-crossorigin>crossorigin</a></code> attribute won't change value in the
+      meantime). Either way, once the element is <a href=#insert-an-element-into-a-document id=script-processing-model:insert-an-element-into-a-document>inserted into the document</a>, the load must have started as described in this
+      step. If the UA performs such prefetching, but the element is never inserted in the document,
+      or the <code id=script-processing-model:attr-script-src-8><a href=#attr-script-src>src</a></code> attribute is dynamically changed, or the <code id=script-processing-model:attr-script-crossorigin-3><a href=#attr-script-crossorigin>crossorigin</a></code> attribute is dynamically changed, then the
+      user agent will not execute the script so obtained, and the fetching process will have been
+      effectively wasted.</p>
+
+     </ol>
+
+   <li id=establish-script-block-source>
+
+    <p>If the element does not have a <code id=script-processing-model:attr-script-src-9><a href=#attr-script-src>src</a></code> content attribute,
+    run these substeps:</p>
+
+    <ol><li><p>Let <var>source text</var> be the value of the <code id=script-processing-model:dom-script-text><a href=#dom-script-text>text</a></code> IDL attribute.<li>
+      <p>Switch on <a href=#concept-script-type id=script-processing-model:concept-script-type-8>the script's type</a>:</p>
+
+      <dl class=switch><dt>"<code>classic</code>"<dd>
+        <ol><li><p>Let <var>script</var> be the result of <a href=#creating-a-classic-script id=script-processing-model:creating-a-classic-script>creating a classic script</a> using
+         <var>source text</var> and <var>settings</var>.<li><p>Set <a href=#concept-script-script id=script-processing-model:concept-script-script-2>the script's script</a> to
+         <var>script</var>.<li><p><a href=#the-script-is-ready id=script-processing-model:the-script-is-ready-3>The script is ready</a>.</ol>
+       <dt>"<code>module</code>"<dd>
+        <ol><li><p>Let <var>base URL</var> be the <code id=script-processing-model:the-script-element-40><a href=#the-script-element>script</a></code> element's <a id=script-processing-model:node-document-6 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+         document</a>'s <a href=#document-base-url id=script-processing-model:document-base-url>document base URL</a>.<li><p>Let <var>script</var> be the result of <a href=#creating-a-module-script id=script-processing-model:creating-a-module-script>creating a module script</a> using
+         <var>source text</var>, <var>settings</var>, <var>base URL</var>, <var>cryptographic
+         nonce</var>, <var>parser state</var>, and <var>module script credentials
+         mode</var>.<li><p>If this returns null, set <a href=#concept-script-script id=script-processing-model:concept-script-script-3>the script's
+         script</a> to null and abort these substeps; <a href=#the-script-is-ready id=script-processing-model:the-script-is-ready-4>the script is ready</a>.<li><p><a href=#fetch-the-descendants-of-a-module-script id=script-processing-model:fetch-the-descendants-of-a-module-script>Fetch the
+         descendants</a> of <var>script</var> (using an empty ancestor list). When this
+         asynchronously completes, set <a href=#concept-script-script id=script-processing-model:concept-script-script-4>the script's
+         script</a> to the result. At that time, <a href=#the-script-is-ready id=script-processing-model:the-script-is-ready-5>the script is ready</a>.</ol>
+       </dl>
+     </ol>
+   <li>
+
+    <p>Then, follow the first of the following options that describes the situation:</p>
+
+    <dl class=switch><dt id=script-processing-defer>If <a href=#concept-script-type id=script-processing-model:concept-script-type-9>the script's
+     type</a> is "<code>classic</code>", and the element has a <code id=script-processing-model:attr-script-src-10><a href=#attr-script-src>src</a></code> attribute, and the element has a <code id=script-processing-model:attr-script-defer><a href=#attr-script-defer>defer</a></code> attribute, and the element has been flagged as
+     <a href=#parser-inserted id=script-processing-model:parser-inserted-8>"parser-inserted"</a>, and the element does not have an <code id=script-processing-model:attr-script-async-4><a href=#attr-script-async>async</a></code> attribute<dt id=script-processing-module-noasync-parser-inserted>If <a href=#concept-script-type id=script-processing-model:concept-script-type-10>the script's type</a> is "<code>module</code>", and
+     the element has been flagged as <a href=#parser-inserted id=script-processing-model:parser-inserted-9>"parser-inserted"</a>, and the element does not have
+     an <code id=script-processing-model:attr-script-async-5><a href=#attr-script-async>async</a></code> attribute<dd>
+
+      <p>Add the element to the end of the <dfn id=list-of-scripts-that-will-execute-when-the-document-has-finished-parsing>list of scripts that will execute when the document
+      has finished parsing</dfn> associated with the <code id=script-processing-model:document-3><a href=#document>Document</a></code> of the parser that
+      created the element.</p>
+
+      <p>When <a href=#the-script-is-ready id=script-processing-model:the-script-is-ready-6>the script is ready</a>, set the element's <a href=#ready-to-be-parser-executed id=script-processing-model:ready-to-be-parser-executed>"ready to be
+      parser-executed"</a> flag. The parser will handle executing the script.</p>
+
+     <dt id=script-processing-parser-inserted>If <a href=#concept-script-type id=script-processing-model:concept-script-type-11>the script's
+     type</a> is "<code>classic</code>", and the element has a <code id=script-processing-model:attr-script-src-11><a href=#attr-script-src>src</a></code> attribute, and the element has been flagged as
+     <a href=#parser-inserted id=script-processing-model:parser-inserted-10>"parser-inserted"</a>, and the element does not have an <code id=script-processing-model:attr-script-async-6><a href=#attr-script-async>async</a></code> attribute<dd>
+
+      <p>The element is the <a href=#pending-parsing-blocking-script id=script-processing-model:pending-parsing-blocking-script>pending parsing-blocking script</a> of the
+      <code id=script-processing-model:document-4><a href=#document>Document</a></code> of the parser that created the element. (There can only be one such
+      script per <code id=script-processing-model:document-5><a href=#document>Document</a></code> at a time.)</p>
+
+      <p>When <a href=#the-script-is-ready id=script-processing-model:the-script-is-ready-7>the script is ready</a>, set the element's <a href=#ready-to-be-parser-executed id=script-processing-model:ready-to-be-parser-executed-2>"ready to be
+      parser-executed"</a> flag. The parser will handle executing the script.</p>
+
+     <dt id=script-processing-src-sync>If <a href=#concept-script-type id=script-processing-model:concept-script-type-12>the script's
+     type</a> is "<code>classic</code>", and the element has a <code id=script-processing-model:attr-script-src-12><a href=#attr-script-src>src</a></code> attribute, and the element does not have an <code id=script-processing-model:attr-script-async-7><a href=#attr-script-async>async</a></code> attribute, and the element does not have the
+     <a href=#non-blocking id=script-processing-model:non-blocking-5>"non-blocking"</a> flag set<dt id=script-processing-module-noasync>If <a href=#concept-script-type id=script-processing-model:concept-script-type-13>the script's
+     type</a> is "<code>module</code>", and the element does not have an <code id=script-processing-model:attr-script-async-8><a href=#attr-script-async>async</a></code> attribute, and the element does not have the
+     <a href=#non-blocking id=script-processing-model:non-blocking-6>"non-blocking"</a> flag set<dd>
+
+      <p>Add the element to the end of the <dfn id=list-of-scripts-that-will-execute-in-order-as-soon-as-possible>list of scripts that will execute in order as soon
+      as possible</dfn> associated with the <a id=script-processing-model:node-document-7 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> of the <code id=script-processing-model:the-script-element-41><a href=#the-script-element>script</a></code>
+      element at the time the <a href=#prepare-a-script id=script-processing-model:prepare-a-script-5>prepare a script</a> algorithm started.</p>
+
+      <p>When <a href=#the-script-is-ready id=script-processing-model:the-script-is-ready-8>the script is ready</a>, run the following steps:</p>
+
+      <ol><li><p>If the element is not now the first element in the <a href=#list-of-scripts-that-will-execute-in-order-as-soon-as-possible id=script-processing-model:list-of-scripts-that-will-execute-in-order-as-soon-as-possible>list of scripts that will
+       execute in order as soon as possible</a> to which it was added above, then mark the
+       element as ready but abort these steps without executing the script yet.<li><p><i>Execution</i>: <a href=#execute-the-script-block id=script-processing-model:execute-the-script-block>Execute the script block</a> corresponding to the first
+       script element in this <a href=#list-of-scripts-that-will-execute-in-order-as-soon-as-possible id=script-processing-model:list-of-scripts-that-will-execute-in-order-as-soon-as-possible-2>list of scripts that will execute in order as soon as
+       possible</a>.<li><p>Remove the first element from this <a href=#list-of-scripts-that-will-execute-in-order-as-soon-as-possible id=script-processing-model:list-of-scripts-that-will-execute-in-order-as-soon-as-possible-3>list of scripts that will execute in order as
+       soon as possible</a>.<li><p>If this <a href=#list-of-scripts-that-will-execute-in-order-as-soon-as-possible id=script-processing-model:list-of-scripts-that-will-execute-in-order-as-soon-as-possible-4>list of scripts that will execute in order as soon as possible</a> is
+       still not empty and the first entry has already been marked as ready, then jump back to the
+       step labeled <i>execution</i>.</ol>
+
+     <dt id=script-processing-src>If <a href=#concept-script-type id=script-processing-model:concept-script-type-14>the script's type</a>
+     is "<code>classic</code>", and the element has a <code id=script-processing-model:attr-script-src-13><a href=#attr-script-src>src</a></code> attribute<dt id=script-processing-module-async>If <a href=#concept-script-type id=script-processing-model:concept-script-type-15>the script's
+     type</a> is "<code>module</code>"<dd>
+
+      <p>The element must be added to the <dfn id=set-of-scripts-that-will-execute-as-soon-as-possible>set of scripts that will execute as soon as
+      possible</dfn> of the <a id=script-processing-model:node-document-8 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> of the <code id=script-processing-model:the-script-element-42><a href=#the-script-element>script</a></code> element at the
+      time the <a href=#prepare-a-script id=script-processing-model:prepare-a-script-6>prepare a script</a> algorithm started.</p>
+
+      <p>When <a href=#the-script-is-ready id=script-processing-model:the-script-is-ready-9>the script is ready</a>, <a href=#execute-the-script-block id=script-processing-model:execute-the-script-block-2>execute the script block</a> and then
+      remove the element from the <a href=#set-of-scripts-that-will-execute-as-soon-as-possible id=script-processing-model:set-of-scripts-that-will-execute-as-soon-as-possible>set of scripts that will execute as soon as
+      possible</a>.</p>
+
+     <dt id=script-processing-style-delayed>If the element does not have a <code id=script-processing-model:attr-script-src-14><a href=#attr-script-src>src</a></code> attribute, and the element has been flagged as
+     <a href=#parser-inserted id=script-processing-model:parser-inserted-11>"parser-inserted"</a>, and either the parser that created the <code id=script-processing-model:the-script-element-43><a href=#the-script-element>script</a></code> is
+     an <a href=#xml-parser id=script-processing-model:xml-parser-3>XML parser</a> or it's an <a href=#html-parser id=script-processing-model:html-parser-3>HTML parser</a> whose <a href=#script-nesting-level id=script-processing-model:script-nesting-level>script nesting
+     level</a> is not greater than one, and the <code id=script-processing-model:document-6><a href=#document>Document</a></code> of the <a href=#html-parser id=script-processing-model:html-parser-4>HTML
+     parser</a> or <a href=#xml-parser id=script-processing-model:xml-parser-4>XML parser</a> that created the <code id=script-processing-model:the-script-element-44><a href=#the-script-element>script</a></code> element <a href=#has-a-style-sheet-that-is-blocking-scripts id=script-processing-model:has-a-style-sheet-that-is-blocking-scripts>has
+     a style sheet that is blocking scripts</a><dd>
+
+      <p>The element is the <a href=#pending-parsing-blocking-script id=script-processing-model:pending-parsing-blocking-script-2>pending parsing-blocking script</a> of the
+      <code id=script-processing-model:document-7><a href=#document>Document</a></code> of the parser that created the element. (There can only be one such
+      script per <code id=script-processing-model:document-8><a href=#document>Document</a></code> at a time.)</p>
+
+      <p>Set the element's <a href=#ready-to-be-parser-executed id=script-processing-model:ready-to-be-parser-executed-3>"ready to be parser-executed"</a> flag. The parser will handle
+      executing the script.</p>
+
+     <dt id=script-processing-inline>Otherwise<dd><a href=#immediately id=script-processing-model:immediately-2>Immediately</a> <a href=#execute-the-script-block id=script-processing-model:execute-the-script-block-3>execute the script block</a>, even if other scripts are
+     already executing.</dl>
+
+   </ol>
+
+  <p>The <dfn id=pending-parsing-blocking-script>pending parsing-blocking script</dfn> of a <code id=script-processing-model:document-9><a href=#document>Document</a></code> is used by the
+  <code id=script-processing-model:document-10><a href=#document>Document</a></code>'s parser(s).</p>
+
+  <p class=note>If a <code id=script-processing-model:the-script-element-45><a href=#the-script-element>script</a></code> element that blocks a parser gets moved to another
+  <code id=script-processing-model:document-11><a href=#document>Document</a></code> before it would normally have stopped blocking that parser, it nonetheless
+  continues blocking that parser until the condition that causes it to be blocking the parser no
+  longer applies (e.g. if the script is a <a href=#pending-parsing-blocking-script id=script-processing-model:pending-parsing-blocking-script-3>pending parsing-blocking script</a> because there
+  was <a href=#a-style-sheet-that-is-blocking-scripts id=script-processing-model:a-style-sheet-that-is-blocking-scripts>a style sheet that is blocking scripts</a> when it was parsed, but then the script is
+  moved to another <code id=script-processing-model:document-12><a href=#document>Document</a></code> before the style sheet loads, the script still blocks the
+  parser until the style sheets are all loaded, at which time the script executes and the parser is
+  unblocked).</p>
+
+  
+
+  <p>When the user agent is required to <dfn id=execute-the-script-block>execute a script
+  block</dfn>, it must run the following steps.</p>
+
+  <ol><li>
+
+    <p>If the element is flagged as <a href=#parser-inserted id=script-processing-model:parser-inserted-12>"parser-inserted"</a>, but the element's
+    <a id=script-processing-model:node-document-9 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is not the <code id=script-processing-model:document-13><a href=#document>Document</a></code> of the parser that created the element,
+    then abort these steps.</p>
+
+   <li>
+
+    <p>If <a href=#concept-script-script id=script-processing-model:concept-script-script-5>the script's script</a> is null, <a href=https://dom.spec.whatwg.org/#concept-event-fire id=script-processing-model:concept-event-fire-3 data-x-internal=concept-event-fire>fire an event</a> named <code id=script-processing-model:event-error-3><a href=#event-error>error</a></code>
+    at the element, and abort these steps.</p>
+
+   <li>
+
+    <p>If the script is <a href=#concept-script-external id=script-processing-model:concept-script-external-2>from an external file</a>, or
+    <a href=#concept-script-type id=script-processing-model:concept-script-type-16>the script's type</a> is "<code>module</code>",
+    then increment the <a href=#ignore-destructive-writes-counter id=script-processing-model:ignore-destructive-writes-counter>ignore-destructive-writes counter</a> of the <code id=script-processing-model:the-script-element-46><a href=#the-script-element>script</a></code>
+    element's <a id=script-processing-model:node-document-10 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>. Let <var>neutralized doc</var> be that
+    <code id=script-processing-model:document-14><a href=#document>Document</a></code>.</p>
+
+   <li>
+
+    <p>Let <var>old script element</var> be the value to which the <code id=script-processing-model:the-script-element-47><a href=#the-script-element>script</a></code>
+    element's <a id=script-processing-model:node-document-11 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <code id=script-processing-model:dom-document-currentscript><a href=#dom-document-currentscript>currentScript</a></code> object was most recently
+    set.</p>
+
+   <li>
+
+    <p>Switch on <a href=#concept-script-type id=script-processing-model:concept-script-type-17>the script's type</a>:</p>
+
+    <dl class=switch><dt>"<code>classic</code>"<dd>
+      <ol><li>
+        <p>If the <code id=script-processing-model:the-script-element-48><a href=#the-script-element>script</a></code> element's <a id=script-processing-model:root href=https://dom.spec.whatwg.org/#concept-tree-root data-x-internal=root>root</a> is <em>not</em> a <a id=script-processing-model:shadow-root href=https://dom.spec.whatwg.org/#concept-shadow-root data-x-internal=shadow-root>shadow
+        root</a>, then set the <code id=script-processing-model:the-script-element-49><a href=#the-script-element>script</a></code> element's <a id=script-processing-model:node-document-12 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <code id=script-processing-model:dom-document-currentscript-2><a href=#dom-document-currentscript>currentScript</a></code> attribute to the
+        <code id=script-processing-model:the-script-element-50><a href=#the-script-element>script</a></code> element. Otherwise, set it to null.</p>
+
+        <p class=note>This does not use the <a id=script-processing-model:in-a-document-tree href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a> check, as the
+        <code id=script-processing-model:the-script-element-51><a href=#the-script-element>script</a></code> element could have been removed from the document prior to execution,
+        and in that scenario <code id=script-processing-model:dom-document-currentscript-3><a href=#dom-document-currentscript>currentScript</a></code> still
+        needs to point to it.</p>
+       <li><p><a href=#run-a-classic-script id=script-processing-model:run-a-classic-script>Run the classic script</a> given by <a href=#concept-script-script id=script-processing-model:concept-script-script-6>the script's script</a>.</ol>
+     <dt>"<code>module</code>"<dd>
+      <ol><li><p>Set the <code id=script-processing-model:the-script-element-52><a href=#the-script-element>script</a></code> element's <a id=script-processing-model:node-document-13 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <code id=script-processing-model:dom-document-currentscript-4><a href=#dom-document-currentscript>currentScript</a></code> attribute to null.<li><p><a href=#run-a-module-script id=script-processing-model:run-a-module-script>Run the module script</a> given by <a href=#concept-script-script id=script-processing-model:concept-script-script-7>the script's script</a>.</ol>
+     </dl>
+
+   <li>
+
+    <p>Set the <code id=script-processing-model:the-script-element-53><a href=#the-script-element>script</a></code> element's <a id=script-processing-model:node-document-14 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <code id=script-processing-model:dom-document-currentscript-5><a href=#dom-document-currentscript>currentScript</a></code> attribute to <var>old script
+    element</var>.</p>
+
+   <li>
+
+    <p>Decrement the <a href=#ignore-destructive-writes-counter id=script-processing-model:ignore-destructive-writes-counter-2>ignore-destructive-writes counter</a> of <var>neutralized doc</var>, if it was incremented in the earlier step.</p>
+
+   <li>
+
+    <p>If the script is <a href=#concept-script-external id=script-processing-model:concept-script-external-3>from an external file</a>, then
+    <a href=https://dom.spec.whatwg.org/#concept-event-fire id=script-processing-model:concept-event-fire-4 data-x-internal=concept-event-fire>fire an event</a> named <code id=script-processing-model:event-load><a href=#event-load>load</a></code> at the <code id=script-processing-model:the-script-element-54><a href=#the-script-element>script</a></code> element.</p>
+
+   </ol>
+
+  
+
+
+  <h5 id=scriptingLanguages>4.12.1.2 Scripting languages<a href=#scriptingLanguages class=self-link></a></h5>
+
+  <p>A <dfn id=javascript-mime-type data-export="">JavaScript MIME type</dfn> is a <a id=scriptingLanguages:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> string that is one
+  of the following and refers to JavaScript: <a href=#refsJAVASCRIPT>[JAVASCRIPT]</a></p>
+
+  <ul class=brief><li><code id=scriptingLanguages:application/ecmascript><a href=#application/ecmascript>application/ecmascript</a></code>
+   <li><code id=scriptingLanguages:application/javascript><a href=#application/javascript>application/javascript</a></code>
+   <li><code id=scriptingLanguages:application/x-ecmascript><a href=#application/x-ecmascript>application/x-ecmascript</a></code>
+   <li><code id=scriptingLanguages:application/x-javascript><a href=#application/x-javascript>application/x-javascript</a></code>
+   <li><code id=scriptingLanguages:text/ecmascript><a href=#text/ecmascript>text/ecmascript</a></code>
+   <li><code id=scriptingLanguages:text/javascript><a href=#text/javascript>text/javascript</a></code>
+   <li><code id=scriptingLanguages:text/javascript1.0><a href=#text/javascript1.0>text/javascript1.0</a></code>
+   <li><code id=scriptingLanguages:text/javascript1.1><a href=#text/javascript1.1>text/javascript1.1</a></code>
+   <li><code id=scriptingLanguages:text/javascript1.2><a href=#text/javascript1.2>text/javascript1.2</a></code>
+   <li><code id=scriptingLanguages:text/javascript1.3><a href=#text/javascript1.3>text/javascript1.3</a></code>
+   <li><code id=scriptingLanguages:text/javascript1.4><a href=#text/javascript1.4>text/javascript1.4</a></code>
+   <li><code id=scriptingLanguages:text/javascript1.5><a href=#text/javascript1.5>text/javascript1.5</a></code>
+   <li><code id=scriptingLanguages:text/jscript><a href=#text/jscript>text/jscript</a></code>
+   <li><code id=scriptingLanguages:text/livescript><a href=#text/livescript>text/livescript</a></code>
+   <li><code id=scriptingLanguages:text/x-ecmascript><a href=#text/x-ecmascript>text/x-ecmascript</a></code>
+   <li><code id=scriptingLanguages:text/x-javascript><a href=#text/x-javascript>text/x-javascript</a></code>
+  </ul>
+
+  <p>User agents must recognize all <a href=#javascript-mime-type id=scriptingLanguages:javascript-mime-type>JavaScript MIME
+  types</a>.</p>
+
+  
+
+  <p>User agents may support other <a href=https://mimesniff.spec.whatwg.org/#mime-type id=scriptingLanguages:mime-type-2 data-x-internal=mime-type>MIME types</a> for other languages,
+  but must not support other <a href=https://mimesniff.spec.whatwg.org/#mime-type id=scriptingLanguages:mime-type-3 data-x-internal=mime-type>MIME types</a> for the languages in the list
+  above. User agents are not required to support JavaScript. The processing model for languages
+  other than JavaScript is outside the scope of this specification.</p>
+
+  <p>The following <a href=https://mimesniff.spec.whatwg.org/#mime-type id=scriptingLanguages:mime-type-4 data-x-internal=mime-type>MIME types</a> (with or without parameters) must not
+  be interpreted as scripting languages:</p>
+
+  <ul class=brief><li><code id=scriptingLanguages:text/plain><a data-x-internal=text/plain href=https://tools.ietf.org/html/rfc2046#section-4.1.3>text/plain</a></code>
+   <li><code id=scriptingLanguages:text/xml><a href=#text/xml>text/xml</a></code>
+   
+   <li><code id=scriptingLanguages:application/octet-stream><a data-x-internal=application/octet-stream href=https://tools.ietf.org/html/rfc2046#section-4.5.1>application/octet-stream</a></code>
+   <li><code id=scriptingLanguages:application/xml><a href=#application/xml>application/xml</a></code>
+   
+   
+
+   
+
+  </ul>
+
+  <p class=note>These types are explicitly listed here because they are poorly-defined types that
+  are nonetheless likely to be used as formats for data blocks, and it would be problematic if they
+  were suddenly to be interpreted as script by a user agent.</p>
+
+  
+
+  <p>When examining types to determine if they represent supported languages, user agents must not
+  ignore MIME parameters. Types are to be compared including all parameters.</p> 
+
+  <p class=note>For example, types that include the <code>charset</code> parameter will
+  not be recognized as referencing any of the scripting languages listed above.</p>
+

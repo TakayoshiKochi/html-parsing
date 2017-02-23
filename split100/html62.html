@@ -1,0 +1,850 @@
+   <var>candidate</var> and abort these steps.<li><p>Otherwise, unset the <a href=#sequential-focus-navigation-starting-point id=sequential-focus-navigation:sequential-focus-navigation-starting-point-3>sequential focus navigation starting point</a>.<li>
+
+    <p>If <var>starting point</var> is the <a href=#top-level-browsing-context id=sequential-focus-navigation:top-level-browsing-context-4>top-level browsing context</a>, or a
+    <a href=#focusable-area id=sequential-focus-navigation:focusable-area-4>focusable area</a> in the <a href=#top-level-browsing-context id=sequential-focus-navigation:top-level-browsing-context-5>top-level browsing context</a>, the user agent
+    should transfer focus to its own controls appropriately (if any), honouring
+    <var>direction</var>, and then abort these steps.</p>
+
+    <p class=example>For example, if <var>direction</var> is <i>backward</i>, then the last
+    focusable control before the browser's rendering area would be the control to focus.</p>
+
+    <p>If the user agent has no focusable controls — a kiosk-mode browser, for instance
+    — 
+    then the user agent may instead restart these steps with the <var>starting point</var> being the
+    <a href=#top-level-browsing-context id=sequential-focus-navigation:top-level-browsing-context-6>top-level browsing context</a> itself.</p>
+
+    
+
+   <li><p>Otherwise, <var>starting point</var> is a <a href=#focusable-area id=sequential-focus-navigation:focusable-area-5>focusable area</a> in a
+   <a href=#nested-browsing-context id=sequential-focus-navigation:nested-browsing-context>nested browsing context</a>. Let <var>starting point</var> be that
+   <a href=#nested-browsing-context id=sequential-focus-navigation:nested-browsing-context-2>nested browsing context</a>'s <a href=#browsing-context-container id=sequential-focus-navigation:browsing-context-container>browsing context container</a>, and return to the
+   step labeled <i>loop</i>.</p>
+    
+   </ol>
+
+
+  <p>The <dfn id=sequential-navigation-search-algorithm>sequential navigation search algorithm</dfn> consists of the following steps. This
+  algorithm takes three arguments: <var>starting point</var>, <var>direction</var>,
+  and <var>selection mechanism</var>.</p>
+
+  <ol><li>
+
+    <p>Pick the appropriate cell from the following table, and follow the instructions in that
+    cell.</p>
+
+    <p>The appropriate cell is the one that is from the column whose header describes <var>direction</var> and from the first row whose header describes <var>starting point</var> and <var>selection mechanism</var>.</p>
+
+    <table><thead><tr><th>
+       <th> <var>direction</var> is <i>forward</i>
+       <th> <var>direction</var> is <i>backward</i>
+     <tbody><tr><th><var>starting point</var> is a <a href=#browsing-context id=sequential-focus-navigation:browsing-context-2>browsing context</a>
+       <td>Let <var>candidate</var> be the first <a href=#suitable-sequentially-focusable-area id=sequential-focus-navigation:suitable-sequentially-focusable-area>suitable sequentially focusable area</a> in <var>starting point</var>'s <a href=#active-document id=sequential-focus-navigation:active-document>active document</a>'s <a href=#primary-control-group id=sequential-focus-navigation:primary-control-group>primary control group</a>, if any; or else null
+       <td>Let <var>candidate</var> be the last <a href=#suitable-sequentially-focusable-area id=sequential-focus-navigation:suitable-sequentially-focusable-area-2>suitable sequentially focusable area</a> in <var>starting point</var>'s <a href=#active-document id=sequential-focus-navigation:active-document-2>active document</a>'s <a href=#primary-control-group id=sequential-focus-navigation:primary-control-group-2>primary control group</a>, if any; or else null
+      <tr><th><var>selection mechanism</var> is <i>DOM</i>
+       <td>Let <var>candidate</var> be the first <a href=#suitable-sequentially-focusable-area id=sequential-focus-navigation:suitable-sequentially-focusable-area-3>suitable sequentially focusable area</a> in the <a href=#home-control-group id=sequential-focus-navigation:home-control-group>home control group</a> following <var>starting point</var>, if any; or else null
+       <td>Let <var>candidate</var> be the last <a href=#suitable-sequentially-focusable-area id=sequential-focus-navigation:suitable-sequentially-focusable-area-4>suitable sequentially focusable area</a> in the <a href=#home-control-group id=sequential-focus-navigation:home-control-group-2>home control group</a> preceding <var>starting point</var>, if any; or else null
+      <tr><th><var>selection mechanism</var> is <i>sequential</i>
+       <td>Let <var>candidate</var> be the first <a href=#suitable-sequentially-focusable-area id=sequential-focus-navigation:suitable-sequentially-focusable-area-5>suitable sequentially focusable area</a> in the <a href=#home-sequential-focus-navigation-order id=sequential-focus-navigation:home-sequential-focus-navigation-order>home sequential focus navigation order</a> following <var>starting point</var>, if any; or else null
+       <td>Let <var>candidate</var> be the last <a href=#suitable-sequentially-focusable-area id=sequential-focus-navigation:suitable-sequentially-focusable-area-6>suitable sequentially focusable area</a> in the <a href=#home-sequential-focus-navigation-order id=sequential-focus-navigation:home-sequential-focus-navigation-order-2>home sequential focus navigation order</a> preceding <var>starting point</var>, if any; or else null
+
+    </table>
+
+    <p>A <dfn id=suitable-sequentially-focusable-area>suitable sequentially focusable area</dfn> is a <a href=#focusable-area id=sequential-focus-navigation:focusable-area-6>focusable area</a> whose <a href=#dom-anchor id=sequential-focus-navigation:dom-anchor>DOM
+    anchor</a> is not <a href=#inert id=sequential-focus-navigation:inert>inert</a> and that is in its <a href=#control-group id=sequential-focus-navigation:control-group-7>control group</a>'s <a href=#sequential-focus-navigation-order id=sequential-focus-navigation:sequential-focus-navigation-order-5>sequential
+    focus navigation order</a>.</p>
+
+    <p>The <dfn id=primary-control-group>primary control group</dfn> of a <a href=#control-group-owner-object id=sequential-focus-navigation:control-group-owner-object>control group owner object</a> <var>X</var> is the <a href=#control-group id=sequential-focus-navigation:control-group-8>control group</a> of <var>X</var> if <var>X</var> has no <a href=#dialog-group id=sequential-focus-navigation:dialog-group>dialog group</a> or if its <a href=#dialog-group id=sequential-focus-navigation:dialog-group-2>dialog group</a> has no
+    designated <a href=#focused-dialog-of-the-dialog-group id=sequential-focus-navigation:focused-dialog-of-the-dialog-group>focused dialog of the dialog group</a>, otherwise, it is the <a href=#primary-control-group id=sequential-focus-navigation:primary-control-group-3>primary
+    control group</a> of <var>X</var>'s <a href=#dialog-group id=sequential-focus-navigation:dialog-group-3>dialog group</a>'s designated
+    <a href=#focused-dialog-of-the-dialog-group id=sequential-focus-navigation:focused-dialog-of-the-dialog-group-2>focused dialog of the dialog group</a>.</p>
+
+    <p>The <dfn id=home-control-group>home control group</dfn> is the <a href=#control-group id=sequential-focus-navigation:control-group-9>control group</a> to which <var>starting point</var> belongs.</p>
+
+    <p>The <dfn id=home-sequential-focus-navigation-order>home sequential focus navigation order</dfn> is the <a href=#sequential-focus-navigation-order id=sequential-focus-navigation:sequential-focus-navigation-order-6>sequential focus
+    navigation order</a> to which <var>starting point</var> belongs.</p>
+
+    <p class=note>The <a href=#home-sequential-focus-navigation-order id=sequential-focus-navigation:home-sequential-focus-navigation-order-3>home sequential focus navigation order</a> is the <a href=#home-control-group id=sequential-focus-navigation:home-control-group-3>home
+    control group</a>'s <a href=#sequential-focus-navigation-order id=sequential-focus-navigation:sequential-focus-navigation-order-7>sequential focus navigation order</a>, but is only used when the
+    <var>starting point</var> is in that <a href=#sequential-focus-navigation-order id=sequential-focus-navigation:sequential-focus-navigation-order-8>sequential focus navigation order</a>
+    (when it's not, <var>selection mechanism</var> will be <i>DOM</i>).</p>
+
+   <li>
+
+    <p>If <var>candidate</var> is a <a href=#browsing-context-container id=sequential-focus-navigation:browsing-context-container-2>browsing context container</a> with a non-null
+    <a href=#nested-browsing-context id=sequential-focus-navigation:nested-browsing-context-3>nested browsing context</a>, then let <var>new candidate</var> be the result of running
+    the <a href=#sequential-navigation-search-algorithm id=sequential-focus-navigation:sequential-navigation-search-algorithm-2>sequential navigation search algorithm</a> with <var>candidate</var>'s <a href=#nested-browsing-context id=sequential-focus-navigation:nested-browsing-context-4>nested
+    browsing context</a> as the first argument, <var>direction</var> as the second, and
+    <i>sequential</i>  as the third.</p>
+
+    <p>If <var>new candidate</var> is null, then let <var>starting point</var>
+    be <var>candidate</var>, and return to the top of this algorithm. Otherwise, let
+    <var>candidate</var> be <var>new candidate</var>.</p>
+
+   <li><p>Return <var>candidate</var>.</ol>
+
+  
+
+
+
+  <h4 id=focus-management-apis>6.4.6 Focus management APIs<a href=#focus-management-apis class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>document</var> . <code id=focus-management-apis:dom-document-activeelement><a href=#dom-document-activeelement>activeElement</a></code><dd>
+
+    <p>Returns the deepest element in the document through which or to which key events are being
+    routed. This is, roughly speaking, the focused element in the document.</p>
+
+    <p>For the purposes of this API, when a <a href=#child-browsing-context id=focus-management-apis:child-browsing-context>child browsing context</a> is focused, its
+    <a href=#browsing-context-container id=focus-management-apis:browsing-context-container>browsing context container</a> is <a href=#bc-focus-ergo-bcc-focus>focused</a> in the
+    <a href=#parent-browsing-context id=focus-management-apis:parent-browsing-context>parent browsing context</a>. For example, if the user moves the focus to a text control
+    in an <code id=focus-management-apis:the-iframe-element><a href=#the-iframe-element>iframe</a></code>, the <code id=focus-management-apis:the-iframe-element-2><a href=#the-iframe-element>iframe</a></code> is the element returned by the <code id=focus-management-apis:dom-document-activeelement-2><a href=#dom-document-activeelement>activeElement</a></code> API in the <code id=focus-management-apis:the-iframe-element-3><a href=#the-iframe-element>iframe</a></code>'s
+    <a id=focus-management-apis:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.</p>
+
+   <dt><var>document</var> . <code id=focus-management-apis:dom-document-hasfocus><a href=#dom-document-hasfocus>hasFocus</a></code>()<dd>
+
+    <p>Returns true if key events are being routed through or to the document; otherwise, returns
+    false. Roughly speaking, this corresponds to the document, or a document nested inside this
+    one, being focused.</p>
+
+   <dt><var>window</var> . <code id=focus-management-apis:dom-window-focus><a href=#dom-window-focus>focus</a></code>()<dd>
+
+    
+
+    <p>Moves the focus to the window's <a href=#browsing-context id=focus-management-apis:browsing-context>browsing context</a>, if any.</p>
+
+   <dt><var>element</var> . <code id=focus-management-apis:dom-focus><a href=#dom-focus>focus</a></code>()<dd>
+
+    <p>Moves the focus to the element.</p>
+
+    <p>If the element is a <a href=#browsing-context-container id=focus-management-apis:browsing-context-container-2>browsing context container</a>, moves the focus to the <a href=#nested-browsing-context id=focus-management-apis:nested-browsing-context>nested browsing context</a> instead.</p>
+
+   <dt><var>element</var> . <code id=focus-management-apis:dom-blur><a href=#dom-blur>blur</a></code>()<dd>
+
+    <p>Moves the focus to the <a id=focus-management-apis:viewport href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>. Use of this method is discouraged; if you want
+    to focus the <a id=focus-management-apis:viewport-2 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>, call the <code id=focus-management-apis:dom-focus-2><a href=#dom-focus>focus()</a></code> method on
+    the <code id=focus-management-apis:document><a href=#document>Document</a></code>'s <a id=focus-management-apis:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>.</p>
+
+    <p>Do not use this method to hide the focus ring if you find the focus ring unsightly. Instead,
+    use a CSS rule to override the <a id="focus-management-apis:'outline'" href=https://drafts.csswg.org/css-ui/#outline data-x-internal="'outline'">'outline'</a> property, and provide a different way to
+    show what element is focused. Be aware that if an alternative focusing style isn't made
+    available, the page will be significantly less usable for people who primarily navigate pages
+    using a keyboard, or those with reduced vision who use focus outlines to help them navigate the
+    page.</p>
+
+    
+
+    <div class=example>
+
+     <p>For example, to hide the outline from links and instead use a yellow background to indicate
+     focus, you could use:</p>
+
+     <pre>:link:focus, :visited:focus { outline: none; background: yellow; color: black; }</pre>
+
+    </div>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-document-activeelement><code>activeElement</code></dfn> attribute on
+  <code id=focus-management-apis:document-2><a href=#document>Document</a></code> objects must return the value returned by the following steps:</p>
+
+  <ol><li><p>Let <var>candidate</var> be the <code id=focus-management-apis:document-3><a href=#document>Document</a></code> on which the method was
+   invoked.<li><p>If <var>candidate</var> has a <a href=#dialog-group id=focus-management-apis:dialog-group>dialog group</a> with a designated
+   <a href=#focused-dialog-of-the-dialog-group id=focus-management-apis:focused-dialog-of-the-dialog-group>focused dialog of the dialog group</a>, then let <var>candidate</var> be the
+   designated <a href=#focused-dialog-of-the-dialog-group id=focus-management-apis:focused-dialog-of-the-dialog-group-2>focused dialog of the dialog group</a>, and redo this step.<li><p>If <var>candidate</var> has a non-empty <a href=#control-group id=focus-management-apis:control-group>control group</a>, let <var>candidate</var> be the designated <a href=#focused-area-of-the-control-group id=focus-management-apis:focused-area-of-the-control-group>focused area of the control
+   group</a>.</p>
+
+   <li><p>If <var>candidate</var> is a <a href=#focusable-area id=focus-management-apis:focusable-area>focusable area</a>, let <var>candidate</var> be <var>candidate</var>'s <a href=#dom-anchor id=focus-management-apis:dom-anchor>DOM anchor</a>.<li>
+
+    <p>If <var>candidate</var> is a <code id=focus-management-apis:document-4><a href=#document>Document</a></code> that has a <a href=#the-body-element-2 id=focus-management-apis:the-body-element-2>body element</a>, then let <var>candidate</var> be <a href=#the-body-element-2 id=focus-management-apis:the-body-element-2-2>the body
+    element</a> of that <code id=focus-management-apis:document-5><a href=#document>Document</a></code>.</p>
+
+    <p>Otherwise, if <var>candidate</var> is a <code id=focus-management-apis:document-6><a href=#document>Document</a></code> with a non-null <a id=focus-management-apis:document-element-2 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document
+    element</a>, then let <var>candidate</var> be that <a id=focus-management-apis:document-element-3 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>.</p>
+
+    <p>Otherwise, if <var>candidate</var> is a <code id=focus-management-apis:document-7><a href=#document>Document</a></code>, then let <var>candidate</var> be null.</p>
+
+   <li><p>Return <var>candidate</var>.</ol>
+
+  <p>The <dfn id=dom-document-hasfocus><code>hasFocus()</code></dfn> method on the
+  <code id=focus-management-apis:document-8><a href=#document>Document</a></code> object, when invoked, must return the result of running the <a href=#has-focus-steps id=focus-management-apis:has-focus-steps>has focus
+  steps</a> with the <code id=focus-management-apis:document-9><a href=#document>Document</a></code> object as the argument.</p>
+
+  <p>The <dfn id=dom-window-focus><code>focus()</code></dfn> method on the <code id=focus-management-apis:window><a href=#window>Window</a></code>
+  object, when invoked, must run the <a href=#focusing-steps id=focus-management-apis:focusing-steps>focusing steps</a> with the <code id=focus-management-apis:window-2><a href=#window>Window</a></code>
+  object's <a href=#browsing-context id=focus-management-apis:browsing-context-2>browsing context</a>. Additionally, if this <a href=#browsing-context id=focus-management-apis:browsing-context-3>browsing context</a> is a
+  <a href=#top-level-browsing-context id=focus-management-apis:top-level-browsing-context>top-level browsing context</a>, user agents are encouraged to trigger some sort of
+  notification to indicate to the user that the page is attempting to gain focus.</p>
+
+  <p>The <dfn id=dom-window-blur><code>blur()</code></dfn> method on the <code id=focus-management-apis:window-3><a href=#window>Window</a></code>
+  object, when invoked, provides a hint to the user agent that the script believes the user probably
+  is not currently interested in the contents of the <a href=#browsing-context id=focus-management-apis:browsing-context-4>browsing context</a> of the
+  <code id=focus-management-apis:window-4><a href=#window>Window</a></code> object on which the method was invoked, but that the contents might become
+  interesting again in the future.</p>
+
+  <p>User agents are encouraged to ignore calls to this <code id=focus-management-apis:dom-window-blur><a href=#dom-window-blur>blur()</a></code>
+  method entirely.</p>
+
+  <p class=note>Historically, the <code id=focus-management-apis:dom-window-blur-2><a href=#dom-window-blur>focus()</a></code> and <code id=focus-management-apis:dom-window-blur-3><a href=#dom-window-blur>blur()</a></code> methods actually affected the system-level focus of the
+  system widget (e.g. tab or window) that contained the <a href=#browsing-context id=focus-management-apis:browsing-context-5>browsing context</a>, but hostile
+  sites widely abuse this behavior to the user's detriment.</p>
+
+  <p>The <dfn id=dom-focus><code>focus()</code></dfn> method on elements, when invoked, must
+  run the following algorithm:</p>
+
+  <ol><li><p>If the element is marked as <i id=focus-management-apis:locked-for-focus><a href=#locked-for-focus>locked for focus</a></i>, then abort these steps.<li><p>Mark the element as <dfn id=locked-for-focus>locked for focus</dfn>.<li><p>Run the <a href=#focusing-steps id=focus-management-apis:focusing-steps-2>focusing steps</a> for the element.<li><p>Unmark the element as <i id=focus-management-apis:locked-for-focus-2><a href=#locked-for-focus>locked for focus</a></i>.</ol>
+
+  <p>The <dfn id=dom-blur><code>blur()</code></dfn> method, when invoked, should run the
+  <a href=#unfocusing-steps id=focus-management-apis:unfocusing-steps>unfocusing steps</a> for the element on which the method was called. User agents may
+  selectively or uniformly ignore calls to this method for usability reasons.</p>
+
+  <p class=example>For example, if the <code id=focus-management-apis:dom-blur-2><a href=#dom-blur>blur()</a></code> method is unwisely
+  being used to remove the focus ring for aesthetics reasons, the page would become unusable by
+  keyboard users. Ignoring calls to this method would thus allow keyboard users to interact with the
+  page.</p>
+
+  
+
+
+
+
+
+  <h3 id=assigning-keyboard-shortcuts>6.5 Assigning keyboard shortcuts<a href=#assigning-keyboard-shortcuts class=self-link></a></h3>
+
+  <h4 id=introduction-9>6.5.1 Introduction<a href=#introduction-9 class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Each element that can be activated or focused can be assigned a single key combination to
+  activate it, using the <code id=introduction-9:the-accesskey-attribute><a href=#the-accesskey-attribute>accesskey</a></code> attribute.</p>
+
+  <p>The exact shortcut is determined by the user agent, based on information about the user's
+  keyboard, what keyboard shortcuts already exist on the platform, and what other shortcuts have
+  been specified on the page, using the information provided in the <code id=introduction-9:the-accesskey-attribute-2><a href=#the-accesskey-attribute>accesskey</a></code> attribute as a guide.</p>
+
+  <p>In order to ensure that a relevant keyboard shortcut is available on a wide variety of input
+  devices, the author can provide a number of alternatives in the <code id=introduction-9:the-accesskey-attribute-3><a href=#the-accesskey-attribute>accesskey</a></code> attribute.</p>
+
+  <p>Each alternative consists of a single character, such as a letter or digit.</p>
+
+  <p>User agents can provide users with a list of the keyboard shortcuts, but authors are encouraged
+  to do so also. The <code id=introduction-9:dom-accesskeylabel><a href=#dom-accesskeylabel>accessKeyLabel</a></code> IDL attribute returns a
+  string representing the actual key combination assigned by the user agent.</p>
+
+  <div class=example>
+
+   <p>In this example, an author has provided a button that can be invoked using a shortcut key. To
+   support full keyboards, the author has provided "C" as a possible key. To support devices
+   equipped only with numeric keypads, the author has provided "1" as another possibly key.</p>
+
+   <pre>&lt;input type=button value=Collect onclick="collect()"
+       <strong>accesskey="C 1"</strong> id=c></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>To tell the user what the shortcut key is, the author has this script here opted to explicitly
+   add the key combination to the button's label:</p>
+
+   <pre>function addShortcutKeyLabel(button) {
+<strong>  if (button.accessKeyLabel != '')
+    button.value += ' (' + button.accessKeyLabel + ')';</strong>
+}
+addShortcutKeyLabel(document.getElementById('c'));</pre>
+
+   <p>Browsers on different platforms will show different labels, even for the same key combination,
+   based on the convention prevalent on that platform. For example, if the key combination is the
+   Control key, the Shift key, and the letter C, a Windows browser might display
+   "<samp>Ctrl+Shift+C</samp>", whereas a Mac browser might display "<samp>^⇧C</samp>", while
+   an Emacs browser might just display "<samp>C-C</samp>". Similarly, if the key combination is the
+   Alt key and the Escape key, Windows might use "<samp>Alt+Esc</samp>", Mac might use
+   "<samp>⌥⎋</samp>", and an Emacs browser might use "<samp>M-ESC</samp>" or
+   "<samp>ESC ESC</samp>".</p>
+
+   <p>In general, therefore, it is unwise to attempt to parse the value returned from the <code id=introduction-9:dom-accesskeylabel-2><a href=#dom-accesskeylabel>accessKeyLabel</a></code> IDL attribute.</p>
+
+  </div>
+
+
+  <h4 id=the-accesskey-attribute>6.5.2 The <dfn><code>accesskey</code></dfn> attribute<a href=#the-accesskey-attribute class=self-link></a></h4>
+
+  <p>All <a href=#html-elements id=the-accesskey-attribute:html-elements>HTML elements</a> may have the <code id=the-accesskey-attribute:the-accesskey-attribute><a href=#the-accesskey-attribute>accesskey</a></code>
+  content attribute set. The <code id=the-accesskey-attribute:the-accesskey-attribute-2><a href=#the-accesskey-attribute>accesskey</a></code> attribute's value is used
+  by the user agent as a guide for creating a keyboard shortcut that activates or focuses the
+  element.</p>
+
+  <p>If specified, the value must be an <a href=#ordered-set-of-unique-space-separated-tokens id=the-accesskey-attribute:ordered-set-of-unique-space-separated-tokens>ordered set of unique space-separated tokens</a>
+  that are <a href=#case-sensitive id=the-accesskey-attribute:case-sensitive>case-sensitive</a>, each of which must be exactly one Unicode code point in
+  length.</p>
+
+  <div class=example>
+
+   <p>In the following example, a variety of links are given with access keys so that keyboard users
+   familiar with the site can more quickly navigate to the relevant pages:</p>
+
+   <pre>&lt;nav>
+ &lt;p>
+  &lt;a title="Consortium Activities" accesskey="A" href="/Consortium/activities">Activities&lt;/a> |
+  &lt;a title="Technical Reports and Recommendations" accesskey="T" href="/TR/">Technical Reports&lt;/a> |
+  &lt;a title="Alphabetical Site Index" accesskey="S" href="/Consortium/siteindex">Site Index&lt;/a> |
+  &lt;a title="About This Site" accesskey="B" href="/Consortium/">About Consortium&lt;/a> |
+  &lt;a title="Contact Consortium" accesskey="C" href="/Consortium/contact">Contact&lt;/a>
+ &lt;/p>
+&lt;/nav></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In the following example, the search field is given two possible access keys, "s" and "0" (in
+   that order). A user agent on a device with a full keyboard might pick <kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd></kbd> as the shortcut key,
+   while a user agent on a small device with just a numeric keypad might pick just the plain
+   unadorned key <kbd><kbd>0</kbd></kbd>:</p>
+
+   <pre>&lt;form action="/search">
+ &lt;label>Search: &lt;input type="search" name="q" accesskey="s 0">&lt;/label>
+ &lt;input type="submit">
+&lt;/form></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In the following example, a button has possible access keys described. A script then tries to
+   update the button's label to advertise the key combination the user agent selected.</p>
+
+   <pre>&lt;input type=submit accesskey="N @ 1" value="Compose">
+...
+&lt;script>
+ function labelButton(button) {
+   if (button.accessKeyLabel)
+     button.value += ' (' + button.accessKeyLabel + ')';
+ }
+ var inputs = document.getElementsByTagName('input');
+ for (var i = 0; i &lt; inputs.length; i += 1) {
+   if (inputs[i].type == "submit")
+     labelButton(inputs[i]);
+ }
+&lt;/script></pre>
+
+   <p>On one user agent, the button's label might become "<samp>Compose (⌘N)</samp>". On
+   another, it might become "<samp>Compose (Alt+⇧+1)</samp>". If the user agent doesn't
+   assign a key, it will be just "<samp>Compose</samp>". The exact string depends on what the
+   <a href=#assigned-access-key id=the-accesskey-attribute:assigned-access-key>assigned access key</a> is, and on how the user agent represents that key
+   combination.</p>
+
+  </div>
+
+
+  
+
+  <h4 id=keyboard-shortcuts-processing-model>6.5.3 <span id=processing-model-6></span>Processing
+  model<a href=#keyboard-shortcuts-processing-model class=self-link></a></h4>
+
+  <p>An element's <dfn id=assigned-access-key>assigned access key</dfn> is a key combination derived from the element's
+  <code id=keyboard-shortcuts-processing-model:the-accesskey-attribute><a href=#the-accesskey-attribute>accesskey</a></code> content attribute. Initially, an element must not
+  have an <a href=#assigned-access-key id=keyboard-shortcuts-processing-model:assigned-access-key>assigned access key</a>.</p>
+
+  <p>Whenever an element's <code id=keyboard-shortcuts-processing-model:the-accesskey-attribute-2><a href=#the-accesskey-attribute>accesskey</a></code> attribute is set, changed,
+  or removed, the user agent must update the element's <a href=#assigned-access-key id=keyboard-shortcuts-processing-model:assigned-access-key-2>assigned access key</a> by running
+  the following steps:</p>
+
+  <ol><li><p>If the element has no <code id=keyboard-shortcuts-processing-model:the-accesskey-attribute-3><a href=#the-accesskey-attribute>accesskey</a></code> attribute, then skip
+   to the <i>fallback</i> step below.<li><p>Otherwise, <a href=#split-a-string-on-spaces id=keyboard-shortcuts-processing-model:split-a-string-on-spaces>split the attribute's value on
+   spaces</a>, and let <var>keys</var> be the resulting tokens.<li>
+
+    <p>For each value in <var>keys</var> in turn, in the order the tokens appeared in the
+    attribute's value, run the following substeps:</p>
+
+    <ol><li><p>If the value is not a string exactly one Unicode code point in length, then skip the
+     remainder of these steps for this value.<li><p>If the value does not correspond to a key on the system's keyboard, then skip the
+     remainder of these steps for this value.<li><p>If the user agent can find a mix of zero or more modifier keys that, combined with the
+     key that corresponds to the value given in the attribute, can be used as the access key, then
+     the user agent may assign that combination of keys as the element's <a href=#assigned-access-key id=keyboard-shortcuts-processing-model:assigned-access-key-3>assigned access
+     key</a> and abort these steps.
+     <a href=#fingerprinting-vector id=keyboard-shortcuts-processing-model:fingerprinting-vector class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a>
+     </ol>
+
+   <li><p><i>Fallback</i>: Optionally, the user agent may assign a key combination of its choosing
+   as the element's <a href=#assigned-access-key id=keyboard-shortcuts-processing-model:assigned-access-key-4>assigned access key</a> and then abort these steps.<li><p>If this step is reached, the element has no <a href=#assigned-access-key id=keyboard-shortcuts-processing-model:assigned-access-key-5>assigned access key</a>.</ol>
+
+  <p>Once a user agent has selected and assigned an access key for an element, the user agent should
+  not change the element's <a href=#assigned-access-key id=keyboard-shortcuts-processing-model:assigned-access-key-6>assigned access key</a> unless the <code id=keyboard-shortcuts-processing-model:the-accesskey-attribute-4><a href=#the-accesskey-attribute>accesskey</a></code> content attribute is changed or the element is moved to
+  another <code id=keyboard-shortcuts-processing-model:document><a href=#document>Document</a></code>.</p>
+
+  <p>When the user presses the key combination corresponding to the <a href=#assigned-access-key id=keyboard-shortcuts-processing-model:assigned-access-key-7>assigned access key</a>
+  for an element, if the element <a href=#concept-command id=keyboard-shortcuts-processing-model:concept-command>defines a command</a>, the
+  command's <a href=#command-facet-hiddenstate id=keyboard-shortcuts-processing-model:command-facet-hiddenstate>Hidden State</a> facet is false (visible),
+  the command's <a href=#command-facet-disabledstate id=keyboard-shortcuts-processing-model:command-facet-disabledstate>Disabled State</a> facet is also false
+  (enabled), the element is <a id=keyboard-shortcuts-processing-model:in-a-document href=https://dom.spec.whatwg.org/#in-a-document data-x-internal=in-a-document>in a document</a> that has a <a href=#concept-document-bc id=keyboard-shortcuts-processing-model:concept-document-bc>browsing context</a>, and neither the element nor any of its
+  ancestors has a <code id=keyboard-shortcuts-processing-model:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> attribute specified, then the user agent
+  must trigger the <a href=#command-facet-action id=keyboard-shortcuts-processing-model:command-facet-action>Action</a> of the command.</p>
+
+  <p class=note>User agents <a href=#expose-commands-in-ui>might expose</a> elements that have
+  an <code id=keyboard-shortcuts-processing-model:the-accesskey-attribute-5><a href=#the-accesskey-attribute>accesskey</a></code> attribute in other ways as well, e.g. in a menu
+  displayed in response to a specific key combination.</p> 
+
+  <hr>
+
+  <p>The <dfn id=dom-accesskey><code>accessKey</code></dfn> IDL attribute must
+  <a href=#reflect id=keyboard-shortcuts-processing-model:reflect>reflect</a> the <code id=keyboard-shortcuts-processing-model:the-accesskey-attribute-6><a href=#the-accesskey-attribute>accesskey</a></code> content attribute.</p>
+
+  <p>The <dfn id=dom-accesskeylabel><code>accessKeyLabel</code></dfn> IDL attribute must return
+  a string that represents the element's <a href=#assigned-access-key id=keyboard-shortcuts-processing-model:assigned-access-key-8>assigned access key</a>, if any. If the element
+  does not have one, then the IDL attribute must return the empty string.</p>
+
+  
+
+
+
+  <h3 id=editing-2>6.6 Editing<a href=#editing-2 class=self-link></a></h3>
+
+  <h4 id=contenteditable>6.6.1 Making document regions editable: The <code id=contenteditable:attr-contenteditable><a href=#attr-contenteditable>contenteditable</a></code> content attribute<a href=#contenteditable class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> contenteditable<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>3.5+</span></span><span class="ie yes"><span>IE</span> <span>5.5+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>3+</span></span><span class="safari yes"><span>Safari</span> <span>3.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>9+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=contenteditable">caniuse.com</a></div>
+
+  <pre class=idl>[NoInterfaceObject]
+interface <dfn id=elementcontenteditable>ElementContentEditable</dfn> {
+  [<a href=#cereactions id=contenteditable:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-contenteditable id=contenteditable:dom-contenteditable>contentEditable</a>;
+  readonly attribute boolean <a href=#dom-iscontenteditable id=contenteditable:dom-iscontenteditable>isContentEditable</a>;
+};</pre>
+
+  <p>The <dfn id=attr-contenteditable><code>contenteditable</code></dfn> content attribute is an
+  <a href=#enumerated-attribute id=contenteditable:enumerated-attribute>enumerated attribute</a> whose keywords are the empty string, <code>true</code>,
+  and <code>false</code>. The empty string and the <code>true</code> keyword map
+  to the <i>true</i> state. The <code>false</code> keyword maps to the <i>false</i> state.
+  In addition, there is a third state, the <i>inherit</i> state, which is the <i id=contenteditable:missing-value-default><a href=#missing-value-default>missing value default</a></i> (and the <i id=contenteditable:invalid-value-default><a href=#invalid-value-default>invalid value default</a></i>).</p>
+
+  <p>The <i>true</i> state indicates that the element is editable. The <i>inherit</i> state
+  indicates that the element is editable if its parent is. The <i>false</i> state indicates that the
+  element is not editable.</p>
+
+  <div class=example>
+   <p>For example, consider a page that has a <code id=contenteditable:the-form-element><a href=#the-form-element>form</a></code> and a <code id=contenteditable:the-textarea-element><a href=#the-textarea-element>textarea</a></code> to
+   publish a new article, where the user is expected to write the article using HTML:</p>
+
+   <pre>&lt;form method=POST>
+ &lt;fieldset>
+  &lt;legend>New article&lt;/legend>
+  &lt;textarea name=article>&amp;lt;p>Hello world.&amp;lt;/p>&lt;/textarea>
+ &lt;/fieldset>
+ &lt;p>&lt;button>Publish&lt;/button>&lt;/p>
+&lt;/form></pre>
+
+   <p>When scripting is enabled, the <code id=contenteditable:the-textarea-element-2><a href=#the-textarea-element>textarea</a></code> element could be replaced with a rich
+   text control instead, using the <code id=contenteditable:attr-contenteditable-2><a href=#attr-contenteditable>contenteditable</a></code>
+   attribute:</p>
+
+   <pre>&lt;form method=POST>
+ &lt;fieldset>
+  &lt;legend>New article&lt;/legend>
+  &lt;textarea id=textarea name=article>&amp;lt;p>Hello world.&amp;lt;/p>&lt;/textarea>
+  &lt;div id=div style="white-space: pre-wrap" hidden>&lt;p>Hello world.&lt;/p>&lt;/div>
+  &lt;script>
+   let textarea = document.getElementById("textarea");
+   let div = document.getElementById("div");
+   textarea.hidden = true;
+   div.hidden = false;
+   div.contentEditable = "true";
+   div.oninput = (e) => {
+     textarea.value = div.innerHTML;
+   };
+  &lt;/script>
+ &lt;/fieldset>
+ &lt;p>&lt;button>Publish&lt;/button>&lt;/p>
+&lt;/form></pre>
+
+   <p>Features to enable, e.g., inserting links, can be implemented using the <code id=contenteditable:execCommand><a data-x-internal=execCommand href=https://w3c.github.io/editing/execCommand.html#execcommand%28%29>document.execCommand()</a></code> API, or using
+   <code id=contenteditable:selection><a data-x-internal=selection href=https://w3c.github.io/selection-api/#selection-interface>Selection</a></code> APIs and other DOM APIs. <a href=#refsEXECCOMMAND>[EXECCOMMAND]</a> <a href=#refsSELECTION>[SELECTION]</a> <a href=#refsDOM>[DOM]</a></p>
+  </div>
+
+  <div class=example>
+   <p>The <code id=contenteditable:attr-contenteditable-3><a href=#attr-contenteditable>contenteditable</a></code> attribute can also be used to
+   great effect:</p>
+
+   <pre>&lt;!doctype html>
+&lt;html lang=en>
+&lt;title>Live CSS editing!&lt;/title>
+&lt;style style=white-space:pre contenteditable>
+html { margin:.2em; font-size:2em; color:lime; background:purple }
+head, title, style { display:block }
+body { display:none }
+&lt;/style></pre>
+  </div>
+
+  <dl class=domintro><dt><var>element</var> . <code id=contenteditable:dom-contenteditable-2><a href=#dom-contenteditable>contentEditable</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns "<code>true</code>", "<code>false</code>", or "<code>inherit</code>", based on the state of the <code id=contenteditable:attr-contenteditable-4><a href=#attr-contenteditable>contenteditable</a></code> attribute.</p>
+
+    <p>Can be set, to change that state.</p>
+
+    <p>Throws a <a id=contenteditable:syntaxerror href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=contenteditable:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the new value
+    isn't one of those strings.</p>
+
+   <dt><var>element</var> . <code id=contenteditable:dom-iscontenteditable-2><a href=#dom-iscontenteditable>isContentEditable</a></code><dd>
+
+    <p>Returns true if the element is editable; otherwise, returns false.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-contenteditable><code>contentEditable</code></dfn> IDL attribute, on
+  getting, must return the string "<code>true</code>" if the content attribute is set to
+  the true state, "<code>false</code>" if the content attribute is set to the false state,
+  and "<code>inherit</code>" otherwise. On setting, if the new value is an <a id=contenteditable:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+  case-insensitive</a> match for the string "<code>inherit</code>" then the content
+  attribute must be removed, if the new value is an <a id=contenteditable:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for
+  the string "<code>true</code>" then the content attribute must be set to the string
+  "<code>true</code>", if the new value is an <a id=contenteditable:ascii-case-insensitive-3 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for
+  the string "<code>false</code>" then the content attribute must be set to the string
+  "<code>false</code>", and otherwise the attribute setter must throw a
+  <a id=contenteditable:syntaxerror-2 href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=contenteditable:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+  <p>The <dfn id=dom-iscontenteditable><code>isContentEditable</code></dfn> IDL attribute, on
+  getting, must return true if the element is either an <a id=contenteditable:editing-host href=https://w3c.github.io/editing/execCommand.html#editing-host data-x-internal=editing-host>editing host</a> or
+  <a id=contenteditable:editable href=https://w3c.github.io/editing/execCommand.html#editable data-x-internal=editable>editable</a>, and false otherwise.</p>
+
+  
+
+
+
+  <h4 id=making-entire-documents-editable:-the-designmode-idl-attribute>6.6.2 Making entire documents editable: The <code id=making-entire-documents-editable:-the-designmode-idl-attribute:designMode><a href=#designMode>designMode</a></code> IDL attribute<a href=#making-entire-documents-editable:-the-designmode-idl-attribute class=self-link></a></h4>
+
+  
+
+  <p>Documents have a <dfn id=designMode><code>designMode</code></dfn>, which can be either enabled or
+  disabled.</p>
+
+  
+
+  <dl class=domintro><dt><var>document</var> . <code id=making-entire-documents-editable:-the-designmode-idl-attribute:designMode-2><a href=#designMode>designMode</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns "<code>on</code>" if the document is editable, and "<code>off</code>" if it isn't.</p>
+
+    <p>Can be set, to change the document's current state. This focuses the document and resets the
+    selection in that document.</p>
+
+   </dl>
+
+  
+
+  <p>The <code id=making-entire-documents-editable:-the-designmode-idl-attribute:designMode-3><a href=#designMode>designMode</a></code> IDL attribute on the
+  <code id=making-entire-documents-editable:-the-designmode-idl-attribute:document><a href=#document>Document</a></code> object takes two values, "<code>on</code>" and "<code>off</code>". On setting, the new value must be compared in an <a id=making-entire-documents-editable:-the-designmode-idl-attribute:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+  case-insensitive</a> manner to these two values; if it matches the "<code>on</code>"
+  value, then <code id=making-entire-documents-editable:-the-designmode-idl-attribute:designMode-4><a href=#designMode>designMode</a></code> must be enabled, and if it
+  matches the "<code>off</code>" value, then <code id=making-entire-documents-editable:-the-designmode-idl-attribute:designMode-5><a href=#designMode>designMode</a></code> must be disabled. Other values must be
+  ignored.</p>
+
+  <p>On getting, if <code id=making-entire-documents-editable:-the-designmode-idl-attribute:designMode-6><a href=#designMode>designMode</a></code> is enabled, the IDL
+  attribute must return the value "<code>on</code>"; otherwise it is disabled, and the
+  attribute must return the value "<code>off</code>".</p>
+
+  <p>The last state set must persist until the document is destroyed or the state is changed.
+  Initially, documents must have their <code id=making-entire-documents-editable:-the-designmode-idl-attribute:designMode-7><a href=#designMode>designMode</a></code>
+  disabled.</p>
+
+  <p>When the <code id=making-entire-documents-editable:-the-designmode-idl-attribute:designMode-8><a href=#designMode>designMode</a></code> changes from being disabled to
+  being enabled, the user agent must <a href=#immediately id=making-entire-documents-editable:-the-designmode-idl-attribute:immediately>immediately</a> reset the document's <a id=making-entire-documents-editable:-the-designmode-idl-attribute:active-range href=https://w3c.github.io/editing/execCommand.html#active-range data-x-internal=active-range>active range</a>'s
+  start and end boundary points to be at the start of the <code id=making-entire-documents-editable:-the-designmode-idl-attribute:document-2><a href=#document>Document</a></code> and then run the
+  <a href=#focusing-steps id=making-entire-documents-editable:-the-designmode-idl-attribute:focusing-steps>focusing steps</a> for the <a id=making-entire-documents-editable:-the-designmode-idl-attribute:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a> of the <code id=making-entire-documents-editable:-the-designmode-idl-attribute:document-3><a href=#document>Document</a></code>, if
+  non-null.</p>
+
+  
+
+
+  <h4 id=best-practices-for-in-page-editors>6.6.3 Best practices for in-page editors<a href=#best-practices-for-in-page-editors class=self-link></a></h4>
+
+  <p>Authors are encouraged to set the <a id="best-practices-for-in-page-editors:'white-space'" href=https://drafts.csswg.org/css-text/#white-space-property data-x-internal="'white-space'">'white-space'</a> property on <a href=https://w3c.github.io/editing/execCommand.html#editing-host id=best-practices-for-in-page-editors:editing-host data-x-internal=editing-host>editing hosts</a> and on markup that was originally created through these editing
+  mechanisms to the value 'pre-wrap'. Default HTML whitespace handling is not well suited to WYSIWYG
+  editing, and line wrapping will not work correctly in some corner cases if
+  <a id="best-practices-for-in-page-editors:'white-space'-2" href=https://drafts.csswg.org/css-text/#white-space-property data-x-internal="'white-space'">'white-space'</a> is left at its default value.</p>
+
+  <div class=example>
+
+   <p>As an example of problems that occur if the default 'normal' value is used instead, consider
+   the case of the user typing "<kbd>yellow␣␣ball</kbd>", with two spaces (here
+   represented by "␣") between the words. With the editing rules in place for the default
+   value of <a id="best-practices-for-in-page-editors:'white-space'-3" href=https://drafts.csswg.org/css-text/#white-space-property data-x-internal="'white-space'">'white-space'</a> ('normal'), the resulting markup will either consist of
+   "<samp>yellow&amp;nbsp; ball</samp>" or "<samp>yellow &amp;nbsp;ball</samp>"; i.e.,
+   there will be a non-breaking space between the two words in addition to the regular space. This
+   is necessary because the 'normal' value for <a id="best-practices-for-in-page-editors:'white-space'-4" href=https://drafts.csswg.org/css-text/#white-space-property data-x-internal="'white-space'">'white-space'</a> requires adjacent regular
+   spaces to be collapsed together.</p>
+
+   <p>In the former case, "<samp>yellow⍽</samp>" might wrap to the next line ("⍽"
+   being used here to represent a non-breaking space) even though "<samp>yellow</samp>" alone might
+   fit at the end of the line; in the latter case, "<samp>⍽ball</samp>", if wrapped to the
+   start of the line, would have visible indentation from the non-breaking space.</p>
+
+   <p>When <a id="best-practices-for-in-page-editors:'white-space'-5" href=https://drafts.csswg.org/css-text/#white-space-property data-x-internal="'white-space'">'white-space'</a> is set to 'pre-wrap', however, the editing rules will instead
+   simply put two regular spaces between the words, and should the two words be split at the end of
+   a line, the spaces would be neatly removed from the rendering.</p>
+
+  </div>
+
+
+
+  <h4 id=editing-apis>6.6.4 Editing APIs<a href=#editing-apis class=self-link></a></h4>
+
+  <p>The definition of the terms
+  <dfn id=active-range><a href=https://w3c.github.io/editing/execCommand.html#active-range>active range</a></dfn>,
+  <dfn id=editing-host><a href=https://w3c.github.io/editing/execCommand.html#editing-host>editing host</a></dfn>,
+  and <dfn id=editable><a href=https://w3c.github.io/editing/execCommand.html#editable>editable</a></dfn>, the
+  user interface requirements of elements that are <a href=https://w3c.github.io/editing/execCommand.html#editing-host id=editing-apis:editing-host data-x-internal=editing-host>editing hosts</a>
+  or <a id=editing-apis:editable href=https://w3c.github.io/editing/execCommand.html#editable data-x-internal=editable>editable</a>, the
+
+  <dfn id=execCommand><a href=https://w3c.github.io/editing/execCommand.html#execcommand%28%29><code>execCommand()</code></a></dfn>,
+  <dfn id=dom-document-querycommandenabled><a href=https://w3c.github.io/editing/execCommand.html#querycommandenabled%28%29><code>queryCommandEnabled()</code></a></dfn>,
+  <dfn id=dom-document-querycommandindeterm><a href=https://w3c.github.io/editing/execCommand.html#querycommandindeterm%28%29><code>queryCommandIndeterm()</code></a></dfn>,
+  <dfn id=dom-document-querycommandstate><a href=https://w3c.github.io/editing/execCommand.html#querycommandstate%28%29><code>queryCommandState()</code></a></dfn>,
+  <dfn id=dom-document-querycommandsupported><a href=https://w3c.github.io/editing/execCommand.html#querycommandsupported%28%29><code>queryCommandSupported()</code></a></dfn>, and
+  <dfn id=dom-document-querycommandvalue><a href=https://w3c.github.io/editing/execCommand.html#querycommandvalue%28%29><code>queryCommandValue()</code></a></dfn>
+
+  methods, text selections, and the <dfn id=delete-the-selection><a href=https://w3c.github.io/editing/execCommand.html#delete-the-selection>delete the
+  selection</a></dfn> algorithm are defined in <cite>execCommand</cite>. <a href=#refsEXECCOMMAND>[EXECCOMMAND]</a></p>
+
+
+
+  <h4 id=spelling-and-grammar-checking>6.6.5 Spelling and grammar checking<a href=#spelling-and-grammar-checking class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> spellcheck-attribute<span class="and_chr partial"><span>Chrome for Android (limited)</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>9+</span></span><span class="ios_saf partial"><span>iOS Safari (limited)</span> <span>3.2+</span></span><span class="and_uc partial"><span>UC Browser for Android (limited)</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>2+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung partial"><span>Samsung Internet (limited)</span> <span>4+</span></span><span class="op_mini partial"><span>Opera Mini (limited)</span> <span>all+</span></span><span class="android partial"><span>Android Browser (limited)</span> <span>2.1+</span></span><span class="safari yes"><span>Safari</span> <span>5.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>10.5+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=spellcheck-attribute">caniuse.com</a></div>
+
+  
+
+  <p>User agents can support the checking of spelling and grammar of editable text, either in form
+  controls (such as the value of <code id=spelling-and-grammar-checking:the-textarea-element><a href=#the-textarea-element>textarea</a></code> elements), or in elements in an <a id=spelling-and-grammar-checking:editing-host href=https://w3c.github.io/editing/execCommand.html#editing-host data-x-internal=editing-host>editing
+  host</a> (e.g. using <code id=spelling-and-grammar-checking:attr-contenteditable><a href=#attr-contenteditable>contenteditable</a></code>).</p>
+
+  <p>For each element, user agents must establish a <dfn id=concept-spellcheck-default>default
+  behavior</dfn>, either through defaults or through preferences expressed by the user. There are
+  three possible default behaviors for each element:</p>
+
+  <dl><dt><dfn id=concept-spellcheck-default-true>true-by-default</dfn>
+
+   <dd>The element will be checked for spelling and grammar if its contents are editable and
+   spellchecking is not explicitly disabled through the <code id=spelling-and-grammar-checking:attr-spellcheck><a href=#attr-spellcheck>spellcheck</a></code> attribute.
+
+   <dt><dfn id=concept-spellcheck-default-false>false-by-default</dfn>
+
+   <dd>The element will never be checked for spelling and grammar unless spellchecking is
+   explicitly enabled through the <code id=spelling-and-grammar-checking:attr-spellcheck-2><a href=#attr-spellcheck>spellcheck</a></code> attribute.
+
+   <dt><dfn id=concept-spellcheck-default-inherit>inherit-by-default</dfn>
+
+   <dd>The element's default behavior is the same as its parent element's. Elements that have no
+   parent element cannot have this as their default behavior.
+
+  </dl>
+
+  <hr>
+
+  
+
+  <p>The <dfn id=attr-spellcheck><code>spellcheck</code></dfn> attribute is an <a href=#enumerated-attribute id=spelling-and-grammar-checking:enumerated-attribute>enumerated
+  attribute</a> whose keywords are the empty string, <code>true</code> and <code>false</code>. The empty string and the <code>true</code> keyword map to the
+  <i>true</i> state. The <code>false</code> keyword maps to the <i>false</i> state. In
+  addition, there is a third state, the <i>default</i> state, which is the <i id=spelling-and-grammar-checking:missing-value-default><a href=#missing-value-default>missing value default</a></i> (and the <i id=spelling-and-grammar-checking:invalid-value-default><a href=#invalid-value-default>invalid value default</a></i>).</p>
+
+  <p class=note>The <i>true</i> state indicates that the element is to have its spelling and
+  grammar checked. The <i>default</i> state indicates that the element is to act according to a
+  default behavior, possibly based on the parent element's own <code id=spelling-and-grammar-checking:attr-spellcheck-3><a href=#attr-spellcheck>spellcheck</a></code> state, as defined below. The <i>false</i> state
+  indicates that the element is not to be checked.</p>
+
+  
+
+  <hr>
+
+  
+
+  <dl class=domintro><dt><var>element</var> . <code id=spelling-and-grammar-checking:dom-spellcheck><a href=#dom-spellcheck>spellcheck</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns true if the element is to have its spelling and grammar checked; otherwise, returns
+    false.</p>
+
+    <p>Can be set, to override the default and set the <code id=spelling-and-grammar-checking:attr-spellcheck-4><a href=#attr-spellcheck>spellcheck</a></code> content attribute.</p>
+
+   <dt><var>element</var> . <code id=spelling-and-grammar-checking:dom-forcespellcheck><a href=#dom-forcespellcheck>forceSpellCheck</a></code>()<dd>
+
+    <p>Forces the user agent to report spelling and grammar errors on the element (if checking is
+    enabled), even if the user has never focused the element. (If the method is not invoked, user
+    agents can hide errors in text that wasn't just entered by the user.)</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-spellcheck><code>spellcheck</code></dfn> IDL attribute, on getting, must
+  return true if the element's <code id=spelling-and-grammar-checking:attr-spellcheck-5><a href=#attr-spellcheck>spellcheck</a></code> content attribute is
+  in the <i>true</i> state, or if the element's <code id=spelling-and-grammar-checking:attr-spellcheck-6><a href=#attr-spellcheck>spellcheck</a></code>
+  content attribute is in the <i>default</i> state and the element's <a href=#concept-spellcheck-default id=spelling-and-grammar-checking:concept-spellcheck-default>default behavior</a> is <a href=#concept-spellcheck-default-true id=spelling-and-grammar-checking:concept-spellcheck-default-true>true-by-default</a>, or if the element's <code id=spelling-and-grammar-checking:attr-spellcheck-7><a href=#attr-spellcheck>spellcheck</a></code> content attribute is in the <i>default</i> state and the
+  element's <a href=#concept-spellcheck-default id=spelling-and-grammar-checking:concept-spellcheck-default-2>default behavior</a> is <a href=#concept-spellcheck-default-inherit id=spelling-and-grammar-checking:concept-spellcheck-default-inherit>inherit-by-default</a> and the element's parent
+  element's <code id=spelling-and-grammar-checking:dom-spellcheck-2><a href=#dom-spellcheck>spellcheck</a></code> IDL attribute would return true;
+  otherwise, if none of those conditions applies, then the attribute must instead return false.</p>
+
+  <p class=note>The <code id=spelling-and-grammar-checking:dom-spellcheck-3><a href=#dom-spellcheck>spellcheck</a></code> IDL attribute is not affected
+  by user preferences that override the <code id=spelling-and-grammar-checking:attr-spellcheck-8><a href=#attr-spellcheck>spellcheck</a></code> content
+  attribute, and therefore might not reflect the actual spellchecking state.</p>
+
+  <p>On setting, if the new value is true, then the element's <code id=spelling-and-grammar-checking:attr-spellcheck-9><a href=#attr-spellcheck>spellcheck</a></code> content attribute must be set to the literal string
+  "<code>true</code>", otherwise it must be set to the literal string "<code>false</code>".
+
+  <hr>
+
+  <p>User agents must only consider the following pieces of text as checkable for the purposes of
+  this feature:</p>
+
+  <ul><li>The <a href=#concept-fe-value id=spelling-and-grammar-checking:concept-fe-value>value</a> of <code id=spelling-and-grammar-checking:the-input-element><a href=#the-input-element>input</a></code> elements whose <code id=spelling-and-grammar-checking:attr-input-type><a href=#attr-input-type>type</a></code> attributes are in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="spelling-and-grammar-checking:text-(type=text)-state-and-search-state-(type=search)">Text</a>, <a href="#text-(type=text)-state-and-search-state-(type=search)" id="spelling-and-grammar-checking:text-(type=text)-state-and-search-state-(type=search)-2">Search</a>,
+   <a href="#url-state-(type=url)" id="spelling-and-grammar-checking:url-state-(type=url)">URL</a>, or <a href="#e-mail-state-(type=email)" id="spelling-and-grammar-checking:e-mail-state-(type=email)">E-mail</a> states and that are <i id=spelling-and-grammar-checking:concept-fe-mutable><a href=#concept-fe-mutable>mutable</a></i> (i.e. that do not have the <code id=spelling-and-grammar-checking:attr-input-readonly><a href=#attr-input-readonly>readonly</a></code> attribute specified and that are not <a href=#concept-fe-disabled id=spelling-and-grammar-checking:concept-fe-disabled>disabled</a>).<li>The <a href=#concept-fe-value id=spelling-and-grammar-checking:concept-fe-value-2>value</a> of <code id=spelling-and-grammar-checking:the-textarea-element-2><a href=#the-textarea-element>textarea</a></code> elements that do not
+   have a <code id=spelling-and-grammar-checking:attr-textarea-readonly><a href=#attr-textarea-readonly>readonly</a></code> attribute and that are not <a href=#concept-fe-disabled id=spelling-and-grammar-checking:concept-fe-disabled-2>disabled</a>.<li>Text in <code id=spelling-and-grammar-checking:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> nodes that are children of <a href=https://w3c.github.io/editing/execCommand.html#editing-host id=spelling-and-grammar-checking:editing-host-2 data-x-internal=editing-host>editing
+   hosts</a> or <a id=spelling-and-grammar-checking:editable href=https://w3c.github.io/editing/execCommand.html#editable data-x-internal=editable>editable</a> elements.<li>Text in attributes of <a id=spelling-and-grammar-checking:editable-2 href=https://w3c.github.io/editing/execCommand.html#editable data-x-internal=editable>editable</a> elements.</ul>
+
+  <p>For text that is part of a <code id=spelling-and-grammar-checking:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node, the element with which the text is
+  associated is the element that is the immediate parent of the first character of the word,
+  sentence, or other piece of text. For text in attributes, it is the attribute's element. For the
+  values of <code id=spelling-and-grammar-checking:the-input-element-2><a href=#the-input-element>input</a></code> and <code id=spelling-and-grammar-checking:the-textarea-element-3><a href=#the-textarea-element>textarea</a></code> elements, it is the element itself.</p>
+
+  <p>To determine if a word, sentence, or other piece of text in an applicable element (as defined
+  above) is to have spelling- and grammar-checking enabled, the UA must use the following
+  algorithm:</p>
+
+  <ol><li>If the user has disabled the checking for this text, then the checking is disabled.<li>Otherwise, if the user has forced the checking for this text to always be enabled, then the
+   checking is enabled.<li>Otherwise, if the element with which the text is associated has a <code id=spelling-and-grammar-checking:attr-spellcheck-10><a href=#attr-spellcheck>spellcheck</a></code> content attribute, then: if that attribute is in the
+   <i>true</i> state, then checking is enabled; otherwise, if that attribute is in the <i>false</i>
+   state, then checking is disabled.<li>Otherwise, if there is an ancestor element with a <code id=spelling-and-grammar-checking:attr-spellcheck-11><a href=#attr-spellcheck>spellcheck</a></code> content attribute that is not in the <i>default</i>
+   state, then: if the nearest such ancestor's <code id=spelling-and-grammar-checking:attr-spellcheck-12><a href=#attr-spellcheck>spellcheck</a></code>
+   content attribute is in the <i>true</i> state, then checking is enabled; otherwise, checking is
+   disabled.<li>Otherwise, if the element's <a href=#concept-spellcheck-default id=spelling-and-grammar-checking:concept-spellcheck-default-3>default behavior</a>
+   is <a href=#concept-spellcheck-default-true id=spelling-and-grammar-checking:concept-spellcheck-default-true-2>true-by-default</a>, then checking is
+   enabled.<li>Otherwise, if the element's <a href=#concept-spellcheck-default id=spelling-and-grammar-checking:concept-spellcheck-default-4>default behavior</a>
+   is <a href=#concept-spellcheck-default-false id=spelling-and-grammar-checking:concept-spellcheck-default-false>false-by-default</a>, then checking is
+   disabled.<li>Otherwise, if the element's parent element has <em>its</em> checking enabled, then checking
+   is enabled.<li>Otherwise, checking is disabled.</ol>
+
+  <p>If the checking is enabled for a word/sentence/text, the user agent should indicate spelling
+  and grammar errors in that text. User agents should take into account the other semantics given in
+  the document when suggesting spelling and grammar corrections. User agents may use the language of
+  the element to determine what spelling and grammar rules to use, or may use the user's preferred
+  language settings. UAs should use <code id=spelling-and-grammar-checking:the-input-element-3><a href=#the-input-element>input</a></code> element attributes such as <code id=spelling-and-grammar-checking:attr-input-pattern><a href=#attr-input-pattern>pattern</a></code> to ensure that the resulting value is valid, where
+  possible.</p>
+
+  <p>If checking is disabled, the user agent should not indicate spelling or grammar errors for that
+  text.</p>
+
+  <p>Even when checking is enabled, user agents may opt to not report spelling or grammar errors in
+  text that the user agent deems the user has no interest in having checked (e.g. text that was
+  already present when the page was loaded, or that the user did not type, or text in controls that
+  the user has not focused, or in parts of e-mail addresses that the user agent is not confident
+  were misspelt). The <dfn id=dom-forcespellcheck><code>forceSpellCheck()</code></dfn> method,
+  when invoked on an element, must override this behavior, forcing the user agent to consider all
+  spelling and grammar errors in text in that element for which checking is enabled to be of
+  interest to the user.</p>
+
+  <div class=example>
+
+   <p>The element with ID "a" in the following example would be the one used to determine if the
+   word "Hello" is checked for spelling errors. In this example, it would not be.</p>
+
+   <pre>&lt;div contenteditable="true">
+ &lt;span spellcheck="false" id="a">Hell&lt;/span>&lt;em>o!&lt;/em>
+&lt;/div></pre>
+
+   <p>The element with ID "b" in the following example would have checking enabled (the leading
+   space character in the attribute's value on the <code id=spelling-and-grammar-checking:the-input-element-4><a href=#the-input-element>input</a></code> element causes the attribute
+   to be ignored, so the ancestor's value is used instead, regardless of the default).</p>
+
+   <pre class=bad>&lt;p spellcheck="true">
+ &lt;label>Name: &lt;input spellcheck=" false" id="b">&lt;/label>
+&lt;/p></pre>
+
+  </div>
+
+  
+
+  <p class=note>This specification does not define the user interface for spelling and grammar
+  checkers. A user agent could offer on-demand checking, could perform continuous checking while the
+  checking is enabled, or could use other interfaces.</p>
+
+
+  <h3 id=dnd>6.7 <dfn>Drag and drop</dfn><a href=#dnd class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> dragndrop<span class="and_chr no"><span>Chrome for Android</span> <span>None</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox yes"><span>Firefox</span> <span>3.5+</span></span><span class="ie partial"><span>IE (limited)</span> <span>5.5+</span></span><span class="samsung no"><span>Samsung Internet</span> <span>None</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android no"><span>Android Browser</span> <span>None</span></span><span class="safari yes"><span>Safari</span> <span>3.1+</span></span><span class="edge partial"><span>Edge (limited)</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>12+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=dragndrop">caniuse.com</a></div>
+
+
+
+  <p>This section defines an event-based drag-and-drop mechanism.</p>
+
+  <p>This specification does not define exactly what a <em>drag-and-drop operation</em> actually
+  is.</p>
+
+  <p>On a visual medium with a pointing device, a drag operation could be the default action of a
+  <code id=dnd:event-mousedown><a data-x-internal=event-mousedown href=https://w3c.github.io/uievents/#event-type-mousedown>mousedown</a></code> event that is followed by a series of <code id=dnd:event-mousemove><a data-x-internal=event-mousemove href=https://w3c.github.io/uievents/#event-type-mousemove>mousemove</a></code> events, and the drop could be triggered by the mouse
+  being released.</p>
+
+  <p>When using an input modality other than a pointing device, users would probably have to
+  explicitly indicate their intention to perform a drag-and-drop operation, stating what they wish
+  to drag and where they wish to drop it, respectively.</p>
+
+  
+
+  <p>However it is implemented, drag-and-drop operations must have a starting point (e.g. where the
+  mouse was clicked, or the start of the selection or element that was selected for the drag), may
+  have any number of intermediate steps (elements that the mouse moves over during a drag, or
+  elements that the user picks as possible drop points as they cycle through possibilities), and must
+  either have an end point (the element above which the mouse button was released, or the element
+  that was finally selected), or be canceled. The end point must be the last element selected as a
+  possible drop point before the drop occurs (so if the operation is not canceled, there must be at
+  least one element in the middle step).</p>
+
+  
+
+
+  <h4 id=event-drag>6.7.1 Introduction<a href=#event-drag class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>To make an element draggable is simple: give the element a <code id=event-drag:the-draggable-attribute><a href=#the-draggable-attribute>draggable</a></code> attribute, and set an event listener for <code id=event-drag:event-dnd-dragstart><a href=#event-dnd-dragstart>dragstart</a></code> that stores the data being dragged.</p>
+
+  <p>The event handler typically needs to check that it's not a text selection that is being
+  dragged, and then needs to store data into the <code id=event-drag:datatransfer><a href=#datatransfer>DataTransfer</a></code> object and set the
+  allowed effects (copy, move, link, or some combination).</p>
+
+  <p>For example:</p>
+
+  <pre>&lt;p>What fruits do you like?&lt;/p>
+&lt;ol ondragstart="dragStartHandler(event)">
+ &lt;li draggable="true" data-value="fruit-apple">Apples&lt;/li>
+ &lt;li draggable="true" data-value="fruit-orange">Oranges&lt;/li>
+ &lt;li draggable="true" data-value="fruit-pear">Pears&lt;/li>
+&lt;/ol>
+&lt;script>
+  var internalDNDType = 'text/x-example'; // set this to something specific to your site
+  function dragStartHandler(event) {
+    if (event.target instanceof HTMLLIElement) {
+      // use the element's data-value="" attribute as the value to be moving:
+      event.dataTransfer.setData(internalDNDType, event.target.dataset.value);
+      event.dataTransfer.effectAllowed = 'move'; // only allow moves
+    } else {
+      event.preventDefault(); // don't allow selection to be dragged
+    }
+  }
+&lt;/script></pre>
+
+  <hr>
+
+  <p>To accept a drop, the drop target has to have a <code id=event-drag:the-dropzone-attribute><a href=#the-dropzone-attribute>dropzone</a></code>
+  attribute and listen to the <code id=event-drag:event-dnd-drop><a href=#event-dnd-drop>drop</a></code> event.</p>
+
+  <p>The value of the <code id=event-drag:the-dropzone-attribute-2><a href=#the-dropzone-attribute>dropzone</a></code> attribute specifies what kind of
+  data to accept (e.g. "<code>string:text/plain</code>" to accept any text strings, or
+  "<code>file:image/png</code>" to accept a PNG image file) and what kind of feedback to
+  give (e.g. "<code>move</code>" to indicate that the data will be moved).</p>
+
+  <p class=note>Instead of using the <code id=event-drag:the-dropzone-attribute-3><a href=#the-dropzone-attribute>dropzone</a></code> attribute, a drop
+  target can handle the <code id=event-drag:event-dnd-dragenter><a href=#event-dnd-dragenter>dragenter</a></code> event (to report whether or
+  not the drop target is to accept the drop) and the <code id=event-drag:event-dnd-dragover><a href=#event-dnd-dragover>dragover</a></code>
+  event (to specify what feedback is to be shown to the user).</p>
+
+  <p>The <code id=event-drag:event-dnd-drop-2><a href=#event-dnd-drop>drop</a></code> event allows the actual drop to be performed. This
+  event needs to be canceled, so that the <code id=event-drag:dom-datatransfer-dropeffect><a href=#dom-datatransfer-dropeffect>dropEffect</a></code> attribute's value can be used by the source
+  (otherwise it's reset).</p>
+
+  <p>For example:</p>
+
+  <pre>&lt;p>Drop your favorite fruits below:&lt;/p>
+&lt;ol dropzone="move string:text/x-example" ondrop="dropHandler(event)">
+ &lt;!-- don't forget to change the "text/x-example" type to something

@@ -1,0 +1,850 @@
+
+        <p>The <code id=the-object-element:the-object-element-19><a href=#the-object-element>object</a></code> element <a href=#represents id=the-object-element:represents>represents</a> the <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-9>nested browsing
+        context</a>.</p>
+
+        <p>If the <code id=the-object-element:attr-object-name-2><a href=#attr-object-name>name</a></code> attribute is present, the
+        <code id=the-object-element:the-object-element-20><a href=#the-object-element>object</a></code> element's <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-10>nested browsing context</a>'s <a href=#browsing-context-name id=the-object-element:browsing-context-name>browsing context
+        name</a> must be set to the value of this attribute; otherwise, the <a href=#browsing-context-name id=the-object-element:browsing-context-name-2>browsing
+        context name</a> must be set to the empty string.</p>
+
+        <p class=note>In certain situations, e.g., if the resource was fetched from an
+        <a href=#application-cache id=the-object-element:application-cache-2>application cache</a> but it is an HTML file with a <code id=the-object-element:attr-html-manifest><a href=#attr-html-manifest>manifest</a></code> attribute that points to a different <a href=#concept-appcache-manifest id=the-object-element:concept-appcache-manifest>application cache manifest</a>, the <a href=#navigate id=the-object-element:navigate-2>navigation</a> of the <a href=#browsing-context id=the-object-element:browsing-context>browsing context</a> will be restarted
+        so as to load the resource afresh from the network or a different <a href=#application-cache id=the-object-element:application-cache-3>application
+        cache</a>. Even if the resource is then found to have a different type, it is still used
+        as part of a <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-11>nested browsing context</a>: only the <a href=#navigate id=the-object-element:navigate-3>navigate</a> algorithm
+        is restarted, not this <code id=the-object-element:the-object-element-21><a href=#the-object-element>object</a></code> algorithm.</p>
+
+        
+
+       <dt>If the <var>resource type</var> starts with "<code>image/</code>", and support
+       for images has not been disabled<dd>
+
+        <p>If the <code id=the-object-element:the-object-element-22><a href=#the-object-element>object</a></code> element's <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-12>nested browsing context</a> is non-null,
+        then it must be <a href=#a-browsing-context-is-discarded id=the-object-element:a-browsing-context-is-discarded-2>discarded</a> and then set
+        to null.</p>
+
+        <p>Apply the <a href=https://mimesniff.spec.whatwg.org/#rules-for-sniffing-images-specifically id=the-object-element:content-type-sniffing:-image data-x-internal=content-type-sniffing:-image>image sniffing</a> rules to
+        determine the type of the image.</p>
+
+        <p>The <code id=the-object-element:the-object-element-23><a href=#the-object-element>object</a></code> element <a href=#represents id=the-object-element:represents-2>represents</a> the specified image.</p>
+
+        <p>If the image cannot be rendered, e.g. because it is malformed or in an unsupported
+        format, jump to the step below labeled <i>fallback</i>.</p>
+
+       <dt>Otherwise<dd>
+
+        <p>The given <var>resource type</var> is not supported. Jump to the step below
+        labeled <i>fallback</i>.</p>
+
+        <p class=note>If the previous step ended with the <var>resource type</var> being
+        unknown, this is the case that is triggered.</p>
+
+       </dl>
+
+     <li><p>The element's contents are not part of what the <code id=the-object-element:the-object-element-24><a href=#the-object-element>object</a></code> element
+     represents.</p>
+
+     <li>
+
+      <p>Abort these steps. Once the resource is completely loaded, <a href=#queue-a-task id=the-object-element:queue-a-task-6>queue a task</a> to
+      <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-object-element:concept-event-fire-4 data-x-internal=concept-event-fire>fire an event</a> named <code id=the-object-element:event-load-3><a href=#event-load>load</a></code> at the element.</p>
+
+     </ol>
+
+   <li><p>If the <code id=the-object-element:attr-object-data-12><a href=#attr-object-data>data</a></code> attribute is absent but the <code id=the-object-element:attr-object-type-16><a href=#attr-object-type>type</a></code> attribute is present, and the user agent can find a
+   <a href=#plugin id=the-object-element:plugin-15>plugin</a> suitable according to the value of the <code id=the-object-element:attr-object-type-17><a href=#attr-object-type>type</a></code> attribute, and either <a href=#sandboxPluginObject>plugins aren't being sandboxed</a> or the <a href=#plugin id=the-object-element:plugin-16>plugin</a> can be
+   <a href=#concept-plugin-secure id=the-object-element:concept-plugin-secure-3>secured</a>, then that <a href=#plugin id=the-object-element:plugin-17>plugin</a> <a href=#object-plugin>should be used</a>. If these conditions cannot be met, or if the
+   <a href=#plugin id=the-object-element:plugin-18>plugin</a> reports an error, jump to the step below labeled <i>fallback</i>. Otherwise
+   abort these steps; once the plugin is completely loaded, <a href=#queue-a-task id=the-object-element:queue-a-task-7>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-object-element:concept-event-fire-5 data-x-internal=concept-event-fire>fire an event</a> named <code id=the-object-element:event-load-4><a href=#event-load>load</a></code> at
+   the element.<li><p><i>Fallback</i>: The <code id=the-object-element:the-object-element-25><a href=#the-object-element>object</a></code> element <a href=#represents id=the-object-element:represents-3>represents</a> the element's
+   children, ignoring any leading <code id=the-object-element:the-param-element-2><a href=#the-param-element>param</a></code> element children. This is the element's
+   <a href=#fallback-content id=the-object-element:fallback-content-5>fallback content</a>. If the element has an instantiated <a href=#plugin id=the-object-element:plugin-19>plugin</a>, then
+   unload it. If the element's <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-13>nested browsing context</a> is non-null, then it must be
+   <a href=#a-browsing-context-is-discarded id=the-object-element:a-browsing-context-is-discarded-3>discarded</a> and then set to null.</ol>
+
+  <p id=object-plugin>When the algorithm above instantiates a <a href=#plugin id=the-object-element:plugin-20>plugin</a>, the user agent
+  should pass to the <a href=#plugin id=the-object-element:plugin-21>plugin</a> used the names and values of all the attributes on the
+  element, in the order they were added to the element, with the attributes added by the parser
+  being ordered in source order, followed by a parameter named "PARAM" whose value is null, followed
+  by all the names and values of <a href=#concept-param-parameter id=the-object-element:concept-param-parameter>parameters</a> given by
+  <code id=the-object-element:the-param-element-3><a href=#the-param-element>param</a></code> elements that are children of the <code id=the-object-element:the-object-element-26><a href=#the-object-element>object</a></code> element, in <a id=the-object-element:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree
+  order</a>. If the <a href=#plugin id=the-object-element:plugin-22>plugin</a> supports a scriptable interface, the
+  <code id=the-object-element:htmlobjectelement><a href=#htmlobjectelement>HTMLObjectElement</a></code> object representing the element should expose that interface. The
+  <code id=the-object-element:the-object-element-27><a href=#the-object-element>object</a></code> element <a href=#represents id=the-object-element:represents-4>represents</a> the <a href=#plugin id=the-object-element:plugin-23>plugin</a>. The
+  <a href=#plugin id=the-object-element:plugin-24>plugin</a> is not a nested <a href=#browsing-context id=the-object-element:browsing-context-2>browsing context</a>.</p>
+
+  <p id=sandboxPluginObject>Plugins are considered sandboxed for the purpose of an
+  <code id=the-object-element:the-object-element-28><a href=#the-object-element>object</a></code> element if the <a href=#sandboxed-plugins-browsing-context-flag id=the-object-element:sandboxed-plugins-browsing-context-flag>sandboxed plugins browsing context flag</a> is set on
+  the <code id=the-object-element:the-object-element-29><a href=#the-object-element>object</a></code> element's <a id=the-object-element:node-document-8 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <a href=#active-sandboxing-flag-set id=the-object-element:active-sandboxing-flag-set>active sandboxing flag
+  set</a>.</p>
+
+  <p>Due to the algorithm above, the contents of <code id=the-object-element:the-object-element-30><a href=#the-object-element>object</a></code> elements act as <a href=#fallback-content id=the-object-element:fallback-content-6>fallback
+  content</a>, used only when referenced resources can't be shown (e.g. because it returned a 404
+  error). This allows multiple <code id=the-object-element:the-object-element-31><a href=#the-object-element>object</a></code> elements to be nested inside each other,
+  targeting multiple user agents with different capabilities, with the user agent picking the first
+  one it supports.</p>
+
+  <p>When an <code id=the-object-element:the-object-element-32><a href=#the-object-element>object</a></code> element's <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-14>nested browsing context</a> is non-null: if the
+  <code id=the-object-element:the-object-element-33><a href=#the-object-element>object</a></code> element's <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-15>nested browsing context</a>'s <a href=#active-document id=the-object-element:active-document>active document</a>
+  is not <a href=#ready-for-post-load-tasks id=the-object-element:ready-for-post-load-tasks>ready for post-load tasks</a>, and when anything is <a href=#delay-the-load-event id=the-object-element:delay-the-load-event-3>delaying the load event</a> of the <code id=the-object-element:the-object-element-34><a href=#the-object-element>object</a></code> element's <a href=#browsing-context id=the-object-element:browsing-context-3>browsing
+  context</a>'s <a href=#active-document id=the-object-element:active-document-2>active document</a>, and when the <code id=the-object-element:the-object-element-35><a href=#the-object-element>object</a></code> element's
+  <a href=#browsing-context id=the-object-element:browsing-context-4>browsing context</a> is in the <a href=#delaying-load-events-mode id=the-object-element:delaying-load-events-mode>delaying <code>load</code>
+  events mode</a>, the <code id=the-object-element:the-object-element-36><a href=#the-object-element>object</a></code> must <a href=#delay-the-load-event id=the-object-element:delay-the-load-event-4>delay the load event</a> of its
+  document.</p>
+
+  <p>The <a href=#task-source id=the-object-element:task-source>task source</a> for the <a href=#concept-task id=the-object-element:concept-task-4>tasks</a> mentioned in this
+  section is the <a href=#dom-manipulation-task-source id=the-object-element:dom-manipulation-task-source>DOM manipulation task source</a>.</p>
+
+  
+
+  <p>The <code id=the-object-element:attr-hyperlink-usemap-3><a href=#attr-hyperlink-usemap>usemap</a></code> attribute, if present while the
+  <code id=the-object-element:the-object-element-37><a href=#the-object-element>object</a></code> element represents an image, can indicate that the object has an associated
+  <a href=#image-map id=the-object-element:image-map-2>image map</a>. The attribute must be ignored if the
+  <code id=the-object-element:the-object-element-38><a href=#the-object-element>object</a></code> element doesn't represent an image.</p>
+
+  <p>The <code id=the-object-element:attr-fae-form-2><a href=#attr-fae-form>form</a></code> attribute is used to explicitly associate the
+  <code id=the-object-element:the-object-element-39><a href=#the-object-element>object</a></code> element with its <a href=#form-owner id=the-object-element:form-owner>form owner</a>.</p>
+
+  
+
+  <p><strong>Constraint validation</strong>: <code id=the-object-element:the-object-element-40><a href=#the-object-element>object</a></code> elements are always <a href=#barred-from-constraint-validation id=the-object-element:barred-from-constraint-validation>barred
+  from constraint validation</a>.</p>
+
+  
+
+  <p>The <code id=the-object-element:the-object-element-41><a href=#the-object-element>object</a></code> element supports <a href=#dimension-attributes id=the-object-element:dimension-attributes>dimension attributes</a>.</p>
+
+  
+
+  <p>The IDL attributes <dfn id=dom-object-data><code>data</code></dfn>, <dfn id=dom-object-type><code>type</code></dfn> and <dfn id=dom-object-name><code>name</code></dfn> each must <a href=#reflect id=the-object-element:reflect>reflect</a> the respective
+  content attributes of the same name. The <dfn id=dom-object-typemustmatch><code>typeMustMatch</code></dfn> IDL attribute must
+  <a href=#reflect id=the-object-element:reflect-2>reflect</a> the <code id=the-object-element:attr-object-typemustmatch-6><a href=#attr-object-typemustmatch>typemustmatch</a></code> content
+  attribute. The <dfn id=dom-object-usemap><code>useMap</code></dfn> IDL attribute must
+  <a href=#reflect id=the-object-element:reflect-3>reflect</a> the <code id=the-object-element:attr-hyperlink-usemap-4><a href=#attr-hyperlink-usemap>usemap</a></code> content attribute.</p>
+
+  <p>The <dfn id=dom-object-contentdocument><code>contentDocument</code></dfn> IDL attribute,
+  on getting, must return the <code id=the-object-element:the-object-element-42><a href=#the-object-element>object</a></code> element's <a href=#concept-bcc-content-document id=the-object-element:concept-bcc-content-document>content document</a>.</p>
+
+  <p>The <dfn id=dom-object-contentwindow><code>contentWindow</code></dfn> IDL attribute must
+  return the <code id=the-object-element:windowproxy-2><a href=#windowproxy>WindowProxy</a></code> object of the <code id=the-object-element:the-object-element-43><a href=#the-object-element>object</a></code> element's <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-16>nested
+  browsing context</a>, if its <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-17>nested browsing context</a> is non-null; otherwise, it
+  must return null.</p>
+
+  <p>The <code id=the-object-element:dom-cva-willvalidate-2><a href=#dom-cva-willvalidate>willValidate</a></code>, <code id=the-object-element:dom-cva-validity-2><a href=#dom-cva-validity>validity</a></code>, and <code id=the-object-element:dom-cva-validationmessage-2><a href=#dom-cva-validationmessage>validationMessage</a></code> attributes, and the <code id=the-object-element:dom-cva-checkvalidity-2><a href=#dom-cva-checkvalidity>checkValidity()</a></code>, <code id=the-object-element:dom-cva-reportvalidity-2><a href=#dom-cva-reportvalidity>reportValidity()</a></code>, and <code id=the-object-element:dom-cva-setcustomvalidity-2><a href=#dom-cva-setcustomvalidity>setCustomValidity()</a></code> methods, are part of the
+  <a href=#the-constraint-validation-api id=the-object-element:the-constraint-validation-api>constraint validation API</a>. The <code id=the-object-element:dom-fae-form-2><a href=#dom-fae-form>form</a></code> IDL attribute
+  is part of the element's forms API.</p>
+
+  
+
+  <div class=example>
+
+   <p>In the following example, a Java applet is embedded in a page using the <code id=the-object-element:the-object-element-44><a href=#the-object-element>object</a></code>
+   element. (Generally speaking, it is better to avoid using applets like these and instead use
+   native JavaScript and HTML to provide the functionality, since that way the application will work
+   on all Web browsers without requiring a third-party plugin. Many devices, especially embedded
+   devices, do not support third-party technologies like Java.)</p>
+
+   <pre>&lt;figure>
+ &lt;object type="application/x-java-applet">
+  &lt;param name="code" value="MyJavaClass">
+  &lt;p>You do not have Java available, or it is disabled.&lt;/p>
+ &lt;/object>
+ &lt;figcaption>My Java Clock&lt;/figcaption>
+&lt;/figure></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this example, an HTML page is embedded in another using the <code id=the-object-element:the-object-element-45><a href=#the-object-element>object</a></code>
+   element.</p>
+
+   <pre>&lt;figure>
+ &lt;object data="clock.html">&lt;/object>
+ &lt;figcaption>My HTML Clock&lt;/figcaption>
+&lt;/figure></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following example shows how a plugin can be used in HTML (in this case the Flash plugin,
+   to show a video file). Fallback is provided for users who do not have Flash enabled, in this case
+   using the <code id=the-object-element:the-video-element><a href=#the-video-element>video</a></code> element to show the video for those using user agents that support
+   <code id=the-object-element:the-video-element-2><a href=#the-video-element>video</a></code>, and finally providing a link to the video for those who have neither Flash
+   nor a <code id=the-object-element:the-video-element-3><a href=#the-video-element>video</a></code>-capable browser.</p>
+
+   <pre>&lt;p>Look at my video:
+ &lt;object type="application/x-shockwave-flash">
+  &lt;param name=movie value="https://video.example.com/library/watch.swf">
+  &lt;param name=allowfullscreen value=true>
+  &lt;param name=flashvars value="https://video.example.com/vids/315981">
+  &lt;video controls src="https://video.example.com/vids/315981">
+   &lt;a href="https://video.example.com/vids/315981">View video&lt;/a>.
+  &lt;/video>
+ &lt;/object>
+&lt;/p></pre>
+
+  </div>
+
+
+
+  <h4 id=the-param-element>4.8.8 The <dfn><code>param</code></dfn> element<a href=#the-param-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-param-element:concept-element-categories>Categories</a>:<dd>None.<dt><a href=#concept-element-contexts id=the-param-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>As a child of an <code id=the-param-element:the-object-element><a href=#the-object-element>object</a></code> element, before any <a href=#flow-content-2 id=the-param-element:flow-content-2>flow content</a>.<dt><a href=#concept-element-content-model id=the-param-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-param-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-param-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-param-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-param-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-param-element:global-attributes>Global attributes</a><dd><code id=the-param-element:attr-param-name><a href=#attr-param-name>name</a></code> — Name of parameter<dd><code id=the-param-element:attr-param-value><a href=#attr-param-value>value</a></code> — Value of parameter<dt><a href=#concept-element-dom id=the-param-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-param-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlparamelement>HTMLParamElement</dfn> : <a href=#htmlelement id=the-param-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-param-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-param-name id=the-param-element:dom-param-name>name</a>;
+  [<a href=#cereactions id=the-param-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-param-value id=the-param-element:dom-param-value>value</a>;
+
+  // <a href="#HTMLParamElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-param-element:the-param-element><a href=#the-param-element>param</a></code> element defines parameters for plugins invoked by <code id=the-param-element:the-object-element-2><a href=#the-object-element>object</a></code>
+  elements. It does not <a href=#represents id=the-param-element:represents>represent</a> anything on its own.</p>
+
+  <p>The <dfn id=attr-param-name><code>name</code></dfn> attribute gives the name of the
+  parameter.</p>
+
+  <p>The <dfn id=attr-param-value><code>value</code></dfn> attribute gives the value of the
+  parameter.</p>
+
+  <p>Both attributes must be present. They may have any value.</p>
+
+  
+
+  <p>If both attributes are present, and if the parent element of the <code id=the-param-element:the-param-element-2><a href=#the-param-element>param</a></code> is an
+  <code id=the-param-element:the-object-element-3><a href=#the-object-element>object</a></code> element, then the element defines a <dfn id=concept-param-parameter>parameter</dfn> with the given name-value pair.</p>
+
+  <p>If either the name or value of a <a href=#concept-param-parameter id=the-param-element:concept-param-parameter>parameter</a> defined
+  by a <code id=the-param-element:the-param-element-3><a href=#the-param-element>param</a></code> element that is the child of an <code id=the-param-element:the-object-element-4><a href=#the-object-element>object</a></code> element that
+  <a href=#represents id=the-param-element:represents-2>represents</a> an instantiated <a href=#plugin id=the-param-element:plugin>plugin</a> changes, and if that
+  <a href=#plugin id=the-param-element:plugin-2>plugin</a> is communicating with the user agent using an API that features the ability to
+  update the <a href=#plugin id=the-param-element:plugin-3>plugin</a> when the name or value of a <a href=#concept-param-parameter id=the-param-element:concept-param-parameter-2>parameter</a> so changes, then the user agent must
+  appropriately exercise that ability to notify the <a href=#plugin id=the-param-element:plugin-4>plugin</a> of the change.</p>
+
+  <p>The IDL attributes <dfn id=dom-param-name><code>name</code></dfn> and <dfn id=dom-param-value><code>value</code></dfn> must both <a href=#reflect id=the-param-element:reflect>reflect</a> the respective
+  content attributes of the same name.</p>
+
+  
+
+  <div class=example>
+
+   <p>The following example shows how the <code id=the-param-element:the-param-element-4><a href=#the-param-element>param</a></code> element can be used to pass a parameter
+   to a plugin, in this case the O3D plugin.</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+  &lt;head>
+   &lt;title>O3D Utah Teapot&lt;/title>
+  &lt;/head>
+  &lt;body>
+   &lt;p>
+    &lt;object type="application/vnd.o3d.auto">
+     <strong>&lt;param name="o3d_features" value="FloatingPointTextures"></strong>
+     &lt;img src="o3d-teapot.png"
+          title="3D Utah Teapot illustration rendered using O3D."
+          alt="When O3D renders the Utah Teapot, it appears as a squat
+          teapot with a shiny metallic finish on which the
+          surroundings are reflected, with a faint shadow caused by
+          the lighting.">
+     &lt;p>To see the teapot actually rendered by O3D on your
+     computer, please download and install the &lt;a
+     href="http://code.google.com/apis/o3d/docs/gettingstarted.html#install">O3D plugin&lt;/a>.&lt;/p>
+    &lt;/object>
+    &lt;script src="o3d-teapot.js">&lt;/script>
+   &lt;/p>
+  &lt;/body>
+&lt;/html></pre>
+
+  </div>
+
+
+
+  <h4 id=the-video-element>4.8.9 The <dfn id=video><code>video</code></dfn> element<a href=#the-video-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> video<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>3.2+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>3.5+</span></span><span class="ie yes"><span>IE</span> <span>9+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>2.3+</span></span><span class="safari yes"><span>Safari</span> <span>4+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>10.5+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=video">caniuse.com</a><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=5755" title="<video>: Expose media resource metadata (e.g. movie name, release year)">5755</a>, <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=25547" title="Shouldn't <video> allow intermixed script-supporting elements?">25547</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-video-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-video-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-video-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#embedded-content-category id=the-video-element:embedded-content-category>Embedded content</a>.<dd>If the element has a <code id=the-video-element:attr-media-controls><a href=#attr-media-controls>controls</a></code> attribute: <a href=#interactive-content-2 id=the-video-element:interactive-content-2>Interactive content</a>.<dd><a href=#palpable-content-2 id=the-video-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-video-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#embedded-content-category id=the-video-element:embedded-content-category-2>embedded content</a> is expected.<dt><a href=#concept-element-content-model id=the-video-element:concept-element-content-model>Content model</a>:<dd>If the element has a <code id=the-video-element:attr-media-src><a href=#attr-media-src>src</a></code> attribute:
+ zero or more <code id=the-video-element:the-track-element><a href=#the-track-element>track</a></code> elements, then
+ <a href=#transparent id=the-video-element:transparent>transparent</a>, but with no <a href=#media-element id=the-video-element:media-element>media element</a> descendants.<dd>If the element does not have a <code id=the-video-element:attr-media-src-2><a href=#attr-media-src>src</a></code> attribute: zero or more <code id=the-video-element:the-source-element><a href=#the-source-element>source</a></code> elements, then
+ zero or more <code id=the-video-element:the-track-element-2><a href=#the-track-element>track</a></code> elements, then
+ <a href=#transparent id=the-video-element:transparent-2>transparent</a>, but with no <a href=#media-element id=the-video-element:media-element-2>media element</a> descendants.<dt><a href=#concept-element-tag-omission id=the-video-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-video-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-video-element:global-attributes>Global attributes</a><dd><code id=the-video-element:attr-media-src-3><a href=#attr-media-src>src</a></code> — Address of the resource<dd><code id=the-video-element:attr-media-crossorigin><a href=#attr-media-crossorigin>crossorigin</a></code> — How the element handles crossorigin requests<dd><code id=the-video-element:attr-video-poster><a href=#attr-video-poster>poster</a></code> — Poster frame to show prior to video playback<dd><code id=the-video-element:attr-media-preload><a href=#attr-media-preload>preload</a></code> — Hints how much buffering the <a href=#media-resource id=the-video-element:media-resource>media resource</a> will likely need<dd><code id=the-video-element:attr-media-autoplay><a href=#attr-media-autoplay>autoplay</a></code> — Hint that the <a href=#media-resource id=the-video-element:media-resource-2>media resource</a> can be started automatically when the page is loaded<dd><code id=the-video-element:attr-video-playsinline><a href=#attr-video-playsinline>playsinline</a></code> — Encourage the user agent to display video content within the element's playback area<dd><code id=the-video-element:attr-media-loop><a href=#attr-media-loop>loop</a></code> — Whether to loop the <a href=#media-resource id=the-video-element:media-resource-3>media resource</a><dd><code id=the-video-element:attr-media-muted><a href=#attr-media-muted>muted</a></code> — Whether to mute the <a href=#media-resource id=the-video-element:media-resource-4>media resource</a> by default<dd><code id=the-video-element:attr-media-controls-2><a href=#attr-media-controls>controls</a></code> — Show user agent controls<dd><code id=the-video-element:attr-dim-width><a href=#attr-dim-width>width</a></code> — Horizontal dimension<dd><code id=the-video-element:attr-dim-height><a href=#attr-dim-height>height</a></code> — Vertical dimension<dt><a href=#concept-element-dom id=the-video-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-video-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlvideoelement>HTMLVideoElement</dfn> : <a href=#htmlmediaelement id=the-video-element:htmlmediaelement>HTMLMediaElement</a> {
+  [<a href=#cereactions id=the-video-element:cereactions>CEReactions</a>] attribute unsigned long <a href=#dom-dim-width id=the-video-element:dom-dim-width>width</a>;
+  [<a href=#cereactions id=the-video-element:cereactions-2>CEReactions</a>] attribute unsigned long <a href=#dom-dim-height id=the-video-element:dom-dim-height>height</a>;
+  readonly attribute unsigned long <a href=#dom-video-videowidth id=the-video-element:dom-video-videowidth>videoWidth</a>;
+  readonly attribute unsigned long <a href=#dom-video-videoheight id=the-video-element:dom-video-videoheight>videoHeight</a>;
+  [<a href=#cereactions id=the-video-element:cereactions-3>CEReactions</a>] attribute USVString <a href=#dom-video-poster id=the-video-element:dom-video-poster>poster</a>;
+  [<a href=#cereactions id=the-video-element:cereactions-4>CEReactions</a>] attribute boolean <a href=#dom-video-playsinline id=the-video-element:dom-video-playsinline>playsInline</a>;
+};</pre>
+   </dl>
+
+  <p>A <code id=the-video-element:the-video-element><a href=#the-video-element>video</a></code> element is used for playing videos or movies, and audio files with
+  captions.</p>
+
+  <p>Content may be provided inside the <code id=the-video-element:the-video-element-2><a href=#the-video-element>video</a></code> element. User agents
+  should not show this content to the user; it is intended for older Web browsers which do
+  not support <code id=the-video-element:the-video-element-3><a href=#the-video-element>video</a></code>, so that legacy video plugins can be tried, or to show text to the
+  users of these older browsers informing them of how to access the video contents.</p>
+
+  <p class=note>In particular, this content is not intended to address accessibility concerns. To
+  make video content accessible to the partially sighted, the blind, the hard-of-hearing, the deaf,
+  and those with other physical or cognitive disabilities, a variety of features are available.
+  Captions can be provided, either embedded in the video stream or as external files using the
+  <code id=the-video-element:the-track-element-3><a href=#the-track-element>track</a></code> element. Sign-language tracks can be embedded in the video stream. Audio
+  descriptions can be embedded in the video stream or in text form using a <a id=the-video-element:webvtt-file href=https://w3c.github.io/webvtt/#webvtt-file data-x-internal=webvtt-file>WebVTT file</a>
+  referenced using the <code id=the-video-element:the-track-element-4><a href=#the-track-element>track</a></code> element and synthesized into speech by the user agent.
+  WebVTT can also be used to provide chapter titles. For users who would rather not use a media
+  element at all, transcripts or other textual alternatives can be provided by simply linking to
+  them in the prose near the <code id=the-video-element:the-video-element-4><a href=#the-video-element>video</a></code> element. <a href=#refsWEBVTT>[WEBVTT]</a></p>
+
+  <p>The <code id=the-video-element:the-video-element-5><a href=#the-video-element>video</a></code> element is a <a href=#media-element id=the-video-element:media-element-3>media element</a> whose <a href=#media-data id=the-video-element:media-data>media data</a> is
+  ostensibly video data, possibly with associated audio data.</p>
+
+  <p>The <code id=the-video-element:attr-media-src-4><a href=#attr-media-src>src</a></code>, <code id=the-video-element:attr-media-preload-2><a href=#attr-media-preload>preload</a></code>,
+  <code id=the-video-element:attr-media-autoplay-2><a href=#attr-media-autoplay>autoplay</a></code>, <code id=the-video-element:attr-media-loop-2><a href=#attr-media-loop>loop</a></code>,
+  <code id=the-video-element:attr-media-muted-2><a href=#attr-media-muted>muted</a></code>, and <code id=the-video-element:attr-media-controls-3><a href=#attr-media-controls>controls</a></code> attributes are <a href=#media-element-attributes id=the-video-element:media-element-attributes>the attributes common to all media elements</a>.</p>
+
+  <p>The <dfn id=attr-video-poster><code>poster</code></dfn> attribute gives the
+  <a id=the-video-element:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of an image file that the user agent can show while no video data is available.
+  The attribute, if present, must contain a <a href=#valid-non-empty-url-potentially-surrounded-by-spaces id=the-video-element:valid-non-empty-url-potentially-surrounded-by-spaces>valid non-empty URL potentially surrounded by
+  spaces</a>.</p>
+
+  
+
+  <p>If the specified resource is to be used, then, when the element is created or when the <code id=the-video-element:attr-video-poster-2><a href=#attr-video-poster>poster</a></code> attribute is set, changed, or removed, the user agent must
+  run the following steps to determine the element's <dfn id=poster-frame>poster frame</dfn> (regardless of the
+  value of the element's <a href=#show-poster-flag id=the-video-element:show-poster-flag>show poster flag</a>):</p> 
+
+  <ol><li><p>If there is an existing instance of this algorithm running for this <code id=the-video-element:the-video-element-6><a href=#the-video-element>video</a></code>
+   element, abort that instance of this algorithm without changing the <a href=#poster-frame id=the-video-element:poster-frame>poster
+   frame</a>.<li><p>If the <code id=the-video-element:attr-video-poster-3><a href=#attr-video-poster>poster</a></code> attribute's value is the empty string
+   or if the attribute is absent, then there is no <a href=#poster-frame id=the-video-element:poster-frame-2>poster frame</a>; abort these
+   steps.<li><p><a href=#parse-a-url id=the-video-element:parse-a-url>Parse</a> the <code id=the-video-element:attr-video-poster-4><a href=#attr-video-poster>poster</a></code> attribute's value relative to the element's <a id=the-video-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+   document</a>. If this fails, then there is no <a href=#poster-frame id=the-video-element:poster-frame-3>poster frame</a>; abort these
+   steps.<li><p>Let <var>request</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id=the-video-element:concept-request data-x-internal=concept-request>request</a> whose
+   <a href=https://fetch.spec.whatwg.org/#concept-request-url id=the-video-element:concept-request-url data-x-internal=concept-request-url>url</a> is the <a href=#resulting-url-record id=the-video-element:resulting-url-record>resulting URL record</a>,
+   <a href=https://fetch.spec.whatwg.org/#concept-request-client id=the-video-element:concept-request-client data-x-internal=concept-request-client>client</a> is the element's <a id=the-video-element:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s
+   <code id=the-video-element:window><a href=#window>Window</a></code> object's <a href=#environment-settings-object id=the-video-element:environment-settings-object>environment settings object</a>, <a href=https://fetch.spec.whatwg.org/#concept-request-type id=the-video-element:concept-request-type data-x-internal=concept-request-type>type</a> is "<code>image</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=the-video-element:concept-request-destination data-x-internal=concept-request-destination>destination</a> is "<code>image</code>",
+   <a href=https://fetch.spec.whatwg.org/#concept-request-credentials-mode id=the-video-element:concept-request-credentials-mode data-x-internal=concept-request-credentials-mode>credentials mode</a> is "<code>include</code>", and whose <a id=the-video-element:use-url-credentials-flag href=https://fetch.spec.whatwg.org/#concept-request-use-url-credentials-flag data-x-internal=use-url-credentials-flag>use-URL-credentials flag</a> is set.
+
+   <li><p><a href=https://fetch.spec.whatwg.org/#concept-fetch id=the-video-element:concept-fetch data-x-internal=concept-fetch>Fetch</a> <var>request</var>. This must
+   <a href=#delay-the-load-event id=the-video-element:delay-the-load-event>delay the load event</a> of the element's <a id=the-video-element:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.<li><p>If an image is thus obtained, the <a href=#poster-frame id=the-video-element:poster-frame-4>poster frame</a> is that image. Otherwise,
+   there is no <a href=#poster-frame id=the-video-element:poster-frame-5>poster frame</a>.</ol>
+
+  
+
+  <p class=note>The image given by the <code id=the-video-element:attr-video-poster-5><a href=#attr-video-poster>poster</a></code> attribute,
+  the <i id=the-video-element:poster-frame-6><a href=#poster-frame>poster frame</a></i>, is intended to be a representative frame of the
+  video (typically one of the first non-blank frames) that gives the user an idea of what the video
+  is like.</p>
+
+
+  <p>The <dfn id=attr-video-playsinline><code>playsinline</code></dfn> is a <a href=#boolean-attribute id=the-video-element:boolean-attribute>boolean
+  attribute</a>. If present, it serves as a hint to the user agent that the video ought to be
+  displayed "inline" in the document by default, constrained to the element's playback area, instead
+  of being displayed fullscreen or in an independent resizable window.</p>
+
+  <p class=note>The absence of the <code id=the-video-element:attr-video-playsinline-2><a href=#attr-video-playsinline>playsinline</a></code> does
+  not imply that the video will display fullscreen by default. Indeed, most user agents have chosen
+  to play all videos inline by default, and in such user agents the <code id=the-video-element:attr-video-playsinline-3><a href=#attr-video-playsinline>playsinline</a></code> attribute has no effect.</p>
+
+  
+
+  <hr>
+
+  <p>A <code id=the-video-element:the-video-element-7><a href=#the-video-element>video</a></code> element represents what is given for the first matching condition in the
+  list below:</p>
+
+  <dl class=switch><dt>When no video data is available (the element's <code id=the-video-element:dom-media-readystate><a href=#dom-media-readystate>readyState</a></code> attribute is either <code id=the-video-element:dom-media-have_nothing><a href=#dom-media-have_nothing>HAVE_NOTHING</a></code>, or <code id=the-video-element:dom-media-have_metadata><a href=#dom-media-have_metadata>HAVE_METADATA</a></code> but no video data has yet been obtained at
+   all, or the element's <code id=the-video-element:dom-media-readystate-2><a href=#dom-media-readystate>readyState</a></code> attribute is any
+   subsequent value but the <a href=#media-resource id=the-video-element:media-resource-5>media resource</a> does not have a video channel)<dd>The <code id=the-video-element:the-video-element-8><a href=#the-video-element>video</a></code> element <a href=#represents id=the-video-element:represents>represents</a> its <a href=#poster-frame id=the-video-element:poster-frame-7>poster frame</a>, if any,
+   or else transparent black with no <a id=the-video-element:intrinsic-dimensions href=https://drafts.csswg.org/css2/conform.html#intrinsic data-x-internal=intrinsic-dimensions>intrinsic dimensions</a>.<dt>When the <code id=the-video-element:the-video-element-9><a href=#the-video-element>video</a></code> element is <a href=#dom-media-paused id=the-video-element:dom-media-paused>paused</a>, the <a href=#current-playback-position id=the-video-element:current-playback-position>current playback position</a> is the first frame of video,
+   and the element's <a href=#show-poster-flag id=the-video-element:show-poster-flag-2>show poster flag</a> is set<dd>The <code id=the-video-element:the-video-element-10><a href=#the-video-element>video</a></code> element <a href=#represents id=the-video-element:represents-2>represents</a> its <a href=#poster-frame id=the-video-element:poster-frame-8>poster frame</a>, if any,
+   or else the first frame of the video.<dt>When the <code id=the-video-element:the-video-element-11><a href=#the-video-element>video</a></code> element is <a href=#dom-media-paused id=the-video-element:dom-media-paused-2>paused</a>, and the
+   frame of video corresponding to the <a href=#current-playback-position id=the-video-element:current-playback-position-2>current playback
+   position</a> is not available (e.g. because the video is seeking or buffering)<dt>When the <code id=the-video-element:the-video-element-12><a href=#the-video-element>video</a></code> element is neither <a href=#potentially-playing id=the-video-element:potentially-playing>potentially playing</a> nor <a href=#dom-media-paused id=the-video-element:dom-media-paused-3>paused</a> (e.g. when seeking or stalled)<dd>The <code id=the-video-element:the-video-element-13><a href=#the-video-element>video</a></code> element <a href=#represents id=the-video-element:represents-3>represents</a> the last frame of the video to have
+   been rendered.<dt>When the <code id=the-video-element:the-video-element-14><a href=#the-video-element>video</a></code> element is <a href=#dom-media-paused id=the-video-element:dom-media-paused-4>paused</a><dd>The <code id=the-video-element:the-video-element-15><a href=#the-video-element>video</a></code> element <a href=#represents id=the-video-element:represents-4>represents</a> the frame of video corresponding to
+   the <a href=#current-playback-position id=the-video-element:current-playback-position-3>current playback position</a>.<dt>Otherwise (the <code id=the-video-element:the-video-element-16><a href=#the-video-element>video</a></code> element has a video channel and is <a href=#potentially-playing id=the-video-element:potentially-playing-2>potentially
+   playing</a>)<dd>The <code id=the-video-element:the-video-element-17><a href=#the-video-element>video</a></code> element <a href=#represents id=the-video-element:represents-5>represents</a> the frame of video at the continuously
+   increasing <a href=#current-playback-position id=the-video-element:current-playback-position-4>"current" position</a>. When the
+   <a href=#current-playback-position id=the-video-element:current-playback-position-5>current playback position</a> changes such that the last frame rendered is no longer the
+   frame corresponding to the <a href=#current-playback-position id=the-video-element:current-playback-position-6>current playback position</a> in the video, the new frame
+   must be rendered.</dl>
+
+  <p>Frames of video must be obtained from the video track that was <a href=#dom-videotrack-selected id=the-video-element:dom-videotrack-selected>selected</a> when the <a href=#event-loop id=the-video-element:event-loop>event loop</a> last reached
+  <a href=#step1>step 1</a>.</p>
+
+  <p class=note>Which frame in a video stream corresponds to a particular playback position is
+  defined by the video stream's format.</p>
+
+  <p>The <code id=the-video-element:the-video-element-18><a href=#the-video-element>video</a></code> element also <a href=#represents id=the-video-element:represents-6>represents</a> any <a href=#text-track-cue id=the-video-element:text-track-cue>text track cues</a> whose <a href=#text-track-cue-active-flag id=the-video-element:text-track-cue-active-flag>text track cue active flag</a> is set and whose
+  <a href=#text-track id=the-video-element:text-track>text track</a> is in the <a href=#text-track-showing id=the-video-element:text-track-showing>showing</a> mode, and any
+  audio from the <a href=#media-resource id=the-video-element:media-resource-6>media resource</a>, at the <a href=#current-playback-position id=the-video-element:current-playback-position-7>current playback position</a>.</p>
+
+  <p>Any audio associated with the <a href=#media-resource id=the-video-element:media-resource-7>media resource</a> must, if played, be played
+  synchronized with the <a href=#current-playback-position id=the-video-element:current-playback-position-8>current playback position</a>, at the element's <a href=#effective-media-volume id=the-video-element:effective-media-volume>effective
+  media volume</a>. The user agent must play the audio from audio tracks that were <a href=#dom-audiotrack-enabled id=the-video-element:dom-audiotrack-enabled>enabled</a> when the <a href=#event-loop id=the-video-element:event-loop-2>event loop</a> last reached step
+  1.</p>
+
+  <p>In addition to the above, the user agent may provide messages to the user (such as "buffering",
+  "no video loaded", "error", or more detailed information) by overlaying text or icons on the video
+  or other areas of the element's playback area, or in another appropriate manner.</p>
+
+  <p>User agents that cannot render the video may instead make the element <a href=#represents id=the-video-element:represents-7>represent</a> a link to an external video playback utility or to the video
+  data itself.</p>
+
+  <p>When a <code id=the-video-element:the-video-element-19><a href=#the-video-element>video</a></code> element's <a href=#media-resource id=the-video-element:media-resource-8>media resource</a> has a video channel, the
+  element provides a <a id=the-video-element:paint-source href=https://drafts.csswg.org/css-images-4/#paint-source data-x-internal=paint-source>paint source</a> whose width is the <a href=#media-resource id=the-video-element:media-resource-9>media resource</a>'s
+  <a href=#concept-video-intrinsic-width id=the-video-element:concept-video-intrinsic-width>intrinsic width</a>, whose height is the
+  <a href=#media-resource id=the-video-element:media-resource-10>media resource</a>'s <a href=#concept-video-intrinsic-height id=the-video-element:concept-video-intrinsic-height>intrinsic
+  height</a>, and whose appearance is the frame of video corresponding to the <a href=#current-playback-position id=the-video-element:current-playback-position-9>current playback position</a>, if that is available, or else
+  (e.g. when the video is seeking or buffering) its previous appearance, if any, or else (e.g.
+  because the video is still loading the first frame) blackness.</p>
+
+  <hr>
+
+  
+
+  <dl class=domintro><dt><var>video</var> . <code id=the-video-element:dom-video-videowidth-2><a href=#dom-video-videowidth>videoWidth</a></code><dt><var>video</var> . <code id=the-video-element:dom-video-videoheight-2><a href=#dom-video-videoheight>videoHeight</a></code><dd>
+
+    <p>These attributes return the intrinsic dimensions of the video,
+    or zero if the dimensions are not known.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=concept-video-intrinsic-width>intrinsic width</dfn> and <dfn id=concept-video-intrinsic-height>intrinsic height</dfn> of the <a href=#media-resource id=the-video-element:media-resource-11>media resource</a>
+  are the dimensions of the resource in <a href=https://drafts.csswg.org/css-values/#px id="the-video-element:'px'" data-x-internal="'px'">CSS pixels</a> after taking into
+  account the resource's dimensions, aspect ratio, clean aperture, resolution, and so forth, as
+  defined for the format used by the resource. If an anamorphic format does not define how to apply
+  the aspect ratio to the video data's dimensions to obtain the "correct" dimensions, then the user
+  agent must apply the ratio by increasing one dimension and leaving the other unchanged.</p>
+
+  <p>The <dfn id=dom-video-videowidth><code>videoWidth</code></dfn> IDL attribute must return
+  the <a href=#concept-video-intrinsic-width id=the-video-element:concept-video-intrinsic-width-2>intrinsic width</a> of the video in <a href=https://drafts.csswg.org/css-values/#px id="the-video-element:'px'-2" data-x-internal="'px'">CSS pixels</a>. The <dfn id=dom-video-videoheight><code>videoHeight</code></dfn> IDL attribute must return the <a href=#concept-video-intrinsic-height id=the-video-element:concept-video-intrinsic-height-2>intrinsic height</a> of the video in <a href=https://drafts.csswg.org/css-values/#px id="the-video-element:'px'-3" data-x-internal="'px'">CSS pixels</a>. If the element's <code id=the-video-element:dom-media-readystate-3><a href=#dom-media-readystate>readyState</a></code> attribute is <code id=the-video-element:dom-media-have_nothing-2><a href=#dom-media-have_nothing>HAVE_NOTHING</a></code>, then the attributes must return 0.</p>
+
+  <p id=dimUpdate>Whenever the <a href=#concept-video-intrinsic-width id=the-video-element:concept-video-intrinsic-width-3>intrinsic width</a>
+  or <a href=#concept-video-intrinsic-height id=the-video-element:concept-video-intrinsic-height-3>intrinsic height</a> of the video changes
+  (including, for example, because the <a href=#dom-videotrack-selected id=the-video-element:dom-videotrack-selected-2>selected video
+  track</a> was changed), if the element's <code id=the-video-element:dom-media-readystate-4><a href=#dom-media-readystate>readyState</a></code>
+  attribute is not <code id=the-video-element:dom-media-have_nothing-3><a href=#dom-media-have_nothing>HAVE_NOTHING</a></code>, the user agent must
+  <a href=#queue-a-task id=the-video-element:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-video-element:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=the-video-element:event-media-resize><a href=#event-media-resize>resize</a></code> at the <a href=#media-element id=the-video-element:media-element-4>media element</a>.</p>
+
+  
+
+  <p>The <code id=the-video-element:the-video-element-20><a href=#the-video-element>video</a></code> element supports <a href=#dimension-attributes id=the-video-element:dimension-attributes>dimension attributes</a>.</p>
+
+  
+
+  <p>In the absence of style rules to the contrary, video content should be rendered inside the
+  element's playback area such that the video content is shown centered in the playback area at the
+  largest possible size that fits completely within it, with the video content's aspect ratio being
+  preserved. Thus, if the aspect ratio of the playback area does not match the aspect ratio of the
+  video, the video will be shown letterboxed or pillarboxed. Areas of the element's playback area
+  that do not contain the video represent nothing.</p>
+
+  <p class=note>In user agents that implement CSS, the above requirement can be implemented by
+  using the <a href=#video-object-fit>style rule suggested in the rendering section</a>.</p>
+
+  <p>The <a href=#intrinsic-width id=the-video-element:intrinsic-width>intrinsic width</a> of a <code id=the-video-element:the-video-element-21><a href=#the-video-element>video</a></code> element's playback area is the
+  <a href=#intrinsic-width id=the-video-element:intrinsic-width-2>intrinsic width</a> of the <a href=#poster-frame id=the-video-element:poster-frame-9>poster frame</a>, if that is available and the
+  element currently <a href=#represents id=the-video-element:represents-8>represents</a> its poster frame; otherwise, it is the <a href=#concept-video-intrinsic-width id=the-video-element:concept-video-intrinsic-width-4>intrinsic width</a> of the video resource, if that is
+  available; otherwise the <a href=#intrinsic-width id=the-video-element:intrinsic-width-3>intrinsic width</a> is missing.</p>
+
+  <p>The <a href=#intrinsic-height id=the-video-element:intrinsic-height>intrinsic height</a> of a <code id=the-video-element:the-video-element-22><a href=#the-video-element>video</a></code> element's playback area is the
+  <a href=#intrinsic-height id=the-video-element:intrinsic-height-2>intrinsic height</a> of the <a href=#poster-frame id=the-video-element:poster-frame-10>poster frame</a>, if that is available and the
+  element currently <a href=#represents id=the-video-element:represents-9>represents</a> its poster frame; otherwise it is the <a href=#concept-video-intrinsic-height id=the-video-element:concept-video-intrinsic-height-4>intrinsic height</a> of the video resource, if that is
+  available; otherwise the <a href=#intrinsic-height id=the-video-element:intrinsic-height-3>intrinsic height</a> is missing.</p>
+
+  <p>The <a id=the-video-element:default-object-size href=https://drafts.csswg.org/css-images/#default-object-size data-x-internal=default-object-size>default object size</a> is a width of 300 <a href=https://drafts.csswg.org/css-values/#px id="the-video-element:'px'-4" data-x-internal="'px'">CSS pixels</a>
+  and a height of 150 <a href=https://drafts.csswg.org/css-values/#px id="the-video-element:'px'-5" data-x-internal="'px'">CSS pixels</a>. <a href=#refsCSSIMAGES>[CSSIMAGES]</a></p>
+
+  <p>A <code id=the-video-element:the-video-element-23><a href=#the-video-element>video</a></code> element is said to <dfn id=intersect-the-viewport>intersect the viewport</dfn> when it is
+  <a href=#being-rendered id=the-video-element:being-rendered>being rendered</a> and its associated CSS layout box intersects the
+  <a id=the-video-element:viewport href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>.</p>
+
+  <hr>
+
+  <p>User agents should provide controls to enable or disable the display of closed captions, audio
+  description tracks, and other additional data associated with the video stream, though such
+  features should, again, not interfere with the page's normal rendering.</p>
+
+  <p>User agents may allow users to view the video content in manners more suitable to the user,
+  such as fullscreen or in an independent resizable window. User agents may even trigger such a
+  viewing mode by default upon playing a video, although they should not do so when the <code id=the-video-element:attr-video-playsinline-4><a href=#attr-video-playsinline>playsinline</a></code> attribute is specified. As with the other user
+  interface features, controls to enable this should not interfere with the page's normal rendering
+  unless the user agent is <a href=#expose-a-user-interface-to-the-user id=the-video-element:expose-a-user-interface-to-the-user>exposing a user
+  interface</a>. In such an independent viewing mode, however, user agents may make full user
+  interfaces visible, even if the <code id=the-video-element:attr-media-controls-4><a href=#attr-media-controls>controls</a></code> attribute is
+  absent.</p>
+
+  <p>User agents may allow video playback to affect system features that could interfere with the
+  user's experience; for example, user agents could disable screensavers while video playback is in
+  progress.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-video-poster><code>poster</code></dfn> IDL attribute must
+  <a href=#reflect id=the-video-element:reflect>reflect</a> the <code id=the-video-element:attr-video-poster-6><a href=#attr-video-poster>poster</a></code> content attribute.</p>
+
+  <p>The <dfn id=dom-video-playsinline><code>playsInline</code></dfn> IDL attribute must
+  <a href=#reflect id=the-video-element:reflect-2>reflect</a> the <code id=the-video-element:attr-video-playsinline-5><a href=#attr-video-playsinline>playsinline</a></code> content
+  attribute.</p>
+
+  
+
+  <div class=example>
+
+   <p>This example shows how to detect when a video has failed to play correctly:</p>
+
+   <pre>&lt;script>
+ function failed(e) {
+   // video playback failed - show a message saying why
+   switch (e.target.error.code) {
+     case e.target.error.MEDIA_ERR_ABORTED:
+       alert('You aborted the video playback.');
+       break;
+     case e.target.error.MEDIA_ERR_NETWORK:
+       alert('A network error caused the video download to fail part-way.');
+       break;
+     case e.target.error.MEDIA_ERR_DECODE:
+       alert('The video playback was aborted due to a corruption problem or because the video used features your browser did not support.');
+       break;
+     case e.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+       alert('The video could not be loaded, either because the server or network failed or because the format is not supported.');
+       break;
+     default:
+       alert('An unknown error occurred.');
+       break;
+   }
+ }
+&lt;/script>
+&lt;p>&lt;video src="tgif.vid" autoplay controls onerror="failed(event)">&lt;/video>&lt;/p>
+&lt;p>&lt;a href="tgif.vid">Download the video file&lt;/a>.&lt;/p></pre>
+
+  </div>
+
+
+
+
+  
+
+
+
+
+
+  <h4 id=the-audio-element>4.8.10 The <dfn id=audio><code>audio</code></dfn> element<a href=#the-audio-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=7253" title="<video>: Provide a way to let the browser know what's coming next, for gapless playback">7253</a><p class=support><strong>Support:</strong> audio<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>4.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>3.5+</span></span><span class="ie yes"><span>IE</span> <span>9+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>2.3+</span></span><span class="safari yes"><span>Safari</span> <span>4+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>10.5+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=audio">caniuse.com</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-audio-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-audio-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-audio-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#embedded-content-category id=the-audio-element:embedded-content-category>Embedded content</a>.<dd>If the element has a <code id=the-audio-element:attr-media-controls><a href=#attr-media-controls>controls</a></code> attribute: <a href=#interactive-content-2 id=the-audio-element:interactive-content-2>Interactive content</a>.<dd>If the element has a <code id=the-audio-element:attr-media-controls-2><a href=#attr-media-controls>controls</a></code> attribute: <a href=#palpable-content-2 id=the-audio-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-audio-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#embedded-content-category id=the-audio-element:embedded-content-category-2>embedded content</a> is expected.<dt><a href=#concept-element-content-model id=the-audio-element:concept-element-content-model>Content model</a>:<dd>If the element has a <code id=the-audio-element:attr-media-src><a href=#attr-media-src>src</a></code> attribute:
+zero or more <code id=the-audio-element:the-track-element><a href=#the-track-element>track</a></code> elements, then
+<a href=#transparent id=the-audio-element:transparent>transparent</a>, but with no <a href=#media-element id=the-audio-element:media-element>media element</a> descendants.<dd>If the element does not have a <code id=the-audio-element:attr-media-src-2><a href=#attr-media-src>src</a></code> attribute: zero or more <code id=the-audio-element:the-source-element><a href=#the-source-element>source</a></code> elements, then
+ zero or more <code id=the-audio-element:the-track-element-2><a href=#the-track-element>track</a></code> elements, then
+ <a href=#transparent id=the-audio-element:transparent-2>transparent</a>, but with no <a href=#media-element id=the-audio-element:media-element-2>media element</a> descendants.<dt><a href=#concept-element-tag-omission id=the-audio-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-audio-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-audio-element:global-attributes>Global attributes</a><dd><code id=the-audio-element:attr-media-src-3><a href=#attr-media-src>src</a></code> — Address of the resource<dd><code id=the-audio-element:attr-media-crossorigin><a href=#attr-media-crossorigin>crossorigin</a></code> — How the element handles crossorigin requests<dd><code id=the-audio-element:attr-media-preload><a href=#attr-media-preload>preload</a></code> — Hints how much buffering the <a href=#media-resource id=the-audio-element:media-resource>media resource</a> will likely need<dd><code id=the-audio-element:attr-media-autoplay><a href=#attr-media-autoplay>autoplay</a></code> — Hint that the <a href=#media-resource id=the-audio-element:media-resource-2>media resource</a> can be started automatically when the page is loaded<dd><code id=the-audio-element:attr-media-loop><a href=#attr-media-loop>loop</a></code> — Whether to loop the <a href=#media-resource id=the-audio-element:media-resource-3>media resource</a><dd><code id=the-audio-element:attr-media-muted><a href=#attr-media-muted>muted</a></code> — Whether to mute the <a href=#media-resource id=the-audio-element:media-resource-4>media resource</a> by default<dd><code id=the-audio-element:attr-media-controls-3><a href=#attr-media-controls>controls</a></code> — Show user agent controls<dt><a href=#concept-element-dom id=the-audio-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-audio-element:htmlconstructor>HTMLConstructor</a>, NamedConstructor=<a href=#dom-audio id=the-audio-element:dom-audio>Audio</a>(optional DOMString src)]
+interface <dfn id=htmlaudioelement>HTMLAudioElement</dfn> : <a href=#htmlmediaelement id=the-audio-element:htmlmediaelement>HTMLMediaElement</a> {};</pre>
+   </dl>
+
+  <p>An <code id=the-audio-element:the-audio-element><a href=#the-audio-element>audio</a></code> element <a href=#represents id=the-audio-element:represents>represents</a> a sound or audio stream.</p>
+
+  
+
+  <p>Content may be provided inside the <code id=the-audio-element:the-audio-element-2><a href=#the-audio-element>audio</a></code> element. User agents
+  should not show this content to the user; it is intended for older Web browsers which do
+  not support <code id=the-audio-element:the-audio-element-3><a href=#the-audio-element>audio</a></code>, so that legacy audio plugins can be tried, or to show text to the
+  users of these older browsers informing them of how to access the audio contents.</p>
+
+  <p class=note>In particular, this content is not intended to address accessibility concerns. To
+  make audio content accessible to the deaf or to those with other physical or cognitive
+  disabilities, a variety of features are available. If captions or a sign language video are
+  available, the <code id=the-audio-element:the-video-element><a href=#the-video-element>video</a></code> element can be used instead of the <code id=the-audio-element:the-audio-element-4><a href=#the-audio-element>audio</a></code> element to
+  play the audio, allowing users to enable the visual alternatives. Chapter titles can be provided
+  to aid navigation, using the <code id=the-audio-element:the-track-element-3><a href=#the-track-element>track</a></code> element and a <a id=the-audio-element:webvtt-file href=https://w3c.github.io/webvtt/#webvtt-file data-x-internal=webvtt-file>WebVTT file</a>. And,
+  naturally, transcripts or other textual alternatives can be provided by simply linking to them in
+  the prose near the <code id=the-audio-element:the-audio-element-5><a href=#the-audio-element>audio</a></code> element. <a href=#refsWEBVTT>[WEBVTT]</a></p>
+
+  <p>The <code id=the-audio-element:the-audio-element-6><a href=#the-audio-element>audio</a></code> element is a <a href=#media-element id=the-audio-element:media-element-3>media element</a> whose <a href=#media-data id=the-audio-element:media-data>media data</a> is
+  ostensibly audio data.</p>
+
+  <p>The <code id=the-audio-element:attr-media-src-4><a href=#attr-media-src>src</a></code>, <code id=the-audio-element:attr-media-preload-2><a href=#attr-media-preload>preload</a></code>,
+  <code id=the-audio-element:attr-media-autoplay-2><a href=#attr-media-autoplay>autoplay</a></code>, <code id=the-audio-element:attr-media-loop-2><a href=#attr-media-loop>loop</a></code>,
+  <code id=the-audio-element:attr-media-muted-2><a href=#attr-media-muted>muted</a></code>, and <code id=the-audio-element:attr-media-controls-4><a href=#attr-media-controls>controls</a></code> attributes are <a href=#media-element-attributes id=the-audio-element:media-element-attributes>the attributes common to all media elements</a>.</p>
+
+  
+
+  <p>When an <code id=the-audio-element:the-audio-element-7><a href=#the-audio-element>audio</a></code> element is <a href=#potentially-playing id=the-audio-element:potentially-playing>potentially playing</a>, it must have its audio
+  data played synchronized with the <a href=#current-playback-position id=the-audio-element:current-playback-position>current playback position</a>, at the element's
+  <a href=#effective-media-volume id=the-audio-element:effective-media-volume>effective media volume</a>. The user agent must play the audio from audio tracks that
+  were enabled when the <a href=#event-loop id=the-audio-element:event-loop>event loop</a> last reached <a href=#step1>step 1</a>.</p>
+
+  <p>When an <code id=the-audio-element:the-audio-element-8><a href=#the-audio-element>audio</a></code> element is not <a href=#potentially-playing id=the-audio-element:potentially-playing-2>potentially playing</a>, audio must not play
+  for the element.</p>
+
+  
+
+  <dl class=domintro><dt><var>audio</var> = new <code id=the-audio-element:dom-audio-2><a href=#dom-audio>Audio</a></code>( [ <var>url</var> ] )<dd>
+
+    <p>Returns a new <code id=the-audio-element:the-audio-element-9><a href=#the-audio-element>audio</a></code> element, with the <code id=the-audio-element:attr-media-src-5><a href=#attr-media-src>src</a></code>
+    attribute set to the value passed in the argument, if applicable.</p>
+
+   </dl>
+
+  
+
+  <p>A constructor is provided for creating <code id=the-audio-element:htmlaudioelement><a href=#htmlaudioelement>HTMLAudioElement</a></code> objects (in addition to
+  the factory methods from DOM such as <code id=the-audio-element:dom-document-createelement><a data-x-internal=dom-document-createelement href=https://dom.spec.whatwg.org/#dom-document-createelement>createElement()</a></code>):
+  <dfn id=dom-audio><code>Audio(<var>src</var>)</code></dfn>. When invoked,
+  the constructor must perform the following steps:</p>
+
+  <ol><li><p>Let <var>document</var> be the <a href=#current-global-object id=the-audio-element:current-global-object>current global object</a>'s <a href=#concept-document-window id=the-audio-element:concept-document-window>associated <code>Document</code></a>.<li><p>Let <var>audio</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-create-element id=the-audio-element:create-an-element data-x-internal=create-an-element>creating an
+   element</a> given <var>document</var>, <code id=the-audio-element:the-audio-element-10><a href=#the-audio-element>audio</a></code>, and the <a id=the-audio-element:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML
+   namespace</a>.<li><p><a href=https://dom.spec.whatwg.org/#concept-element-attributes-set-value id=the-audio-element:concept-element-attributes-set-value data-x-internal=concept-element-attributes-set-value>Set an attribute value</a> for
+   <var>audio</var> using "<code id=the-audio-element:attr-media-preload-3><a href=#attr-media-preload>preload</a></code>" and "<code id=the-audio-element:attr-media-preload-auto><a href=#attr-media-preload-auto>auto</a></code>".<li><p>If <var>src</var> is given, then <a href=https://dom.spec.whatwg.org/#concept-element-attributes-set-value id=the-audio-element:concept-element-attributes-set-value-2 data-x-internal=concept-element-attributes-set-value>set
+   an attribute value</a> for <var>audio</var> using "<code id=the-audio-element:attr-media-src-6><a href=#attr-media-src>src</a></code>"
+   and <var>src</var>. (This will <a href=#concept-media-load-algorithm-at-creation>cause the user
+   agent to invoke</a> the object's <a href=#concept-media-load-algorithm id=the-audio-element:concept-media-load-algorithm>resource selection
+   algorithm</a> before returning.)<li><p>Return <var>audio</var>.</ol>
+
+  
+
+
+
+  
+
+
+
+  <h4 id=the-track-element>4.8.11 The <dfn><code>track</code></dfn> element<a href=#the-track-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-track-element:concept-element-categories>Categories</a>:<dd>None.<dt><a href=#concept-element-contexts id=the-track-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>As a child of a <a href=#media-element id=the-track-element:media-element>media element</a>, before any <a href=#flow-content-2 id=the-track-element:flow-content-2>flow content</a>.<dt><a href=#concept-element-content-model id=the-track-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-track-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-track-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-track-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-track-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-track-element:global-attributes>Global attributes</a><dd><code id=the-track-element:attr-track-kind><a href=#attr-track-kind>kind</a></code> — The type of text track<dd><code id=the-track-element:attr-track-src><a href=#attr-track-src>src</a></code> — Address of the resource<dd><code id=the-track-element:attr-track-srclang><a href=#attr-track-srclang>srclang</a></code> — Language of the text track<dd><code id=the-track-element:attr-track-label><a href=#attr-track-label>label</a></code> — User-visible label<dd><code id=the-track-element:attr-track-default><a href=#attr-track-default>default</a></code> — Enable the track if no other <a href=#text-track id=the-track-element:text-track>text track</a> is more suitable<dt><a href=#concept-element-dom id=the-track-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-track-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmltrackelement>HTMLTrackElement</dfn> : <a href=#htmlelement id=the-track-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-track-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-track-kind id=the-track-element:dom-track-kind>kind</a>;
+  [<a href=#cereactions id=the-track-element:cereactions-2>CEReactions</a>] attribute USVString <a href=#dom-track-src id=the-track-element:dom-track-src>src</a>;
+  [<a href=#cereactions id=the-track-element:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-track-srclang id=the-track-element:dom-track-srclang>srclang</a>;
+  [<a href=#cereactions id=the-track-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-track-label id=the-track-element:dom-track-label>label</a>;
+  [<a href=#cereactions id=the-track-element:cereactions-5>CEReactions</a>] attribute boolean <a href=#dom-track-default id=the-track-element:dom-track-default>default</a>;
+
+  const unsigned short <a href=#dom-track-none id=the-track-element:dom-track-none>NONE</a> = 0;
+  const unsigned short <a href=#dom-track-loading id=the-track-element:dom-track-loading>LOADING</a> = 1;
+  const unsigned short <a href=#dom-track-loaded id=the-track-element:dom-track-loaded>LOADED</a> = 2;
+  const unsigned short <a href=#dom-track-error id=the-track-element:dom-track-error>ERROR</a> = 3;
+  readonly attribute unsigned short <a href=#dom-track-readystate id=the-track-element:dom-track-readystate>readyState</a>;
+
+  readonly attribute <a href=#texttrack id=the-track-element:texttrack>TextTrack</a> <a href=#dom-track-track id=the-track-element:dom-track-track>track</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-track-element:the-track-element><a href=#the-track-element>track</a></code> element allows authors to specify explicit external timed <a href=#text-track id=the-track-element:text-track-2>text tracks</a> for <a href=#media-element id=the-track-element:media-element-2>media elements</a>. It
+  does not <a href=#represents id=the-track-element:represents>represent</a> anything on its own.</p>
+
+  <p>The <dfn id=attr-track-kind><code>kind</code></dfn> attribute is an <a href=#enumerated-attribute id=the-track-element:enumerated-attribute>enumerated
+  attribute</a>. The following table lists the keywords defined for this attribute. The keyword
+  given in the first cell of each row maps to the state given in the second cell.</p>
+
+  <table><thead><tr><th>Keyword
+     <th>State
+     <th>Brief description
+   <tbody><tr><td><dfn id=attr-track-kind-keyword-subtitles><code>subtitles</code></dfn>
+     <td><dfn id=attr-track-kind-subtitles>Subtitles</dfn>
+     <td>
+      Transcription or translation of the dialogue, suitable for when the sound is available but not understood (e.g. because the user does not understand the language of the <a href=#media-resource id=the-track-element:media-resource>media resource</a>'s audio track).
+      Overlaid on the video.
+    <tr><td><dfn id=attr-track-kind-keyword-captions><code>captions</code></dfn>
+     <td><dfn id=attr-track-kind-captions>Captions</dfn>
+     <td>
+      Transcription or translation of the dialogue, sound effects, relevant musical cues, and other relevant audio information, suitable for when sound is unavailable or not clearly audible (e.g. because it is muted, drowned-out by ambient noise, or because the user is deaf).
+      Overlaid on the video; labeled as appropriate for the hard-of-hearing.
+    <tr><td><dfn id=attr-track-kind-keyword-descriptions><code>descriptions</code></dfn>
+     <td><dfn id=attr-track-kind-descriptions>Descriptions</dfn>
+     <td>
+      Textual descriptions of the video component of the <a href=#media-resource id=the-track-element:media-resource-2>media resource</a>, intended for audio synthesis when the visual component is obscured, unavailable, or not usable (e.g. because the user is interacting with the application without a screen while driving, or because the user is blind).
+      Synthesized as audio.
+    <tr><td><dfn id=attr-track-kind-keyword-chapters><code>chapters</code></dfn>
+     <td><dfn id=attr-track-kind-chapters>Chapters</dfn>
+     <td>
+      Chapter titles, intended to be used for navigating the <a href=#media-resource id=the-track-element:media-resource-3>media resource</a>.
+      Displayed as an interactive (potentially nested) list in the user agent's interface.
+    <tr><td><dfn id=attr-track-kind-keyword-metadata><code>metadata</code></dfn>
+     <td><dfn id=attr-track-kind-metadata>Metadata</dfn>
+     <td>
+      Tracks intended for use from script.
+      Not displayed by the user agent.
+  </table>
+
+  <p>The attribute may be omitted. The <i id=the-track-element:missing-value-default><a href=#missing-value-default>missing value default</a></i>
+  is the <a href=#attr-track-kind-subtitles id=the-track-element:attr-track-kind-subtitles>subtitles</a> state. The <i id=the-track-element:invalid-value-default><a href=#invalid-value-default>invalid value default</a></i> is the <a href=#attr-track-kind-metadata id=the-track-element:attr-track-kind-metadata>metadata</a> state.</p>
+
+  <p>The <dfn id=attr-track-src><code>src</code></dfn> attribute gives the <a id=the-track-element:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of
+  the text track data. The value must be a <a href=#valid-non-empty-url-potentially-surrounded-by-spaces id=the-track-element:valid-non-empty-url-potentially-surrounded-by-spaces>valid non-empty URL potentially surrounded by
+  spaces</a>. This attribute must be present.</p>
+
+  
+
+  <p>If the element has a <code id=the-track-element:attr-track-src-2><a href=#attr-track-src>src</a></code> attribute whose value is not the
+  empty string and whose value, when the attribute was set, could be successfully <a href=#parse-a-url id=the-track-element:parse-a-url>parsed</a> relative to the element's <a id=the-track-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>, then the
+  element's <dfn id=track-url>track URL</dfn> is the <a href=#resulting-url-string id=the-track-element:resulting-url-string>resulting URL string</a>. Otherwise, the element's
+  <a href=#track-url id=the-track-element:track-url>track URL</a> is the empty string.</p>
+
+  
+
+  <p>If the element's <a href=#track-url id=the-track-element:track-url-2>track URL</a> identifies a WebVTT resource, and the element's <code id=the-track-element:attr-track-kind-2><a href=#attr-track-kind>kind</a></code> attribute is not in the <a href=#attr-track-kind-metadata id=the-track-element:attr-track-kind-metadata-2>metadata</a> state, then the WebVTT file must be a
+  <a id=the-track-element:webvtt-file-using-cue-text href=https://w3c.github.io/webvtt/#webvtt-file-using-cue-text data-x-internal=webvtt-file-using-cue-text>WebVTT file using cue text</a>. <a href=#refsWEBVTT>[WEBVTT]</a></p>
+
+  <p>Furthermore, if the element's <a href=#track-url id=the-track-element:track-url-3>track URL</a> identifies a WebVTT resource, and the
+  element's <code id=the-track-element:attr-track-kind-3><a href=#attr-track-kind>kind</a></code> attribute is in the <a href=#attr-track-kind-chapters id=the-track-element:attr-track-kind-chapters>chapters</a> state, then the WebVTT file must be both a
+  <a id=the-track-element:webvtt-file-using-chapter-title-text href=https://w3c.github.io/webvtt/#webvtt-file-using-chapter-title-text data-x-internal=webvtt-file-using-chapter-title-text>WebVTT file using chapter title text</a> and a <a id=the-track-element:webvtt-file-using-only-nested-cues href=https://w3c.github.io/webvtt/#webvtt-file-using-only-nested-cues data-x-internal=webvtt-file-using-only-nested-cues>WebVTT file using only nested
+  cues</a>. <a href=#refsWEBVTT>[WEBVTT]</a></p>
+
+  <p>The <dfn id=attr-track-srclang><code>srclang</code></dfn> attribute gives the language of
+  the text track data. The value must be a valid BCP 47 language tag. This attribute must be present
+  if the element's <code id=the-track-element:attr-track-kind-4><a href=#attr-track-kind>kind</a></code> attribute is in the <a href=#attr-track-kind-subtitles id=the-track-element:attr-track-kind-subtitles-2>subtitles</a> state. <a href=#refsBCP47>[BCP47]</a></p>
+
+  
+
+  <p>If the element has a <code id=the-track-element:attr-track-srclang-2><a href=#attr-track-srclang>srclang</a></code> attribute whose value is
+  not the empty string, then the element's <dfn id=track-language>track language</dfn> is the value of the attribute.
+  Otherwise, the element has no <a href=#track-language id=the-track-element:track-language>track language</a>.</p>
+
+  
+
+  <p>The <dfn id=attr-track-label><code>label</code></dfn> attribute gives a user-readable
+  title for the track. This title is used by user agents when listing <a href=#attr-track-kind-subtitles id=the-track-element:attr-track-kind-subtitles-3>subtitle</a>, <a href=#attr-track-kind-captions id=the-track-element:attr-track-kind-captions>caption</a>, and <a href=#attr-track-kind-descriptions id=the-track-element:attr-track-kind-descriptions>audio description</a> tracks in their user interface.</p>
+
+  <p>The value of the <code id=the-track-element:attr-track-label-2><a href=#attr-track-label>label</a></code> attribute, if the attribute is
+  present, must not be the empty string. Furthermore, there must not be two <code id=the-track-element:the-track-element-2><a href=#the-track-element>track</a></code>
+  element children of the same <a href=#media-element id=the-track-element:media-element-3>media element</a> whose <code id=the-track-element:attr-track-kind-5><a href=#attr-track-kind>kind</a></code> attributes are in the same state, whose <code id=the-track-element:attr-track-srclang-3><a href=#attr-track-srclang>srclang</a></code> attributes are both missing or have values that
+  represent the same language, and whose <code id=the-track-element:attr-track-label-3><a href=#attr-track-label>label</a></code> attributes are
+  again both missing or both have the same value.</p>
+
+  
+
+  <p>If the element has a <code id=the-track-element:attr-track-label-4><a href=#attr-track-label>label</a></code> attribute whose value is not
+  the empty string, then the element's <dfn id=track-label>track label</dfn> is the value of the attribute.
+  Otherwise, the element's <a href=#track-label id=the-track-element:track-label>track label</a> is an empty string.</p>
+
+  
+
+  <p>The <dfn id=attr-track-default><code>default</code></dfn> attribute is a <a href=#boolean-attribute id=the-track-element:boolean-attribute>boolean
+  attribute</a>, which, if specified, indicates that the track is to be enabled if the user's
+  preferences do not indicate that another track would be more appropriate.</p>
+
+  <p>Each <a href=#media-element id=the-track-element:media-element-4>media element</a> must have no more than one <code id=the-track-element:the-track-element-3><a href=#the-track-element>track</a></code> element child
+  whose <code id=the-track-element:attr-track-kind-6><a href=#attr-track-kind>kind</a></code> attribute is in the <a href=#attr-track-kind-subtitles id=the-track-element:attr-track-kind-subtitles-4>subtitles</a> or <a href=#attr-track-kind-captions id=the-track-element:attr-track-kind-captions-2>captions</a> state and whose <code id=the-track-element:attr-track-default-2><a href=#attr-track-default>default</a></code> attribute is specified.</p>
+
+  <p>Each <a href=#media-element id=the-track-element:media-element-5>media element</a> must have no more than one <code id=the-track-element:the-track-element-4><a href=#the-track-element>track</a></code> element child
+  whose <code id=the-track-element:attr-track-kind-7><a href=#attr-track-kind>kind</a></code> attribute is in the <a href=#attr-track-kind-descriptions id=the-track-element:attr-track-kind-descriptions-2>description</a> state and whose <code id=the-track-element:attr-track-default-3><a href=#attr-track-default>default</a></code> attribute is specified.</p>
+
+  <p>Each <a href=#media-element id=the-track-element:media-element-6>media element</a> must have no more than one <code id=the-track-element:the-track-element-5><a href=#the-track-element>track</a></code> element child
+  whose <code id=the-track-element:attr-track-kind-8><a href=#attr-track-kind>kind</a></code> attribute is in the <a href=#attr-track-kind-chapters id=the-track-element:attr-track-kind-chapters-2>chapters</a> state and whose <code id=the-track-element:attr-track-default-4><a href=#attr-track-default>default</a></code> attribute is specified.</p>
+
+  <p class=note>There is no limit on the number of <code id=the-track-element:the-track-element-6><a href=#the-track-element>track</a></code> elements whose <code id=the-track-element:attr-track-kind-9><a href=#attr-track-kind>kind</a></code> attribute is in the <a href=#attr-track-kind-metadata id=the-track-element:attr-track-kind-metadata-3>metadata</a> state and whose <code id=the-track-element:attr-track-default-5><a href=#attr-track-default>default</a></code> attribute is specified.</p>
+
+  <dl class=domintro><dt><var>track</var> . <code id=the-track-element:dom-track-readystate-2><a href=#dom-track-readystate>readyState</a></code><dd>
+    <p>Returns the <a href=#text-track-readiness-state id=the-track-element:text-track-readiness-state>text track readiness state</a>,
+    represented by a number from the following list:</p>
+    <dl><dt><var>track</var> . <code id=the-track-element:dom-track-none-2><a href=#dom-track-none>NONE</a></code> (0)<dd>
+      <p>The <a href=#text-track-not-loaded id=the-track-element:text-track-not-loaded>text track not loaded</a> state.</p>
+     <dt><var>track</var> . <code id=the-track-element:dom-track-loading-2><a href=#dom-track-loading>LOADING</a></code> (1)<dd>
+      <p>The <a href=#text-track-loading id=the-track-element:text-track-loading>text track loading</a> state.</p>
+     <dt><var>track</var> . <code id=the-track-element:dom-track-loaded-2><a href=#dom-track-loaded>LOADED</a></code> (2)<dd>
+      <p>The <a href=#text-track-loaded id=the-track-element:text-track-loaded>text track loaded</a> state.</p>
+     <dt><var>track</var> . <code id=the-track-element:dom-track-error-2><a href=#dom-track-error>ERROR</a></code> (3)<dd>
+      <p>The <a href=#text-track-failed-to-load id=the-track-element:text-track-failed-to-load>text track failed to load</a> state.</p>
+     </dl>
+   <dt><var>track</var> . <code id=the-track-element:dom-track-track-2><a href=#dom-track-track>track</a></code><dd>
+
+    <p>Returns the <code id=the-track-element:texttrack-2><a href=#texttrack>TextTrack</a></code> object corresponding to the <a href=#text-track id=the-track-element:text-track-3>text track</a> of the <code id=the-track-element:the-track-element-7><a href=#the-track-element>track</a></code> element.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-track-readystate><code>readyState</code></dfn> attribute must return the
+  numeric value corresponding to the <a href=#text-track-readiness-state id=the-track-element:text-track-readiness-state-2>text track readiness state</a> of the
+  <code id=the-track-element:the-track-element-8><a href=#the-track-element>track</a></code> element's <a href=#text-track id=the-track-element:text-track-4>text track</a>, as defined by the following list:</p>
+
+  <dl><dt><dfn id=dom-track-none><code>NONE</code></dfn> (numeric value 0)<dd>The <a href=#text-track-not-loaded id=the-track-element:text-track-not-loaded-2>text track not loaded</a> state.<dt><dfn id=dom-track-loading><code>LOADING</code></dfn> (numeric value 1)<dd>The <a href=#text-track-loading id=the-track-element:text-track-loading-2>text track loading</a> state.<dt><dfn id=dom-track-loaded><code>LOADED</code></dfn> (numeric value 2)<dd>The <a href=#text-track-loaded id=the-track-element:text-track-loaded-2>text track loaded</a> state.<dt><dfn id=dom-track-error><code>ERROR</code></dfn> (numeric value 3)<dd>The <a href=#text-track-failed-to-load id=the-track-element:text-track-failed-to-load-2>text track failed to load</a> state.</dl>
+
+  <p>The <dfn id=dom-track-track><code>track</code></dfn> IDL attribute must, on getting,
+  return the <code id=the-track-element:the-track-element-9><a href=#the-track-element>track</a></code> element's <a href=#text-track id=the-track-element:text-track-5>text track</a>'s corresponding
+  <code id=the-track-element:texttrack-3><a href=#texttrack>TextTrack</a></code> object.</p>
+
+  <p>The <dfn id=dom-track-src><code>src</code></dfn>, <dfn id=dom-track-srclang><code>srclang</code></dfn>, <dfn id=dom-track-label><code>label</code></dfn>, and <dfn id=dom-track-default><code>default</code></dfn> IDL attributes must <a href=#reflect id=the-track-element:reflect>reflect</a> the
+  respective content attributes of the same name. The <dfn id=dom-track-kind><code>kind</code></dfn> IDL attribute must <a href=#reflect id=the-track-element:reflect-2>reflect</a> the content
+  attribute of the same name, <a href=#limited-to-only-known-values id=the-track-element:limited-to-only-known-values>limited to only known values</a>.</p>
+
+  
+
+  <div class=example>
+
+   <p>This video has subtitles in several languages:</p>
+
+   <pre>&lt;video src="brave.webm">
+ &lt;track kind=subtitles src=brave.en.vtt srclang=en label="English">
+ &lt;track kind=captions src=brave.en.hoh.vtt srclang=en label="English for the Hard of Hearing">
+ &lt;track kind=subtitles src=brave.fr.vtt srclang=fr lang=fr label="Français">
+ &lt;track kind=subtitles src=brave.de.vtt srclang=de lang=de label="Deutsch">
+&lt;/video></pre>
+
+   <p>(The <code id=the-track-element:attr-lang><a href=#attr-lang>lang</a></code> attributes on the last two describe the language of
+   the <code id=the-track-element:attr-track-label-5><a href=#attr-track-label>label</a></code> attribute, not the language of the subtitles
+   themselves. The language of the subtitles is given by the <code id=the-track-element:attr-track-srclang-4><a href=#attr-track-srclang>srclang</a></code> attribute.)</p>
+
+  </div>
+
+
+  <h4 id=media-elements>4.8.12 Media elements<a href=#media-elements class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=28625" title="Provide a hook for media session integration (blocking paused->playing transition)">28625</a></div>
+
+  <p><a href=#htmlmediaelement id=media-elements:htmlmediaelement>HTMLMediaElement</a> objects (<code id=media-elements:the-audio-element><a href=#the-audio-element>audio</a></code> and <code id=media-elements:the-video-element><a href=#the-video-element>video</a></code>, in this
+  specification) are simply known as <dfn id=media-element>media elements</dfn>.</p>
+
+  <pre class=idl>enum <dfn id=canplaytyperesult>CanPlayTypeResult</dfn> { "" /* <a href=#dom-canplaytyperesult-nil id=media-elements:dom-canplaytyperesult-nil>empty string</a> */, "<a href=#dom-canplaytyperesult-maybe id=media-elements:dom-canplaytyperesult-maybe>maybe</a>", "<a href=#dom-canplaytyperesult-probably id=media-elements:dom-canplaytyperesult-probably>probably</a>" };
+typedef (<a id=media-elements:mediastream href=https://w3c.github.io/mediacapture-main/getusermedia.html#idl-def-MediaStream data-x-internal=mediastream>MediaStream</a> or <a id=media-elements:mediasource href=https://w3c.github.io/media-source/#idl-def-MediaSource data-x-internal=mediasource>MediaSource</a> or <a id=media-elements:blob href=https://w3c.github.io/FileAPI/#blob data-x-internal=blob>Blob</a>) <dfn id=mediaprovider>MediaProvider</dfn>;
+interface <dfn id=htmlmediaelement>HTMLMediaElement</dfn> : <a href=#htmlelement id=media-elements:htmlelement>HTMLElement</a> {
+
+  // error state
+  readonly attribute <a href=#mediaerror id=media-elements:mediaerror>MediaError</a>? <a href=#dom-media-error id=media-elements:dom-media-error>error</a>;
+
+  // network state
+  [<a href=#cereactions id=media-elements:cereactions>CEReactions</a>] attribute USVString <a href=#dom-media-src id=media-elements:dom-media-src>src</a>;
+  attribute <a href=#mediaprovider id=media-elements:mediaprovider>MediaProvider</a>? <a href=#dom-media-srcobject id=media-elements:dom-media-srcobject>srcObject</a>;
+  readonly attribute USVString <a href=#dom-media-currentsrc id=media-elements:dom-media-currentsrc>currentSrc</a>;
+  [<a href=#cereactions id=media-elements:cereactions-2>CEReactions</a>] attribute DOMString? <a href=#dom-media-crossorigin id=media-elements:dom-media-crossorigin>crossOrigin</a>;
+  const unsigned short <a href=#dom-media-network_empty id=media-elements:dom-media-network_empty>NETWORK_EMPTY</a> = 0;
+  const unsigned short <a href=#dom-media-network_idle id=media-elements:dom-media-network_idle>NETWORK_IDLE</a> = 1;
+  const unsigned short <a href=#dom-media-network_loading id=media-elements:dom-media-network_loading>NETWORK_LOADING</a> = 2;
+  const unsigned short <a href=#dom-media-network_no_source id=media-elements:dom-media-network_no_source>NETWORK_NO_SOURCE</a> = 3;
+  readonly attribute unsigned short <a href=#dom-media-networkstate id=media-elements:dom-media-networkstate>networkState</a>;
+  [<a href=#cereactions id=media-elements:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-media-preload id=media-elements:dom-media-preload>preload</a>;
+  readonly attribute <a href=#timeranges id=media-elements:timeranges>TimeRanges</a> <a href=#dom-media-buffered id=media-elements:dom-media-buffered>buffered</a>;
+  void <a href=#dom-media-load id=media-elements:dom-media-load>load</a>();
+  <a href=#canplaytyperesult id=media-elements:canplaytyperesult>CanPlayTypeResult</a> <a href=#dom-navigator-canplaytype id=media-elements:dom-navigator-canplaytype>canPlayType</a>(DOMString type);
+
+  // ready state
+  const unsigned short <a href=#dom-media-have_nothing id=media-elements:dom-media-have_nothing>HAVE_NOTHING</a> = 0;
+  const unsigned short <a href=#dom-media-have_metadata id=media-elements:dom-media-have_metadata>HAVE_METADATA</a> = 1;
+  const unsigned short <a href=#dom-media-have_current_data id=media-elements:dom-media-have_current_data>HAVE_CURRENT_DATA</a> = 2;
+  const unsigned short <a href=#dom-media-have_future_data id=media-elements:dom-media-have_future_data>HAVE_FUTURE_DATA</a> = 3;
+  const unsigned short <a href=#dom-media-have_enough_data id=media-elements:dom-media-have_enough_data>HAVE_ENOUGH_DATA</a> = 4;
+  readonly attribute unsigned short <a href=#dom-media-readystate id=media-elements:dom-media-readystate>readyState</a>;
+  readonly attribute boolean <a href=#dom-media-seeking id=media-elements:dom-media-seeking>seeking</a>;
+
+  // playback state
+  attribute double <a href=#dom-media-currenttime id=media-elements:dom-media-currenttime>currentTime</a>;
+  void <a href=#dom-media-fastseek id=media-elements:dom-media-fastseek>fastSeek</a>(double time);
+  readonly attribute unrestricted double <a href=#dom-media-duration id=media-elements:dom-media-duration>duration</a>;
+  <a href=https://heycam.github.io/webidl/#idl-object id=media-elements:idl-object data-x-internal=idl-object>object</a> <a href=#dom-media-getstartdate id=media-elements:dom-media-getstartdate>getStartDate</a>();
+  readonly attribute boolean <a href=#dom-media-paused id=media-elements:dom-media-paused>paused</a>;
+  attribute double <a href=#dom-media-defaultplaybackrate id=media-elements:dom-media-defaultplaybackrate>defaultPlaybackRate</a>;
+  attribute double <a href=#dom-media-playbackrate id=media-elements:dom-media-playbackrate>playbackRate</a>;
+  readonly attribute <a href=#timeranges id=media-elements:timeranges-2>TimeRanges</a> <a href=#dom-media-played id=media-elements:dom-media-played>played</a>;
+  readonly attribute <a href=#timeranges id=media-elements:timeranges-3>TimeRanges</a> <a href=#dom-media-seekable id=media-elements:dom-media-seekable>seekable</a>;
+  readonly attribute boolean <a href=#dom-media-ended id=media-elements:dom-media-ended>ended</a>;
+  [<a href=#cereactions id=media-elements:cereactions-4>CEReactions</a>] attribute boolean <a href=#dom-media-autoplay id=media-elements:dom-media-autoplay>autoplay</a>;
+  [<a href=#cereactions id=media-elements:cereactions-5>CEReactions</a>] attribute boolean <a href=#dom-media-loop id=media-elements:dom-media-loop>loop</a>;
+  Promise&lt;void> <a href=#dom-media-play id=media-elements:dom-media-play>play</a>();
+  void <a href=#dom-media-pause id=media-elements:dom-media-pause>pause</a>();
+
+  // controls

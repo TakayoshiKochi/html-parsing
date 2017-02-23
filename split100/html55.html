@@ -1,0 +1,850 @@
+     context.restore();
+   };
+ };
+&lt;/script>
+&lt;script>
+ var BlueRobot = function () {
+   this.sprites = new Image();
+   this.sprites.src = 'blue-robot.png'; // this sprite sheet has 8 cells
+   this.targetMode = 'idle';
+   this.walk = function () {
+     this.targetMode = 'walk';
+   };
+   this.stop = function () {
+     this.targetMode = 'idle';
+   };
+   this.frameIndex = {
+     'idle': [0], // first cell is the idle frame
+     'walk': [1,2,3,4,5,6], // the walking animation is cells 1-6
+     'stop': [7], // last cell is the stopping animation
+   };
+   this.mode = 'idle';
+   this.frame = 0; // index into frameIndex
+   this.tick = function () {
+     // this advances the frame and the robot
+     // the return value is how many pixels the robot has moved
+     this.frame += 1;
+     if (this.frame >= this.frameIndex[this.mode].length) {
+       // we've reached the end of this animation cycle
+       this.frame = 0;
+       if (this.mode != this.targetMode) {
+         // switch to next cycle
+         if (this.mode == 'walk') {
+           // we need to stop walking before we decide what to do next
+           this.mode = 'stop';
+         } else if (this.mode == 'stop') {
+           if (this.targetMode == 'walk')
+             this.mode = 'walk';
+           else
+             this.mode = 'idle';
+         } else if (this.mode == 'idle') {
+           if (this.targetMode == 'walk')
+             this.mode = 'walk';
+         }
+       }
+     }
+     if (this.mode == 'walk')
+       return 8;
+     return 0;
+   },
+   this.paint = function (context, x, y) {
+     if (!this.sprites.complete) return;
+     // draw the right frame out of the sprite sheet onto the canvas
+     // we assume each frame is as high as the sprite sheet
+     // the x,y coordinates give the position of the bottom center of the sprite
+     context.drawImage(this.sprites,
+                       this.frameIndex[this.mode][this.frame] * this.sprites.height, 0, this.sprites.height, this.sprites.height,
+                       x-this.sprites.height/2, y-this.sprites.height, this.sprites.height, this.sprites.height);
+   };
+ };
+&lt;/script>
+&lt;script>
+ var canvas = document.getElementsByTagName('canvas')[0];
+ var context = canvas.getContext('2d');
+ var landscape = new Landscape(context, canvas.width, canvas.height);
+ var blueRobot = new BlueRobot();
+ // paint when the browser wants us to, using requestAnimationFrame()
+ function paint() {
+   context.clearRect(0, 0, canvas.width, canvas.height);
+   landscape.paintBackground(context, canvas.width, canvas.height);
+   blueRobot.paint(context, canvas.width/2, landscape.horizon*1.1);
+   landscape.paintForeground(context, canvas.width, canvas.height);
+   requestAnimationFrame(paint);
+ }
+ paint();
+ // but tick every 150ms, so that we don't slow down when we don't paint
+ setInterval(function () {
+   var dx = blueRobot.tick();
+   landscape.advance(dx);
+ }, 100);
+&lt;/script>
+&lt;p class="buttons">
+ &lt;input type=button value="Walk" onclick="blueRobot.walk()">
+ &lt;input type=button value="Stop" onclick="blueRobot.stop()">
+&lt;footer>
+ &lt;small> Blue Robot Player Sprite by &lt;a href="https://johncolburn.deviantart.com/">JohnColburn&lt;/a>.
+ Licensed under the terms of the Creative Commons Attribution Share-Alike 3.0 Unported license.&lt;/small>
+ &lt;small> This work is itself licensed under a &lt;a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">Creative
+ Commons Attribution-ShareAlike 3.0 Unported License&lt;/a>.&lt;/small>
+&lt;/footer>
+</pre>
+
+  </div>
+
+
+
+
+  <h5 id=the-imagebitmap-rendering-context>4.12.5.2 The <code id=the-imagebitmap-rendering-context:imagebitmap><a href=#imagebitmap>ImageBitmap</a></code> rendering context<a href=#the-imagebitmap-rendering-context class=self-link></a></h5>
+
+  <h6 id=introduction-6>4.12.5.2.1 Introduction<a href=#introduction-6 class=self-link></a></h6>
+
+  <p><code id=introduction-6:imagebitmaprenderingcontext><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> is a performance-oriented interface that provides a
+  low overhead method for displaying the contents of <code id=introduction-6:imagebitmap><a href=#imagebitmap>ImageBitmap</a></code> objects. It uses
+  transfer semantics to reduce overall memory consumption. It also streamlines performance by
+  avoiding intermediate compositing, unlike the <code id=introduction-6:dom-context-2d-drawimage><a href=#dom-context-2d-drawimage>drawImage()</a></code> method of
+  <code id=introduction-6:canvasrenderingcontext2d><a href=#canvasrenderingcontext2d>CanvasRenderingContext2D</a></code>.</p>
+
+  <p>Using an <code id=introduction-6:the-img-element><a href=#the-img-element>img</a></code> element as an intermediate for getting an image resource into a
+  canvas, for example, would result in two copies of the decoded image existing in memory at the
+  same time: the <code id=introduction-6:the-img-element-2><a href=#the-img-element>img</a></code> element's copy, and the one in the canvas's backing store. This
+  memory cost can be prohibitive when dealing with extremely large images. This can be avoided by
+  using <code id=introduction-6:imagebitmaprenderingcontext-2><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code>.</p>
+
+  <div class=example>
+   <p>Using <code id=introduction-6:imagebitmaprenderingcontext-3><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code>, here is how to transcode an image to the JPEG
+   format in a memory- and CPU-efficient way:</p>
+
+   <pre>createImageBitmap(inputImageBlob).then(image => {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('bitmaprenderer');
+  context.transferFromImageBitmap(image);
+
+  canvas.toBlob(outputJPEGBlob => {
+    // Do something with outputJPEGBlob.
+  }, 'image/jpeg');
+});</pre>
+  </div>
+  <h6 id=the-imagebitmaprenderingcontext-interface>4.12.5.2.2 The <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> interface<a href=#the-imagebitmaprenderingcontext-interface class=self-link></a></h6>
+
+  <pre class=idl>interface <dfn id=imagebitmaprenderingcontext>ImageBitmapRenderingContext</dfn> {
+  readonly attribute <a href=#htmlcanvaselement id=the-imagebitmaprenderingcontext-interface:htmlcanvaselement>HTMLCanvasElement</a> <a href=#dom-imagebitmaprenderingcontext-canvas id=the-imagebitmaprenderingcontext-interface:dom-imagebitmaprenderingcontext-canvas>canvas</a>;
+  void <a href=#dom-imagebitmaprenderingcontext-transferfromimagebitmap id=the-imagebitmaprenderingcontext-interface:dom-imagebitmaprenderingcontext-transferfromimagebitmap>transferFromImageBitmap</a>(ImageBitmap? bitmap);
+};
+
+dictionary <dfn id=imagebitmaprenderingcontextsettings>ImageBitmapRenderingContextSettings</dfn> {
+  boolean <a href=#dom-imagebitmaprenderingcontextsettings-alpha id=the-imagebitmaprenderingcontext-interface:dom-imagebitmaprenderingcontextsettings-alpha>alpha</a> = true;
+};</pre>
+
+  <dl class=domintro><dt><var>context</var> = <var>canvas</var> . <code id=the-imagebitmaprenderingcontext-interface:dom-canvas-getcontext><a href=#dom-canvas-getcontext>getContext</a></code>('bitmaprenderer' [, { [ <code id=the-imagebitmaprenderingcontext-interface:dom-imagebitmaprenderingcontextsettings-alpha-2><a href=#dom-imagebitmaprenderingcontextsettings-alpha>alpha</a></code>: false ] } ] )<dd>
+
+    <p>Returns an <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-2><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object that is permanently bound to a
+    particular <code id=the-imagebitmaprenderingcontext-interface:the-canvas-element><a href=#the-canvas-element>canvas</a></code> element.</p>
+
+    <p>If the <code id=the-imagebitmaprenderingcontext-interface:dom-imagebitmaprenderingcontextsettings-alpha-3><a href=#dom-imagebitmaprenderingcontextsettings-alpha>alpha</a></code> setting is
+    provided and set to false, then the canvas is forced to always be opaque.</p>
+
+   <dt><var>context</var> . <code id=the-imagebitmaprenderingcontext-interface:dom-imagebitmaprenderingcontext-canvas-2><a href=#dom-imagebitmaprenderingcontext-canvas>canvas</a></code><dd>
+
+    <p>Returns the <code id=the-imagebitmaprenderingcontext-interface:the-canvas-element-2><a href=#the-canvas-element>canvas</a></code> element that the context is bound to.</p>
+
+   <dt><var>context</var> . <code id=the-imagebitmaprenderingcontext-interface:dom-imagebitmaprenderingcontext-transferfromimagebitmap-2><a href=#dom-imagebitmaprenderingcontext-transferfromimagebitmap>transferFromImageBitmap</a></code>(imageBitmap)<dd>
+
+    <p>Transfers the underlying <a href=#concept-imagebitmap-bitmap-data id=the-imagebitmaprenderingcontext-interface:concept-imagebitmap-bitmap-data>bitmap data</a>
+    from <var>imageBitmap</var> to <var>context</var>, and the bitmap becomes the contents of the
+    <code id=the-imagebitmaprenderingcontext-interface:the-canvas-element-3><a href=#the-canvas-element>canvas</a></code> element to which <var>context</var> is bound.</p>
+
+   <dt><var>context</var> . <code id=the-imagebitmaprenderingcontext-interface:dom-imagebitmaprenderingcontext-transferfromimagebitmap-3><a href=#dom-imagebitmaprenderingcontext-transferfromimagebitmap>transferFromImageBitmap</a></code>(
+   null)<dd>
+
+    <p>Replaces contents of the <code id=the-imagebitmaprenderingcontext-interface:the-canvas-element-4><a href=#the-canvas-element>canvas</a></code> element to which <var>context</var>
+    is bound with a transparent black bitmap whose size corresponds to the <code id=the-imagebitmaprenderingcontext-interface:attr-canvas-width><a href=#attr-canvas-width>width</a></code> and <code id=the-imagebitmaprenderingcontext-interface:attr-canvas-height><a href=#attr-canvas-height>height</a></code>
+    content attributes of the <code id=the-imagebitmaprenderingcontext-interface:the-canvas-element-5><a href=#the-canvas-element>canvas</a></code> element.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-imagebitmaprenderingcontext-canvas><code>canvas</code></dfn> attribute
+  must return the value it was initialized to when the object was created.</p>
+
+  <p>An <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-3><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object has an <dfn id=concept-imagebitmaprenderingcontext-output-bitmap>output bitmap</dfn>, which is a
+  reference to <a href=#concept-imagebitmap-bitmap-data id=the-imagebitmaprenderingcontext-interface:concept-imagebitmap-bitmap-data-2>bitmap data</a>.</p>
+
+  <p>An <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-4><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object has a <dfn id=concept-imagebitmaprenderingcontext-bitmap-mode>bitmap mode</dfn>, which can be set to
+  <dfn id=concept-imagebitmaprenderingcontext-valid>valid</dfn> or <dfn id=concept-imagebitmaprenderingcontext-blank>blank</dfn>. A value of <a href=#concept-imagebitmaprenderingcontext-valid id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-valid>valid</a> indicates that the context's
+  <a href=#concept-imagebitmaprenderingcontext-output-bitmap id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-output-bitmap>output bitmap</a> refers to
+  <a href=#concept-imagebitmap-bitmap-data id=the-imagebitmaprenderingcontext-interface:concept-imagebitmap-bitmap-data-3>bitmap data</a> that was acquired via <code id=the-imagebitmaprenderingcontext-interface:dom-imagebitmaprenderingcontext-transferfromimagebitmap-4><a href=#dom-imagebitmaprenderingcontext-transferfromimagebitmap>transferFromImageBitmap()</a></code>.
+  A value <a href=#concept-imagebitmaprenderingcontext-blank id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-blank>blank</a> indicates that the
+  context's <a href=#concept-imagebitmaprenderingcontext-output-bitmap id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-output-bitmap-2>output
+  bitmap</a> is a default transparent bitmap.</p>
+
+  <p>An <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-5><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object also has an <dfn id=concept-imagebitmaprenderingcontext-alpha>alpha</dfn> flag, which can be set to true or
+  false. When an <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-6><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object has its <a href=#concept-imagebitmaprenderingcontext-alpha id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-alpha>alpha</a> flag set to false, the contents
+  of the <code id=the-imagebitmaprenderingcontext-interface:the-canvas-element-6><a href=#the-canvas-element>canvas</a></code> element to which the context is bound are obtained by
+  compositing the context's <a href=#concept-imagebitmaprenderingcontext-output-bitmap id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-output-bitmap-3>output bitmap</a> onto an opaque
+  black bitmap of the same size using the source-over composite operation. If the <a href=#concept-imagebitmaprenderingcontext-alpha id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-alpha-2>alpha</a> flag is set to true, then the
+  <a href=#concept-imagebitmaprenderingcontext-output-bitmap id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-output-bitmap-4>output bitmap</a> is used
+  as the contents of the <code id=the-imagebitmaprenderingcontext-interface:the-canvas-element-7><a href=#the-canvas-element>canvas</a></code> element to which the context is bound. <a href=#refsCOMPOSITE>[COMPOSITE]</a></p>
+
+  <p class=note>The step of compositing over an opaque black bitmap should be elided whenever
+  equivalent results can be obtained more efficiently by other means.</p>
+
+  <hr>
+
+  <p>When a user agent is required to <dfn id="set-an-imagebitmaprenderingcontext's-output-bitmap">set an <code>ImageBitmapRenderingContext</code>'s output
+  bitmap</dfn>, with a <var>context</var> argument that is an
+  <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-7><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object and an optional argument <var>bitmap</var> that
+  refers to <a href=#concept-imagebitmap-bitmap-data id=the-imagebitmaprenderingcontext-interface:concept-imagebitmap-bitmap-data-4>bitmap data</a>, it must run these
+  steps:</p>
+
+  <ol><li><p>If a <var>bitmap</var> argument was not provided, then run these substeps:</p>
+
+    <ol><li><p>Set <var>context</var>'s <a href=#concept-imagebitmaprenderingcontext-bitmap-mode id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-bitmap-mode>bitmap mode</a> to <a href=#concept-imagebitmaprenderingcontext-blank id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-blank-2>blank</a>.<li><p>Let <var>canvas</var> be the <code id=the-imagebitmaprenderingcontext-interface:the-canvas-element-8><a href=#the-canvas-element>canvas</a></code> element to which <var>context</var>
+     is bound.<li><p>Set <var>context</var>'s <a href=#concept-imagebitmaprenderingcontext-output-bitmap id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-output-bitmap-5>output bitmap</a> to be fully
+     transparent black with an <a href=#intrinsic-width id=the-imagebitmaprenderingcontext-interface:intrinsic-width>intrinsic width</a> equal to the numeric value of
+     <var>canvas</var>'s <code id=the-imagebitmaprenderingcontext-interface:attr-canvas-width-2><a href=#attr-canvas-width>width</a></code> attribute and an
+     <a href=#intrinsic-height id=the-imagebitmaprenderingcontext-interface:intrinsic-height>intrinsic height</a> equal to the numeric value of <var>canvas</var>'s <code id=the-imagebitmaprenderingcontext-interface:attr-canvas-height-2><a href=#attr-canvas-height>height</a></code> attribute, those values being interpreted in <a href=https://drafts.csswg.org/css-values/#px id="the-imagebitmaprenderingcontext-interface:'px'" data-x-internal="'px'">CSS pixels</a>.<li><p>Set the <a href=#concept-imagebitmaprenderingcontext-output-bitmap id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-output-bitmap-6>output bitmap</a>'s <a href=#concept-canvas-origin-clean id=the-imagebitmaprenderingcontext-interface:concept-canvas-origin-clean>origin-clean</a> flag to true.</ol>
+
+   <li><p>If a <var>bitmap</var> argument was provided, then run these substeps:</p>
+
+    <ol><li><p>Set <var>context</var>'s <a href=#concept-imagebitmaprenderingcontext-bitmap-mode id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-bitmap-mode-2>bitmap mode</a> to <a href=#concept-imagebitmaprenderingcontext-valid id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-valid-2>valid</a>.<li>
+      <p>Set <var>context</var>'s <a href=#concept-imagebitmaprenderingcontext-output-bitmap id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-output-bitmap-7>output bitmap</a> to refer
+      to the same underlying bitmap data as <var>bitmap</var>, without making a copy.</p>
+
+      <p class=note>The <a href=#concept-canvas-origin-clean id=the-imagebitmaprenderingcontext-interface:concept-canvas-origin-clean-2>origin-clean</a> flag of
+      <var>bitmap</var> is included in the bitmap data to be referenced by <var>context</var>'s
+      <a href=#concept-imagebitmaprenderingcontext-output-bitmap id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-output-bitmap-8>output bitmap</a>.</p>
+     </ol>
+
+   </ol>
+
+  <hr>
+
+  <p>The <dfn id=imagebitmaprenderingcontext-creation-algorithm><code>ImageBitmapRenderingContext</code> creation algorithm</dfn>, which is passed a
+  <var>target</var> (a <code id=the-imagebitmaprenderingcontext-interface:the-canvas-element-9><a href=#the-canvas-element>canvas</a></code> element) and optionally some arguments, consists of
+  running the following steps:</p>
+
+  <ol><li><p>If the algorithm was passed some arguments, then let <var>arg</var> be the first such
+   argument. Otherwise, let <var>arg</var> be undefined.<li><p>Let <var>settings</var> be the result of <a href=#coerce-context-arguments-for-imagebitmaprenderingcontext id=the-imagebitmaprenderingcontext-interface:coerce-context-arguments-for-imagebitmaprenderingcontext>coercing the <var>arg</var> context arguments for
+   <code>ImageBitmapRenderingContext</code></a>.<li><p>Create a new <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-8><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object.<li><p>Initialize its <code id=the-imagebitmaprenderingcontext-interface:dom-context-2d-canvas><a href=#dom-context-2d-canvas>canvas</a></code> attribute to point to
+   <var>target</var>.<li><p>Let the new <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-9><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object's <a href=#concept-imagebitmaprenderingcontext-output-bitmap id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-output-bitmap-9>output bitmap</a> and
+   <var>target</var>'s bitmap be a shared reference to the same bitmap.<li><p>Run the steps to <a href="#set-an-imagebitmaprenderingcontext's-output-bitmap" id="the-imagebitmaprenderingcontext-interface:set-an-imagebitmaprenderingcontext's-output-bitmap">set an <code>ImageBitmapRenderingContext</code>'s output
+   bitmap</a>, using the new <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-10><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object as the
+   <var>context</var> argument, and with no <var>bitmap</var> argument.<li><p>Initialize <var>context</var>'s <a href=#concept-imagebitmaprenderingcontext-alpha id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-alpha-3>alpha</a> flag to true.
+
+   <li>
+
+    <p>Process each of the members of <var>settings</var> as follows:</p>
+
+    <dl><dt><dfn id=dom-imagebitmaprenderingcontextsettings-alpha><code>alpha</code></dfn><dd>If false, then set <var>context</var>'s <a href=#concept-imagebitmaprenderingcontext-alpha id=the-imagebitmaprenderingcontext-interface:concept-imagebitmaprenderingcontext-alpha-4>alpha</a> flag to false.</dl>
+
+   <li><p>Return the new <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-11><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object.</ol>
+
+  <hr>
+
+  <p>When a user agent is required to <dfn id=coerce-context-arguments-for-imagebitmaprenderingcontext>coerce context arguments for
+  <code>ImageBitmapRenderingContext</code></dfn>, it must run these steps:</p>
+
+  <ol><li><p>Let <var>input</var> be the argument to coerce.<li><p>Let <var>jsval</var> be the result of <a href=https://heycam.github.io/webidl/#es-type-mapping id=the-imagebitmaprenderingcontext-interface:concept-idl-convert data-x-internal=concept-idl-convert>converting</a> <var>input</var> to a JavaScript value. If this
+   throws an exception, then propagate the exception and abort these steps.<li><p>Let <var>dict</var> be the result of <a href=https://heycam.github.io/webidl/#es-type-mapping id=the-imagebitmaprenderingcontext-interface:concept-idl-convert-2 data-x-internal=concept-idl-convert>converting</a>
+   <var>jsval</var> to the dictionary type <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontextsettings><a href=#imagebitmaprenderingcontextsettings>ImageBitmapRenderingContextSettings</a></code>. If
+   this throws an exception, then propagate the exception and abort these steps.<li><p>Return <var>dict</var>.</ol>
+
+  <hr>
+
+  <p>The <dfn id=dom-imagebitmaprenderingcontext-transferfromimagebitmap><code>transferFromImageBitmap(<var>imageBitmap</var>)</code></dfn>
+  method, when invoked, must run these steps:</p>
+
+  <ol><li><p>Let <var>bitmapContext</var> be the <code id=the-imagebitmaprenderingcontext-interface:imagebitmaprenderingcontext-12><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code> object on
+   which the <code id=the-imagebitmaprenderingcontext-interface:dom-imagebitmaprenderingcontext-transferfromimagebitmap-5><a href=#dom-imagebitmaprenderingcontext-transferfromimagebitmap>transferFromImageBitmap()</a></code>
+   method was called.<li><p>If <var>imageBitmap</var> is null, then run the steps to <a href="#set-an-imagebitmaprenderingcontext's-output-bitmap" id="the-imagebitmaprenderingcontext-interface:set-an-imagebitmaprenderingcontext's-output-bitmap-2">set an
+   ImageBitmapRenderingContext's output bitmap</a>, with <var>bitmapContext</var> as the
+   <var>context</var> argument and no <var>bitmap</var> argument, then abort these steps.<li><p>If the value of <var>imageBitmap</var>'s <a href=#detached id=the-imagebitmaprenderingcontext-interface:detached>[[Detached]]</a> internal slot is set to
+   true, then throw an <a id=the-imagebitmaprenderingcontext-interface:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-imagebitmaprenderingcontext-interface:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and
+   abort these steps.<li><p>Run the steps to <a href="#set-an-imagebitmaprenderingcontext's-output-bitmap" id="the-imagebitmaprenderingcontext-interface:set-an-imagebitmaprenderingcontext's-output-bitmap-3">set an <code>ImageBitmapRenderingContext</code>'s output
+   bitmap</a>, with the <var>context</var> argument equal to <var>bitmapContext</var>, and the
+   <var>bitmap</var> argument referring to <var>imageBitmap</var>'s underlying <a href=#concept-imagebitmap-bitmap-data id=the-imagebitmaprenderingcontext-interface:concept-imagebitmap-bitmap-data-5>bitmap data</a>.
+
+   <li><p>Set the value of <var>imageBitmap</var>'s <a href=#detached id=the-imagebitmaprenderingcontext-interface:detached-2>[[Detached]]</a> internal slot to
+   true.<li><p>Unset <var>imageBitmap's</var> <a href=#concept-imagebitmap-bitmap-data id=the-imagebitmaprenderingcontext-interface:concept-imagebitmap-bitmap-data-6>bitmap
+   data</a>.</ol>
+
+  
+
+
+
+
+  <h5 id=the-offscreencanvas-interface>4.12.5.3 The <code id=the-offscreencanvas-interface:offscreencanvas><a href=#offscreencanvas>OffscreenCanvas</a></code> interface<a href=#the-offscreencanvas-interface class=self-link></a></h5>
+
+  <pre class=idl>typedef (<a href=#offscreencanvasrenderingcontext2d id=the-offscreencanvas-interface:offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a> or
+        <a id=the-offscreencanvas-interface:webglrenderingcontext href=https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext data-x-internal=webglrenderingcontext>WebGLRenderingContext</a>) <dfn id=offscreenrenderingcontext>OffscreenRenderingContext</dfn>;
+
+dictionary <dfn id=imageencodeoptions>ImageEncodeOptions</dfn> {
+  DOMString <a href=#image-encode-options-type id=the-offscreencanvas-interface:image-encode-options-type>type</a> = "image/png";
+  unrestricted double <a href=#image-encode-options-quality id=the-offscreencanvas-interface:image-encode-options-quality>quality</a> = 1.0;
+};
+
+enum <dfn id=offscreenrenderingcontexttype>OffscreenRenderingContextType</dfn> { "<a href=#offscreen-context-type-2d id=the-offscreencanvas-interface:offscreen-context-type-2d>2d</a>", "<a href=#offscreen-context-type-webgl id=the-offscreencanvas-interface:offscreen-context-type-webgl>webgl</a>" };
+
+[<a href=#dom-offscreencanvas id=the-offscreencanvas-interface:dom-offscreencanvas>Constructor</a>([EnforceRange] unsigned long long width, [EnforceRange] unsigned long long height), Exposed=(Window,Worker)]
+interface <dfn id=offscreencanvas>OffscreenCanvas</dfn> : <a id=the-offscreencanvas-interface:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  attribute unsigned long long <a href=#dom-offscreencanvas-width id=the-offscreencanvas-interface:dom-offscreencanvas-width>width</a>;
+  attribute unsigned long long <a href=#dom-offscreencanvas-height id=the-offscreencanvas-interface:dom-offscreencanvas-height>height</a>;
+
+  <a href=#offscreenrenderingcontext id=the-offscreencanvas-interface:offscreenrenderingcontext>OffscreenRenderingContext</a>? <a href=#dom-offscreencanvas-getcontext id=the-offscreencanvas-interface:dom-offscreencanvas-getcontext>getContext</a>(<a href=#offscreenrenderingcontexttype id=the-offscreencanvas-interface:offscreenrenderingcontexttype>OffscreenRenderingContextType</a> contextType, any... arguments);
+  <a href=#imagebitmap id=the-offscreencanvas-interface:imagebitmap>ImageBitmap</a> <a href=#dom-offscreencanvas-transfertoimagebitmap id=the-offscreencanvas-interface:dom-offscreencanvas-transfertoimagebitmap>transferToImageBitmap</a>();
+  Promise&lt;<a id=the-offscreencanvas-interface:blob href=https://w3c.github.io/FileAPI/#blob data-x-internal=blob>Blob</a>> <a href=#dom-offscreencanvas-converttoblob id=the-offscreencanvas-interface:dom-offscreencanvas-converttoblob>convertToBlob</a>(optional <a href=#imageencodeoptions id=the-offscreencanvas-interface:imageencodeoptions>ImageEncodeOptions</a> options);
+};
+</pre>
+
+  <p><code id=the-offscreencanvas-interface:offscreencanvas-2><a href=#offscreencanvas>OffscreenCanvas</a></code> objects are used to create rendering contexts, much like an
+  <code id=the-offscreencanvas-interface:htmlcanvaselement><a href=#htmlcanvaselement>HTMLCanvasElement</a></code>, but with no connection to the DOM. This makes it possible to
+  use canvas rendering contexts in <a href=#workers>workers</a>.</p>
+
+  <p>An <code id=the-offscreencanvas-interface:offscreencanvas-3><a href=#offscreencanvas>OffscreenCanvas</a></code> object may hold a weak reference to a <dfn id=offscreencanvas-placeholder>placeholder <code>canvas</code> element</dfn>, which is
+  typically in the DOM, whose embedded content is provided by the <code id=the-offscreencanvas-interface:offscreencanvas-4><a href=#offscreencanvas>OffscreenCanvas</a></code>
+  object. The bitmap of the <code id=the-offscreencanvas-interface:offscreencanvas-5><a href=#offscreencanvas>OffscreenCanvas</a></code> object is pushed to the <a href=#offscreencanvas-placeholder id=the-offscreencanvas-interface:offscreencanvas-placeholder>placeholder <code>canvas</code> element</a> by
+  calling the <dfn id=offscreencontext-commit><code>commit()</code></dfn> method of the
+  <code id=the-offscreencanvas-interface:offscreencanvas-6><a href=#offscreencanvas>OffscreenCanvas</a></code> object's rendering context. All rendering context types that
+  can be created by an <code id=the-offscreencanvas-interface:offscreencanvas-7><a href=#offscreencanvas>OffscreenCanvas</a></code> object must implement a <code id=the-offscreencanvas-interface:offscreencontext-commit><a href=#offscreencontext-commit>commit()</a></code> method. The exact behavior of the commit
+  method (e.g. whether it copies or transfers bitmaps) may vary, as defined by the rendering
+  contexts' respective specifications. Only the <a href=#offscreencanvasrenderingcontext2d id=the-offscreencanvas-interface:offscreencanvasrenderingcontext2d-2>2D context for offscreen canvases</a> is defined
+  in this specification.</p>
+
+  <dl class=domintro><dt><var>offscreenCanvas</var> = new <code id=the-offscreencanvas-interface:dom-offscreencanvas-2><a href=#dom-offscreencanvas>OffscreenCanvas</a></code>(<var>width</var>,
+   <var>height</var>)<dt>
+
+   <dd>
+
+    <p>Returns a new <code id=the-offscreencanvas-interface:offscreencanvas-8><a href=#offscreencanvas>OffscreenCanvas</a></code> object that is not linked to a <a href=#offscreencanvas-placeholder id=the-offscreencanvas-interface:offscreencanvas-placeholder-2>placeholder <code>canvas</code> element</a>, and
+    whose bitmap's size is determined by the <var>width</var> and <var>height</var> arguments.</p>
+
+   <dt><var>context</var> = <var>offscreenCanvas</var> . <code id=the-offscreencanvas-interface:dom-offscreencanvas-getcontext-2><a href=#dom-offscreencanvas-getcontext>getContext</a></code>(<var>contextType</var> [, ... ] )<dd>
+
+    <p>Returns an object that exposes an API for drawing on the <code id=the-offscreencanvas-interface:offscreencanvas-9><a href=#offscreencanvas>OffscreenCanvas</a></code>
+    object. The first argument specifies the desired API, either "<code id=the-offscreencanvas-interface:offscreen-context-type-2d-2><a href=#offscreen-context-type-2d>2d</a></code>", or "<code id=the-offscreencanvas-interface:offscreen-context-type-webgl-2><a href=#offscreen-context-type-webgl>webgl</a></code>". Subsequent arguments are handled by that
+    API.</p>
+
+    <p>This specification defines the "<code id=the-offscreencanvas-interface:canvas-context-2d><a href=#canvas-context-2d>2d</a></code>" context below,
+    which is similar but distinct from the "<code id=the-offscreencanvas-interface:offscreen-context-type-2d-3><a href=#offscreen-context-type-2d>2d</a></code>"
+    context that is created from a <code id=the-offscreencanvas-interface:the-canvas-element><a href=#the-canvas-element>canvas</a></code> element. There is also a specification that
+    defines a "<code id=the-offscreencanvas-interface:offscreen-context-type-webgl-3><a href=#offscreen-context-type-webgl>webgl</a></code>" context.
+    <a href=#refsWEBGL>[WEBGL]</a></p>
+
+    <p>Returns null if the canvas has already been initialized with another context type (e.g.
+    trying to get a "<code id=the-offscreencanvas-interface:offscreen-context-type-2d-4><a href=#offscreen-context-type-2d>2d</a></code>" context after getting a
+    "<code id=the-offscreencanvas-interface:offscreen-context-type-webgl-4><a href=#offscreen-context-type-webgl>webgl</a></code>" context).</p>
+
+   </dl>
+
+  
+
+  <p>An <code id=the-offscreencanvas-interface:offscreencanvas-10><a href=#offscreencanvas>OffscreenCanvas</a></code> object has an internal <dfn id=offscreencanvas-bitmap>bitmap</dfn> that is initialized when the object
+  is created. The width and height of the <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap>bitmap</a> are
+  equal to the values of the <code id=the-offscreencanvas-interface:dom-offscreencanvas-width-2><a href=#dom-offscreencanvas-width>width</a></code> and <code id=the-offscreencanvas-interface:dom-offscreencanvas-height-2><a href=#dom-offscreencanvas-height>height</a></code> attributes of the <code id=the-offscreencanvas-interface:offscreencanvas-11><a href=#offscreencanvas>OffscreenCanvas</a></code>
+  object. Initially, all the bitmap's pixels are transparent black.</p>
+
+  <p>An <code id=the-offscreencanvas-interface:offscreencanvas-12><a href=#offscreencanvas>OffscreenCanvas</a></code> object can have a rendering context bound to it. Initially,
+  it does not have a bound rendering context. To keep track of whether it has a rendering context
+  or not, and what kind of rendering context it is, an <code id=the-offscreencanvas-interface:offscreencanvas-13><a href=#offscreencanvas>OffscreenCanvas</a></code> object also
+  has a <dfn id=offscreencanvas-context-mode>context mode</dfn>, which is initially <dfn id=offscreencanvas-context-none>none</dfn> but can be changed to either <dfn id=offscreencanvas-context-2d>2d</dfn>, <dfn id=offscreencanvas-context-webgl>webgl</dfn> or <dfn id=offscreencanvas-context-detached>detached</dfn> by algorithms defined in this
+  specification.</p>
+
+  <p>The constructor <dfn id=dom-offscreencanvas><code>OffscreenCanvas(<var>width</var>,
+  <var>height</var>)</code></dfn>, when invoked, must create a new <code id=the-offscreencanvas-interface:offscreencanvas-14><a href=#offscreencanvas>OffscreenCanvas</a></code>
+  object with its <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap-2>bitmap</a> initialized to a rectangular
+  array of transparent black pixels of the dimensions specified by <var>width</var> and
+  <var>height</var>; and its <code id=the-offscreencanvas-interface:dom-offscreencanvas-width-3><a href=#dom-offscreencanvas-width>width</a></code> and <code id=the-offscreencanvas-interface:dom-offscreencanvas-height-3><a href=#dom-offscreencanvas-height>height</a></code> attributes initialized to <var>width</var> and
+  <var>height</var> respectively.</p>
+
+  <p><code id=the-offscreencanvas-interface:offscreencanvas-15><a href=#offscreencanvas>OffscreenCanvas</a></code> objects are <a href=#transferable-objects id=the-offscreencanvas-interface:transferable-objects>transferable</a>.</p>
+
+  <p>An <code id=the-offscreencanvas-interface:offscreencanvas-16><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#transfer-() id=the-offscreencanvas-interface:transfer-()>[[Transfer]](<var>targetRealm</var>)</a> internal method must run these
+  steps:</p>
+
+  <ol><li><p>If this <code id=the-offscreencanvas-interface:offscreencanvas-17><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-context-mode id=the-offscreencanvas-interface:offscreencanvas-context-mode>context mode</a> is not equal to <a href=#offscreencanvas-context-none id=the-offscreencanvas-interface:offscreencanvas-context-none>none</a>, then throw an
+   <a id=the-offscreencanvas-interface:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-offscreencanvas-interface:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Let <var>new</var> be a new <code id=the-offscreencanvas-interface:offscreencanvas-18><a href=#offscreencanvas>OffscreenCanvas</a></code> object in
+   <var>targetRealm</var>.<li><p>Initialize <var>new</var>'s <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap-3>bitmap</a> to a
+   rectangular array of transparent black pixels of the same dimensions as this
+   <code id=the-offscreencanvas-interface:offscreencanvas-19><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap-4>bitmap</a>.<li><p>If this <code id=the-offscreencanvas-interface:offscreencanvas-20><a href=#offscreencanvas>OffscreenCanvas</a></code> object has a <a href=#offscreencanvas-placeholder id=the-offscreencanvas-interface:offscreencanvas-placeholder-3>placeholder <code>canvas</code> element</a>, then set
+   <var>new</var>'s <a href=#offscreencanvas-placeholder id=the-offscreencanvas-interface:offscreencanvas-placeholder-4>placeholder <code>canvas</code>
+   element</a> to be a weak reference to this <code id=the-offscreencanvas-interface:offscreencanvas-21><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-placeholder id=the-offscreencanvas-interface:offscreencanvas-placeholder-5>placeholder <code>canvas</code> element</a>.<li><p>Set this <code id=the-offscreencanvas-interface:offscreencanvas-22><a href=#offscreencanvas>OffscreenCanvas</a></code> object's [[Detached]] internal slot value to
+   true.<li><p>Set this <code id=the-offscreencanvas-interface:offscreencanvas-23><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-context-mode id=the-offscreencanvas-interface:offscreencanvas-context-mode-2>context mode</a> to <a href=#offscreencanvas-context-detached id=the-offscreencanvas-interface:offscreencanvas-context-detached>detached</a>.<li><p>Unset this <code id=the-offscreencanvas-interface:offscreencanvas-24><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap-5>bitmap</a>.<li><p>Return <var>new</var>.</ol>
+
+  <p>The <dfn id=dom-offscreencanvas-getcontext><code>getContext(<var>contextId</var>,
+  <var>arguments...</var>)</code></dfn> method of an <code id=the-offscreencanvas-interface:offscreencanvas-25><a href=#offscreencanvas>OffscreenCanvas</a></code> object, when
+  invoked, must run the steps in the cell of the following table whose column header describes the
+  <code id=the-offscreencanvas-interface:offscreencanvas-26><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-context-mode id=the-offscreencanvas-interface:offscreencanvas-context-mode-3>context
+  mode</a> and whose row header describes the method's first argument.</p>
+
+  <table><thead><tr><td>
+     <th><a href=#offscreencanvas-context-none id=the-offscreencanvas-interface:offscreencanvas-context-none-2>none</a>
+     <th><a href=#offscreencanvas-context-2d id=the-offscreencanvas-interface:offscreencanvas-context-2d>2d</a>
+     <th><a href=#offscreencanvas-context-webgl id=the-offscreencanvas-interface:offscreencanvas-context-webgl>webgl</a>
+     <th><a href=#offscreencanvas-context-detached id=the-offscreencanvas-interface:offscreencanvas-context-detached-2>detached</a>
+   <tbody><tr><th>"<dfn id=offscreen-context-type-2d><code>2d</code></dfn>"
+     <td>
+      Follow the steps to <a href=#offscreen-2d-context-creation-algorithm id=the-offscreencanvas-interface:offscreen-2d-context-creation-algorithm>create an
+      offscreen 2D context</a> defined in the section below, passing it the
+      <code id=the-offscreencanvas-interface:offscreencanvas-27><a href=#offscreencanvas>OffscreenCanvas</a></code> object and the method's <var>arguments...</var>, to obtain
+      an <code id=the-offscreencanvas-interface:offscreencanvasrenderingcontext2d-3><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code> object; if this does not throw an
+      exception, then set the <code id=the-offscreencanvas-interface:offscreencanvas-28><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-context-mode id=the-offscreencanvas-interface:offscreencanvas-context-mode-4>context mode</a> to <a href=#offscreencanvas-context-2d id=the-offscreencanvas-interface:offscreencanvas-context-2d-2>2d</a>, and return the new
+      <code id=the-offscreencanvas-interface:offscreencanvasrenderingcontext2d-4><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code> object.
+     <td>
+      Return the same object as was returned the last time the method was invoked with this same
+      first argument.
+     <td>
+      Return null.
+     <td>
+      Throw an <a id=the-offscreencanvas-interface:invalidstateerror-2 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-offscreencanvas-interface:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.
+
+    <tr><th>"<dfn id=offscreen-context-type-webgl><code>webgl</code></dfn>"
+     <td>
+      Follow the instructions given in the WebGL specification's <i>Context Creation</i> section to
+      obtain either a <code id=the-offscreencanvas-interface:webglrenderingcontext-2><a data-x-internal=webglrenderingcontext href=https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext>WebGLRenderingContext</a></code> or null; if the returned value is null,
+      then return null and abort these steps, otherwise, set the <code id=the-offscreencanvas-interface:offscreencanvas-29><a href=#offscreencanvas>OffscreenCanvas</a></code>
+      object's <a href=#offscreencanvas-context-mode id=the-offscreencanvas-interface:offscreencanvas-context-mode-5>context mode</a> to <a href=#offscreencanvas-context-webgl id=the-offscreencanvas-interface:offscreencanvas-context-webgl-2>webgl</a>, and return the
+      <code id=the-offscreencanvas-interface:webglrenderingcontext-3><a data-x-internal=webglrenderingcontext href=https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext>WebGLRenderingContext</a></code> object. <a href=#refsWEBGL>[WEBGL]</a>
+     <td>
+      Return null.
+     <td>
+      Return the same value as was returned the last time the method was invoked with this same
+      first argument.
+     <td>
+      Throw an <a id=the-offscreencanvas-interface:invalidstateerror-3 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-offscreencanvas-interface:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.
+
+  </table>
+
+  <hr>
+
+  
+
+  <dl class=domintro><dt><var>offscreenCanvas</var> . <code id=the-offscreencanvas-interface:dom-offscreencanvas-width-4><a href=#dom-offscreencanvas-width>width</a></code> [
+   = <var>value</var> ]<dt><var>offscreenCanvas</var> . <code id=the-offscreencanvas-interface:dom-offscreencanvas-height-4><a href=#dom-offscreencanvas-height>height</a></code> [
+   = <var>value</var> ]<dd>
+    <p>These attributes return the dimensions of the <code id=the-offscreencanvas-interface:offscreencanvas-30><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap-6>bitmap</a>.</p>
+
+    <p>They can be set, to replace the <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap-7>bitmap</a> with a
+    new, transparent black bitmap of the specified dimensions (effectively resizing it).</p>
+   </dl>
+
+  
+
+  <p>If either the <dfn id=dom-offscreencanvas-width><code>width</code></dfn> or <dfn id=dom-offscreencanvas-height><code>height</code></dfn> attributes of an
+  <code id=the-offscreencanvas-interface:offscreencanvas-31><a href=#offscreencanvas>OffscreenCanvas</a></code> object are set (to a new value or to the same value as before) and
+  the <code id=the-offscreencanvas-interface:offscreencanvas-32><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-context-mode id=the-offscreencanvas-interface:offscreencanvas-context-mode-6>context
+  mode</a> is <a href=#offscreencanvas-context-2d id=the-offscreencanvas-interface:offscreencanvas-context-2d-3>2d</a>, then replace the
+  <code id=the-offscreencanvas-interface:offscreencanvas-33><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap-8>bitmap</a> with a
+  new transparent black bitmap and <a href=#reset-the-rendering-context-to-its-default-state id=the-offscreencanvas-interface:reset-the-rendering-context-to-its-default-state>reset the rendering context to its default state</a>.
+  The new bitmap's dimensions are equal to the new values of the <code id=the-offscreencanvas-interface:dom-offscreencanvas-width-5><a href=#dom-offscreencanvas-width>width</a></code> and <code id=the-offscreencanvas-interface:dom-offscreencanvas-height-5><a href=#dom-offscreencanvas-height>height</a></code> attributes.</p>
+
+  <p>The resizing behavior for "<code id=the-offscreencanvas-interface:offscreen-context-type-webgl-5><a href=#offscreen-context-type-webgl>webgl</a></code>"
+  contexts is defined in the WebGL specification. <a href=#refsWEBGL>[WEBGL]</a></p>
+
+  
+
+  <p class=note>If an <code id=the-offscreencanvas-interface:offscreencanvas-34><a href=#offscreencanvas>OffscreenCanvas</a></code> object whose dimensions were changed has
+  a <a href=#offscreencanvas-placeholder id=the-offscreencanvas-interface:offscreencanvas-placeholder-6>placeholder <code>canvas</code> element</a>, then
+  the <a href=#offscreencanvas-placeholder id=the-offscreencanvas-interface:offscreencanvas-placeholder-7>placeholder <code>canvas</code> element</a>'s
+  <a href=https://drafts.csswg.org/css2/conform.html#intrinsic id=the-offscreencanvas-interface:intrinsic-dimensions data-x-internal=intrinsic-dimensions>intrinsic size</a> will only be updated via the <code id=the-offscreencanvas-interface:offscreencontext-commit-2><a href=#offscreencontext-commit>commit()</a></code> method of the <code id=the-offscreencanvas-interface:offscreencanvas-35><a href=#offscreencanvas>OffscreenCanvas</a></code>
+  object's rendering context.</p>
+
+  <dl class=domintro><dt><var>promise</var> = <var>offscreenCanvas</var> . <code id=the-offscreencanvas-interface:dom-offscreencanvas-converttoblob-2><a href=#dom-offscreencanvas-converttoblob>convertToBlob</a></code>( [<var>options</var>] )<dd>
+    <p>Returns a promise that will fulfill with a new <code id=the-offscreencanvas-interface:blob-2><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object representing a file
+    containing the image in the <code id=the-offscreencanvas-interface:offscreencanvas-36><a href=#offscreencanvas>OffscreenCanvas</a></code> object.</p>
+
+    <p>The argument, if provided, is a dictionary that controls the encoding options of the image
+    file to be created. The <code id=the-offscreencanvas-interface:image-encode-options-type-2><a href=#image-encode-options-type>type</a></code>
+    field specifies the file format and has a default value of "<code id=the-offscreencanvas-interface:image/png><a href=#image/png>image/png</a></code>"; that type
+    is also used if the requested type isn't supported. If the image format supports variable
+    quality (such as "<code id=the-offscreencanvas-interface:image/jpeg><a href=#image/jpeg>image/jpeg</a></code>"), then the <code id=the-offscreencanvas-interface:image-encode-options-quality-2><a href=#image-encode-options-quality>quality</a></code> field is a number in the range 0.0
+    to 1.0 inclusive indicating the desired quality level for the resulting image.</p>
+   <dt><var>canvas</var> . <code id=the-offscreencanvas-interface:dom-offscreencanvas-transfertoimagebitmap-2><a href=#dom-offscreencanvas-transfertoimagebitmap>transferToImageBitmap</a></code>()<dd>
+    <p>Returns a newly created <code id=the-offscreencanvas-interface:imagebitmap-2><a href=#imagebitmap>ImageBitmap</a></code> object with the image in the
+    <code id=the-offscreencanvas-interface:offscreencanvas-37><a href=#offscreencanvas>OffscreenCanvas</a></code> object. The image in the <code id=the-offscreencanvas-interface:offscreencanvas-38><a href=#offscreencanvas>OffscreenCanvas</a></code> object is
+    replaced with a new blank image.</p>
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-offscreencanvas-converttoblob><code>convertToBlob(<var>options</var>)</code></dfn> method,
+  when invoked, must run the following steps:</p>
+
+  <ol><li><p>If the value of this <code id=the-offscreencanvas-interface:offscreencanvas-39><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#detached id=the-offscreencanvas-interface:detached>[[Detached]]</a>
+   internal slot is set to true, then return a promise rejected with an
+   <a id=the-offscreencanvas-interface:invalidstateerror-4 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-offscreencanvas-interface:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li><p>If this <code id=the-offscreencanvas-interface:offscreencanvas-40><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-context-mode id=the-offscreencanvas-interface:offscreencanvas-context-mode-7>context mode</a> is <a href=#offscreencanvas-context-2d id=the-offscreencanvas-interface:offscreencanvas-context-2d-4>2d</a> and the rendering context's <a href=#offscreencontext2d-bitmap id=the-offscreencanvas-interface:offscreencontext2d-bitmap>bitmap</a>'s <a href=#offscreencontext2d-origin-clean id=the-offscreencanvas-interface:offscreencontext2d-origin-clean>origin-clean</a> flag is set to false, then return a
+   promise rejected with a <a id=the-offscreencanvas-interface:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-offscreencanvas-interface:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and
+   abort these steps.</p>
+
+   <li><p>If this <code id=the-offscreencanvas-interface:offscreencanvas-41><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap-9>bitmap</a> has no pixels (i.e. either its
+   horizontal dimension or its vertical dimension is zero) then return a promise rejected with an
+   <a id=the-offscreencanvas-interface:indexsizeerror href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=the-offscreencanvas-interface:domexception-6><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li><p>Let <var>result</var> be a new promise object.<li><p>Return <var>result</var>, and <a href=#queue-a-task id=the-offscreencanvas-interface:queue-a-task>queue a task</a> to run the remaining steps
+   <a href=#in-parallel id=the-offscreencanvas-interface:in-parallel>in parallel</a>.<li><p>Let <var>blob</var> be a <code id=the-offscreencanvas-interface:blob-3><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object, created in the <a href=#concept-relevant-realm id=the-offscreencanvas-interface:concept-relevant-realm>relevant Realm</a> of this <code id=the-offscreencanvas-interface:offscreencanvas-42><a href=#offscreencanvas>OffscreenCanvas</a></code>
+   object, representing <a href=#a-serialisation-of-the-bitmap-as-a-file id=the-offscreencanvas-interface:a-serialisation-of-the-bitmap-as-a-file>a serialization of
+   this <code>OffscreenCanvas</code> object's <span>bitmap</span> as
+   a file</a>, passing the values of the <dfn id=image-encode-options-type><code>type</code></dfn> and <dfn id=image-encode-options-quality><code>quality</code></dfn> fields of <var>options</var>, if
+   <var>options</var> was specified. <a href=#refsFILEAPI>[FILEAPI]</a><li><p>Resolve <var>result</var> with <var>blob</var>.</ol>
+
+  <p>The <dfn id=dom-offscreencanvas-transfertoimagebitmap><code>transferToImageBitmap()</code></dfn> method,
+  when invoked, must run the following steps:</p>
+  <ol><li><p>If the value of this <code id=the-offscreencanvas-interface:offscreencanvas-43><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#detached id=the-offscreencanvas-interface:detached-2>[[Detached]]</a>
+   internal slot is set to true, then throw an <a id=the-offscreencanvas-interface:invalidstateerror-5 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+   <code id=the-offscreencanvas-interface:domexception-7><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If this <code id=the-offscreencanvas-interface:offscreencanvas-44><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-context-mode id=the-offscreencanvas-interface:offscreencanvas-context-mode-8>context mode</a> is set to <a href=#offscreencanvas-context-none id=the-offscreencanvas-interface:offscreencanvas-context-none-3>none</a>, then throw an
+   <a id=the-offscreencanvas-interface:invalidstateerror-6 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-offscreencanvas-interface:domexception-8><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li><p>Let <var>image</var> be a newly created <code id=the-offscreencanvas-interface:imagebitmap-3><a href=#imagebitmap>ImageBitmap</a></code> object that references
+   the same underlying bitmap data as this <code id=the-offscreencanvas-interface:offscreencanvas-45><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap-10>bitmap</a>.<li><p>Set this <code id=the-offscreencanvas-interface:offscreencanvas-46><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-bitmap id=the-offscreencanvas-interface:offscreencanvas-bitmap-11>bitmap</a> to reference a newly created bitmap of the
+   same dimensions as the previous bitmap, and with its pixels initialized to transparent black,
+   or opaque black if the rendering context's <a href=#offscreencontext2d-alpha id=the-offscreencanvas-interface:offscreencontext2d-alpha>alpha</a> flag is set to false.<li><p>Return <var>image</var>.</ol>
+  
+
+  <h6 id=the-offscreen-2d-rendering-context>4.12.5.3.1 The offscreen 2D rendering context<a href=#the-offscreen-2d-rendering-context class=self-link></a></h6>
+
+  <pre class=idl>[Exposed=(Window,Worker)]
+interface <a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a> {
+  void <a href=#offscreencontext2d-commit id=the-offscreen-2d-rendering-context:offscreencontext2d-commit>commit</a>();
+  readonly attribute <a href=#offscreencanvas id=the-offscreen-2d-rendering-context:offscreencanvas>OffscreenCanvas</a> <a href=#offscreencontext2d-canvas id=the-offscreen-2d-rendering-context:offscreencontext2d-canvas>canvas</a>;
+};
+
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-2>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvasstate id=the-offscreen-2d-rendering-context:canvasstate>CanvasState</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-3>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvastransform id=the-offscreen-2d-rendering-context:canvastransform>CanvasTransform</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-4>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvascompositing id=the-offscreen-2d-rendering-context:canvascompositing>CanvasCompositing</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-5>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvasimagesmoothing id=the-offscreen-2d-rendering-context:canvasimagesmoothing>CanvasImageSmoothing</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-6>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvasfillstrokestyles id=the-offscreen-2d-rendering-context:canvasfillstrokestyles>CanvasFillStrokeStyles</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-7>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvasshadowstyles id=the-offscreen-2d-rendering-context:canvasshadowstyles>CanvasShadowStyles</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-8>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvasfilters id=the-offscreen-2d-rendering-context:canvasfilters>CanvasFilters</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-9>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvasrect id=the-offscreen-2d-rendering-context:canvasrect>CanvasRect</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-10>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvasdrawpath id=the-offscreen-2d-rendering-context:canvasdrawpath>CanvasDrawPath</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-11>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvasdrawimage id=the-offscreen-2d-rendering-context:canvasdrawimage>CanvasDrawImage</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-12>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvasimagedata id=the-offscreen-2d-rendering-context:canvasimagedata>CanvasImageData</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-13>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvaspathdrawingstyles id=the-offscreen-2d-rendering-context:canvaspathdrawingstyles>CanvasPathDrawingStyles</a>;
+<a href=#offscreencanvasrenderingcontext2d id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-14>OffscreenCanvasRenderingContext2D</a> implements <a href=#canvaspath id=the-offscreen-2d-rendering-context:canvaspath>CanvasPath</a>;
+</pre>
+
+  <p>The <dfn id=offscreencanvasrenderingcontext2d><code>OffscreenCanvasRenderingContext2D</code></dfn> is a rendering context
+  interface for drawing to the <a href=#offscreencanvas-bitmap id=the-offscreen-2d-rendering-context:offscreencanvas-bitmap>bitmap</a> of an
+  <code id=the-offscreen-2d-rendering-context:offscreencanvas-2><a href=#offscreencanvas>OffscreenCanvas</a></code> object. It is similar to <code id=the-offscreen-2d-rendering-context:canvasrenderingcontext2d><a href=#canvasrenderingcontext2d>CanvasRenderingContext2D</a></code>,
+  with the following differences:</p>
+  <ul><li><p><a href=#canvastext id=the-offscreen-2d-rendering-context:canvastext>text rendering</a> is not supported;<li><p>there is no support for <a href=#canvasuserinterface id=the-offscreen-2d-rendering-context:canvasuserinterface>user interface</a>
+   features;<li><p>its <code id=the-offscreen-2d-rendering-context:offscreencontext2d-canvas-2><a href=#offscreencontext2d-canvas>canvas</a></code> attribute refers to an
+   <code id=the-offscreen-2d-rendering-context:offscreencanvas-3><a href=#offscreencanvas>OffscreenCanvas</a></code> object rather than a <code id=the-offscreen-2d-rendering-context:the-canvas-element><a href=#the-canvas-element>canvas</a></code> element;<li><p>it has a <code id=the-offscreen-2d-rendering-context:offscreencontext2d-commit-2><a href=#offscreencontext2d-commit>commit()</a></code> method for pushing the
+   rendered image to the context's <code id=the-offscreen-2d-rendering-context:offscreencanvas-4><a href=#offscreencanvas>OffscreenCanvas</a></code> object's <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder>placeholder <code>canvas</code> element</a>.</ul>
+
+  <p>An <code id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-15><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code> object has a <dfn id=offscreencontext2d-bitmap>bitmap</dfn> that is initialized when the object is
+  created.</p>
+
+  <p>The <a href=#offscreencontext2d-bitmap id=the-offscreen-2d-rendering-context:offscreencontext2d-bitmap>bitmap</a> has an <dfn id=offscreencontext2d-origin-clean>origin-clean</dfn> flag, which can be set to true or
+  false. Initially, when one of these bitmaps is created, its <a href=#offscreencontext2d-origin-clean id=the-offscreen-2d-rendering-context:offscreencontext2d-origin-clean>origin-clean</a> flag must be set to true.</p>
+
+  <p>An <code id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-16><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code> object also has an <dfn id=offscreencontext2d-alpha>alpha</dfn> flag, which can be set to true or false. Initially,
+  when the context is created, its alpha flag must be set to true. When a
+  <code id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-17><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code> object has its <a href=#offscreencontext2d-alpha id=the-offscreen-2d-rendering-context:offscreencontext2d-alpha>alpha</a> flag set to false, then its alpha channel must be
+  fixed to 1.0 (fully opaque) for all pixels, and attempts to change the alpha component of any pixel
+  must be silently ignored.</p>
+
+  <p>An <code id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-18><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code> object has an <dfn id=associated-offscreencanvas-object>associated
+  <code>OffscreenCanvas</code> object</dfn>, which is the <code id=the-offscreen-2d-rendering-context:offscreencanvas-5><a href=#offscreencanvas>OffscreenCanvas</a></code> object
+  from which the <code id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-19><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code> object was created.
+
+  <dl class=domintro><dt><var>offscreenCanvasRenderingContext2D</var> . <code id=the-offscreen-2d-rendering-context:offscreencontext2d-commit-3><a href=#offscreencontext2d-commit>commit</a></code>()<dd>
+    <p>Copies the rendering context's <a href=#offscreencontext2d-bitmap id=the-offscreen-2d-rendering-context:offscreencontext2d-bitmap-2>bitmap</a> to
+    the bitmap of the <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder-2>placeholder <code>canvas</code>
+    element</a> of the <a href=#associated-offscreencanvas-object id=the-offscreen-2d-rendering-context:associated-offscreencanvas-object>associated <code>OffscreenCanvas</code> object</a>. The copy
+    operation is asynchronous.</p>
+   <dt><var>offscreenCanvas</var> = <var>offscreenCanvasRenderingContext2D</var> . <code id=the-offscreen-2d-rendering-context:offscreencontext2d-canvas-3><a href=#offscreencontext2d-canvas>canvas</a></code><dd>
+    <p>Returns the <a href=#associated-offscreencanvas-object id=the-offscreen-2d-rendering-context:associated-offscreencanvas-object-2>associated <code>OffscreenCanvas</code> object</a>.</p>
+   </dl>
+
+  
+
+  <p>The <dfn id=offscreen-2d-context-creation-algorithm>offscreen 2D context creation algorithm</dfn>, which is passed a
+  <var>target</var> (an <code id=the-offscreen-2d-rendering-context:offscreencanvas-6><a href=#offscreencanvas>OffscreenCanvas</a></code> object) and optionally some arguments,
+  consists of running the following steps:</p>
+
+  <ol><li><p>If the algorithm was passed some arguments, let <var>arg</var> be the first such
+   argument. Otherwise, let <var>arg</var> be undefined.<li><p>Let <var>settings</var> be the result of <a href=#coerce-context-arguments-for-2d id=the-offscreen-2d-rendering-context:coerce-context-arguments-for-2d>coercing the <var>arg</var> context arguments
+   for 2D</a>.<li><p>Let <var>context</var> be a new <code id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-20><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code>
+   object.<li><p>Set <var>context</var>'s <a href=#associated-offscreencanvas-object id=the-offscreen-2d-rendering-context:associated-offscreencanvas-object-3>associated <code>OffscreenCanvas</code> object</a> to
+   <var>target</var>.<li><p>Process each of the members of <var>settings</var> as follows:</p>
+    <dl><dt><code id=the-offscreen-2d-rendering-context:dom-canvasrenderingcontext2dsettings-alpha><a href=#dom-canvasrenderingcontext2dsettings-alpha>alpha</a></code><dd>If false, set <var>context</var>'s <a href=#offscreencontext2d-alpha id=the-offscreen-2d-rendering-context:offscreencontext2d-alpha-2>alpha</a>
+     flag to false.</dl>
+   <li><p>Set <var>context</var>'s <a href=#offscreencontext2d-bitmap id=the-offscreen-2d-rendering-context:offscreencontext2d-bitmap-3>bitmap</a> to a newly
+   created bitmap with the dimensions specified by the <code id=the-offscreen-2d-rendering-context:dom-offscreencanvas-width><a href=#dom-offscreencanvas-width>width</a></code> and <code id=the-offscreen-2d-rendering-context:dom-offscreencanvas-height><a href=#dom-offscreencanvas-height>height</a></code> attributes of <var>target</var>, and set
+   <var>target</var>'s bitmap to the same bitmap (so that they are shared).<li><p>If <var>context</var>'s <a href=#offscreencontext2d-alpha id=the-offscreen-2d-rendering-context:offscreencontext2d-alpha-3>alpha</a> flag is set
+   to true, initialize all the pixels of <var>context</var>'s <a href=#offscreencontext2d-bitmap id=the-offscreen-2d-rendering-context:offscreencontext2d-bitmap-4>bitmap</a> to transparent black. Otherwise, initialize
+   the pixels to opaque black.<li><p>Return <var>context</var>.</ol>
+
+  <p>The <dfn id=offscreencontext2d-commit><code>commit()</code></dfn> method, when invoked,
+  must run the following steps:</p>
+
+  <ol><li><p>If this <code id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-21><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code>'s <a href=#associated-offscreencanvas-object id=the-offscreen-2d-rendering-context:associated-offscreencanvas-object-4>associated
+    <code>OffscreenCanvas</code> object</a> does not have a <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder-3>placeholder <code>canvas</code> element</a>, abort
+    these steps.<li><p>Let <var>image</var> be a copy of this <code id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-22><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code>'s
+    <a href=#offscreencontext2d-bitmap id=the-offscreen-2d-rendering-context:offscreencontext2d-bitmap-5>bitmap</a>, including the value of its <a href=#offscreencontext2d-origin-clean id=the-offscreen-2d-rendering-context:offscreencontext2d-origin-clean-2>origin-clean</a> flag.<li>
+     <p><a href=#queue-a-task id=the-offscreen-2d-rendering-context:queue-a-task>Queue a task</a> in the <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder-4>placeholder <code>canvas</code> element</a>'s
+     <a href=#relevant-settings-object id=the-offscreen-2d-rendering-context:relevant-settings-object>relevant settings object</a>'s <a href=#responsible-event-loop id=the-offscreen-2d-rendering-context:responsible-event-loop>responsible event loop</a> (which will be a
+     <a href=#browsing-context id=the-offscreen-2d-rendering-context:browsing-context>browsing context</a> <a href=#event-loop id=the-offscreen-2d-rendering-context:event-loop>event loop</a>) to set the <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder-5>placeholder <code>canvas</code> element</a>'s
+     <a href=#output-bitmap id=the-offscreen-2d-rendering-context:output-bitmap>output bitmap</a> to be a reference to <var>image</var>.</p>
+
+     <p class=note>If <var>image</var> has different dimensions than the bitmap previously
+     referenced as the <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder-6>placeholder <code>canvas</code>
+     element</a>'s <a href=#output-bitmap id=the-offscreen-2d-rendering-context:output-bitmap-2>output bitmap</a>, then this task will result in a change in
+     the <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder-7>placeholder <code>canvas</code>
+     element</a>'s <a href=https://drafts.csswg.org/css2/conform.html#intrinsic id=the-offscreen-2d-rendering-context:intrinsic-dimensions data-x-internal=intrinsic-dimensions>intrinsic size</a>, which may affect
+     document layout.</p>
+    </ol>
+
+  <p class=note>Implementations are encouraged to short-circuit the graphics update steps of
+  the <a href=#browsing-context id=the-offscreen-2d-rendering-context:browsing-context-2>browsing context</a> <a href=#event-loop id=the-offscreen-2d-rendering-context:event-loop-2>event loop</a> for the purposes of updating the
+  contents of a <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder-8>placeholder <code>canvas</code>
+  element</a> to the display. This could mean, for example, that the <code id=the-offscreen-2d-rendering-context:offscreencontext2d-commit-4><a href=#offscreencontext2d-commit>commit()</a></code> method may copy the bitmap contents directly
+  to a graphics buffer that is mapped to the physical display location of the <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder-9>placeholder <code>canvas</code> element</a>. This or
+  similar short-circuiting approaches may significantly reduce display latency, especially in cases
+  where the <code id=the-offscreen-2d-rendering-context:offscreencontext2d-commit-5><a href=#offscreencontext2d-commit>commit()</a></code> method is invoked from a worker
+  and the <a href=#event-loop id=the-offscreen-2d-rendering-context:event-loop-3>event loop</a> of the <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder-10>placeholder <code>canvas</code> element</a>'s
+  <a href=#browsing-context id=the-offscreen-2d-rendering-context:browsing-context-3>browsing context</a> is busy. However, such shortcuts must not have any
+  script-observable side-effects. This means that the committed bitmap still needs to be sent to
+  the <a href=#offscreencanvas-placeholder id=the-offscreen-2d-rendering-context:offscreencanvas-placeholder-11>placeholder <code>canvas</code> element</a>, in
+  case the element is used as a <code id=the-offscreen-2d-rendering-context:canvasimagesource><a href=#canvasimagesource>CanvasImageSource</a></code>, as an
+  <code id=the-offscreen-2d-rendering-context:imagebitmapsource><a href=#imagebitmapsource>ImageBitmapSource</a></code>, or in case <code id=the-offscreen-2d-rendering-context:dom-canvas-todataurl><a href=#dom-canvas-todataurl>toDataURL()</a></code>
+  or <code id=the-offscreen-2d-rendering-context:dom-canvas-toblob><a href=#dom-canvas-toblob>toBlob()</a></code> are called on it.</p>
+
+  <p>The <dfn id=offscreencontext2d-canvas><code>canvas</code></dfn> attribute, on getting,
+  must return this <code id=the-offscreen-2d-rendering-context:offscreencanvasrenderingcontext2d-23><a href=#offscreencanvasrenderingcontext2d>OffscreenCanvasRenderingContext2D</a></code>'s <a href=#associated-offscreencanvas-object id=the-offscreen-2d-rendering-context:associated-offscreencanvas-object-5>associated
+  <code>OffscreenCanvas</code> object</a>.
+
+  </p>
+
+  
+
+  <h5 id=colour-spaces-and-colour-correction>4.12.5.4 Color spaces and color correction<a href=#colour-spaces-and-colour-correction class=self-link></a></h5>
+
+  <p>The <code id=colour-spaces-and-colour-correction:the-canvas-element><a href=#the-canvas-element>canvas</a></code> APIs must perform color correction at only two points: when rendering
+  images with their own gamma correction and color space information onto a bitmap, to convert the
+  image to the color space used by the bitmaps (e.g. using the 2D Context's <code id=colour-spaces-and-colour-correction:dom-context-2d-drawimage><a href=#dom-context-2d-drawimage>drawImage()</a></code> method with an
+  <code id=colour-spaces-and-colour-correction:htmlorsvgimageelement><a href=#htmlorsvgimageelement>HTMLOrSVGImageElement</a></code> object), and when rendering the actual canvas bitmap to the
+  output device.</p>
+
+  <p class=note>Thus, in the 2D context, colors used to draw shapes onto the canvas will exactly
+  match colors obtained through the <code id=colour-spaces-and-colour-correction:dom-context-2d-getimagedata><a href=#dom-context-2d-getimagedata>getImageData()</a></code> method.</p>
+
+  <p>The <code id=colour-spaces-and-colour-correction:dom-canvas-todataurl><a href=#dom-canvas-todataurl>toDataURL()</a></code> method, when invoked, must not
+  include color space information in the resources they return. Where the output format allows it,
+  the color of pixels in resources created by <code id=colour-spaces-and-colour-correction:dom-canvas-todataurl-2><a href=#dom-canvas-todataurl>toDataURL()</a></code>
+  must match those returned by the <code id=colour-spaces-and-colour-correction:dom-context-2d-getimagedata-2><a href=#dom-context-2d-getimagedata>getImageData()</a></code>
+  method.</p>
+
+  <p>In user agents that support CSS, the color space used by a <code id=colour-spaces-and-colour-correction:the-canvas-element-2><a href=#the-canvas-element>canvas</a></code> element must
+  match the color space used for processing any colors for that element in CSS.</p>
+
+  <p>The gamma correction and color space information of images must be handled in such a way that
+  an image rendered directly using an <code id=colour-spaces-and-colour-correction:the-img-element><a href=#the-img-element>img</a></code> element would use the same colors as one
+  painted on a <code id=colour-spaces-and-colour-correction:the-canvas-element-3><a href=#the-canvas-element>canvas</a></code> element that is then itself rendered. Furthermore, the rendering
+  of images that have no color correction information (such as those returned by the <code id=colour-spaces-and-colour-correction:dom-canvas-todataurl-3><a href=#dom-canvas-todataurl>toDataURL()</a></code> method) must be rendered with no color
+  correction.</p>
+
+  <p class=note>Thus, in the 2D context, calling the <code id=colour-spaces-and-colour-correction:dom-context-2d-drawimage-2><a href=#dom-context-2d-drawimage>drawImage()</a></code> method to render the output of the <code id=colour-spaces-and-colour-correction:dom-canvas-todataurl-4><a href=#dom-canvas-todataurl>toDataURL()</a></code> method to the canvas, given the appropriate
+  dimensions, has no visible effect.</p>
+
+  
+
+
+
+  <h5 id=serialising-bitmaps-to-a-file>4.12.5.5 Serializing bitmaps to a file<a href=#serialising-bitmaps-to-a-file class=self-link></a></h5>
+
+  
+
+  <p>When a user agent is to create <dfn id=a-serialisation-of-the-bitmap-as-a-file>a
+  serialization of the bitmap as a file</dfn>, given an optional <var>type</var> and
+  <var>quality</var>, it must create an image file in the format given by <var>type</var>, or if
+  <var>type</var> was not supplied, in the PNG format. <a href=#refsPNG>[PNG]</a></p>
+
+  <p>The image file's pixel data must be the bitmap's pixel data scaled to one image pixel per
+  coordinate space unit, and if the file format used supports encoding resolution metadata, the
+  resolution must be given as 96dpi (one image pixel per <a href=https://drafts.csswg.org/css-values/#px id="serialising-bitmaps-to-a-file:'px'" data-x-internal="'px'">CSS pixel</a>).</p>
+
+  <p>If <var>type</var> is supplied, then it must be interpreted as a <a href=https://mimesniff.spec.whatwg.org/#mime-type id=serialising-bitmaps-to-a-file:mime-type data-x-internal=mime-type>MIME
+  type</a> giving the format to use. If the type has any parameters, then it must be treated as
+  not supported.</p>
+
+  <p class=example>For example, the value "<code id=serialising-bitmaps-to-a-file:image/png><a href=#image/png>image/png</a></code>" would mean to generate a PNG
+  image, the value "<code id=serialising-bitmaps-to-a-file:image/jpeg><a href=#image/jpeg>image/jpeg</a></code>" would mean to generate a JPEG image, and the value
+  "<code id=serialising-bitmaps-to-a-file:image/svg+xml><a href=#image/svg+xml>image/svg+xml</a></code>" would mean to generate an SVG image (which would require that the
+  user agent track how the bitmap was generated, an unlikely, though potentially awesome,
+  feature).</p>
+
+  <p>User agents must support PNG ("<code id=serialising-bitmaps-to-a-file:image/png-2><a href=#image/png>image/png</a></code>"). User agents may support other types.
+  If the user agent does not support the requested type, then it must create the file using the PNG
+  format. <a href=#refsPNG>[PNG]</a></p>
+
+  <p>User agents must <a href=https://infra.spec.whatwg.org/#ascii-lowercase id=serialising-bitmaps-to-a-file:converted-to-ascii-lowercase data-x-internal=converted-to-ascii-lowercase>convert the provided type to ASCII
+  lowercase</a> before establishing if they support that type.</p>
+
+  <p>For image types that do not support an alpha channel, the serialized image must be the bitmap
+  image composited onto a solid black background using the source-over operator.</p>
+
+  <p>If <var>type</var> is an image format that supports variable quality (such as
+  "<code id=serialising-bitmaps-to-a-file:image/jpeg-2><a href=#image/jpeg>image/jpeg</a></code>") and <var>quality</var> is given, then, if <a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values id=serialising-bitmaps-to-a-file:js-type data-x-internal=js-type>Type</a>(<var>quality</var>) is Number, and <var>quality</var> is in the range
+  0.0 to 1.0 inclusive, the user agent must treat <var>quality</var> as the desired quality level.
+  If <a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values id=serialising-bitmaps-to-a-file:js-type-2 data-x-internal=js-type>Type</a>(<var>quality</var>) is not Number, or if <var>quality</var>
+  is outside that range, the user agent must use its default quality value, as if the
+  <var>quality</var> argument had not been given.</p>
+
+  <p class=note>The use of type-testing here, instead of simply declaring <var>quality</var> as
+  a Web IDL <code>double</code>, is a historical artifact.</p>
+
+  
+
+
+  
+
+  <h5 id=security-with-canvas-elements>4.12.5.6 Security with <code id=security-with-canvas-elements:the-canvas-element><a href=#the-canvas-element>canvas</a></code> elements<a href=#security-with-canvas-elements class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p><strong>Information leakage</strong> can occur if scripts from one <a href=#concept-origin id=security-with-canvas-elements:concept-origin>origin</a> can
+  access information (e.g. read pixels) from images from another origin (one that isn't the <a href=#same-origin id=security-with-canvas-elements:same-origin>same</a>).</p>
+
+  <p>To mitigate this, bitmaps used with <code id=security-with-canvas-elements:the-canvas-element-2><a href=#the-canvas-element>canvas</a></code> elements and <code id=security-with-canvas-elements:imagebitmap><a href=#imagebitmap>ImageBitmap</a></code>
+  objects are defined to have a flag indicating whether they are <a href=#concept-canvas-origin-clean id=security-with-canvas-elements:concept-canvas-origin-clean>origin-clean</a>. All bitmaps start with their <a href=#concept-canvas-origin-clean id=security-with-canvas-elements:concept-canvas-origin-clean-2>origin-clean</a> set to true. The flag is set to false
+  when cross-origin images are used.</p>
+
+  <p>The <code id=security-with-canvas-elements:dom-canvas-todataurl><a href=#dom-canvas-todataurl>toDataURL()</a></code>, <code id=security-with-canvas-elements:dom-canvas-toblob><a href=#dom-canvas-toblob>toBlob()</a></code>, and <code id=security-with-canvas-elements:dom-context-2d-getimagedata><a href=#dom-context-2d-getimagedata>getImageData()</a></code> methods check the flag and will
+  throw a <a id=security-with-canvas-elements:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=security-with-canvas-elements:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> rather than leak
+  cross-origin data.</p>
+
+  <p>The value of the <a href=#concept-canvas-origin-clean id=security-with-canvas-elements:concept-canvas-origin-clean-3>origin-clean</a> flag is
+  propagated from a source <code id=security-with-canvas-elements:the-canvas-element-3><a href=#the-canvas-element>canvas</a></code> element's bitmap to a new <code id=security-with-canvas-elements:imagebitmap-2><a href=#imagebitmap>ImageBitmap</a></code>
+  object by <code id=security-with-canvas-elements:dom-createimagebitmap><a href=#dom-createimagebitmap>createImageBitmap()</a></code>. Conversely, a
+  destination <code id=security-with-canvas-elements:the-canvas-element-4><a href=#the-canvas-element>canvas</a></code> element's bitmap will have its <a href=#concept-canvas-origin-clean id=security-with-canvas-elements:concept-canvas-origin-clean-4>origin-clean</a> flags set to false by <code id=security-with-canvas-elements:dom-context-2d-drawimage><a href=#dom-context-2d-drawimage>drawImage</a></code> if the source image is an
+  <code id=security-with-canvas-elements:imagebitmap-3><a href=#imagebitmap>ImageBitmap</a></code> object whose bitmap has its <a href=#concept-canvas-origin-clean id=security-with-canvas-elements:concept-canvas-origin-clean-5>origin-clean</a> flag set to false.</p>
+
+  <p>The flag can be reset in certain situations; for example, when changing the value of the
+  <code id=security-with-canvas-elements:attr-canvas-width><a href=#attr-canvas-width>width</a></code> or the <code id=security-with-canvas-elements:attr-canvas-height><a href=#attr-canvas-height>height</a></code> content attribute of the <code id=security-with-canvas-elements:the-canvas-element-5><a href=#the-canvas-element>canvas</a></code> element
+  to which a <code id=security-with-canvas-elements:canvasrenderingcontext2d><a href=#canvasrenderingcontext2d>CanvasRenderingContext2D</a></code> is bound, the bitmap is
+  cleared and its <a href=#concept-canvas-origin-clean id=security-with-canvas-elements:concept-canvas-origin-clean-6>origin-clean</a> flag is reset.</p>
+
+  <p>When using an <code id=security-with-canvas-elements:imagebitmaprenderingcontext><a href=#imagebitmaprenderingcontext>ImageBitmapRenderingContext</a></code>, the value of the <a href=#concept-canvas-origin-clean id=security-with-canvas-elements:concept-canvas-origin-clean-7>origin-clean</a> flag is propagated from
+  <code id=security-with-canvas-elements:imagebitmap-4><a href=#imagebitmap>ImageBitmap</a></code> objects when they are transferred to the <code id=security-with-canvas-elements:the-canvas-element-6><a href=#the-canvas-element>canvas</a></code>
+  via <a href=#dom-imagebitmaprenderingcontext-transferfromimagebitmap id=security-with-canvas-elements:dom-imagebitmaprenderingcontext-transferfromimagebitmap>transferFromImageBitmap()</a>.</p>
+
+  
+
+  <h3 id=custom-elements>4.13 Custom elements<a href=#custom-elements class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> custom-elementsv1<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>54+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox no"><span>Firefox</span> <span>None</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung no"><span>Samsung Internet</span> <span>None</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android no"><span>Android Browser</span> <span>None</span></span><span class="safari yes"><span>Safari</span> <span>10.1+</span></span><span class="opera yes"><span>Opera</span> <span>41+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=custom-elementsv1">caniuse.com</a></div>
+
+  <h4 id=custom-elements-intro>4.13.1 Introduction<a href=#custom-elements-intro class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p><a href=#custom-element id=custom-elements-intro:custom-element>Custom elements</a> provide a way for authors to build their
+  own fully-featured DOM elements. Although authors could always use non-standard elements in their
+  documents, with application-specific behavior added after the fact by scripting or similar, such
+  elements have historically been non-conforming and not very functional. By <a href=#element-definition id=custom-elements-intro:element-definition>defining</a> a custom element, authors can inform the parser how to
+  properly construct an element and how elements of that class should react to changes.</p>
+
+  <p>Custom elements are part of a larger effort to "rationalise the platform", by explaining
+  existing platform features (like the elements of HTML) in terms of lower-level author-exposed
+  extensibility points (like custom element definition). Although today there are many limitations
+  on the capabilities of custom elements—both functionally and semantically—that prevent them from
+  fully explaining the behaviors of HTML's existing elements, we hope to shrink this gap over
+  time.</p>
+
+  <h5 id=custom-elements-autonomous-example>4.13.1.1 Creating an autonomous custom element<a href=#custom-elements-autonomous-example class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>For the purposes of illustrating how to create an <a href=#autonomous-custom-element id=custom-elements-autonomous-example:autonomous-custom-element>autonomous custom element</a>, let's
+  define a custom element that encapsulates rendering a small icon for a country flag. Our goal is
+  to be able to use it like so:</p>
+
+  <pre>&lt;flag-icon country="nl">&lt;/flag-icon></pre>
+
+  <p>To do this, we first declare a class for the custom element, extending
+  <code id=custom-elements-autonomous-example:htmlelement><a href=#htmlelement>HTMLElement</a></code>:</p>
+
+  <pre>class FlagIcon extends HTMLElement {
+  constructor() {
+    super();
+    this._countryCode = null;
+  }
+
+  static get observedAttributes() { return ["country"]; }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    // name will always be "country" due to observedAttributes
+    this._countryCode = newValue;
+    this._updateRendering();
+  }
+  connectedCallback() {
+    this._updateRendering();
+  }
+
+  get country() {
+    return this._countryCode;
+  }
+  set country(v) {
+    this.setAttribute("country", v);
+  }
+
+  _updateRendering() {
+    // Left as an exercise for the reader. But, you'll probably want to
+    // check this.ownerDocument.defaultView to see if we've been
+    // inserted into a document with a browsing context, and avoid
+    // doing any work if not.
+  }
+}</pre>
+
+  <p>We then need to use this class to define the element:</p>
+
+  <pre>customElements.define("flag-icon", FlagIcon);</pre>
+
+  <p>At this point, our above code will work! The parser, whenever it sees the <code>flag-icon</code> tag, will construct a new instance of our <code>FlagIcon</code> class, and tell our code about its new <code>country</code>
+  attribute, which we then use to set the element's internal state and update its rendering (when
+  appropriate).</p>
+
+  <p>You can also create <code>flag-icon</code> elements using the DOM API:</p>
+
+  <pre>const flagIcon = document.createElement("flag-icon")
+flagIcon.country = "jp"
+document.body.appendChild(flagIcon)</pre>
+
+  <p>Finally, we can also use the <a href=#custom-element-constructor id=custom-elements-autonomous-example:custom-element-constructor>custom element constructor</a> itself. That is, the above
+  code is equivalent to:</p>
+
+  <pre>const flagIcon = new FlagIcon()
+flagIcon.country = "jp"
+document.body.appendChild(flagIcon)</pre>
+
+  <h5 id=custom-elements-customized-builtin-example>4.13.1.2 Creating a customized built-in element<a href=#custom-elements-customized-builtin-example class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p><a href=#customized-built-in-element id=custom-elements-customized-builtin-example:customized-built-in-element>Customized built-in elements</a> are a distinct
+  kind of <a href=#custom-element id=custom-elements-customized-builtin-example:custom-element>custom element</a>, which are defined slightly differently and used very
+  differently compared to <a href=#autonomous-custom-element id=custom-elements-customized-builtin-example:autonomous-custom-element>autonomous custom
+  elements</a>. They exist to allow reuse of behaviors from the existing elements of HTML, by
+  extending those elements with new custom functionality. This is important since many of the
+  existing behaviors of HTML elements can unfortunately not be duplicated by using purely <a href=#autonomous-custom-element id=custom-elements-customized-builtin-example:autonomous-custom-element-2>autonomous custom elements</a>. Instead, <a href=#customized-built-in-element id=custom-elements-customized-builtin-example:customized-built-in-element-2>customized built-in elements</a> allow the installation of
+  custom construction behavior, lifecycle hooks, and prototype chain onto existing elements,
+  essentially "mixing in" these capabilities on top of the already-existing element.</p>
+
+  <p><a href=#customized-built-in-element id=custom-elements-customized-builtin-example:customized-built-in-element-3>Customized built-in elements</a> require a
+  distinct syntax from <a href=#autonomous-custom-element id=custom-elements-customized-builtin-example:autonomous-custom-element-3>autonomous custom elements</a>
+  because user agents and other software key off an element's local name in order to identify the
+  element's semantics and behavior. That is, the concept of <a href=#customized-built-in-element id=custom-elements-customized-builtin-example:customized-built-in-element-4>customized built-in elements</a> building on top of existing behavior depends
+  crucially on the extended elements retaining their original local name.</p>
+
+  <p>In this example, we'll be creating a <a href=#customized-built-in-element id=custom-elements-customized-builtin-example:customized-built-in-element-5>customized built-in element</a> named <code>plastic-button</code>, which behaves like a normal button but gets fancy animation
+  effects added whenever you click on it. We start by defining a class, just like before, although
+  this time we extend <code id=custom-elements-customized-builtin-example:htmlbuttonelement><a href=#htmlbuttonelement>HTMLButtonElement</a></code> instead of <code id=custom-elements-customized-builtin-example:htmlelement><a href=#htmlelement>HTMLElement</a></code>:</p>
+
+  <pre>class PlasticButton extends HTMLButtonElement {
+  constructor() {
+    super();
+
+    this.addEventListener("click", () => {
+      // Draw some fancy animation effects!
+    });
+  }
+}</pre>

@@ -1,0 +1,850 @@
+  and <code id=the-form-element:attr-fs-target-2><a href=#attr-fs-target>target</a></code> attributes are <a href=#attributes-for-form-submission id=the-form-element:attributes-for-form-submission>attributes for form
+  submission</a>.</p>
+
+
+  <dl class=domintro><dt><var>form</var> . <code id=the-form-element:dom-form-elements-2><a href=#dom-form-elements>elements</a></code><dd>
+
+    <p>Returns an <code id=the-form-element:htmlformcontrolscollection-2><a href=#htmlformcontrolscollection>HTMLFormControlsCollection</a></code> of the form controls in the form (excluding image
+    buttons for historical reasons).</p>
+
+   <dt><var>form</var> . <code id=the-form-element:dom-form-length-2><a href=#dom-form-length>length</a></code><dd>
+
+    <p>Returns the number of form controls in the form (excluding image buttons for historical
+    reasons).</p>
+
+   <dt><var>form</var>[<var>index</var>]<dd>
+
+    <p>Returns the <var>index</var>th element in the form (excluding image buttons for
+    historical reasons).</p>
+
+   <dt><var>form</var>[<var>name</var>]<dd>
+
+    <p>Returns the form control (or, if there are several, a <code id=the-form-element:radionodelist-2><a href=#radionodelist>RadioNodeList</a></code> of the form
+    controls) in the form with the given <a href=https://dom.spec.whatwg.org/#concept-id id=the-form-element:concept-id data-x-internal=concept-id>ID</a> or <code id=the-form-element:attr-fe-name><a href=#attr-fe-name>name</a></code> (excluding image buttons for historical reasons); or, if there
+    are none, returns the <code id=the-form-element:the-img-element><a href=#the-img-element>img</a></code> element with the given ID.</p>
+
+    <p>Once an element has been referenced using a particular name, that name will continue being
+    available as a way to reference that element in this method, even if the element's actual <a href=https://dom.spec.whatwg.org/#concept-id id=the-form-element:concept-id-2 data-x-internal=concept-id>ID</a> or <code id=the-form-element:attr-fe-name-2><a href=#attr-fe-name>name</a></code> changes, for as long as
+    the element remains in the <a id=the-form-element:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a>.</p>
+
+    <p>If there are multiple matching items, then a <code id=the-form-element:radionodelist-3><a href=#radionodelist>RadioNodeList</a></code> object containing all
+    those elements is returned.</p>
+
+   <dt><var>form</var> . <code id=the-form-element:dom-form-submit-2><a href=#dom-form-submit>submit</a></code>()<dd>
+
+    <p>Submits the form.</p>
+
+   <dt><var>form</var> . <code id=the-form-element:dom-form-reset-2><a href=#dom-form-reset>reset</a></code>()<dd>
+
+    <p>Resets the form.</p>
+
+   <dt><var>form</var> . <code id=the-form-element:dom-form-checkvalidity-2><a href=#dom-form-checkvalidity>checkValidity</a></code>()<dd>
+
+    <p>Returns true if the form's controls are all valid; otherwise, returns false.</p>
+
+   <dt><var>form</var> . <code id=the-form-element:dom-form-reportvalidity-2><a href=#dom-form-reportvalidity>reportValidity</a></code>()<dd>
+
+    <p>Returns true if the form's controls are all valid; otherwise, returns false and informs the user.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-form-autocomplete><code>autocomplete</code></dfn> IDL attribute must
+  <a href=#reflect id=the-form-element:reflect>reflect</a> the content attribute of the same name, <a href=#limited-to-only-known-values id=the-form-element:limited-to-only-known-values>limited to only known
+  values</a>.</p>
+
+  <p>The <dfn id=dom-form-name><code>name</code></dfn> IDL attribute must <a href=#reflect id=the-form-element:reflect-2>reflect</a>
+  the content attribute of the same name.</p>
+
+  <p>The <dfn id=dom-form-acceptcharset><code>acceptCharset</code></dfn> IDL attribute must
+  <a href=#reflect id=the-form-element:reflect-3>reflect</a> the <code id=the-form-element:attr-form-accept-charset-2><a href=#attr-form-accept-charset>accept-charset</a></code> content
+  attribute.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-form-elements><code>elements</code></dfn> IDL attribute must return an
+  <code id=the-form-element:htmlformcontrolscollection-3><a href=#htmlformcontrolscollection>HTMLFormControlsCollection</a></code> rooted at the <code id=the-form-element:the-form-element-5><a href=#the-form-element>form</a></code> element, whose filter
+  matches <a href=#category-listed id=the-form-element:category-listed>listed elements</a> whose <a href=#form-owner id=the-form-element:form-owner>form owner</a> is the
+  <code id=the-form-element:the-form-element-6><a href=#the-form-element>form</a></code> element, with the exception of <code id=the-form-element:the-input-element><a href=#the-input-element>input</a></code> elements whose <code id=the-form-element:attr-input-type><a href=#attr-input-type>type</a></code> attribute is in the <a href="#image-button-state-(type=image)" id="the-form-element:image-button-state-(type=image)">Image Button</a> state, which must, for historical reasons, be
+  excluded from this particular collection.</p>
+
+  <p>The <dfn id=dom-form-length><code>length</code></dfn> IDL attribute must return the number
+  of nodes <a href=https://dom.spec.whatwg.org/#represented-by-the-collection id=the-form-element:represented-by-the-collection data-x-internal=represented-by-the-collection>represented</a> by the <code id=the-form-element:dom-form-elements-3><a href=#dom-form-elements>elements</a></code> collection.</p>
+
+  <p>The <a id=the-form-element:supported-property-indices href=https://heycam.github.io/webidl/#dfn-supported-property-indices data-x-internal=supported-property-indices>supported property indices</a> at any instant are the indices supported by the
+  object returned by the <code id=the-form-element:dom-form-elements-4><a href=#dom-form-elements>elements</a></code> attribute at that
+  instant.</p>
+
+  <p id=dom-form-item>To <a id=the-form-element:determine-the-value-of-an-indexed-property href=https://heycam.github.io/webidl/#dfn-determine-the-value-of-an-indexed-property data-x-internal=determine-the-value-of-an-indexed-property>determine the value of an indexed property</a> for a
+  <code id=the-form-element:the-form-element-7><a href=#the-form-element>form</a></code> element, the user agent must return the value returned by the <code id=the-form-element:dom-htmlcollection-item><a data-x-internal=dom-htmlcollection-item href=https://dom.spec.whatwg.org/#dom-htmlcollection-item>item</a></code> method on the <code id=the-form-element:dom-form-elements-5><a href=#dom-form-elements>elements</a></code> collection, when invoked with the given index as its
+  argument.</p>
+
+  <hr>
+
+  
+
+  <p>Each <code id=the-form-element:the-form-element-8><a href=#the-form-element>form</a></code> element has a mapping of names to elements called the <dfn id=past-names-map>past names
+  map</dfn>. It is used to persist names of controls even when they change names.</p>
+
+  <p>The <a id=the-form-element:supported-property-names href=https://heycam.github.io/webidl/#dfn-supported-property-names data-x-internal=supported-property-names>supported property names</a> consist of the names obtained from the following
+  algorithm, in the order obtained from this algorithm:</p>
+
+  <ol><li><p>Let <var>sourced names</var> be an initially empty ordered list of tuples
+   consisting of a string, an element, a source, where the source is either <i>id</i>, <i>name</i>,
+   or <i>past</i>, and, if the source is <i>past</i>, an age.<li>
+
+    <p>For each <a href=#category-listed id=the-form-element:category-listed-2>listed element</a> <var>candidate</var>
+    whose <a href=#form-owner id=the-form-element:form-owner-2>form owner</a> is the <code id=the-form-element:the-form-element-9><a href=#the-form-element>form</a></code> element, with the exception of any
+    <code id=the-form-element:the-input-element-2><a href=#the-input-element>input</a></code> elements whose <code id=the-form-element:attr-input-type-2><a href=#attr-input-type>type</a></code> attribute is in the
+    <a href="#image-button-state-(type=image)" id="the-form-element:image-button-state-(type=image)-2">Image Button</a> state, run these substeps:</p>
+
+    <ol><li><p>If <var>candidate</var> has an <code id=the-form-element:the-id-attribute><a href=#the-id-attribute>id</a></code> attribute, add
+     an entry to <var>sourced names</var> with that <code id=the-form-element:the-id-attribute-2><a href=#the-id-attribute>id</a></code>
+     attribute's value as the string, <var>candidate</var> as the element, and <i>id</i> as
+     the source.<li><p>If <var>candidate</var> has a <code id=the-form-element:attr-fe-name-3><a href=#attr-fe-name>name</a></code> attribute,
+     add an entry to <var>sourced names</var> with that <code id=the-form-element:attr-fe-name-4><a href=#attr-fe-name>name</a></code> attribute's value as the string, <var>candidate</var>
+     as the element, and <i>name</i> as the source.</ol>
+
+   <li>
+
+    <p>For each <code id=the-form-element:the-img-element-2><a href=#the-img-element>img</a></code> element <var>candidate</var> whose <a href=#form-owner id=the-form-element:form-owner-3>form owner</a>
+    is the <code id=the-form-element:the-form-element-10><a href=#the-form-element>form</a></code> element, run these substeps:</p>
+
+    <ol><li><p>If <var>candidate</var> has an <code id=the-form-element:the-id-attribute-3><a href=#the-id-attribute>id</a></code> attribute, add
+     an entry to <var>sourced names</var> with that <code id=the-form-element:the-id-attribute-4><a href=#the-id-attribute>id</a></code>
+     attribute's value as the string, <var>candidate</var> as the element, and <i>id</i> as
+     the source.<li><p>If <var>candidate</var> has a <code id=the-form-element:attr-img-name><a href=#attr-img-name>name</a></code> attribute,
+     add an entry to <var>sourced names</var> with that <code id=the-form-element:attr-img-name-2><a href=#attr-img-name>name</a></code> attribute's value as the string, <var>candidate</var>
+     as the element, and <i>name</i> as the source.</ol>
+
+   <li>
+
+    <p>For each entry <var>past entry</var> in the <a href=#past-names-map id=the-form-element:past-names-map>past names map</a> add an entry
+    to <var>sourced names</var> with the <var>past entry</var>'s name as the
+    string, <var>past entry</var>'s element as the element, <i>past</i> as the source, and
+    the length of time <var>past entry</var> has been in the <a href=#past-names-map id=the-form-element:past-names-map-2>past names map</a> as
+    the age.</p>
+
+   <li><p>Sort <var>sourced names</var> by <a id=the-form-element:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> of the element entry of
+   each tuple, sorting entries with the same element by putting entries whose source is <i>id</i>
+   first, then entries whose source is <i>name</i>, and finally entries whose source is <i>past</i>,
+   and sorting entries with the same element and source by their age, oldest first.<li><p>Remove any entries in <var>sourced names</var> that have the empty string as
+   their name.<li><p>Remove any entries in <var>sourced names</var> that have the same name as an
+   earlier entry in the map.<li><p>Return the list of names from <var>sourced names</var>, maintaining their
+   relative order.</ol>
+
+  <p id=dom-form-nameditem>To <a id=the-form-element:determine-the-value-of-a-named-property href=https://heycam.github.io/webidl/#dfn-determine-the-value-of-a-named-property data-x-internal=determine-the-value-of-a-named-property>determine the value of a named property</a> <var>name</var>
+  for a <code id=the-form-element:the-form-element-11><a href=#the-form-element>form</a></code> element, the user agent must run the following steps:</p>
+
+  <ol><li><p>Let <var>candidates</var> be a <a href=#live id=the-form-element:live>live</a> <code id=the-form-element:radionodelist-4><a href=#radionodelist>RadioNodeList</a></code> object
+   containing all the <a href=#category-listed id=the-form-element:category-listed-3>listed elements</a>, whose <a href=#form-owner id=the-form-element:form-owner-4>form
+   owner</a> is the <code id=the-form-element:the-form-element-12><a href=#the-form-element>form</a></code> element, that have either an <code id=the-form-element:the-id-attribute-5><a href=#the-id-attribute>id</a></code> attribute or a <code id=the-form-element:attr-fe-name-5><a href=#attr-fe-name>name</a></code> attribute equal
+   to <var>name</var>, with the exception of <code id=the-form-element:the-input-element-3><a href=#the-input-element>input</a></code> elements whose <code id=the-form-element:attr-input-type-3><a href=#attr-input-type>type</a></code> attribute is in the <a href="#image-button-state-(type=image)" id="the-form-element:image-button-state-(type=image)-3">Image Button</a> state, in <a id=the-form-element:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>.<li><p>If <var>candidates</var> is empty, let <var>candidates</var> be a <a href=#live id=the-form-element:live-2>live</a>
+   <code id=the-form-element:radionodelist-5><a href=#radionodelist>RadioNodeList</a></code> object containing all the <code id=the-form-element:the-img-element-3><a href=#the-img-element>img</a></code> elements, whose <a href=#form-owner id=the-form-element:form-owner-5>form
+   owner</a> is the <code id=the-form-element:the-form-element-13><a href=#the-form-element>form</a></code> element, that have either an <code id=the-form-element:the-id-attribute-6><a href=#the-id-attribute>id</a></code> attribute or a <code id=the-form-element:attr-img-name-3><a href=#attr-img-name>name</a></code> attribute
+   equal to <var>name</var>, in <a id=the-form-element:tree-order-3 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>.<li><p>If <var>candidates</var> is empty, <var>name</var> is the name of one of
+   the entries in the <code id=the-form-element:the-form-element-14><a href=#the-form-element>form</a></code> element's <a href=#past-names-map id=the-form-element:past-names-map-3>past names map</a>: return the object
+   associated with <var>name</var> in that map.<li><p>If <var>candidates</var> contains more than one node, return <var>candidates</var> and abort these steps.<li><p>Otherwise, <var>candidates</var> contains exactly one node. Add a mapping from
+   <var>name</var> to the node in <var>candidates</var> in the <code id=the-form-element:the-form-element-15><a href=#the-form-element>form</a></code>
+   element's <a href=#past-names-map id=the-form-element:past-names-map-4>past names map</a>, replacing the previous entry with the same name, if
+   any.<li><p>Return the node in <var>candidates</var>.</ol>
+
+  <p>If an element listed in a <code id=the-form-element:the-form-element-16><a href=#the-form-element>form</a></code> element's <a href=#past-names-map id=the-form-element:past-names-map-5>past names map</a> changes
+  <a href=#form-owner id=the-form-element:form-owner-6>form owner</a>, then its entries must be removed from that map.</p>
+
+  
+
+  
+
+  <hr>
+
+  <p>The <dfn id=dom-form-submit><code>submit()</code></dfn> method, when invoked, must <a href=#concept-form-submit id=the-form-element:concept-form-submit>submit</a> the <code id=the-form-element:the-form-element-17><a href=#the-form-element>form</a></code> element from the <code id=the-form-element:the-form-element-18><a href=#the-form-element>form</a></code>
+  element itself, with the <var>submitted from <code id=the-form-element:dom-form-submit-3><a href=#dom-form-submit>submit()</a></code> method</var> flag set.</p>
+
+  <p>The <dfn id=dom-form-reset><code>reset()</code></dfn> method, when invoked, must run the
+  following steps:</p>
+
+  <ol><li><p>If the <code id=the-form-element:the-form-element-19><a href=#the-form-element>form</a></code> element is marked as <i id=the-form-element:locked-for-reset><a href=#locked-for-reset>locked for reset</a></i>, then abort these
+   steps.<li><p>Mark the <code id=the-form-element:the-form-element-20><a href=#the-form-element>form</a></code> element as <dfn id=locked-for-reset>locked for reset</dfn>.<li><p><a href=#concept-form-reset id=the-form-element:concept-form-reset>Reset</a> the <code id=the-form-element:the-form-element-21><a href=#the-form-element>form</a></code> element.<li><p>Unmark the <code id=the-form-element:the-form-element-22><a href=#the-form-element>form</a></code> element as <i id=the-form-element:locked-for-reset-2><a href=#locked-for-reset>locked for reset</a></i>.</ol>
+
+  <p>If the <dfn id=dom-form-checkvalidity><code>checkValidity()</code></dfn> method is
+  invoked, the user agent must <a href=#statically-validate-the-constraints id=the-form-element:statically-validate-the-constraints>statically validate the constraints</a> of the
+  <code id=the-form-element:the-form-element-23><a href=#the-form-element>form</a></code> element, and return true if the constraint validation return a <i>positive</i>
+  result, and false if it returned a <i>negative</i> result.</p>
+
+  <p>If the <dfn id=dom-form-reportvalidity><code>reportValidity()</code></dfn> method is
+  invoked, the user agent must <a href=#interactively-validate-the-constraints id=the-form-element:interactively-validate-the-constraints>interactively validate the constraints</a> of the
+  <code id=the-form-element:the-form-element-24><a href=#the-form-element>form</a></code> element, and return true if the constraint validation return a <i>positive</i>
+  result, and false if it returned a <i>negative</i> result.</p>
+
+  
+
+
+  <div class=example>
+
+   <p>This example shows two search forms:</p>
+
+   <pre>&lt;form action="https://www.google.com/search" method="get">
+ &lt;label>Google: &lt;input type="search" name="q">&lt;/label> &lt;input type="submit" value="Search...">
+&lt;/form>
+&lt;form action="https://www.bing.com/search" method="get">
+ &lt;label>Bing: &lt;input type="search" name="q">&lt;/label> &lt;input type="submit" value="Search...">
+&lt;/form></pre>
+
+  </div>
+
+
+
+  <h4 id=the-label-element>4.10.4 The <dfn><code>label</code></dfn> element<a href=#the-label-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-label-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-label-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-label-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#interactive-content-2 id=the-label-element:interactive-content-2>Interactive content</a>.<dd><a href=#palpable-content-2 id=the-label-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-label-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-label-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-label-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-label-element:phrasing-content-2-3>Phrasing content</a>, but with no descendant <a href=#category-label id=the-label-element:category-label>labelable elements</a> unless it is the element's <a href=#labeled-control id=the-label-element:labeled-control>labeled control</a>, and no descendant <code id=the-label-element:the-label-element><a href=#the-label-element>label</a></code> elements.<dt><a href=#concept-element-tag-omission id=the-label-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-label-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-label-element:global-attributes>Global attributes</a><dd><code id=the-label-element:attr-label-for><a href=#attr-label-for>for</a></code> — Associate the label with form control<dt><a href=#concept-element-dom id=the-label-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-label-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmllabelelement>HTMLLabelElement</dfn> : <a href=#htmlelement id=the-label-element:htmlelement>HTMLElement</a> {
+  readonly attribute <a href=#htmlformelement id=the-label-element:htmlformelement>HTMLFormElement</a>? <a href=#dom-label-form id=the-label-element:dom-label-form>form</a>;
+  [<a href=#cereactions id=the-label-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-label-htmlfor id=the-label-element:dom-label-htmlfor>htmlFor</a>;
+  readonly attribute <a href=#htmlelement id=the-label-element:htmlelement-2>HTMLElement</a>? <a href=#dom-label-control id=the-label-element:dom-label-control>control</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-label-element:the-label-element-2><a href=#the-label-element>label</a></code> element <a href=#represents id=the-label-element:represents>represents</a> a caption in a user interface. The
+  caption can be associated with a specific form control, known as the
+  <code id=the-label-element:the-label-element-3><a href=#the-label-element>label</a></code> element's <dfn id=labeled-control>labeled control</dfn>, either using the <code id=the-label-element:attr-label-for-2><a href=#attr-label-for>for</a></code> attribute, or by putting the form control inside the
+  <code id=the-label-element:the-label-element-4><a href=#the-label-element>label</a></code> element itself.</p>
+
+  
+
+  <p>Except where otherwise specified by the following rules, a <code id=the-label-element:the-label-element-5><a href=#the-label-element>label</a></code> element has no
+  <a href=#labeled-control id=the-label-element:labeled-control-2>labeled control</a>.</p>
+
+  
+
+  <p>The <dfn id=attr-label-for><code>for</code></dfn> attribute may be specified to indicate a
+  form control with which the caption is to be associated. If the attribute is specified, the
+  attribute's value must be the <a href=https://dom.spec.whatwg.org/#concept-id id=the-label-element:concept-id data-x-internal=concept-id>ID</a> of a <a href=#category-label id=the-label-element:category-label-2>labelable element</a> in the same <a id=the-label-element:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a> as the
+  <code id=the-label-element:the-label-element-6><a href=#the-label-element>label</a></code> element. If the attribute is specified and there is an
+  element in the <a id=the-label-element:tree-2 href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a> whose <a href=https://dom.spec.whatwg.org/#concept-id id=the-label-element:concept-id-2 data-x-internal=concept-id>ID</a> is equal to the value
+  of the <code id=the-label-element:attr-label-for-3><a href=#attr-label-for>for</a></code> attribute, and the first such element in
+  <a id=the-label-element:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> is a <a href=#category-label id=the-label-element:category-label-3>labelable element</a>, then that
+  element is the <code id=the-label-element:the-label-element-7><a href=#the-label-element>label</a></code> element's <a href=#labeled-control id=the-label-element:labeled-control-3>labeled control</a>.</p>
+
+  
+
+  <p>If the <code id=the-label-element:attr-label-for-4><a href=#attr-label-for>for</a></code> attribute is not specified, but the
+  <code id=the-label-element:the-label-element-8><a href=#the-label-element>label</a></code> element has a <a href=#category-label id=the-label-element:category-label-4>labelable element</a> descendant,
+  then the first such descendant in <a id=the-label-element:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> is the <code id=the-label-element:the-label-element-9><a href=#the-label-element>label</a></code> element's
+  <a href=#labeled-control id=the-label-element:labeled-control-4>labeled control</a>.</p>
+
+  <p>The <code id=the-label-element:the-label-element-10><a href=#the-label-element>label</a></code> element's exact default presentation and behavior, in particular what
+  its <a id=the-label-element:activation-behaviour href=https://dom.spec.whatwg.org/#eventtarget-activation-behavior data-x-internal=activation-behaviour>activation behavior</a> might be, if anything, should match the platform's label
+  behavior. The <a id=the-label-element:activation-behaviour-2 href=https://dom.spec.whatwg.org/#eventtarget-activation-behavior data-x-internal=activation-behaviour>activation behavior</a> of a <code id=the-label-element:the-label-element-11><a href=#the-label-element>label</a></code> element for events targeted
+  at <a href=#interactive-content-2 id=the-label-element:interactive-content-2-2>interactive content</a> descendants of a <code id=the-label-element:the-label-element-12><a href=#the-label-element>label</a></code> element, and any
+  descendants of those <a href=#interactive-content-2 id=the-label-element:interactive-content-2-3>interactive content</a> descendants, must be to do nothing.</p>
+
+  
+
+  <div class=example>
+
+   <p>For example, on platforms where clicking a checkbox label checks the checkbox, clicking the
+   <code id=the-label-element:the-label-element-13><a href=#the-label-element>label</a></code> in the following snippet could trigger the user agent to <a href=#fire-a-click-event id=the-label-element:fire-a-click-event>fire a <code>click</code> event</a> at the <code id=the-label-element:the-input-element><a href=#the-input-element>input</a></code> element, as if the
+   element itself had been triggered by the user:</p>
+
+   <pre>&lt;label>&lt;input type=checkbox name=lost> Lost&lt;/label></pre>
+
+   <p>On other platforms, the behavior might be just to focus the control, or do nothing.</p>
+
+  </div>
+
+  
+
+  <div class=example>
+
+   <p>The following example shows three form controls each with a label, two of which have small
+   text showing the right format for users to use.</p>
+
+   <pre>&lt;p>&lt;label>Full name: &lt;input name=fn> &lt;small>Format: First Last&lt;/small>&lt;/label>&lt;/p>
+&lt;p>&lt;label>Age: &lt;input name=age type=number min=0>&lt;/label>&lt;/p>
+&lt;p>&lt;label>Post code: &lt;input name=pc> &lt;small>Format: AB12 3CD&lt;/small>&lt;/label>&lt;/p></pre>
+
+  </div>
+
+
+  <dl class=domintro><dt><var>label</var> . <code id=the-label-element:dom-label-control-2><a href=#dom-label-control>control</a></code><dd>
+
+    <p>Returns the form control that is associated with this element.</p>
+
+   <dt><var>label</var> . <code id=the-label-element:dom-label-form-2><a href=#dom-label-form>form</a></code><dd>
+
+    <p>Returns the <a href=#form-owner id=the-label-element:form-owner>form owner</a> of the form control that is associated with this
+    element.</p>
+
+    <p>Returns null if there isn't one.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-label-htmlfor><code>htmlFor</code></dfn> IDL attribute must
+  <a href=#reflect id=the-label-element:reflect>reflect</a> the <code id=the-label-element:attr-label-for-5><a href=#attr-label-for>for</a></code> content attribute.</p>
+
+  <p>The <dfn id=dom-label-control><code>control</code></dfn> IDL attribute must return the
+  <code id=the-label-element:the-label-element-14><a href=#the-label-element>label</a></code> element's <a href=#labeled-control id=the-label-element:labeled-control-5>labeled control</a>, if any, or null if there isn't one.</p>
+
+  <p>The <dfn id=dom-label-form><code>form</code></dfn> IDL attribute must run the following
+  steps:</p>
+
+  <ol><li><p>If the <code id=the-label-element:the-label-element-15><a href=#the-label-element>label</a></code> element has no <a href=#labeled-control id=the-label-element:labeled-control-6>labeled control</a>, then return
+   null.<li><p>If the <code id=the-label-element:the-label-element-16><a href=#the-label-element>label</a></code> element's <a href=#labeled-control id=the-label-element:labeled-control-7>labeled control</a> is not a
+   <a href=#form-associated-element id=the-label-element:form-associated-element>form-associated element</a>, then return null.<li><p>Return the <code id=the-label-element:the-label-element-17><a href=#the-label-element>label</a></code> element's <a href=#labeled-control id=the-label-element:labeled-control-8>labeled control</a>'s <a href=#form-owner id=the-label-element:form-owner-2>form
+   owner</a> (which can still be null).</ol>
+
+  
+
+  <p class=note>The <code id=the-label-element:dom-label-form-3><a href=#dom-label-form>form</a></code> IDL attribute on the
+  <code id=the-label-element:the-label-element-18><a href=#the-label-element>label</a></code> element is different from the <code id=the-label-element:attr-fae-form><a href=#attr-fae-form>form</a></code> IDL
+  attribute on <a href=#category-listed id=the-label-element:category-listed>listed</a> <a href=#form-associated-element id=the-label-element:form-associated-element-2>form-associated elements</a>, and the <code id=the-label-element:the-label-element-19><a href=#the-label-element>label</a></code> element does not have a <code id=the-label-element:attr-fae-form-2><a href=#attr-fae-form>form</a></code> content attribute.</p>
+
+  <hr>
+
+  <dl class=domintro><dt><var>control</var> . <code id=the-label-element:dom-lfe-labels><a href=#dom-lfe-labels>labels</a></code><dd>
+
+    <p>Returns a <code id=the-label-element:nodelist><a data-x-internal=nodelist href=https://dom.spec.whatwg.org/#interface-nodelist>NodeList</a></code> of all the <code id=the-label-element:the-label-element-20><a href=#the-label-element>label</a></code> elements that the form control
+    is associated with.</p>
+
+   </dl>
+
+  
+
+  <p><a href=#category-label id=the-label-element:category-label-5>Labelable elements</a> have a <code id=the-label-element:nodelist-2><a data-x-internal=nodelist href=https://dom.spec.whatwg.org/#interface-nodelist>NodeList</a></code> object
+  associated with them that represents the list of <code id=the-label-element:the-label-element-21><a href=#the-label-element>label</a></code> elements, in <a id=the-label-element:tree-order-3 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree
+  order</a>, whose <a href=#labeled-control id=the-label-element:labeled-control-9>labeled control</a> is the element in question. The <dfn id=dom-lfe-labels><code>labels</code></dfn> IDL attribute of <a href=#category-label id=the-label-element:category-label-6>labelable elements</a>, on getting, must return that
+  <code id=the-label-element:nodelist-3><a data-x-internal=nodelist href=https://dom.spec.whatwg.org/#interface-nodelist>NodeList</a></code> object.</p>
+
+  
+
+
+
+  <h4 id=the-input-element data-dfn-type=element data-lt=input>4.10.5 The <dfn><code>input</code></dfn> element<a href=#the-input-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-input-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-input-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-input-element:phrasing-content-2>Phrasing content</a>.<dd>If the <code id=the-input-element:attr-input-type><a href=#attr-input-type>type</a></code> attribute is <em>not</em> in the <a href="#hidden-state-(type=hidden)" id="the-input-element:hidden-state-(type=hidden)">Hidden</a> state: <a href=#interactive-content-2 id=the-input-element:interactive-content-2>Interactive content</a>.<dd>If the <code id=the-input-element:attr-input-type-2><a href=#attr-input-type>type</a></code> attribute is <em>not</em> in the <a href="#hidden-state-(type=hidden)" id="the-input-element:hidden-state-(type=hidden)-2">Hidden</a> state: <a href=#category-listed id=the-input-element:category-listed>Listed</a>, <a href=#category-label id=the-input-element:category-label>labelable</a>, <a href=#category-submit id=the-input-element:category-submit>submittable</a>, and <a href=#category-reset id=the-input-element:category-reset>resettable</a> <a href=#form-associated-element id=the-input-element:form-associated-element>form-associated element</a>.<dd>If the <code id=the-input-element:attr-input-type-3><a href=#attr-input-type>type</a></code> attribute is in the <a href="#hidden-state-(type=hidden)" id="the-input-element:hidden-state-(type=hidden)-3">Hidden</a> state: <a href=#category-listed id=the-input-element:category-listed-2>Listed</a>, <a href=#category-submit id=the-input-element:category-submit-2>submittable</a>, and <a href=#category-reset id=the-input-element:category-reset-2>resettable</a> <a href=#form-associated-element id=the-input-element:form-associated-element-2>form-associated element</a>.<dd>If the <code id=the-input-element:attr-input-type-4><a href=#attr-input-type>type</a></code> attribute is <em>not</em> in the <a href="#hidden-state-(type=hidden)" id="the-input-element:hidden-state-(type=hidden)-4">Hidden</a> state: <a href=#palpable-content-2 id=the-input-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-input-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-input-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-input-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-input-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-input-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-input-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-input-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-input-element:global-attributes>Global attributes</a><dd><code id=the-input-element:attr-input-accept><a href=#attr-input-accept>accept</a></code> — Hint for expected file type in <a href="#file-upload-state-(type=file)" id="the-input-element:file-upload-state-(type=file)">file upload controls</a><dd><code id=the-input-element:attr-input-alt><a href=#attr-input-alt>alt</a></code> — Replacement text for use when images are not available<dd><code id=the-input-element:attr-fe-autocomplete><a href=#attr-fe-autocomplete>autocomplete</a></code> — Hint for form autofill feature<dd><code id=the-input-element:attr-fe-autofocus><a href=#attr-fe-autofocus>autofocus</a></code> — Automatically focus the form control when the page is loaded<dd><code id=the-input-element:attr-input-checked><a href=#attr-input-checked>checked</a></code> — Whether the command or control is checked<dd><code id=the-input-element:attr-fe-dirname><a href=#attr-fe-dirname>dirname</a></code> — Name of form control to use for sending the element's <a href=#the-directionality id=the-input-element:the-directionality>directionality</a> in <a href=#form-submission-2 id=the-input-element:form-submission-2>form submission</a><dd><code id=the-input-element:attr-fe-disabled><a href=#attr-fe-disabled>disabled</a></code> — Whether the form control is disabled<dd><code id=the-input-element:attr-fae-form><a href=#attr-fae-form>form</a></code> — Associates the control with a <code id=the-input-element:the-form-element><a href=#the-form-element>form</a></code> element<dd><code id=the-input-element:attr-fs-formaction><a href=#attr-fs-formaction>formaction</a></code> — <a id=the-input-element:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> to use for <a href=#form-submission-2 id=the-input-element:form-submission-2-2>form submission</a><dd><code id=the-input-element:attr-fs-formenctype><a href=#attr-fs-formenctype>formenctype</a></code> — Form data set encoding type to use for <a href=#form-submission-2 id=the-input-element:form-submission-2-3>form submission</a><dd><code id=the-input-element:attr-fs-formmethod><a href=#attr-fs-formmethod>formmethod</a></code> — HTTP method to use for <a href=#form-submission-2 id=the-input-element:form-submission-2-4>form submission</a><dd><code id=the-input-element:attr-fs-formnovalidate><a href=#attr-fs-formnovalidate>formnovalidate</a></code> — Bypass form control validation for <a href=#form-submission-2 id=the-input-element:form-submission-2-5>form submission</a><dd><code id=the-input-element:attr-fs-formtarget><a href=#attr-fs-formtarget>formtarget</a></code> — <a href=#browsing-context id=the-input-element:browsing-context>Browsing context</a> for <a href=#form-submission-2 id=the-input-element:form-submission-2-6>form submission</a><dd><code id=the-input-element:attr-dim-height><a href=#attr-dim-height>height</a></code> — Vertical dimension<dd><code id=the-input-element:attr-fe-inputmode><a href=#attr-fe-inputmode>inputmode</a></code> — Hint for selecting an input modality<dd><code id=the-input-element:attr-input-list><a href=#attr-input-list>list</a></code> — List of autocomplete options<dd><code id=the-input-element:attr-input-max><a href=#attr-input-max>max</a></code> — Maximum value<dd><code id=the-input-element:attr-input-maxlength><a href=#attr-input-maxlength>maxlength</a></code> — Maximum length of value<dd><code id=the-input-element:attr-input-min><a href=#attr-input-min>min</a></code> — Minimum value<dd><code id=the-input-element:attr-input-minlength><a href=#attr-input-minlength>minlength</a></code> — Minimum length of value<dd><code id=the-input-element:attr-input-multiple><a href=#attr-input-multiple>multiple</a></code> — Whether to allow multiple values<dd><code id=the-input-element:attr-fe-name><a href=#attr-fe-name>name</a></code> — Name of form control to use for <a href=#form-submission-2 id=the-input-element:form-submission-2-7>form submission</a> and in the <code id=the-input-element:dom-form-elements><a href=#dom-form-elements>form.elements</a></code> API <dd><code id=the-input-element:attr-input-pattern><a href=#attr-input-pattern>pattern</a></code> — Pattern to be matched by the form control's value<dd><code id=the-input-element:attr-input-placeholder><a href=#attr-input-placeholder>placeholder</a></code> — User-visible label to be placed within the form control<dd><code id=the-input-element:attr-input-readonly><a href=#attr-input-readonly>readonly</a></code> — Whether to allow the value to be edited by the user<dd><code id=the-input-element:attr-input-required><a href=#attr-input-required>required</a></code> — Whether the control is required for <a href=#form-submission-2 id=the-input-element:form-submission-2-8>form submission</a><dd><code id=the-input-element:attr-input-size><a href=#attr-input-size>size</a></code> — Size of the control<dd><code id=the-input-element:attr-input-src><a href=#attr-input-src>src</a></code> — Address of the resource<dd><code id=the-input-element:attr-input-step><a href=#attr-input-step>step</a></code> — Granularity to be matched by the form control's value<dd><code id=the-input-element:attr-input-type-5><a href=#attr-input-type>type</a></code> — Type of form control<dd><code id=the-input-element:attr-input-value><a href=#attr-input-value>value</a></code> — Value of the form control<dd><code id=the-input-element:attr-dim-width><a href=#attr-dim-width>width</a></code> — Horizontal dimension<dd>Also, the <code id=the-input-element:attr-input-title><a href=#attr-input-title>title</a></code> attribute <a href=#attr-input-title id=the-input-element:attr-input-title-2>has special semantics</a> on this element: Description of pattern (when used with <code id=the-input-element:attr-input-pattern-2><a href=#attr-input-pattern>pattern</a></code> attribute).<dt><a href=#concept-element-dom id=the-input-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-input-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlinputelement>HTMLInputElement</dfn> : <a href=#htmlelement id=the-input-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-input-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-input-accept id=the-input-element:dom-input-accept>accept</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-input-alt id=the-input-element:dom-input-alt>alt</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-fe-autocomplete id=the-input-element:dom-fe-autocomplete>autocomplete</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-4>CEReactions</a>] attribute boolean <a href=#dom-fe-autofocus id=the-input-element:dom-fe-autofocus>autofocus</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-5>CEReactions</a>] attribute boolean <a href=#dom-input-defaultchecked id=the-input-element:dom-input-defaultchecked>defaultChecked</a>;
+  attribute boolean <a href=#dom-input-checked id=the-input-element:dom-input-checked>checked</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-6>CEReactions</a>] attribute DOMString <a href=#dom-input-dirname id=the-input-element:dom-input-dirname>dirName</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-7>CEReactions</a>] attribute boolean <a href=#dom-fe-disabled id=the-input-element:dom-fe-disabled>disabled</a>;
+  readonly attribute <a href=#htmlformelement id=the-input-element:htmlformelement>HTMLFormElement</a>? <a href=#dom-fae-form id=the-input-element:dom-fae-form>form</a>;
+  readonly attribute <a id=the-input-element:filelist href=https://w3c.github.io/FileAPI/#filelist-section data-x-internal=filelist>FileList</a>? <a href=#dom-input-files id=the-input-element:dom-input-files>files</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-8>CEReactions</a>] attribute USVString <a href=#dom-fs-formaction id=the-input-element:dom-fs-formaction>formAction</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-9>CEReactions</a>] attribute DOMString <a href=#dom-fs-formenctype id=the-input-element:dom-fs-formenctype>formEnctype</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-10>CEReactions</a>] attribute DOMString <a href=#dom-fs-formmethod id=the-input-element:dom-fs-formmethod>formMethod</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-11>CEReactions</a>] attribute boolean <a href=#dom-fs-formnovalidate id=the-input-element:dom-fs-formnovalidate>formNoValidate</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-12>CEReactions</a>] attribute DOMString <a href=#dom-fs-formtarget id=the-input-element:dom-fs-formtarget>formTarget</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-13>CEReactions</a>] attribute unsigned long <a href=#dom-input-height id=the-input-element:dom-input-height>height</a>;
+  attribute boolean <a href=#dom-input-indeterminate id=the-input-element:dom-input-indeterminate>indeterminate</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-14>CEReactions</a>] attribute DOMString <a href=#dom-input-inputmode id=the-input-element:dom-input-inputmode>inputMode</a>;
+  readonly attribute <a href=#htmlelement id=the-input-element:htmlelement-2>HTMLElement</a>? <a href=#dom-input-list id=the-input-element:dom-input-list>list</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-15>CEReactions</a>] attribute DOMString <a href=#dom-input-max id=the-input-element:dom-input-max>max</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-16>CEReactions</a>] attribute long <a href=#dom-input-maxlength id=the-input-element:dom-input-maxlength>maxLength</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-17>CEReactions</a>] attribute DOMString <a href=#dom-input-min id=the-input-element:dom-input-min>min</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-18>CEReactions</a>] attribute long <a href=#dom-input-minlength id=the-input-element:dom-input-minlength>minLength</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-19>CEReactions</a>] attribute boolean <a href=#dom-input-multiple id=the-input-element:dom-input-multiple>multiple</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-20>CEReactions</a>] attribute DOMString <a href=#dom-fe-name id=the-input-element:dom-fe-name>name</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-21>CEReactions</a>] attribute DOMString <a href=#dom-input-pattern id=the-input-element:dom-input-pattern>pattern</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-22>CEReactions</a>] attribute DOMString <a href=#dom-input-placeholder id=the-input-element:dom-input-placeholder>placeholder</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-23>CEReactions</a>] attribute boolean <a href=#dom-input-readonly id=the-input-element:dom-input-readonly>readOnly</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-24>CEReactions</a>] attribute boolean <a href=#dom-input-required id=the-input-element:dom-input-required>required</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-25>CEReactions</a>] attribute unsigned long <a href=#dom-input-size id=the-input-element:dom-input-size>size</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-26>CEReactions</a>] attribute USVString <a href=#dom-input-src id=the-input-element:dom-input-src>src</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-27>CEReactions</a>] attribute DOMString <a href=#dom-input-step id=the-input-element:dom-input-step>step</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-28>CEReactions</a>] attribute DOMString <a href=#dom-input-type id=the-input-element:dom-input-type>type</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-29>CEReactions</a>] attribute DOMString <a href=#dom-input-defaultvalue id=the-input-element:dom-input-defaultvalue>defaultValue</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-30>CEReactions</a>, TreatNullAs=EmptyString] attribute DOMString <a href=#dom-input-value id=the-input-element:dom-input-value>value</a>;
+  attribute <a href=https://heycam.github.io/webidl/#idl-object id=the-input-element:idl-object data-x-internal=idl-object>object</a>? <a href=#dom-input-valueasdate id=the-input-element:dom-input-valueasdate>valueAsDate</a>;
+  attribute unrestricted double <a href=#dom-input-valueasnumber id=the-input-element:dom-input-valueasnumber>valueAsNumber</a>;
+  [<a href=#cereactions id=the-input-element:cereactions-31>CEReactions</a>] attribute unsigned long <a href=#dom-input-width id=the-input-element:dom-input-width>width</a>;
+
+  void <a href=#dom-input-stepup id=the-input-element:dom-input-stepup>stepUp</a>(optional long n = 1);
+  void <a href=#dom-input-stepdown id=the-input-element:dom-input-stepdown>stepDown</a>(optional long n = 1);
+
+  readonly attribute boolean <a href=#dom-cva-willvalidate id=the-input-element:dom-cva-willvalidate>willValidate</a>;
+  readonly attribute <a href=#validitystate id=the-input-element:validitystate>ValidityState</a> <a href=#dom-cva-validity id=the-input-element:dom-cva-validity>validity</a>;
+  readonly attribute DOMString <a href=#dom-cva-validationmessage id=the-input-element:dom-cva-validationmessage>validationMessage</a>;
+  boolean <a href=#dom-cva-checkvalidity id=the-input-element:dom-cva-checkvalidity>checkValidity</a>();
+  boolean <a href=#dom-cva-reportvalidity id=the-input-element:dom-cva-reportvalidity>reportValidity</a>();
+  void <a href=#dom-cva-setcustomvalidity id=the-input-element:dom-cva-setcustomvalidity>setCustomValidity</a>(DOMString error);
+
+  [SameObject] readonly attribute <a id=the-input-element:nodelist href=https://dom.spec.whatwg.org/#interface-nodelist data-x-internal=nodelist>NodeList</a> <a href=#dom-lfe-labels id=the-input-element:dom-lfe-labels>labels</a>;
+
+  void <a href=#dom-textarea/input-select id=the-input-element:dom-textarea/input-select>select</a>();
+  attribute unsigned long? <a href=#dom-textarea/input-selectionstart id=the-input-element:dom-textarea/input-selectionstart>selectionStart</a>;
+  attribute unsigned long? <a href=#dom-textarea/input-selectionend id=the-input-element:dom-textarea/input-selectionend>selectionEnd</a>;
+  attribute DOMString? <a href=#dom-textarea/input-selectiondirection id=the-input-element:dom-textarea/input-selectiondirection>selectionDirection</a>;
+  void <a href=#dom-textarea/input-setrangetext id=the-input-element:dom-textarea/input-setrangetext>setRangeText</a>(DOMString replacement);
+  void <a href=#dom-textarea/input-setrangetext id=the-input-element:dom-textarea/input-setrangetext-2>setRangeText</a>(DOMString replacement, unsigned long start, unsigned long end, optional <a href=#selectionmode id=the-input-element:selectionmode>SelectionMode</a> selectionMode = "preserve");
+  void <a href=#dom-textarea/input-setselectionrange id=the-input-element:dom-textarea/input-setselectionrange>setSelectionRange</a>(unsigned long start, unsigned long end, optional DOMString direction);
+
+  // <a href="#HTMLInputElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-input-element:the-input-element><a href=#the-input-element>input</a></code> element <a href=#represents id=the-input-element:represents>represents</a> a typed data field, usually with a form
+  control to allow the user to edit the data.</p>
+
+  <p>The <dfn id=attr-input-type><code>type</code></dfn> attribute controls the data type (and
+  associated control) of the element. It is an <a href=#enumerated-attribute id=the-input-element:enumerated-attribute>enumerated attribute</a>. The following
+  table lists the keywords and states for the attribute — the keywords in the left column map
+  to the states in the cell in the second column on the same row as the keyword.</p>
+
+  <table id=attr-input-type-keywords><thead><tr><th> Keyword
+     <th> State
+     <th> Data type
+     <th> Control type
+   <tbody><tr><td> <dfn id=attr-input-type-hidden-keyword><code>hidden</code></dfn>
+     <td> <a href="#hidden-state-(type=hidden)" id="the-input-element:hidden-state-(type=hidden)-5">Hidden</a>
+     <td> An arbitrary string
+     <td> n/a
+    <tr><td> <dfn id=attr-input-type-text-keyword><code>text</code></dfn>
+     <td> <a href="#text-(type=text)-state-and-search-state-(type=search)" id="the-input-element:text-(type=text)-state-and-search-state-(type=search)">Text</a>
+     <td> Text with no line breaks
+     <td> A text control
+    <tr><td> <dfn id=attr-input-type-search-keyword><code>search</code></dfn>
+     <td> <a href="#text-(type=text)-state-and-search-state-(type=search)" id="the-input-element:text-(type=text)-state-and-search-state-(type=search)-2">Search</a>
+     <td> Text with no line breaks
+     <td> Search control
+    <tr><td> <dfn id=attr-input-type-tel-keyword><code>tel</code></dfn>
+     <td> <a href="#telephone-state-(type=tel)" id="the-input-element:telephone-state-(type=tel)">Telephone</a>
+     <td> Text with no line breaks
+     <td> A text control
+    <tr><td> <dfn id=attr-input-type-url-keyword><code>url</code></dfn>
+     <td> <a href="#url-state-(type=url)" id="the-input-element:url-state-(type=url)">URL</a>
+     <td> An absolute URL
+     <td> A text control
+    <tr><td> <dfn id=attr-input-type-email-keyword><code>email</code></dfn>
+     <td> <a href="#e-mail-state-(type=email)" id="the-input-element:e-mail-state-(type=email)">E-mail</a>
+     <td> An e-mail address or list of e-mail addresses
+     <td> A text control
+    <tr><td> <dfn id=attr-input-type-password-keyword><code>password</code></dfn>
+     <td> <a href="#password-state-(type=password)" id="the-input-element:password-state-(type=password)">Password</a>
+     <td> Text with no line breaks (sensitive information)
+     <td> A text control that obscures data entry
+    <tr><td> <dfn id=attr-input-type-date-keyword><code>date</code></dfn>
+     <td> <a href="#date-state-(type=date)" id="the-input-element:date-state-(type=date)">Date</a>
+     <td> A date (year, month, day) with no time zone
+     <td> A date control
+    <tr><td> <dfn id=attr-input-type-month-keyword><code>month</code></dfn>
+     <td> <a href="#month-state-(type=month)" id="the-input-element:month-state-(type=month)">Month</a>
+     <td> A date consisting of a year and a month with no time zone
+     <td> A month control
+    <tr><td> <dfn id=attr-input-type-week-keyword><code>week</code></dfn>
+     <td> <a href="#week-state-(type=week)" id="the-input-element:week-state-(type=week)">Week</a>
+     <td> A date consisting of a week-year number and a week number with no time zone
+     <td> A week control
+    <tr><td> <dfn id=attr-input-type-time-keyword><code>time</code></dfn>
+     <td> <a href="#time-state-(type=time)" id="the-input-element:time-state-(type=time)">Time</a>
+     <td> A time (hour, minute, seconds, fractional seconds) with no time zone
+     <td> A time control
+    <tr><td> <dfn id=attr-input-type-datetime-local-keyword><code>datetime-local</code></dfn>
+     <td> <a href="#local-date-and-time-state-(type=datetime-local)" id="the-input-element:local-date-and-time-state-(type=datetime-local)">Local Date and Time</a>
+     <td> A date and time (year, month, day, hour, minute, second, fraction of a second) with no time zone
+     <td> A date and time control
+    <tr><td> <dfn id=attr-input-type-number-keyword><code>number</code></dfn>
+     <td> <a href="#number-state-(type=number)" id="the-input-element:number-state-(type=number)">Number</a>
+     <td> A numerical value
+     <td> A text control or spinner control
+    <tr><td> <dfn id=attr-input-type-range-keyword><code>range</code></dfn>
+     <td> <a href="#range-state-(type=range)" id="the-input-element:range-state-(type=range)">Range</a>
+     <td> A numerical value, with the extra semantic that the exact value is not important
+     <td> A slider control or similar
+    <tr><td> <dfn id=attr-input-type-color-keyword><code>color</code></dfn>
+     <td> <a href="#color-state-(type=color)" id="the-input-element:color-state-(type=color)">Color</a>
+     <td> An sRGB color with 8-bit red, green, and blue components
+     <td> A color picker
+    <tr><td> <dfn id=attr-input-type-checkbox-keyword><code>checkbox</code></dfn>
+     <td> <a href="#checkbox-state-(type=checkbox)" id="the-input-element:checkbox-state-(type=checkbox)">Checkbox</a>
+     <td> A set of zero or more values from a predefined list
+     <td> A checkbox
+    <tr><td> <dfn id=attr-input-type-radio-keyword><code>radio</code></dfn>
+     <td> <a href="#radio-button-state-(type=radio)" id="the-input-element:radio-button-state-(type=radio)">Radio Button</a>
+     <td> An enumerated value
+     <td> A radio button
+    <tr><td> <dfn id=attr-input-type-file-keyword><code>file</code></dfn>
+     <td> <a href="#file-upload-state-(type=file)" id="the-input-element:file-upload-state-(type=file)-2">File Upload</a>
+     <td> Zero or more files each with a <a id=the-input-element:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> and optionally a file name
+     <td> A label and a button
+    <tr><td> <dfn id=attr-input-type-submit-keyword><code>submit</code></dfn>
+     <td> <a href="#submit-button-state-(type=submit)" id="the-input-element:submit-button-state-(type=submit)">Submit Button</a>
+     <td> An enumerated value, with the extra semantic that it must be the last value selected and initiates form submission
+     <td> A button
+    <tr><td> <dfn id=attr-input-type-image-keyword><code>image</code></dfn>
+     <td> <a href="#image-button-state-(type=image)" id="the-input-element:image-button-state-(type=image)">Image Button</a>
+     <td> A coordinate, relative to a particular image's size, with the extra semantic that it must
+     be the last value selected and initiates form submission
+     <td> Either a clickable image, or a button
+    <tr><td> <dfn id=attr-input-type-reset-keyword><code>reset</code></dfn>
+     <td> <a href="#reset-button-state-(type=reset)" id="the-input-element:reset-button-state-(type=reset)">Reset Button</a>
+     <td> n/a
+     <td> A button
+    <tr><td> <dfn id=attr-input-type-button-keyword><code>button</code></dfn>
+     <td> <a href="#button-state-(type=button)" id="the-input-element:button-state-(type=button)">Button</a>
+     <td> n/a
+     <td> A button
+  </table>
+
+  <p>The <i id=the-input-element:missing-value-default><a href=#missing-value-default>missing value default</a></i> is the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="the-input-element:text-(type=text)-state-and-search-state-(type=search)-3">Text</a>
+  state.</p>
+
+  <p>Which of the
+   <code id=the-input-element:attr-input-accept-2><a href=#attr-input-accept>accept</a></code>,
+   <code id=the-input-element:attr-input-alt-2><a href=#attr-input-alt>alt</a></code>,
+   <code id=the-input-element:attr-fe-autocomplete-2><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id=the-input-element:attr-input-checked-2><a href=#attr-input-checked>checked</a></code>,
+   <code id=the-input-element:attr-fe-dirname-2><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id=the-input-element:attr-fs-formaction-2><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id=the-input-element:attr-fs-formenctype-2><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id=the-input-element:attr-fs-formmethod-2><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id=the-input-element:attr-fs-formnovalidate-2><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id=the-input-element:attr-fs-formtarget-2><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id=the-input-element:attr-dim-height-2><a href=#attr-dim-height>height</a></code>,
+   <code id=the-input-element:attr-fe-inputmode-2><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id=the-input-element:attr-input-list-2><a href=#attr-input-list>list</a></code>,
+   <code id=the-input-element:attr-input-max-2><a href=#attr-input-max>max</a></code>,
+   <code id=the-input-element:attr-input-maxlength-2><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id=the-input-element:attr-input-min-2><a href=#attr-input-min>min</a></code>,
+   <code id=the-input-element:attr-input-minlength-2><a href=#attr-input-minlength>minlength</a></code>,
+   <code id=the-input-element:attr-input-multiple-2><a href=#attr-input-multiple>multiple</a></code>,
+   <code id=the-input-element:attr-input-pattern-3><a href=#attr-input-pattern>pattern</a></code>,
+   <code id=the-input-element:attr-input-placeholder-2><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id=the-input-element:attr-input-readonly-2><a href=#attr-input-readonly>readonly</a></code>,
+   <code id=the-input-element:attr-input-required-2><a href=#attr-input-required>required</a></code>,
+   <code id=the-input-element:attr-input-size-2><a href=#attr-input-size>size</a></code>,
+   <code id=the-input-element:attr-input-src-2><a href=#attr-input-src>src</a></code>,
+   <code id=the-input-element:attr-input-step-2><a href=#attr-input-step>step</a></code>, and
+   <code id=the-input-element:attr-dim-width-2><a href=#attr-dim-width>width</a></code> content attributes, the
+   <code id=the-input-element:dom-input-checked-2><a href=#dom-input-checked>checked</a></code>,
+   <code id=the-input-element:dom-input-files-2><a href=#dom-input-files>files</a></code>,
+   <code id=the-input-element:dom-input-valueasdate-2><a href=#dom-input-valueasdate>valueAsDate</a></code>,
+   <code id=the-input-element:dom-input-valueasnumber-2><a href=#dom-input-valueasnumber>valueAsNumber</a></code>, and
+   <code id=the-input-element:dom-input-list-2><a href=#dom-input-list>list</a></code> IDL attributes, the
+   <code id=the-input-element:dom-textarea/input-select-2><a href=#dom-textarea/input-select>select()</a></code> method, the
+   <code id=the-input-element:dom-textarea/input-selectionstart-2><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id=the-input-element:dom-textarea/input-selectionend-2><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>, and
+   <code id=the-input-element:dom-textarea/input-selectiondirection-2><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code>, IDL attributes, the
+   <code id=the-input-element:dom-textarea/input-setrangetext-3><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code> and
+   <code id=the-input-element:dom-textarea/input-setselectionrange-2><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code> methods, the
+   <code id=the-input-element:dom-input-stepup-2><a href=#dom-input-stepup>stepUp()</a></code> and
+   <code id=the-input-element:dom-input-stepdown-2><a href=#dom-input-stepdown>stepDown()</a></code> methods, and the
+   <code id=the-input-element:event-input><a href=#event-input>input</a></code> and
+   <code id=the-input-element:event-change><a href=#event-change>change</a></code> events <dfn id=concept-input-apply>apply</dfn> to an
+   <code id=the-input-element:the-input-element-2><a href=#the-input-element>input</a></code> element depends on the state of its
+   <code id=the-input-element:attr-input-type-6><a href=#attr-input-type>type</a></code> attribute.
+  The subsections that define each type also clearly define in normative "bookkeeping" sections
+  which of these feature apply, and which <dfn id=do-not-apply>do not apply</dfn>, to each type. The behavior of
+  these features depends on whether they apply or not, as defined in their various sections (q.v.
+  for <a href=#common-input-element-attributes>content attributes</a>, for <a href=#common-input-element-apis>APIs</a>, for <a href=#common-input-element-events>events</a>).</p>
+
+  <p>The following table is non-normative and summarizes which of those
+  content attributes, IDL attributes, methods, and events <a href=#concept-input-apply id=the-input-element:concept-input-apply>apply</a> to each state:</p>
+
+  <table id=input-type-attr-summary class=applies><thead><tr><th>
+     <th> <span><a href="#hidden-state-(type=hidden)" id="the-input-element:hidden-state-(type=hidden)-6">Hidden</a></span>
+     <th> <span><a href="#text-(type=text)-state-and-search-state-(type=search)" id="the-input-element:text-(type=text)-state-and-search-state-(type=search)-4">Text</a>,</span>
+          <span><a href="#text-(type=text)-state-and-search-state-(type=search)" id="the-input-element:text-(type=text)-state-and-search-state-(type=search)-5">Search</a></span>
+     <th> <span><a href="#url-state-(type=url)" id="the-input-element:url-state-(type=url)-2">URL</a>,</span>
+          <span><a href="#telephone-state-(type=tel)" id="the-input-element:telephone-state-(type=tel)-2">Telephone</a></span>
+     <th> <span><a href="#e-mail-state-(type=email)" id="the-input-element:e-mail-state-(type=email)-2">E-mail</a></span>
+     <th> <span><a href="#password-state-(type=password)" id="the-input-element:password-state-(type=password)-2">Password</a></span>
+     <th> <span><a href="#date-state-(type=date)" id="the-input-element:date-state-(type=date)-2">Date</a>,</span>
+          <span><a href="#month-state-(type=month)" id="the-input-element:month-state-(type=month)-2">Month</a>,</span>
+          <span><a href="#week-state-(type=week)" id="the-input-element:week-state-(type=week)-2">Week</a>,</span>
+          <span><a href="#time-state-(type=time)" id="the-input-element:time-state-(type=time)-2">Time</a></span>
+     <th> <span><a href="#local-date-and-time-state-(type=datetime-local)" id="the-input-element:local-date-and-time-state-(type=datetime-local)-2">Local Date and Time</a></span>
+     <th> <span><a href="#number-state-(type=number)" id="the-input-element:number-state-(type=number)-2">Number</a></span>
+     <th> <span><a href="#range-state-(type=range)" id="the-input-element:range-state-(type=range)-2">Range</a></span>
+     <th> <span><a href="#color-state-(type=color)" id="the-input-element:color-state-(type=color)-2">Color</a></span>
+     <th> <span><a href="#checkbox-state-(type=checkbox)" id="the-input-element:checkbox-state-(type=checkbox)-2">Checkbox</a>,</span>
+          <span><a href="#radio-button-state-(type=radio)" id="the-input-element:radio-button-state-(type=radio)-2">Radio Button</a></span>
+     <th> <span><a href="#file-upload-state-(type=file)" id="the-input-element:file-upload-state-(type=file)-3">File Upload</a></span>
+     <th> <span><a href="#submit-button-state-(type=submit)" id="the-input-element:submit-button-state-(type=submit)-2">Submit Button</a></span>
+     <th> <span><a href="#image-button-state-(type=image)" id="the-input-element:image-button-state-(type=image)-2">Image Button</a></span>
+     <th> <span><a href="#reset-button-state-(type=reset)" id="the-input-element:reset-button-state-(type=reset)-2">Reset Button</a>,</span>
+          <span><a href="#button-state-(type=button)" id="the-input-element:button-state-(type=button)-2">Button</a></span>
+
+   <tbody><tr><th colspan=16 scope=rowgroup>Content attributes
+
+    <tr><th> <code id=the-input-element:attr-input-accept-3><a href=#attr-input-accept>accept</a></code>
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=yes> Yes     
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-input-alt-3><a href=#attr-input-alt>alt</a></code>
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=yes> Yes     
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-fe-autocomplete-3><a href=#attr-fe-autocomplete>autocomplete</a></code>
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+
+
+
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-input-checked-3><a href=#attr-input-checked>checked</a></code>
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=yes> Yes     
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-fe-dirname-3><a href=#attr-fe-dirname>dirname</a></code>
+     <td class=no> · 
+     <td class=yes> Yes     
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-fs-formaction-3><a href=#attr-fs-formaction>formaction</a></code>
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-fs-formenctype-3><a href=#attr-fs-formenctype>formenctype</a></code>
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-fs-formmethod-3><a href=#attr-fs-formmethod>formmethod</a></code>
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-fs-formnovalidate-3><a href=#attr-fs-formnovalidate>formnovalidate</a></code>
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-fs-formtarget-3><a href=#attr-fs-formtarget>formtarget</a></code>
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=yes> Yes     
+     <td class=yes> Yes     
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-dim-height-3><a href=#attr-dim-height>height</a></code>
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=yes> Yes     
+     <td class=no> · 
+
+
+    <tr><th> <code id=the-input-element:attr-fe-inputmode-3><a href=#attr-fe-inputmode>inputmode</a></code>
+     <td class=no> · 
+     <td class=yes> Yes     
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=yes> Yes     
+     <td class=no> · 
+
+
+
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+     <td class=no> · 
+
+     <td class=no> · 
+     <td class=no> · 

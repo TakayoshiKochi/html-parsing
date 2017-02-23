@@ -1,0 +1,850 @@
+  <hr>
+
+  <p>When the <dfn id=dom-media-pause><code>pause()</code></dfn> method is invoked, and when
+  the user agent is required to pause the <a href=#media-element id=playing-the-media-resource:media-element-39>media element</a>, the user agent must run the
+  following steps:</p>
+
+  <ol><li><p>If the <a href=#media-element id=playing-the-media-resource:media-element-40>media element</a>'s <code id=playing-the-media-resource:dom-media-networkstate-2><a href=#dom-media-networkstate>networkState</a></code> attribute has the value <code id=playing-the-media-resource:dom-media-network_empty-2><a href=#dom-media-network_empty>NETWORK_EMPTY</a></code>, invoke the <a href=#media-element id=playing-the-media-resource:media-element-41>media element</a>'s
+   <a href=#concept-media-load-algorithm id=playing-the-media-resource:concept-media-load-algorithm-2>resource selection algorithm</a>.<li><p>Run the <a href=#internal-pause-steps id=playing-the-media-resource:internal-pause-steps>internal pause steps</a> for the <a href=#media-element id=playing-the-media-resource:media-element-42>media element</a>.</ol>
+
+  <p>The <dfn id=internal-pause-steps>internal pause steps</dfn> for a <a href=#media-element id=playing-the-media-resource:media-element-43>media element</a> are as follows:</p>
+
+  <ol><li><p>Set the <a href=#media-element id=playing-the-media-resource:media-element-44>media element</a>'s <a href=#autoplaying-flag id=playing-the-media-resource:autoplaying-flag-3>autoplaying flag</a> to false.<li><p>If the <a href=#media-element id=playing-the-media-resource:media-element-45>media element</a>'s <code id=playing-the-media-resource:dom-media-paused-12><a href=#dom-media-paused>paused</a></code> attribute
+   is false, run the following steps:</p>
+
+    <ol><li><p>Change the value of <code id=playing-the-media-resource:dom-media-paused-13><a href=#dom-media-paused>paused</a></code> to true.<li><p><a href=#take-pending-play-promises id=playing-the-media-resource:take-pending-play-promises-4>Take pending play promises</a> and let <var>promises</var> be the
+     result.<li>
+
+      <p><a href=#queue-a-task id=playing-the-media-resource:queue-a-task-10>Queue a task</a> to run the following substeps:</p>
+
+      <ol><li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=playing-the-media-resource:concept-event-fire-11 data-x-internal=concept-event-fire>Fire an event</a> named <code id=playing-the-media-resource:event-media-timeupdate-5><a href=#event-media-timeupdate>timeupdate</a></code> at the element.<li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=playing-the-media-resource:concept-event-fire-12 data-x-internal=concept-event-fire>Fire an event</a> named <code id=playing-the-media-resource:event-media-pause-2><a href=#event-media-pause>pause</a></code> at the element.<li><p><a href=#reject-pending-play-promises id=playing-the-media-resource:reject-pending-play-promises-3>Reject pending play promises</a> with <var>promises</var> and an
+       <a id=playing-the-media-resource:aborterror-2 href=https://heycam.github.io/webidl/#aborterror data-x-internal=aborterror>"<code>AbortError</code>"</a> <code id=playing-the-media-resource:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</ol>
+
+     <li><p>Set the <a href=#official-playback-position id=playing-the-media-resource:official-playback-position>official playback position</a> to the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-8>current playback
+     position</a>.</ol>
+
+   </ol>
+
+  <hr>
+
+  <p>If the element's <code id=playing-the-media-resource:dom-media-playbackrate-3><a href=#dom-media-playbackrate>playbackRate</a></code> is positive or zero,
+  then the <dfn id=direction-of-playback>direction of playback</dfn> is forwards. Otherwise, it is backwards.</p>
+
+  <p id=media-playback>When a <a href=#media-element id=playing-the-media-resource:media-element-46>media element</a> is <a href=#potentially-playing id=playing-the-media-resource:potentially-playing-4>potentially playing</a> and
+  its <code id=playing-the-media-resource:document><a href=#document>Document</a></code> is a <a href=#fully-active id=playing-the-media-resource:fully-active>fully active</a> <code id=playing-the-media-resource:document-2><a href=#document>Document</a></code>, its <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-9>current
+  playback position</a> must increase monotonically at the element's <code id=playing-the-media-resource:dom-media-playbackrate-4><a href=#dom-media-playbackrate>playbackRate</a></code> units of media time per unit time of the
+  <a href=#media-timeline id=playing-the-media-resource:media-timeline-2>media timeline</a>'s clock. (This specification always refers to this as an
+  <i>increase</i>, but that increase could actually be a <em>de</em>crease if the element's <code id=playing-the-media-resource:dom-media-playbackrate-5><a href=#dom-media-playbackrate>playbackRate</a></code> is negative.)<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=28236" title="The &quot;rules for updating the text track rendering&quot; are not run when mode changes from hidden to showing">28236</a></div>
+
+  <p class=note>The element's <code id=playing-the-media-resource:dom-media-playbackrate-6><a href=#dom-media-playbackrate>playbackRate</a></code> can be
+  0.0, in which case the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-10>current playback position</a> doesn't move, despite playback not
+  being paused (<code id=playing-the-media-resource:dom-media-paused-14><a href=#dom-media-paused>paused</a></code> doesn't become true, and the <code id=playing-the-media-resource:event-media-pause-3><a href=#event-media-pause>pause</a></code> event doesn't fire).</p>
+
+  <p class=note>This specification doesn't define how the user agent achieves the appropriate
+  playback rate — depending on the protocol and media available, it is plausible that the user
+  agent could negotiate with the server to have the server provide the media data at the appropriate
+  rate, so that (except for the period between when the rate is changed and when the server updates
+  the stream's playback rate) the client doesn't actually have to drop or interpolate any
+  frames.</p>
+
+  <p>Any time the user agent <a href=#await-a-stable-state id=playing-the-media-resource:await-a-stable-state>provides a stable state</a>,
+  the <a href=#official-playback-position id=playing-the-media-resource:official-playback-position-2>official playback position</a> must be set to the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-11>current playback
+  position</a>.</p> 
+
+  <p>While the <a href=#direction-of-playback id=playing-the-media-resource:direction-of-playback-8>direction of playback</a> is backwards, any corresponding audio must be
+  <a href=#concept-media-muted id=playing-the-media-resource:concept-media-muted-2>muted</a>. While the element's <code id=playing-the-media-resource:dom-media-playbackrate-7><a href=#dom-media-playbackrate>playbackRate</a></code> is so low or so high that the user agent
+  cannot play audio usefully, the corresponding audio must also be <a href=#concept-media-muted id=playing-the-media-resource:concept-media-muted-3>muted</a>. If the element's <code id=playing-the-media-resource:dom-media-playbackrate-8><a href=#dom-media-playbackrate>playbackRate</a></code> is not 1.0, the user agent may apply pitch
+  adjustments to the audio as necessary to render it faithfully.</p>
+
+  <p><a href=#media-element id=playing-the-media-resource:media-element-47>Media elements</a> that are <a href=#potentially-playing id=playing-the-media-resource:potentially-playing-5>potentially playing</a>
+  while not <a id=playing-the-media-resource:in-a-document href=https://dom.spec.whatwg.org/#in-a-document data-x-internal=in-a-document>in a document</a> must not play any video, but should play any audio component.
+  Media elements must not stop playing just because all references to them have been removed; only
+  once a media element is in a state where no further audio could ever be played by that element may
+  the element be garbage collected.</p>
+
+  <p class=note>It is possible for an element to which no explicit references exist to play audio,
+  even if such an element is not still actively playing: for instance, it could be unpaused but
+  stalled waiting for content to buffer, or it could be still buffering, but with a
+  <code id=playing-the-media-resource:event-media-suspend><a href=#event-media-suspend>suspend</a></code> event listener that begins playback. Even a
+  media element whose <a href=#media-resource id=playing-the-media-resource:media-resource-18>media resource</a> has no audio tracks could eventually play audio
+  again if it had an event listener that changes the <a href=#media-resource id=playing-the-media-resource:media-resource-19>media resource</a>.</p>
+
+  <hr>
+
+  <p>Each <a href=#media-element id=playing-the-media-resource:media-element-48>media element</a> has a <dfn id=list-of-newly-introduced-cues>list of newly introduced cues</dfn>, which must be
+  initially empty. Whenever a <a href=#text-track-cue id=playing-the-media-resource:text-track-cue>text track cue</a> is added to the <a href=#text-track-list-of-cues id=playing-the-media-resource:text-track-list-of-cues>list of cues</a> of a <a href=#text-track id=playing-the-media-resource:text-track>text track</a> that is in the <a href=#list-of-text-tracks id=playing-the-media-resource:list-of-text-tracks>list of text
+  tracks</a> for a <a href=#media-element id=playing-the-media-resource:media-element-49>media element</a>, that <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-2>cue</a> must
+  be added to the <a href=#media-element id=playing-the-media-resource:media-element-50>media element</a>'s <a href=#list-of-newly-introduced-cues id=playing-the-media-resource:list-of-newly-introduced-cues>list of newly introduced cues</a>. Whenever
+  a <a href=#text-track id=playing-the-media-resource:text-track-2>text track</a> is added to the <a href=#list-of-text-tracks id=playing-the-media-resource:list-of-text-tracks-2>list of text tracks</a> for a <a href=#media-element id=playing-the-media-resource:media-element-51>media
+  element</a>, all of the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-3>cues</a> in that <a href=#text-track id=playing-the-media-resource:text-track-3>text
+  track</a>'s <a href=#text-track-list-of-cues id=playing-the-media-resource:text-track-list-of-cues-2>list of cues</a> must be added to the
+  <a href=#media-element id=playing-the-media-resource:media-element-52>media element</a>'s <a href=#list-of-newly-introduced-cues id=playing-the-media-resource:list-of-newly-introduced-cues-2>list of newly introduced cues</a>. When a <a href=#media-element id=playing-the-media-resource:media-element-53>media
+  element</a>'s <a href=#list-of-newly-introduced-cues id=playing-the-media-resource:list-of-newly-introduced-cues-3>list of newly introduced cues</a> has new cues added while the
+  <a href=#media-element id=playing-the-media-resource:media-element-54>media element</a>'s <a href=#show-poster-flag id=playing-the-media-resource:show-poster-flag-3>show poster flag</a> is not set, then the user agent must
+  run the <i id=playing-the-media-resource:time-marches-on-2><a href=#time-marches-on>time marches on</a></i> steps.</p>
+
+  <p>When a <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-4>text track cue</a> is removed from the <a href=#text-track-list-of-cues id=playing-the-media-resource:text-track-list-of-cues-3>list of cues</a> of a <a href=#text-track id=playing-the-media-resource:text-track-4>text track</a> that is in the <a href=#list-of-text-tracks id=playing-the-media-resource:list-of-text-tracks-3>list of text
+  tracks</a> for a <a href=#media-element id=playing-the-media-resource:media-element-55>media element</a>, and whenever a <a href=#text-track id=playing-the-media-resource:text-track-5>text track</a> is removed
+  from the <a href=#list-of-text-tracks id=playing-the-media-resource:list-of-text-tracks-4>list of text tracks</a> of a <a href=#media-element id=playing-the-media-resource:media-element-56>media element</a>, if the <a href=#media-element id=playing-the-media-resource:media-element-57>media
+  element</a>'s <a href=#show-poster-flag id=playing-the-media-resource:show-poster-flag-4>show poster flag</a> is not set, then the user agent must run the
+  <i id=playing-the-media-resource:time-marches-on-3><a href=#time-marches-on>time marches on</a></i> steps.</p>
+
+  <p>When the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-12>current playback position</a> of a <a href=#media-element id=playing-the-media-resource:media-element-58>media element</a> changes (e.g.
+  due to playback or seeking), the user agent must run the <i id=playing-the-media-resource:time-marches-on-4><a href=#time-marches-on>time marches on</a></i> steps. If the
+  <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-13>current playback position</a> changes while the steps are running, then the user agent
+  must wait for the steps to complete, and then must immediately rerun the steps. (These steps are
+  thus run as often as possible or needed — if one iteration takes a long time, this can cause
+  certain <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-5>cues</a> to be skipped over as the user agent rushes ahead
+  to "catch up".)</p>
+
+  <p>The <dfn id=time-marches-on><i>time marches on</i></dfn> steps are as follows:</p>
+
+  <ol><li><p>Let <var>current cues</var> be a list of <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-6>cues</a>, initialized to contain all the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-7>cues</a> of all
+   the <a href=#text-track-hidden id=playing-the-media-resource:text-track-hidden>hidden</a> or <a href=#text-track-showing id=playing-the-media-resource:text-track-showing>showing</a> <a href=#text-track id=playing-the-media-resource:text-track-6>text tracks</a> of the <a href=#media-element id=playing-the-media-resource:media-element-59>media
+   element</a> (not the <a href=#text-track-disabled id=playing-the-media-resource:text-track-disabled>disabled</a> ones) whose <a href=#text-track-cue-start-time id=playing-the-media-resource:text-track-cue-start-time-2>start times</a> are less than or equal to the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-14>current
+   playback position</a> and whose <a href=#text-track-cue-end-time id=playing-the-media-resource:text-track-cue-end-time-2>end times</a> are
+   greater than the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-15>current playback position</a>.<li><p>Let <var>other cues</var> be a list of <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-8>cues</a>,
+   initialized to contain all the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-9>cues</a> of <a href=#text-track-hidden id=playing-the-media-resource:text-track-hidden-2>hidden</a> and <a href=#text-track-showing id=playing-the-media-resource:text-track-showing-2>showing</a> <a href=#text-track id=playing-the-media-resource:text-track-7>text tracks</a> of the <a href=#media-element id=playing-the-media-resource:media-element-60>media element</a> that are not present in <var>current cues</var>.<li><p>Let <var>last time</var> be the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-16>current playback position</a> at the
+   time this algorithm was last run for this <a href=#media-element id=playing-the-media-resource:media-element-61>media element</a>, if this is not the first
+   time it has run.<li><p>If the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-17>current playback position</a> has, since the last time this algorithm was
+   run, only changed through its usual monotonic increase during normal playback, then let <var>missed cues</var> be the list of <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-10>cues</a> in <var>other cues</var> whose <a href=#text-track-cue-start-time id=playing-the-media-resource:text-track-cue-start-time-3>start times</a> are
+   greater than or equal to <var>last time</var> and whose <a href=#text-track-cue-end-time id=playing-the-media-resource:text-track-cue-end-time-3>end times</a> are less than or equal to the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-18>current playback position</a>.
+   Otherwise, let <var>missed cues</var> be an empty list.<li><p>Remove all the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-11>cues</a> in <var>missed cues</var>
+   that are also in the <a href=#media-element id=playing-the-media-resource:media-element-62>media element</a>'s <a href=#list-of-newly-introduced-cues id=playing-the-media-resource:list-of-newly-introduced-cues-4>list of newly introduced cues</a>, and
+   then empty the element's <a href=#list-of-newly-introduced-cues id=playing-the-media-resource:list-of-newly-introduced-cues-5>list of newly introduced cues</a>.<li><p>If the time was reached through the usual monotonic increase of the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-19>current playback
+   position</a> during normal playback, and if the user agent has not fired a <code id=playing-the-media-resource:event-media-timeupdate-6><a href=#event-media-timeupdate>timeupdate</a></code> event at the element in the past 15 to 250ms and
+   is not still running event handlers for such an event, then the user agent must <a href=#queue-a-task id=playing-the-media-resource:queue-a-task-11>queue a
+   task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=playing-the-media-resource:concept-event-fire-13 data-x-internal=concept-event-fire>fire an event</a> named <code id=playing-the-media-resource:event-media-timeupdate-7><a href=#event-media-timeupdate>timeupdate</a></code> at the element. (In the other cases, such as
+   explicit seeks, relevant events get fired as part of the overall process of changing the
+   <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-20>current playback position</a>.)</p>
+
+   <p class=note>The event thus is not to be fired faster than about 66Hz or slower than 4Hz
+   (assuming the event handlers don't take longer than 250ms to run). User agents are encouraged to
+   vary the frequency of the event based on the system load and the average cost of processing the
+   event each time, so that the UI updates are not any more frequent than the user agent can
+   comfortably handle while decoding the video.<li><p>If all of the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-12>cues</a> in <var>current cues</var>
+   have their <a href=#text-track-cue-active-flag id=playing-the-media-resource:text-track-cue-active-flag>text track cue active flag</a> set, none of the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-13>cues</a> in <var>other cues</var> have their <a href=#text-track-cue-active-flag id=playing-the-media-resource:text-track-cue-active-flag-2>text track cue active
+   flag</a> set, and <var>missed cues</var> is empty, then abort these steps.<li>
+
+    <p>If the time was reached through the usual monotonic increase of the <a href=#current-playback-position id=playing-the-media-resource:current-playback-position-21>current playback
+    position</a> during normal playback, and there are <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-14>cues</a>
+    in <var>other cues</var> that have their <a href=#text-track-cue-pause-on-exit-flag id=playing-the-media-resource:text-track-cue-pause-on-exit-flag>text track cue pause-on-exit flag</a>
+    set and that either have their <a href=#text-track-cue-active-flag id=playing-the-media-resource:text-track-cue-active-flag-3>text track cue active flag</a> set or are also in <var>missed cues</var>, then <a href=#immediately id=playing-the-media-resource:immediately>immediately</a> <a href=#dom-media-pause id=playing-the-media-resource:dom-media-pause-2>pause</a> the
+    <a href=#media-element id=playing-the-media-resource:media-element-63>media element</a>. </p>
+
+    <p class=note>In the other cases, such as explicit seeks, playback is not paused by going past
+    the end time of a <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-15>cue</a>, even if that <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-16>cue</a> has its <a href=#text-track-cue-pause-on-exit-flag id=playing-the-media-resource:text-track-cue-pause-on-exit-flag-2>text track cue pause-on-exit flag</a> set.</p>
+
+   <li>
+
+    <p>Let <var>events</var> be a list of <a href=#concept-task id=playing-the-media-resource:concept-task>tasks</a>,
+    initially empty. Each <a href=#concept-task id=playing-the-media-resource:concept-task-2>task</a> in this list will be associated
+    with a <a href=#text-track id=playing-the-media-resource:text-track-8>text track</a>, a <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-17>text track cue</a>, and a time, which are used to
+    sort the list before the <a href=#concept-task id=playing-the-media-resource:concept-task-3>tasks</a> are queued.</p>
+
+    <p>Let <var>affected tracks</var> be a list of <a href=#text-track id=playing-the-media-resource:text-track-9>text
+    tracks</a>, initially empty.</p>
+
+    <p>When the steps below say to <dfn id=prepare-an-event>prepare an event</dfn> named <var>event</var> for a
+    <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-18>text track cue</a> <var>target</var> with a time <var>time</var>, the
+    user agent must run these substeps:</p>
+
+    <ol><li><p>Let <var>track</var> be the <a href=#text-track id=playing-the-media-resource:text-track-10>text track</a> with which the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-19>text
+     track cue</a> <var>target</var> is associated.<li><p>Create a <a href=#concept-task id=playing-the-media-resource:concept-task-4>task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=playing-the-media-resource:concept-event-fire-14 data-x-internal=concept-event-fire>fire an event</a> named <var>event</var> at
+     <var>target</var>.<li><p>Add the newly created <a href=#concept-task id=playing-the-media-resource:concept-task-5>task</a> to <var>events</var>, associated with the time <var>time</var>, the <a href=#text-track id=playing-the-media-resource:text-track-11>text
+     track</a> <var>track</var>, and the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-20>text track cue</a> <var>target</var>.<li><p>Add <var>track</var> to <var>affected tracks</var>.</ol>
+
+   <li><p>For each <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-21>text track cue</a> in <var>missed
+   cues</var>, <a href=#prepare-an-event id=playing-the-media-resource:prepare-an-event>prepare an event</a> named <code id=playing-the-media-resource:event-media-enter><a href=#event-media-enter>enter</a></code> for the
+   <code id=playing-the-media-resource:texttrackcue><a href=#texttrackcue>TextTrackCue</a></code> object with the <a href=#text-track-cue-start-time id=playing-the-media-resource:text-track-cue-start-time-4>text track cue start time</a>.<li><p>For each <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-22>text track cue</a> in <var>other
+   cues</var> that either has its <a href=#text-track-cue-active-flag id=playing-the-media-resource:text-track-cue-active-flag-4>text track cue active flag</a> set or is in <var>missed cues</var>, <a href=#prepare-an-event id=playing-the-media-resource:prepare-an-event-2>prepare an event</a> named <code id=playing-the-media-resource:event-media-exit><a href=#event-media-exit>exit</a></code> for the <code id=playing-the-media-resource:texttrackcue-2><a href=#texttrackcue>TextTrackCue</a></code> object with the later of the
+   <a href=#text-track-cue-end-time id=playing-the-media-resource:text-track-cue-end-time-4>text track cue end time</a> and the <a href=#text-track-cue-start-time id=playing-the-media-resource:text-track-cue-start-time-5>text track cue start time</a>.<li><p>For each <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-23>text track cue</a> in <var>current
+   cues</var> that does not have its <a href=#text-track-cue-active-flag id=playing-the-media-resource:text-track-cue-active-flag-5>text track cue active flag</a> set, <a href=#prepare-an-event id=playing-the-media-resource:prepare-an-event-3>prepare an
+   event</a> named <code id=playing-the-media-resource:event-media-enter-2><a href=#event-media-enter>enter</a></code> for the <code id=playing-the-media-resource:texttrackcue-3><a href=#texttrackcue>TextTrackCue</a></code>
+   object with the <a href=#text-track-cue-start-time id=playing-the-media-resource:text-track-cue-start-time-6>text track cue start time</a>.<li>
+
+    <p>Sort the <a href=#concept-task id=playing-the-media-resource:concept-task-6>tasks</a> in <var>events</var> in ascending
+    time order (<a href=#concept-task id=playing-the-media-resource:concept-task-7>tasks</a> with earlier times first).</p>
+
+    <p>Further sort <a href=#concept-task id=playing-the-media-resource:concept-task-8>tasks</a> in <var>events</var> that have
+    the same time by the relative <a href=#text-track-cue-order id=playing-the-media-resource:text-track-cue-order>text track cue order</a> of the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-24>text track cues</a> associated with these <a href=#concept-task id=playing-the-media-resource:concept-task-9>tasks</a>.</p>
+
+    <p>Finally, sort <a href=#concept-task id=playing-the-media-resource:concept-task-10>tasks</a> in <var>events</var> that have
+    the same time and same <a href=#text-track-cue-order id=playing-the-media-resource:text-track-cue-order-2>text track cue order</a> by placing <a href=#concept-task id=playing-the-media-resource:concept-task-11>tasks</a> that fire <code id=playing-the-media-resource:event-media-enter-3><a href=#event-media-enter>enter</a></code> events before
+    those that fire <code id=playing-the-media-resource:event-media-exit-2><a href=#event-media-exit>exit</a></code> events.</p>
+
+   <li><p><a href=#queue-a-task id=playing-the-media-resource:queue-a-task-12>Queue</a> each <a href=#concept-task id=playing-the-media-resource:concept-task-12>task</a> in
+   <var>events</var>, in list order.<li><p>Sort <var>affected tracks</var> in the same order as the <a href=#text-track id=playing-the-media-resource:text-track-12>text tracks</a> appear in the <a href=#media-element id=playing-the-media-resource:media-element-64>media element</a>'s <a href=#list-of-text-tracks id=playing-the-media-resource:list-of-text-tracks-5>list of text
+   tracks</a>, and remove duplicates.</p>
+
+   <li><p>For each <a href=#text-track id=playing-the-media-resource:text-track-13>text track</a> in <var>affected tracks</var>, in the list
+   order, <a href=#queue-a-task id=playing-the-media-resource:queue-a-task-13>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=playing-the-media-resource:concept-event-fire-15 data-x-internal=concept-event-fire>fire an event</a> named
+   <code id=playing-the-media-resource:event-media-cuechange><a href=#event-media-cuechange>cuechange</a></code> at the <code id=playing-the-media-resource:texttrack><a href=#texttrack>TextTrack</a></code> object, and,
+   if the <a href=#text-track id=playing-the-media-resource:text-track-14>text track</a> has a corresponding <code id=playing-the-media-resource:the-track-element><a href=#the-track-element>track</a></code> element, to then <a href=https://dom.spec.whatwg.org/#concept-event-fire id=playing-the-media-resource:concept-event-fire-16 data-x-internal=concept-event-fire>fire an event</a> named <code id=playing-the-media-resource:event-media-cuechange-2><a href=#event-media-cuechange>cuechange</a></code> at the <code id=playing-the-media-resource:the-track-element-2><a href=#the-track-element>track</a></code> element as
+   well.<li><p>Set the <a href=#text-track-cue-active-flag id=playing-the-media-resource:text-track-cue-active-flag-6>text track cue active flag</a> of all the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-25>cues</a> in the <var>current cues</var>, and unset the <a href=#text-track-cue-active-flag id=playing-the-media-resource:text-track-cue-active-flag-7>text track cue
+   active flag</a> of all the <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-26>cues</a> in the <var>other
+   cues</var>.<li><p>Run the <a href=#rules-for-updating-the-text-track-rendering id=playing-the-media-resource:rules-for-updating-the-text-track-rendering>rules for updating the text track rendering</a> of each of the <a href=#text-track id=playing-the-media-resource:text-track-15>text tracks</a> in <var>affected tracks</var> that are <a href=#text-track-showing id=playing-the-media-resource:text-track-showing-3>showing</a>, providing the <a href=#text-track id=playing-the-media-resource:text-track-16>text track</a>'s <a href=#text-track-language id=playing-the-media-resource:text-track-language>text track
+   language</a> as the fallback language if it is not the empty string. For example, for <a href=#text-track id=playing-the-media-resource:text-track-17>text tracks</a> based on WebVTT, the <a id=playing-the-media-resource:rules-for-updating-the-display-of-webvtt-text-tracks href=https://w3c.github.io/webvtt/#rules-for-updating-the-display-of-webvtt-text-tracks data-x-internal=rules-for-updating-the-display-of-webvtt-text-tracks>rules for updating the display
+   of WebVTT text tracks</a>. <a href=#refsWEBVTT>[WEBVTT]</a></ol>
+
+  <p>For the purposes of the algorithm above, a <a href=#text-track-cue id=playing-the-media-resource:text-track-cue-27>text track cue</a> is considered to be part
+  of a <a href=#text-track id=playing-the-media-resource:text-track-18>text track</a> only if it is listed in the <a href=#text-track-list-of-cues id=playing-the-media-resource:text-track-list-of-cues-4>text track list of cues</a>, not
+  merely if it is associated with the <a href=#text-track id=playing-the-media-resource:text-track-19>text track</a>.</p>
+
+  <p class=note>If the <a href=#media-element id=playing-the-media-resource:media-element-65>media element</a>'s <a id=playing-the-media-resource:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> stops being a
+  <a href=#fully-active id=playing-the-media-resource:fully-active-2>fully active</a> document, then the playback will <a href=#media-playback>stop</a>
+  until the document is active again.</p>
+
+  <p>When a <a href=#media-element id=playing-the-media-resource:media-element-66>media element</a> is <a href=#remove-an-element-from-a-document id=playing-the-media-resource:remove-an-element-from-a-document>removed
+  from a <code>Document</code></a>, the user agent must run the following steps:</p>
+
+  <ol><li><p><a href=#await-a-stable-state id=playing-the-media-resource:await-a-stable-state-2>Await a stable state</a>, allowing the <a href=#concept-task id=playing-the-media-resource:concept-task-13>task</a> that removed the <a href=#media-element id=playing-the-media-resource:media-element-67>media element</a> from the
+   <code id=playing-the-media-resource:document-3><a href=#document>Document</a></code> to continue. The <a href=#synchronous-section id=playing-the-media-resource:synchronous-section>synchronous section</a> consists of all the
+   remaining steps of this algorithm. (Steps in the <a href=#synchronous-section id=playing-the-media-resource:synchronous-section-2>synchronous section</a> are marked with
+   ⌛.)<li><p>⌛ If the <a href=#media-element id=playing-the-media-resource:media-element-68>media element</a> is <a id=playing-the-media-resource:in-a-document-2 href=https://dom.spec.whatwg.org/#in-a-document data-x-internal=in-a-document>in a document</a>, abort these
+   steps.<li><p>⌛ Run the <a href=#internal-pause-steps id=playing-the-media-resource:internal-pause-steps-2>internal pause steps</a> for the <a href=#media-element id=playing-the-media-resource:media-element-69>media element</a>.</p>
+
+  </ol>
+
+  
+
+
+
+  <h5 id=seeking>4.8.12.9 Seeking<a href=#seeking class=self-link></a></h5>
+
+  <dl class=domintro><dt><var>media</var> . <code id=seeking:dom-media-seeking><a href=#dom-media-seeking>seeking</a></code><dd>
+
+    <p>Returns true if the user agent is currently seeking.</p>
+
+   <dt><var>media</var> . <code id=seeking:dom-media-seekable><a href=#dom-media-seekable>seekable</a></code><dd>
+
+    <p>Returns a <code id=seeking:timeranges><a href=#timeranges>TimeRanges</a></code> object that represents the ranges of the <a href=#media-resource id=seeking:media-resource>media
+    resource</a> to which it is possible for the user agent to seek.</p>
+
+   <dt><var>media</var> . <code id=seeking:dom-media-fastseek><a href=#dom-media-fastseek>fastSeek</a></code>( <var>time</var> )<dd>
+
+    <p>Seeks to near the given <var>time</var> as fast as possible, trading precision for
+    speed. (To seek to a precise time, use the <code id=seeking:dom-media-currenttime><a href=#dom-media-currenttime>currentTime</a></code> attribute.)</p>
+
+    <p>This does nothing if the media resource has not been loaded.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-media-seeking><code>seeking</code></dfn> attribute must initially have the
+  value false.</p>
+
+  <p>The <dfn id=dom-media-fastseek><code>fastSeek()</code></dfn> method must <a href=#dom-media-seek id=seeking:dom-media-seek>seek</a> to the time given by the method's argument, with the
+  <i>approximate-for-speed</i> flag set.</p>
+
+  <p>When the user agent is required to <dfn id=dom-media-seek>seek</dfn> to a particular <var>new playback position</var> in the <a href=#media-resource id=seeking:media-resource-2>media resource</a>, optionally with the
+  <i>approximate-for-speed</i> flag set, it means that the user agent must run the following steps.
+  This algorithm interacts closely with the <a href=#event-loop id=seeking:event-loop>event loop</a> mechanism; in particular, it has
+  a <a href=#synchronous-section id=seeking:synchronous-section>synchronous section</a> (which is triggered as part of the <a href=#event-loop id=seeking:event-loop-2>event loop</a>
+  algorithm). Steps in that section are marked with ⌛.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=28929" title="Setting video.currentTime (seeking) should synchronously update the attribute's value">28929</a></div>
+
+  <ol><li><p>Set the <a href=#media-element id=seeking:media-element>media element</a>'s <a href=#show-poster-flag id=seeking:show-poster-flag>show poster flag</a> to false.<li><p>If the <a href=#media-element id=seeking:media-element-2>media element</a>'s <code id=seeking:dom-media-readystate><a href=#dom-media-readystate>readyState</a></code>
+   is <code id=seeking:dom-media-have_nothing><a href=#dom-media-have_nothing>HAVE_NOTHING</a></code>, abort these steps.<li><p>If the element's <code id=seeking:dom-media-seeking-2><a href=#dom-media-seeking>seeking</a></code> IDL attribute is true,
+   then another instance of this algorithm is already running. Abort that other instance of the
+   algorithm without waiting for the step that it is running to complete.<li><p>Set the <code id=seeking:dom-media-seeking-3><a href=#dom-media-seeking>seeking</a></code> IDL attribute to true.<li><p>If the seek was in response to a DOM method call or setting of an IDL attribute, then
+   continue the script. The remainder of these steps must be run <a href=#in-parallel id=seeking:in-parallel>in parallel</a>. With the exception
+   of the steps marked with ⌛, they could be aborted at any time by another instance of this
+   algorithm being invoked.<li><p>If the <var>new playback position</var> is later than the end of the <a href=#media-resource id=seeking:media-resource-3>media
+   resource</a>, then let it be the end of the <a href=#media-resource id=seeking:media-resource-4>media resource</a> instead.<li><p>If the <var>new playback position</var> is less than the <a href=#earliest-possible-position id=seeking:earliest-possible-position>earliest possible
+   position</a>, let it be that position instead.<li><p>If the (possibly now changed) <var>new playback position</var> is not in one of
+   the ranges given in the <code id=seeking:dom-media-seekable-2><a href=#dom-media-seekable>seekable</a></code> attribute, then let it
+   be the position in one of the ranges given in the <code id=seeking:dom-media-seekable-3><a href=#dom-media-seekable>seekable</a></code> attribute that is the nearest to the <var>new
+   playback position</var>. If two positions both satisfy that constraint (i.e. the <var>new playback position</var> is exactly in the middle between two ranges in the <code id=seeking:dom-media-seekable-4><a href=#dom-media-seekable>seekable</a></code> attribute) then use the position that is closest to
+   the <a href=#current-playback-position id=seeking:current-playback-position>current playback position</a>. If there are no ranges given in the <code id=seeking:dom-media-seekable-5><a href=#dom-media-seekable>seekable</a></code> attribute then set the <code id=seeking:dom-media-seeking-4><a href=#dom-media-seeking>seeking</a></code> IDL attribute to false and abort these steps.<li>
+
+    <p>If the <i>approximate-for-speed</i> flag is set, adjust the <var>new playback
+    position</var> to a value that will allow for playback to resume promptly. If <var>new
+    playback position</var> before this step is before <a href=#current-playback-position id=seeking:current-playback-position-2>current playback position</a>, then
+    the adjusted <var>new playback position</var> must also be before the <a href=#current-playback-position id=seeking:current-playback-position-3>current
+    playback position</a>. Similarly, if the <var>new playback position</var> before
+    this step is after <a href=#current-playback-position id=seeking:current-playback-position-4>current playback position</a>, then the adjusted <var>new
+    playback position</var> must also be after the <a href=#current-playback-position id=seeking:current-playback-position-5>current playback position</a>.</p>
+
+    <p class=example>For example, the user agent could snap to a nearby key frame, so that it
+    doesn't have to spend time decoding then discarding intermediate frames before resuming
+    playback.</p>
+
+    <li><p><a href=#queue-a-task id=seeking:queue-a-task>Queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=seeking:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named
+   <code id=seeking:event-media-seeking><a href=#event-media-seeking>seeking</a></code> at the element.<li>
+
+    <p>Set the <a href=#current-playback-position id=seeking:current-playback-position-6>current playback position</a> to the <var>new playback
+    position</var>.</p>
+
+    <p class=note>If the <a href=#media-element id=seeking:media-element-3>media element</a> was <a href=#potentially-playing id=seeking:potentially-playing>potentially playing</a>
+    immediately before it started seeking, but seeking caused its <code id=seeking:dom-media-readystate-2><a href=#dom-media-readystate>readyState</a></code> attribute to change to a value lower than <code id=seeking:dom-media-have_future_data><a href=#dom-media-have_future_data>HAVE_FUTURE_DATA</a></code>, then a <code id=seeking:event-media-waiting><a href=#event-media-waiting>waiting</a></code> event <a href=#fire-waiting-when-waiting>will be
+    fired</a> at the element.</p> 
+
+    <p class=note>This step sets the <a href=#current-playback-position id=seeking:current-playback-position-7>current playback position</a>, and thus can
+    immediately trigger other conditions, such as the rules regarding when playback "<a href=#reaches-the-end>reaches the end of the media resource</a>" (part of the logic that
+    handles looping), even before the user agent is actually able to render the media data for that
+    position (as determined in the next step).</p>
+
+    <p class=note>The <code id=seeking:dom-media-currenttime-2><a href=#dom-media-currenttime>currentTime</a></code> attribute returns
+    the <a href=#official-playback-position id=seeking:official-playback-position>official playback position</a>, not the <a href=#current-playback-position id=seeking:current-playback-position-8>current playback position</a>, and
+    therefore gets updated before script execution, separate from this algorithm.</p>
+
+   <li><p>Wait until the user agent has established whether or not the <a href=#media-data id=seeking:media-data>media data</a> for
+   the <var>new playback position</var> is available, and, if it is, until it has decoded
+   enough data to play back that position.<li><p><a href=#await-a-stable-state id=seeking:await-a-stable-state>Await a stable state</a>. The <a href=#synchronous-section id=seeking:synchronous-section-2>synchronous section</a> consists of all
+   the remaining steps of this algorithm. (Steps in the <a href=#synchronous-section id=seeking:synchronous-section-3>synchronous section</a> are marked
+   with ⌛.)<li><p>⌛ Set the <code id=seeking:dom-media-seeking-5><a href=#dom-media-seeking>seeking</a></code> IDL attribute to
+   false.<li><p>⌛ Run the <a href=#time-marches-on id=seeking:time-marches-on>time marches on</a> steps.<li id=seekUpdate><p>⌛ <a href=#queue-a-task id=seeking:queue-a-task-2>Queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=seeking:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=seeking:event-media-timeupdate><a href=#event-media-timeupdate>timeupdate</a></code> at the element.<li><p>⌛ <a href=#queue-a-task id=seeking:queue-a-task-3>Queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=seeking:concept-event-fire-3 data-x-internal=concept-event-fire>fire an
+   event</a> named <code id=seeking:event-media-seeked><a href=#event-media-seeked>seeked</a></code> at the element.</ol>
+
+  <hr>
+
+  <p>The <dfn id=dom-media-seekable><code>seekable</code></dfn> attribute must return a new
+  static <a href=#normalised-timeranges-object id=seeking:normalised-timeranges-object>normalized <code>TimeRanges</code> object</a> that represents the ranges of the
+  <a href=#media-resource id=seeking:media-resource-5>media resource</a>, if any, that the user agent is able to seek to, at the time the
+  attribute is evaluated.</p>
+
+  <p class=note>If the user agent can seek to anywhere in the <a href=#media-resource id=seeking:media-resource-6>media resource</a>, e.g.
+  because it is a simple movie file and the user agent and the server support HTTP Range requests,
+  then the attribute would return an object with one range, whose start is the time of the first
+  frame (the <a href=#earliest-possible-position id=seeking:earliest-possible-position-2>earliest possible position</a>, typically zero), and whose end is the same as
+  the time of the first frame plus the <code id=seeking:dom-media-duration><a href=#dom-media-duration>duration</a></code> attribute's
+  value (which would equal the time of the last frame, and might be positive Infinity).</p>
+
+  <p class=note>The range might be continuously changing, e.g. if the user agent is buffering a
+  sliding window on an infinite stream. This is the behavior seen with DVRs viewing live TV, for
+  instance.</p>
+
+  <p>User agents should adopt a very liberal and optimistic view of what is seekable. User
+  agents should also buffer recent content where possible to enable seeking to be fast.</p>
+
+  <p class=example>For instance, consider a large video file served on an HTTP server without
+  support for HTTP Range requests. A browser <em>could</em> implement this by only buffering the
+  current frame and data obtained for subsequent frames, never allow seeking, except for seeking to
+  the very start by restarting the playback. However, this would be a poor implementation. A high
+  quality implementation would buffer the last few minutes of content (or more, if sufficient
+  storage space is available), allowing the user to jump back and rewatch something surprising
+  without any latency, and would in addition allow arbitrary seeking by reloading the file from the
+  start if necessary, which would be slower but still more convenient than having to literally
+  restart the video and watch it all the way through just to get to an earlier unbuffered spot.</p>
+
+  <p><a href=#media-resource id=seeking:media-resource-7>Media resources</a> might be internally scripted or
+  interactive. Thus, a <a href=#media-element id=seeking:media-element-4>media element</a> could play in a non-linear fashion. If this
+  happens, the user agent must act as if the algorithm for <a href=#dom-media-seek id=seeking:dom-media-seek-2>seeking</a> was used whenever the <a href=#current-playback-position id=seeking:current-playback-position-9>current playback position</a>
+  changes in a discontinuous fashion (so that the relevant events fire).</p>
+
+  
+
+
+  <h5 id=media-resources-with-multiple-media-tracks>4.8.12.10 Media resources with multiple media tracks<a href=#media-resources-with-multiple-media-tracks class=self-link></a></h5>
+
+  <p>A <a href=#media-resource id=media-resources-with-multiple-media-tracks:media-resource>media resource</a> can have multiple embedded audio and video tracks. For example,
+  in addition to the primary video and audio tracks, a <a href=#media-resource id=media-resources-with-multiple-media-tracks:media-resource-2>media resource</a> could have
+  foreign-language dubbed dialogues, director's commentaries, audio descriptions, alternative
+  angles, or sign-language overlays.</p>
+
+  <dl class=domintro><dt><var>media</var> . <code id=media-resources-with-multiple-media-tracks:dom-media-audiotracks><a href=#dom-media-audiotracks>audioTracks</a></code><dd>
+
+    <p>Returns an <code id=media-resources-with-multiple-media-tracks:audiotracklist><a href=#audiotracklist>AudioTrackList</a></code> object representing the audio tracks available in the
+    <a href=#media-resource id=media-resources-with-multiple-media-tracks:media-resource-3>media resource</a>.</p>
+
+   <dt><var>media</var> . <code id=media-resources-with-multiple-media-tracks:dom-media-videotracks><a href=#dom-media-videotracks>videoTracks</a></code><dd>
+
+    <p>Returns a <code id=media-resources-with-multiple-media-tracks:videotracklist><a href=#videotracklist>VideoTrackList</a></code> object representing the video tracks available in the
+    <a href=#media-resource id=media-resources-with-multiple-media-tracks:media-resource-4>media resource</a>.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-media-audiotracks><code>audioTracks</code></dfn> attribute of a
+  <a href=#media-element id=media-resources-with-multiple-media-tracks:media-element>media element</a> must return a <a href=#live id=media-resources-with-multiple-media-tracks:live>live</a> <code id=media-resources-with-multiple-media-tracks:audiotracklist-2><a href=#audiotracklist>AudioTrackList</a></code> object
+  representing the audio tracks available in the <a href=#media-element id=media-resources-with-multiple-media-tracks:media-element-2>media element</a>'s <a href=#media-resource id=media-resources-with-multiple-media-tracks:media-resource-5>media
+  resource</a>.</p>
+
+  <p>The <dfn id=dom-media-videotracks><code>videoTracks</code></dfn> attribute of a
+  <a href=#media-element id=media-resources-with-multiple-media-tracks:media-element-3>media element</a> must return a <a href=#live id=media-resources-with-multiple-media-tracks:live-2>live</a> <code id=media-resources-with-multiple-media-tracks:videotracklist-2><a href=#videotracklist>VideoTrackList</a></code> object
+  representing the video tracks available in the <a href=#media-element id=media-resources-with-multiple-media-tracks:media-element-4>media element</a>'s <a href=#media-resource id=media-resources-with-multiple-media-tracks:media-resource-6>media
+  resource</a>.</p>
+
+  <p class=note>There are only ever one <code id=media-resources-with-multiple-media-tracks:audiotracklist-3><a href=#audiotracklist>AudioTrackList</a></code> object and one
+  <code id=media-resources-with-multiple-media-tracks:videotracklist-3><a href=#videotracklist>VideoTrackList</a></code> object per <a href=#media-element id=media-resources-with-multiple-media-tracks:media-element-5>media element</a>, even if another <a href=#media-resource id=media-resources-with-multiple-media-tracks:media-resource-7>media
+  resource</a> is loaded into the element: the objects are reused. (The <code id=media-resources-with-multiple-media-tracks:audiotrack><a href=#audiotrack>AudioTrack</a></code>
+  and <code id=media-resources-with-multiple-media-tracks:videotrack><a href=#videotrack>VideoTrack</a></code> objects are not, though.)</p>
+
+  
+
+
+  <h6 id=audiotracklist-and-videotracklist-objects>4.8.12.10.1 <code id=audiotracklist-and-videotracklist-objects:audiotracklist><a href=#audiotracklist>AudioTrackList</a></code> and <code id=audiotracklist-and-videotracklist-objects:videotracklist><a href=#videotracklist>VideoTrackList</a></code> objects<a href=#audiotracklist-and-videotracklist-objects class=self-link></a></h6><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> audiotracks<span class="and_chr no"><span>Chrome for Android</span> <span>None</span></span><span class="chrome no"><span>Chrome</span> <span>None</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>7.0+</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox no"><span>Firefox</span> <span>None</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung no"><span>Samsung Internet</span> <span>None</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android no"><span>Android Browser</span> <span>None</span></span><span class="safari yes"><span>Safari</span> <span>6.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera no"><span>Opera</span> <span>None</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=audiotracks">caniuse.com</a></div>
+
+  <p>The <code id=audiotracklist-and-videotracklist-objects:audiotracklist-2><a href=#audiotracklist>AudioTrackList</a></code> and <code id=audiotracklist-and-videotracklist-objects:videotracklist-2><a href=#videotracklist>VideoTrackList</a></code> interfaces are used by
+  attributes defined in the previous section.</p>
+
+  <pre class=idl>interface <dfn id=audiotracklist>AudioTrackList</dfn> : <a id=audiotracklist-and-videotracklist-objects:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  readonly attribute unsigned long <a href=#dom-audiotracklist-length id=audiotracklist-and-videotracklist-objects:dom-audiotracklist-length>length</a>;
+  <a href=#dom-tracklist-item>getter</a> <a href=#audiotrack id=audiotracklist-and-videotracklist-objects:audiotrack>AudioTrack</a> (unsigned long index);
+  <a href=#audiotrack id=audiotracklist-and-videotracklist-objects:audiotrack-2>AudioTrack</a>? <a href=#dom-audiotracklist-gettrackbyid id=audiotracklist-and-videotracklist-objects:dom-audiotracklist-gettrackbyid>getTrackById</a>(DOMString id);
+
+  attribute <a href=#eventhandler id=audiotracklist-and-videotracklist-objects:eventhandler>EventHandler</a> <a href=#handler-tracklist-onchange id=audiotracklist-and-videotracklist-objects:handler-tracklist-onchange>onchange</a>;
+  attribute <a href=#eventhandler id=audiotracklist-and-videotracklist-objects:eventhandler-2>EventHandler</a> <a href=#handler-tracklist-onaddtrack id=audiotracklist-and-videotracklist-objects:handler-tracklist-onaddtrack>onaddtrack</a>;
+  attribute <a href=#eventhandler id=audiotracklist-and-videotracklist-objects:eventhandler-3>EventHandler</a> <a href=#handler-tracklist-onremovetrack id=audiotracklist-and-videotracklist-objects:handler-tracklist-onremovetrack>onremovetrack</a>;
+};
+
+interface <dfn id=audiotrack>AudioTrack</dfn> {
+  readonly attribute DOMString <a href=#dom-audiotrack-id id=audiotracklist-and-videotracklist-objects:dom-audiotrack-id>id</a>;
+  readonly attribute DOMString <a href=#dom-audiotrack-kind id=audiotracklist-and-videotracklist-objects:dom-audiotrack-kind>kind</a>;
+  readonly attribute DOMString <a href=#dom-audiotrack-label id=audiotracklist-and-videotracklist-objects:dom-audiotrack-label>label</a>;
+  readonly attribute DOMString <a href=#dom-audiotrack-language id=audiotracklist-and-videotracklist-objects:dom-audiotrack-language>language</a>;
+  attribute boolean <a href=#dom-audiotrack-enabled id=audiotracklist-and-videotracklist-objects:dom-audiotrack-enabled>enabled</a>;
+};
+
+interface <dfn id=videotracklist>VideoTrackList</dfn> : <a id=audiotracklist-and-videotracklist-objects:eventtarget-2 href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  readonly attribute unsigned long <a href=#dom-videotracklist-length id=audiotracklist-and-videotracklist-objects:dom-videotracklist-length>length</a>;
+  <a href=#dom-tracklist-item>getter</a> <a href=#videotrack id=audiotracklist-and-videotracklist-objects:videotrack>VideoTrack</a> (unsigned long index);
+  <a href=#videotrack id=audiotracklist-and-videotracklist-objects:videotrack-2>VideoTrack</a>? <a href=#dom-videotracklist-gettrackbyid id=audiotracklist-and-videotracklist-objects:dom-videotracklist-gettrackbyid>getTrackById</a>(DOMString id);
+  readonly attribute long <a href=#dom-videotracklist-selectedindex id=audiotracklist-and-videotracklist-objects:dom-videotracklist-selectedindex>selectedIndex</a>;
+
+  attribute <a href=#eventhandler id=audiotracklist-and-videotracklist-objects:eventhandler-4>EventHandler</a> <a href=#handler-tracklist-onchange id=audiotracklist-and-videotracklist-objects:handler-tracklist-onchange-2>onchange</a>;
+  attribute <a href=#eventhandler id=audiotracklist-and-videotracklist-objects:eventhandler-5>EventHandler</a> <a href=#handler-tracklist-onaddtrack id=audiotracklist-and-videotracklist-objects:handler-tracklist-onaddtrack-2>onaddtrack</a>;
+  attribute <a href=#eventhandler id=audiotracklist-and-videotracklist-objects:eventhandler-6>EventHandler</a> <a href=#handler-tracklist-onremovetrack id=audiotracklist-and-videotracklist-objects:handler-tracklist-onremovetrack-2>onremovetrack</a>;
+};
+
+interface <dfn id=videotrack>VideoTrack</dfn> {
+  readonly attribute DOMString <a href=#dom-videotrack-id id=audiotracklist-and-videotracklist-objects:dom-videotrack-id>id</a>;
+  readonly attribute DOMString <a href=#dom-videotrack-kind id=audiotracklist-and-videotracklist-objects:dom-videotrack-kind>kind</a>;
+  readonly attribute DOMString <a href=#dom-videotrack-label id=audiotracklist-and-videotracklist-objects:dom-videotrack-label>label</a>;
+  readonly attribute DOMString <a href=#dom-videotrack-language id=audiotracklist-and-videotracklist-objects:dom-videotrack-language>language</a>;
+  attribute boolean <a href=#dom-videotrack-selected id=audiotracklist-and-videotracklist-objects:dom-videotrack-selected>selected</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>media</var> . <code id=audiotracklist-and-videotracklist-objects:dom-media-audiotracks><a href=#dom-media-audiotracks>audioTracks</a></code> . <code id=audiotracklist-and-videotracklist-objects:dom-audiotracklist-length-2><a href=#dom-audiotracklist-length>length</a></code><dt><var>media</var> . <code id=audiotracklist-and-videotracklist-objects:dom-media-videotracks><a href=#dom-media-videotracks>videoTracks</a></code> . <code id=audiotracklist-and-videotracklist-objects:dom-videotracklist-length-2><a href=#dom-videotracklist-length>length</a></code><dd>
+
+    <p>Returns the number of tracks in the list.</p>
+
+   <dt><var>audioTrack</var> = <var>media</var> . <code id=audiotracklist-and-videotracklist-objects:dom-media-audiotracks-2><a href=#dom-media-audiotracks>audioTracks</a></code>[<var>index</var>]<dt><var>videoTrack</var> = <var>media</var> . <code id=audiotracklist-and-videotracklist-objects:dom-media-videotracks-2><a href=#dom-media-videotracks>videoTracks</a></code>[<var>index</var>]<dd>
+
+    <p>Returns the specified <code id=audiotracklist-and-videotracklist-objects:audiotrack-3><a href=#audiotrack>AudioTrack</a></code> or <code id=audiotracklist-and-videotracklist-objects:videotrack-3><a href=#videotrack>VideoTrack</a></code> object.</p>
+
+   <dt><var>audioTrack</var> = <var>media</var> . <code id=audiotracklist-and-videotracklist-objects:dom-media-audiotracks-3><a href=#dom-media-audiotracks>audioTracks</a></code> . <code id=audiotracklist-and-videotracklist-objects:dom-audiotracklist-gettrackbyid-2><a href=#dom-audiotracklist-gettrackbyid>getTrackById</a></code>( <var>id</var> )<dt><var>videoTrack</var> = <var>media</var> . <code id=audiotracklist-and-videotracklist-objects:dom-media-videotracks-3><a href=#dom-media-videotracks>videoTracks</a></code> . <code id=audiotracklist-and-videotracklist-objects:dom-videotracklist-gettrackbyid-2><a href=#dom-videotracklist-gettrackbyid>getTrackById</a></code>( <var>id</var> )<dd>
+
+    <p>Returns the <code id=audiotracklist-and-videotracklist-objects:audiotrack-4><a href=#audiotrack>AudioTrack</a></code> or <code id=audiotracklist-and-videotracklist-objects:videotrack-4><a href=#videotrack>VideoTrack</a></code> object with the given identifier, or null if no track has that identifier.</p>
+
+   <dt><var>audioTrack</var> . <code id=audiotracklist-and-videotracklist-objects:dom-audiotrack-id-2><a href=#dom-audiotrack-id>id</a></code><dt><var>videoTrack</var> . <code id=audiotracklist-and-videotracklist-objects:dom-videotrack-id-2><a href=#dom-videotrack-id>id</a></code><dd>
+
+    <p>Returns the ID of the given track. This is the ID that can be used with a <a href=https://url.spec.whatwg.org/#concept-url-fragment id=audiotracklist-and-videotracklist-objects:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a> if the format supports <a id=audiotracklist-and-videotracklist-objects:media-fragment-syntax href=https://www.w3.org/TR/media-frags/#media-fragment-syntax data-x-internal=media-fragment-syntax>media fragment
+    syntax</a>, and that can be used with the <code>getTrackById()</code> method.</p>
+
+   <dt><var>audioTrack</var> . <code id=audiotracklist-and-videotracklist-objects:dom-audiotrack-kind-2><a href=#dom-audiotrack-kind>kind</a></code><dt><var>videoTrack</var> . <code id=audiotracklist-and-videotracklist-objects:dom-videotrack-kind-2><a href=#dom-videotrack-kind>kind</a></code><dd>
+
+    <p>Returns the category the given track falls into. The <a href=#dom-TrackList-getKind-categories>possible track categories</a> are given below.</p>
+
+   <dt><var>audioTrack</var> . <code id=audiotracklist-and-videotracklist-objects:dom-audiotrack-label-2><a href=#dom-audiotrack-label>label</a></code><dt><var>videoTrack</var> . <code id=audiotracklist-and-videotracklist-objects:dom-videotrack-label-2><a href=#dom-videotrack-label>label</a></code><dd>
+
+    <p>Returns the label of the given track, if known, or the empty string otherwise.</p>
+
+   <dt><var>audioTrack</var> . <code id=audiotracklist-and-videotracklist-objects:dom-audiotrack-language-2><a href=#dom-audiotrack-language>language</a></code><dt><var>videoTrack</var> . <code id=audiotracklist-and-videotracklist-objects:dom-videotrack-language-2><a href=#dom-videotrack-language>language</a></code><dd>
+
+    <p>Returns the language of the given track, if known, or the empty string otherwise.</p>
+
+   <dt><var>audioTrack</var> . <code id=audiotracklist-and-videotracklist-objects:dom-audiotrack-enabled-2><a href=#dom-audiotrack-enabled>enabled</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns true if the given track is active, and false otherwise.</p>
+
+    <p>Can be set, to change whether the track is enabled or not. If multiple audio tracks are
+    enabled simultaneously, they are mixed.</p>
+
+   <dt><var>media</var> . <code id=audiotracklist-and-videotracklist-objects:dom-media-videotracks-4><a href=#dom-media-videotracks>videoTracks</a></code> . <code id=audiotracklist-and-videotracklist-objects:dom-videotracklist-selectedindex-2><a href=#dom-videotracklist-selectedindex>selectedIndex</a></code><dd>
+
+    <p>Returns the index of the currently selected track, if any, or −1 otherwise.</p>
+
+   <dt><var>videoTrack</var> . <code id=audiotracklist-and-videotracklist-objects:dom-videotrack-selected-2><a href=#dom-videotrack-selected>selected</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns true if the given track is active, and false otherwise.</p>
+
+    <p>Can be set, to change whether the track is selected or not. Either zero or one video track is
+    selected; selecting a new track while a previous one is selected will unselect the previous
+    one.</p>
+
+   </dl>
+
+  
+
+  <p>An <code id=audiotracklist-and-videotracklist-objects:audiotracklist-3><a href=#audiotracklist>AudioTrackList</a></code> object represents a dynamic list of zero or more audio tracks,
+  of which zero or more can be enabled at a time. Each audio track is represented by an
+  <code id=audiotracklist-and-videotracklist-objects:audiotrack-5><a href=#audiotrack>AudioTrack</a></code> object.</p>
+
+  <p>A <code id=audiotracklist-and-videotracklist-objects:videotracklist-3><a href=#videotracklist>VideoTrackList</a></code> object represents a dynamic list of zero or more video tracks, of
+  which zero or one can be selected at a time. Each video track is represented by a
+  <code id=audiotracklist-and-videotracklist-objects:videotrack-5><a href=#videotrack>VideoTrack</a></code> object.</p>
+
+  <p>Tracks in <code id=audiotracklist-and-videotracklist-objects:audiotracklist-4><a href=#audiotracklist>AudioTrackList</a></code> and <code id=audiotracklist-and-videotracklist-objects:videotracklist-4><a href=#videotracklist>VideoTrackList</a></code> objects must be
+  consistently ordered. If the <a href=#media-resource id=audiotracklist-and-videotracklist-objects:media-resource>media resource</a> is in a format that defines an order,
+  then that order must be used; otherwise, the order must be the relative order in which the tracks
+  are declared in the <a href=#media-resource id=audiotracklist-and-videotracklist-objects:media-resource-2>media resource</a>. The order used is called the <i>natural order</i>
+  of the list.</p>
+
+  <p class=note>Each track in one of these objects thus has an index; the first has the index
+  0, and each subsequent track is numbered one higher than the previous one. If a <a href=#media-resource id=audiotracklist-and-videotracklist-objects:media-resource-3>media
+  resource</a> dynamically adds or removes audio or video tracks, then the indices of the tracks
+  will change dynamically. If the <a href=#media-resource id=audiotracklist-and-videotracklist-objects:media-resource-4>media resource</a> changes entirely, then all the
+  previous tracks will be removed and replaced with new tracks.</p>
+
+  <p>The <dfn id=dom-audiotracklist-length><code>AudioTrackList.length</code></dfn> and <dfn id=dom-videotracklist-length><code>VideoTrackList.length</code></dfn> attributes must return
+  the number of tracks represented by their objects at the time of getting.</p>
+
+  <p>The <a id=audiotracklist-and-videotracklist-objects:supported-property-indices href=https://heycam.github.io/webidl/#dfn-supported-property-indices data-x-internal=supported-property-indices>supported property indices</a> of <code id=audiotracklist-and-videotracklist-objects:audiotracklist-5><a href=#audiotracklist>AudioTrackList</a></code> and
+  <code id=audiotracklist-and-videotracklist-objects:videotracklist-5><a href=#videotracklist>VideoTrackList</a></code> objects at any instant are the numbers from zero to the number of
+  tracks represented by the respective object minus one, if any tracks are represented. If an
+  <code id=audiotracklist-and-videotracklist-objects:audiotracklist-6><a href=#audiotracklist>AudioTrackList</a></code> or <code id=audiotracklist-and-videotracklist-objects:videotracklist-6><a href=#videotracklist>VideoTrackList</a></code> object represents no tracks, it has no
+  <a id=audiotracklist-and-videotracklist-objects:supported-property-indices-2 href=https://heycam.github.io/webidl/#dfn-supported-property-indices data-x-internal=supported-property-indices>supported property indices</a>.</p>
+
+  <p id=dom-tracklist-item>To <a id=audiotracklist-and-videotracklist-objects:determine-the-value-of-an-indexed-property href=https://heycam.github.io/webidl/#dfn-determine-the-value-of-an-indexed-property data-x-internal=determine-the-value-of-an-indexed-property>determine the value of an indexed property</a> for a
+  given index <var>index</var> in an <code id=audiotracklist-and-videotracklist-objects:audiotracklist-7><a href=#audiotracklist>AudioTrackList</a></code> or <code id=audiotracklist-and-videotracklist-objects:videotracklist-7><a href=#videotracklist>VideoTrackList</a></code>
+  object <var>list</var>, the user agent must return the <code id=audiotracklist-and-videotracklist-objects:audiotrack-6><a href=#audiotrack>AudioTrack</a></code> or
+  <code id=audiotracklist-and-videotracklist-objects:videotrack-6><a href=#videotrack>VideoTrack</a></code> object that represents the <var>index</var>th track in <var>list</var>.</p>
+
+  <p>The <dfn id=dom-audiotracklist-gettrackbyid><code>AudioTrackList.getTrackById(<var>id</var>)</code></dfn> and <dfn id=dom-videotracklist-gettrackbyid><code>VideoTrackList.getTrackById(<var>id</var>)</code></dfn> methods must return the first <code id=audiotracklist-and-videotracklist-objects:audiotrack-7><a href=#audiotrack>AudioTrack</a></code> or
+  <code id=audiotracklist-and-videotracklist-objects:videotrack-7><a href=#videotrack>VideoTrack</a></code> object (respectively) in the <code id=audiotracklist-and-videotracklist-objects:audiotracklist-8><a href=#audiotracklist>AudioTrackList</a></code> or
+  <code id=audiotracklist-and-videotracklist-objects:videotracklist-8><a href=#videotracklist>VideoTrackList</a></code> object (respectively) whose identifier is equal to the value of the
+  <var>id</var> argument (in the natural order of the list, as defined above). When no
+  tracks match the given argument, the methods must return null.</p>
+
+  <p>The <code id=audiotracklist-and-videotracklist-objects:audiotrack-8><a href=#audiotrack>AudioTrack</a></code> and <code id=audiotracklist-and-videotracklist-objects:videotrack-8><a href=#videotrack>VideoTrack</a></code> objects represent specific tracks of a
+  <a href=#media-resource id=audiotracklist-and-videotracklist-objects:media-resource-5>media resource</a>. Each track can have an identifier, category, label, and language.
+  These aspects of a track are permanent for the lifetime of the track; even if a track is removed
+  from a <a href=#media-resource id=audiotracklist-and-videotracklist-objects:media-resource-6>media resource</a>'s <code id=audiotracklist-and-videotracklist-objects:audiotracklist-9><a href=#audiotracklist>AudioTrackList</a></code> or <code id=audiotracklist-and-videotracklist-objects:videotracklist-9><a href=#videotracklist>VideoTrackList</a></code>
+  objects, those aspects do not change.</p>
+
+  <p>In addition, <code id=audiotracklist-and-videotracklist-objects:audiotrack-9><a href=#audiotrack>AudioTrack</a></code> objects can each be enabled or disabled; this is the audio
+  track's <i>enabled state</i>. When an <code id=audiotracklist-and-videotracklist-objects:audiotrack-10><a href=#audiotrack>AudioTrack</a></code> is created, its <i>enabled state</i>
+  must be set to false (disabled). The <a href=#concept-media-load-resource id=audiotracklist-and-videotracklist-objects:concept-media-load-resource>resource fetch
+  algorithm</a> can override this.</p>
+
+  <p>Similarly, a single <code id=audiotracklist-and-videotracklist-objects:videotrack-9><a href=#videotrack>VideoTrack</a></code> object per <code id=audiotracklist-and-videotracklist-objects:videotracklist-10><a href=#videotracklist>VideoTrackList</a></code> object can
+  be selected, this is the video track's <i>selection state</i>. When a <code id=audiotracklist-and-videotracklist-objects:videotrack-10><a href=#videotrack>VideoTrack</a></code> is
+  created, its <i>selection state</i> must be set to false (not selected). The <a href=#concept-media-load-resource id=audiotracklist-and-videotracklist-objects:concept-media-load-resource-2>resource fetch algorithm</a> can override this.</p>
+
+  <p>The <dfn id=dom-audiotrack-id><code>AudioTrack.id</code></dfn> and <dfn id=dom-videotrack-id><code>VideoTrack.id</code></dfn> attributes must return the identifier
+  of the track, if it has one, or the empty string otherwise. If the <a href=#media-resource id=audiotracklist-and-videotracklist-objects:media-resource-7>media resource</a> is
+  in a format that supports <a id=audiotracklist-and-videotracklist-objects:media-fragment-syntax-2 href=https://www.w3.org/TR/media-frags/#media-fragment-syntax data-x-internal=media-fragment-syntax>media fragment syntax</a>, the identifier returned for a particular
+  track must be the same identifier that would enable the track if used as the name of a track in
+  the track dimension of such a <a href=https://url.spec.whatwg.org/#concept-url-fragment id=audiotracklist-and-videotracklist-objects:concept-url-fragment-2 data-x-internal=concept-url-fragment>fragment</a>.
+  <a href=#refsINBAND>[INBAND]</a></p>
+
+  <p class=example>For example, in Ogg files, this would be the Name header field of the track. <a href=#refsOGGSKELETONHEADERS>[OGGSKELETONHEADERS]</a></p>
+
+  <p>The <dfn id=dom-audiotrack-kind><code>AudioTrack.kind</code></dfn> and <dfn id=dom-videotrack-kind><code>VideoTrack.kind</code></dfn> attributes must return the category
+  of the track, if it has one, or the empty string otherwise.</p>
+
+  <p>The category of a track is the string given in the first column of the table below that is the
+  most appropriate for the track based on the definitions in the table's second and third columns,
+  as determined by the metadata included in the track in the <a href=#media-resource id=audiotracklist-and-videotracklist-objects:media-resource-8>media resource</a>. The cell
+  in the third column of a row says what the category given in the cell in the first column of that
+  row applies to; a category is only appropriate for an audio track if it applies to audio tracks,
+  and a category is only appropriate for video tracks if it applies to video tracks. Categories must
+  only be returned for <code id=audiotracklist-and-videotracklist-objects:audiotrack-11><a href=#audiotrack>AudioTrack</a></code> objects if they are appropriate for audio, and must
+  only be returned for <code id=audiotracklist-and-videotracklist-objects:videotrack-11><a href=#videotrack>VideoTrack</a></code> objects if they are appropriate for video.</p>
+
+  <p>For Ogg files, the Role header field of the track gives the relevant metadata. For DASH media
+  resources, the <code>Role</code> element conveys the information. For WebM, only the
+  <code>FlagDefault</code> element currently maps to a value. The <cite>Sourcing In-band
+  Media Resource Tracks from Media Containers into HTML</cite> specification has further details.
+  <a href=#refsOGGSKELETONHEADERS>[OGGSKELETONHEADERS]</a> <a href=#refsDASH>[DASH]</a> <a href=#refsWEBMCG>[WEBMCG]</a> <a href=#refsINBAND>[INBAND]</a></p>
+
+  
+
+  <table id=dom-TrackList-getKind-categories><caption>Return values for <code id=audiotracklist-and-videotracklist-objects:dom-audiotrack-kind-3><a href=#dom-audiotrack-kind>AudioTrack.kind</a></code> and <code id=audiotracklist-and-videotracklist-objects:dom-videotrack-kind-3><a href=#dom-videotrack-kind>VideoTrack.kind</a></code></caption><thead><tr><th>Category
+     <th>Definition
+     <th>Applies to...<th>Examples
+   <tbody><tr><td>"<dfn id=value-track-kind-alternate><code>alternative</code></dfn>"
+     <td>A possible alternative to the main track, e.g. a different take of a song (audio), or a different angle (video).
+     <td>Audio and video.
+     <td>Ogg: "audio/alternate" or "video/alternate"; DASH: "alternate" without "main" and "commentary" roles, and, for audio, without the "dub" role (other roles ignored).
+
+    <tr><td>"<dfn id=value-track-kind-caption><code>captions</code></dfn>"
+     <td>A version of the main video track with captions burnt in. (For legacy content; new content would use text tracks.)
+     <td>Video only.
+     <td>DASH: "caption" and "main" roles together (other roles ignored).
+
+    <tr><td>"<dfn id=value-track-kind-descriptions><code>descriptions</code></dfn>"
+     <td>An audio description of a video track.
+     <td>Audio only.
+     <td>Ogg: "audio/audiodesc".
+
+    <tr><td>"<dfn id=value-track-kind-main><code>main</code></dfn>"
+     <td>The primary audio or video track.
+     <td>Audio and video.
+     <td>Ogg: "audio/main" or "video/main"; WebM: the "FlagDefault" element is set; DASH: "main" role without "caption", "subtitle", and "dub" roles (other roles ignored).
+
+    <tr><td>"<dfn id=value-track-kind-main-desc><code>main-desc</code></dfn>"
+     <td>The primary audio track, mixed with audio descriptions.
+     <td>Audio only.
+     <td>AC3 audio in MPEG-2 TS: bsmod=2 and full_svc=1. 
+
+    <tr><td>"<dfn id=value-track-kind-sign><code>sign</code></dfn>"
+     <td>A sign-language interpretation of an audio track.
+     <td>Video only.
+     <td>Ogg: "video/sign".
+
+    <tr><td>"<dfn id=value-track-kind-subtitle><code>subtitles</code></dfn>"
+     <td>A version of the main video track with subtitles burnt in. (For legacy content; new content would use text tracks.)
+     <td>Video only.
+     <td>DASH: "subtitle" and "main" roles together (other roles ignored).
+
+    <tr><td>"<dfn id=value-track-kind-translation><code>translation</code></dfn>"
+     <td>A translated version of the main audio track.
+     <td>Audio only.
+     <td>Ogg: "audio/dub". DASH: "dub" and "main" roles together (other roles ignored).
+
+    <tr><td>"<dfn id=value-track-kind-commentary><code>commentary</code></dfn>"
+     <td>Commentary on the primary audio or video track, e.g. a director's commentary.
+     <td>Audio and video.
+     <td>DASH: "commentary" role without "main" role (other roles ignored).
+
+    <tr><td>"<dfn id=value-track-kind-none><code></code></dfn>" (empty string)
+     <td>No explicit kind, or the kind given by the track's metadata is not recognized by the user agent.
+     <td>Audio and video.
+     <td>
+
+  </table>
+
+  
+
+  <p>The <dfn id=dom-audiotrack-label><code>AudioTrack.label</code></dfn> and <dfn id=dom-videotrack-label><code>VideoTrack.label</code></dfn> attributes must return the label
+  of the track, if it has one, or the empty string otherwise. <a href=#refsINBAND>[INBAND]</a></p>
+
+  <p>The <dfn id=dom-audiotrack-language><code>AudioTrack.language</code></dfn> and <dfn id=dom-videotrack-language><code>VideoTrack.language</code></dfn> attributes must return the
+  BCP 47 language tag of the language of the track, if it has one, or the empty string otherwise. If
+  the user agent is not able to express that language as a BCP 47 language tag (for example because
+  the language information in the <a href=#media-resource id=audiotracklist-and-videotracklist-objects:media-resource-9>media resource</a>'s format is a free-form string without
+  a defined interpretation), then the method must return the empty string, as if the track had no
+  language. <a href=#refsINBAND>[INBAND]</a></p>
+
+  <p>The <dfn id=dom-audiotrack-enabled><code>AudioTrack.enabled</code></dfn> attribute, on
+  getting, must return true if the track is currently enabled, and false otherwise. On setting, it
+  must enable the track if the new value is true, and disable it otherwise. (If the track is no
+  longer in an <code id=audiotracklist-and-videotracklist-objects:audiotracklist-10><a href=#audiotracklist>AudioTrackList</a></code> object, then the track being enabled or disabled has no
+  effect beyond changing the value of the attribute on the <code id=audiotracklist-and-videotracklist-objects:audiotrack-12><a href=#audiotrack>AudioTrack</a></code> object.)</p>
+
+  <p id=toggle-audio-track>Whenever an audio track in an <code id=audiotracklist-and-videotracklist-objects:audiotracklist-11><a href=#audiotracklist>AudioTrackList</a></code> that was
+  disabled is enabled, and whenever one that was enabled is disabled, the user agent must
+  <a href=#queue-a-task id=audiotracklist-and-videotracklist-objects:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=audiotracklist-and-videotracklist-objects:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=audiotracklist-and-videotracklist-objects:event-media-change><a href=#event-media-change>change</a></code> at the <code id=audiotracklist-and-videotracklist-objects:audiotracklist-12><a href=#audiotracklist>AudioTrackList</a></code> object.</p>
+
+  <p>An audio track that has no data for a particular position on the <a href=#media-timeline id=audiotracklist-and-videotracklist-objects:media-timeline>media timeline</a>,
+  or that does not exist at that position, must be interpreted as being silent at that point on the
+  timeline.</p>
+
+  <p>The <dfn id=dom-videotracklist-selectedindex><code>VideoTrackList.selectedIndex</code></dfn> attribute
+  must return the index of the currently selected track, if any. If the <code id=audiotracklist-and-videotracklist-objects:videotracklist-11><a href=#videotracklist>VideoTrackList</a></code>
+  object does not currently represent any tracks, or if none of the tracks are selected, it must
+  instead return −1.</p>
+
+  <p>The <dfn id=dom-videotrack-selected><code>VideoTrack.selected</code></dfn> attribute, on
+  getting, must return true if the track is currently selected, and false otherwise. On setting, it
+  must select the track if the new value is true, and unselect it otherwise. If the track is in a
+  <code id=audiotracklist-and-videotracklist-objects:videotracklist-12><a href=#videotracklist>VideoTrackList</a></code>, then all the other <code id=audiotracklist-and-videotracklist-objects:videotrack-12><a href=#videotrack>VideoTrack</a></code> objects in that list must
+  be unselected. (If the track is no longer in a <code id=audiotracklist-and-videotracklist-objects:videotracklist-13><a href=#videotracklist>VideoTrackList</a></code> object, then the track
+  being selected or unselected has no effect beyond changing the value of the attribute on the
+  <code id=audiotracklist-and-videotracklist-objects:videotrack-13><a href=#videotrack>VideoTrack</a></code> object.)</p>
+
+  <p id=toggle-video-track>Whenever a track in a <code id=audiotracklist-and-videotracklist-objects:videotracklist-14><a href=#videotracklist>VideoTrackList</a></code> that was previously
+  not selected is selected, and whenever the selected track in a <code id=audiotracklist-and-videotracklist-objects:videotracklist-15><a href=#videotracklist>VideoTrackList</a></code> is
+  unselected without a new track being selected in its stead, the user agent must <a href=#queue-a-task id=audiotracklist-and-videotracklist-objects:queue-a-task-2>queue a
+  task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=audiotracklist-and-videotracklist-objects:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=audiotracklist-and-videotracklist-objects:event-media-change-2><a href=#event-media-change>change</a></code> at the <code id=audiotracklist-and-videotracklist-objects:videotracklist-16><a href=#videotracklist>VideoTrackList</a></code> object. This <a href=#concept-task id=audiotracklist-and-videotracklist-objects:concept-task>task</a> must be <a href=#queue-a-task id=audiotracklist-and-videotracklist-objects:queue-a-task-3>queued</a> before the
+  <a href=#concept-task id=audiotracklist-and-videotracklist-objects:concept-task-2>task</a> that fires the <code id=audiotracklist-and-videotracklist-objects:event-media-resize><a href=#event-media-resize>resize</a></code> event, if any.</p>
+
+  <p>A video track that has no data for a particular position on the <a href=#media-timeline id=audiotracklist-and-videotracklist-objects:media-timeline-2>media timeline</a>
+  must be interpreted as being fully transparent black at that point on the timeline, with the same
+  dimensions as the last frame before that position, or, if the position is before all the data for
+  that track, the same dimensions as the first frame for that track. A track that does not exist at
+  all at the current position must be treated as if it existed but had no data.</p>
+
+  <p class=example>For instance, if a video has a track that is only introduced after one hour of
+  playback, and the user selects that track then goes back to the start, then the user agent will
+  act as if that track started at the start of the <a href=#media-resource id=audiotracklist-and-videotracklist-objects:media-resource-10>media resource</a> but was simply
+  transparent until one hour in.</p>
+
+  <hr>
+
+  <p>The following are the <a href=#event-handlers id=audiotracklist-and-videotracklist-objects:event-handlers>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=audiotracklist-and-videotracklist-objects:event-handler-event-type>event handler event types</a>) that must be supported, as <a href=#event-handler-idl-attributes id=audiotracklist-and-videotracklist-objects:event-handler-idl-attributes>event handler IDL attributes</a>,
+  by all objects implementing the <code id=audiotracklist-and-videotracklist-objects:audiotracklist-13><a href=#audiotracklist>AudioTrackList</a></code> and <code id=audiotracklist-and-videotracklist-objects:videotracklist-17><a href=#videotracklist>VideoTrackList</a></code>
+  interfaces:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=audiotracklist-and-videotracklist-objects:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=audiotracklist-and-videotracklist-objects:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-tracklist-onchange><code>onchange</code></dfn> <td> <code id=audiotracklist-and-videotracklist-objects:event-media-change-3><a href=#event-media-change>change</a></code>
+    <tr><td><dfn id=handler-tracklist-onaddtrack><code>onaddtrack</code></dfn> <td> <code id=audiotracklist-and-videotracklist-objects:event-media-addtrack><a href=#event-media-addtrack>addtrack</a></code>
+    <tr><td><dfn id=handler-tracklist-onremovetrack><code>onremovetrack</code></dfn> <td> <code id=audiotracklist-and-videotracklist-objects:event-media-removetrack><a href=#event-media-removetrack>removetrack</a></code>
+  </table>
+
+  
+
+  
+
+
+  <h6 id=selecting-specific-audio-and-video-tracks-declaratively>4.8.12.10.2 Selecting specific audio and video tracks declaratively<a href=#selecting-specific-audio-and-video-tracks-declaratively class=self-link></a></h6>
+
+  <p>The <code id=selecting-specific-audio-and-video-tracks-declaratively:dom-media-audiotracks><a href=#dom-media-audiotracks>audioTracks</a></code> and <code id=selecting-specific-audio-and-video-tracks-declaratively:dom-media-videotracks><a href=#dom-media-videotracks>videoTracks</a></code> attributes allow scripts to select which track
+  should play, but it is also possible to select specific tracks declaratively, by specifying
+  particular tracks in the <a href=https://url.spec.whatwg.org/#concept-url-fragment id=selecting-specific-audio-and-video-tracks-declaratively:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a> of the
+  <a id=selecting-specific-audio-and-video-tracks-declaratively:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of the <a href=#media-resource id=selecting-specific-audio-and-video-tracks-declaratively:media-resource>media resource</a>. The format of the <a href=https://url.spec.whatwg.org/#concept-url-fragment id=selecting-specific-audio-and-video-tracks-declaratively:concept-url-fragment-2 data-x-internal=concept-url-fragment>fragment</a> depends on the <a id=selecting-specific-audio-and-video-tracks-declaratively:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> of the
+  <a href=#media-resource id=selecting-specific-audio-and-video-tracks-declaratively:media-resource-2>media resource</a>. <a href=#refsRFC2046>[RFC2046]</a> <a href=#refsURL>[URL]</a></p>
+
+  <div class=example>
+
+   <p>In this example, a video that uses a format that supports <a id=selecting-specific-audio-and-video-tracks-declaratively:media-fragment-syntax href=https://www.w3.org/TR/media-frags/#media-fragment-syntax data-x-internal=media-fragment-syntax>media fragment syntax</a>
+   is embedded in such a way that the alternative angles labeled "Alternative" are enabled instead
+   of the default video track.</p>
+
+   <pre>&lt;video src="myvideo#track=Alternative">&lt;/video></pre>
+
+  </div>
+
+
+
+  <h5 id=timed-text-tracks>4.8.12.11 Timed text tracks<a href=#timed-text-tracks class=self-link></a></h5>
+
+  <h6 id=text-track-model>4.8.12.11.1 Text track model<a href=#text-track-model class=self-link></a></h6><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=28973" title="<track> elements added with their text track already showing do not run the &quot;time marches on&quot; steps">28973</a></div>
+
+  <p>A <a href=#media-element id=text-track-model:media-element>media element</a> can have a group of associated <dfn id=text-track>text
+  tracks</dfn>, known as the <a href=#media-element id=text-track-model:media-element-2>media element</a>'s <dfn id=list-of-text-tracks>list of text tracks</dfn>. The <a href=#text-track id=text-track-model:text-track>text tracks</a> are sorted as follows:</p>
+
+  <ol class=brief><li>The <a href=#text-track id=text-track-model:text-track-2>text tracks</a> corresponding to <code id=text-track-model:the-track-element><a href=#the-track-element>track</a></code> element
+   children of the <a href=#media-element id=text-track-model:media-element-3>media element</a>, in <a id=text-track-model:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>.<li>Any <a href=#text-track id=text-track-model:text-track-3>text tracks</a> added using the <code id=text-track-model:dom-media-addtexttrack><a href=#dom-media-addtexttrack>addTextTrack()</a></code> method, in the order they were added, oldest
+   first.<li>Any <a href=#media-resource-specific-text-track id=text-track-model:media-resource-specific-text-track>media-resource-specific text
+   tracks</a> (<a href=#text-track id=text-track-model:text-track-4>text tracks</a> corresponding to data in the
+   <a href=#media-resource id=text-track-model:media-resource>media resource</a>), in the order defined by the <a href=#media-resource id=text-track-model:media-resource-2>media resource</a>'s format
+   specification.</ol>
+
+  <p>A <a href=#text-track id=text-track-model:text-track-5>text track</a> consists of:</p>
+
+  <dl><dt><dfn id=text-track-kind>The kind of text track</dfn>
+
+   <dd>
+
+    <p>This decides how the track is handled by the user agent. The kind is represented by a string.
+    The possible strings are:</p>
+
+    <ul class=brief><li><dfn id=dom-texttrack-kind-subtitles><code>subtitles</code></dfn>
+     <li><dfn id=dom-texttrack-kind-captions><code>captions</code></dfn>
+     <li><dfn id=dom-texttrack-kind-descriptions><code>descriptions</code></dfn>
+     <li><dfn id=dom-texttrack-kind-chapters><code>chapters</code></dfn>
+     <li><dfn id=dom-texttrack-kind-metadata><code>metadata</code></dfn>
+    </ul>
+
+    <p>The <a href=#text-track-kind id=text-track-model:text-track-kind>kind of track</a> can change dynamically, in the case of
+    a <a href=#text-track id=text-track-model:text-track-6>text track</a> corresponding to a <code id=text-track-model:the-track-element-2><a href=#the-track-element>track</a></code> element.</p>
+
+   <dt><dfn id=text-track-label>A label</dfn>
+
+   <dd>
+
+    <p>This is a human-readable string intended to identify the track for the user.</p>
+
+    <p>The <a href=#text-track-label id=text-track-model:text-track-label>label of a track</a> can change dynamically, in the
+    case of a <a href=#text-track id=text-track-model:text-track-7>text track</a> corresponding to a <code id=text-track-model:the-track-element-3><a href=#the-track-element>track</a></code> element.</p>
+
+    <p>When a <a href=#text-track-label id=text-track-model:text-track-label-2>text track label</a> is the empty string, the user agent should automatically
+    generate an appropriate label from the text track's other properties (e.g. the kind of text
+    track and the text track's language) for use in its user interface. This automatically-generated
+    label is not exposed in the API.</p>
+
+   <dt><dfn id=text-track-in-band-metadata-track-dispatch-type>An in-band metadata track dispatch type</dfn>
+
+   <dd>
+
+    <p>This is a string extracted from the <a href=#media-resource id=text-track-model:media-resource-3>media resource</a> specifically for in-band
+    metadata tracks to enable such tracks to be dispatched to different scripts in the document.</p>
+
+    <p class=example>For example, a traditional TV station broadcast streamed on the Web and
+    augmented with Web-specific interactive features could include text tracks with metadata for ad
+    targeting, trivia game data during game shows, player states during sports games, recipe
+    information during food programs, and so forth. As each program starts and ends, new tracks
+    might be added or removed from the stream, and as each one is added, the user agent could bind
+    them to dedicated script modules using the value of this attribute.</p>
+
+    <p>Other than for in-band metadata text tracks, the <a href=#text-track-in-band-metadata-track-dispatch-type id=text-track-model:text-track-in-band-metadata-track-dispatch-type>in-band metadata track dispatch type</a> is the empty string. How this
+    value is populated for different media formats is described in <a href=#steps-to-expose-a-media-resource-specific-text-track id=text-track-model:steps-to-expose-a-media-resource-specific-text-track>steps to expose a
+    media-resource-specific text track</a>.</p>
+
+   <dt><dfn id=text-track-language>A language</dfn>
+
+   <dd>
+
+    <p>This is a string (a BCP 47 language tag) representing the language of the text track's cues.
+    <a href=#refsBCP47>[BCP47]</a></p>
+
+    <p>The <a href=#text-track-language id=text-track-model:text-track-language>language of a text track</a> can change dynamically,
+    in the case of a <a href=#text-track id=text-track-model:text-track-8>text track</a> corresponding to a <code id=text-track-model:the-track-element-4><a href=#the-track-element>track</a></code> element.</p>
+
+   <dt><dfn id=text-track-readiness-state>A readiness state</dfn>
+
+   <dd>
+
+    <p>One of the following:</p>
+
+    <dl><dt><dfn id=text-track-not-loaded>Not loaded</dfn>
+
+     <dd>
+
+      <p>Indicates that the text track's cues have not been obtained.</p>
+
+     <dt><dfn id=text-track-loading>Loading</dfn>
+
+     <dd>
+
+      <p>Indicates that the text track is loading and there have been no fatal errors encountered so
+      far. Further cues might still be added to the track by the parser.</p>
+
+     <dt><dfn id=text-track-loaded>Loaded</dfn>
+
+     <dd>
+
+      <p>Indicates that the text track has been loaded with no fatal errors.</p>
+
+     <dt><dfn id=text-track-failed-to-load>Failed to load</dfn>
+
+     <dd>
+
+      <p>Indicates that the text track was enabled, but when the user agent attempted to obtain it,
+      this failed in some way (e.g. <a id=text-track-model:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> could not be <a href=#parse-a-url id=text-track-model:parse-a-url>parsed</a>, network error, unknown text track format). Some or all of the cues are
+      likely missing and will not be obtained.</p>
+
+     </dl>
+
+    <p>The <a href=#text-track-readiness-state id=text-track-model:text-track-readiness-state>readiness state</a> of a <a href=#text-track id=text-track-model:text-track-9>text
+    track</a> changes dynamically as the track is obtained.</p>
+
+   <dt><dfn id=text-track-mode>A mode</dfn>
+
+   <dd>
+
+    <p>One of the following:</p>
+
+    <dl><dt><dfn id=text-track-disabled>Disabled</dfn>
+
+     <dd>
+
+      <p>Indicates that the text track is not active. Other than for the purposes of exposing the
+      track in the DOM, the user agent is ignoring the text track. No cues are active, no events are
+      fired, and the user agent will not attempt to obtain the track's cues.</p>
+
+     <dt><dfn id=text-track-hidden>Hidden</dfn>
+
+     <dd>
+
+      <p>Indicates that the text track is active, but that the user agent is not actively displaying
+      the cues. If no attempt has yet been made to obtain the track's cues, the user agent will
+      perform such an attempt momentarily. The user agent is maintaining a list of which cues are
+      active, and events are being fired accordingly.</p>
+
+     <dt><dfn id=text-track-showing>Showing</dfn>
+
+     <dd>
+
+      <p>Indicates that the text track is active. If no attempt has yet been made to obtain the
+      track's cues, the user agent will perform such an attempt momentarily. The user agent is
+      maintaining a list of which cues are active, and events are being fired accordingly. In
+      addition, for text tracks whose <a href=#text-track-kind id=text-track-model:text-track-kind-2>kind</a> is <code id=text-track-model:dom-texttrack-kind-subtitles><a href=#dom-texttrack-kind-subtitles>subtitles</a></code> or <code id=text-track-model:dom-texttrack-kind-captions><a href=#dom-texttrack-kind-captions>captions</a></code>, the cues are being overlaid on the video
+      as appropriate; for text tracks whose <a href=#text-track-kind id=text-track-model:text-track-kind-3>kind</a> is <code id=text-track-model:dom-texttrack-kind-descriptions><a href=#dom-texttrack-kind-descriptions>descriptions</a></code>, the user agent is making the
+      cues available to the user in a non-visual fashion; and for text tracks whose <a href=#text-track-kind id=text-track-model:text-track-kind-4>kind</a> is <code id=text-track-model:dom-texttrack-kind-chapters><a href=#dom-texttrack-kind-chapters>chapters</a></code>, the user agent is making available to
+      the user a mechanism by which the user can navigate to any point in the <a href=#media-resource id=text-track-model:media-resource-4>media

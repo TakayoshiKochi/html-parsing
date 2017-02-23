@@ -1,0 +1,850 @@
+ button.setAttribute('onclick', "alert('NOT CALLED')"); // event handler listener is registered here
+ button.addEventListener('click', function () { alert('THREE') }, false);
+ button.onclick = function () { alert('TWO'); };
+ button.addEventListener('click', function () { alert('FOUR') }, false);
+&lt;/script></pre>
+
+  </div>
+
+  
+
+  <p class=note>The interfaces implemented by the event object do not influence whether an <a href=#event-handlers id=event-handler-attributes:event-handlers-17>event handler</a> is triggered or not.</p>
+
+  <p><dfn id=the-event-handler-processing-algorithm>The event handler processing algorithm</dfn> for an <a href=#event-handlers id=event-handler-attributes:event-handlers-18>event
+  handler</a> <var>H</var> and an <code id=event-handler-attributes:event><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code> object <var>E</var> is as
+  follows:</p>
+
+  <ol><li>
+
+    <p>Let <var>callback</var> be the result of <a href=#getting-the-current-value-of-the-event-handler id=event-handler-attributes:getting-the-current-value-of-the-event-handler-2>getting the current value of the
+    event handler</a> <var>H</var>.</p>
+
+   <li><p>If <var>callback</var> is null, then abort these steps.<li>
+
+    <p>Process the <code id=event-handler-attributes:event-2><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code> object <var>E</var> as follows:</p>
+
+    <dl class=switch><dt>If <var>E</var> is an <code id=event-handler-attributes:errorevent><a href=#errorevent>ErrorEvent</a></code> object and the <a href=#event-handler-idl-attributes id=event-handler-attributes:event-handler-idl-attributes-5 data-export="">event handler IDL attribute</a>'s type is
+     <code id=event-handler-attributes:onerroreventhandler><a href=#onerroreventhandler>OnErrorEventHandler</a></code><dd>
+
+      <p><a href=#concept-invoke-event-handler id=event-handler-attributes:concept-invoke-event-handler>Invoke</a> <var>callback</var> with five
+      arguments, the first one having the value of <var>E</var>'s <code id=event-handler-attributes:dom-errorevent-message><a href=#dom-errorevent-message>message</a></code> attribute, the second having the value of
+      <var>E</var>'s <code id=event-handler-attributes:dom-errorevent-filename><a href=#dom-errorevent-filename>filename</a></code> attribute, the third
+      having the value of <var>E</var>'s <code id=event-handler-attributes:dom-errorevent-lineno><a href=#dom-errorevent-lineno>lineno</a></code>
+      attribute, the fourth having the value of <var>E</var>'s <code id=event-handler-attributes:dom-errorevent-colno><a href=#dom-errorevent-colno>colno</a></code> attribute, the fifth having the value of
+      <var>E</var>'s <code id=event-handler-attributes:dom-errorevent-error><a href=#dom-errorevent-error>error</a></code> attribute, and with the <i id=event-handler-attributes:dfn-callback-this-value><a data-x-internal=dfn-callback-this-value href=https://heycam.github.io/webidl/#dfn-callback-this-value>callback this value</a></i> set to <var>E</var>'s <code id=event-handler-attributes:dom-event-currenttarget><a data-x-internal=dom-event-currenttarget href=https://dom.spec.whatwg.org/#dom-event-currenttarget>currentTarget</a></code>. Let <var>return value</var> be the
+      callback's return value. <a href=#refsWEBIDL>[WEBIDL]</a></p>
+
+     <dt>Otherwise<dd>
+
+      <p><a href=#concept-invoke-event-handler id=event-handler-attributes:concept-invoke-event-handler-2>Invoke</a> <var>callback</var>
+      with one argument, the value of which is the <code id=event-handler-attributes:event-3><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code> object <var>E</var>,
+      with the <i id=event-handler-attributes:dfn-callback-this-value-2><a data-x-internal=dfn-callback-this-value href=https://heycam.github.io/webidl/#dfn-callback-this-value>callback this value</a></i> set to <var>E</var>'s <code id=event-handler-attributes:dom-event-currenttarget-2><a data-x-internal=dom-event-currenttarget href=https://dom.spec.whatwg.org/#dom-event-currenttarget>currentTarget</a></code>. Let <var>return value</var> be the callback's return value. <a href=#refsWEBIDL>[WEBIDL]</a></p>
+
+     </dl>
+
+    <p>In this step, <dfn id=concept-invoke-event-handler>invoke</dfn> means to <a href=https://heycam.github.io/webidl/#es-invoking-callback-functions id=event-handler-attributes:es-invoking-callback-functions data-x-internal=es-invoking-callback-functions>invoke the Web IDL callback function</a>.</p>
+
+    <p>If an exception gets thrown by the callback, end these steps and allow the exception to
+    propagate. (It will propagate to the <a href=https://dom.spec.whatwg.org/#concept-event-dispatch id=event-handler-attributes:concept-event-dispatch data-x-internal=concept-event-dispatch>DOM event dispatch
+    logic</a>, which will then <a href=#report-the-exception id=event-handler-attributes:report-the-exception>report the exception</a>.)</p>
+
+   <li>
+
+    <p>Process <var>return value</var> as follows:</p>
+
+    <dl class=switch><dt>If the event type is <code id=event-handler-attributes:event-mouseover><a data-x-internal=event-mouseover href=https://w3c.github.io/uievents/#event-type-mouseover>mouseover</a></code><dt>If the event type is <code id=event-handler-attributes:event-error><a href=#event-error>error</a></code> and <var>E</var> is an <code id=event-handler-attributes:errorevent-2><a href=#errorevent>ErrorEvent</a></code> object<dd><p>If <var>return value</var> is a Web IDL boolean true value, then cancel the event.<dt>If the event type is <code id=event-handler-attributes:event-beforeunload><a href=#event-beforeunload>beforeunload</a></code><dd>
+
+      <p class=note>The <a href=#event-handler-idl-attributes id=event-handler-attributes:event-handler-idl-attributes-6>event handler IDL
+      attribute</a>'s type is <code id=event-handler-attributes:onbeforeunloadeventhandler><a href=#onbeforeunloadeventhandler>OnBeforeUnloadEventHandler</a></code>, and the <var>return value</var> will therefore have been coerced into either the value null or a
+      DOMString.</p>
+
+      <p>If the <var>return value</var> is null, then cancel the event.</p>
+
+      <p>Otherwise, If the <code id=event-handler-attributes:event-4><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code> object <var>E</var> is a
+      <code id=event-handler-attributes:beforeunloadevent><a href=#beforeunloadevent>BeforeUnloadEvent</a></code> object, and the <code id=event-handler-attributes:event-5><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code> object <var>E</var>'s <code id=event-handler-attributes:dom-beforeunloadevent-returnvalue><a href=#dom-beforeunloadevent-returnvalue>returnValue</a></code>
+      attribute's value is the empty string, then set the <code id=event-handler-attributes:dom-beforeunloadevent-returnvalue-2><a href=#dom-beforeunloadevent-returnvalue>returnValue</a></code> attribute's value to <var>return value</var>.</p>
+
+     <dt>Otherwise<dd><p>If <var>return value</var> is a Web IDL boolean false value, then cancel the
+     event.</dl>
+
+   </ol>
+
+  
+
+  <hr>
+
+  <p>The <code id=event-handler-attributes:eventhandler-2><a href=#eventhandler>EventHandler</a></code> callback function type represents a callback used for event
+  handlers. It is represented in Web IDL as follows:</p>
+
+  <pre class=idl>[TreatNonObjectAsNull]
+callback <dfn id=eventhandlernonnull>EventHandlerNonNull</dfn> = any (<a id=event-handler-attributes:event-6 href=https://dom.spec.whatwg.org/#interface-event data-x-internal=event>Event</a> event);
+typedef <a href=#eventhandlernonnull id=event-handler-attributes:eventhandlernonnull>EventHandlerNonNull</a>? <dfn id=eventhandler>EventHandler</dfn>;</pre>
+
+  <p class=note>In JavaScript, any <code id=event-handler-attributes:idl-function><a data-x-internal=idl-function href=https://heycam.github.io/webidl/#common-Function>Function</a></code> object implements
+  this interface.</p>
+
+  <div class=example>
+
+   <p>For example, the following document fragment:</p>
+
+   <pre>&lt;body onload="alert(this)" onclick="alert(this)"></pre>
+
+   <p>...leads to an alert saying "<code>[object Window]</code>" when the document is
+   loaded, and an alert saying "<code>[object HTMLBodyElement]</code>" whenever the
+   user clicks something in the page.</p>
+
+  </div>
+
+  <p class=note>The return value of the function affects whether the event is canceled or not:
+  as described above, if the return value is false, the event is canceled
+  (except for <code id=event-handler-attributes:event-mouseover-2><a data-x-internal=event-mouseover href=https://w3c.github.io/uievents/#event-type-mouseover>mouseover</a></code> events, where the return value has to
+  be true to cancel the event). With <code id=event-handler-attributes:event-beforeunload-2><a href=#event-beforeunload>beforeunload</a></code> events,
+  the value is instead used to determine whether or not to prompt about unloading the document.</p>
+
+  <p>For historical reasons, the <code id=event-handler-attributes:handler-onerror><a href=#handler-onerror>onerror</a></code> handler has different
+  arguments:</p>
+
+  <pre class=idl>[TreatNonObjectAsNull]
+callback <dfn id=onerroreventhandlernonnull>OnErrorEventHandlerNonNull</dfn> = any ((<a id=event-handler-attributes:event-7 href=https://dom.spec.whatwg.org/#interface-event data-x-internal=event>Event</a> or DOMString) event, optional DOMString source, optional unsigned long lineno, optional unsigned long colno, optional any error);
+typedef <a href=#onerroreventhandlernonnull id=event-handler-attributes:onerroreventhandlernonnull>OnErrorEventHandlerNonNull</a>? <dfn id=onerroreventhandler>OnErrorEventHandler</dfn>;</pre>
+
+  <p>Similarly, the <code id=event-handler-attributes:handler-window-onbeforeunload><a href=#handler-window-onbeforeunload>onbeforeunload</a></code> handler has a
+  different return value:</p>
+
+  <pre class=idl>[TreatNonObjectAsNull]
+callback <dfn id=onbeforeunloadeventhandlernonnull>OnBeforeUnloadEventHandlerNonNull</dfn> = DOMString? (<a id=event-handler-attributes:event-8 href=https://dom.spec.whatwg.org/#interface-event data-x-internal=event>Event</a> event);
+typedef <a href=#onbeforeunloadeventhandlernonnull id=event-handler-attributes:onbeforeunloadeventhandlernonnull>OnBeforeUnloadEventHandlerNonNull</a>? <dfn id=onbeforeunloadeventhandler>OnBeforeUnloadEventHandler</dfn>;</pre>
+
+  
+
+  
+
+  <hr>
+
+  <p>An <dfn id=internal-raw-uncompiled-handler>internal raw uncompiled handler</dfn> is a tuple with the following information:</p>
+
+  <ul class=brief><li>An uncompiled script body
+
+   <li>A location where the script body originated, in case an error needs to be reported
+
+  </ul>
+
+  <p>When the user agent is to <dfn id=getting-the-current-value-of-the-event-handler>get the
+  current value of the event handler</dfn> <var>H</var>, it must run these steps:</p>
+
+  <ol><li>
+
+    <p>If <var>H</var>'s value is an <a href=#internal-raw-uncompiled-handler id=event-handler-attributes:internal-raw-uncompiled-handler-3>internal raw uncompiled handler</a>, run these
+    substeps:</p>
+
+    <ol><li>
+
+      <p>If <var>H</var> is an element's <a href=#event-handlers id=event-handler-attributes:event-handlers-19>event
+      handler</a>, then let <var>element</var> be the element, and <var>document</var> be the element's <a id=event-handler-attributes:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.</p>
+
+      <p>Otherwise, <var>H</var> is a <code id=event-handler-attributes:window-3><a href=#window>Window</a></code> object's <a href=#event-handlers id=event-handler-attributes:event-handlers-20>event handler</a>: let <var>element</var> be null, and let <var>document</var> be the <code id=event-handler-attributes:document><a href=#document>Document</a></code> most recently associated with that
+      <code id=event-handler-attributes:window-4><a href=#window>Window</a></code> object.</p>
+
+     <li><p>If <a href=#concept-n-noscript id=event-handler-attributes:concept-n-noscript>scripting is disabled</a> for
+     <var>document</var>, then return null.<li><p>Let <var>body</var> be the uncompiled script body in the <a href=#internal-raw-uncompiled-handler id=event-handler-attributes:internal-raw-uncompiled-handler-4>internal raw
+     uncompiled handler</a>.<li><p>Let <var>location</var> be the location where the script body originated, as
+     given by the <a href=#internal-raw-uncompiled-handler id=event-handler-attributes:internal-raw-uncompiled-handler-5>internal raw uncompiled handler</a>.<li><p>If <var>element</var> is not null and <var>element</var> has a
+     <a href=#form-owner id=event-handler-attributes:form-owner>form owner</a>, let <var>form owner</var> be that <a href=#form-owner id=event-handler-attributes:form-owner-2>form owner</a>.
+     Otherwise, let <var>form owner</var> be null.<li><p>Let <var>settings object</var> be the <a href=#relevant-settings-object id=event-handler-attributes:relevant-settings-object>relevant settings object</a> of
+     <var>document</var>.<li>
+
+      <p>If <var>body</var> is not parsable as <i id=event-handler-attributes:js-prod-functionbody-2><a data-x-internal=js-prod-functionbody href=https://tc39.github.io/ecma262/#prod-FunctionBody>FunctionBody</a></i>
+      or if parsing detects an <a id=event-handler-attributes:early-error href=https://tc39.github.io/ecma262/#early-error-rule data-x-internal=early-error>early error</a>, then follow these substeps:</p>
+
+      <ol><li><p>Set <var>H</var>'s value to null.<li><p><a href=#report-the-error id=event-handler-attributes:report-the-error>Report the error</a> for the appropriate <a href=#concept-script id=event-handler-attributes:concept-script>script</a> and with the appropriate position (line number and
+       column number) given by <var>location</var>, using <var>settings object</var>'s <a href=#concept-settings-object-global id=event-handler-attributes:concept-settings-object-global>global object</a>. If the error is still <i id=event-handler-attributes:concept-error-nothandled><a href=#concept-error-nothandled>not handled</a></i> after this, then the error may be reported
+       to a developer console.<li><p>Return null.</ol>
+
+     <li>
+
+      <p>If <var>body</var> begins with a <a id=event-handler-attributes:directive-prologue href=https://tc39.github.io/ecma262/#directive-prologue data-x-internal=directive-prologue>Directive Prologue</a> that contains a <a id=event-handler-attributes:use-strict-directive href=https://tc39.github.io/ecma262/#use-strict-directive data-x-internal=use-strict-directive>Use
+      Strict Directive</a> then let <var>strict</var> be true, otherwise let <var>strict</var>
+      be false.</p> 
+
+     <li><p>Push <var>settings object</var>'s <a href=#realm-execution-context id=event-handler-attributes:realm-execution-context>realm execution context</a> onto the
+     <a id=event-handler-attributes:javascript-execution-context-stack href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript execution context stack</a>; it is now the <a id=event-handler-attributes:running-javascript-execution-context href=https://tc39.github.io/ecma262/#running-execution-context data-x-internal=running-javascript-execution-context>running JavaScript
+     execution context</a>.<li>
+
+      <p>Let <var>function</var> be the result of calling <a href=https://tc39.github.io/ecma262/#sec-functioncreate id=event-handler-attributes:js-functioncreate data-x-internal=js-functioncreate>FunctionCreate</a>, with arguments:</p>
+
+      <dl><dt><var>kind</var><dd>Normal<dt><var>ParameterList</var><dd>
+
+        <dl class=switch><dt>If <var>H</var> is an <code id=event-handler-attributes:handler-onerror-2><a href=#handler-onerror>onerror</a></code> <a href=#event-handlers id=event-handler-attributes:event-handlers-21>event handler</a> of a <code id=event-handler-attributes:window-5><a href=#window>Window</a></code> object<dd>Let the function have five arguments, named <code>event</code>, <code>source</code>, <code>lineno</code>, <code>colno</code>, and
+         <code>error</code>.<dt>Otherwise<dd>Let the function have a single argument called <code>event</code>.</dl>
+
+       <dt><var>Body</var><dd>The result of parsing <var>body</var> above.<dt><var>Scope</var><dd>
+
+        <ol><li>
+
+          <p>If <var>H</var> is an element's <a href=#event-handlers id=event-handler-attributes:event-handlers-22>event
+          handler</a>, then let <var>Scope</var> be <a href=https://tc39.github.io/ecma262/#sec-newobjectenvironment id=event-handler-attributes:js-newobjectenvironment data-x-internal=js-newobjectenvironment>NewObjectEnvironment</a>(<var>document</var>,
+          the <var>global environment</var>).</p>
+
+          <p>Otherwise, <var>H</var> is a <code id=event-handler-attributes:window-6><a href=#window>Window</a></code> object's <a href=#event-handlers id=event-handler-attributes:event-handlers-23>event handler</a>: let <var>Scope</var> be the <var>global environment</var>.</p>
+
+         <li><p>If <var>form owner</var> is not null, let <var>Scope</var> be
+         <a href=https://tc39.github.io/ecma262/#sec-newobjectenvironment id=event-handler-attributes:js-newobjectenvironment-2 data-x-internal=js-newobjectenvironment>NewObjectEnvironment</a>(<var>form owner</var>,
+         <var>Scope</var>).<li><p>If <var>element</var> is not null, let <var>Scope</var> be <a href=https://tc39.github.io/ecma262/#sec-newobjectenvironment id=event-handler-attributes:js-newobjectenvironment-3 data-x-internal=js-newobjectenvironment>NewObjectEnvironment</a>(<var>element</var>,
+         <var>Scope</var>).</ol>
+
+       <dt><var>Strict</var><dd>The value of <var>strict</var>.</dl>
+
+     <li><p>Remove <var>settings object</var>'s <a href=#realm-execution-context id=event-handler-attributes:realm-execution-context-2>realm execution context</a> from the
+     <a id=event-handler-attributes:javascript-execution-context-stack-2 href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript execution context stack</a>.<li><p>Set <var>H</var>'s value to <var>function</var>.</ol>
+
+   <li><p>Return <var>H</var>'s value.</ol>
+
+  
+
+
+
+  <h5 id=event-handlers-on-elements,-document-objects,-and-window-objects>8.1.5.2 Event handlers on elements, <code id=event-handlers-on-elements,-document-objects,-and-window-objects:document><a href=#document>Document</a></code> objects, and <code id=event-handlers-on-elements,-document-objects,-and-window-objects:window><a href=#window>Window</a></code> objects<a href=#event-handlers-on-elements,-document-objects,-and-window-objects class=self-link></a></h5>
+
+  <p>The following are the <a href=#event-handlers id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handlers>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-event-type>event handler event types</a>) that must be
+  supported by all <a href=#html-elements id=event-handlers-on-elements,-document-objects,-and-window-objects:html-elements>HTML elements</a>, as both <a href=#event-handler-content-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-content-attributes>event handler content attributes</a>
+  and <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes>event handler IDL attributes</a>; and that must be
+  supported by all <code id=event-handlers-on-elements,-document-objects,-and-window-objects:document-2><a href=#document>Document</a></code> and <code id=event-handlers-on-elements,-document-objects,-and-window-objects:window-2><a href=#window>Window</a></code> objects, as <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes-2>event handler IDL
+  attributes</a>:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-onabort><code>onabort</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-abort><a href=#event-abort>abort</a></code>
+    <tr><td><dfn id=handler-onauxclick><code>onauxclick</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-auxclick><a data-x-internal=event-auxclick href=https://wicg.github.io/auxclick/#the-auxclick-event>auxclick</a></code>
+    <tr><td><dfn id=handler-oncancel><code>oncancel</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-cancel><a href=#event-cancel>cancel</a></code>
+    <tr><td><dfn id=handler-oncanplay><code>oncanplay</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-canplay><a href=#event-media-canplay>canplay</a></code>
+    <tr><td><dfn id=handler-oncanplaythrough><code>oncanplaythrough</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-canplaythrough><a href=#event-media-canplaythrough>canplaythrough</a></code>
+    <tr><td><dfn id=handler-onchange><code>onchange</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-change><a href=#event-change>change</a></code> 
+    <tr><td><dfn id=handler-onclick><code>onclick</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> 
+    <tr><td><dfn id=handler-onclose><code>onclose</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-close><a href=#event-close>close</a></code> 
+    <tr><td><dfn id=handler-oncontextmenu><code>oncontextmenu</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-contextmenu><a href=#event-contextmenu>contextmenu</a></code> 
+    <tr><td><dfn id=handler-oncuechange><code>oncuechange</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-cuechange><a href=#event-media-cuechange>cuechange</a></code>
+    <tr><td><dfn id=handler-ondblclick><code>ondblclick</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-dblclick><a data-x-internal=event-dblclick href=https://w3c.github.io/uievents/#event-type-dblclick>dblclick</a></code> 
+    <tr><td><dfn id=handler-ondrag><code>ondrag</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-dnd-drag><a href=#event-dnd-drag>drag</a></code>
+    <tr><td><dfn id=handler-ondragend><code>ondragend</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-dnd-dragend><a href=#event-dnd-dragend>dragend</a></code>
+    <tr><td><dfn id=handler-ondragenter><code>ondragenter</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-dnd-dragenter><a href=#event-dnd-dragenter>dragenter</a></code>
+    <tr><td><dfn id=handler-ondragexit><code>ondragexit</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-dnd-dragexit><a href=#event-dnd-dragexit>dragexit</a></code>
+    <tr><td><dfn id=handler-ondragleave><code>ondragleave</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-dnd-dragleave><a href=#event-dnd-dragleave>dragleave</a></code>
+    <tr><td><dfn id=handler-ondragover><code>ondragover</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-dnd-dragover><a href=#event-dnd-dragover>dragover</a></code>
+    <tr><td><dfn id=handler-ondragstart><code>ondragstart</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-dnd-dragstart><a href=#event-dnd-dragstart>dragstart</a></code> 
+    <tr><td><dfn id=handler-ondrop><code>ondrop</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-dnd-drop><a href=#event-dnd-drop>drop</a></code>
+    <tr><td><dfn id=handler-ondurationchange><code>ondurationchange</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-durationchange><a href=#event-media-durationchange>durationchange</a></code>
+    <tr><td><dfn id=handler-onemptied><code>onemptied</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-emptied><a href=#event-media-emptied>emptied</a></code>
+    <tr><td><dfn id=handler-onended><code>onended</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-ended><a href=#event-media-ended>ended</a></code>
+    <tr><td><dfn id=handler-oninput><code>oninput</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-input><a href=#event-input>input</a></code>
+    <tr><td><dfn id=handler-oninvalid><code>oninvalid</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-invalid><a href=#event-invalid>invalid</a></code>
+    <tr><td><dfn id=handler-onkeydown><code>onkeydown</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-keydown><a data-x-internal=event-keydown href=https://w3c.github.io/uievents/#event-type-keydown>keydown</a></code> 
+    <tr><td><dfn id=handler-onkeypress><code>onkeypress</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-keypress><a data-x-internal=event-keypress href=https://w3c.github.io/uievents/#event-type-keypress>keypress</a></code> 
+    <tr><td><dfn id=handler-onkeyup><code>onkeyup</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-keyup><a data-x-internal=event-keyup href=https://w3c.github.io/uievents/#event-type-keyup>keyup</a></code> 
+    <tr><td><dfn id=handler-onloadeddata><code>onloadeddata</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-loadeddata><a href=#event-media-loadeddata>loadeddata</a></code>
+    <tr><td><dfn id=handler-onloadedmetadata><code>onloadedmetadata</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-loadedmetadata><a href=#event-media-loadedmetadata>loadedmetadata</a></code>
+    <tr><td><dfn id=handler-onloadend><code>onloadend</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-loadend><a href=#event-loadend>loadend</a></code>
+    <tr><td><dfn id=handler-onloadstart><code>onloadstart</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-loadstart><a href=#event-media-loadstart>loadstart</a></code>
+    <tr><td><dfn id=handler-onmousedown><code>onmousedown</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-mousedown><a data-x-internal=event-mousedown href=https://w3c.github.io/uievents/#event-type-mousedown>mousedown</a></code> 
+    <tr><td><dfn id=handler-onmouseenter><code>onmouseenter</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-mouseenter><a data-x-internal=event-mouseenter href=https://w3c.github.io/uievents/#event-type-mouseenter>mouseenter</a></code> 
+    <tr><td><dfn id=handler-onmouseleave><code>onmouseleave</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-mouseleave><a data-x-internal=event-mouseleave href=https://w3c.github.io/uievents/#event-type-mouseleave>mouseleave</a></code> 
+    <tr><td><dfn id=handler-onmousemove><code>onmousemove</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-mousemove><a data-x-internal=event-mousemove href=https://w3c.github.io/uievents/#event-type-mousemove>mousemove</a></code> 
+    <tr><td><dfn id=handler-onmouseout><code>onmouseout</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-mouseout><a data-x-internal=event-mouseout href=https://w3c.github.io/uievents/#event-type-mouseout>mouseout</a></code> 
+    <tr><td><dfn id=handler-onmouseover><code>onmouseover</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-mouseover><a data-x-internal=event-mouseover href=https://w3c.github.io/uievents/#event-type-mouseover>mouseover</a></code> 
+    <tr><td><dfn id=handler-onmouseup><code>onmouseup</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-mouseup><a data-x-internal=event-mouseup href=https://w3c.github.io/uievents/#event-type-mouseup>mouseup</a></code> 
+    <tr><td><dfn id=handler-onwheel><code>onwheel</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-wheel><a data-x-internal=event-wheel href=https://w3c.github.io/uievents/#event-type-wheel>wheel</a></code> 
+    <tr><td><dfn id=handler-onpause><code>onpause</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-pause><a href=#event-media-pause>pause</a></code>
+    <tr><td><dfn id=handler-onplay><code>onplay</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-play><a href=#event-media-play>play</a></code>
+    <tr><td><dfn id=handler-onplaying><code>onplaying</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-playing><a href=#event-media-playing>playing</a></code>
+    <tr><td><dfn id=handler-onprogress><code>onprogress</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-progress><a href=#event-media-progress>progress</a></code>
+    <tr><td><dfn id=handler-onratechange><code>onratechange</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-ratechange><a href=#event-media-ratechange>ratechange</a></code>
+    <tr><td><dfn id=handler-onreset><code>onreset</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-reset><a href=#event-reset>reset</a></code>
+    <tr><td><dfn id=handler-onseeked><code>onseeked</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-seeked><a href=#event-media-seeked>seeked</a></code>
+    <tr><td><dfn id=handler-onseeking><code>onseeking</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-seeking><a href=#event-media-seeking>seeking</a></code>
+    <tr><td><dfn id=handler-onselect><code>onselect</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-select><a href=#event-select>select</a></code>  
+    <tr><td><dfn id=handler-onshow><code>onshow</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-show><a href=#event-show>show</a></code>
+    <tr><td><dfn id=handler-onstalled><code>onstalled</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-stalled><a href=#event-media-stalled>stalled</a></code>
+    <tr><td><dfn id=handler-onsubmit><code>onsubmit</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-submit><a href=#event-submit>submit</a></code> 
+    <tr><td><dfn id=handler-onsuspend><code>onsuspend</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-suspend><a href=#event-media-suspend>suspend</a></code>
+    <tr><td><dfn id=handler-ontimeupdate><code>ontimeupdate</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-timeupdate><a href=#event-media-timeupdate>timeupdate</a></code>
+    <tr><td><dfn id=handler-ontoggle><code>ontoggle</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-toggle><a href=#event-toggle>toggle</a></code>
+    <tr><td><dfn id=handler-onvolumechange><code>onvolumechange</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-volumechange><a href=#event-media-volumechange>volumechange</a></code>
+    <tr><td><dfn id=handler-onwaiting><code>onwaiting</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-media-waiting><a href=#event-media-waiting>waiting</a></code>
+
+
+ 
+ 
+ 
+
+ 
+  </table>
+
+  <hr>
+
+  <p>The following are the <a href=#event-handlers id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handlers-3>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-event-type-3>event handler event types</a>) that must be
+  supported by all <a href=#html-elements id=event-handlers-on-elements,-document-objects,-and-window-objects:html-elements-2>HTML elements</a> other than <code id=event-handlers-on-elements,-document-objects,-and-window-objects:the-body-element><a href=#the-body-element>body</a></code> and <code id=event-handlers-on-elements,-document-objects,-and-window-objects:frameset><a href=#frameset>frameset</a></code>
+  elements, as both <a href=#event-handler-content-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-content-attributes-2>event handler content attributes</a> and <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes-3>event handler IDL
+  attributes</a>; that must be supported by all <code id=event-handlers-on-elements,-document-objects,-and-window-objects:document-3><a href=#document>Document</a></code>
+  objects, as <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes-4>event handler IDL attributes</a>; and that must be
+  supported by all <code id=event-handlers-on-elements,-document-objects,-and-window-objects:window-3><a href=#window>Window</a></code> objects, as <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes-5>event handler IDL attributes</a> on the
+  <code id=event-handlers-on-elements,-document-objects,-and-window-objects:window-4><a href=#window>Window</a></code> objects themselves, and with corresponding <a href=#event-handler-content-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-content-attributes-3>event handler content
+  attributes</a> and <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes-6>event handler IDL attributes</a> exposed on all <code id=event-handlers-on-elements,-document-objects,-and-window-objects:the-body-element-2><a href=#the-body-element>body</a></code>
+  and <code id=event-handlers-on-elements,-document-objects,-and-window-objects:frameset-2><a href=#frameset>frameset</a></code> elements that are owned by that <code id=event-handlers-on-elements,-document-objects,-and-window-objects:window-5><a href=#window>Window</a></code> object's <a href=#concept-document-window id=event-handlers-on-elements,-document-objects,-and-window-objects:concept-document-window>associated <code>Document</code></a>:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handlers-4>Event handler</a> <th><a href=#event-handler-event-type id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-event-type-4>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-onblur><code>onblur</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-blur><a href=#event-blur>blur</a></code> 
+    <tr><td><dfn id=handler-onerror><code>onerror</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-error><a href=#event-error>error</a></code>
+    <tr><td><dfn id=handler-onfocus><code>onfocus</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-focus><a href=#event-focus>focus</a></code> 
+    <tr><td><dfn id=handler-onload><code>onload</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-load><a href=#event-load>load</a></code>
+    <tr><td><dfn id=handler-onresize><code>onresize</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-resize><a data-x-internal=event-resize href=https://drafts.csswg.org/cssom-view/#eventdef-window-resize>resize</a></code>
+    <tr><td><dfn id=handler-onscroll><code>onscroll</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-scroll><a data-x-internal=event-scroll href=https://drafts.csswg.org/cssom-view/#eventdef-document-scroll>scroll</a></code>
+  </table>
+
+  <hr>
+
+  <p>The following are the <a href=#event-handlers id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handlers-5>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-event-type-5>event handler event types</a>) that must be
+  supported by <code id=event-handlers-on-elements,-document-objects,-and-window-objects:window-6><a href=#window>Window</a></code> objects, as <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes-7>event handler IDL attributes</a> on the
+  <code id=event-handlers-on-elements,-document-objects,-and-window-objects:window-7><a href=#window>Window</a></code> objects themselves, and with corresponding <a href=#event-handler-content-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-content-attributes-4>event handler content
+  attributes</a> and <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes-8>event handler IDL attributes</a> exposed on all <code id=event-handlers-on-elements,-document-objects,-and-window-objects:the-body-element-3><a href=#the-body-element>body</a></code>
+  and <code id=event-handlers-on-elements,-document-objects,-and-window-objects:frameset-3><a href=#frameset>frameset</a></code> elements that are owned by that <code id=event-handlers-on-elements,-document-objects,-and-window-objects:window-8><a href=#window>Window</a></code> object's <a href=#concept-document-window id=event-handlers-on-elements,-document-objects,-and-window-objects:concept-document-window-2>associated <code>Document</code></a>:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handlers-6>Event handler</a> <th><a href=#event-handler-event-type id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-event-type-6>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-window-onafterprint><code>onafterprint</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-afterprint><a href=#event-afterprint>afterprint</a></code>
+    <tr><td><dfn id=handler-window-onbeforeprint><code>onbeforeprint</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-beforeprint><a href=#event-beforeprint>beforeprint</a></code>
+    <tr><td><dfn id=handler-window-onbeforeunload><code>onbeforeunload</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-beforeunload><a href=#event-beforeunload>beforeunload</a></code>
+    <tr><td><dfn id=handler-window-onhashchange><code>onhashchange</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-hashchange><a href=#event-hashchange>hashchange</a></code> 
+    <tr><td><dfn id=handler-window-onlanguagechange><code>onlanguagechange</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-languagechange><a href=#event-languagechange>languagechange</a></code> 
+    <tr><td><dfn id=handler-window-onmessage><code>onmessage</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-message><a href=#event-message>message</a></code> 
+    <tr><td><dfn id=handler-window-onoffline><code>onoffline</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-offline><a href=#event-offline>offline</a></code> 
+    <tr><td><dfn id=handler-window-ononline><code>ononline</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-online><a href=#event-online>online</a></code> 
+    <tr><td><dfn id=handler-window-onpagehide><code>onpagehide</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-pagehide><a href=#event-pagehide>pagehide</a></code> 
+    <tr><td><dfn id=handler-window-onpageshow><code>onpageshow</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-pageshow><a href=#event-pageshow>pageshow</a></code> 
+    <tr><td><dfn id=handler-window-onpopstate><code>onpopstate</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-popstate><a href=#event-popstate>popstate</a></code> 
+    <tr><td><dfn id=handler-window-onrejectionhandled><code>onrejectionhandled</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-rejectionhandled><a href=#event-rejectionhandled>rejectionhandled</a></code>
+    <tr><td><dfn id=handler-window-onstorage><code>onstorage</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-storage><a href=#event-storage>storage</a></code> 
+    <tr><td><dfn id=handler-window-onunhandledrejection><code>onunhandledrejection</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-unhandledrejection><a href=#event-unhandledrejection>unhandledrejection</a></code>
+    <tr><td><dfn id=handler-window-onunload><code>onunload</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-unload><a href=#event-unload>unload</a></code> 
+  </table>
+
+  <hr>
+
+  
+
+  <p>The following are the <a href=#event-handlers id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handlers-7>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-event-type-7>event handler event types</a>) that must be
+  supported by all <a href=#html-elements id=event-handlers-on-elements,-document-objects,-and-window-objects:html-elements-3>HTML elements</a>, as both <a href=#event-handler-content-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-content-attributes-5>event handler content attributes</a>
+  and <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes-9>event handler IDL attributes</a>; and that must be
+  supported by all <code id=event-handlers-on-elements,-document-objects,-and-window-objects:document-4><a href=#document>Document</a></code> objects, as <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes-10>event handler IDL attributes</a>:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handlers-8>Event handler</a> <th><a href=#event-handler-event-type id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-event-type-8>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-oncut><code>oncut</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-cut><a href=#event-cut>cut</a></code>
+    <tr><td><dfn id=handler-oncopy><code>oncopy</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-copy><a href=#event-copy>copy</a></code>
+    <tr><td><dfn id=handler-onpaste><code>onpaste</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-paste><a href=#event-paste>paste</a></code>
+  </table>
+
+  <p>The following are the <a href=#event-handlers id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handlers-9>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-event-type-9>event handler event types</a>) that must be
+  supported on <code id=event-handlers-on-elements,-document-objects,-and-window-objects:document-5><a href=#document>Document</a></code> objects as <a href=#event-handler-idl-attributes id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-idl-attributes-11>event handler IDL attributes</a>:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handlers-10>Event handler</a> <th><a href=#event-handler-event-type id=event-handlers-on-elements,-document-objects,-and-window-objects:event-handler-event-type-10>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-onreadystatechange><code>onreadystatechange</code></dfn> <td> <code id=event-handlers-on-elements,-document-objects,-and-window-objects:event-readystatechange><a href=#event-readystatechange>readystatechange</a></code>
+  </table>
+
+
+  <h6 id=idl-definitions>8.1.5.2.1 IDL definitions<a href=#idl-definitions class=self-link></a></h6>
+
+  <pre class=idl>[NoInterfaceObject]
+interface <dfn id=globaleventhandlers>GlobalEventHandlers</dfn> {
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler>EventHandler</a> <a href=#handler-onabort id=idl-definitions:handler-onabort>onabort</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-2>EventHandler</a> <a href=#handler-onauxclick id=idl-definitions:handler-onauxclick>onauxclick</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-3>EventHandler</a> <a href=#handler-onblur id=idl-definitions:handler-onblur>onblur</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-4>EventHandler</a> <a href=#handler-oncancel id=idl-definitions:handler-oncancel>oncancel</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-5>EventHandler</a> <a href=#handler-oncanplay id=idl-definitions:handler-oncanplay>oncanplay</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-6>EventHandler</a> <a href=#handler-oncanplaythrough id=idl-definitions:handler-oncanplaythrough>oncanplaythrough</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-7>EventHandler</a> <a href=#handler-onchange id=idl-definitions:handler-onchange>onchange</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-8>EventHandler</a> <a href=#handler-onclick id=idl-definitions:handler-onclick>onclick</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-9>EventHandler</a> <a href=#handler-onclose id=idl-definitions:handler-onclose>onclose</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-10>EventHandler</a> <a href=#handler-oncontextmenu id=idl-definitions:handler-oncontextmenu>oncontextmenu</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-11>EventHandler</a> <a href=#handler-oncuechange id=idl-definitions:handler-oncuechange>oncuechange</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-12>EventHandler</a> <a href=#handler-ondblclick id=idl-definitions:handler-ondblclick>ondblclick</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-13>EventHandler</a> <a href=#handler-ondrag id=idl-definitions:handler-ondrag>ondrag</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-14>EventHandler</a> <a href=#handler-ondragend id=idl-definitions:handler-ondragend>ondragend</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-15>EventHandler</a> <a href=#handler-ondragenter id=idl-definitions:handler-ondragenter>ondragenter</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-16>EventHandler</a> <a href=#handler-ondragexit id=idl-definitions:handler-ondragexit>ondragexit</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-17>EventHandler</a> <a href=#handler-ondragleave id=idl-definitions:handler-ondragleave>ondragleave</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-18>EventHandler</a> <a href=#handler-ondragover id=idl-definitions:handler-ondragover>ondragover</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-19>EventHandler</a> <a href=#handler-ondragstart id=idl-definitions:handler-ondragstart>ondragstart</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-20>EventHandler</a> <a href=#handler-ondrop id=idl-definitions:handler-ondrop>ondrop</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-21>EventHandler</a> <a href=#handler-ondurationchange id=idl-definitions:handler-ondurationchange>ondurationchange</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-22>EventHandler</a> <a href=#handler-onemptied id=idl-definitions:handler-onemptied>onemptied</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-23>EventHandler</a> <a href=#handler-onended id=idl-definitions:handler-onended>onended</a>;
+  attribute <a href=#onerroreventhandler id=idl-definitions:onerroreventhandler>OnErrorEventHandler</a> <a href=#handler-onerror id=idl-definitions:handler-onerror>onerror</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-24>EventHandler</a> <a href=#handler-onfocus id=idl-definitions:handler-onfocus>onfocus</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-25>EventHandler</a> <a href=#handler-oninput id=idl-definitions:handler-oninput>oninput</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-26>EventHandler</a> <a href=#handler-oninvalid id=idl-definitions:handler-oninvalid>oninvalid</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-27>EventHandler</a> <a href=#handler-onkeydown id=idl-definitions:handler-onkeydown>onkeydown</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-28>EventHandler</a> <a href=#handler-onkeypress id=idl-definitions:handler-onkeypress>onkeypress</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-29>EventHandler</a> <a href=#handler-onkeyup id=idl-definitions:handler-onkeyup>onkeyup</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-30>EventHandler</a> <a href=#handler-onload id=idl-definitions:handler-onload>onload</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-31>EventHandler</a> <a href=#handler-onloadeddata id=idl-definitions:handler-onloadeddata>onloadeddata</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-32>EventHandler</a> <a href=#handler-onloadedmetadata id=idl-definitions:handler-onloadedmetadata>onloadedmetadata</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-33>EventHandler</a> <a href=#handler-onloadend id=idl-definitions:handler-onloadend>onloadend</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-34>EventHandler</a> <a href=#handler-onloadstart id=idl-definitions:handler-onloadstart>onloadstart</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-35>EventHandler</a> <a href=#handler-onmousedown id=idl-definitions:handler-onmousedown>onmousedown</a>;
+  [LenientThis] attribute <a href=#eventhandler id=idl-definitions:eventhandler-36>EventHandler</a> <a href=#handler-onmouseenter id=idl-definitions:handler-onmouseenter>onmouseenter</a>;
+  [LenientThis] attribute <a href=#eventhandler id=idl-definitions:eventhandler-37>EventHandler</a> <a href=#handler-onmouseleave id=idl-definitions:handler-onmouseleave>onmouseleave</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-38>EventHandler</a> <a href=#handler-onmousemove id=idl-definitions:handler-onmousemove>onmousemove</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-39>EventHandler</a> <a href=#handler-onmouseout id=idl-definitions:handler-onmouseout>onmouseout</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-40>EventHandler</a> <a href=#handler-onmouseover id=idl-definitions:handler-onmouseover>onmouseover</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-41>EventHandler</a> <a href=#handler-onmouseup id=idl-definitions:handler-onmouseup>onmouseup</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-42>EventHandler</a> <a href=#handler-onwheel id=idl-definitions:handler-onwheel>onwheel</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-43>EventHandler</a> <a href=#handler-onpause id=idl-definitions:handler-onpause>onpause</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-44>EventHandler</a> <a href=#handler-onplay id=idl-definitions:handler-onplay>onplay</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-45>EventHandler</a> <a href=#handler-onplaying id=idl-definitions:handler-onplaying>onplaying</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-46>EventHandler</a> <a href=#handler-onprogress id=idl-definitions:handler-onprogress>onprogress</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-47>EventHandler</a> <a href=#handler-onratechange id=idl-definitions:handler-onratechange>onratechange</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-48>EventHandler</a> <a href=#handler-onreset id=idl-definitions:handler-onreset>onreset</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-49>EventHandler</a> <a href=#handler-onresize id=idl-definitions:handler-onresize>onresize</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-50>EventHandler</a> <a href=#handler-onscroll id=idl-definitions:handler-onscroll>onscroll</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-51>EventHandler</a> <a href=#handler-onseeked id=idl-definitions:handler-onseeked>onseeked</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-52>EventHandler</a> <a href=#handler-onseeking id=idl-definitions:handler-onseeking>onseeking</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-53>EventHandler</a> <a href=#handler-onselect id=idl-definitions:handler-onselect>onselect</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-54>EventHandler</a> <a href=#handler-onshow id=idl-definitions:handler-onshow>onshow</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-55>EventHandler</a> <a href=#handler-onstalled id=idl-definitions:handler-onstalled>onstalled</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-56>EventHandler</a> <a href=#handler-onsubmit id=idl-definitions:handler-onsubmit>onsubmit</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-57>EventHandler</a> <a href=#handler-onsuspend id=idl-definitions:handler-onsuspend>onsuspend</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-58>EventHandler</a> <a href=#handler-ontimeupdate id=idl-definitions:handler-ontimeupdate>ontimeupdate</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-59>EventHandler</a> <a href=#handler-ontoggle id=idl-definitions:handler-ontoggle>ontoggle</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-60>EventHandler</a> <a href=#handler-onvolumechange id=idl-definitions:handler-onvolumechange>onvolumechange</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-61>EventHandler</a> <a href=#handler-onwaiting id=idl-definitions:handler-onwaiting>onwaiting</a>;
+};
+
+[NoInterfaceObject]
+interface <dfn id=windoweventhandlers>WindowEventHandlers</dfn> {
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-62>EventHandler</a> <a href=#handler-window-onafterprint id=idl-definitions:handler-window-onafterprint>onafterprint</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-63>EventHandler</a> <a href=#handler-window-onbeforeprint id=idl-definitions:handler-window-onbeforeprint>onbeforeprint</a>;
+  attribute <a href=#onbeforeunloadeventhandler id=idl-definitions:onbeforeunloadeventhandler>OnBeforeUnloadEventHandler</a> <a href=#handler-window-onbeforeunload id=idl-definitions:handler-window-onbeforeunload>onbeforeunload</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-64>EventHandler</a> <a href=#handler-window-onhashchange id=idl-definitions:handler-window-onhashchange>onhashchange</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-65>EventHandler</a> <a href=#handler-window-onlanguagechange id=idl-definitions:handler-window-onlanguagechange>onlanguagechange</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-66>EventHandler</a> <a href=#handler-window-onmessage id=idl-definitions:handler-window-onmessage>onmessage</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-67>EventHandler</a> <a href=#handler-window-onoffline id=idl-definitions:handler-window-onoffline>onoffline</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-68>EventHandler</a> <a href=#handler-window-ononline id=idl-definitions:handler-window-ononline>ononline</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-69>EventHandler</a> <a href=#handler-window-onpagehide id=idl-definitions:handler-window-onpagehide>onpagehide</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-70>EventHandler</a> <a href=#handler-window-onpageshow id=idl-definitions:handler-window-onpageshow>onpageshow</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-71>EventHandler</a> <a href=#handler-window-onpopstate id=idl-definitions:handler-window-onpopstate>onpopstate</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-72>EventHandler</a> <a href=#handler-window-onrejectionhandled id=idl-definitions:handler-window-onrejectionhandled>onrejectionhandled</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-73>EventHandler</a> <a href=#handler-window-onstorage id=idl-definitions:handler-window-onstorage>onstorage</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-74>EventHandler</a> <a href=#handler-window-onunhandledrejection id=idl-definitions:handler-window-onunhandledrejection>onunhandledrejection</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-75>EventHandler</a> <a href=#handler-window-onunload id=idl-definitions:handler-window-onunload>onunload</a>;
+};
+
+[NoInterfaceObject]
+interface <dfn id=documentandelementeventhandlers>DocumentAndElementEventHandlers</dfn> {
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-76>EventHandler</a> <a href=#handler-oncopy id=idl-definitions:handler-oncopy>oncopy</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-77>EventHandler</a> <a href=#handler-oncut id=idl-definitions:handler-oncut>oncut</a>;
+  attribute <a href=#eventhandler id=idl-definitions:eventhandler-78>EventHandler</a> <a href=#handler-onpaste id=idl-definitions:handler-onpaste>onpaste</a>;
+};</pre>
+
+  
+
+  <h5 id=event-firing>8.1.5.3 Event firing<a href=#event-firing class=self-link></a></h5>
+
+  <p>Certain operations and methods are defined as firing events on elements. For example, the <code id=event-firing:dom-click><a href=#dom-click>click()</a></code> method on the <code id=event-firing:htmlelement><a href=#htmlelement>HTMLElement</a></code> interface is defined as
+  firing a <code id=event-firing:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event on the element. <a href=#refsUIEVENTS>[UIEVENTS]</a></p>
+
+  <p><dfn id=fire-a-synthetic-mouse-event>Firing a synthetic mouse event named
+  <var>e</var></dfn> at <var>target</var>, with an optional <var>not trusted flag</var>, means
+  running these steps:</p>
+
+  <ol><li><p>Let <var>event</var> be the result of <a id=event-firing:creating-an-event href=https://dom.spec.whatwg.org/#concept-event-create data-x-internal=creating-an-event>creating an event</a> using
+   <code id=event-firing:mouseevent><a data-x-internal=mouseevent href=https://w3c.github.io/uievents/#interface-MouseEvent>MouseEvent</a></code>.<li><p>Initialize <var>event</var>'s <code id=event-firing:dom-event-type><a data-x-internal=dom-event-type href=https://dom.spec.whatwg.org/#dom-event-type>type</a></code> attribute to
+   <var>e</var>.<li><p>Initialize <var>event</var>'s <code id=event-firing:dom-event-bubbles><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> and <code id=event-firing:dom-event-cancelable><a data-x-internal=dom-event-cancelable href=https://dom.spec.whatwg.org/#dom-event-cancelable>cancelable</a></code> attributes to true.<li><p>If the <var>not trusted flag</var> is set, initialize <var>event</var>'s <code id=event-firing:dom-event-istrusted><a data-x-internal=dom-event-istrusted href=https://dom.spec.whatwg.org/#dom-event-istrusted>isTrusted</a></code> attribute to false.<li><p>Initialize <var>event</var>'s <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>, and <code>metaKey</code>
+   attributes according to the current state of the key input device, if any (false for any keys
+   that are not available).<li><p>Initialize <var>event</var>'s <code id=event-firing:dom-uievent-view><a data-x-internal=dom-uievent-view href=https://w3c.github.io/uievents/#widl-UIEvent-view>view</a></code> attribute to
+   <var>target</var>'s <a id=event-firing:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <code id=event-firing:window><a href=#window>Window</a></code> object, if any, and null
+   otherwise.<li><p><var>event</var>'s <code>getModifierState()</code> method is to return values
+   appropriately describing the current state of the key input device.<li><p>Return the result of <a href=https://dom.spec.whatwg.org/#concept-event-dispatch id=event-firing:concept-event-dispatch data-x-internal=concept-event-dispatch>dispatching</a>
+   <var>event</var> at <var>target</var>.</ol>
+
+  <p><dfn id=fire-a-click-event>Firing a <code>click</code> event</dfn>
+  at <var>target</var> means <a href=#fire-a-synthetic-mouse-event id=event-firing:fire-a-synthetic-mouse-event>firing a synthetic mouse
+  event named <code>click</code></a> at <var>target</var>.</p>
+
+  
+
+
+  <h3 id=windoworworkerglobalscope-mixin>8.2 The <code id=windoworworkerglobalscope-mixin:windoworworkerglobalscope><a href=#windoworworkerglobalscope>WindowOrWorkerGlobalScope</a></code> mixin<a href=#windoworworkerglobalscope-mixin class=self-link></a></h3>
+
+  <p>The <code id=windoworworkerglobalscope-mixin:windoworworkerglobalscope-2><a href=#windoworworkerglobalscope>WindowOrWorkerGlobalScope</a></code> mixin is for use of APIs that are to be exposed on
+  <code id=windoworworkerglobalscope-mixin:window><a href=#window>Window</a></code> and <code id=windoworworkerglobalscope-mixin:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> objects.</p>
+
+  <p class=note>Other standards are encouraged to further extend it using <code>partial
+  interface <a href=#windoworworkerglobalscope id=windoworworkerglobalscope-mixin:windoworworkerglobalscope-3>WindowOrWorkerGlobalScope</a> { … };</code> along with an appropriate
+  reference.</p>
+
+  <pre class=idl>typedef (DOMString or <a href=https://heycam.github.io/webidl/#common-Function id=windoworworkerglobalscope-mixin:idl-function data-x-internal=idl-function>Function</a>) <dfn id=timerhandler>TimerHandler</dfn>;
+
+[NoInterfaceObject, Exposed=(Window,Worker)]
+interface <dfn id=windoworworkerglobalscope>WindowOrWorkerGlobalScope</dfn> {
+  [Replaceable] readonly attribute USVString <a href=#dom-origin id=windoworworkerglobalscope-mixin:dom-origin>origin</a>;
+
+  // base64 utility methods
+  DOMString <a href=#dom-btoa id=windoworworkerglobalscope-mixin:dom-btoa>btoa</a>(DOMString data);
+  DOMString <a href=#dom-atob id=windoworworkerglobalscope-mixin:dom-atob>atob</a>(DOMString data);
+
+  // timers
+  long <a href=#dom-settimeout id=windoworworkerglobalscope-mixin:dom-settimeout>setTimeout</a>(<a href=#timerhandler id=windoworworkerglobalscope-mixin:timerhandler>TimerHandler</a> handler, optional long timeout = 0, any... arguments);
+  void <a href=#dom-cleartimeout id=windoworworkerglobalscope-mixin:dom-cleartimeout>clearTimeout</a>(optional long handle = 0);
+  long <a href=#dom-setinterval id=windoworworkerglobalscope-mixin:dom-setinterval>setInterval</a>(<a href=#timerhandler id=windoworworkerglobalscope-mixin:timerhandler-2>TimerHandler</a> handler, optional long timeout = 0, any... arguments);
+  void <a href=#dom-clearinterval id=windoworworkerglobalscope-mixin:dom-clearinterval>clearInterval</a>(optional long handle = 0);
+
+  // ImageBitmap
+  Promise&lt;<a href=#imagebitmap id=windoworworkerglobalscope-mixin:imagebitmap>ImageBitmap</a>> <a href=#dom-createimagebitmap id=windoworworkerglobalscope-mixin:dom-createimagebitmap>createImageBitmap</a>(<a href=#imagebitmapsource id=windoworworkerglobalscope-mixin:imagebitmapsource>ImageBitmapSource</a> image, optional <a href=#imagebitmapoptions id=windoworworkerglobalscope-mixin:imagebitmapoptions>ImageBitmapOptions</a> options);
+  Promise&lt;<a href=#imagebitmap id=windoworworkerglobalscope-mixin:imagebitmap-2>ImageBitmap</a>> <a href=#dom-createimagebitmap id=windoworworkerglobalscope-mixin:dom-createimagebitmap-2>createImageBitmap</a>(<a href=#imagebitmapsource id=windoworworkerglobalscope-mixin:imagebitmapsource-2>ImageBitmapSource</a> image, long sx, long sy, long sw, long sh, optional <a href=#imagebitmapoptions id=windoworworkerglobalscope-mixin:imagebitmapoptions-2>ImageBitmapOptions</a> options);
+};
+<a href=#window id=windoworworkerglobalscope-mixin:window-2>Window</a> implements <a href=#windoworworkerglobalscope id=windoworworkerglobalscope-mixin:windoworworkerglobalscope-4>WindowOrWorkerGlobalScope</a>;
+<a href=#workerglobalscope id=windoworworkerglobalscope-mixin:workerglobalscope-2>WorkerGlobalScope</a> implements <a href=#windoworworkerglobalscope id=windoworworkerglobalscope-mixin:windoworworkerglobalscope-5>WindowOrWorkerGlobalScope</a>;</pre>
+
+  
+
+  <dl class=domintro><dt><var>origin</var> = self . <code id=windoworworkerglobalscope-mixin:dom-origin-2><a href=#dom-origin>origin</a></code><dd><p>Returns the global object's <a href=#concept-origin id=windoworworkerglobalscope-mixin:concept-origin>origin</a>, serialized as string.</dl>
+
+  <div class=example>
+   <p>Developers are strongly encouraged to use <code>self.origin</code> over <code>location.origin</code>. The former returns the <a href=#concept-origin id=windoworworkerglobalscope-mixin:concept-origin-2>origin</a> of the environment,
+   the latter of the URL of the environment. Imagine the following script executing in a document on
+   <code>https://stargate.example/</code>:</p>
+
+   <pre>var frame = document.createElement("iframe")
+frame.onload = function() {
+  var frameWin = frame.contentWindow
+  console.log(frameWin.location.origin) // "null"
+  console.log(frameWin.origin) // "https://stargate.example"
+}
+document.body.appendChild(frame)</pre>
+
+   <p><code>self.origin</code> is a more reliable security indicator.</p>
+  </div>
+
+  <p>The <dfn id=dom-origin><code>origin</code></dfn> attribute's getter must return this
+  object's <a href=#relevant-settings-object id=windoworworkerglobalscope-mixin:relevant-settings-object>relevant settings object</a>'s <a href=#concept-settings-object-origin id=windoworworkerglobalscope-mixin:concept-settings-object-origin>origin</a>, <a href=#unicode-serialisation-of-an-origin id=windoworworkerglobalscope-mixin:unicode-serialisation-of-an-origin>serialized</a>.</p>
+
+
+  <h3 id=atob>8.3 Base64 utility methods<a href=#atob class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> atob-btoa<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>3.2+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>2+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>2.1+</span></span><span class="safari yes"><span>Safari</span> <span>3.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>10.6+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=atob-btoa">caniuse.com</a></div>
+
+  <p>The <code id=atob:dom-atob><a href=#dom-atob>atob()</a></code> and <code id=atob:dom-btoa><a href=#dom-btoa>btoa()</a></code> methods
+  allow developers to transform content to and from the base64 encoding.</p>
+
+  <p class=note>In these APIs, for mnemonic purposes, the "b" can be considered to stand for
+  "binary", and the "a" for "ASCII". In practice, though, for primarily historical reasons, both the
+  input and output of these functions are Unicode strings.</p>
+
+  <dl class=domintro><dt><var>result</var> = self . <code id=atob:dom-btoa-2><a href=#dom-btoa>btoa</a></code>( <var>data</var> )<dd>
+
+    <p>Takes the input data, in the form of a Unicode string containing only characters in the range
+    U+0000 to U+00FF, each representing a binary byte with values 0x00 to 0xFF respectively, and
+    converts it to its base64 representation, which it returns.</p>
+
+    <p>Throws an <a id=atob:invalidcharactererror href=https://heycam.github.io/webidl/#invalidcharactererror data-x-internal=invalidcharactererror>"<code>InvalidCharacterError</code>"</a> <code id=atob:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>
+    exception if the input string contains any out-of-range characters.</p>
+
+   <dt><var>result</var> = self . <code id=atob:dom-atob-2><a href=#dom-atob>atob</a></code>( <var>data</var> )<dd>
+
+    <p>Takes the input data, in the form of a Unicode string containing base64-encoded binary data,
+    decodes it, and returns a string consisting of characters in the range U+0000 to U+00FF, each
+    representing a binary byte with values 0x00 to 0xFF respectively, corresponding to that binary
+    data.</p>
+
+    <p>Throws an <a id=atob:invalidcharactererror-2 href=https://heycam.github.io/webidl/#invalidcharactererror data-x-internal=invalidcharactererror>"<code>InvalidCharacterError</code>"</a> <code id=atob:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the
+    input string is not valid base64 data.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-btoa><code id=dom-windowbase64-btoa>btoa(<var>data</var>)</code></dfn>
+  method must throw an <a id=atob:invalidcharactererror-3 href=https://heycam.github.io/webidl/#invalidcharactererror data-x-internal=invalidcharactererror>"<code>InvalidCharacterError</code>"</a> <code id=atob:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>
+  if <var>data</var> contains any character whose code point is greater than U+00FF. Otherwise, the
+  user agent must convert <var>data</var> to a sequence of octets whose <var>n</var>th octet is the
+  eight-bit representation of the code point of the <var>n</var>th character of <var>data</var>, and
+  then must apply the base64 algorithm to that sequence of octets, and return the result. <a href=#refsRFC4648>[RFC4648]</a></p>
+  
+
+
+  <p>The <dfn id=dom-atob><code id=dom-windowbase64-atob>atob(<var>data</var>)</code></dfn>
+  method, when invoked, must run the following steps:</p>
+
+  <ol><li><p>Let <var>position</var> be a pointer into <var>data</var>, initially
+   pointing at the start of the string.<li><p>Remove all <a href=#space-character id=atob:space-character>space characters</a> from
+   <var>data</var>.<li><p>If the length of <var>data</var> divides by 4 leaving no remainder, then: if
+   <var>data</var> ends with one or two U+003D EQUALS SIGN (=) characters, remove them from
+   <var>data</var>.<li><p>If the length of <var>data</var> divides by 4 leaving a remainder of 1, throw an
+   <a id=atob:invalidcharactererror-4 href=https://heycam.github.io/webidl/#invalidcharactererror data-x-internal=invalidcharactererror>"<code>InvalidCharacterError</code>"</a> <code id=atob:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.</p>
+
+   <li>
+
+    <p>If <var>data</var> contains a character that is not in the following list of
+    characters and character ranges, throw an <a id=atob:invalidcharactererror-5 href=https://heycam.github.io/webidl/#invalidcharactererror data-x-internal=invalidcharactererror>"<code>InvalidCharacterError</code>"</a>
+    <code id=atob:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps:</p>
+
+    <ul class=brief><li>U+002B PLUS SIGN (+)
+     <li>U+002F SOLIDUS (/)
+     <li><a href=#alphanumeric-ascii-characters id=atob:alphanumeric-ascii-characters>Alphanumeric ASCII characters</a>
+    </ul>
+
+   <li><p>Let <var>output</var> be a string, initially empty.<li><p>Let <var>buffer</var> be a buffer that can have bits appended to it, initially
+   empty.<li>
+
+    <p>While <var>position</var> does not point past the end of <var>data</var>, run these
+    substeps:</p>
+
+    <ol><li>
+
+      <p>Find the character pointed to by <var>position</var> in the first column of the
+      following table. Let <var>n</var> be the number given in the second cell of the same
+      row.</p>
+
+      <div id=base64-table>
+       <table><thead><tr><th>Character
+          <th>Number
+        <tbody><tr><td>A<td>0
+         <tr><td>B<td>1
+         <tr><td>C<td>2
+         <tr><td>D<td>3
+         <tr><td>E<td>4
+         <tr><td>F<td>5
+         <tr><td>G<td>6
+         <tr><td>H<td>7
+         <tr><td>I<td>8
+         <tr><td>J<td>9
+         <tr><td>K<td>10
+         <tr><td>L<td>11
+         <tr><td>M<td>12
+         <tr><td>N<td>13
+         <tr><td>O<td>14
+         <tr><td>P<td>15
+         <tr><td>Q<td>16
+         <tr><td>R<td>17
+         <tr><td>S<td>18
+         <tr><td>T<td>19
+         <tr><td>U<td>20
+         <tr><td>V<td>21
+         <tr><td>W<td>22
+         <tr><td>X<td>23
+         <tr><td>Y<td>24
+         <tr><td>Z<td>25
+         <tr><td>a<td>26
+         <tr><td>b<td>27
+         <tr><td>c<td>28
+         <tr><td>d<td>29
+         <tr><td>e<td>30
+         <tr><td>f<td>31
+         <tr><td>g<td>32
+         <tr><td>h<td>33
+         <tr><td>i<td>34
+         <tr><td>j<td>35
+         <tr><td>k<td>36
+         <tr><td>l<td>37
+         <tr><td>m<td>38
+         <tr><td>n<td>39
+         <tr><td>o<td>40
+         <tr><td>p<td>41
+         <tr><td>q<td>42
+         <tr><td>r<td>43
+         <tr><td>s<td>44
+         <tr><td>t<td>45
+         <tr><td>u<td>46
+         <tr><td>v<td>47
+         <tr><td>w<td>48
+         <tr><td>x<td>49
+         <tr><td>y<td>50
+         <tr><td>z<td>51
+         <tr><td>0<td>52
+         <tr><td>1<td>53
+         <tr><td>2<td>54
+         <tr><td>3<td>55
+         <tr><td>4<td>56
+         <tr><td>5<td>57
+         <tr><td>6<td>58
+         <tr><td>7<td>59
+         <tr><td>8<td>60
+         <tr><td>9<td>61
+         <tr><td>+<td>62
+         <tr><td>/<td>63
+       </table>
+      </div>
+
+     <li><p>Append to <var>buffer</var> the six bits corresponding to <var>number</var>, most significant bit first.<li><p>If <var>buffer</var> has accumulated 24 bits, interpret them as three 8-bit
+     big-endian numbers. Append the three characters with code points equal to those numbers to <var>output</var>, in the same order, and then empty <var>buffer</var>.<li><p>Advance <var>position</var> by one character.</ol>
+
+   <li>
+
+    <p>If <var>buffer</var> is not empty, it contains either 12 or 18 bits. If it contains
+    12 bits, discard the last four and interpret the remaining eight as an 8-bit big-endian number.
+    If it contains 18 bits, discard the last two and interpret the remaining 16 as two 8-bit
+    big-endian numbers. Append the one or two characters with code points equal to those one or two
+    numbers to <var>output</var>, in the same order.</p>
+
+    <p class=note>The discarded bits mean that, for instance, <code>atob("YQ")</code> and
+    <code>atob("YR")</code> both return "<code>a</code>".</p>
+
+   <li><p>Return <var>output</var>.</ol>
+
+  
+
+  
+
+
+
+  <h3 id=dynamic-markup-insertion>8.4 <dfn>Dynamic markup insertion</dfn><a href=#dynamic-markup-insertion class=self-link></a></h3>
+
+  <p class=note>APIs for dynamically inserting markup into the document interact with the parser,
+  and thus their behavior varies depending on whether they are used with <a id=dynamic-markup-insertion:html-documents href=https://dom.spec.whatwg.org/#html-document data-x-internal=html-documents>HTML
+  documents</a> (and the <a href=#html-parser id=dynamic-markup-insertion:html-parser>HTML parser</a>) or <a id=dynamic-markup-insertion:xml-documents href=https://dom.spec.whatwg.org/#xml-document data-x-internal=xml-documents>XML documents</a> (and the
+  <a href=#xml-parser id=dynamic-markup-insertion:xml-parser>XML parser</a>).</p>
+
+  
+
+  <p><code id=dynamic-markup-insertion:document><a href=#document>Document</a></code> objects have a <dfn id=throw-on-dynamic-markup-insertion-counter>throw-on-dynamic-markup-insertion counter</dfn>,
+  which is used in conjunction with the <a href=#create-an-element-for-the-token id=dynamic-markup-insertion:create-an-element-for-the-token>create an element for the token</a> algorithm to
+  prevent <a href=#custom-element-constructor id=dynamic-markup-insertion:custom-element-constructor>custom element constructors</a> from being
+  able to use <code id=dynamic-markup-insertion:dom-document-open><a href=#dom-document-open>document.open()</a></code>, <code id=dynamic-markup-insertion:dom-document-close><a href=#dom-document-close>document.close()</a></code>, and <code id=dynamic-markup-insertion:dom-document-write><a href=#dom-document-write>document.write()</a></code> when they are invoked by the parser.
+  Initially, the counter must be set to zero.</p>
+
+  
+
+
+
+  <h4 id=opening-the-input-stream>8.4.1 Opening the input stream<a href=#opening-the-input-stream class=self-link></a></h4>
+
+  <p>The <dfn id=dom-document-open><code>open()</code></dfn> method comes in several variants
+  with different numbers of arguments.</p>
+
+  <dl class=domintro><dt><var>document</var> = <var>document</var> . <code id=opening-the-input-stream:dom-document-open><a href=#dom-document-open>open</a></code>( [ <var>type</var> [, <var>replace</var> ] ] )<dd>
+
+    <p>Causes the <code id=opening-the-input-stream:document><a href=#document>Document</a></code> to be replaced in-place, as if it was a new
+    <code id=opening-the-input-stream:document-2><a href=#document>Document</a></code> object, but reusing the previous object, which is then returned.</p>
+
+    <p>If the <var>type</var> argument is omitted or has the value
+    "<code id=opening-the-input-stream:text/html><a href=#text/html>text/html</a></code>", then the resulting <code id=opening-the-input-stream:document-3><a href=#document>Document</a></code> has an HTML parser associated
+    with it, which can be given data to parse using <code id=opening-the-input-stream:dom-document-write><a href=#dom-document-write>document.write()</a></code>. Otherwise, all content passed to <code id=opening-the-input-stream:dom-document-write-2><a href=#dom-document-write>document.write()</a></code> will be parsed as plain text.</p>
+
+    <p>If the <var>replace</var> argument is present and has the value "<code>replace</code>", the existing entries in the session history for the
+    <code id=opening-the-input-stream:document-4><a href=#document>Document</a></code> object are removed.</p>
+
+    <p>The method has no effect if the <code id=opening-the-input-stream:document-5><a href=#document>Document</a></code> is still being parsed.</p>
+
+    <p>Throws an <a id=opening-the-input-stream:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=opening-the-input-stream:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the
+    <code id=opening-the-input-stream:document-6><a href=#document>Document</a></code> is an <a href=https://dom.spec.whatwg.org/#xml-document id=opening-the-input-stream:xml-documents data-x-internal=xml-documents>XML document</a>.</p>
+
+    <p>Throws an <a id=opening-the-input-stream:invalidstateerror-2 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=opening-the-input-stream:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the
+    parser is currently executing a <a href=#custom-element-constructor id=opening-the-input-stream:custom-element-constructor>custom element constructor</a>.</p>
+
+   <dt><var>window</var> = <var>document</var> . <code id=opening-the-input-stream:dom-document-open-2><a href=#dom-document-open>open</a></code>( <var>url</var>, <var>name</var>, <var>features</var> )<dd>
+
+    <p>Works like the <code id=opening-the-input-stream:dom-open><a href=#dom-open>window.open()</a></code> method.</p>
+
+   </dl>
+
+  
+
+  <p><code id=opening-the-input-stream:document-7><a href=#document>Document</a></code> objects have an <dfn id=ignore-opens-during-unload-counter>ignore-opens-during-unload counter</dfn>, which is
+  used to prevent scripts from invoking the <code id=opening-the-input-stream:dom-document-open-3><a href=#dom-document-open>document.open()</a></code>
+  method (directly or indirectly) while the document is <a href=#unload-a-document id=opening-the-input-stream:unload-a-document>being
+  unloaded</a>. Initially, the counter must be set to zero.</p> 
+
+  <p>When called with two arguments (or fewer), the <code id=opening-the-input-stream:dom-document-open-4><a href=#dom-document-open>document.open()</a></code>
+  method must act as follows:</p>
+
+  <ol><li><p>If the <code id=opening-the-input-stream:document-8><a href=#document>Document</a></code> object is an <a href=https://dom.spec.whatwg.org/#xml-document id=opening-the-input-stream:xml-documents-2 data-x-internal=xml-documents>XML
+   document</a>, then throw an <a id=opening-the-input-stream:invalidstateerror-3 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+   <code id=opening-the-input-stream:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If the <code id=opening-the-input-stream:document-9><a href=#document>Document</a></code> object's <a href=#throw-on-dynamic-markup-insertion-counter id=opening-the-input-stream:throw-on-dynamic-markup-insertion-counter>throw-on-dynamic-markup-insertion
+   counter</a> is greater than zero, then throw an <a id=opening-the-input-stream:invalidstateerror-4 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+   <code id=opening-the-input-stream:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If the <code id=opening-the-input-stream:document-10><a href=#document>Document</a></code> object is not an <a href=#active-document id=opening-the-input-stream:active-document>active document</a>, then abort
+   these steps.<li><p>If the <a href=#concept-origin id=opening-the-input-stream:concept-origin>origin</a> of the <code id=opening-the-input-stream:document-11><a href=#document>Document</a></code> is not equal to the
+   <a href=#concept-origin id=opening-the-input-stream:concept-origin-2>origin</a> of the <a href=#responsible-document id=opening-the-input-stream:responsible-document>responsible document</a> specified by the <a href=#entry-settings-object id=opening-the-input-stream:entry-settings-object>entry
+   settings object</a>, throw a <a id=opening-the-input-stream:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a>
+   <code id=opening-the-input-stream:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li>
+
+    <p>If the <code id=opening-the-input-stream:document-12><a href=#document>Document</a></code> has an <a href=#active-parser id=opening-the-input-stream:active-parser>active parser</a> whose <a href=#script-nesting-level id=opening-the-input-stream:script-nesting-level>script nesting
+    level</a> is greater than zero, then the method does nothing. Abort these steps and return
+    the <code id=opening-the-input-stream:document-13><a href=#document>Document</a></code> object on which the method was invoked.</p>
+
+    <p class=note>This basically causes <code id=opening-the-input-stream:dom-document-open-5><a href=#dom-document-open>document.open()</a></code> to
+    be ignored when it's called in an inline script found during parsing, while still letting it
+    have an effect when called from a non-parser task such as a timer callback or event handler.</p>
+
+   <li>
+
+    <p>Similarly, if the <code id=opening-the-input-stream:document-14><a href=#document>Document</a></code>'s <a href=#ignore-opens-during-unload-counter id=opening-the-input-stream:ignore-opens-during-unload-counter>ignore-opens-during-unload counter</a> is
+    greater than zero, then the method does nothing. Abort these steps and return the
+    <code id=opening-the-input-stream:document-15><a href=#document>Document</a></code> object on which the method was invoked.</p>
+
+    <p class=note>This basically causes <code id=opening-the-input-stream:dom-document-open-6><a href=#dom-document-open>document.open()</a></code> to
+    be ignored when it's called from a <code id=opening-the-input-stream:event-beforeunload><a href=#event-beforeunload>beforeunload</a></code> <code id=opening-the-input-stream:event-pagehide><a href=#event-pagehide>pagehide</a></code>, or <code id=opening-the-input-stream:event-unload><a href=#event-unload>unload</a></code> event
+    handler while the <code id=opening-the-input-stream:document-16><a href=#document>Document</a></code> is being unloaded.</p>
+
+   <li><p>Let <var>type</var> be the value of the first argument.<li>
+
+    <p>If the second argument is an <a id=opening-the-input-stream:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the value
+    "replace", then let <var>replace</var> be true.</p>
+
+    <p>Otherwise, if the <a href=#browsing-context id=opening-the-input-stream:browsing-context>browsing context</a>'s <a href=#session-history id=opening-the-input-stream:session-history>session history</a> contains only
+    one <code id=opening-the-input-stream:document-17><a href=#document>Document</a></code>, and that was the <code id=opening-the-input-stream:about:blank><a href=#about:blank>about:blank</a></code> <code id=opening-the-input-stream:document-18><a href=#document>Document</a></code>
+    created when the <a href=#browsing-context id=opening-the-input-stream:browsing-context-2>browsing context</a> was <a href=#creating-a-new-browsing-context id=opening-the-input-stream:creating-a-new-browsing-context>created</a>, and that <code id=opening-the-input-stream:document-19><a href=#document>Document</a></code> has never had the <a href=#unload-a-document id=opening-the-input-stream:unload-a-document-2>unload a
+    document</a> algorithm invoked on it (e.g. by a previous call to <code id=opening-the-input-stream:dom-document-open-7><a href=#dom-document-open>document.open()</a></code>), then let <var>replace</var> be true.</p>
+
+    <p>Otherwise, let <var>replace</var> be false.</p>
+
+   <li><p>Set the <code id=opening-the-input-stream:document-20><a href=#document>Document</a></code>'s <i id=opening-the-input-stream:concept-document-salvageable><a href=#concept-document-salvageable>salvageable</a></i> state to false.<li><p><a href=#prompt-to-unload-a-document id=opening-the-input-stream:prompt-to-unload-a-document>Prompt to unload</a> the
+   <code id=opening-the-input-stream:document-21><a href=#document>Document</a></code> object. If the user <a href=#refused-to-allow-the-document-to-be-unloaded id=opening-the-input-stream:refused-to-allow-the-document-to-be-unloaded>refused to allow the document to be
+   unloaded</a>, then abort these steps and return the <code id=opening-the-input-stream:document-22><a href=#document>Document</a></code> object on which the
+   method was invoked.<li><p><a href=#unload-a-document id=opening-the-input-stream:unload-a-document-3>Unload</a> the <code id=opening-the-input-stream:document-23><a href=#document>Document</a></code> object, with the
+   <var>recycle</var> parameter set to true.<li><p><a href=#abort-a-document id=opening-the-input-stream:abort-a-document>Abort</a> the <code id=opening-the-input-stream:document-24><a href=#document>Document</a></code>.<li><p>Unregister all event listeners registered on the <code id=opening-the-input-stream:document-25><a href=#document>Document</a></code> node and its
+   descendants.</p>
+
+   <li><p>Remove any <a href=#concept-task id=opening-the-input-stream:concept-task>tasks</a> associated with the
+   <code id=opening-the-input-stream:document-26><a href=#document>Document</a></code> in any <a href=#task-source id=opening-the-input-stream:task-source>task source</a>.<li><p>Remove all child nodes of the document, without firing any mutation events.<li>
+    <p>Call the JavaScript <a href=https://tc39.github.io/ecma262/#sec-initializehostdefinedrealm id=opening-the-input-stream:js-initializehostdefinedrealm data-x-internal=js-initializehostdefinedrealm>InitializeHostDefinedRealm()</a> abstract operation
+    with the following customizations:</p>
+
+    <ul><li><p>For the global object, create a new <code id=opening-the-input-stream:window><a href=#window>Window</a></code> object
+     <var>window</var>.<li><p>For the global <b>this</b> value, use the current <a href=#browsing-context id=opening-the-input-stream:browsing-context-3>browsing context</a>'s
+     associated <code id=opening-the-input-stream:windowproxy><a href=#windowproxy>WindowProxy</a></code>.<li><p>Let <var>realm execution context</var> be the created <a id=opening-the-input-stream:javascript-execution-context href=https://tc39.github.io/ecma262/#sec-execution-contexts data-x-internal=javascript-execution-context>JavaScript execution
+     context</a>.</ul>
+   <li><p>Set <var>window</var>'s <a href=#concept-document-window id=opening-the-input-stream:concept-document-window>associated
+   <code>Document</code></a> to the <code id=opening-the-input-stream:document-27><a href=#document>Document</a></code>.<li><p><a href=#set-up-a-browsing-context-environment-settings-object id=opening-the-input-stream:set-up-a-browsing-context-environment-settings-object>Set up a browsing context environment settings object</a> with <var>realm
+   execution context</var>.<li><p>Replace the <code id=opening-the-input-stream:document-28><a href=#document>Document</a></code>'s singleton objects with new instances of those objects,
+   created in <var>window</var>'s <a href=#concept-global-object-realm id=opening-the-input-stream:concept-global-object-realm>Realm</a>. (This
+   includes in particular the <code id=opening-the-input-stream:history-3><a href=#history-3>History</a></code>, <code id=opening-the-input-stream:applicationcache><a href=#applicationcache>ApplicationCache</a></code>, and
+   <code id=opening-the-input-stream:navigator><a href=#navigator>Navigator</a></code>, objects, the various <code id=opening-the-input-stream:barprop><a href=#barprop>BarProp</a></code> objects, the two
+   <code id=opening-the-input-stream:storage-2><a href=#storage-2>Storage</a></code> objects, the various <code id=opening-the-input-stream:htmlcollection><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> objects, and objects
+   defined by other specifications, like <code id=opening-the-input-stream:selection><a data-x-internal=selection href=https://w3c.github.io/selection-api/#selection-interface>Selection</a></code>. It also includes all the Web IDL
+   prototypes in the JavaScript binding, including the <code id=opening-the-input-stream:document-29><a href=#document>Document</a></code> object's
+   prototype.)<li><p>Change the <a id="opening-the-input-stream:document's-character-encoding" href=https://dom.spec.whatwg.org/#concept-document-encoding data-x-internal="document's-character-encoding">document's character encoding</a> to UTF-8.<li><p>If the <code id=opening-the-input-stream:document-30><a href=#document>Document</a></code> is <a href=#ready-for-post-load-tasks id=opening-the-input-stream:ready-for-post-load-tasks>ready for post-load tasks</a>, then set the
+   <code id=opening-the-input-stream:document-31><a href=#document>Document</a></code> object's <a href=#reload-override-flag id=opening-the-input-stream:reload-override-flag>reload override flag</a> and set the
+   <code id=opening-the-input-stream:document-32><a href=#document>Document</a></code>'s <a href=#reload-override-buffer id=opening-the-input-stream:reload-override-buffer>reload override buffer</a> to the empty string.<li><p>Set the <code id=opening-the-input-stream:document-33><a href=#document>Document</a></code>'s <i id=opening-the-input-stream:concept-document-salvageable-2><a href=#concept-document-salvageable>salvageable</a></i> state back to true.<li><p>Change the document's <a href=https://dom.spec.whatwg.org/#concept-document-url id="opening-the-input-stream:the-document's-address" data-x-internal="the-document's-address">URL</a> to the <a href=https://dom.spec.whatwg.org/#concept-document-url id="opening-the-input-stream:the-document's-address-2" data-x-internal="the-document's-address">URL</a> of the <a href=#responsible-document id=opening-the-input-stream:responsible-document-2>responsible document</a> specified by
+   the <a href=#entry-settings-object id=opening-the-input-stream:entry-settings-object-2>entry settings object</a>.<li><p>If the <code id=opening-the-input-stream:document-34><a href=#document>Document</a></code>'s <a href=#iframe-load-in-progress id=opening-the-input-stream:iframe-load-in-progress>iframe load in progress</a> flag is set, set the
+   <code id=opening-the-input-stream:document-35><a href=#document>Document</a></code>'s <a href=#mute-iframe-load id=opening-the-input-stream:mute-iframe-load>mute iframe load</a> flag.<li><p>Create a new <a href=#html-parser id=opening-the-input-stream:html-parser>HTML parser</a> and associate it with the document. This is a
+   <dfn id=script-created-parser>script-created parser</dfn> (meaning that it can be closed by the <code id=opening-the-input-stream:dom-document-open-8><a href=#dom-document-open>document.open()</a></code> and <code id=opening-the-input-stream:dom-document-close><a href=#dom-document-close>document.close()</a></code> methods, and that the tokenizer will wait for
+   an explicit call to <code id=opening-the-input-stream:dom-document-close-2><a href=#dom-document-close>document.close()</a></code> before emitting an
+   end-of-file token). The encoding <a href=#concept-encoding-confidence id=opening-the-input-stream:concept-encoding-confidence>confidence</a> is
+   <i>irrelevant</i>.<li><p>Set the <a href=#current-document-readiness id=opening-the-input-stream:current-document-readiness>current document readiness</a> of the document to "<code>loading</code>".<li>
+
+    
+
+    <p>If <var>type</var> is an <a id=opening-the-input-stream:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string
+    "<code>replace</code>", then, for historical reasons, set it to the string "<code>text/html</code>".</p>
+
+    <p>Otherwise:</p>
+
+    <p>If the <var>type</var> string contains a U+003B SEMICOLON character (;), remove the
+    first such character and all characters from it up to the end of the string.</p>
+
+    <p><a href=#strip-leading-and-trailing-whitespace id=opening-the-input-stream:strip-leading-and-trailing-whitespace>Strip leading and trailing whitespace</a> from <var>type</var>.</p>
+
+   <li>
+
+    <p>If <var>type</var> is <em>not</em> now an <a id=opening-the-input-stream:ascii-case-insensitive-3 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match
+    for the string "<code id=opening-the-input-stream:text/html-2><a href=#text/html>text/html</a></code>", then act as if the tokenizer had emitted a start tag
+    token with the tag name "pre" followed by a single U+000A LINE FEED (LF) character, then switch the
+    <a href=#html-parser id=opening-the-input-stream:html-parser-2>HTML parser</a>'s tokenizer to the <a href=#plaintext-state id=opening-the-input-stream:plaintext-state>PLAINTEXT state</a>.</p>
+
+    
+

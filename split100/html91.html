@@ -1,0 +1,850 @@
+
+  <p>In <a id=flow-content-3:quirks-mode href=https://dom.spec.whatwg.org/#concept-document-quirks data-x-internal=quirks-mode>quirks mode</a>, the following rules are also expected to apply:</p>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+form { margin-block-end: 1em; }</pre>
+
+  <hr>
+
+  <p>The <code id=flow-content-3:center><a href=#center>center</a></code> element, and the <code id=flow-content-3:the-div-element><a href=#the-div-element>div</a></code> element when it has an <code id=flow-content-3:attr-div-align><a href=#attr-div-align>align</a></code> attribute whose value is an <a id=flow-content-3:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+  case-insensitive</a> match for either the string "<code>center</code>" or the string
+  "<code>middle</code>", are expected to center text within themselves, as if they had
+  their <a id="flow-content-3:'text-align'" href=https://drafts.csswg.org/css-text/#text-align-property data-x-internal="'text-align'">'text-align'</a> property set to 'center' in a <a href=#presentational-hints id=flow-content-3:presentational-hints-2>presentational hint</a>, and to <a href=#align-descendants id=flow-content-3:align-descendants>align descendants</a> to the center.</p>
+
+  <p>The <code id=flow-content-3:the-div-element-2><a href=#the-div-element>div</a></code> element, when it has an <code id=flow-content-3:attr-div-align-2><a href=#attr-div-align>align</a></code>
+  attribute whose value is an <a id=flow-content-3:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>left</code>", is expected to left-align text within itself, as if it had its
+  <a id="flow-content-3:'text-align'-2" href=https://drafts.csswg.org/css-text/#text-align-property data-x-internal="'text-align'">'text-align'</a> property set to 'left' in a <a href=#presentational-hints id=flow-content-3:presentational-hints-3>presentational hint</a>, and to <a href=#align-descendants id=flow-content-3:align-descendants-2>align descendants</a> to the left.</p>
+
+  <p>The <code id=flow-content-3:the-div-element-3><a href=#the-div-element>div</a></code> element, when it has an <code id=flow-content-3:attr-div-align-3><a href=#attr-div-align>align</a></code>
+  attribute whose value is an <a id=flow-content-3:ascii-case-insensitive-3 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>right</code>", is expected to right-align text within itself, as if it had its
+  <a id="flow-content-3:'text-align'-3" href=https://drafts.csswg.org/css-text/#text-align-property data-x-internal="'text-align'">'text-align'</a> property set to 'right' in a <a href=#presentational-hints id=flow-content-3:presentational-hints-4>presentational hint</a>, and to <a href=#align-descendants id=flow-content-3:align-descendants-3>align descendants</a> to the right.</p>
+
+  <p>The <code id=flow-content-3:the-div-element-4><a href=#the-div-element>div</a></code> element, when it has an <code id=flow-content-3:attr-div-align-4><a href=#attr-div-align>align</a></code>
+  attribute whose value is an <a id=flow-content-3:ascii-case-insensitive-4 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>justify</code>", is expected to full-justify text within itself, as if it had its
+  <a id="flow-content-3:'text-align'-4" href=https://drafts.csswg.org/css-text/#text-align-property data-x-internal="'text-align'">'text-align'</a> property set to 'justify' in a <a href=#presentational-hints id=flow-content-3:presentational-hints-5>presentational hint</a>, and to <a href=#align-descendants id=flow-content-3:align-descendants-4>align descendants</a> to the left.</p>
+
+
+
+  <h4 id=phrasing-content-3>14.3.4 Phrasing content<a href=#phrasing-content-3 class=self-link></a></h4>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+cite, dfn, em, i, var { font-style: italic; }
+b, strong { font-weight: bolder; }
+code, kbd, samp, tt { font-family: monospace; }
+big { font-size: larger; }
+small { font-size: smaller; }
+
+sub { vertical-align: sub; }
+sup { vertical-align: super; }
+sub, sup { line-height: normal; font-size: smaller; }
+
+ruby { display: ruby; }
+rt { display: ruby-text; }
+
+:link { color: #0000EE; }
+:visited { color: #551A8B; }
+:link:active, :visited:active { color: #FF0000; }
+:link, :visited { text-decoration: underline; cursor: pointer; }
+a:link[rel~=help i], a:visited[rel~=help i],
+area:link[rel~=help i], area:visited[rel~=help i] { cursor: help; }
+
+:focus { outline: auto; }
+
+mark { background: yellow; color: black; } /* this color is just a suggestion and can be changed based on implementation feedback */
+
+abbr[title], acronym[title] { text-decoration: dotted underline; }
+ins, u { text-decoration: underline; }
+del, s, strike { text-decoration: line-through; }
+
+q::before { content: open-quote; }
+q::after { content: close-quote; }
+
+<span id=br-wbr-content>br { display-outside: newline; } /* <a href=#bidi-rendering>this also has bidi implications</a> */
+nobr { white-space: nowrap; }
+wbr { display-outside: break-opportunity; } /* <a href=#bidi-rendering>this also has bidi implications</a> */
+nobr wbr { white-space: normal; }</span></pre>
+
+  <p>The following rules are also expected to apply, as
+  <a href=#presentational-hints id=phrasing-content-3:presentational-hints>presentational hints</a>:</p>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+br[clear=left i] { clear: left; }
+br[clear=right i] { clear: right; }
+br[clear=all i], br[clear=both i] { clear: both; }</pre>
+
+  <p>For the purposes of the CSS ruby model, runs of children of <code id=phrasing-content-3:the-ruby-element><a href=#the-ruby-element>ruby</a></code> elements that are
+  not <code id=phrasing-content-3:the-rt-element><a href=#the-rt-element>rt</a></code> or <code id=phrasing-content-3:the-rp-element><a href=#the-rp-element>rp</a></code> elements are expected to be wrapped in anonymous boxes
+  whose <a id="phrasing-content-3:'display'" href=https://drafts.csswg.org/css2/visuren.html#display-prop data-x-internal="'display'">'display'</a> property has the value <a id="phrasing-content-3:'ruby-base'" href=https://drafts.csswg.org/css-ruby/#valdef-display-ruby-base data-x-internal="'ruby-base'">'ruby-base'</a>. <a href=#refsCSSRUBY>[CSSRUBY]</a></p>
+
+  <p>When a particular part of a ruby has more than one annotation, the annotations should be
+  distributed on both sides of the base text so as to minimize the stacking of ruby annotations on
+  one side.</p>
+
+  <p class=note>When it becomes possible to do so, the preceding requirement will be updated to be
+  expressed in terms of CSS ruby. (Currently, CSS ruby does not handle nested <code id=phrasing-content-3:the-ruby-element-2><a href=#the-ruby-element>ruby</a></code>
+  elements or multiple sequential <code id=phrasing-content-3:the-rt-element-2><a href=#the-rt-element>rt</a></code> elements, which is how this semantic is
+  expressed.)</p>
+
+  <p>User agents that do not support correct ruby rendering are expected to render parentheses
+  around the text of <code id=phrasing-content-3:the-rt-element-3><a href=#the-rt-element>rt</a></code> elements in the absence of <code id=phrasing-content-3:the-rp-element-2><a href=#the-rp-element>rp</a></code> elements.</p>
+
+  <hr>
+
+  <p>User agents are expected to support the <a id="phrasing-content-3:'clear'" href=https://drafts.csswg.org/css2/visuren.html#flow-control data-x-internal="'clear'">'clear'</a> property on inline elements (in
+  order to render <code id=phrasing-content-3:the-br-element><a href=#the-br-element>br</a></code> elements with <code id=phrasing-content-3:attr-br-clear><a href=#attr-br-clear>clear</a></code>
+  attributes) in the manner described in the non-normative note to this effect in the CSS
+  specification.</p> 
+
+  <p>The initial value for the <a id="phrasing-content-3:'color'" href=https://drafts.csswg.org/css-color/#the-color-property data-x-internal="'color'">'color'</a> property is expected to be black. The initial
+  value for the <a id="phrasing-content-3:'background-color'" href=https://drafts.csswg.org/css-backgrounds/#the-background-color data-x-internal="'background-color'">'background-color'</a> property is expected to be 'transparent'. The
+  canvas's background is expected to be white.</p>
+
+  <hr>
+
+  <p>When a <code id=phrasing-content-3:font><a href=#font>font</a></code> element has a <code>color</code>
+  attribute, its value is expected to be parsed using the <a href=#rules-for-parsing-a-legacy-colour-value id=phrasing-content-3:rules-for-parsing-a-legacy-colour-value>rules for parsing a legacy color
+  value</a>, and if that does not return an error, the user agent is expected to treat the
+  attribute as a <a href=#presentational-hints id=phrasing-content-3:presentational-hints-2>presentational hint</a> setting the
+  element's <a id="phrasing-content-3:'color'-2" href=https://drafts.csswg.org/css-color/#the-color-property data-x-internal="'color'">'color'</a> property to the resulting color.</p>
+
+  <p id=the-font-element-text-decoration-color-quirk>The <code id=phrasing-content-3:font-2><a href=#font>font</a></code> element is expected to
+  override the color of any text decoration that spans the text of the element to the
+  <a id=phrasing-content-3:used-value href=https://drafts.csswg.org/css-cascade/#used-value data-x-internal=used-value>used value</a> of the element's <a id="phrasing-content-3:'color'-3" href=https://drafts.csswg.org/css-color/#the-color-property data-x-internal="'color'">'color'</a> property.</p>
+
+  <p>When a <code id=phrasing-content-3:font-3><a href=#font>font</a></code> element has a <code>face</code>
+  attribute, the user agent is expected to treat the attribute as a <a href=#presentational-hints id=phrasing-content-3:presentational-hints-3>presentational hint</a> setting the element's <a id="phrasing-content-3:'font-family'" href=https://drafts.csswg.org/css-fonts/#font-family-prop data-x-internal="'font-family'">'font-family'</a> property to the
+  attribute's value.</p>
+
+  
+
+  <p>When a <code id=phrasing-content-3:font-4><a href=#font>font</a></code> element has a <code>size</code>
+  attribute, the user agent is expected to use the following steps, known as the <dfn id=rules-for-parsing-a-legacy-font-size>rules for
+  parsing a legacy font size</dfn>, to treat the attribute as a <a href=#presentational-hints id=phrasing-content-3:presentational-hints-4>presentational hint</a> setting the element's <a id="phrasing-content-3:'font-size'" href=https://drafts.csswg.org/css-fonts/#font-size-prop data-x-internal="'font-size'">'font-size'</a> property:</p>
+
+  <ol><li><p>Let <var>input</var> be the attribute's value.<li><p>Let <var>position</var> be a pointer into <var>input</var>, initially pointing at the
+   start of the string.<li><p><a href=#skip-whitespace id=phrasing-content-3:skip-whitespace>Skip whitespace</a>.<li><p>If <var>position</var> is past the end of <var>input</var>, there is no <a href=#presentational-hints id=phrasing-content-3:presentational-hints-5>presentational hint</a>. Abort these steps.<li><p>If the character at <var>position</var> is a U+002B PLUS SIGN character (+), then let
+   <var>mode</var> be <i>relative-plus</i>, and advance <var>position</var> to the next character.
+   Otherwise, if the character at <var>position</var> is a U+002D HYPHEN-MINUS character (-), then
+   let <var>mode</var> be <i>relative-minus</i>, and advance <var>position</var> to the next
+   character. Otherwise, let <var>mode</var> be <i>absolute</i>.<li><p><a href=#collect-a-sequence-of-characters id=phrasing-content-3:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are <a href=#ascii-digits id=phrasing-content-3:ascii-digits>ASCII digits</a>, and let
+   the resulting sequence be <var>digits</var>.<li><p>If <var>digits</var> is the empty string, there is no <a href=#presentational-hints id=phrasing-content-3:presentational-hints-6>presentational hint</a>. Abort these steps.<li><p>Interpret <var>digits</var> as a base-ten integer. Let <var>value</var> be the resulting
+   number.<li>
+
+    
+
+    <p>If <var>mode</var> is <i>relative-plus</i>, then increment <var>value</var> by 3. If
+    <var>mode</var> is <i>relative-minus</i>, then let <var>value</var> be the result of subtracting
+    <var>value</var> from 3.</p>
+
+   <li><p>If <var>value</var> is greater than 7, let it be 7.<li><p>If <var>value</var> is less than 1, let it be 1.<li>
+
+    <p>Set <a id="phrasing-content-3:'font-size'-2" href=https://drafts.csswg.org/css-fonts/#font-size-prop data-x-internal="'font-size'">'font-size'</a> to the keyword corresponding to the value of <var>value</var>
+    according to the following table:</p>
+
+    <table><thead><tr><th><var>value</var>
+       <th><a id="phrasing-content-3:'font-size'-3" href=https://drafts.csswg.org/css-fonts/#font-size-prop data-x-internal="'font-size'">'font-size'</a> keyword
+       <th>Notes
+     <tbody><tr><td>1
+       <td>'x-small'
+       <td>
+      <tr><td>2
+       <td>'small'
+       <td>
+      <tr><td>3
+       <td>'medium'
+       <td>
+      <tr><td>4
+       <td>'large'
+       <td>
+      <tr><td>5
+       <td>'x-large'
+       <td>
+      <tr><td>6
+       <td>'xx-large'
+       <td>
+      <tr><td>7
+       <td>'xxx-large'
+       <td><i>see below</i>
+    </table>
+
+    <p class=tablenote><small>The 'xxx-large' value is a non-CSS value used here to
+    indicate a font size 50% larger than 'xx-large'.</small></p>
+
+   </ol>
+
+
+  <h4 id=bidi-rendering>14.3.5 Bidirectional text<a href=#bidi-rendering class=self-link></a></h4>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+[dir]:dir(ltr), bdi:dir(ltr), input[type=tel i]:dir(ltr) { direction: ltr; }
+[dir]:dir(rtl), bdi:dir(rtl) { direction: rtl; }
+
+address, blockquote, center, div, figure, figcaption, footer, form, header, hr,
+legend, listing, main, p, plaintext, pre, summary, xmp, article, aside, h1, h2,
+h3, h4, h5, h6, hgroup, nav, section, table, caption, colgroup, col, thead,
+tbody, tfoot, tr, td, th, dir, dd, dl, dt, menu, ol, ul, li, bdi, output,
+[dir=ltr i], [dir=rtl i], [dir=auto i] {
+  unicode-bidi: isolate; 
+}
+
+bdo, bdo[dir] { unicode-bidi: isolate-override; } 
+
+input[dir=auto i]:matches([type=search i], [type=tel i], [type=url i],
+[type=email i]), textarea[dir=auto i], pre[dir=auto i] {
+  unicode-bidi: plaintext;
+}
+/* see prose for input elements whose type attribute is in the Text state */
+
+/* the <a href=#br-wbr-content>rules setting the 'content' property</a> on <code id=bidi-rendering:the-br-element><a href=#the-br-element>br</a></code> and <code id=bidi-rendering:the-wbr-element><a href=#the-wbr-element>wbr</a></code> elements also has bidi implications */</pre>
+
+  <p>When an <code id=bidi-rendering:the-input-element><a href=#the-input-element>input</a></code> element's <code id=bidi-rendering:the-dir-attribute><a href=#the-dir-attribute>dir</a></code> attribute is in the
+  <a href=#attr-dir-auto id=bidi-rendering:attr-dir-auto>auto</a> state and its <code id=bidi-rendering:attr-input-type><a href=#attr-input-type>type</a></code>
+  attribute is in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="bidi-rendering:text-(type=text)-state-and-search-state-(type=search)">Text</a> state, then the user agent is
+  expected to act as if it had a user-agent-level style sheet rule setting the
+  <a id="bidi-rendering:'unicode-bidi'" href=https://drafts.csswg.org/css-writing-modes/#unicode-bidi data-x-internal="'unicode-bidi'">'unicode-bidi'</a> property to 'plaintext'.</p>
+
+  <p>Input fields (i.e. <code id=bidi-rendering:the-textarea-element><a href=#the-textarea-element>textarea</a></code> elements, and <code id=bidi-rendering:the-input-element-2><a href=#the-input-element>input</a></code> elements when their
+  <code id=bidi-rendering:attr-input-type-2><a href=#attr-input-type>type</a></code> attribute is in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="bidi-rendering:text-(type=text)-state-and-search-state-(type=search)-2">Text</a>, <a href="#text-(type=text)-state-and-search-state-(type=search)" id="bidi-rendering:text-(type=text)-state-and-search-state-(type=search)-3">Search</a>,
+  <a href="#telephone-state-(type=tel)" id="bidi-rendering:telephone-state-(type=tel)">Telephone</a>, <a href="#url-state-(type=url)" id="bidi-rendering:url-state-(type=url)">URL</a>,
+  or <a href="#e-mail-state-(type=email)" id="bidi-rendering:e-mail-state-(type=email)">E-mail</a> state) are expected to present an editing
+  user interface with a directionality that matches the element's <a id="bidi-rendering:'direction'" href=https://drafts.csswg.org/css-writing-modes/#direction data-x-internal="'direction'">'direction'</a>
+  property.</p>
+
+  <p>When the document's character encoding is <a id=bidi-rendering:iso-8859-8 href=https://encoding.spec.whatwg.org/#iso-8859-8 data-x-internal=iso-8859-8>ISO-8859-8</a>, the following rules are
+  additionally expected to apply, following those above: <a href=#refsENCODING>[ENCODING]</a></p>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+address, blockquote, center, div, figure, figcaption, footer, form, header, hr,
+legend, listing, main, p, plaintext, pre, summary, xmp, article, aside, h1, h2,
+h3, h4, h5, h6, hgroup, nav, section, table, caption, colgroup, col, thead,
+tbody, tfoot, tr, td, th, dir, dd, dl, dt, menu, ol, ul, li, [dir=ltr i],
+[dir=rtl i], [dir=auto i], *|* {
+  unicode-bidi: bidi-override;
+}
+input:not([type=submit i]):not([type=reset i]):not([type=button i]),
+textarea {
+  unicode-bidi: normal;
+}</pre>
+
+
+  <h4 id=quotes>14.3.6 Quotes<a href=#quotes class=self-link></a></h4>
+
+  <p>This block is automatically generated from the Unicode Common Locale Data Repository. <a href=#refsCLDR>[CLDR]</a></p>
+
+  <p>User agents are expected to use either the block below (which will be regularly updated) or to
+  automatically generate their own copy directly from the source material. The language codes are
+  derived from the CLDR file names. The quotes are derived from the <code>delimiter</code>
+  blocks, with fallback handled as specified in the CLDR documentation.</p>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+:root                                                         { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(af),       :not(:lang(af)) > :lang(af)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(agq),      :not(:lang(agq)) > :lang(agq)           { quotes: '\201e' '\201d' '\201a' '\2019' } /* „ ” ‚ ’ */
+:root:lang(ak),       :not(:lang(ak)) > :lang(ak)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(am),       :not(:lang(am)) > :lang(am)             { quotes: '\00ab' '\00bb' '\2039' '\203a' } /* « » ‹ › */
+:root:lang(ar),       :not(:lang(ar)) > :lang(ar)             { quotes: '\201d' '\201c' '\2019' '\2018' } /* ” “ ’ ‘ */
+:root:lang(asa),      :not(:lang(asa)) > :lang(asa)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ast),      :not(:lang(ast)) > :lang(ast)           { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(az),       :not(:lang(az)) > :lang(az)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(az-Cyrl),  :not(:lang(az-Cyrl)) > :lang(az-Cyrl)   { quotes: '\00ab' '\00bb' '\2039' '\203a' } /* « » ‹ › */
+:root:lang(bas),      :not(:lang(bas)) > :lang(bas)           { quotes: '\00ab' '\00bb' '\201e' '\201c' } /* « » „ “ */
+:root:lang(be),       :not(:lang(be)) > :lang(be)             { quotes: '\00ab' '\00bb' '\00ab' '\00bb' } /* « » « » */
+:root:lang(bem),      :not(:lang(bem)) > :lang(bem)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(bez),      :not(:lang(bez)) > :lang(bez)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(bg),       :not(:lang(bg)) > :lang(bg)             { quotes: '\201e' '\201c' '\201e' '\201c' } /* „ “ „ “ */
+:root:lang(bm),       :not(:lang(bm)) > :lang(bm)             { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(bn),       :not(:lang(bn)) > :lang(bn)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(br),       :not(:lang(br)) > :lang(br)             { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(brx),      :not(:lang(brx)) > :lang(brx)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(bs),       :not(:lang(bs)) > :lang(bs)             { quotes: '\201e' '\201c' '\2018' '\2019' } /* „ “ ‘ ’ */
+:root:lang(bs-Cyrl),  :not(:lang(bs-Cyrl)) > :lang(bs-Cyrl)   { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(ca),       :not(:lang(ca)) > :lang(ca)             { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(cgg),      :not(:lang(cgg)) > :lang(cgg)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(chr),      :not(:lang(chr)) > :lang(chr)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(cs),       :not(:lang(cs)) > :lang(cs)             { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(cy),       :not(:lang(cy)) > :lang(cy)             { quotes: '\2018' '\2019' '\201c' '\201d' } /* ‘ ’ “ ” */
+:root:lang(da),       :not(:lang(da)) > :lang(da)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(dav),      :not(:lang(dav)) > :lang(dav)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(de),       :not(:lang(de)) > :lang(de)             { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(dje),      :not(:lang(dje)) > :lang(dje)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(dsb),      :not(:lang(dsb)) > :lang(dsb)           { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(dua),      :not(:lang(dua)) > :lang(dua)           { quotes: '\00ab' '\00bb' '\2018' '\2019' } /* « » ‘ ’ */
+:root:lang(dyo),      :not(:lang(dyo)) > :lang(dyo)           { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(dz),       :not(:lang(dz)) > :lang(dz)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ebu),      :not(:lang(ebu)) > :lang(ebu)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ee),       :not(:lang(ee)) > :lang(ee)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(el),       :not(:lang(el)) > :lang(el)             { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(en),       :not(:lang(en)) > :lang(en)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(es),       :not(:lang(es)) > :lang(es)             { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(et),       :not(:lang(et)) > :lang(et)             { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(eu),       :not(:lang(eu)) > :lang(eu)             { quotes: '\201c' '\201d' '\201c' '\201d' } /* “ ” “ ” */
+:root:lang(ewo),      :not(:lang(ewo)) > :lang(ewo)           { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(fa),       :not(:lang(fa)) > :lang(fa)             { quotes: '\00ab' '\00bb' '\2039' '\203a' } /* « » ‹ › */
+:root:lang(ff),       :not(:lang(ff)) > :lang(ff)             { quotes: '\201e' '\201d' '\201a' '\2019' } /* „ ” ‚ ’ */
+:root:lang(fi),       :not(:lang(fi)) > :lang(fi)             { quotes: '\201d' '\201d' '\2019' '\2019' } /* ” ” ’ ’ */
+:root:lang(fil),      :not(:lang(fil)) > :lang(fil)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(fo),       :not(:lang(fo)) > :lang(fo)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(fr),       :not(:lang(fr)) > :lang(fr)             { quotes: '\00ab' '\00bb' '\00ab' '\00bb' } /* « » « » */
+:root:lang(fr-CH),    :not(:lang(fr-CH)) > :lang(fr-CH)       { quotes: '\00ab' '\00bb' '\2039' '\203a' } /* « » ‹ › */
+:root:lang(ga),       :not(:lang(ga)) > :lang(ga)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(gd),       :not(:lang(gd)) > :lang(gd)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(gl),       :not(:lang(gl)) > :lang(gl)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(gsw),      :not(:lang(gsw)) > :lang(gsw)           { quotes: '\00ab' '\00bb' '\2039' '\203a' } /* « » ‹ › */
+:root:lang(gu),       :not(:lang(gu)) > :lang(gu)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(guz),      :not(:lang(guz)) > :lang(guz)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ha),       :not(:lang(ha)) > :lang(ha)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(he),       :not(:lang(he)) > :lang(he)             { quotes: '\201d' '\201d' '\2019' '\2019' } /* ” ” ’ ’ */
+:root:lang(hi),       :not(:lang(hi)) > :lang(hi)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(hr),       :not(:lang(hr)) > :lang(hr)             { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(hsb),      :not(:lang(hsb)) > :lang(hsb)           { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(hu),       :not(:lang(hu)) > :lang(hu)             { quotes: '\201e' '\201d' '\00bb' '\00ab' } /* „ ” » « */
+:root:lang(hy),       :not(:lang(hy)) > :lang(hy)             { quotes: '\00ab' '\00bb' '\00ab' '\00bb' } /* « » « » */
+:root:lang(id),       :not(:lang(id)) > :lang(id)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ig),       :not(:lang(ig)) > :lang(ig)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(is),       :not(:lang(is)) > :lang(is)             { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(it),       :not(:lang(it)) > :lang(it)             { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(ja),       :not(:lang(ja)) > :lang(ja)             { quotes: '\300c' '\300d' '\300e' '\300f' } /* 「 」 『 』 */
+:root:lang(jgo),      :not(:lang(jgo)) > :lang(jgo)           { quotes: '\00ab' '\00bb' '\2039' '\203a' } /* « » ‹ › */
+:root:lang(jmc),      :not(:lang(jmc)) > :lang(jmc)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ka),       :not(:lang(ka)) > :lang(ka)             { quotes: '\201e' '\201c' '\00ab' '\00bb' } /* „ “ « » */
+:root:lang(kab),      :not(:lang(kab)) > :lang(kab)           { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(kam),      :not(:lang(kam)) > :lang(kam)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(kde),      :not(:lang(kde)) > :lang(kde)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(kea),      :not(:lang(kea)) > :lang(kea)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(khq),      :not(:lang(khq)) > :lang(khq)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ki),       :not(:lang(ki)) > :lang(ki)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(kk),       :not(:lang(kk)) > :lang(kk)             { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(kkj),      :not(:lang(kkj)) > :lang(kkj)           { quotes: '\00ab' '\00bb' '\2039' '\203a' } /* « » ‹ › */
+:root:lang(kln),      :not(:lang(kln)) > :lang(kln)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(km),       :not(:lang(km)) > :lang(km)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(kn),       :not(:lang(kn)) > :lang(kn)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ko),       :not(:lang(ko)) > :lang(ko)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ksb),      :not(:lang(ksb)) > :lang(ksb)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ksf),      :not(:lang(ksf)) > :lang(ksf)           { quotes: '\00ab' '\00bb' '\2018' '\2019' } /* « » ‘ ’ */
+:root:lang(ky),       :not(:lang(ky)) > :lang(ky)             { quotes: '\00ab' '\00bb' '\201e' '\201c' } /* « » „ “ */
+:root:lang(lag),      :not(:lang(lag)) > :lang(lag)           { quotes: '\201d' '\201d' '\2019' '\2019' } /* ” ” ’ ’ */
+:root:lang(lb),       :not(:lang(lb)) > :lang(lb)             { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(lg),       :not(:lang(lg)) > :lang(lg)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ln),       :not(:lang(ln)) > :lang(ln)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(lo),       :not(:lang(lo)) > :lang(lo)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(lrc),      :not(:lang(lrc)) > :lang(lrc)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(lt),       :not(:lang(lt)) > :lang(lt)             { quotes: '\201e' '\201c' '\201e' '\201c' } /* „ “ „ “ */
+:root:lang(lu),       :not(:lang(lu)) > :lang(lu)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(luo),      :not(:lang(luo)) > :lang(luo)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(luy),      :not(:lang(luy)) > :lang(luy)           { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(lv),       :not(:lang(lv)) > :lang(lv)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(mas),      :not(:lang(mas)) > :lang(mas)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(mer),      :not(:lang(mer)) > :lang(mer)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(mfe),      :not(:lang(mfe)) > :lang(mfe)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(mg),       :not(:lang(mg)) > :lang(mg)             { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(mgo),      :not(:lang(mgo)) > :lang(mgo)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(mk),       :not(:lang(mk)) > :lang(mk)             { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(ml),       :not(:lang(ml)) > :lang(ml)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(mn),       :not(:lang(mn)) > :lang(mn)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(mr),       :not(:lang(mr)) > :lang(mr)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ms),       :not(:lang(ms)) > :lang(ms)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(mt),       :not(:lang(mt)) > :lang(mt)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(mua),      :not(:lang(mua)) > :lang(mua)           { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(my),       :not(:lang(my)) > :lang(my)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(mzn),      :not(:lang(mzn)) > :lang(mzn)           { quotes: '\00ab' '\00bb' '\2039' '\203a' } /* « » ‹ › */
+:root:lang(naq),      :not(:lang(naq)) > :lang(naq)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(nb),       :not(:lang(nb)) > :lang(nb)             { quotes: '\00ab' '\00bb' '\2018' '\2019' } /* « » ‘ ’ */
+:root:lang(nd),       :not(:lang(nd)) > :lang(nd)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ne),       :not(:lang(ne)) > :lang(ne)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(nl),       :not(:lang(nl)) > :lang(nl)             { quotes: '\2018' '\2019' '\201c' '\201d' } /* ‘ ’ “ ” */
+:root:lang(nmg),      :not(:lang(nmg)) > :lang(nmg)           { quotes: '\201e' '\201d' '\00ab' '\00bb' } /* „ ” « » */
+:root:lang(nn),       :not(:lang(nn)) > :lang(nn)             { quotes: '\00ab' '\00bb' '\2018' '\2019' } /* « » ‘ ’ */
+:root:lang(nnh),      :not(:lang(nnh)) > :lang(nnh)           { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(nus),      :not(:lang(nus)) > :lang(nus)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(nyn),      :not(:lang(nyn)) > :lang(nyn)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(pa),       :not(:lang(pa)) > :lang(pa)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(pl),       :not(:lang(pl)) > :lang(pl)             { quotes: '\201e' '\201d' '\00ab' '\00bb' } /* „ ” « » */
+:root:lang(pt),       :not(:lang(pt)) > :lang(pt)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(pt-PT),    :not(:lang(pt-PT)) > :lang(pt-PT)       { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(rn),       :not(:lang(rn)) > :lang(rn)             { quotes: '\201d' '\201d' '\2019' '\2019' } /* ” ” ’ ’ */
+:root:lang(ro),       :not(:lang(ro)) > :lang(ro)             { quotes: '\201e' '\201d' '\00ab' '\00bb' } /* „ ” « » */
+:root:lang(rof),      :not(:lang(rof)) > :lang(rof)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ru),       :not(:lang(ru)) > :lang(ru)             { quotes: '\00ab' '\00bb' '\201e' '\201c' } /* « » „ “ */
+:root:lang(rw),       :not(:lang(rw)) > :lang(rw)             { quotes: '\00ab' '\00bb' '\2018' '\2019' } /* « » ‘ ’ */
+:root:lang(rwk),      :not(:lang(rwk)) > :lang(rwk)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(saq),      :not(:lang(saq)) > :lang(saq)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(sbp),      :not(:lang(sbp)) > :lang(sbp)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(seh),      :not(:lang(seh)) > :lang(seh)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ses),      :not(:lang(ses)) > :lang(ses)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(sg),       :not(:lang(sg)) > :lang(sg)             { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(shi),      :not(:lang(shi)) > :lang(shi)           { quotes: '\00ab' '\00bb' '\201e' '\201d' } /* « » „ ” */
+:root:lang(shi-Latn), :not(:lang(shi-Latn)) > :lang(shi-Latn) { quotes: '\00ab' '\00bb' '\201e' '\201d' } /* « » „ ” */
+:root:lang(si),       :not(:lang(si)) > :lang(si)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(sk),       :not(:lang(sk)) > :lang(sk)             { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(sl),       :not(:lang(sl)) > :lang(sl)             { quotes: '\201e' '\201c' '\201a' '\2018' } /* „ “ ‚ ‘ */
+:root:lang(sn),       :not(:lang(sn)) > :lang(sn)             { quotes: '\201d' '\201d' '\2019' '\2019' } /* ” ” ’ ’ */
+:root:lang(so),       :not(:lang(so)) > :lang(so)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(sq),       :not(:lang(sq)) > :lang(sq)             { quotes: '\00ab' '\00bb' '\201c' '\201d' } /* « » “ ” */
+:root:lang(sr),       :not(:lang(sr)) > :lang(sr)             { quotes: '\201e' '\201c' '\2018' '\2018' } /* „ “ ‘ ‘ */
+:root:lang(sr-Latn),  :not(:lang(sr-Latn)) > :lang(sr-Latn)   { quotes: '\201e' '\201c' '\2018' '\2018' } /* „ “ ‘ ‘ */
+:root:lang(sv),       :not(:lang(sv)) > :lang(sv)             { quotes: '\201d' '\201d' '\2019' '\2019' } /* ” ” ’ ’ */
+:root:lang(sw),       :not(:lang(sw)) > :lang(sw)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ta),       :not(:lang(ta)) > :lang(ta)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(te),       :not(:lang(te)) > :lang(te)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(teo),      :not(:lang(teo)) > :lang(teo)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(th),       :not(:lang(th)) > :lang(th)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(ti-ER),    :not(:lang(ti-ER)) > :lang(ti-ER)       { quotes: '\2018' '\2019' '\201c' '\201d' } /* ‘ ’ “ ” */
+:root:lang(tk),       :not(:lang(tk)) > :lang(tk)             { quotes: '\201c' '\201d' '\201c' '\201d' } /* “ ” “ ” */
+:root:lang(to),       :not(:lang(to)) > :lang(to)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(tr),       :not(:lang(tr)) > :lang(tr)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(twq),      :not(:lang(twq)) > :lang(twq)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(tzm),      :not(:lang(tzm)) > :lang(tzm)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(uk),       :not(:lang(uk)) > :lang(uk)             { quotes: '\00ab' '\00bb' '\201e' '\201c' } /* « » „ “ */
+:root:lang(ur),       :not(:lang(ur)) > :lang(ur)             { quotes: '\201d' '\201c' '\2019' '\2018' } /* ” “ ’ ‘ */
+:root:lang(uz),       :not(:lang(uz)) > :lang(uz)             { quotes: '\201c' '\201d' '\2019' '\2018' } /* “ ” ’ ‘ */
+:root:lang(uz-Cyrl),  :not(:lang(uz-Cyrl)) > :lang(uz-Cyrl)   { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(vai),      :not(:lang(vai)) > :lang(vai)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(vai-Latn), :not(:lang(vai-Latn)) > :lang(vai-Latn) { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(vi),       :not(:lang(vi)) > :lang(vi)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(vun),      :not(:lang(vun)) > :lang(vun)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(xog),      :not(:lang(xog)) > :lang(xog)           { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(yav),      :not(:lang(yav)) > :lang(yav)           { quotes: '\00ab' '\00bb' '\00ab' '\00bb' } /* « » « » */
+:root:lang(yo),       :not(:lang(yo)) > :lang(yo)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(yo-BJ),    :not(:lang(yo-BJ)) > :lang(yo-BJ)       { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(yue),      :not(:lang(yue)) > :lang(yue)           { quotes: '\300c' '\300d' '\300e' '\300f' } /* 「 」 『 』 */
+:root:lang(zgh),      :not(:lang(zgh)) > :lang(zgh)           { quotes: '\00ab' '\00bb' '\201e' '\201d' } /* « » „ ” */
+:root:lang(zh),       :not(:lang(zh)) > :lang(zh)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+:root:lang(zh-Hant),  :not(:lang(zh-Hant)) > :lang(zh-Hant)   { quotes: '\300c' '\300d' '\300e' '\300f' } /* 「 」 『 』 */
+:root:lang(zu),       :not(:lang(zu)) > :lang(zu)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */
+</pre>
+
+
+  <h4 id=sections-and-headings>14.3.7 Sections and headings<a href=#sections-and-headings class=self-link></a></h4>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+article, aside, h1, h2, h3, h4, h5, h6, hgroup, nav, section {
+  display: block;
+}
+
+h1 { margin-block-start: 0.67em; margin-block-end: 0.67em; font-size: 2.00em; font-weight: bold; }
+h2 { margin-block-start: 0.83em; margin-block-end: 0.83em; font-size: 1.50em; font-weight: bold; }
+h3 { margin-block-start: 1.00em; margin-block-end: 1.00em; font-size: 1.17em; font-weight: bold; }
+h4 { margin-block-start: 1.33em; margin-block-end: 1.33em; font-size: 1.00em; font-weight: bold; }
+h5 { margin-block-start: 1.67em; margin-block-end: 1.67em; font-size: 0.83em; font-weight: bold; }
+h6 { margin-block-start: 2.33em; margin-block-end: 2.33em; font-size: 0.67em; font-weight: bold; }</pre>
+
+  <p>In the following CSS block, <var>x</var> is shorthand for the following selector:
+  <code>:matches(article, aside, nav, section)</code></p>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+<var>x</var> h1 { margin-block-start: 0.83em; margin-block-end: 0.83em; font-size: 1.50em; }
+<var>x</var> <var>x</var> h1 { margin-block-start: 1.00em; margin-block-end: 1.00em; font-size: 1.17em; }
+<var>x</var> <var>x</var> <var>x</var> h1 { margin-block-start: 1.33em; margin-block-end: 1.33em; font-size: 1.00em; }
+<var>x</var> <var>x</var> <var>x</var> <var>x</var> h1 { margin-block-start: 1.67em; margin-block-end: 1.67em; font-size: 0.83em; }
+<var>x</var> <var>x</var> <var>x</var> <var>x</var> <var>x</var> h1 { margin-block-start: 2.33em; margin-block-end: 2.33em; font-size: 0.67em; }
+
+<var>x</var> hgroup > h1 ~ h2 { margin-block-start: 1.00em; margin-block-end: 1.00em; font-size: 1.17em; }
+<var>x</var> <var>x</var> hgroup > h1 ~ h2 { margin-block-start: 1.33em; margin-block-end: 1.33em; font-size: 1.00em; }
+<var>x</var> <var>x</var> <var>x</var> hgroup > h1 ~ h2 { margin-block-start: 1.67em; margin-block-end: 1.67em; font-size: 0.83em; }
+<var>x</var> <var>x</var> <var>x</var> <var>x</var> hgroup > h1 ~ h2 { margin-block-start: 2.33em; margin-block-end: 2.33em; font-size: 0.67em; }
+
+<var>x</var> hgroup > h1 ~ h3 { margin-block-start: 1.33em; margin-block-end: 1.33em; font-size: 1.00em; }
+<var>x</var> <var>x</var> hgroup > h1 ~ h3 { margin-block-start: 1.67em; margin-block-end: 1.67em; font-size: 0.83em; }
+<var>x</var> <var>x</var> <var>x</var> hgroup > h1 ~ h3 { margin-block-start: 2.33em; margin-block-end: 2.33em; font-size: 0.67em; }
+
+<var>x</var> hgroup > h1 ~ h4 { margin-block-start: 1.67em; margin-block-end: 1.67em; font-size: 0.83em; }
+<var>x</var> <var>x</var> hgroup > h1 ~ h4 { margin-block-start: 2.33em; margin-block-end: 2.33em; font-size: 0.67em; }
+
+<var>x</var> hgroup > h1 ~ h5 { margin-block-start: 2.33em; margin-block-end: 2.33em; font-size: 0.67em; }</pre>
+
+  <p class=note>The shorthand is used to keep this block at least mildly readable.</p>
+
+
+
+  <h4 id=lists>14.3.8 Lists<a href=#lists class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=17770" title="CSS: i18n comment 20 : list item marker display and position">17770</a></div>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+dir, dd, dl, dt, menu, ol, ul { display: block; }
+li { display: list-item; }
+
+dir, dl, menu, ol, ul { margin-block-start: 1em; margin-block-end: 1em; }
+
+:matches(dir, dl, menu, ol, ul) :matches(dir, dl, menu, ol, ul) {
+  margin-block-start: 0; margin-block-end: 0;
+}
+
+dd { margin-inline-start: 40px; }
+dir, menu, ol, ul { padding-inline-start: 40px; }
+
+ol { list-style-type: decimal; }
+
+dir, menu, ul {
+  list-style-type: disc;
+}
+:matches(dir, menu, ol, ul) :matches(dir, menu, ul) {
+  list-style-type: circle;
+}
+:matches(dir, menu, ol, ul) :matches(dir, menu, ol, ul) :matches(dir, menu, ul) {
+  list-style-type: square;
+}</pre>
+
+  <p id=decohints>The following rules are also expected to apply, as <a href=#presentational-hints id=lists:presentational-hints>presentational
+  hints</a>:</p>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+ol[type=1], li[type=1] { list-style-type: decimal; }
+ol[type=a], li[type=a] { list-style-type: lower-alpha; }
+ol[type=A], li[type=A] { list-style-type: upper-alpha; }
+ol[type=i], li[type=i] { list-style-type: lower-roman; }
+ol[type=I], li[type=I] { list-style-type: upper-roman; }
+ul[type=none i], li[type=none i] { list-style-type: none; }
+ul[type=disc i], li[type=disc i] { list-style-type: disc; }
+ul[type=circle i], li[type=circle i] { list-style-type: circle; }
+ul[type=square i], li[type=square i] { list-style-type: square; }</pre>
+
+  <p id=attribute-selector-case-sensitive>In the above stylesheet, the <a href=https://drafts.csswg.org/selectors/#attribute-selector id=lists:attribute-selector data-x-internal=attribute-selector>attribute selectors</a> for the <code id=lists:the-ol-element><a href=#the-ol-element>ol</a></code> and <code id=lists:the-li-element><a href=#the-li-element>li</a></code>
+  elements are expected to be treated as <a href=#case-sensitive id=lists:case-sensitive>case-sensitive</a>.</p>
+
+  <p>When rendering <code id=lists:the-li-element-2><a href=#the-li-element>li</a></code> elements, non-CSS user agents are expected to use the
+  <a href=#ordinal-value id=lists:ordinal-value>ordinal value</a> of the <code id=lists:the-li-element-3><a href=#the-li-element>li</a></code> element to render the counter in the list item
+  marker.</p>
+
+  <p id=css-list-rendering class=critical>This specification does not yet define the
+  CSS-specific rules for rendering <code id=lists:the-li-element-4><a href=#the-li-element>li</a></code> elements, because CSS doesn't yet provide
+  sufficient hooks for this purpose.</p>
+
+
+  <h4 id=tables-2>14.3.9 Tables<a href=#tables-2 class=self-link></a></h4>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+table { display: table; }
+caption { display: table-caption; }
+colgroup, colgroup[hidden] { display: table-column-group; }
+col, col[hidden] { display: table-column; }
+thead, thead[hidden] { display: table-header-group; }
+tbody, tbody[hidden] { display: table-row-group; }
+tfoot, tfoot[hidden] { display: table-footer-group; }
+tr, tr[hidden] { display: table-row; }
+td, th, td[hidden], th[hidden] { display: table-cell; }
+
+colgroup[hidden], col[hidden], thead[hidden], tbody[hidden],
+tfoot[hidden], tr[hidden], td[hidden], th[hidden] {
+  visibility: collapse;
+}
+
+table {
+  box-sizing: border-box;
+  border-spacing: 2px;
+  border-collapse: separate;
+  text-indent: initial;
+}
+td, th { padding: 1px; }
+th { font-weight: bold; }
+
+caption { text-align: center; }
+thead, tbody, tfoot, table > tr { vertical-align: middle; }
+tr, td, th { vertical-align: inherit; }
+
+table, td, th { border-color: gray; }
+thead, tbody, tfoot, tr { border-color: inherit; }
+table[rules=none i], table[rules=groups i], table[rules=rows i],
+table[rules=cols i], table[rules=all i], table[frame=void i],
+table[frame=above i], table[frame=below i], table[frame=hsides i],
+table[frame=lhs i], table[frame=rhs i], table[frame=vsides i],
+table[frame=box i], table[frame=border i],
+table[rules=none i] > tr > td, table[rules=none i] > tr > th,
+table[rules=groups i] > tr > td, table[rules=groups i] > tr > th,
+table[rules=rows i] > tr > td, table[rules=rows i] > tr > th,
+table[rules=cols i] > tr > td, table[rules=cols i] > tr > th,
+table[rules=all i] > tr > td, table[rules=all i] > tr > th,
+table[rules=none i] > thead > tr > td, table[rules=none i] > thead > tr > th,
+table[rules=groups i] > thead > tr > td, table[rules=groups i] > thead > tr > th,
+table[rules=rows i] > thead > tr > td, table[rules=rows i] > thead > tr > th,
+table[rules=cols i] > thead > tr > td, table[rules=cols i] > thead > tr > th,
+table[rules=all i] > thead > tr > td, table[rules=all i] > thead > tr > th,
+table[rules=none i] > tbody > tr > td, table[rules=none i] > tbody > tr > th,
+table[rules=groups i] > tbody > tr > td, table[rules=groups i] > tbody > tr > th,
+table[rules=rows i] > tbody > tr > td, table[rules=rows i] > tbody > tr > th,
+table[rules=cols i] > tbody > tr > td, table[rules=cols i] > tbody > tr > th,
+table[rules=all i] > tbody > tr > td, table[rules=all i] > tbody > tr > th,
+table[rules=none i] > tfoot > tr > td, table[rules=none i] > tfoot > tr > th,
+table[rules=groups i] > tfoot > tr > td, table[rules=groups i] > tfoot > tr > th,
+table[rules=rows i] > tfoot > tr > td, table[rules=rows i] > tfoot > tr > th,
+table[rules=cols i] > tfoot > tr > td, table[rules=cols i] > tfoot > tr > th,
+table[rules=all i] > tfoot > tr > td, table[rules=all i] > tfoot > tr > th {
+  border-color: black;
+}</pre>
+
+  <p>The following rules are also expected to apply, as <a href=#presentational-hints id=tables-2:presentational-hints>presentational hints</a>:</p>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+table[align=left i] { float: left; }
+table[align=right i] { float: right; }
+table[align=center i] { margin-inline-start: auto; margin-inline-end: auto; }
+thead[align=absmiddle i], tbody[align=absmiddle i], tfoot[align=absmiddle i],
+tr[align=absmiddle i], td[align=absmiddle i], th[align=absmiddle i] {
+  text-align: center;
+}
+
+caption[align=bottom i] { caption-side: bottom; }
+p[align=left i], h1[align=left i], h2[align=left i], h3[align=left i],
+h4[align=left i], h5[align=left i], h6[align=left i] {
+  text-align: left;
+}
+p[align=right i], h1[align=right i], h2[align=right i], h3[align=right i],
+h4[align=right i], h5[align=right i], h6[align=right i] {
+  text-align: right;
+}
+p[align=center i], h1[align=center i], h2[align=center i], h3[align=center i],
+h4[align=center i], h5[align=center i], h6[align=center i] {
+  text-align: center;
+}
+p[align=justify i], h1[align=justify i], h2[align=justify i], h3[align=justify i],
+h4[align=justify i], h5[align=justify i], h6[align=justify i] {
+  text-align: justify;
+}
+thead[valign=top i], tbody[valign=top i], tfoot[valign=top i],
+tr[valign=top i], td[valign=top i], th[valign=top i] {
+  vertical-align: top;
+}
+thead[valign=middle i], tbody[valign=middle i], tfoot[valign=middle i],
+tr[valign=middle i], td[valign=middle i], th[valign=middle i] {
+  vertical-align: middle;
+}
+thead[valign=bottom i], tbody[valign=bottom i], tfoot[valign=bottom i],
+tr[valign=bottom i], td[valign=bottom i], th[valign=bottom i] {
+  vertical-align: bottom;
+}
+thead[valign=baseline i], tbody[valign=baseline i], tfoot[valign=baseline i],
+tr[valign=baseline i], td[valign=baseline i], th[valign=baseline i] {
+  vertical-align: baseline;
+}
+
+td[nowrap], th[nowrap] { white-space: nowrap; }
+
+table[rules=none i], table[rules=groups i], table[rules=rows i],
+table[rules=cols i], table[rules=all i] {
+  border-style: hidden;
+  border-collapse: collapse;
+}
+table[border] { border-style: outset; } /* <a href=#magic-border-selector id=tables-2:magic-border-selector>only if border is not equivalent to zero</a> */
+table[frame=void i] { border-style: hidden; }
+table[frame=above i] { border-style: outset hidden hidden hidden; }
+table[frame=below i] { border-style: hidden hidden outset hidden; }
+table[frame=hsides i] { border-style: outset hidden outset hidden; }
+table[frame=lhs i] { border-style: hidden hidden hidden outset; }
+table[frame=rhs i] { border-style: hidden outset hidden hidden; }
+table[frame=vsides i] { border-style: hidden outset; }
+table[frame=box i], table[frame=border i] { border-style: outset; }
+
+table[border] > tr > td, table[border] > tr > th,
+table[border] > thead > tr > td, table[border] > thead > tr > th,
+table[border] > tbody > tr > td, table[border] > tbody > tr > th,
+table[border] > tfoot > tr > td, table[border] > tfoot > tr > th {
+  /* <a href=#magic-border-selector id=tables-2:magic-border-selector-2>only if border is not equivalent to zero</a> */
+  border-width: 1px;
+  border-style: inset;
+}
+table[rules=none i] > tr > td, table[rules=none i] > tr > th,
+table[rules=none i] > thead > tr > td, table[rules=none i] > thead > tr > th,
+table[rules=none i] > tbody > tr > td, table[rules=none i] > tbody > tr > th,
+table[rules=none i] > tfoot > tr > td, table[rules=none i] > tfoot > tr > th,
+table[rules=groups i] > tr > td, table[rules=groups i] > tr > th,
+table[rules=groups i] > thead > tr > td, table[rules=groups i] > thead > tr > th,
+table[rules=groups i] > tbody > tr > td, table[rules=groups i] > tbody > tr > th,
+table[rules=groups i] > tfoot > tr > td, table[rules=groups i] > tfoot > tr > th,
+table[rules=rows i] > tr > td, table[rules=rows i] > tr > th,
+table[rules=rows i] > thead > tr > td, table[rules=rows i] > thead > tr > th,
+table[rules=rows i] > tbody > tr > td, table[rules=rows i] > tbody > tr > th,
+table[rules=rows i] > tfoot > tr > td, table[rules=rows i] > tfoot > tr > th {
+  border-width: 1px;
+  border-style: none;
+}
+table[rules=cols i] > tr > td, table[rules=cols i] > tr > th,
+table[rules=cols i] > thead > tr > td, table[rules=cols i] > thead > tr > th,
+table[rules=cols i] > tbody > tr > td, table[rules=cols i] > tbody > tr > th,
+table[rules=cols i] > tfoot > tr > td, table[rules=cols i] > tfoot > tr > th {
+  border-width: 1px;
+  border-block-start-style: none;
+  border-inline-end-style: solid;
+  border-block-end-style: none;
+  border-inline-start-style: solid;
+}
+table[rules=all i] > tr > td, table[rules=all i] > tr > th,
+table[rules=all i] > thead > tr > td, table[rules=all i] > thead > tr > th,
+table[rules=all i] > tbody > tr > td, table[rules=all i] > tbody > tr > th,
+table[rules=all i] > tfoot > tr > td, table[rules=all i] > tfoot > tr > th {
+  border-width: 1px;
+  border-style: solid;
+}
+
+table[rules=groups i] > colgroup {
+  border-inline-start-width: 1px;
+  border-inline-start-style: solid;
+  border-inline-end-width: 1px;
+  border-inline-end-style: solid;
+}
+table[rules=groups i] > thead,
+table[rules=groups i] > tbody,
+table[rules=groups i] > tfoot {
+  border-block-start-width: 1px;
+  border-block-start-style: solid;
+  border-block-end-width: 1px;
+  border-block-end-style: solid;
+}
+
+table[rules=rows i] > tr, table[rules=rows i] > thead > tr,
+table[rules=rows i] > tbody > tr, table[rules=rows i] > tfoot > tr {
+  border-block-start-width: 1px;
+  border-block-start-style: solid;
+  border-block-end-width: 1px;
+  border-block-end-style: solid;
+}</pre>
+
+
+
+
+  <p>In <a id=tables-2:quirks-mode href=https://dom.spec.whatwg.org/#concept-document-quirks data-x-internal=quirks-mode>quirks mode</a>, the following rules are also expected to apply:</p>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+table {
+  font-weight: initial;
+  font-style: initial;
+  font-variant: initial;
+  font-size: initial;
+  line-height: initial;
+  white-space: initial;
+  text-align: initial;
+}</pre>
+
+  <hr>
+
+  <p>For the purposes of the CSS table model, the <code id=tables-2:the-col-element><a href=#the-col-element>col</a></code> element is expected to be treated
+  as if it was present as many times as its <code id=tables-2:attr-col-span><a href=#attr-col-span>span</a></code> attribute <a href=#rules-for-parsing-non-negative-integers id=tables-2:rules-for-parsing-non-negative-integers>specifies</a>.</p>
+
+  <p>For the purposes of the CSS table model, the <code id=tables-2:the-colgroup-element><a href=#the-colgroup-element>colgroup</a></code> element, if it contains no
+  <code id=tables-2:the-col-element-2><a href=#the-col-element>col</a></code> element, is expected to be treated as if it had as many such children as its
+  <code id=tables-2:attr-colgroup-span><a href=#attr-colgroup-span>span</a></code> attribute <a href=#rules-for-parsing-non-negative-integers id=tables-2:rules-for-parsing-non-negative-integers-2>specifies</a>.</p>
+
+  <p>For the purposes of the CSS table model, the <code id=tables-2:attr-tdth-colspan><a href=#attr-tdth-colspan>colspan</a></code> and
+  <code id=tables-2:attr-tdth-rowspan><a href=#attr-tdth-rowspan>rowspan</a></code> attributes on <code id=tables-2:the-td-element><a href=#the-td-element>td</a></code> and <code id=tables-2:the-th-element><a href=#the-th-element>th</a></code>
+  elements are expected to <a href=#rules-for-parsing-non-negative-integers id=tables-2:rules-for-parsing-non-negative-integers-3>provide</a> the
+  <i>special knowledge</i> regarding cells spanning rows and columns.</p>
+
+  <p>In <a id=tables-2:html-documents href=https://dom.spec.whatwg.org/#html-document data-x-internal=html-documents>HTML documents</a>, the following rules are also expected to apply:</p>
+
+  <pre class=css>@namespace url(http://www.w3.org/1999/xhtml);
+
+:matches(table, thead, tbody, tfoot, tr) > form { display: none !important; }</pre>
+
+  <hr>
+
+  <p>The <code id=tables-2:the-table-element><a href=#the-table-element>table</a></code> element's <code id=tables-2:attr-table-cellspacing><a href=#attr-table-cellspacing>cellspacing</a></code>
+  attribute <a href=#maps-to-the-pixel-length-property id=tables-2:maps-to-the-pixel-length-property>maps to the pixel length property</a> <a id="tables-2:'border-spacing'" href=https://drafts.csswg.org/css-tables/#propdef-border-spacing data-x-internal="'border-spacing'">'border-spacing'</a> on the
+  element.</p>
+
+  <p>The <code id=tables-2:the-table-element-2><a href=#the-table-element>table</a></code> element's <code id=tables-2:attr-table-cellpadding><a href=#attr-table-cellpadding>cellpadding</a></code>
+  attribute <a href=#maps-to-the-pixel-length-property id=tables-2:maps-to-the-pixel-length-property-2>maps to the pixel length
+  properties</a> <a id="tables-2:'padding-top'" href=https://drafts.csswg.org/css2/box.html#propdef-padding-top data-x-internal="'padding-top'">'padding-top'</a>, <a id="tables-2:'padding-right'" href=https://drafts.csswg.org/css2/box.html#propdef-padding-right data-x-internal="'padding-right'">'padding-right'</a>,
+  <a id="tables-2:'padding-bottom'" href=https://drafts.csswg.org/css2/box.html#propdef-padding-bottom data-x-internal="'padding-bottom'">'padding-bottom'</a>, and <a id="tables-2:'padding-left'" href=https://drafts.csswg.org/css2/box.html#propdef-padding-left data-x-internal="'padding-left'">'padding-left'</a> of any <code id=tables-2:the-td-element-2><a href=#the-td-element>td</a></code> and
+  <code id=tables-2:the-th-element-2><a href=#the-th-element>th</a></code> elements that have corresponding <a href=#concept-cell id=tables-2:concept-cell>cells</a> in the
+  <a href=#concept-table id=tables-2:concept-table>table</a> corresponding to the <code id=tables-2:the-table-element-3><a href=#the-table-element>table</a></code> element.</p>
+
+  <p>The <code id=tables-2:the-table-element-4><a href=#the-table-element>table</a></code> element's <code id=tables-2:attr-table-height><a href=#attr-table-height>height</a></code> attribute
+  <a href=#maps-to-the-dimension-property-(ignoring-zero) id=tables-2:maps-to-the-dimension-property-(ignoring-zero)>maps to the dimension property (ignoring zero)</a> <a id="tables-2:'height'" href=https://drafts.csswg.org/css2/visudet.html#the-height-property data-x-internal="'height'">'height'</a> on the
+  <code id=tables-2:the-table-element-5><a href=#the-table-element>table</a></code> element.</p>
+
+  <p>The <code id=tables-2:the-table-element-6><a href=#the-table-element>table</a></code> element's <code id=tables-2:attr-table-width><a href=#attr-table-width>width</a></code> attribute
+  <a href=#maps-to-the-dimension-property-(ignoring-zero) id=tables-2:maps-to-the-dimension-property-(ignoring-zero)-2>maps to the dimension property (ignoring zero)</a> <a id="tables-2:'width'" href=https://drafts.csswg.org/css2/visudet.html#the-width-property data-x-internal="'width'">'width'</a> on the
+  <code id=tables-2:the-table-element-7><a href=#the-table-element>table</a></code> element.</p>
+
+  <p>The <code id=tables-2:the-col-element-3><a href=#the-col-element>col</a></code> element's <code id=tables-2:attr-col-width><a href=#attr-col-width>width</a></code> attribute <a href=#maps-to-the-dimension-property-(ignoring-zero) id=tables-2:maps-to-the-dimension-property-(ignoring-zero)-3>maps
+  to the dimension property (ignoring zero)</a> <a id="tables-2:'width'-2" href=https://drafts.csswg.org/css2/visudet.html#the-width-property data-x-internal="'width'">'width'</a> on the <code id=tables-2:the-col-element-4><a href=#the-col-element>col</a></code>
+  element.</p>
+
+  <p>The <code id=tables-2:the-tr-element><a href=#the-tr-element>tr</a></code> element's <code id=tables-2:attr-tr-height><a href=#attr-tr-height>height</a></code> attribute <a href=#maps-to-the-dimension-property-(ignoring-zero) id=tables-2:maps-to-the-dimension-property-(ignoring-zero)-4>maps
+  to the dimension property (ignoring zero)</a> <a id="tables-2:'height'-2" href=https://drafts.csswg.org/css2/visudet.html#the-height-property data-x-internal="'height'">'height'</a> on the <code id=tables-2:the-tr-element-2><a href=#the-tr-element>tr</a></code>
+  element.</p>
+
+  <p>The <code id=tables-2:the-td-element-3><a href=#the-td-element>td</a></code> and <code id=tables-2:the-th-element-3><a href=#the-th-element>th</a></code> elements' <code id=tables-2:attr-tdth-height><a href=#attr-tdth-height>height</a></code>
+  attributes <a href=#maps-to-the-dimension-property-(ignoring-zero) id=tables-2:maps-to-the-dimension-property-(ignoring-zero)-5>map to the dimension
+  property (ignoring zero)</a> <a id="tables-2:'height'-3" href=https://drafts.csswg.org/css2/visudet.html#the-height-property data-x-internal="'height'">'height'</a> on the element.</p>
+
+  <p>The <code id=tables-2:the-td-element-4><a href=#the-td-element>td</a></code> and <code id=tables-2:the-th-element-4><a href=#the-th-element>th</a></code> elements' <code id=tables-2:attr-tdth-width><a href=#attr-tdth-width>width</a></code>
+  attributes <a href=#maps-to-the-dimension-property-(ignoring-zero) id=tables-2:maps-to-the-dimension-property-(ignoring-zero)-6>map to the dimension
+  property (ignoring zero)</a> <a id="tables-2:'width'-3" href=https://drafts.csswg.org/css2/visudet.html#the-width-property data-x-internal="'width'">'width'</a> on the element.</p>
+
+  <hr>
+
+  <p>The <code id=tables-2:the-thead-element><a href=#the-thead-element>thead</a></code>, <code id=tables-2:the-tbody-element><a href=#the-tbody-element>tbody</a></code>, <code id=tables-2:the-tfoot-element><a href=#the-tfoot-element>tfoot</a></code>, <code id=tables-2:the-tr-element-3><a href=#the-tr-element>tr</a></code>,
+  <code id=tables-2:the-td-element-5><a href=#the-td-element>td</a></code>, and <code id=tables-2:the-th-element-5><a href=#the-th-element>th</a></code> elements, when they have an <code>align</code>
+  attribute whose value is an <a id=tables-2:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for either the string "<code>center</code>" or the string "<code>middle</code>", are expected to center
+  text within themselves, as if they had their <a id="tables-2:'text-align'" href=https://drafts.csswg.org/css-text/#text-align-property data-x-internal="'text-align'">'text-align'</a> property set to 'center' in
+  a <a href=#presentational-hints id=tables-2:presentational-hints-2>presentational hint</a>, and to <a href=#align-descendants id=tables-2:align-descendants>align
+  descendants</a> to the center.</p>
+
+  <p>The <code id=tables-2:the-thead-element-2><a href=#the-thead-element>thead</a></code>, <code id=tables-2:the-tbody-element-2><a href=#the-tbody-element>tbody</a></code>, <code id=tables-2:the-tfoot-element-2><a href=#the-tfoot-element>tfoot</a></code>, <code id=tables-2:the-tr-element-4><a href=#the-tr-element>tr</a></code>,
+  <code id=tables-2:the-td-element-6><a href=#the-td-element>td</a></code>, and <code id=tables-2:the-th-element-6><a href=#the-th-element>th</a></code> elements, when they have an <code>align</code>
+  attribute whose value is an <a id=tables-2:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>left</code>", are expected to left-align text within themselves, as if they had their
+  <a id="tables-2:'text-align'-2" href=https://drafts.csswg.org/css-text/#text-align-property data-x-internal="'text-align'">'text-align'</a> property set to 'left' in a <a href=#presentational-hints id=tables-2:presentational-hints-3>presentational hint</a>, and to <a href=#align-descendants id=tables-2:align-descendants-2>align descendants</a> to the left.</p>
+
+  <p>The <code id=tables-2:the-thead-element-3><a href=#the-thead-element>thead</a></code>, <code id=tables-2:the-tbody-element-3><a href=#the-tbody-element>tbody</a></code>, <code id=tables-2:the-tfoot-element-3><a href=#the-tfoot-element>tfoot</a></code>, <code id=tables-2:the-tr-element-5><a href=#the-tr-element>tr</a></code>,
+  <code id=tables-2:the-td-element-7><a href=#the-td-element>td</a></code>, and <code id=tables-2:the-th-element-7><a href=#the-th-element>th</a></code> elements, when they have an <code>align</code>
+  attribute whose value is an <a id=tables-2:ascii-case-insensitive-3 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>right</code>", are expected to right-align text within themselves, as if they had their
+  <a id="tables-2:'text-align'-3" href=https://drafts.csswg.org/css-text/#text-align-property data-x-internal="'text-align'">'text-align'</a> property set to 'right' in a <a href=#presentational-hints id=tables-2:presentational-hints-4>presentational hint</a>, and to <a href=#align-descendants id=tables-2:align-descendants-3>align descendants</a> to the right.</p>
+
+  <p>The <code id=tables-2:the-thead-element-4><a href=#the-thead-element>thead</a></code>, <code id=tables-2:the-tbody-element-4><a href=#the-tbody-element>tbody</a></code>, <code id=tables-2:the-tfoot-element-4><a href=#the-tfoot-element>tfoot</a></code>, <code id=tables-2:the-tr-element-6><a href=#the-tr-element>tr</a></code>,
+  <code id=tables-2:the-td-element-8><a href=#the-td-element>td</a></code>, and <code id=tables-2:the-th-element-8><a href=#the-th-element>th</a></code> elements, when they have an <code>align</code>
+  attribute whose value is an <a id=tables-2:ascii-case-insensitive-4 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>justify</code>", are expected to full-justify text within themselves, as if they had
+  their <a id="tables-2:'text-align'-4" href=https://drafts.csswg.org/css-text/#text-align-property data-x-internal="'text-align'">'text-align'</a> property set to 'justify' in a <a href=#presentational-hints id=tables-2:presentational-hints-5>presentational hint</a>, and to <a href=#align-descendants id=tables-2:align-descendants-4>align descendants</a> to the left.</p>
+
+  <p>User agents are expected to have a rule in their user agent stylesheet that matches
+  <code id=tables-2:the-th-element-9><a href=#the-th-element>th</a></code> elements that have a parent node whose <a id=tables-2:computed-value href=https://drafts.csswg.org/css-cascade/#computed-value data-x-internal=computed-value>computed value</a> for the
+  <a id="tables-2:'text-align'-5" href=https://drafts.csswg.org/css-text/#text-align-property data-x-internal="'text-align'">'text-align'</a> property is its initial value, whose declaration block consists of just
+  a single declaration that sets the <a id="tables-2:'text-align'-6" href=https://drafts.csswg.org/css-text/#text-align-property data-x-internal="'text-align'">'text-align'</a> property to the value 'center'.</p>
+  
+
+  <hr>
+
+  <p>When a <code id=tables-2:the-table-element-8><a href=#the-table-element>table</a></code>, <code id=tables-2:the-thead-element-5><a href=#the-thead-element>thead</a></code>, <code id=tables-2:the-tbody-element-5><a href=#the-tbody-element>tbody</a></code>, <code id=tables-2:the-tfoot-element-5><a href=#the-tfoot-element>tfoot</a></code>,
+  <code id=tables-2:the-tr-element-7><a href=#the-tr-element>tr</a></code>, <code id=tables-2:the-td-element-9><a href=#the-td-element>td</a></code>, or <code id=tables-2:the-th-element-10><a href=#the-th-element>th</a></code> element has a <code id=tables-2:attr-background><a href=#attr-background>background</a></code> attribute set to a non-empty value, the new value is
+  expected to be <a href=#parse-a-url id=tables-2:parse-a-url>parsed</a> relative to the element's <a id=tables-2:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+  document</a>, and if this is successful, the user agent is expected to treat the attribute as a
+  <a href=#presentational-hints id=tables-2:presentational-hints-6>presentational hint</a> setting the element's
+  <a id="tables-2:'background-image'" href=https://drafts.csswg.org/css-backgrounds/#the-background-image data-x-internal="'background-image'">'background-image'</a> property to the <a href=#resulting-url-string id=tables-2:resulting-url-string>resulting URL string</a>.</p>
+
+  <p>When a <code id=tables-2:the-table-element-9><a href=#the-table-element>table</a></code>, <code id=tables-2:the-thead-element-6><a href=#the-thead-element>thead</a></code>, <code id=tables-2:the-tbody-element-6><a href=#the-tbody-element>tbody</a></code>, <code id=tables-2:the-tfoot-element-6><a href=#the-tfoot-element>tfoot</a></code>,
+  <code id=tables-2:the-tr-element-8><a href=#the-tr-element>tr</a></code>, <code id=tables-2:the-td-element-10><a href=#the-td-element>td</a></code>, or <code id=tables-2:the-th-element-11><a href=#the-th-element>th</a></code> element has a <code>bgcolor</code>
+  attribute set, the new value is expected to be parsed using the <a href=#rules-for-parsing-a-legacy-colour-value id=tables-2:rules-for-parsing-a-legacy-colour-value>rules for parsing a legacy
+  color value</a>, and if that does not return an error, the user agent is expected to treat the
+  attribute as a <a href=#presentational-hints id=tables-2:presentational-hints-7>presentational hint</a> setting the element's
+  <a id="tables-2:'background-color'" href=https://drafts.csswg.org/css-backgrounds/#the-background-color data-x-internal="'background-color'">'background-color'</a> property to the resulting color.</p>
+
+  <p>When a <code id=tables-2:the-table-element-10><a href=#the-table-element>table</a></code> element has a <code id=tables-2:attr-table-bordercolor><a href=#attr-table-bordercolor>bordercolor</a></code>
+  attribute, its value is expected to be parsed using the <a href=#rules-for-parsing-a-legacy-colour-value id=tables-2:rules-for-parsing-a-legacy-colour-value-2>rules for parsing a legacy color
+  value</a>, and if that does not return an error, the user agent is expected to treat the
+  attribute as a <a href=#presentational-hints id=tables-2:presentational-hints-8>presentational hint</a> setting the
+  element's <a id="tables-2:'border-top-color'" href=https://drafts.csswg.org/css2/box.html#propdef-border-top-color data-x-internal="'border-top-color'">'border-top-color'</a>, <a id="tables-2:'border-right-color'" href=https://drafts.csswg.org/css2/box.html#propdef-border-right-color data-x-internal="'border-right-color'">'border-right-color'</a>,
+  <a id="tables-2:'border-bottom-color'" href=https://drafts.csswg.org/css2/box.html#propdef-border-bottom-color data-x-internal="'border-bottom-color'">'border-bottom-color'</a>, and <a id="tables-2:'border-left-color'" href=https://drafts.csswg.org/css2/box.html#propdef-border-left-color data-x-internal="'border-left-color'">'border-left-color'</a> properties to the
+  resulting color.</p>
+
+  <hr>
+
+  <p>The <code id=tables-2:the-table-element-11><a href=#the-table-element>table</a></code> element's <code id=tables-2:attr-table-border><a href=#attr-table-border>border</a></code> attribute <a href=#maps-to-the-pixel-length-property id=tables-2:maps-to-the-pixel-length-property-3>maps to the pixel length properties</a>
+  <a id="tables-2:'border-top-width'" href=https://drafts.csswg.org/css2/box.html#propdef-border-top-width data-x-internal="'border-top-width'">'border-top-width'</a>, <a id="tables-2:'border-right-width'" href=https://drafts.csswg.org/css2/box.html#propdef-border-right-width data-x-internal="'border-right-width'">'border-right-width'</a>,
+  <a id="tables-2:'border-bottom-width'" href=https://drafts.csswg.org/css2/box.html#propdef-border-bottom-width data-x-internal="'border-bottom-width'">'border-bottom-width'</a>, <a id="tables-2:'border-left-width'" href=https://drafts.csswg.org/css2/box.html#propdef-border-left-width data-x-internal="'border-left-width'">'border-left-width'</a> on the element. If the
+  attribute is present but parsing the attribute's value using the <a href=#rules-for-parsing-non-negative-integers id=tables-2:rules-for-parsing-non-negative-integers-4>rules for parsing
+  non-negative integers</a> generates an error, a default value of 1px is expected to be used for
+  that property instead.</p>
+
+  <p>Rules marked "<dfn id=magic-border-selector>only if border is not equivalent to zero</dfn>"
+  in the CSS block above is expected to only be applied if the <code id=tables-2:attr-table-border-2><a href=#attr-table-border>border</a></code> attribute mentioned in the selectors for the rule is not
+  only present but, when parsed using the <a href=#rules-for-parsing-non-negative-integers id=tables-2:rules-for-parsing-non-negative-integers-5>rules for parsing non-negative integers</a>, is

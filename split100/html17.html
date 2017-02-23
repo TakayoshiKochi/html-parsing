@@ -1,0 +1,850 @@
+ &lt;a class="url" href="http://www.web2con.com/">http://www.web2con.com/&lt;/a>
+ &lt;span class="summary">Web 2.0 Conference&lt;/span>:
+ &lt;time class="dtstart" datetime="2005-10-05">October 5&lt;/time> -
+ &lt;time class="dtend" datetime="2005-10-07">7&lt;/time>,
+ at the &lt;span class="location">Argent Hotel, San Francisco, CA&lt;/span>
+&lt;/div></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here, a fictional microdata vocabulary based on the Atom vocabulary is used with the
+   <code id=the-time-element:the-time-element-8><a href=#the-time-element>time</a></code> element to mark up a blog post's publication date.</p>
+
+   <pre>&lt;article itemscope itemtype="https://n.example.org/rfc4287">
+ &lt;h1 itemprop="title">Big tasks&lt;/h1>
+ &lt;footer>Published &lt;time itemprop="published" datetime="2009-08-29">two days ago&lt;/time>.&lt;/footer>
+ &lt;p itemprop="content">Today, I went out and bought a bike for my kid.&lt;/p>
+&lt;/article></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this example, another article's publication date is marked up using <code id=the-time-element:the-time-element-9><a href=#the-time-element>time</a></code>, this
+   time using the schema.org microdata vocabulary:</p>
+
+   <pre>&lt;article itemscope itemtype="http://schema.org/BlogPosting">
+ &lt;h1 itemprop="headline">Small tasks&lt;/h1>
+ &lt;footer>Published &lt;time itemprop="datePublished" datetime="2009-08-30">yesterday&lt;/time>.&lt;/footer>
+ &lt;p itemprop="articleBody">I put a bike bell on her bike.&lt;/p>
+&lt;/article></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In the following snippet, the <code id=the-time-element:the-time-element-10><a href=#the-time-element>time</a></code> element is used to encode a date in the
+   ISO8601 format, for later processing by a script:</p>
+
+   <pre>&lt;p>Our first date was &lt;time datetime="2006-09-23">a Saturday&lt;/time>.&lt;/p></pre>
+
+   <p>In this second snippet, the value includes a time:</p>
+
+   <pre>&lt;p>We stopped talking at &lt;time datetime="2006-09-24T05:00-07:00">5am the next morning&lt;/time>.&lt;/p></pre>
+
+   <p>A script loaded by the page (and thus privy to the page's internal convention of marking up
+   dates and times using the <code id=the-time-element:the-time-element-11><a href=#the-time-element>time</a></code> element) could scan through the page and look at all
+   the <code id=the-time-element:the-time-element-12><a href=#the-time-element>time</a></code> elements therein to create an index of dates and times.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>For example, this element conveys the string "Friday" with the additional semantic that the
+   18th of November 2011 is the meaning that corresponds to "Friday":</p>
+
+   <pre>Today is &lt;time datetime="2011-11-18">Friday&lt;/time>.</pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this example, a specific time in the Pacific Standard Time timezone is specified:</p>
+
+   <pre>Your next meeting is at &lt;time datetime="2011-11-18T15:00-08:00">3pm&lt;/time>.</pre>
+
+  </div>
+
+
+
+
+  <h4 id=the-code-element>4.5.15 The <dfn><code>code</code></dfn> element<a href=#the-code-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-code-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-code-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-code-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-code-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-code-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-code-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-code-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-code-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-code-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-code-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-code-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-code-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-code-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-code-element:the-code-element><a href=#the-code-element>code</a></code> element <a href=#represents id=the-code-element:represents>represents</a> a fragment of computer code. This could
+  be an XML element name, a file name, a computer program, or any other string that a computer would
+  recognize.</p>
+
+  <p>There is no formal way to indicate the language of computer code being marked up. Authors who
+  wish to mark <code id=the-code-element:the-code-element-2><a href=#the-code-element>code</a></code> elements with the language used, e.g. so that syntax highlighting
+  scripts can use the right rules, can use the <code id=the-code-element:classes><a href=#classes>class</a></code> attribute, e.g.
+  by adding a class prefixed with "<code>language-</code>" to the element.</p>
+
+  <div class=example>
+
+   <p>The following example shows how the element can be used in a paragraph to mark up element
+   names and computer code, including punctuation.</p>
+
+   <pre>&lt;p>The &lt;code>code&lt;/code> element represents a fragment of computer
+code.&lt;/p>
+
+&lt;p>When you call the &lt;code>activate()&lt;/code> method on the
+&lt;code>robotSnowman&lt;/code> object, the eyes glow.&lt;/p>
+
+&lt;p>The example below uses the &lt;code>begin&lt;/code> keyword to indicate
+the start of a statement block. It is paired with an &lt;code>end&lt;/code>
+keyword, which is followed by the &lt;code>.&lt;/code> punctuation character
+(full stop) to indicate the end of the program.&lt;/p></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following example shows how a block of code could be marked up using the <code id=the-code-element:the-pre-element><a href=#the-pre-element>pre</a></code>
+   and <code id=the-code-element:the-code-element-3><a href=#the-code-element>code</a></code> elements.</p>
+
+   <pre>&lt;pre>&lt;code class="language-pascal">var i: Integer;
+begin
+   i := 1;
+end.&lt;/code>&lt;/pre></pre>
+
+   <p>A class is used in that example to indicate the language used.</p>
+
+  </div>
+
+  <p class=note>See the <code id=the-code-element:the-pre-element-2><a href=#the-pre-element>pre</a></code> element for more details.</p>
+
+
+  <h4 id=the-var-element>4.5.16 The <dfn><code>var</code></dfn> element<a href=#the-var-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-var-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-var-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-var-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-var-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-var-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-var-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-var-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-var-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-var-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-var-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-var-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-var-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-var-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-var-element:the-var-element><a href=#the-var-element>var</a></code> element <a href=#represents id=the-var-element:represents>represents</a> a variable. This could be an actual
+  variable in a mathematical expression or programming context, an identifier representing a
+  constant, a symbol identifying a physical quantity, a function parameter, or just be a term used
+  as a placeholder in prose.</p>
+
+  <div class=example>
+   <p>In the paragraph below, the letter "n" is being used as a
+   variable in prose:</p>
+   <pre>&lt;p>If there are &lt;var>n&lt;/var> pipes leading to the ice
+cream factory then I expect at &lt;em>least&lt;/em> &lt;var>n&lt;/var>
+flavors of ice cream to be available for purchase!&lt;/p></pre>
+  </div>
+
+  <p>For mathematics, in particular for anything beyond the simplest of expressions, MathML is more
+  appropriate. However, the <code id=the-var-element:the-var-element-2><a href=#the-var-element>var</a></code> element can still be used to refer to specific
+  variables that are then mentioned in MathML expressions.</p>
+
+  <div class=example>
+
+   <p>In this example, an equation is shown, with a legend that references the variables in the
+   equation. The expression itself is marked up with MathML, but the variables are mentioned in the
+   figure's legend using <code id=the-var-element:the-var-element-3><a href=#the-var-element>var</a></code>.</p>
+
+   <pre>&lt;figure>
+ &lt;math>
+  &lt;mi>a&lt;/mi>
+  &lt;mo>=&lt;/mo>
+  &lt;msqrt>
+   &lt;msup>&lt;mi>b&lt;/mi>&lt;mn>2&lt;/mn>&lt;/msup>
+   &lt;mi>+&lt;/mi>
+   &lt;msup>&lt;mi>c&lt;/mi>&lt;mn>2&lt;/mn>&lt;/msup>
+  &lt;/msqrt>
+ &lt;/math>
+ &lt;figcaption>
+  Using Pythagoras' theorem to solve for the hypotenuse &lt;var>a&lt;/var> of
+  a triangle with sides &lt;var>b&lt;/var> and &lt;var>c&lt;/var>
+ &lt;/figcaption>
+&lt;/figure></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here, the equation describing mass-energy equivalence is used in a sentence, and the
+   <code id=the-var-element:the-var-element-4><a href=#the-var-element>var</a></code> element is used to mark the variables and constants in that equation:</p>
+
+   <pre>&lt;p>Then she turned to the blackboard and picked up the chalk. After a few moment's
+thought, she wrote &lt;var>E&lt;/var> = &lt;var>m&lt;/var> &lt;var>c&lt;/var>&lt;sup>2&lt;/sup>. The teacher
+looked pleased.&lt;/p></pre>
+
+  </div>
+
+
+  <h4 id=the-samp-element>4.5.17 The <dfn><code>samp</code></dfn> element<a href=#the-samp-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-samp-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-samp-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-samp-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-samp-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-samp-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-samp-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-samp-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-samp-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-samp-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-samp-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-samp-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-samp-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-samp-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-samp-element:the-samp-element><a href=#the-samp-element>samp</a></code> element <a href=#represents id=the-samp-element:represents>represents</a> sample or quoted output from another
+  program or computing system.</p>
+
+  <p class=note>See the <code id=the-samp-element:the-pre-element><a href=#the-pre-element>pre</a></code> and <code id=the-samp-element:the-kbd-element><a href=#the-kbd-element>kbd</a></code> elements for more details.</p>
+
+  <p class=note>This element can be contrasted with the <code id=the-samp-element:the-output-element><a href=#the-output-element>output</a></code> element, which can be
+  used to provide immediate output in a Web application.</p>
+
+  <div class=example>
+   <p>This example shows the <code id=the-samp-element:the-samp-element-2><a href=#the-samp-element>samp</a></code> element being used
+   inline:</p>
+   <pre>&lt;p>The computer said &lt;samp>Too much cheese in tray
+two&lt;/samp> but I didn't know what that meant.&lt;/p></pre>
+  </div>
+
+  <div class=example>
+
+   <p>This second example shows a block of sample output from a console program. Nested
+   <code id=the-samp-element:the-samp-element-3><a href=#the-samp-element>samp</a></code> and <code id=the-samp-element:the-kbd-element-2><a href=#the-kbd-element>kbd</a></code> elements allow for the styling of specific elements
+   of the sample output using a style sheet. There's also a few parts of the <code id=the-samp-element:the-samp-element-4><a href=#the-samp-element>samp</a></code> that
+   are annotated with even more detailed markup, to enable very precise styling. To achieve this,
+   <code id=the-samp-element:the-span-element><a href=#the-span-element>span</a></code> elements are used.</p>
+
+   <pre>&lt;pre>&lt;samp>&lt;span class="prompt">jdoe@mowmow:~$&lt;/span> &lt;kbd>ssh demo.example.com&lt;/kbd>
+Last login: Tue Apr 12 09:10:17 2005 from mowmow.example.com on pts/1
+Linux demo 2.6.10-grsec+gg3+e+fhs6b+nfs+gr0501+++p3+c4a+gr2b-reslog-v6.189 #1 SMP Tue Feb 1 11:22:36 PST 2005 i686 unknown
+
+&lt;span class="prompt">jdoe@demo:~$&lt;/span> &lt;span class="cursor">_&lt;/span>&lt;/samp>&lt;/pre></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>This third example shows a block of input and its respective output. The example uses
+   both <code id=the-samp-element:the-code-element><a href=#the-code-element>code</a></code> and <code id=the-samp-element:the-samp-element-5><a href=#the-samp-element>samp</a></code> elements.</p>
+
+   <pre>&lt;pre>
+&lt;code class="language-javascript">console.log(2.3 + 2.4)&lt;/code>
+&lt;samp>4.699999999999999&lt;/samp>
+&lt;/pre></pre>
+
+  </div>
+
+
+  <h4 id=the-kbd-element>4.5.18 The <dfn><code>kbd</code></dfn> element<a href=#the-kbd-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-kbd-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-kbd-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-kbd-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-kbd-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-kbd-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-kbd-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-kbd-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-kbd-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-kbd-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-kbd-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-kbd-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-kbd-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-kbd-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-kbd-element:the-kbd-element><a href=#the-kbd-element>kbd</a></code> element <a href=#represents id=the-kbd-element:represents>represents</a> user input (typically keyboard input,
+  although it may also be used to represent other input, such as voice commands).</p>
+
+  <p>When the <code id=the-kbd-element:the-kbd-element-2><a href=#the-kbd-element>kbd</a></code> element is nested inside a <code id=the-kbd-element:the-samp-element><a href=#the-samp-element>samp</a></code> element, it represents
+  the input as it was echoed by the system.</p>
+
+  <p>When the <code id=the-kbd-element:the-kbd-element-3><a href=#the-kbd-element>kbd</a></code> element <em>contains</em> a <code id=the-kbd-element:the-samp-element-2><a href=#the-samp-element>samp</a></code> element, it represents
+  input based on system output, for example invoking a menu item.</p>
+
+  <p>When the <code id=the-kbd-element:the-kbd-element-4><a href=#the-kbd-element>kbd</a></code> element is nested inside another <code id=the-kbd-element:the-kbd-element-5><a href=#the-kbd-element>kbd</a></code> element, it
+  represents an actual key or other single unit of input as appropriate for the input mechanism.</p>
+
+  <div class=example>
+
+   <p>Here the <code id=the-kbd-element:the-kbd-element-6><a href=#the-kbd-element>kbd</a></code> element is used to indicate keys to press:</p>
+
+   <pre>&lt;p>To make George eat an apple, press &lt;kbd>&lt;kbd>Shift&lt;/kbd>+&lt;kbd>F3&lt;/kbd>&lt;/kbd>&lt;/p></pre>
+
+   <p>In this second example, the user is told to pick a particular menu item. The outer
+   <code id=the-kbd-element:the-kbd-element-7><a href=#the-kbd-element>kbd</a></code> element marks up a block of input, with the inner <code id=the-kbd-element:the-kbd-element-8><a href=#the-kbd-element>kbd</a></code> elements
+   representing each individual step of the input, and the <code id=the-kbd-element:the-samp-element-3><a href=#the-samp-element>samp</a></code> elements inside them
+   indicating that the steps are input based on something being displayed by the system, in this
+   case menu labels:</p>
+
+   <pre>&lt;p>To make George eat an apple, select
+    &lt;kbd>&lt;kbd>&lt;samp>File&lt;/samp>&lt;/kbd>|&lt;kbd>&lt;samp>Eat Apple...&lt;/samp>&lt;/kbd>&lt;/kbd>
+&lt;/p></pre>
+
+   <p>Such precision isn't necessary; the following is equally fine:</p>
+
+   <pre>&lt;p>To make George eat an apple, select &lt;kbd>File | Eat Apple...&lt;/kbd>&lt;/p></pre>
+
+  </div>
+
+
+  <h4 id=the-sub-and-sup-elements>4.5.19 The <dfn id=the-sub-element><code>sub</code></dfn> and <dfn id=the-sup-element><code>sup</code></dfn> elements<a href=#the-sub-and-sup-elements class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-sub-and-sup-elements:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-sub-and-sup-elements:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-sub-and-sup-elements:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-sub-and-sup-elements:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-sub-and-sup-elements:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-sub-and-sup-elements:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-sub-and-sup-elements:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-sub-and-sup-elements:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-sub-and-sup-elements:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-sub-and-sup-elements:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-sub-and-sup-elements:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-sub-and-sup-elements:concept-element-dom>DOM interface</a>:<dd>Use <code id=the-sub-and-sup-elements:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-sub-and-sup-elements:the-sub-and-sup-elements><a href=#the-sub-and-sup-elements>sup</a></code> element <a href=#represents id=the-sub-and-sup-elements:represents>represents</a> a superscript and the <code id=the-sub-and-sup-elements:the-sub-and-sup-elements-2><a href=#the-sub-and-sup-elements>sub</a></code>
+  element <a href=#represents id=the-sub-and-sup-elements:represents-2>represents</a> a subscript.</p>
+
+  <p>These elements must be used only to mark up typographical conventions with specific meanings,
+  not for typographical presentation for presentation's sake. For example, it would be inappropriate
+  for the <code id=the-sub-and-sup-elements:the-sub-and-sup-elements-3><a href=#the-sub-and-sup-elements>sub</a></code> and <code id=the-sub-and-sup-elements:the-sub-and-sup-elements-4><a href=#the-sub-and-sup-elements>sup</a></code> elements to be used in the name of the LaTeX
+  document preparation system. In general, authors should use these elements only if the
+  <em>absence</em> of those elements would change the meaning of the content.</p>
+
+  <p>In certain languages, superscripts are part of the typographical conventions for some
+  abbreviations.</p>
+
+  <div class=example>
+   <pre>&lt;p>The most beautiful women are
+&lt;span lang="fr">&lt;abbr>M&lt;sup>lle&lt;/sup>&lt;/abbr> Gwendoline&lt;/span> and
+&lt;span lang="fr">&lt;abbr>M&lt;sup>me&lt;/sup>&lt;/abbr> Denise&lt;/span>.&lt;/p></pre>
+  </div>
+
+  <p>The <code id=the-sub-and-sup-elements:the-sub-and-sup-elements-5><a href=#the-sub-and-sup-elements>sub</a></code> element can be used inside a <code id=the-sub-and-sup-elements:the-var-element><a href=#the-var-element>var</a></code> element, for variables that
+  have subscripts.</p>
+
+  <div class=example>
+
+   <p>Here, the <code id=the-sub-and-sup-elements:the-sub-and-sup-elements-6><a href=#the-sub-and-sup-elements>sub</a></code> element is used to represent the subscript that identifies the
+   variable in a family of variables:</p>
+
+   <pre>&lt;p>The coordinate of the &lt;var>i&lt;/var>th point is
+(&lt;var>x&lt;sub>&lt;var>i&lt;/var>&lt;/sub>&lt;/var>, &lt;var>y&lt;sub>&lt;var>i&lt;/var>&lt;/sub>&lt;/var>).
+For example, the 10th point has coordinate
+(&lt;var>x&lt;sub>10&lt;/sub>&lt;/var>, &lt;var>y&lt;sub>10&lt;/sub>&lt;/var>).&lt;/p></pre>
+  </div>
+
+  <p>Mathematical expressions often use subscripts and superscripts. Authors are encouraged to use
+  MathML for marking up mathematics, but authors may opt to use <code id=the-sub-and-sup-elements:the-sub-and-sup-elements-7><a href=#the-sub-and-sup-elements>sub</a></code> and
+  <code id=the-sub-and-sup-elements:the-sub-and-sup-elements-8><a href=#the-sub-and-sup-elements>sup</a></code> if detailed mathematical markup is not desired. <a href=#refsMATHML>[MATHML]</a></p>
+
+  <div class=example>
+   <pre>&lt;var>E&lt;/var>=&lt;var>m&lt;/var>&lt;var>c&lt;/var>&lt;sup>2&lt;/sup></pre>
+   <pre>f(&lt;var>x&lt;/var>, &lt;var>n&lt;/var>) = log&lt;sub>4&lt;/sub>&lt;var>x&lt;/var>&lt;sup>&lt;var>n&lt;/var>&lt;/sup></pre>
+  </div>
+
+
+
+  <h4 id=the-i-element>4.5.20 The <dfn><code>i</code></dfn> element<a href=#the-i-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-i-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-i-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-i-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-i-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-i-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-i-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-i-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-i-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-i-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-i-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-i-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-i-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-i-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-i-element:the-i-element><a href=#the-i-element>i</a></code> element <a href=#represents id=the-i-element:represents>represents</a> a span of text in an alternate voice or
+  mood, or otherwise offset from the normal prose in a manner indicating a different quality of
+  text, such as a taxonomic designation, a technical term, an idiomatic phrase from another
+  language, transliteration, a thought, or a ship name in Western texts.</p>
+
+  <p>Terms in languages different from the main text should be annotated with <code id=the-i-element:attr-lang><a href=#attr-lang>lang</a></code> attributes (or, in XML, <a href=#attr-xml-lang id=the-i-element:attr-xml-lang><code>lang</code> attributes in the <span>XML namespace</span></a>).</p>
+
+  <div class=example>
+   <p>The examples below show uses of the <code id=the-i-element:the-i-element-2><a href=#the-i-element>i</a></code> element:</p>
+   <pre>&lt;p>The &lt;i class="taxonomy">Felis silvestris catus&lt;/i> is cute.&lt;/p>
+&lt;p>The term &lt;i>prose content&lt;/i> is defined above.&lt;/p>
+&lt;p>There is a certain &lt;i lang="fr">je ne sais quoi&lt;/i> in the air.&lt;/p></pre>
+   <p>In the following example, a dream sequence is marked up using
+   <code id=the-i-element:the-i-element-3><a href=#the-i-element>i</a></code> elements.</p>
+   <pre>&lt;p>Raymond tried to sleep.&lt;/p>
+&lt;p>&lt;i>The ship sailed away on Thursday&lt;/i>, he
+dreamt. &lt;i>The ship had many people aboard, including a beautiful
+princess called Carey. He watched her, day-in, day-out, hoping she
+would notice him, but she never did.&lt;/i>&lt;/p>
+&lt;p>&lt;i>Finally one night he picked up the courage to speak with
+her—&lt;/i>&lt;/p>
+&lt;p>Raymond woke with a start as the fire alarm rang out.&lt;/p></pre>
+  </div>
+
+  <p>Authors can use the <code id=the-i-element:classes><a href=#classes>class</a></code> attribute on the <code id=the-i-element:the-i-element-4><a href=#the-i-element>i</a></code>
+  element to identify why the element is being used, so that if the style of a particular use (e.g.
+  dream sequences as opposed to taxonomic terms) is to be changed at a later date, the author
+  doesn't have to go through the entire document (or series of related documents) annotating each
+  use.</p>
+
+  <p>Authors are encouraged to consider whether other elements might be more applicable than the
+  <code id=the-i-element:the-i-element-5><a href=#the-i-element>i</a></code> element, for instance the <code id=the-i-element:the-em-element><a href=#the-em-element>em</a></code> element for marking up stress emphasis,
+  or the <code id=the-i-element:the-dfn-element><a href=#the-dfn-element>dfn</a></code> element to mark up the defining instance of a term.</p>
+
+  <p class=note>Style sheets can be used to format <code id=the-i-element:the-i-element-6><a href=#the-i-element>i</a></code> elements, just like any other
+  element can be restyled. Thus, it is not the case that content in <code id=the-i-element:the-i-element-7><a href=#the-i-element>i</a></code> elements will
+  necessarily be italicized.</p>
+
+
+  <h4 id=the-b-element>4.5.21 The <dfn><code>b</code></dfn> element<a href=#the-b-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-b-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-b-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-b-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-b-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-b-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-b-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-b-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-b-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-b-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-b-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-b-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-b-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-b-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-b-element:the-b-element><a href=#the-b-element>b</a></code> element <a href=#represents id=the-b-element:represents>represents</a> a span of text to which attention is being
+  drawn for utilitarian purposes without conveying any extra importance and with no implication of
+  an alternate voice or mood, such as key words in a document abstract, product names in a review,
+  actionable words in interactive text-driven software, or an article lede.</p>
+
+  <div class=example>
+
+   <p>The following example shows a use of the <code id=the-b-element:the-b-element-2><a href=#the-b-element>b</a></code> element to highlight key words without
+   marking them up as important:</p>
+
+   <pre>&lt;p>The &lt;b>frobonitor&lt;/b> and &lt;b>barbinator&lt;/b> components are fried.&lt;/p></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In the following example, objects in a text adventure are highlighted as being special by use
+   of the <code id=the-b-element:the-b-element-3><a href=#the-b-element>b</a></code> element.</p>
+
+   <pre>&lt;p>You enter a small room. Your &lt;b>sword&lt;/b> glows
+brighter. A &lt;b>rat&lt;/b> scurries past the corner wall.&lt;/p></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Another case where the <code id=the-b-element:the-b-element-4><a href=#the-b-element>b</a></code> element is appropriate is in marking up the lede (or
+   lead) sentence or paragraph. The following example shows how a <a href=http://news.bbc.co.uk/2/hi/uk_news/scotland/north_east/7101506.stm>BBC article about
+   kittens adopting a rabbit as their own</a> could be marked up:</p>
+
+   <pre>&lt;article>
+ &lt;h2>Kittens 'adopted' by pet rabbit&lt;/h2>
+ &lt;p>&lt;b class="lede">Six abandoned kittens have found an
+ unexpected new mother figure — a pet rabbit.&lt;/b>&lt;/p>
+ &lt;p>Veterinary nurse Melanie Humble took the three-week-old
+ kittens to her Aberdeen home.&lt;/p>
+<i>[...]</i></pre>
+
+  </div>
+
+  <p>As with the <code id=the-b-element:the-i-element><a href=#the-i-element>i</a></code> element, authors can use the <code id=the-b-element:classes><a href=#classes>class</a></code>
+  attribute on the <code id=the-b-element:the-b-element-5><a href=#the-b-element>b</a></code> element to identify why the element is being used, so that if the
+  style of a particular use is to be changed at a later date, the author doesn't have to go through
+  annotating each use.</p>
+
+  <p>The <code id=the-b-element:the-b-element-6><a href=#the-b-element>b</a></code> element should be used as a last resort when no other element is more
+  appropriate. In particular, headings should use the <code id=the-b-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> to <code id=the-b-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> elements,
+  stress emphasis should use the <code id=the-b-element:the-em-element><a href=#the-em-element>em</a></code> element, importance should be denoted with the
+  <code id=the-b-element:the-strong-element><a href=#the-strong-element>strong</a></code> element, and text marked or highlighted should use the <code id=the-b-element:the-mark-element><a href=#the-mark-element>mark</a></code>
+  element.</p>
+
+  <div class=example>
+
+   <p>The following would be <em>incorrect</em> usage:</p>
+
+   <pre class=bad>&lt;p>&lt;b>WARNING!&lt;/b> Do not frob the barbinator!&lt;/p></pre>
+
+   <p>In the previous example, the correct element to use would have been <code id=the-b-element:the-strong-element-2><a href=#the-strong-element>strong</a></code>, not
+   <code id=the-b-element:the-b-element-7><a href=#the-b-element>b</a></code>.</p>
+
+  </div>
+
+  <p class=note>Style sheets can be used to format <code id=the-b-element:the-b-element-8><a href=#the-b-element>b</a></code> elements, just like any other
+  element can be restyled. Thus, it is not the case that content in <code id=the-b-element:the-b-element-9><a href=#the-b-element>b</a></code> elements will
+  necessarily be boldened.</p>
+
+
+
+  <h4 id=the-u-element>4.5.22 The <dfn><code>u</code></dfn> element<a href=#the-u-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-u-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-u-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-u-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-u-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-u-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-u-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-u-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-u-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-u-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-u-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-u-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-u-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-u-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-u-element:the-u-element><a href=#the-u-element>u</a></code> element <a href=#represents id=the-u-element:represents>represents</a> a span of text with an unarticulated, though
+  explicitly rendered, non-textual annotation, such as labeling the text as being a proper name in
+  Chinese text (a Chinese proper name mark), or labeling the text as being misspelt.</p>
+
+  <p>In most cases, another element is likely to be more appropriate: for marking stress emphasis,
+  the <code id=the-u-element:the-em-element><a href=#the-em-element>em</a></code> element should be used; for marking key words or phrases either the
+  <code id=the-u-element:the-b-element><a href=#the-b-element>b</a></code> element or the <code id=the-u-element:the-mark-element><a href=#the-mark-element>mark</a></code> element should be used, depending on the context;
+  for marking book titles, the <code id=the-u-element:the-cite-element><a href=#the-cite-element>cite</a></code> element should be used; for labeling text with explicit textual annotations, the
+  <code id=the-u-element:the-ruby-element><a href=#the-ruby-element>ruby</a></code> element should be used; for technical terms, taxonomic designation,
+  transliteration, a thought, or for labeling ship names in Western texts, the <code id=the-u-element:the-i-element><a href=#the-i-element>i</a></code>
+  element should be used.</p>
+
+  <p class=note>The default rendering of the <code id=the-u-element:the-u-element-2><a href=#the-u-element>u</a></code> element in visual presentations
+  clashes with the conventional rendering of hyperlinks (underlining). Authors are encouraged to
+  avoid using the <code id=the-u-element:the-u-element-3><a href=#the-u-element>u</a></code> element where it could be confused for a hyperlink.</p>
+
+  <div class=example>
+
+   <p>In this example, a <code id=the-u-element:the-u-element-4><a href=#the-u-element>u</a></code> element is used to mark a word as misspelt:</p>
+
+   <pre>&lt;p>The &lt;u>see&lt;/u> is full of fish.&lt;/p></pre>
+
+  </div>
+
+
+
+  <h4 id=the-mark-element>4.5.23 The <dfn><code>mark</code></dfn> element<a href=#the-mark-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-mark-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-mark-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-mark-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-mark-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-mark-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-mark-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-mark-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-mark-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-mark-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-mark-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-mark-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-mark-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-mark-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  
+
+  <p>The <code id=the-mark-element:the-mark-element><a href=#the-mark-element>mark</a></code> element <a href=#represents id=the-mark-element:represents>represents</a> a run of text in one document marked or
+  highlighted for reference purposes, due to its relevance in another context. When used in a
+  quotation or other block of text referred to from the prose, it indicates a highlight that was not
+  originally present but which has been added to bring the reader's attention to a part of the text
+  that might not have been considered important by the original author when the block was originally
+  written, but which is now under previously unexpected scrutiny. When used in the main prose of a
+  document, it indicates a part of the document that has been highlighted due to its likely
+  relevance to the user's current activity.</p>
+
+  <div class=example>
+
+   <p>This example shows how the <code id=the-mark-element:the-mark-element-2><a href=#the-mark-element>mark</a></code> element can be used to bring attention to a
+   particular part of a quotation:</p>
+
+   <pre>&lt;p lang="en-US">Consider the following quote:&lt;/p>
+<span lang=en-GB>&lt;blockquote lang="en-GB">
+ &lt;p>Look around and you will find, no-one's really
+ &lt;mark>colour&lt;/mark> blind.&lt;/p>
+&lt;/blockquote></span>
+&lt;p lang="en-US">As we can tell from the &lt;em>spelling&lt;/em> of the word,
+the person writing this quote is clearly not American.&lt;/p></pre>
+
+   <p>(If the goal was to mark the element as misspelt, however, the <code id=the-mark-element:the-u-element><a href=#the-u-element>u</a></code> element,
+   possibly with a class, would be more appropriate.)</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>Another example of the <code id=the-mark-element:the-mark-element-3><a href=#the-mark-element>mark</a></code> element is highlighting parts of a document that are
+   matching some search string. If someone looked at a document, and the server knew that the user
+   was searching for the word "kitten", then the server might return the document with one paragraph
+   modified as follows:</p>
+
+   <pre>&lt;p>I also have some &lt;mark>kitten&lt;/mark>s who are visiting me
+these days. They're really cute. I think they like my garden! Maybe I
+should adopt a &lt;mark>kitten&lt;/mark>.&lt;/p></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In the following snippet, a paragraph of text refers to a specific part of a code
+   fragment.</p>
+
+   <pre>&lt;p>The highlighted part below is where the error lies:&lt;/p>
+&lt;pre>&lt;code>var i: Integer;
+begin
+   i := &lt;mark>1.1&lt;/mark>;
+end.&lt;/code>&lt;/pre></pre>
+
+   <p>This is separate from <em>syntax highlighting</em>, for which <code id=the-mark-element:the-span-element><a href=#the-span-element>span</a></code> is more
+   appropriate. Combining both, one would get:</p>
+
+   <pre>&lt;p>The highlighted part below is where the error lies:&lt;/p>
+&lt;pre>&lt;code>&lt;span class=keyword>var&lt;/span> &lt;span class=ident>i&lt;/span>: &lt;span class=type>Integer&lt;/span>;
+&lt;span class=keyword>begin&lt;/span>
+   &lt;span class=ident>i&lt;/span> := &lt;span class=literal>&lt;mark>1.1&lt;/mark>&lt;/span>;
+&lt;span class=keyword>end&lt;/span>.&lt;/code>&lt;/pre></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>This is another example showing the use of <code id=the-mark-element:the-mark-element-4><a href=#the-mark-element>mark</a></code> to highlight a part of quoted
+   text that was originally not emphasized. In this example, common typographic conventions have led
+   the author to explicitly style <code id=the-mark-element:the-mark-element-5><a href=#the-mark-element>mark</a></code> elements in quotes to render in italics.</p>
+
+   <pre>&lt;style>
+ blockquote mark, q mark {
+   font: inherit; font-style: italic;
+   text-decoration: none;
+   background: transparent; color: inherit;
+ }
+ .bubble em {
+   font: inherit; font-size: larger;
+   text-decoration: underline;
+ }
+&lt;/style>
+&lt;article>
+ &lt;h1>She knew&lt;/h1>
+ &lt;p>Did you notice the subtle joke in the joke on panel 4?&lt;/p>
+ &lt;blockquote>
+  &lt;p class="bubble">I didn't &lt;em>want&lt;/em> to believe. &lt;mark>Of course
+  on some level I realized it was a known-plaintext attack.&lt;/mark> But I
+  couldn't admit it until I saw for myself.&lt;/p>
+ &lt;/blockquote>
+ &lt;p>(Emphasis mine.) I thought that was great. It's so pedantic, yet it
+ explains everything neatly.&lt;/p>
+&lt;/article></pre>
+
+   <p>Note, incidentally, the distinction between the <code id=the-mark-element:the-em-element><a href=#the-em-element>em</a></code> element in this example, which
+   is part of the original text being quoted, and the <code id=the-mark-element:the-mark-element-6><a href=#the-mark-element>mark</a></code> element, which is
+   highlighting a part for comment.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following example shows the difference between denoting the <em>importance</em> of a span
+   of text (<code id=the-mark-element:the-strong-element><a href=#the-strong-element>strong</a></code>) as opposed to denoting the <em>relevance</em> of a span of text
+   (<code id=the-mark-element:the-mark-element-7><a href=#the-mark-element>mark</a></code>). It is an extract from a textbook, where the extract has had the parts
+   relevant to the exam highlighted. The safety warnings, important though they may be, are
+   apparently not relevant to the exam.</p>
+
+   <pre>&lt;h3>Wormhole Physics Introduction&lt;/h3>
+
+&lt;p>&lt;mark>A wormhole in normal conditions can be held open for a
+maximum of just under 39 minutes.&lt;/mark> Conditions that can increase
+the time include a powerful energy source coupled to one or both of
+the gates connecting the wormhole, and a large gravity well (such as a
+black hole).&lt;/p>
+
+&lt;p>&lt;mark>Momentum is preserved across the wormhole. Electromagnetic
+radiation can travel in both directions through a wormhole,
+but matter cannot.&lt;/mark>&lt;/p>
+
+&lt;p>When a wormhole is created, a vortex normally forms.
+&lt;strong>Warning: The vortex caused by the wormhole opening will
+annihilate anything in its path.&lt;/strong> Vortexes can be avoided when
+using sufficiently advanced dialing technology.&lt;/p>
+
+&lt;p>&lt;mark>An obstruction in a gate will prevent it from accepting a
+wormhole connection.&lt;/mark>&lt;/p></pre>
+
+  </div>
+
+
+  <h4 id=the-bdi-element>4.5.24 The <dfn><code>bdi</code></dfn> element<a href=#the-bdi-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27475" title="Examples: illustrate difference between bdo and bdi">27475</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-bdi-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-bdi-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-bdi-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-bdi-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-bdi-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-bdi-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-bdi-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-bdi-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-bdi-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-bdi-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-bdi-element:global-attributes>Global attributes</a><dd>Also, the <code id=the-bdi-element:the-dir-attribute><a href=#the-dir-attribute>dir</a></code> global attribute has special semantics on this element.<dt><a href=#concept-element-dom id=the-bdi-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-bdi-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-bdi-element:the-bdi-element><a href=#the-bdi-element>bdi</a></code> element <a href=#represents id=the-bdi-element:represents>represents</a> a span of text that is to be isolated from
+  its surroundings for the purposes of bidirectional text formatting. <a href=#refsBIDI>[BIDI]</a></p>
+
+  <p class=note>The <code id=the-bdi-element:the-dir-attribute-2><a href=#the-dir-attribute>dir</a></code> global attribute defaults to <code id=the-bdi-element:attr-dir-auto><a href=#attr-dir-auto>auto</a></code> on this element (it never inherits from the parent element like
+  with other elements).</p>
+
+  
+
+  <p class=note>This element <a href=#bidireq>has rendering requirements involving the
+  bidirectional algorithm</a>.</p>
+
+  
+
+  <div class=example>
+
+   <p>This element is especially useful when embedding user-generated content with an unknown
+   directionality.</p>
+
+   <p>In this example, usernames are shown along with the number of posts that the user has
+   submitted. If the <code id=the-bdi-element:the-bdi-element-2><a href=#the-bdi-element>bdi</a></code> element were not used, the username of the Arabic user would
+   end up confusing the text (the bidirectional algorithm would put the colon and the number "3"
+   next to the word "User" rather than next to the word "posts").</p>
+
+   <pre>&lt;ul>
+ &lt;li>User &lt;bdi>jcranmer&lt;/bdi>: 12 posts.
+ &lt;li>User &lt;bdi>hober&lt;/bdi>: 5 posts.
+ &lt;li>User &lt;bdi><bdo dir=rtl>إيان</bdo>&lt;/bdi>: 3 posts.
+&lt;/ul></pre>
+
+   <figure>
+    <img src=/images/sample-bdi.png alt="">
+    <figcaption>When using the <code id=the-bdi-element:the-bdi-element-3><a href=#the-bdi-element>bdi</a></code> element, the username acts as expected.</figcaption>
+   </figure>
+
+   <figure>
+    <img src=/images/sample-not-bdi.png alt="">
+    <figcaption>If the <code id=the-bdi-element:the-bdi-element-4><a href=#the-bdi-element>bdi</a></code> element were to be replaced by a <code id=the-bdi-element:the-b-element><a href=#the-b-element>b</a></code> element, the username would confuse the bidirectional algorithm and the third bullet would end up saying "User 3 :", followed by the Arabic name (right-to-left), followed by "posts" and a period.</figcaption>
+   </figure>
+
+  </div>
+
+
+  <h4 id=the-bdo-element>4.5.25 The <dfn><code>bdo</code></dfn> element<a href=#the-bdo-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-bdo-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-bdo-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-bdo-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-bdo-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-bdo-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-bdo-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-bdo-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-bdo-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-bdo-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-bdo-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-bdo-element:global-attributes>Global attributes</a><dd>Also, the <code id=the-bdo-element:the-dir-attribute><a href=#the-dir-attribute>dir</a></code> global attribute has special semantics on this element.<dt><a href=#concept-element-dom id=the-bdo-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-bdo-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-bdo-element:the-bdo-element><a href=#the-bdo-element>bdo</a></code> element <a href=#represents id=the-bdo-element:represents>represents</a> explicit text directionality formatting
+  control for its children. It allows authors to override the Unicode bidirectional algorithm by
+  explicitly specifying a direction override. <a href=#refsBIDI>[BIDI]</a></p>
+
+  <p>Authors must specify the <code id=the-bdo-element:the-dir-attribute-2><a href=#the-dir-attribute>dir</a></code> attribute on this element, with the
+  value <code id=the-bdo-element:attr-dir-ltr><a href=#attr-dir-ltr>ltr</a></code> to specify a left-to-right override and with the value <code id=the-bdo-element:attr-dir-rtl><a href=#attr-dir-rtl>rtl</a></code> to
+  specify a right-to-left override. The <code id=the-bdo-element:attr-dir-auto><a href=#attr-dir-auto>auto</a></code> value must not be specified.</p>
+
+  
+
+  <p class=note>This element <a href=#bidireq>has rendering requirements involving the
+  bidirectional algorithm</a>.</p>
+
+  
+
+
+
+  <h4 id=the-span-element>4.5.26 The <dfn><code>span</code></dfn> element<a href=#the-span-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-span-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-span-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-span-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-span-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-span-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-span-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-span-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-span-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-span-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-span-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-span-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-span-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-span-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlspanelement>HTMLSpanElement</dfn> : <a href=#htmlelement id=the-span-element:htmlelement>HTMLElement</a> {};</pre>
+   </dl>
+
+  <p>The <code id=the-span-element:the-span-element><a href=#the-span-element>span</a></code> element doesn't mean anything on its own, but can be useful when used
+  together with the <a href=#global-attributes id=the-span-element:global-attributes-2>global attributes</a>, e.g. <code id=the-span-element:classes><a href=#classes>class</a></code>,
+  <code id=the-span-element:attr-lang><a href=#attr-lang>lang</a></code>, or <code id=the-span-element:the-dir-attribute><a href=#the-dir-attribute>dir</a></code>. It
+  <a href=#represents id=the-span-element:represents>represents</a> its children.</p>
+
+  <div class=example>
+
+   <p>In this example, a code fragment is marked up using <code id=the-span-element:the-span-element-2><a href=#the-span-element>span</a></code> elements and <code id=the-span-element:classes-2><a href=#classes>class</a></code> attributes so that its keywords and identifiers can be
+   color-coded from CSS:</p>
+
+   
+
+   <pre>&lt;pre>&lt;code class="lang-c">&lt;span class="keyword">for&lt;/span> (&lt;span class="ident">j&lt;/span> = 0; &lt;span class="ident">j&lt;/span> &amp;lt; 256; &lt;span class="ident">j&lt;/span>++) {
+  &lt;span class="ident">i_t3&lt;/span> = (&lt;span class="ident">i_t3&lt;/span> &amp; 0x1ffff) | (&lt;span class="ident">j&lt;/span> &amp;lt;&amp;lt; 17);
+  &lt;span class="ident">i_t6&lt;/span> = (((((((&lt;span class="ident">i_t3&lt;/span> >> 3) ^ &lt;span class="ident">i_t3&lt;/span>) >> 1) ^ &lt;span class="ident">i_t3&lt;/span>) >> 8) ^ &lt;span class="ident">i_t3&lt;/span>) >> 5) &amp; 0xff;
+  &lt;span class="keyword">if&lt;/span> (&lt;span class="ident">i_t6&lt;/span> == &lt;span class="ident">i_t1&lt;/span>)
+    &lt;span class="keyword">break&lt;/span>;
+}&lt;/code>&lt;/pre></pre>
+
+  </div>
+
+
+
+  <h4 id=the-br-element>4.5.27 The <dfn><code>br</code></dfn> element<a href=#the-br-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-br-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-br-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-br-element:phrasing-content-2>Phrasing content</a>.<dt><a href=#concept-element-contexts id=the-br-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-br-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-br-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-br-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-br-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-br-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-br-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-br-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-br-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-br-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlbrelement>HTMLBRElement</dfn> : <a href=#htmlelement id=the-br-element:htmlelement>HTMLElement</a> {
+  // <a href="#HTMLBRElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-br-element:the-br-element><a href=#the-br-element>br</a></code> element <a href=#represents id=the-br-element:represents>represents</a> a line break.</p>
+
+  <p class=note>While line breaks are usually represented in visual media by physically moving
+  subsequent text to a new line, a style sheet or user agent would be equally justified in causing
+  line breaks to be rendered in a different manner, for instance as green dots, or as extra
+  spacing.</p>
+
+  <p><code id=the-br-element:the-br-element-2><a href=#the-br-element>br</a></code> elements must be used only for line breaks that are actually part of the
+  content, as in poems or addresses.</p>
+
+  <div class=example>
+
+  <p>The following example is correct usage of the <code id=the-br-element:the-br-element-3><a href=#the-br-element>br</a></code> element:</p>
+
+   <pre>&lt;p>P. Sherman&lt;br>
+42 Wallaby Way&lt;br>
+Sydney&lt;/p></pre>
+
+  </div>
+
+  <p><code id=the-br-element:the-br-element-4><a href=#the-br-element>br</a></code> elements must not be used for separating thematic groups in a paragraph.</p>
+
+  <div class=example>
+
+   <p>The following examples are non-conforming, as they abuse the <code id=the-br-element:the-br-element-5><a href=#the-br-element>br</a></code> element:</p>
+
+   <pre>&lt;p>&lt;a ...>34 comments.&lt;/a>&lt;br>
+&lt;a ...>Add a comment.&lt;/a>&lt;/p></pre>
+
+   <pre>&lt;p>&lt;label>Name: &lt;input name="name">&lt;/label>&lt;br>
+&lt;label>Address: &lt;input name="address">&lt;/label>&lt;/p></pre>
+
+   <p>Here are alternatives to the above, which are correct:</p>
+
+   <pre>&lt;p>&lt;a ...>34 comments.&lt;/a>&lt;/p>
+&lt;p>&lt;a ...>Add a comment.&lt;/a>&lt;/p></pre>
+
+   <pre>&lt;p>&lt;label>Name: &lt;input name="name">&lt;/label>&lt;/p>
+&lt;p>&lt;label>Address: &lt;input name="address">&lt;/label>&lt;/p></pre>
+
+  </div>
+
+  <p>If a <a href=#paragraph id=the-br-element:paragraph>paragraph</a> consists of nothing but a single <code id=the-br-element:the-br-element-6><a href=#the-br-element>br</a></code> element, it
+  represents a placeholder blank line (e.g. as in a template). Such blank lines must not be used for
+  presentation purposes.</p>
+
+  
+
+  <p>Any content inside <code id=the-br-element:the-br-element-7><a href=#the-br-element>br</a></code> elements must not be considered part of the surrounding
+  text.</p>
+
+  <p class=note>This element <a href=#bidireq>has rendering requirements involving the
+  bidirectional algorithm</a>.</p>
+
+  
+
+
+  <h4 id=the-wbr-element>4.5.28 The <dfn><code>wbr</code></dfn> element<a href=#the-wbr-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> wbr-element<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>2+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>2.3+</span></span><span class="safari yes"><span>Safari</span> <span>3.2+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>9.5+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=wbr-element">caniuse.com</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-wbr-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-wbr-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-wbr-element:phrasing-content-2>Phrasing content</a>.<dt><a href=#concept-element-contexts id=the-wbr-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-wbr-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-wbr-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-wbr-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-wbr-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-wbr-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-wbr-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-wbr-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-wbr-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-wbr-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-wbr-element:the-wbr-element><a href=#the-wbr-element>wbr</a></code> element <a href=#represents id=the-wbr-element:represents>represents</a> a line break opportunity.</p>
+
+  <div class=example>
+
+   <p>In the following example, someone is quoted as saying something which, for effect, is written
+   as one long word. However, to ensure that the text can be wrapped in a readable fashion, the
+   individual words in the quote are separated using a <code id=the-wbr-element:the-wbr-element-2><a href=#the-wbr-element>wbr</a></code> element.</p>
+
+   <pre>&lt;p>So then she pointed at the tiger and screamed
+"there&lt;wbr>is&lt;wbr>no&lt;wbr>way&lt;wbr>you&lt;wbr>are&lt;wbr>ever&lt;wbr>going&lt;wbr>to&lt;wbr>catch&lt;wbr>me"!&lt;/p></pre>
+
+  </div>
+
+  
+
+   <p>Any content inside <code id=the-wbr-element:the-wbr-element-3><a href=#the-wbr-element>wbr</a></code> elements must not be considered part of the surrounding
+   text.</p>
+
+   <pre class=example>var wbr = document.createElement("wbr");
+wbr.textContent = "This is wrong";
+document.body.appendChild(wbr);</pre>
+
+   <p class=note>This element <a href=#bidireq>has rendering requirements involving the
+   bidirectional algorithm</a>.</p>
+
+  
+
+
+
+  <h4 id=usage-summary>4.5.29 Usage summary<a href=#usage-summary class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <table><thead><tr><th>Element
+     <th>Purpose
+     <th>Example
+   <tbody><tr><td><code id=usage-summary:the-a-element><a href=#the-a-element>a</a></code>
+     <td>Hyperlinks
+     <td><pre class=example>Visit my <strong>&lt;a href="drinks.html">drinks&lt;/a></strong> page.</pre>
+
+    <tr><td><code id=usage-summary:the-em-element><a href=#the-em-element>em</a></code>
+     <td>Stress emphasis
+     <td><pre class=example>I must say I <strong>&lt;em>adore&lt;/em></strong> lemonade.</pre>
+
+    <tr><td><code id=usage-summary:the-strong-element><a href=#the-strong-element>strong</a></code>
+     <td>Importance
+     <td><pre class=example>This tea is <strong>&lt;strong>very hot&lt;/strong></strong>.</pre>
+
+    <tr><td><code id=usage-summary:the-small-element><a href=#the-small-element>small</a></code>
+     <td>Side comments
+     <td><pre class=example>These grapes are made into wine. <strong>&lt;small>Alcohol is addictive.&lt;/small></strong></pre>
+
+    <tr><td><code id=usage-summary:the-s-element><a href=#the-s-element>s</a></code>
+     <td>Inaccurate text
+     <td><pre class=example>Price: <strong>&lt;s>£4.50&lt;/s></strong> £2.00!</pre>
+
+    <tr><td><code id=usage-summary:the-cite-element><a href=#the-cite-element>cite</a></code>
+     <td>Titles of works
+     <td><pre class=example>The case <strong>&lt;cite>Hugo v. Danielle&lt;/cite></strong> is relevant here.</pre>
+
+    <tr><td><code id=usage-summary:the-q-element><a href=#the-q-element>q</a></code>
+     <td>Quotations
+     <td><pre class=example>The judge said <strong>&lt;q>You can drink water from the fish tank&lt;/q></strong> but advised against it.</pre>
+
+    <tr><td><code id=usage-summary:the-dfn-element><a href=#the-dfn-element>dfn</a></code>
+     <td>Defining instance
+     <td><pre class=example>The term <strong>&lt;dfn>organic food&lt;/dfn></strong> refers to food produced without synthetic chemicals.</pre>
+
+    <tr><td><code id=usage-summary:the-abbr-element><a href=#the-abbr-element>abbr</a></code>
+     <td>Abbreviations
+     <td><pre class=example>Organic food in Ireland is certified by the <strong>&lt;abbr title="Irish Organic Farmers and Growers Association">IOFGA&lt;/abbr></strong>.</pre>
+
+    <tr><td><code id=usage-summary:the-ruby-element><a href=#the-ruby-element>ruby</a></code>, <code id=usage-summary:the-rt-element><a href=#the-rt-element>rt</a></code>, <code id=usage-summary:the-rp-element><a href=#the-rp-element>rp</a></code>
+     <td>Ruby annotations
+     <td><pre class=example><strong>&lt;ruby> OJ &lt;rp>(&lt;rt>Orange Juice&lt;rp>)&lt;/ruby></strong></pre>
+
+    <tr><td><code id=usage-summary:the-data-element><a href=#the-data-element>data</a></code>
+     <td>Machine-readable equivalent
+     <td><pre class=example>Available starting today! <strong>&lt;data value="UPC:022014640201">North Coast Organic Apple Cider&lt;/data></strong></pre>
+
+    <tr><td><code id=usage-summary:the-time-element><a href=#the-time-element>time</a></code>
+     <td>Machine-readable equivalent of date- or time-related data
+     <td><pre class=example>Available starting on <strong>&lt;time datetime="2011-11-18">November 18th&lt;/time></strong>!</pre>
+
+    <tr><td><code id=usage-summary:the-code-element><a href=#the-code-element>code</a></code>
+     <td>Computer code
+     <td><pre class=example>The <strong>&lt;code>fruitdb&lt;/code></strong> program can be used for tracking fruit production.</pre>
+
+    <tr><td><code id=usage-summary:the-var-element><a href=#the-var-element>var</a></code>
+     <td>Variables
+     <td><pre class=example>If there are <strong>&lt;var>n&lt;/var></strong> fruit in the bowl, at least <strong>&lt;var>n&lt;/var></strong>÷2 will be ripe.</pre>
+
+    <tr><td><code id=usage-summary:the-samp-element><a href=#the-samp-element>samp</a></code>

@@ -1,0 +1,850 @@
+      
+      <rect width=6 fill=white stroke=black x=6 height=12 y=8 rx=1></rect>
+      <rect fill=#716966 x=7 width=4 height=2 y=9></rect>
+      <image xlink:href=images/wolf.jpg width=4 x=7 y=9 height=2></image>
+
+      
+      <rect width=20 fill=white stroke=black x=25 height=14 y=6 rx=1></rect>
+      <line y2=6 stroke-width=1.1 stroke=black x1=26 y1=20 x2=26></line>
+      <rect fill=#716966 x=27 width=17 height=8.5 y=7></rect>
+      <image xlink:href=images/wolf.jpg width=17 x=27 y=7 height=8.5></image>
+
+     </svg>
+    </div>
+
+    <div class=example>
+     <p>Another Web page might have images in columns, with a single column for screens with a small
+     physical size, two columns for screens with medium physical size, and three columns for screens
+     with big physical size, with the images varying in rendered size in each case to fill up the
+     <a id=introduction-3:viewport-4 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>. In this case, the rendered size of an image might be <em>bigger</em> in
+     the one-column layout compared to the two-column layout, despite the screen being smaller.</p>
+
+     <svg font-size=2.5 role=img viewBox="0 0 115 32" font-family=sans-serif height=200 aria-label="The rotated phone shows a top part of an image of a kettlebell swing; the
+     upright-held tablet shows a bit smaller images in two columns; the laptop shows images in three
+     columns.">
+      
+
+      
+      <rect width=12 fill=white stroke=black x=6 height=6 y=24 rx=1></rect>
+      <rect fill=#987b5a width=10 x=7 height=4.5 y=25></rect>
+      <image xlink:href=images/kettlebell.jpg preserveAspectRatio="xMinYMin slice" width=10 x=7 y=25 height=4.5></image>
+      <text text-anchor=middle x=12 y=21>Narrow, 1 column</text>
+
+      
+      <rect width=14 fill=white stroke=black x=32 height=20 y=10 rx=1></rect>
+      <line y2=29 stroke-width=1.1 stroke=black x1=32 y1=29 x2=46></line>
+      <rect fill=#987b5a width=5.5 x=33 height=5.5 y=11></rect>
+      <image xlink:href=images/kettlebell.jpg width=5.5 x=33 y=11 height=5.5></image>
+      <rect fill=burlywood width=5.5 x=39.5 height=5.5 y=11></rect>
+      <rect fill=silver width=5.5 x=33 height=5.5 y=17.5></rect>
+      <text text-anchor=middle x=39 y=7>Medium, 2 columns</text>
+
+      
+      <rect width=40 stroke-width=2 fill=white stroke=black x=65 height=26 y=2 rx=2></rect>
+      <line y2=30 stroke-linecap=round stroke-width=2 stroke=black x1=61 y1=30 x2=109></line>
+      <rect fill=#987b5a width=10 x=67 height=10 y=4></rect>
+      <image xlink:href=images/kettlebell.jpg width=10 x=67 y=4 height=10></image>
+      <rect fill=burlywood width=10 x=80 height=10 y=4></rect>
+      <rect fill=silver width=10 x=93 height=10 y=4></rect>
+      <text text-anchor=middle x=85 y=25>Wide, 3 columns</text>
+     </svg>
+    </div>
+
+   <li>
+
+    <p>Authors might want to show different image content depending on the rendered size of the
+    image. This is usually referred to as <dfn id=art-direction>art direction</dfn>.</p>
+
+    <div class=example>
+     <p>When a Web page is viewed on a screen with a large physical size (assuming a maximised
+     browser window), the author might wish to include some less relevant parts surrounding the
+     critical part of the image. When the same Web page is viewed on a screen with a small physical
+     size, the author might wish to show only the critical part of the image.</p>
+
+     <svg viewBox="0 0 52 25.6" height=160 aria-label="The upright-held phone shows a
+     cropped image of a wolf; the rotated tablet shows the uncropped image." role=img>
+      
+
+      
+      <rect width=6 fill=white stroke=black x=6 height=12 y=8 rx=1></rect>
+      <rect fill=#716966 x=7 width=4 height=6 y=9></rect>
+      <image xlink:href=images/wolf.jpg preserveAspectRatio="xMidYMid slice" width=4 x=7 y=9 height=6></image>
+
+      
+      <rect width=20 fill=white stroke=black x=25 height=14 y=6 rx=1></rect>
+      <line y2=6 stroke-width=1.1 stroke=black x1=26 y1=20 x2=26></line>
+      <rect fill=#716966 x=27 width=17 height=8.5 y=7></rect>
+      <image xlink:href=images/wolf.jpg width=17 x=27 y=7 height=8.5></image>
+
+     </svg>
+    </div>
+
+   <li>
+
+    <p>Authors might want to show the same image content but using different image formats,
+    depending on which image formats the user agent supports. This is usually referred to as
+    <dfn id=image-format-based-selection>image format-based selection</dfn>.</p>
+
+    <p class=example>A Web page might have some images in the JPEG, WebP and JPEG XR image
+    formats, with the latter two having better compression abilities compared to JPEG. Since
+    different user agents can support different image formats, with some formats offering better
+    compression ratios, the author would like to serve the better formats to user agents that
+    support them, while providing JPEG fallback for user agents that don't.</p>
+
+   </ul>
+
+  <p>The above situations are not mutually exclusive. For example, it is reasonable to combine
+  different resources for different <a href=#device-pixel-ratio id=introduction-3:device-pixel-ratio>device-pixel-ratio</a> with different resources for
+  <a href=#art-direction id=introduction-3:art-direction>art direction</a>.</p>
+
+  <p>While it is possible to solve these problems using scripting, doing so introduces some other
+  problems:</p>
+
+  <ul><li><p>Some user agents aggressively download images specified in the HTML markup, before scripts
+   have had a chance to run, so that Web pages complete loading sooner. If a script changes which
+   image to download, the user agent will potentially start two separate downloads, which can
+   instead cause worse page loading performance.<li><p>If the author avoids specifying any image in the HTML markup and instead instantiates a
+   single download from script, that avoids the double download problem above but then no image will
+   be downloaded at all for users with scripting disabled and the aggressive image downloading
+   optimization will also be disabled.</ul>
+
+  <p>With this in mind, this specification introduces a number of features to address the above
+  problems in a declarative manner.</p>
+
+  <dl><dt><a href=#device-pixel-ratio id=introduction-3:device-pixel-ratio-2>Device-pixel-ratio</a>-based selection when the rendered size of the image is
+   fixed<dd>
+
+    <p>The <code id=introduction-3:attr-img-src-2><a href=#attr-img-src>src</a></code> and <code id=introduction-3:attr-img-srcset><a href=#attr-img-srcset>srcset</a></code>
+    attributes on the <code id=introduction-3:the-img-element-2><a href=#the-img-element>img</a></code> element can be used, using the <code>x</code>
+    descriptor, to provide multiple images that only vary in their size (the smaller image is a
+    scaled-down version of the bigger image).</p>
+
+    <p class=note>The <code>x</code> descriptor is not appropriate when the rendered
+    size of the image depends on the <a id=introduction-3:viewport-5 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> width
+    (<a href=#viewport-based-selection id=introduction-3:viewport-based-selection>viewport-based selection</a>), but can be used together with
+    <a href=#art-direction id=introduction-3:art-direction-2>art direction</a>.</p>
+
+    <div class=example>
+
+<pre>&lt;h2>From today's featured article&lt;/h2>
+&lt;img <strong>src="/uploads/100-marie-lloyd.jpg"</strong>
+     <strong>srcset="/uploads/150-marie-lloyd.jpg 1.5x, /uploads/200-marie-lloyd.jpg 2x"</strong>
+     alt="" width="100" height="150">
+&lt;p>&lt;b>&lt;a href="/wiki/Marie_Lloyd">Marie Lloyd&lt;/a>&lt;/b> (1870–1922)
+was an English &lt;a href="/wiki/Music_hall">music hall&lt;/a> singer, ...</pre>
+
+     <p>The user agent can choose any of the given resources depending on the user's screen's pixel
+     density, zoom level, and possibly other factors such as the user's network conditions.</p>
+
+     <p>For backwards compatibility with older user agents that don't yet understand the <code id=introduction-3:attr-img-srcset-2><a href=#attr-img-srcset>srcset</a></code> attribute, one of the URLs is specified in the
+     <code id=introduction-3:the-img-element-3><a href=#the-img-element>img</a></code> element's <code id=introduction-3:attr-img-src-3><a href=#attr-img-src>src</a></code> attribute. This will result
+     in something useful (though perhaps lower-resolution than the user would like) being displayed
+     even in older user agents. For new user agents, the <code id=introduction-3:attr-img-src-4><a href=#attr-img-src>src</a></code>
+     attribute participates in the resource selection, as if it was specified in <code id=introduction-3:attr-img-srcset-3><a href=#attr-img-srcset>srcset</a></code> with a <code>1x</code> descriptor.</p>
+
+     <p>The image's rendered size is given in the <code id=introduction-3:attr-dim-width><a href=#attr-dim-width>width</a></code> and
+     <code id=introduction-3:attr-dim-height><a href=#attr-dim-height>height</a></code> attributes, which allows the user agent to
+     allocate space for the image before it is downloaded.</p>
+
+    </div>
+
+   <dt><a href=#viewport-based-selection id=introduction-3:viewport-based-selection-2>Viewport-based selection</a><dd>
+
+    <p>The <code id=introduction-3:attr-img-srcset-4><a href=#attr-img-srcset>srcset</a></code> and <code id=introduction-3:attr-img-sizes><a href=#attr-img-sizes>sizes</a></code> attributes can be used, using the <code>w</code>
+    descriptor, to provide multiple images that only vary in their size (the smaller image is a
+    scaled-down version of the bigger image).</p>
+
+    <div class=example>
+
+     <p>In this example, a banner image takes up the entire <a id=introduction-3:viewport-6 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> width (using
+     appropriate CSS).</p>
+
+<pre>&lt;h1>&lt;img <strong>sizes="100vw" srcset="wolf-400.jpg 400w, wolf-800.jpg 800w, wolf-1600.jpg 1600w"</strong>
+     src="wolf-400.jpg" alt="The rad wolf">&lt;/h1></pre>
+
+     <p>The user agent will calculate the effective pixel density of each image from the specified
+     <code>w</code> descriptors and the specified rendered size in the <code id=introduction-3:attr-img-sizes-2><a href=#attr-img-sizes>sizes</a></code> attribute. It can then choose any of the given resources
+     depending on the user's screen's pixel density, zoom level, and possibly other factors such as
+     the user's network conditions.</p>
+
+     <p>If the user's screen is 320 <a href=https://drafts.csswg.org/css-values/#px id="introduction-3:'px'-2" data-x-internal="'px'">CSS pixels</a> wide, this is equivalent
+     to specifying <code>wolf-400.jpg 1.25x, wolf-800.jpg 2.5x, wolf-1600.jpg 5x</code>.
+     On the other hand, if the user's screen is 1200 <a href=https://drafts.csswg.org/css-values/#px id="introduction-3:'px'-3" data-x-internal="'px'">CSS pixels</a> wide,
+     this is equivalent to specifying <code>wolf-400.jpg 0.33x, wolf-800.jpg 0.67x, wolf-1600.jpg 1.33x</code>. By using the
+     <code>w</code> descriptors and the <code id=introduction-3:attr-img-sizes-3><a href=#attr-img-sizes>sizes</a></code>
+     attribute, the user agent can choose the correct image source to download regardless of how
+     large the user's device is.</p>
+
+     <p>For backwards compatibility, one of the URLs is specified in the <code id=introduction-3:the-img-element-4><a href=#the-img-element>img</a></code> element's
+     <code id=introduction-3:attr-img-src-5><a href=#attr-img-src>src</a></code> attribute. In new user agents, the <code id=introduction-3:attr-img-src-6><a href=#attr-img-src>src</a></code> attribute is ignored when the <code id=introduction-3:attr-img-srcset-5><a href=#attr-img-srcset>srcset</a></code> attribute uses <code>w</code> descriptors.</p>
+
+    </div>
+
+    <div class=example>
+
+     <p>In this example, the Web page has three layouts depending on the width of the
+     <a id=introduction-3:viewport-7 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>. The narrow layout has one column of images (the width of each image is
+     about 100%), the middle layout has two columns of images (the width of each image is about
+     50%), and the widest layout has three columns of images, and some page margin (the width of
+     each image is about 33%). It breaks between these layouts when the <a id=introduction-3:viewport-8 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> is
+     <code>30em</code> wide and <code>50em</code> wide, respectively.</p>
+
+<pre>&lt;img <strong>sizes="(max-width: 30em) 100vw, (max-width: 50em) 50vw, calc(33vw - 100px)"</strong>
+     <strong>srcset="swing-200.jpg 200w, swing-400.jpg 400w, swing-800.jpg 800w, swing-1600.jpg 1600w"</strong>
+     src="swing-400.jpg" alt="Kettlebell Swing"></pre>
+
+     <p>The <code id=introduction-3:attr-img-sizes-4><a href=#attr-img-sizes>sizes</a></code> attribute sets up the layout breakpoints at
+     <code>30em</code> and <code>50em</code>, and declares the image sizes
+     between these breakpoints to be <code>100vw</code>, <code>50vw</code>, or
+     <code>calc(33vw - 100px)</code>. These sizes do not necessarily have to match up
+     exactly with the actual image width as specified in the CSS.</p>
+
+     <p>The user agent will pick a width from the <code id=introduction-3:attr-img-sizes-5><a href=#attr-img-sizes>sizes</a></code>
+     attribute, using the first item with a <a id=introduction-3:media-condition href=https://drafts.csswg.org/mediaqueries/#typedef-media-condition data-x-internal=media-condition>&lt;media-condition></a> (the part in
+     parentheses) that evaluates to true, or using the last item (<code>calc(33vw -
+     100px)</code>) if they all evaluate to false.</p>
+
+     <p>For example, if the <a id=introduction-3:viewport-9 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> width is <code>29em</code>, then <code>(max-width: 30em)</code> evaluates to true and <code>100vw</code> is used,
+     so the image size, for the purpose of resource selection, is <code>29em</code>. If
+     the <a id=introduction-3:viewport-10 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> width is instead <code>32em</code>, then
+     <code>(max-width: 30em)</code> evaluates to false, but
+     <code>(max-width: 50em)</code> evaluates to true
+     and <code>50vw</code> is used, so the image size, for the purpose of resource
+     selection, is <code>16em</code> (half the <a id=introduction-3:viewport-11 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> width). Notice that
+     the slightly wider <a id=introduction-3:viewport-12 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> results in a smaller image because of the different
+     layout.</p>
+
+     <p>The user agent can then calculate the effective pixel density and choose an appropriate
+     resource similarly to the previous example.</p>
+
+    </div>
+
+   <dt><a href=#art-direction id=introduction-3:art-direction-3>Art direction</a>-based selection<dd>
+
+    <p>The <code id=introduction-3:the-picture-element><a href=#the-picture-element>picture</a></code> element and the <code id=introduction-3:the-source-element><a href=#the-source-element>source</a></code> element, together with the <code id=introduction-3:attr-source-media><a href=#attr-source-media>media</a></code> attribute, can be used, to provide multiple images that
+    vary the image content (for instance the smaller image might be a cropped version of the bigger
+    image).</p>
+
+    <div class=example>
+
+<pre>&lt;picture>
+  &lt;source <strong>media="(min-width: 45em)"</strong> srcset="large.jpg">
+  &lt;source <strong>media="(min-width: 32em)"</strong> srcset="med.jpg">
+  &lt;img src="small.jpg" alt="The wolf runs through the snow.">
+&lt;/picture></pre>
+
+     <p>The user agent will choose the first <code id=introduction-3:the-source-element-2><a href=#the-source-element>source</a></code> element for which the media query
+     in the <code id=introduction-3:attr-source-media-2><a href=#attr-source-media>media</a></code> attribute matches, and then choose an
+     appropriate URL from its <code id=introduction-3:attr-source-srcset><a href=#attr-source-srcset>srcset</a></code> attribute.</p>
+
+     <p>The rendered size of the image varies depending on which resource is chosen. To specify
+     dimensions that the user agent can use before having downloaded the image, CSS can be used.</p>
+
+<pre class=css>img { width: 300px; height: 300px }
+@media (min-width: 32em) { img { width: 500px; height:300px } }
+@media (min-width: 45em) { img { width: 700px; height:400px } }</pre>
+
+    </div>
+
+    <div class=example>
+
+     <p>This example combines <a href=#art-direction id=introduction-3:art-direction-4>art direction</a>- and <a href=#device-pixel-ratio id=introduction-3:device-pixel-ratio-3>device-pixel-ratio</a>-based
+     selection. A banner that takes half the <a id=introduction-3:viewport-13 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> is provided in two versions,
+     one for wide screens and one for narrow screens.</p>
+
+<pre>&lt;h1>
+ &lt;picture>
+  &lt;source media="(max-width: 500px)" srcset="banner-phone.jpeg, banner-phone-HD.jpeg 2x">
+  &lt;img src="banner.jpeg" srcset="banner-HD.jpeg 2x" alt="The Breakfast Combo">
+ &lt;/picture>
+&lt;/h1></pre>
+
+    </div>
+
+   <dt><a href=#image-format-based-selection id=introduction-3:image-format-based-selection>Image format-based selection</a><dd>
+
+    <p>The <code id=introduction-3:attr-source-type><a href=#attr-source-type>type</a></code> attribute on the <code id=introduction-3:the-source-element-3><a href=#the-source-element>source</a></code> element
+    can be used, to provide multiple images in different formats.</p>
+
+    <div class=example>
+
+<pre>&lt;h2>From today's featured article&lt;/h2>
+&lt;picture>
+ &lt;source srcset="/uploads/100-marie-lloyd.webp" <strong>type="image/webp"</strong>>
+ &lt;source srcset="/uploads/100-marie-lloyd.jxr" <strong>type="image/vnd.ms-photo"</strong>>
+ &lt;img src="/uploads/100-marie-lloyd.jpg" alt="" width="100" height="150">
+&lt;/picture>
+&lt;p>&lt;b>&lt;a href="/wiki/Marie_Lloyd">Marie Lloyd&lt;/a>&lt;/b> (1870–1922)
+was an English &lt;a href="/wiki/Music_hall">music hall&lt;/a> singer, ...</pre>
+
+     <p>In this example, the user agent will choose the first source that has a <code id=introduction-3:attr-source-type-2><a href=#attr-source-type>type</a></code> attribute with a supported MIME type. If the user agent
+     supports WebP images, the first <code id=introduction-3:the-source-element-4><a href=#the-source-element>source</a></code> element will be chosen. If not, but the
+     user agent does support JPEG XR images, the second <code id=introduction-3:the-source-element-5><a href=#the-source-element>source</a></code> element will be chosen.
+     If neither of those formats are supported, the <code id=introduction-3:the-img-element-5><a href=#the-img-element>img</a></code> element will be chosen.</p>
+
+    </div>
+
+   </dl>
+
+
+  <h6 id=adaptive-images>4.8.4.1.1 Adaptive images<a href=#adaptive-images class=self-link></a></h6>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>CSS and media queries can be used to construct graphical page layouts that adapt dynamically to
+  the user's environment, in particular to different <a id=adaptive-images:viewport href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> dimensions and pixel
+  densities. For content, however, CSS does not help; instead, we have the <code id=adaptive-images:the-img-element><a href=#the-img-element>img</a></code> element's
+  <code id=adaptive-images:attr-img-srcset><a href=#attr-img-srcset>srcset</a></code> attribute and the <code id=adaptive-images:the-picture-element><a href=#the-picture-element>picture</a></code> element.
+  This section walks through a sample case showing how to use these features.</p>
+
+  <p>Consider a situation where on wide screens (wider than 600 <a href=https://drafts.csswg.org/css-values/#px id="adaptive-images:'px'" data-x-internal="'px'">CSS
+  pixels</a>) a 300×150 image named <code>a-rectangle.png</code> is to be used,
+  but on smaller screens (600 <a href=https://drafts.csswg.org/css-values/#px id="adaptive-images:'px'-2" data-x-internal="'px'">CSS pixels</a> and less), a smaller
+  100×100 image called <code>a-square.png</code> is to be used. The markup for this
+  would look like this:</p>
+
+  <pre>&lt;figure>
+ &lt;picture>
+  &lt;source srcset="a-square.png" media="(max-width: 600px)">
+  &lt;img src="a-rectangle.png" alt="Barney Frank wears a suit and glasses.">
+ &lt;/picture>
+ &lt;figcaption>Barney Frank, 2011&lt;/figcaption>
+&lt;/figure></pre>
+
+  <p class=note>For details on what to put in the <code id=adaptive-images:attr-img-alt><a href=#attr-img-alt>alt</a></code>
+  attribute, see the <a href=#alt>Requirements for providing text to act as an alternative for
+  images</a> section.</p>
+
+  <p>The problem with this is that the user agent does not necessarily know what dimensions to use
+  for the image when the image is loading. To avoid the layout having to be reflowed multiple times
+  as the page is loading, CSS and CSS media queries can be used to provide the dimensions:</p>
+
+  <pre>&lt;style>
+ #a { width: 300px; height: 150px; }
+ @media (max-width: 600px) { #a { width: 100px; height: 100px; } }
+&lt;/style>
+&lt;figure>
+ &lt;picture>
+  &lt;source srcset="a-square.png" media="(max-width: 600px)">
+  &lt;img src="a-rectangle.png" alt="Barney Frank wears a suit and glasses." id="a">
+ &lt;/picture>
+ &lt;figcaption>Barney Frank, 2011&lt;/figcaption>
+&lt;/figure></pre>
+
+  <p>Alternatively, the <code id=adaptive-images:attr-dim-width><a href=#attr-dim-width>width</a></code> and <code id=adaptive-images:attr-dim-height><a href=#attr-dim-height>height</a></code> attributes can be used to provide the width for legacy user
+  agents, using CSS just for the user agents that support <code id=adaptive-images:the-picture-element-2><a href=#the-picture-element>picture</a></code>:</p>
+
+  <pre>&lt;style media="(max-width: 600px)">
+ #a { width: 100px; height: 100px; }
+&lt;/style>
+&lt;figure>
+ &lt;picture>
+  &lt;source srcset="a-square.png" media="(max-width: 600px)">
+  &lt;img src="a-rectangle.png" width="300" height="150"
+  alt="Barney Frank wears a suit and glasses." id="a">
+ &lt;/picture>
+ &lt;figcaption>Barney Frank, 2011&lt;/figcaption>
+&lt;/figure></pre>
+
+  <hr>
+
+  <p>The <code id=adaptive-images:the-img-element-2><a href=#the-img-element>img</a></code> element is used with the <code id=adaptive-images:attr-img-src><a href=#attr-img-src>src</a></code> attribute,
+  which gives the URL of the image to use for legacy user agents that do not support the
+  <code id=adaptive-images:the-picture-element-3><a href=#the-picture-element>picture</a></code> element. This leads to a question of which image to provide in the <code id=adaptive-images:attr-img-src-2><a href=#attr-img-src>src</a></code> attribute.</p>
+
+  <p>If the author wants the biggest image in legacy user agents, the markup could be as
+  follows:</p>
+
+  <pre>&lt;picture>
+ &lt;source srcset="pear-mobile.jpeg" media="(max-width: 720px)">
+ &lt;source srcset="pear-tablet.jpeg" media="(max-width: 1280px)">
+ &lt;img src="pear-desktop.jpeg" alt="The pear is juicy.">
+&lt;/picture></pre>
+
+  <p>However, if legacy mobile user agents are more important, one can list all three images in the
+  <code id=adaptive-images:the-source-element><a href=#the-source-element>source</a></code> elements, overriding the <code id=adaptive-images:attr-img-src-3><a href=#attr-img-src>src</a></code> attribute
+  entirely.</p>
+
+  <pre>&lt;picture>
+ &lt;source srcset="pear-mobile.jpeg" media="(max-width: 720px)">
+ &lt;source srcset="pear-tablet.jpeg" media="(max-width: 1280px)">
+ &lt;source srcset="pear-desktop.jpeg">
+ &lt;img src="pear-mobile.jpeg" alt="The pear is juicy.">
+&lt;/picture></pre>
+
+  <p>Since at this point the <code id=adaptive-images:attr-img-src-4><a href=#attr-img-src>src</a></code> attribute is actually being
+  ignored entirely by <code id=adaptive-images:the-picture-element-4><a href=#the-picture-element>picture</a></code>-supporting user agents, the <code id=adaptive-images:attr-img-src-5><a href=#attr-img-src>src</a></code> attribute can default to any image, including one that is neither
+  the smallest nor biggest:</p>
+
+  <pre>&lt;picture>
+ &lt;source srcset="pear-mobile.jpeg" media="(max-width: 720px)">
+ &lt;source srcset="pear-tablet.jpeg" media="(max-width: 1280px)">
+ &lt;source srcset="pear-desktop.jpeg">
+ &lt;img src="pear-tablet.jpeg" alt="The pear is juicy.">
+&lt;/picture></pre>
+
+  <hr>
+
+  <p>Above the <code>max-width</code> media feature is used, giving the maximum
+  (<a id=adaptive-images:viewport-2 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>) dimensions that an image is intended for. It is also possible to use <code>min-width</code> instead.</p>
+
+  <pre>&lt;picture>
+ &lt;source srcset="pear-desktop.jpeg" media="(min-width: 1281px)">
+ &lt;source srcset="pear-tablet.jpeg" media="(min-width: 721px)">
+ &lt;img src="pear-mobile.jpeg" alt="The pear is juicy.">
+&lt;/picture></pre>
+
+
+  <h5 id=attributes-common-to-source-and-img-elements>4.8.4.2 Attributes common to <code id=attributes-common-to-source-and-img-elements:the-source-element><a href=#the-source-element>source</a></code> and <code id=attributes-common-to-source-and-img-elements:the-img-element><a href=#the-img-element>img</a></code> elements<a href=#attributes-common-to-source-and-img-elements class=self-link></a></h5>
+
+  <h6 id=srcset-attributes>4.8.4.2.1 Srcset attributes<a href=#srcset-attributes class=self-link></a></h6>
+
+  <p>A <dfn id=srcset-attribute>srcset attribute</dfn> is an attribute with requirements defined in this section.</p>
+
+  <p>If present, its value must consist of one or more <a href=#image-candidate-string id=srcset-attributes:image-candidate-string>image
+  candidate strings</a>, each separated from the next by a U+002C COMMA character (,). If an
+  <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-2>image candidate string</a> contains no descriptors and no <a href=#space-character id=srcset-attributes:space-character>space characters</a> after the URL, the following <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-3>image candidate
+  string</a>, if there is one, must begin with one or more <a href=#space-character id=srcset-attributes:space-character-2>space
+  characters</a>.</p>
+
+  <p>An <dfn id=image-candidate-string>image candidate string</dfn> consists of the following components, in order, with the
+  further restrictions described below this list:</p>
+
+  <ol><li><p>Zero or more <a href=#space-character id=srcset-attributes:space-character-3>space characters</a>.<li><p>A <a href=#valid-non-empty-url id=srcset-attributes:valid-non-empty-url>valid non-empty URL</a> that does not start or end with a U+002C COMMA
+   character (,), referencing a non-interactive, optionally animated, image resource that is neither
+   paged nor scripted.<li><p>Zero or more <a href=#space-character id=srcset-attributes:space-character-4>space characters</a>.<li>
+
+    <p>Zero or one of the following:</p>
+
+    <ul><li><p>A <dfn id=width-descriptor>width descriptor</dfn>, consisting of: a <a href=#space-character id=srcset-attributes:space-character-5>space character</a>, a
+     <a href=#valid-non-negative-integer id=srcset-attributes:valid-non-negative-integer>valid non-negative integer</a> giving a number greater than zero representing the
+     <dfn id=width-descriptor-value>width descriptor value</dfn>, and a U+0077 LATIN SMALL LETTER W character.<li><p>A <dfn id=pixel-density-descriptor>pixel density descriptor</dfn>, consisting of: a <a href=#space-character id=srcset-attributes:space-character-6>space character</a>, a
+     <a href=#valid-floating-point-number id=srcset-attributes:valid-floating-point-number>valid floating-point number</a> giving a number greater than zero representing the
+     <dfn id=pixel-density-descriptor-value>pixel density descriptor value</dfn>, and a U+0078 LATIN SMALL LETTER X
+     character.</ul>
+
+   <li><p>Zero or more <a href=#space-character id=srcset-attributes:space-character-7>space characters</a>.</ol>
+
+  <p>There must not be an <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-4>image candidate string</a> for an element that has the same
+  <a href=#width-descriptor-value id=srcset-attributes:width-descriptor-value>width descriptor value</a> as another <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-5>image candidate string</a>'s <a href=#width-descriptor-value id=srcset-attributes:width-descriptor-value-2>width
+  descriptor value</a> for the same element.</p>
+
+  <p>There must not be an <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-6>image candidate string</a> for an element that has the same
+  <a href=#pixel-density-descriptor-value id=srcset-attributes:pixel-density-descriptor-value>pixel density descriptor value</a> as another <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-7>image candidate string</a>'s
+  <a href=#pixel-density-descriptor-value id=srcset-attributes:pixel-density-descriptor-value-2>pixel density descriptor value</a> for the same element. For the purpose of this
+  requirement, an <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-8>image candidate string</a> with no descriptors is equivalent to an
+  <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-9>image candidate string</a> with a <code>1x</code> descriptor.</p>
+
+  <p>If an <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-10>image candidate string</a> for an element has the <a href=#width-descriptor id=srcset-attributes:width-descriptor>width descriptor</a>
+  specified, all other <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-11>image candidate strings</a> for that
+  element must also have the <a href=#width-descriptor id=srcset-attributes:width-descriptor-2>width descriptor</a> specified.</p>
+
+  <p>The specified width in an <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-12>image candidate string</a>'s <a href=#width-descriptor id=srcset-attributes:width-descriptor-3>width descriptor</a>
+  must match the <a href=#intrinsic-width id=srcset-attributes:intrinsic-width>intrinsic width</a> in the resource given by the
+  <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-13>image candidate string</a>'s URL, if it has an <a href=#intrinsic-width id=srcset-attributes:intrinsic-width-2>intrinsic width</a>.</p>
+
+  <p>If an element has a <a href=#srcset-attribute id=srcset-attributes:srcset-attribute>srcset attribute</a> present, all <a href=#image-candidate-string id=srcset-attributes:image-candidate-string-14>image candidate strings</a> for that element must have the <a href=#width-descriptor id=srcset-attributes:width-descriptor-4>width
+  descriptor</a> specified.</p>
+
+
+  <h6 id=sizes-attributes>4.8.4.2.2 Sizes attributes<a href=#sizes-attributes class=self-link></a></h6>
+
+  <p>A <dfn id=sizes-attribute>sizes attribute</dfn> is an attribute with requirements defined in this section.</p>
+
+  <p>If present, the value must be a <a href=#valid-source-size-list id=sizes-attributes:valid-source-size-list>valid source size list</a>.</p>
+
+  <p>A <dfn id=valid-source-size-list>valid source size list</dfn> is a string that matches the following grammar:
+  <a href=#refsCSSVALUES>[CSSVALUES]</a> <a href=#refsMQ>[MQ]</a></p>
+
+<pre><dfn id=source-size-list>&lt;source-size-list></dfn> = [ <a href=#source-size id=sizes-attributes:source-size>&lt;source-size></a># , ]? <a href=#source-size-value id=sizes-attributes:source-size-value>&lt;source-size-value></a>
+<dfn id=source-size>&lt;source-size></dfn> = <a id=sizes-attributes:media-condition href=https://drafts.csswg.org/mediaqueries/#typedef-media-condition data-x-internal=media-condition>&lt;media-condition></a> <a href=#source-size-value id=sizes-attributes:source-size-value-2>&lt;source-size-value></a>
+<dfn id=source-size-value>&lt;source-size-value></dfn> = <a id=sizes-attributes:length href=https://drafts.csswg.org/css-values/#lengths data-x-internal=length>&lt;length></a></pre>
+
+  <p>A <a href=#source-size-value id=sizes-attributes:source-size-value-3>&lt;source-size-value></a> must not be negative, and must not use CSS functions
+  other than the <a id="sizes-attributes:'calc()'" href=https://drafts.csswg.org/css-values/#funcdef-calc data-x-internal="'calc()'">'calc()'</a> function.</p>
+
+  <p>The <a href=#source-size-value id=sizes-attributes:source-size-value-4>&lt;source-size-value></a> gives the intended layout width of the image. The
+  author can specify different widths for different environments with
+  <a id=sizes-attributes:media-condition-2 href=https://drafts.csswg.org/mediaqueries/#typedef-media-condition data-x-internal=media-condition>&lt;media-condition></a>s.</p>
+
+  <p class=note>Percentages are not allowed in a <a href=#source-size-value id=sizes-attributes:source-size-value-5>&lt;source-size-value></a>,
+  to avoid confusion about what it would be relative to.
+  The <a id="sizes-attributes:'vw'" href=https://drafts.csswg.org/css-values/#vw data-x-internal="'vw'">'vw'</a> unit can be used for sizes relative to the <a id=sizes-attributes:viewport href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>
+  width.</p>
+
+
+  
+
+  <h5 id=images-processing-model>4.8.4.3 Processing model<a href=#images-processing-model class=self-link></a></h5>
+
+  <p>The <a href=#task-source id=images-processing-model:task-source>task source</a> for the <a href=#concept-task id=images-processing-model:concept-task>tasks</a> <a href=#queue-a-task id=images-processing-model:queue-a-task>queued</a> by algorithms in this section is the <a href=#dom-manipulation-task-source id=images-processing-model:dom-manipulation-task-source>DOM manipulation task
+  source</a>.</p>
+
+  <hr>
+
+  <p>An <code id=images-processing-model:the-img-element><a href=#the-img-element>img</a></code> element has a <dfn id=current-request>current request</dfn> and a <dfn id=pending-request>pending request</dfn>.
+  The <a href=#current-request id=images-processing-model:current-request>current request</a> is initially set to a new <a href=#image-request id=images-processing-model:image-request>image request</a>.
+  The <a href=#pending-request id=images-processing-model:pending-request>pending request</a> is initially set to null.
+  The <a href=#current-request id=images-processing-model:current-request-2>current request</a> is usually referred to as the <code id=images-processing-model:the-img-element-2><a href=#the-img-element>img</a></code> element itself.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27484" title="<img> How should .complete interact with pending requests?">27484</a></div>
+
+  <p>An <dfn id=image-request>image request</dfn> has a <dfn id=img-req-state>state</dfn>, <dfn id=img-req-url>current URL</dfn> and <dfn id=img-req-data>image data</dfn>.</p>
+
+  <p>An <a href=#image-request id=images-processing-model:image-request-2>image request</a>'s <a href=#img-req-state id=images-processing-model:img-req-state>state</a> is one of the following:</p>
+
+  <dl><dt><dfn id=img-none>Unavailable</dfn><dd>The user agent hasn't obtained any image data,
+   or has obtained some or all of the image data but
+   hasn't yet decoded enough of the image to get the image dimensions.<dt><dfn id=img-inc>Partially available</dfn><dd>The user agent has obtained some of the image data and at least the image dimensions are
+   available.<dt><dfn id=img-all>Completely available</dfn><dd>The user agent has obtained all of the image data and at least the image dimensions are
+   available.<dt><dfn id=img-error>Broken</dfn><dd>The user agent has obtained all of the image data that it can, but it cannot even decode the
+   image enough to get the image dimensions (e.g. the image is corrupted, or the format is not
+   supported, or no data could be obtained).</dl>
+
+  <p>An <a href=#image-request id=images-processing-model:image-request-3>image request</a>'s <a href=#img-req-url id=images-processing-model:img-req-url>current URL</a> is initially the empty string.</p>
+
+  <p>An <a href=#image-request id=images-processing-model:image-request-4>image request</a>'s <a href=#img-req-data id=images-processing-model:img-req-data>image data</a> is the decoded image data.</p>
+
+  <p>When an <a href=#image-request id=images-processing-model:image-request-5>image request</a> is either in the <a href=#img-inc id=images-processing-model:img-inc>partially
+  available</a> state or in the <a href=#img-all id=images-processing-model:img-all>completely available</a> state, it is
+  said to be <dfn id=img-available>available</dfn>.</p>
+
+  <p>When an <code id=images-processing-model:the-img-element-3><a href=#the-img-element>img</a></code> element is in the <a href=#img-all id=images-processing-model:img-all-2>completely available</a>
+  state <em>and</em> the user agent can decode the media data without errors, then the
+  <code id=images-processing-model:the-img-element-4><a href=#the-img-element>img</a></code> element is said to be <dfn id=img-good>fully decodable</dfn>.</p>
+
+  <p>An <a href=#image-request id=images-processing-model:image-request-6>image request</a> is initially <a href=#img-none id=images-processing-model:img-none>unavailable</a>.</p>
+
+  <p>When an <code id=images-processing-model:the-img-element-5><a href=#the-img-element>img</a></code> element is <a href=#img-available id=images-processing-model:img-available>available</a>,
+  it provides a <a id=images-processing-model:paint-source href=https://drafts.csswg.org/css-images-4/#paint-source data-x-internal=paint-source>paint source</a>
+  whose width is the image's <a href=#density-corrected-intrinsic-width-and-height id=images-processing-model:density-corrected-intrinsic-width-and-height>density-corrected intrinsic width</a> (if any),
+  whose height is the image's <a href=#density-corrected-intrinsic-width-and-height id=images-processing-model:density-corrected-intrinsic-width-and-height-2>density-corrected intrinsic height</a> (if any),
+  and whose appearance is the intrinsic appearance of the image.</p>
+
+  <hr>
+
+  <p>An <code id=images-processing-model:the-img-element-6><a href=#the-img-element>img</a></code> element is said to <dfn id=use-srcset-or-picture>use <code>srcset</code> or
+  <code>picture</code></dfn> if it has a <code id=images-processing-model:attr-img-srcset><a href=#attr-img-srcset>srcset</a></code> attribute
+  specified or if it has a parent that is a <code id=images-processing-model:the-picture-element><a href=#the-picture-element>picture</a></code> element.</p>
+
+  <hr>
+
+  <p>Each <code id=images-processing-model:the-img-element-7><a href=#the-img-element>img</a></code> element has a <dfn id=last-selected-source>last selected source</dfn>, which must initially be
+  null.</p>
+
+  <p>Each <a href=#image-request id=images-processing-model:image-request-7>image request</a> has a <dfn id=current-pixel-density>current pixel density</dfn>, which must initially be undefined.</p>
+
+  <p>When an <code id=images-processing-model:the-img-element-8><a href=#the-img-element>img</a></code> element has a <a href=#current-pixel-density id=images-processing-model:current-pixel-density>current pixel density</a> that is not 1.0, the
+  element's image data must be treated as if its resolution, in device pixels per <a href=https://drafts.csswg.org/css-values/#px id="images-processing-model:'px'" data-x-internal="'px'">CSS pixels</a>, was the <a href=#current-pixel-density id=images-processing-model:current-pixel-density-2>current pixel density</a>. The image's
+  <dfn id=density-corrected-intrinsic-width-and-height>density-corrected intrinsic width and height</dfn> are the <a href=https://drafts.csswg.org/css2/conform.html#intrinsic id=images-processing-model:intrinsic-dimensions data-x-internal=intrinsic-dimensions>intrinsic width and height</a> after taking into account the <a href=#current-pixel-density id=images-processing-model:current-pixel-density-3>current pixel
+  density</a>.</p>
+
+  <p class=example>For example, if the <a href=#current-pixel-density id=images-processing-model:current-pixel-density-4>current pixel density</a> is 3.125, that means
+  that there are 300 device pixels per <a href=https://drafts.csswg.org/css-values/#in id="images-processing-model:'in'" data-x-internal="'in'">CSS inch</a>, and thus if the image
+  data is 300x600, it has <a id=images-processing-model:intrinsic-dimensions-2 href=https://drafts.csswg.org/css2/conform.html#intrinsic data-x-internal=intrinsic-dimensions>intrinsic dimensions</a> of 96 <a href=https://drafts.csswg.org/css-values/#px id="images-processing-model:'px'-2" data-x-internal="'px'">CSS
+  pixels</a> by 192 <a href=https://drafts.csswg.org/css-values/#px id="images-processing-model:'px'-3" data-x-internal="'px'">CSS pixels</a>.</p>
+
+  <p>An <code id=images-processing-model:the-img-element-9><a href=#the-img-element>img</a></code> element is associated with a <a href=#source-set id=images-processing-model:source-set>source set</a>.</p>
+
+  <p>A <dfn id=source-set>source set</dfn> is an ordered set of zero or more <a href=#image-source id=images-processing-model:image-source>image sources</a>
+  and a <a href=#source-size-2 id=images-processing-model:source-size-2>source size</a>.</p>
+
+  <p>An <dfn id=image-source>image source</dfn> is a <a id=images-processing-model:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>, and optionally either a <a href=#pixel-density-descriptor id=images-processing-model:pixel-density-descriptor>pixel density
+  descriptor</a>, or a <a href=#width-descriptor id=images-processing-model:width-descriptor>width descriptor</a>.</p>
+
+  <p>A <dfn id=source-size-2>source size</dfn> is a <a href=#source-size-value id=images-processing-model:source-size-value>&lt;source-size-value></a>.
+  When a <a href=#source-size-2 id=images-processing-model:source-size-2-2>source size</a> has a unit relative to the <a id=images-processing-model:viewport href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>,
+  it must be interpreted relative to the <code id=images-processing-model:the-img-element-10><a href=#the-img-element>img</a></code> element's <a id=images-processing-model:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s
+  <a id=images-processing-model:viewport-2 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>.
+  Other units must be interpreted the same as in Media Queries. <a href=#refsMQ>[MQ]</a></p>
+
+  <hr>
+
+  <p>A <dfn id=concept-microsyntax-parse-error>parse error</dfn> for algorithms in this
+  section indicates a non-fatal mismatch between input and requirements. User agents are encouraged
+  to expose <a href=#concept-microsyntax-parse-error id=images-processing-model:concept-microsyntax-parse-error>parse error</a>s somehow.</p>
+
+  <hr>
+
+  <p>Whether the image is fetched successfully or not (e.g. whether the response status was an
+  <a id=images-processing-model:ok-status href=https://fetch.spec.whatwg.org/#ok-status data-x-internal=ok-status>ok status</a>) must be ignored when determining the image's type and whether it is a
+  valid image.</p>
+
+  <p class=note>This allows servers to return images with error responses, and have them
+  displayed.</p>
+
+  <p id=img-determine-type>The user agent should apply the <a href=https://mimesniff.spec.whatwg.org/#rules-for-sniffing-images-specifically id=images-processing-model:content-type-sniffing:-image data-x-internal=content-type-sniffing:-image>image sniffing rules</a> to determine the type of the image, with the image's <a href=#content-type id=images-processing-model:content-type>associated Content-Type headers</a> giving the <var>official
+  type</var>. If these rules are not applied, then the type of the image must be the type given by
+  the image's <a href=#content-type id=images-processing-model:content-type-2>associated Content-Type headers</a>.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=25889" title="<img> When to swap the image for the environment changes case">25889</a>, <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=26702" title="What <img> represents should support srcset/picture">26702</a></div>
+
+  <p>User agents must not support non-image resources with the <code id=images-processing-model:the-img-element-11><a href=#the-img-element>img</a></code> element (e.g. XML
+  files whose <a id=images-processing-model:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a> is an HTML element). User agents must not run executable
+  code (e.g. scripts) embedded in the image resource. User agents must only display the first page
+  of a multipage resource (e.g. a PDF file). User agents must not allow the resource to act in an
+  interactive fashion, but should honour any animation in the resource.</p>
+
+  <p>This specification does not specify which image types are to be supported.</p>
+
+
+  <h6 id=when-to-obtain-images>4.8.4.3.1 When to obtain images<a href=#when-to-obtain-images class=self-link></a></h6>
+
+  <p>In a <a href=#browsing-context id=when-to-obtain-images:browsing-context>browsing context</a> where <a href=#concept-bc-noscript id=when-to-obtain-images:concept-bc-noscript>scripting is
+  disabled</a>, user agents may obtain images immediately or on demand. In a <a href=#browsing-context id=when-to-obtain-images:browsing-context-2>browsing
+  context</a> where <a href=#concept-bc-noscript id=when-to-obtain-images:concept-bc-noscript-2>scripting is enabled</a>, user agents
+  must obtain images immediately.</p>
+
+  <p>A user agent that obtains images immediately must synchronously
+  <a href=#update-the-image-data id=when-to-obtain-images:update-the-image-data>update the image data</a> of an <code id=when-to-obtain-images:the-img-element><a href=#the-img-element>img</a></code> element,
+  with the <i>restart animation</i> flag set if so stated,
+  whenever that element is created or has experienced <a href=#relevant-mutations id=when-to-obtain-images:relevant-mutations>relevant mutations</a>.</p>
+
+  <p>A user agent that obtains images on demand must <a href=#update-the-image-data id=when-to-obtain-images:update-the-image-data-2>update the image data</a> of an
+  <code id=when-to-obtain-images:the-img-element-2><a href=#the-img-element>img</a></code> element whenever it needs the image data (i.e. on demand),
+  but only if the <code id=when-to-obtain-images:the-img-element-3><a href=#the-img-element>img</a></code> element is in the
+  <a href=#img-none id=when-to-obtain-images:img-none>unavailable</a> state. When an <code id=when-to-obtain-images:the-img-element-4><a href=#the-img-element>img</a></code> element
+  has experienced <a href=#relevant-mutations id=when-to-obtain-images:relevant-mutations-2>relevant mutations</a>, if the user
+  agent only obtains images on demand, the <code id=when-to-obtain-images:the-img-element-5><a href=#the-img-element>img</a></code> element must return to the <a href=#img-none id=when-to-obtain-images:img-none-2>unavailable</a> state.</p>
+
+
+  <h6 id=reacting-to-dom-mutations>4.8.4.3.2 Reacting to DOM mutations<a href=#reacting-to-dom-mutations class=self-link></a></h6>
+
+  <p>The <dfn id=relevant-mutations>relevant mutations</dfn> for an <code id=reacting-to-dom-mutations:the-img-element><a href=#the-img-element>img</a></code> element are as follows:</p>
+
+  <ul><li><p>The element's <code id=reacting-to-dom-mutations:attr-img-src><a href=#attr-img-src>src</a></code>, <code id=reacting-to-dom-mutations:attr-img-srcset><a href=#attr-img-srcset>srcset</a></code>, <code id=reacting-to-dom-mutations:attr-dim-width><a href=#attr-dim-width>width</a></code>, or <code id=reacting-to-dom-mutations:attr-img-sizes><a href=#attr-img-sizes>sizes</a></code> attributes are set, changed, or removed.<li><p>The element's <code id=reacting-to-dom-mutations:attr-img-src-2><a href=#attr-img-src>src</a></code> attribute is set to the same value as the previous value.
+   This must set the <i>restart animation</i> flag for the <a href=#update-the-image-data id=reacting-to-dom-mutations:update-the-image-data>update the image data</a> algorithm.<li><p>The element's <code id=reacting-to-dom-mutations:attr-img-crossorigin><a href=#attr-img-crossorigin>crossorigin</a></code> attribute's state is changed.<li><p>The <a href=#nodes-are-inserted id=reacting-to-dom-mutations:nodes-are-inserted>element is inserted</a> into or
+   <a href=#nodes-are-removed id=reacting-to-dom-mutations:nodes-are-removed>removed</a> from a <code id=reacting-to-dom-mutations:the-picture-element><a href=#the-picture-element>picture</a></code> parent element.<li><p>The element's parent is a <code id=reacting-to-dom-mutations:the-picture-element-2><a href=#the-picture-element>picture</a></code> element and a <code id=reacting-to-dom-mutations:the-source-element><a href=#the-source-element>source</a></code> <a href=#nodes-are-inserted id=reacting-to-dom-mutations:nodes-are-inserted-2>element is inserted</a> as a previous sibling.<li><p>The element's parent is a <code id=reacting-to-dom-mutations:the-picture-element-3><a href=#the-picture-element>picture</a></code> element and a <code id=reacting-to-dom-mutations:the-source-element-2><a href=#the-source-element>source</a></code> element
+   that was a previous sibling is <a href=#nodes-are-removed id=reacting-to-dom-mutations:nodes-are-removed-2>removed</a>.<li><p>The element's parent is a <code id=reacting-to-dom-mutations:the-picture-element-4><a href=#the-picture-element>picture</a></code> element and a <code id=reacting-to-dom-mutations:the-source-element-3><a href=#the-source-element>source</a></code> element
+   that is a previous sibling has its <code id=reacting-to-dom-mutations:attr-source-srcset><a href=#attr-source-srcset>srcset</a></code>, <code id=reacting-to-dom-mutations:attr-source-sizes><a href=#attr-source-sizes>sizes</a></code>, <code id=reacting-to-dom-mutations:attr-source-media><a href=#attr-source-media>media</a></code>, or <code id=reacting-to-dom-mutations:attr-source-type><a href=#attr-source-type>type</a></code> attributes set, changed, or removed.<li><p>The element's <a href=https://dom.spec.whatwg.org/#concept-node-adopt-ext id=reacting-to-dom-mutations:concept-node-adopt-ext data-x-internal=concept-node-adopt-ext>adopting steps</a> are run.</ul>
+
+
+  <h6 id=the-list-of-available-images>4.8.4.3.3 The list of available images<a href=#the-list-of-available-images class=self-link></a></h6>
+
+  <p>Each <code id=the-list-of-available-images:document><a href=#document>Document</a></code> object must have a <dfn id=list-of-available-images>list of available images</dfn>. Each image
+  in this list is identified by a tuple consisting of an <a id=the-list-of-available-images:absolute-url href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute URL</a>, a <a href=#cors-settings-attribute id=the-list-of-available-images:cors-settings-attribute>CORS
+  settings attribute</a> mode, and, if the mode is not <a href=#attr-crossorigin-none id=the-list-of-available-images:attr-crossorigin-none>No
+  CORS</a>, an <a href=#concept-origin id=the-list-of-available-images:concept-origin>origin</a>.
+  Each image furthermore has an <dfn id=ignore-higher-layer-caching>ignore higher-layer caching</dfn> flag.
+  User agents may copy entries from one <code id=the-list-of-available-images:document-2><a href=#document>Document</a></code>
+  object's <a href=#list-of-available-images id=the-list-of-available-images:list-of-available-images>list of available images</a> to another at any time (e.g. when the
+  <code id=the-list-of-available-images:document-3><a href=#document>Document</a></code> is created, user agents can add to it all the images that are loaded in
+  other <code id=the-list-of-available-images:document-4><a href=#document>Document</a></code>s), but must not change the keys of entries copied in this way when
+  doing so, and must unset the <a href=#ignore-higher-layer-caching id=the-list-of-available-images:ignore-higher-layer-caching>ignore higher-layer caching</a> flag for the copied entry.
+  User agents may also remove images from such lists at any time (e.g. to save
+  memory).
+  User agents must remove entries in the <a href=#list-of-available-images id=the-list-of-available-images:list-of-available-images-2>list of available images</a> as appropriate
+  given higher-layer caching semantics for the resource (e.g. the HTTP `<code id=the-list-of-available-images:http-cache-control><a data-x-internal=http-cache-control href=https://tools.ietf.org/html/rfc7234#section-5.2>Cache-Control</a></code>` response header) when the <a href=#ignore-higher-layer-caching id=the-list-of-available-images:ignore-higher-layer-caching-2>ignore
+  higher-layer caching</a> flag is unset.</p>
+
+  <p class=note>The <a href=#list-of-available-images id=the-list-of-available-images:list-of-available-images-3>list of available images</a> is intended to enable synchronous
+  switching when changing the <code id=the-list-of-available-images:attr-img-src><a href=#attr-img-src>src</a></code> attribute to a URL that has
+  previously been loaded, and to avoid re-downloading images in the same document even when they
+  don't allow caching per HTTP. It is not used to avoid re-downloading the same image while the
+  previous image is still loading.</p>
+
+  <p class=note>The user agent can also store the image data separately from the <a href=#list-of-available-images id=the-list-of-available-images:list-of-available-images-4>list of available images</a>.</p>
+
+  <p class=example>For example, if a resource has the HTTP response header
+  `<code>Cache-Control: must-revalidate</code>`, and its <a href=#ignore-higher-layer-caching id=the-list-of-available-images:ignore-higher-layer-caching-3>ignore higher-layer
+  caching</a> flag is unset, the user agent would remove it from the <a href=#list-of-available-images id=the-list-of-available-images:list-of-available-images-5>list of available
+  images</a> but could keep the image data separately, and use that if the server responds with a
+  <code>304 Not Modified</code> status.</p>
+
+
+  <h6 id=updating-the-image-data>4.8.4.3.4 Updating the image data<a href=#updating-the-image-data class=self-link></a></h6>
+
+  <p>When the user agent is to <dfn id=update-the-image-data>update the image data</dfn> of an <code id=updating-the-image-data:the-img-element><a href=#the-img-element>img</a></code> element,
+  optionally with the <i>restart animations</i> flag set,
+  it must run the following steps:<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24597" title="Maybe make the <img> fetch outlive the document (like ping)">24597</a>, <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24712" title="<img>: Should probably not fire load if selected source is the same as the last selected source. (step 7.3)">24712</a></div>
+
+  <ol><li>
+
+    <p>If the element's <a id=updating-the-image-data:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is not the <a href=#active-document id=updating-the-image-data:active-document>active document</a>,
+    then run these substeps:</p>
+
+    <ol><li><p>Continue running this algorithm <a href=#in-parallel id=updating-the-image-data:in-parallel>in parallel</a>.<li><p>Wait until the element's <a id=updating-the-image-data:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is the <a href=#active-document id=updating-the-image-data:active-document-2>active document</a>.<li><p>If another instance of this algorithm for this <code id=updating-the-image-data:the-img-element-2><a href=#the-img-element>img</a></code> element was started after this instance
+     (even if it aborted and is no longer running), then abort these steps.<li><p><a href=#queue-a-microtask id=updating-the-image-data:queue-a-microtask>Queue a microtask</a> to continue this algorithm.</ol>
+
+   <li><p>If the user agent cannot support images, or its support for images has been disabled, then
+   <a href=#abort-the-image-request id=updating-the-image-data:abort-the-image-request>abort the image request</a> for the <a href=#current-request id=updating-the-image-data:current-request>current request</a> and the <a href=#pending-request id=updating-the-image-data:pending-request>pending request</a>,
+   set <a href=#current-request id=updating-the-image-data:current-request-2>current request</a> to the <a href=#img-none id=updating-the-image-data:img-none>unavailable</a> state,
+   let <a href=#pending-request id=updating-the-image-data:pending-request-2>pending request</a> be null,
+   and abort these steps.<li>
+
+    <p>If the element does not <a href=#use-srcset-or-picture id=updating-the-image-data:use-srcset-or-picture>use <code>srcset</code> or <code>picture</code></a>,
+    and it has a <code id=updating-the-image-data:attr-img-src><a href=#attr-img-src>src</a></code> attribute specified and
+    its value is not the empty string, let <var>selected source</var> be the value of the
+    element's <code id=updating-the-image-data:attr-img-src-2><a href=#attr-img-src>src</a></code> attribute, and <var>selected pixel
+    density</var> be 1.0. Otherwise, let <var>selected source</var> be null and <var>selected pixel density</var> be undefined.</p>
+
+   <li><p>Let the <code id=updating-the-image-data:the-img-element-3><a href=#the-img-element>img</a></code> element's <a href=#last-selected-source id=updating-the-image-data:last-selected-source>last selected source</a> be <var>selected source</var>.<li>
+
+    <p>If <var>selected source</var> is not null, run these substeps:</p>
+
+    <ol><li><p><a href=#parse-a-url id=updating-the-image-data:parse-a-url>Parse</a> <var>selected source</var>, relative to the
+     element's <a id=updating-the-image-data:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>. If that is not successful, then abort this inner set of
+     steps. Otherwise, let <var>urlString</var> be the <a href=#resulting-url-string id=updating-the-image-data:resulting-url-string>resulting URL string</a>.<li><p>Let <var>key</var> be a tuple consisting of <var>urlString</var>, the <code id=updating-the-image-data:the-img-element-4><a href=#the-img-element>img</a></code>
+     element's <code id=updating-the-image-data:attr-img-crossorigin><a href=#attr-img-crossorigin>crossorigin</a></code> attribute's mode, and, if that
+     mode is not <a href=#attr-crossorigin-none id=updating-the-image-data:attr-crossorigin-none>No CORS</a>, the <a id=updating-the-image-data:node-document-4 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+     document</a>'s <a href=#concept-origin id=updating-the-image-data:concept-origin>origin</a>.<li>
+
+      <p>If the <a href=#list-of-available-images id=updating-the-image-data:list-of-available-images>list of available images</a> contains an entry for <var>key</var>, run
+      these subsubsteps:</p>
+
+      <ol><li><p>Set the <a href=#ignore-higher-layer-caching id=updating-the-image-data:ignore-higher-layer-caching>ignore higher-layer caching</a> flag for that entry.<li><p><a href=#abort-the-image-request id=updating-the-image-data:abort-the-image-request-2>Abort the image request</a> for the <a href=#current-request id=updating-the-image-data:current-request-3>current request</a> and the
+        <a href=#pending-request id=updating-the-image-data:pending-request-3>pending request</a>.<li><p>Let <a href=#pending-request id=updating-the-image-data:pending-request-4>pending request</a> be null.<li><p>Let <a href=#current-request id=updating-the-image-data:current-request-4>current request</a> be a new <a href=#image-request id=updating-the-image-data:image-request>image request</a> whose <a href=#img-req-data id=updating-the-image-data:img-req-data>image data</a> is that of the entry and whose state is set to the
+        <a href=#img-all id=updating-the-image-data:img-all>completely available</a> state.<li><p>Update the presentation of the image appropriately.<li><p>Let the <a href=#current-request id=updating-the-image-data:current-request-5>current request</a>'s <a href=#current-pixel-density id=updating-the-image-data:current-pixel-density>current pixel density</a> be
+        <var>selected pixel density</var>.<li><p><a href=#queue-a-task id=updating-the-image-data:queue-a-task>Queue a task</a> to <a href=#restart-the-animation id=updating-the-image-data:restart-the-animation>restart the animation</a> if <i>restart
+        animation</i> is set, change <a href=#current-request id=updating-the-image-data:current-request-6>current request</a>'s <a href=#img-req-url id=updating-the-image-data:img-req-url>current URL</a> to <var>urlString</var>, and then <a href=https://dom.spec.whatwg.org/#concept-event-fire id=updating-the-image-data:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=updating-the-image-data:event-load><a href=#event-load>load</a></code>
+        at the <code id=updating-the-image-data:the-img-element-5><a href=#the-img-element>img</a></code> element.<li><p>Abort the <a href=#update-the-image-data id=updating-the-image-data:update-the-image-data>update the image data</a> algorithm.</ol>
+
+     </ol>
+
+   <li><p><a href=#await-a-stable-state id=updating-the-image-data:await-a-stable-state>Await a stable state</a>, allowing the <a href=#concept-task id=updating-the-image-data:concept-task>task</a> that invoked this algorithm to continue.
+   The <a href=#synchronous-section id=updating-the-image-data:synchronous-section>synchronous
+   section</a> consists of all the remaining steps of this algorithm until the algorithm says the
+   <a href=#synchronous-section id=updating-the-image-data:synchronous-section-2>synchronous section</a> has ended. (Steps in <a href=#synchronous-section id=updating-the-image-data:synchronous-section-3>synchronous sections</a> are marked with ⌛.)<li>
+
+    <p>⌛ If another instance of this algorithm for this <code id=updating-the-image-data:the-img-element-6><a href=#the-img-element>img</a></code> element was started
+    after this instance (even if it aborted and is no longer running), then abort these steps.</p>
+
+    <p class=note>Only the last instance takes effect, to avoid multiple requests when, for
+    example, the <code id=updating-the-image-data:attr-img-src-3><a href=#attr-img-src>src</a></code>, <code id=updating-the-image-data:attr-img-srcset><a href=#attr-img-srcset>srcset</a></code>,
+    and <code id=updating-the-image-data:attr-img-crossorigin-2><a href=#attr-img-crossorigin>crossorigin</a></code> attributes are all set in
+    succession.</p>
+
+   <li>
+
+    <p>⌛ Let <var>selected source</var> and <var>selected pixel density</var> be the
+    URL and pixel density that results from <a href=#select-an-image-source id=updating-the-image-data:select-an-image-source>selecting an image source</a>,
+    respectively.</p>
+
+   <li>
+
+    <p>⌛ If <var>selected source</var> is null, run these substeps:</p>
+
+    <ol><li><p>⌛ Set the <a href=#current-request id=updating-the-image-data:current-request-7>current request</a> to the <a href=#img-error id=updating-the-image-data:img-error>broken</a> state,
+     <a href=#abort-the-image-request id=updating-the-image-data:abort-the-image-request-3>abort the image request</a> for the <a href=#current-request id=updating-the-image-data:current-request-8>current request</a> and the <a href=#pending-request id=updating-the-image-data:pending-request-5>pending request</a>,
+     and let <a href=#pending-request id=updating-the-image-data:pending-request-6>pending request</a> be null.<li><p>⌛ <a href=#queue-a-task id=updating-the-image-data:queue-a-task-2>Queue a task</a> to change the <a href=#current-request id=updating-the-image-data:current-request-9>current request</a>'s <a href=#img-req-url id=updating-the-image-data:img-req-url-2>current URL</a> to the empty string, and then, if the element has a
+     <code id=updating-the-image-data:attr-img-src-4><a href=#attr-img-src>src</a></code> attribute or it <a href=#use-srcset-or-picture id=updating-the-image-data:use-srcset-or-picture-2>uses <code>srcset</code> or <code>picture</code></a>, <a href=https://dom.spec.whatwg.org/#concept-event-fire id=updating-the-image-data:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=updating-the-image-data:event-error><a href=#event-error>error</a></code>
+     at the <code id=updating-the-image-data:the-img-element-7><a href=#the-img-element>img</a></code> element.<li><p>⌛ Abort this algorithm.</ol>
+
+   <li>
+
+    <p>⌛ <a href=#queue-a-task id=updating-the-image-data:queue-a-task-3>Queue a task</a> to <a id=updating-the-image-data:fire-a-progress-event href=https://xhr.spec.whatwg.org/#concept-event-fire-progress data-x-internal=fire-a-progress-event>fire a progress event</a> named <code id=updating-the-image-data:event-loadstart><a href=#event-loadstart>loadstart</a></code> at
+    the <code id=updating-the-image-data:the-img-element-8><a href=#the-img-element>img</a></code> element.</p>
+
+   <li>
+
+    <p>⌛ <a href=#parse-a-url id=updating-the-image-data:parse-a-url-2>Parse</a> <var>selected source</var>, relative to the
+    element's <a id=updating-the-image-data:node-document-5 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>, and let <var>urlString</var> be the <a href=#resulting-url-string id=updating-the-image-data:resulting-url-string-2>resulting URL
+    string</a>. If that is not successful, run these substeps:</p>
+
+    <ol><li><p>⌛ <a href=#abort-the-image-request id=updating-the-image-data:abort-the-image-request-4>Abort the image request</a> for the <a href=#current-request id=updating-the-image-data:current-request-10>current request</a> and
+     the <a href=#pending-request id=updating-the-image-data:pending-request-7>pending request</a>.<li><p>⌛ Set the <a href=#current-request id=updating-the-image-data:current-request-11>current request</a> to the <a href=#img-error id=updating-the-image-data:img-error-2>broken</a> state.<li><p>⌛ Let <a href=#pending-request id=updating-the-image-data:pending-request-8>pending request</a> be null.<li><p>⌛ <a href=#queue-a-task id=updating-the-image-data:queue-a-task-4>Queue a task</a> to change the <a href=#current-request id=updating-the-image-data:current-request-12>current request</a>'s <a href=#img-req-url id=updating-the-image-data:img-req-url-3>current URL</a> to <var>selected source</var>, <a href=https://dom.spec.whatwg.org/#concept-event-fire id=updating-the-image-data:concept-event-fire-3 data-x-internal=concept-event-fire>fire an event</a> named <code id=updating-the-image-data:event-error-2><a href=#event-error>error</a></code>
+     at the <code id=updating-the-image-data:the-img-element-9><a href=#the-img-element>img</a></code> element and then <a href=https://dom.spec.whatwg.org/#concept-event-fire id=updating-the-image-data:concept-event-fire-4 data-x-internal=concept-event-fire>fire an event</a>
+     named <code id=updating-the-image-data:event-loadend><a href=#event-loadend>loadend</a></code> at the <code id=updating-the-image-data:the-img-element-10><a href=#the-img-element>img</a></code> element.<li><p>⌛ Abort the <a href=#update-the-image-data id=updating-the-image-data:update-the-image-data-2>update the image data</a> algorithm.</ol>
+
+   <li>
+
+    <p>⌛ If the <a href=#pending-request id=updating-the-image-data:pending-request-9>pending request</a> is not null,
+    and <var>urlString</var> is the same as the <a href=#pending-request id=updating-the-image-data:pending-request-10>pending request</a>'s <a href=#img-req-url id=updating-the-image-data:img-req-url-4>current URL</a>,
+    then abort these steps.</p>
+
+    <p>⌛ If <var>urlString</var> is the same as the <a href=#current-request id=updating-the-image-data:current-request-13>current request</a>'s <a href=#img-req-url id=updating-the-image-data:img-req-url-5>current URL</a>,
+    and <a href=#current-request id=updating-the-image-data:current-request-14>current request</a> is in the <a href=#img-inc id=updating-the-image-data:img-inc>partially available</a> state,
+    then <a href=#abort-the-image-request id=updating-the-image-data:abort-the-image-request-5>abort the image request</a> for the <a href=#pending-request id=updating-the-image-data:pending-request-11>pending request</a>,
+    <a href=#queue-a-task id=updating-the-image-data:queue-a-task-5>queue a task</a> to <a href=#restart-the-animation id=updating-the-image-data:restart-the-animation-2>restart the animation</a> if <i>restart animation</i> is set,
+    and abort these steps.</p>
+
+    <p>⌛ If the <a href=#pending-request id=updating-the-image-data:pending-request-12>pending request</a> is not null,
+    <a href=#abort-the-image-request id=updating-the-image-data:abort-the-image-request-6>abort the image request</a> for the <a href=#pending-request id=updating-the-image-data:pending-request-13>pending request</a>.</p>
+
+    <p>⌛ Let <var>image request</var> be a new <a href=#image-request id=updating-the-image-data:image-request-2>image request</a>
+    whose <a href=#img-req-url id=updating-the-image-data:img-req-url-6>current URL</a> is <var>urlString</var>.</p>
+
+    <p>⌛ If <a href=#current-request id=updating-the-image-data:current-request-15>current request</a> is in the <a href=#img-none id=updating-the-image-data:img-none-2>unavailable</a> state
+    or the <a href=#img-error id=updating-the-image-data:img-error-3>broken</a> state,
+    let the <a href=#current-request id=updating-the-image-data:current-request-16>current request</a> be <var>image request</var>.
+    Otherwise, let the <a href=#pending-request id=updating-the-image-data:pending-request-14>pending request</a> be <var>image request</var>.</p>
+
+    <p>⌛ Let <var>request</var> be the result of <a href=#create-a-potential-cors-request id=updating-the-image-data:create-a-potential-cors-request>creating a potential-CORS request</a> given
+    <var>urlString</var>, "<code>image</code>", and the current state of the element's
+    <code id=updating-the-image-data:attr-img-crossorigin-3><a href=#attr-img-crossorigin>crossorigin</a></code> content attribute.</p>
+
+    <p>⌛ Set <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-client id=updating-the-image-data:concept-request-client data-x-internal=concept-request-client>client</a> to the
+    element's <a id=updating-the-image-data:node-document-6 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <code id=updating-the-image-data:window><a href=#window>Window</a></code> object's <a href=#environment-settings-object id=updating-the-image-data:environment-settings-object>environment settings
+    object</a> and <a href=https://fetch.spec.whatwg.org/#concept-request-type id=updating-the-image-data:concept-request-type data-x-internal=concept-request-type>type</a> to "<code>image</code>".</p>
+
+    <p>⌛ If the element <a href=#use-srcset-or-picture id=updating-the-image-data:use-srcset-or-picture-3>uses <code>srcset</code> or
+    <code>picture</code></a>, set <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-initiator id=updating-the-image-data:concept-request-initiator data-x-internal=concept-request-initiator>initiator</a> to "<code>imageset</code>".</p>
+
+    <p>⌛ Set <var>request</var>'s
+    <a href=https://fetch.spec.whatwg.org/#concept-request-referrer-policy id=updating-the-image-data:concept-request-referrer-policy data-x-internal=concept-request-referrer-policy>referrer policy</a> to the current state of
+    the element's <code id=updating-the-image-data:attr-img-referrerpolicy><a href=#attr-img-referrerpolicy>referrerpolicy</a></code> attribute.</p>
+
+    <p>⌛ <a href=https://fetch.spec.whatwg.org/#concept-fetch id=updating-the-image-data:concept-fetch data-x-internal=concept-fetch>Fetch</a> <var>request</var>. Let this
+    instance of the <a href=https://fetch.spec.whatwg.org/#concept-fetch id=updating-the-image-data:concept-fetch-2 data-x-internal=concept-fetch>fetching</a> algorithm be associated with
+    <var>image request</var>.</p>
+
+    <p>The resource obtained in this fashion, if any, is <var>image request</var>'s <a href=#img-req-data id=updating-the-image-data:img-req-data-2>image data</a>.
+    It can be either <a href=#cors-same-origin id=updating-the-image-data:cors-same-origin>CORS-same-origin</a> or <a href=#cors-cross-origin id=updating-the-image-data:cors-cross-origin>CORS-cross-origin</a>; this affects
+    the <a href=#concept-origin id=updating-the-image-data:concept-origin-2>origin</a> of the image itself (e.g. when used on a <code id=updating-the-image-data:the-canvas-element><a href=#the-canvas-element>canvas</a></code>).</p>
+
+    
+    <p>Fetching the image must <a href=#delay-the-load-event id=updating-the-image-data:delay-the-load-event>delay the load event</a> of the element's <a id=updating-the-image-data:node-document-7 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> until the
+    <a href=#concept-task id=updating-the-image-data:concept-task-2>task</a> that is <a href=#queue-a-task id=updating-the-image-data:queue-a-task-6>queued</a> by the
+    <a href=#networking-task-source id=updating-the-image-data:networking-task-source>networking task source</a> once the resource has been fetched (<a href=#img-load>defined below</a>) has been run.
+    </p>
+
+    <p class=warning>This, unfortunately, can be used to perform a rudimentary port scan of the
+    user's local network (especially in conjunction with scripting, though scripting isn't actually
+    necessary to carry out such an attack). User agents may implement <a href=#concept-origin id=updating-the-image-data:concept-origin-3>cross-origin</a> access control policies that are stricter than those
+    described above to mitigate this attack, but unfortunately such policies are typically not
+    compatible with existing Web content.</p>
+
+    <p>If the resource is <a href=#cors-same-origin id=updating-the-image-data:cors-same-origin-2>CORS-same-origin</a>, each <a href=#concept-task id=updating-the-image-data:concept-task-3>task</a>
+    that is <a href=#queue-a-task id=updating-the-image-data:queue-a-task-7>queued</a> by the <a href=#networking-task-source id=updating-the-image-data:networking-task-source-2>networking task source</a>
+    while the image is being fetched, if <var>image request</var> is the <a href=#current-request id=updating-the-image-data:current-request-17>current
+    request</a>, must <a id=updating-the-image-data:fire-a-progress-event-2 href=https://xhr.spec.whatwg.org/#concept-event-fire-progress data-x-internal=fire-a-progress-event>fire a progress event</a> named <code id=updating-the-image-data:event-progress><a href=#event-progress>progress</a></code> at the <code id=updating-the-image-data:the-img-element-11><a href=#the-img-element>img</a></code> element.</p>
+
+   <li><p>End the <a href=#synchronous-section id=updating-the-image-data:synchronous-section-4>synchronous section</a>, continuing the remaining steps <a href=#in-parallel id=updating-the-image-data:in-parallel-2>in
+   parallel</a>, but without missing any data from fetching.<li>
+
+    <p>As soon as possible, jump to the first applicable entry from the following list:</p>
+
+    <dl class=switch><dt>If the resource type is <code id=updating-the-image-data:multipart/x-mixed-replace><a href=#multipart/x-mixed-replace>multipart/x-mixed-replace</a></code><dd>
+
+      <p>The next <a href=#concept-task id=updating-the-image-data:concept-task-4>task</a> that is <a href=#queue-a-task id=updating-the-image-data:queue-a-task-8>queued</a> by the <a href=#networking-task-source id=updating-the-image-data:networking-task-source-3>networking task source</a> while the image is being
+      fetched must run the following steps:</p>
+
+      <ol><li>
+
+        <p>If <var>image request</var> is the <a href=#pending-request id=updating-the-image-data:pending-request-15>pending request</a>
+        and at least one body part has been completely decoded,
+        <a href=#abort-the-image-request id=updating-the-image-data:abort-the-image-request-7>abort the image request</a> for the <a href=#current-request id=updating-the-image-data:current-request-18>current request</a>,
+        <a href=#upgrade-the-pending-request-to-the-current-request id=updating-the-image-data:upgrade-the-pending-request-to-the-current-request>upgrade the pending request to the current request</a>.</p>
+
+       <li>
+
+        <p>Otherwise, if <var>image request</var> is the <a href=#pending-request id=updating-the-image-data:pending-request-16>pending request</a>
+        and the user agent is able to determine that <var>image request</var>'s image
+        is corrupted in some fatal way such that the image dimensions cannot be obtained,
+        <a href=#abort-the-image-request id=updating-the-image-data:abort-the-image-request-8>abort the image request</a> for the <a href=#current-request id=updating-the-image-data:current-request-19>current request</a>,
+        <a href=#upgrade-the-pending-request-to-the-current-request id=updating-the-image-data:upgrade-the-pending-request-to-the-current-request-2>upgrade the pending request to the current request</a>
+        and set the <a href=#current-request id=updating-the-image-data:current-request-20>current request</a>'s state to <a href=#img-error id=updating-the-image-data:img-error-4>broken</a>.</p>
+
+       <li>
+
+        <p>Otherwise, if <var>image request</var> is the <a href=#current-request id=updating-the-image-data:current-request-21>current request</a>,
+        it is in the <a href=#img-none id=updating-the-image-data:img-none-3>unavailable</a> state,
+        and the user agent is able to determine <var>image request</var>'s image's width and height,
+        set the <a href=#current-request id=updating-the-image-data:current-request-22>current request</a>'s state to <a href=#img-inc id=updating-the-image-data:img-inc-2>partially available</a>.</p>
+
+       <li>
+
+        <p>Otherwise, if <var>image request</var> is the <a href=#current-request id=updating-the-image-data:current-request-23>current request</a>,
+        it is in the <a href=#img-none id=updating-the-image-data:img-none-4>unavailable</a> state,
+        and the user agent is able to determine that <var>image request</var>'s image
+        is corrupted in some fatal way such that the image dimensions cannot be obtained,
+        set the <a href=#current-request id=updating-the-image-data:current-request-24>current request</a>'s state to <a href=#img-error id=updating-the-image-data:img-error-5>broken</a>.
+        </p>
+
+       </ol>

@@ -1,0 +1,850 @@
+  encodings, image formats, audio formats, and video formats in the respective sections.</p>
+
+  </div>
+
+
+
+
+  <h4 id=extensibility-2>2.1.9 Extensibility<a href=#extensibility-2 class=self-link></a></h4>
+
+  <p>Vendor-specific proprietary user agent extensions to this specification are strongly
+  discouraged. Documents must not use such extensions, as doing so reduces interoperability and
+  fragments the user base, allowing only users of specific user agents to access the content in
+  question.</p>
+
+  
+
+  <p>All extensions must be defined so that the use of extensions neither contradicts nor causes the
+  non-conformance of functionality defined in the specification.</p> 
+
+  <div class=example>
+
+   <p>For example, while strongly discouraged from doing so, an implementation could add a new IDL
+   attribute "<code>typeTime</code>" to a control that returned the time it took the user
+   to select the current value of a control (say). On the other hand, defining a new control that
+   appears in a form's <code id=extensibility-2:dom-form-elements><a href=#dom-form-elements>elements</a></code> array would be in violation
+   of the above requirement, as it would violate the definition of <code id=extensibility-2:dom-form-elements-2><a href=#dom-form-elements>elements</a></code> given in this specification.</p>
+
+  </div>
+
+  
+
+  <hr>
+
+  <p>When vendor-neutral extensions to this specification are needed, either this specification can
+  be updated accordingly, or an extension specification can be written that overrides the
+  requirements in this specification. When someone applying this specification to their activities
+  decides that they will recognize the requirements of such an extension specification, it becomes
+  an <dfn id=other-applicable-specifications>applicable specification</dfn> for the purposes
+  of conformance requirements in this specification.</p>
+
+  <p class=note>Someone could write a specification that defines any arbitrary byte stream as
+  conforming, and then claim that their random junk is conforming. However, that does not mean that
+  their random junk actually is conforming for everyone's purposes: if someone else decides that
+  that specification does not apply to their work, then they can quite legitimately say that the
+  aforementioned random junk is just that, junk, and not conforming at all. As far as conformance
+  goes, what matters in a particular community is what that community <em>agrees</em> is
+  applicable.</p>
+
+  
+
+  <hr>
+
+  <p>User agents must treat elements and attributes that they do not understand as semantically
+  neutral; leaving them in the DOM (for DOM processors), and styling them according to CSS (for CSS
+  processors), but not inferring any meaning from them.</p>
+
+
+  <p>When support for a feature is disabled (e.g. as an emergency measure to mitigate a security
+  problem, or to aid in development, or for performance reasons), user agents must act as if they
+  had no support for the feature whatsoever, and as if the feature was not mentioned in this
+  specification. For example, if a particular feature is accessed via an attribute in a Web IDL
+  interface, the attribute itself would be omitted from the objects that implement that interface
+  — leaving the attribute on the object but making it return null or throw an exception is
+  insufficient.</p>
+
+
+  
+
+
+  
+
+  <h4 id=interactions-with-xpath-and-xslt>2.1.10 Interactions with XPath and XSLT<a href=#interactions-with-xpath-and-xslt class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=18460" title="Need to violate XSLT spec to correctly produce <br>">18460</a></div>
+
+  <p id=xpath-1.0-processors>Implementations of XPath 1.0 that operate on <a id=interactions-with-xpath-and-xslt:html-documents href=https://dom.spec.whatwg.org/#html-document data-x-internal=html-documents>HTML
+  documents</a> parsed or created in the manners described in this specification (e.g. as part of
+  the <code>document.evaluate()</code> API) must act as if the following edit was applied
+  to the XPath 1.0 specification.</p>
+
+  <p>First, remove this paragraph:</p>
+
+  <blockquote cite=https://www.w3.org/TR/1999/REC-xpath-19991116/#node-tests>
+
+   <p>A <a href=https://www.w3.org/TR/REC-xml-names/#NT-QName>QName</a> in the node test is expanded
+   into an <a href=https://www.w3.org/TR/1999/REC-xpath-19991116/#dt-expanded-name>expanded-name</a>
+   using the namespace declarations from the expression context. This is the same way expansion is
+   done for element type names in start and end-tags except that the default namespace declared with
+   <code>xmlns</code> is not used: if the <a href=https://www.w3.org/TR/REC-xml-names/#NT-QName>QName</a> does not have a prefix, then the
+   namespace URI is null (this is the same way attribute names are expanded). It is an error if the
+   <a href=https://www.w3.org/TR/REC-xml-names/#NT-QName>QName</a> has a prefix for which there is
+   no namespace declaration in the expression context.</p>
+
+  </blockquote>
+
+  <p>Then, insert in its place the following:</p>
+
+  <blockquote cite="https://www.w3.org/Bugs/Public/show_bug.cgi?id=7059#c37">
+
+   <p>A QName in the node test is expanded into an expanded-name using the namespace declarations
+   from the expression context. If the QName has a prefix, then there must be a namespace declaration for this prefix in
+   the expression context, and the corresponding namespace URI is the one that is
+   associated with this prefix. It is an error if the QName has a prefix for which there is no
+   namespace declaration in the expression context. </p>
+
+   <p>If the QName has no prefix and the principal node type of the axis is element, then the
+   default element namespace is used. Otherwise if the QName has no prefix, the namespace URI is
+   null. The default element namespace is a member of the context for the XPath expression. The
+   value of the default element namespace when executing an XPath expression through the DOM3 XPath
+   API is determined in the following way:</p>
+
+   <ol><li>If the context node is from an HTML DOM, the default element namespace is
+    "http://www.w3.org/1999/xhtml".<li>Otherwise, the default element namespace URI is null.</ol>
+
+   <p class=note>This is equivalent to adding the default element namespace feature of XPath 2.0
+   to XPath 1.0, and using the HTML namespace as the default element namespace for HTML documents.
+   It is motivated by the desire to have implementations be compatible with legacy HTML content
+   while still supporting the changes that this specification introduces to HTML regarding the
+   namespace used for HTML elements, and by the desire to use XPath 1.0 rather than XPath 2.0.</p>
+
+  </blockquote>
+
+  <p class=note>This change is a <a href=#willful-violation id=interactions-with-xpath-and-xslt:willful-violation>willful violation</a> of the XPath 1.0 specification,
+  motivated by desire to have implementations be compatible with legacy content while still
+  supporting the changes that this specification introduces to HTML regarding which namespace is
+  used for HTML elements. <a href=#refsXPATH10>[XPATH10]</a></p> 
+
+  <hr>
+
+  <p id=dom-based-xslt-1.0-processors>XSLT 1.0 processors outputting to a DOM when the output
+  method is "html" (either explicitly or via the defaulting rule in XSLT 1.0) are affected as
+  follows:</p>
+
+  <p>If the transformation program outputs an element in no namespace, the processor must, prior to
+  constructing the corresponding DOM element node, change the namespace of the element to the
+  <a id=interactions-with-xpath-and-xslt:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>, <a href=https://infra.spec.whatwg.org/#ascii-lowercase id=interactions-with-xpath-and-xslt:converted-to-ascii-lowercase data-x-internal=converted-to-ascii-lowercase>ASCII-lowercase</a> the
+  element's local name, and <a href=https://infra.spec.whatwg.org/#ascii-lowercase id=interactions-with-xpath-and-xslt:converted-to-ascii-lowercase-2 data-x-internal=converted-to-ascii-lowercase>ASCII-lowercase</a> the
+  names of any non-namespaced attributes on the element.</p>
+
+  <p class=note>This requirement is a <a href=#willful-violation id=interactions-with-xpath-and-xslt:willful-violation-2>willful violation</a> of the XSLT 1.0
+  specification, required because this specification changes the namespaces and case-sensitivity
+  rules of HTML in a manner that would otherwise be incompatible with DOM-based XSLT
+  transformations. (Processors that serialize the output are unaffected.) <a href=#refsXSLT10>[XSLT10]</a></p> 
+
+  <hr>
+
+  <p>This specification does not specify precisely how XSLT processing interacts with the <a href=#html-parser id=interactions-with-xpath-and-xslt:html-parser>HTML
+  parser</a> infrastructure (for example, whether an XSLT processor acts as if it puts any
+  elements into a <a href=#stack-of-open-elements id=interactions-with-xpath-and-xslt:stack-of-open-elements>stack of open elements</a>). However, XSLT processors must <a href=#stop-parsing id=interactions-with-xpath-and-xslt:stop-parsing>stop
+  parsing</a> if they successfully complete, and must set the <a href=#current-document-readiness id=interactions-with-xpath-and-xslt:current-document-readiness>current document
+  readiness</a> first to "<code>interactive</code>" and then to "<code>complete</code>" if they are aborted.</p>
+
+  <hr>
+
+  <p>This specification does not specify how XSLT interacts with the <a href=#navigate id=interactions-with-xpath-and-xslt:navigate>navigation</a> algorithm, how it fits in with the <a href=#event-loop id=interactions-with-xpath-and-xslt:event-loop>event loop</a>, nor
+  how error pages are to be handled (e.g. whether XSLT errors are to replace an incremental XSLT
+  output, or are rendered inline, etc).</p>
+
+  <p class=note>There are also additional non-normative comments regarding the interaction of XSLT
+  and HTML <a href=#scriptTagXSLT>in the <code>script</code> element section</a>, and of
+  XSLT, XPath, and HTML <a href=#template-XSLT-XPath>in the <code>template</code> element
+  section</a>.</p>
+
+  
+
+
+
+
+  <h3 id=case-sensitivity-and-string-comparison>2.2 Case-sensitivity and string comparison<a href=#case-sensitivity-and-string-comparison class=self-link></a></h3>
+
+  <p>Comparing two strings in a <dfn id=case-sensitive data-export="">case-sensitive</dfn> manner means comparing them
+  exactly, code point for code point.</p>
+
+  <p>Except where otherwise stated, string comparisons must be performed in a
+  <a href=#case-sensitive id=case-sensitivity-and-string-comparison:case-sensitive>case-sensitive</a> manner.</p>
+
+  <p>A string <var>pattern</var> is a <dfn id=prefix-match>prefix match</dfn> for a string <var>s</var> when
+  <var>pattern</var> is not longer than <var>s</var> and truncating <var>s</var> to
+  <var>pattern</var>'s length leaves the two strings as matches of each other.</p>
+
+
+
+  <h3 id=common-microsyntaxes>2.3 Common microsyntaxes<a href=#common-microsyntaxes class=self-link></a></h3>
+
+  <p>There are various places in HTML that accept particular data types, such as dates or numbers.
+  This section describes what the conformance criteria for content in those formats is, and how to
+  parse them.</p>
+
+  
+
+  <p class=note>Implementors are strongly urged to carefully examine any third-party libraries
+  they might consider using to implement the parsing of syntaxes described below. For example, date
+  libraries are likely to implement error handling behavior that differs from what is required in
+  this specification, since error-handling behavior is often not defined in specifications that
+  describe date syntaxes similar to those used in this specification, and thus implementations tend
+  to vary greatly in how they handle errors.</p>
+
+  
+
+
+  
+
+  <h4 id=common-parser-idioms>2.3.1 Common parser idioms<a href=#common-parser-idioms class=self-link></a></h4>
+
+  
+
+  <p>The <dfn id=space-character data-export="">space characters</dfn>, for the purposes of
+  this specification, are U+0020 SPACE, U+0009 CHARACTER TABULATION (tab), U+000A LINE FEED (LF),
+  U+000C FORM FEED (FF), and U+000D CARRIAGE RETURN (CR).</p>
+
+  <p>The <dfn id=white_space>White_Space characters</dfn> are those that have the Unicode
+  property "White_Space" in the Unicode <code>PropList.txt</code> data file. <a href=#refsUNICODE>[UNICODE]</a></p>
+
+  <p class=note>This should not be confused with the "White_Space" value (abbreviated "WS") of the
+  "Bidi_Class" property in the <code>Unicode.txt</code> data file.</p>
+
+  <p>The <dfn id=control-characters>control characters</dfn> are those whose Unicode "General_Category" property has the
+  value "Cc" in the Unicode <code>UnicodeData.txt</code> data file. <a href=#refsUNICODE>[UNICODE]</a></p>
+
+  <p>The <dfn id=uppercase-ascii-letters>uppercase ASCII letters</dfn> are the characters in the range U+0041 LATIN CAPITAL
+  LETTER A to U+005A LATIN CAPITAL LETTER Z.</p>
+
+  <p>The <dfn id=lowercase-ascii-letters>lowercase ASCII letters</dfn> are the characters in the range U+0061 LATIN SMALL
+  LETTER A to U+007A LATIN SMALL LETTER Z.</p>
+
+  <p>The <dfn id=ascii-letters>ASCII letters</dfn> are the characters that are either <a href=#uppercase-ascii-letters id=common-parser-idioms:uppercase-ascii-letters>uppercase ASCII
+  letters</a> or <a href=#lowercase-ascii-letters id=common-parser-idioms:lowercase-ascii-letters>lowercase ASCII letters</a>.</p>
+
+  <p>The <dfn id=ascii-digits>ASCII digits</dfn> are the characters in the range U+0030 DIGIT ZERO (0) to U+0039
+  DIGIT NINE (9).</p>
+
+  <p>The <dfn id=alphanumeric-ascii-characters>alphanumeric ASCII characters</dfn> are those that are either <a href=#ascii-letters id=common-parser-idioms:ascii-letters>ASCII
+  letters</a> or <a href=#ascii-digits id=common-parser-idioms:ascii-digits>ASCII digits</a>.</p>
+
+  <p>The <dfn id=ascii-hex-digits>ASCII hex digits</dfn> are the characters in the ranges U+0030 DIGIT ZERO (0) to
+  U+0039 DIGIT NINE (9), U+0041 LATIN CAPITAL LETTER A to U+0046 LATIN CAPITAL LETTER F, and U+0061
+  LATIN SMALL LETTER A to U+0066 LATIN SMALL LETTER F.</p>
+
+  <p>The <dfn id=uppercase-ascii-hex-digits>uppercase ASCII hex digits</dfn> are the characters in the ranges U+0030 DIGIT ZERO (0) to
+  U+0039 DIGIT NINE (9) and U+0041 LATIN CAPITAL LETTER A to U+0046 LATIN CAPITAL LETTER F only.</p>
+
+  <p>The <dfn id=lowercase-ascii-hex-digits>lowercase ASCII hex digits</dfn> are the characters in the ranges U+0030 DIGIT ZERO
+  (0) to U+0039 DIGIT NINE (9) and U+0061 LATIN SMALL LETTER A to U+0066 LATIN SMALL LETTER F
+  only.</p>
+
+  
+
+  <p>Some of the micro-parsers described below follow the pattern of having an <var>input</var>
+  variable that holds the string being parsed, and having a <var>position</var> variable pointing at
+  the next character to parse in <var>input</var>.</p>
+
+  <p>For parsers based on this pattern, a step that requires the user agent to <dfn id=collect-a-sequence-of-characters data-export="">collect a sequence of characters</dfn> means that the following algorithm must be
+  run, with <var>characters</var> being the set of characters that can be collected:</p>
+
+  <ol><li><p>Let <var>input</var> and <var>position</var> be the same variables as
+   those of the same name in the algorithm that invoked these steps.<li><p>Let <var>result</var> be the empty string.<li><p>While <var>position</var> doesn't point past the end of <var>input</var> and the character
+   at <var>position</var> is one of the <var>characters</var>, append that character to the end of
+   <var>result</var> and advance <var>position</var> to the next character in
+   <var>input</var>.<li><p>Return <var>result</var>.</ol>
+
+  <p>The step <dfn id=skip-whitespace>skip whitespace</dfn> means that the user agent must <a href=#collect-a-sequence-of-characters id=common-parser-idioms:collect-a-sequence-of-characters>collect a sequence of
+  characters</a> that are <a href=#space-character id=common-parser-idioms:space-character>space characters</a>.  The collected
+  characters are not used. </p>
+
+  <p>When a user agent is to <dfn id=strip-line-breaks data-export="">strip line breaks</dfn> from a string, the user
+  agent must remove any U+000A LINE FEED (LF) and U+000D CARRIAGE RETURN (CR) characters from that
+  string.</p>
+
+  <p>When a user agent is to <dfn id=strip-leading-and-trailing-whitespace data-export="">strip leading and trailing whitespace</dfn> from a
+  string, the user agent must remove all <a href=#space-character id=common-parser-idioms:space-character-2>space characters</a> that
+  are at the start or end of the string.</p>
+
+  <p>When a user agent is to <dfn id=strip-and-collapse-whitespace data-export="">strip and collapse whitespace</dfn> in a string, it
+  must replace any sequence of one or more consecutive <a href=#space-character id=common-parser-idioms:space-character-3>space
+  characters</a> in that string with a single U+0020 SPACE character, and then <a href=#strip-leading-and-trailing-whitespace id=common-parser-idioms:strip-leading-and-trailing-whitespace>strip
+  leading and trailing whitespace</a> from that string.</p>
+
+  <p>When a user agent has to <dfn id=strictly-split-a-string data-export="">strictly split a string</dfn> on a particular
+  delimiter character <var>delimiter</var>, it must use the following algorithm:</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>position</var> be a pointer into <var>input</var>, initially
+   pointing at the start of the string.<li><p>Let <var>tokens</var> be an ordered list of tokens, initially empty.<li><p>While <var>position</var> is not past the end of <var>input</var>:</p>
+
+    <ol><li><p><a href=#collect-a-sequence-of-characters id=common-parser-idioms:collect-a-sequence-of-characters-2>Collect a sequence of characters</a> that are not the <var>delimiter</var>
+     character.<li><p>Append the string collected in the previous step to <var>tokens</var>.<li><p>Advance <var>position</var> to the next character in <var>input</var>.</ol>
+
+   <li><p>Return <var>tokens</var>.</ol>
+
+  <p class=note>For the special cases of splitting a string <a href=#split-a-string-on-spaces id=common-parser-idioms:split-a-string-on-spaces>on spaces</a> and <a href=#split-a-string-on-commas id=common-parser-idioms:split-a-string-on-commas>on commas</a>, this
+  algorithm does not apply (those algorithms also perform <a href=#strip-leading-and-trailing-whitespace id=common-parser-idioms:strip-leading-and-trailing-whitespace-2>whitespace trimming</a>).</p>
+
+  
+
+
+
+  <h4 id=boolean-attributes>2.3.2 Boolean attributes<a href=#boolean-attributes class=self-link></a></h4>
+
+  <p>A number of attributes are <dfn id=boolean-attribute>boolean attributes</dfn>. The
+  presence of a boolean attribute on an element represents the true value, and the absence of the
+  attribute represents the false value.</p>
+
+  <p>If the attribute is present, its value must either be the empty string or a value that is an
+  <a id=boolean-attributes:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the attribute's canonical name, with no leading or
+  trailing whitespace.</p>
+
+  <p class=note>The values "true" and "false" are not allowed on boolean attributes. To represent
+  a false value, the attribute has to be omitted altogether.</p>
+
+  <div class=example>
+
+   <p>Here is an example of a checkbox that is checked and disabled. The <code id=boolean-attributes:attr-input-checked><a href=#attr-input-checked>checked</a></code> and <code id=boolean-attributes:attr-fe-disabled><a href=#attr-fe-disabled>disabled</a></code>
+   attributes are the boolean attributes.</p>
+
+   <pre>&lt;label>&lt;input type=checkbox checked name=cheese disabled> Cheese&lt;/label></pre>
+
+   <p>This could be equivalently written as this:
+
+   <pre>&lt;label>&lt;input type=checkbox checked=checked name=cheese disabled=disabled> Cheese&lt;/label></pre>
+
+   <p>You can also mix styles; the following is still equivalent:</p>
+
+   <pre>&lt;label>&lt;input type='checkbox' checked name=cheese disabled=""> Cheese&lt;/label></pre>
+
+  </div>
+
+
+
+  <h4 id=keywords-and-enumerated-attributes>2.3.3 Keywords and enumerated attributes<a href=#keywords-and-enumerated-attributes class=self-link></a></h4>
+
+  <p>Some attributes are defined as taking one of a finite set of keywords. Such attributes are
+  called <dfn id=enumerated-attribute>enumerated attributes</dfn>. The keywords are each
+  defined to map to a particular <em>state</em> (several keywords might map to the same state, in
+  which case some of the keywords are synonyms of each other; additionally, some of the keywords can
+  be said to be non-conforming, and are only in the specification for historical reasons). In
+  addition, two default states can be given. The first is the <dfn id=invalid-value-default><i>invalid value default</i></dfn>, the
+  second is the <dfn id=missing-value-default><i>missing value default</i></dfn>.</p>
+
+  <p>If an enumerated attribute is specified, the attribute's value must be an <a id=keywords-and-enumerated-attributes:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+  case-insensitive</a> match for one of the given keywords that are not said to be
+  non-conforming, with no leading or trailing whitespace.</p>
+
+  <p>When the attribute is specified, if its value is an <a id=keywords-and-enumerated-attributes:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match
+  for one of the given keywords then that keyword's state is the state that the attribute
+  represents. If the attribute value matches none of the given keywords, but the attribute has an
+  <i id=keywords-and-enumerated-attributes:invalid-value-default><a href=#invalid-value-default>invalid value default</a></i>, then the attribute represents that state. Otherwise, if the
+  attribute value matches none of the keywords but there is a <i id=keywords-and-enumerated-attributes:missing-value-default><a href=#missing-value-default>missing value default</a></i> state
+  defined, then <em>that</em> is the state represented by the attribute. Otherwise, there is no
+  default, and invalid values mean that there is no state represented.</p>
+
+  <p>When the attribute is <em>not</em> specified, if there is a <i id=keywords-and-enumerated-attributes:missing-value-default-2><a href=#missing-value-default>missing value default</a></i> state
+  defined, then that is the state represented by the (missing) attribute. Otherwise, the absence of
+  the attribute means that there is no state represented.</p>
+
+  <p class=note>The empty string can be a valid keyword.</p>
+
+
+  <h4 id=numbers>2.3.4 Numbers<a href=#numbers class=self-link></a></h4>
+
+  <h5 id=signed-integers>2.3.4.1 Signed integers<a href=#signed-integers class=self-link></a></h5>
+
+  <p>A string is a <dfn id=valid-integer>valid integer</dfn> if it consists of one or more <a href=#ascii-digits id=signed-integers:ascii-digits>ASCII digits</a>,
+  optionally prefixed with a U+002D HYPHEN-MINUS character (-).</p>
+
+  <p>A <a href=#valid-integer id=signed-integers:valid-integer>valid integer</a> without a U+002D HYPHEN-MINUS (-) prefix represents the number
+  that is represented in base ten by that string of digits. A <a href=#valid-integer id=signed-integers:valid-integer-2>valid integer</a>
+  <em>with</em> a U+002D HYPHEN-MINUS (-) prefix represents the number represented in base ten by
+  the string of digits that follows the U+002D HYPHEN-MINUS, subtracted from zero.</p>
+
+  
+
+  <p>The <dfn id=rules-for-parsing-integers>rules for parsing integers</dfn> are as given in the following algorithm. When
+  invoked, the steps must be followed in the order given, aborting at the first step that returns a
+  value. This algorithm will return either an integer or an error.</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>position</var> be a pointer into <var>input</var>, initially pointing at the
+   start of the string.<li><p>Let <var>sign</var> have the value "positive".<li><p><a href=#skip-whitespace id=signed-integers:skip-whitespace>Skip whitespace</a>.<li><p>If <var>position</var> is past the end of <var>input</var>, return an error.<li>
+
+    <p>If the character indicated by <var>position</var> (the first character) is a U+002D
+    HYPHEN-MINUS character (-):</p>
+
+    <ol><li>Let <var>sign</var> be "negative".<li>Advance <var>position</var> to the next character.<li>If <var>position</var> is past the end of <var>input</var>, return an error.</ol>
+
+    <p>Otherwise, if the character indicated by <var>position</var> (the first character) is a
+    U+002B PLUS SIGN character (+):</p>
+
+    <ol><li>Advance <var>position</var> to the next character. (The "<code>+</code>" is
+     ignored, but it is not conforming.)<li>If <var>position</var> is past the end of <var>input</var>, return an error.</ol>
+
+   <li><p>If the character indicated by <var>position</var> is not an <a href=#ascii-digits id=signed-integers:ascii-digits-2>ASCII digit</a>, then return an error.<li><p><a href=#collect-a-sequence-of-characters id=signed-integers:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are <a href=#ascii-digits id=signed-integers:ascii-digits-3>ASCII digits</a>, and
+   interpret the resulting sequence as a base-ten integer. Let <var>value</var> be that
+   integer.<li><p>If <var>sign</var> is "positive", return <var>value</var>, otherwise return the result of
+   subtracting <var>value</var> from zero.</ol>
+
+  
+
+
+  <h5 id=non-negative-integers>2.3.4.2 Non-negative integers<a href=#non-negative-integers class=self-link></a></h5>
+
+  <p>A string is a <dfn id=valid-non-negative-integer>valid non-negative integer</dfn> if it consists of one or more <a href=#ascii-digits id=non-negative-integers:ascii-digits>ASCII
+  digits</a>.</p>
+
+  <p>A <a href=#valid-non-negative-integer id=non-negative-integers:valid-non-negative-integer>valid non-negative integer</a> represents the number that is represented in base ten
+  by that string of digits.</p>
+
+  
+
+  <p>The <dfn id=rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</dfn> are as given in the following algorithm.
+  When invoked, the steps must be followed in the order given, aborting at the first step that
+  returns a value. This algorithm will return either zero, a positive integer, or an error.</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>value</var> be the result of parsing <var>input</var> using the
+   <a href=#rules-for-parsing-integers id=non-negative-integers:rules-for-parsing-integers>rules for parsing integers</a>.<li><p>If <var>value</var> is an error, return an error.<li><p>If <var>value</var> is less than zero, return an error.<li><p>Return <var>value</var>.</ol>
+
+  
+
+  
+
+
+  <h5 id=floating-point-numbers>2.3.4.3 Floating-point numbers<a href=#floating-point-numbers class=self-link></a></h5>
+
+  <p>A string is a <dfn id=valid-floating-point-number>valid floating-point number</dfn> if it consists of:</p>
+
+  <ol class=brief><li>Optionally, a U+002D HYPHEN-MINUS character (-).<li>One or both of the following, in the given order:
+
+    <ol><li>A series of one or more <a href=#ascii-digits id=floating-point-numbers:ascii-digits>ASCII digits</a>.<li>Both of the following, in the given order:
+
+      <ol><li>A single U+002E FULL STOP character (.).<li>A series of one or more <a href=#ascii-digits id=floating-point-numbers:ascii-digits-2>ASCII digits</a>.</ol>
+
+     </ol>
+
+   <li>Optionally:
+
+    <ol><li>Either a U+0065 LATIN SMALL LETTER E character (e) or a U+0045 LATIN CAPITAL LETTER E
+     character (E).<li>Optionally, a U+002D HYPHEN-MINUS character (-) or U+002B PLUS SIGN character (+).<li>A series of one or more <a href=#ascii-digits id=floating-point-numbers:ascii-digits-3>ASCII digits</a>.</ol>
+
+   </ol>
+
+  <p>A <a href=#valid-floating-point-number id=floating-point-numbers:valid-floating-point-number>valid floating-point number</a> represents the number obtained by multiplying the
+  significand by ten raised to the power of the exponent, where the significand is the first number,
+  interpreted as base ten (including the decimal point and the number after the decimal point, if
+  any, and interpreting the significand as a negative number if the whole string starts with a
+  U+002D HYPHEN-MINUS character (-) and the number is not zero), and where the exponent is the
+  number after the E, if any (interpreted as a negative number if there is a U+002D HYPHEN-MINUS
+  character (-) between the E and the number and the number is not zero, or else ignoring a U+002B
+  PLUS SIGN character (+) between the E and the number if there is one). If there is no E, then the
+  exponent is treated as zero.</p>
+
+  <p class=note>The Infinity and Not-a-Number (NaN) values are not <a href=#valid-floating-point-number id=floating-point-numbers:valid-floating-point-number-2>valid floating-point numbers</a>.</p>
+
+  
+
+  <p class=note>The <a href=#valid-floating-point-number id=floating-point-numbers:valid-floating-point-number-3>valid floating-point number</a> concept is typically only used to
+  restrict what is allowed for authors, while the user agent requirements use the <a href=#rules-for-parsing-floating-point-number-values id=floating-point-numbers:rules-for-parsing-floating-point-number-values>rules for
+  parsing floating-point number values</a> below (e.g., the <code id=floating-point-numbers:attr-progress-max><a href=#attr-progress-max>max</a></code> attribute of the <code id=floating-point-numbers:the-progress-element><a href=#the-progress-element>progress</a></code> element). However, in
+  some cases the user agent requirements include checking if a string is a <a href=#valid-floating-point-number id=floating-point-numbers:valid-floating-point-number-4>valid
+  floating-point number</a> (e.g., the <a href=#value-sanitization-algorithm id=floating-point-numbers:value-sanitization-algorithm>value sanitization algorithm</a> for the <a href="#number-state-(type=number)" id="floating-point-numbers:number-state-(type=number)">Number</a> state of the <code id=floating-point-numbers:the-input-element><a href=#the-input-element>input</a></code> element, or the
+  <a href=#parse-a-srcset-attribute id=floating-point-numbers:parse-a-srcset-attribute>parse a srcset attribute</a> algorithm).</p>
+
+  <p>The <dfn id=best-representation-of-the-number-as-a-floating-point-number>best
+  representation of the number <var>n</var> as a floating-point number</dfn> is the string
+  obtained from running <a id=floating-point-numbers:tostring href=https://tc39.github.io/ecma262/#sec-tostring data-x-internal=tostring>ToString</a>(<var>n</var>). The abstract operation
+  <a id=floating-point-numbers:tostring-2 href=https://tc39.github.io/ecma262/#sec-tostring data-x-internal=tostring>ToString</a> is not uniquely determined. When there are multiple possible strings that
+  could be obtained from <a id=floating-point-numbers:tostring-3 href=https://tc39.github.io/ecma262/#sec-tostring data-x-internal=tostring>ToString</a> for a particular value, the user agent must always
+  return the same string for that value (though it may differ from the value used by other user
+  agents).</p>
+
+  <p>The <dfn id=rules-for-parsing-floating-point-number-values>rules for parsing floating-point number values</dfn> are as given in the following
+  algorithm. This algorithm must be aborted at the first step that returns something. This algorithm
+  will return either a number or an error.</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>position</var> be a pointer into <var>input</var>, initially pointing at the
+   start of the string.<li><p>Let <var>value</var> have the value 1.<li><p>Let <var>divisor</var> have the value 1.<li><p>Let <var>exponent</var> have the value 1.<li><p><a href=#skip-whitespace id=floating-point-numbers:skip-whitespace>Skip whitespace</a>.<li><p>If <var>position</var> is past the end of <var>input</var>, return an error.<li>
+
+    <p>If the character indicated by <var>position</var> is a U+002D HYPHEN-MINUS character (-):</p>
+
+    <ol><li>Change <var>value</var> and <var>divisor</var> to −1.<li>Advance <var>position</var> to the next character.<li>If <var>position</var> is past the end of <var>input</var>, return an error.</ol>
+
+    <p>Otherwise, if the character indicated by <var>position</var> (the first character) is a
+    U+002B PLUS SIGN character (+):</p>
+
+    <ol><li>Advance <var>position</var> to the next character. (The "<code>+</code>"
+     is ignored, but it is not conforming.)<li>If <var>position</var> is past the end of <var>input</var>, return an error.</ol>
+
+   <li><p>If the character indicated by <var>position</var> is a U+002E FULL STOP (.), and that is
+   not the last character in <var>input</var>, and the character after the character indicated by
+   <var>position</var> is an <a href=#ascii-digits id=floating-point-numbers:ascii-digits-4>ASCII digit</a>, then set
+   <var>value</var> to zero and jump to the step labeled <i>fraction</i>.</p> 
+
+   <li><p>If the character indicated by <var>position</var> is not an <a href=#ascii-digits id=floating-point-numbers:ascii-digits-5>ASCII digit</a>, then return an error.<li><p><a href=#collect-a-sequence-of-characters id=floating-point-numbers:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are <a href=#ascii-digits id=floating-point-numbers:ascii-digits-6>ASCII digits</a>, and
+   interpret the resulting sequence as a base-ten integer. Multiply <var>value</var> by that
+   integer.<li>If <var>position</var> is past the end of <var>input</var>, jump to the step labeled
+   <i>conversion</i>.<li><p><i>Fraction</i>: If the character indicated by <var>position</var> is a U+002E
+   FULL STOP (.), run these substeps:</p>
+
+    <ol><li><p>Advance <var>position</var> to the next character.<li><p>If <var>position</var> is past the end of <var>input</var>, or if the character
+     indicated by <var>position</var> is not an <a href=#ascii-digits id=floating-point-numbers:ascii-digits-7>ASCII digit</a>,
+     U+0065 LATIN SMALL LETTER E (e), or U+0045 LATIN CAPITAL LETTER E (E), then jump to the step
+     labeled <i>conversion</i>.<li><p>If the character indicated by <var>position</var> is a U+0065 LATIN SMALL
+     LETTER E character (e) or a U+0045 LATIN CAPITAL LETTER E character (E), skip the remainder of
+     these substeps.</p>
+
+     <li><p><i>Fraction loop</i>: Multiply <var>divisor</var> by ten.<li>Add the value of the character indicated by <var>position</var>, interpreted as a
+     base-ten digit (0..9) and divided by <var>divisor</var>, to <var>value</var>.<li><p>Advance <var>position</var> to the next character.<li><p>If <var>position</var> is past the end of <var>input</var>, then jump to the step
+     labeled <i>conversion</i>.<li><p>If the character indicated by <var>position</var> is an <a href=#ascii-digits id=floating-point-numbers:ascii-digits-8>ASCII digit</a>, jump back to the step labeled <i>fraction loop</i> in these
+     substeps.</ol>
+
+   <li><p>If the character indicated by <var>position</var> is a U+0065 LATIN SMALL LETTER
+   E character (e) or a U+0045 LATIN CAPITAL LETTER E character (E), run these substeps:</p>
+
+    <ol><li><p>Advance <var>position</var> to the next character.<li><p>If <var>position</var> is past the end of <var>input</var>, then jump to the step
+     labeled <i>conversion</i>.<li>
+
+      <p>If the character indicated by <var>position</var> is a U+002D HYPHEN-MINUS character
+      (-):</p>
+
+      <ol><li>Change <var>exponent</var> to −1.<li>Advance <var>position</var> to the next character.<li><p>If <var>position</var> is past the end of <var>input</var>, then jump to the step
+       labeled <i>conversion</i>.</ol>
+
+      <p>Otherwise, if the character indicated by <var>position</var> is a U+002B PLUS SIGN
+      character (+):</p>
+
+      <ol><li>Advance <var>position</var> to the next character.<li><p>If <var>position</var> is past the end of <var>input</var>, then jump to the step
+       labeled <i>conversion</i>.</ol>
+
+     <li><p>If the character indicated by <var>position</var> is not an <a href=#ascii-digits id=floating-point-numbers:ascii-digits-9>ASCII digit</a>, then jump to the step labeled <i>conversion</i>.<li><p><a href=#collect-a-sequence-of-characters id=floating-point-numbers:collect-a-sequence-of-characters-2>Collect a sequence of characters</a> that are <a href=#ascii-digits id=floating-point-numbers:ascii-digits-10>ASCII digits</a>, and
+     interpret the resulting sequence as a base-ten integer. Multiply <var>exponent</var>
+     by that integer.<li><p>Multiply <var>value</var> by ten raised to the <var>exponent</var>th power.</ol>
+
+   <li><p><i>Conversion</i>: Let <var>S</var> be the set of finite IEEE 754 double-precision
+   floating-point values except −0, but with two special values added: 2<sup>1024</sup> and −2<sup>1024</sup>.<li><p>Let <var>rounded-value</var> be the number in <var>S</var> that is closest to
+   <var>value</var>, selecting the number with an even significand if there are two equally close
+   values. (The two special values 2<sup>1024</sup> and −2<sup>1024</sup>
+   are considered to have even significands for this purpose.)<li><p>If <var>rounded-value</var> is 2<sup>1024</sup> or −2<sup>1024</sup>, return an error.<li><p>Return <var>rounded-value</var>.</ol>
+
+  
+
+
+
+  <h5 id=percentages-and-dimensions>2.3.4.4 Percentages and lengths<a href=#percentages-and-dimensions class=self-link></a></h5>
+
+  <p>The <dfn id=rules-for-parsing-dimension-values>rules for parsing dimension values</dfn> are as given in the following algorithm. When
+  invoked, the steps must be followed in the order given, aborting at the first step that returns a
+  value. This algorithm will return either a number greater than or equal to 0.0, or an error; if a
+  number is returned, then it is further categorized as either a percentage or a length.</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>position</var> be a pointer into <var>input</var>, initially pointing at the
+   start of the string.<li><p><a href=#skip-whitespace id=percentages-and-dimensions:skip-whitespace>Skip whitespace</a>.<li><p>If <var>position</var> is past the end of <var>input</var>, return an error.<li><p>If the character indicated by <var>position</var> is a U+002B PLUS SIGN character (+),
+   advance <var>position</var> to the next character.<li><p>If <var>position</var> is past the end of <var>input</var>, return an error.<li><p>If the character indicated by <var>position</var> is not an <a href=#ascii-digits id=percentages-and-dimensions:ascii-digits>ASCII digit</a>, then return an error.<li><p><a href=#collect-a-sequence-of-characters id=percentages-and-dimensions:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are <a href=#ascii-digits id=percentages-and-dimensions:ascii-digits-2>ASCII digits</a>, and
+   interpret the resulting sequence as a base-ten integer. Let <var>value</var> be that number.<li><p>If <var>position</var> is past the end of <var>input</var>, return <var>value</var> as a
+   length.<li>
+
+    <p>If the character indicated by <var>position</var> is a U+002E FULL STOP character (.):</p>
+
+    <ol><li><p>Advance <var>position</var> to the next character.<li><p>If <var>position</var> is past the end of <var>input</var>, or if the character
+     indicated by <var>position</var> is not an <a href=#ascii-digits id=percentages-and-dimensions:ascii-digits-3>ASCII digit</a>, then
+     return <var>value</var> as a length.<li><p>Let <var>divisor</var> have the value 1.<li><p><i>Fraction loop</i>: Multiply <var>divisor</var> by ten.<li>Add the value of the character indicated by <var>position</var>, interpreted as a base-ten
+     digit (0..9) and divided by <var>divisor</var>, to <var>value</var>.<li><p>Advance <var>position</var> to the next character.<li><p>If <var>position</var> is past the end of <var>input</var>, then return <var>value</var>
+     as a length.<li><p>If the character indicated by <var>position</var> is an <a href=#ascii-digits id=percentages-and-dimensions:ascii-digits-4>ASCII digit</a>, return to the step labeled <i>fraction loop</i> in these
+     substeps.</ol>
+
+   <li><p>If <var>position</var> is past the end of <var>input</var>, return <var>value</var> as a
+   length.<li><p>If the character indicated by <var>position</var> is a U+0025 PERCENT SIGN character (%),
+   return <var>value</var> as a percentage.<li><p>Return <var>value</var> as a length.</ol>
+
+  <h5 id=non-zero-percentages-and-lengths>2.3.4.5 Non-zero percentages and lengths<a href=#non-zero-percentages-and-lengths class=self-link></a></h5>
+
+  <p>The <dfn id=rules-for-parsing-non-zero-dimension-values>rules for parsing non-zero dimension values</dfn> are as given in the following
+  algorithm. When invoked, the steps must be followed in the order given, aborting at the first step
+  that returns a value. This algorithm will return either a number greater than 0.0, or an error; if
+  a number is returned, then it is further categorized as either a percentage or a length.</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>value</var> be the result of parsing <var>input</var> using the <a href=#rules-for-parsing-dimension-values id=non-zero-percentages-and-lengths:rules-for-parsing-dimension-values>rules for
+   parsing dimension values</a>.<li><p>If <var>value</var> is an error, return an error.<li><p>If <var>value</var> is zero, return an error.<li><p>If <var>value</var> is a percentage, return <var>value</var> as a percentage.<li><p>Return <var>value</var> as a length.</ol>
+
+  
+
+
+  <h5 id=lists-of-floating-point-numbers>2.3.4.6 Lists of floating-point numbers<a href=#lists-of-floating-point-numbers class=self-link></a></h5>
+
+  <p>A <dfn id=valid-list-of-floating-point-numbers>valid list of floating-point numbers</dfn> is a number of <a href=#valid-floating-point-number id=lists-of-floating-point-numbers:valid-floating-point-number>valid floating-point numbers</a> separated by U+002C COMMA characters,
+  with no other characters (e.g. no <a href=#space-character id=lists-of-floating-point-numbers:space-character>space characters</a>). In
+  addition, there might be restrictions on the number of floating-point numbers that can be given,
+  or on the range of values allowed.</p>
+
+  
+
+  <p>The <dfn id=rules-for-parsing-a-list-of-floating-point-numbers>rules for parsing a list of floating-point numbers</dfn> are as follows:</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>position</var> be a pointer into <var>input</var>, initially pointing at the
+   start of the string.<li><p>Let <var>numbers</var> be an initially empty list of floating-point numbers. This list
+   will be the result of this algorithm.<li><p><a href=#collect-a-sequence-of-characters id=lists-of-floating-point-numbers:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are <a href=#space-character id=lists-of-floating-point-numbers:space-character-2>space characters</a>, U+002C COMMA, or U+003B SEMICOLON characters. This skips past
+   any leading delimiters.<li><p>While <var>position</var> is not past the end of <var>input</var>:</p>
+
+    <ol><li><p><a href=#collect-a-sequence-of-characters id=lists-of-floating-point-numbers:collect-a-sequence-of-characters-2>Collect a sequence of characters</a> that are not <a href=#space-character id=lists-of-floating-point-numbers:space-character-3>space characters</a>, U+002C COMMA, U+003B SEMICOLON, <a href=#ascii-digits id=lists-of-floating-point-numbers:ascii-digits>ASCII digits</a>,
+     U+002E FULL STOP, or U+002D HYPHEN-MINUS characters. This skips past leading garbage.<li><p><a href=#collect-a-sequence-of-characters id=lists-of-floating-point-numbers:collect-a-sequence-of-characters-3>Collect a sequence of characters</a> that are not <a href=#space-character id=lists-of-floating-point-numbers:space-character-4>space characters</a>, U+002C COMMA, or U+003B SEMICOLON characters, and let
+     <var>unparsed number</var> be the result.<li><p>Let <var>number</var> be the result of parsing <var>unparsed number</var> using the
+     <a href=#rules-for-parsing-floating-point-number-values id=lists-of-floating-point-numbers:rules-for-parsing-floating-point-number-values>rules for parsing floating-point number values</a>.<li><p>If <var>number</var> is an error, set <var>number</var> to zero.<li><p>Append <var>number</var> to <var>numbers</var>.<li><p><a href=#collect-a-sequence-of-characters id=lists-of-floating-point-numbers:collect-a-sequence-of-characters-4>Collect a sequence of characters</a> that are <a href=#space-character id=lists-of-floating-point-numbers:space-character-5>space characters</a>, U+002C COMMA, or U+003B SEMICOLON characters. This skips
+     past the delimiter.</ol>
+
+   <li><p>Return <var>numbers</var>.</ol>
+
+  
+
+  
+
+  <h5 id=lists-of-dimensions>2.3.4.7 Lists of dimensions<a href=#lists-of-dimensions class=self-link></a></h5>
+
+  
+
+  <p>The <dfn id=rules-for-parsing-a-list-of-dimensions>rules for parsing a list of dimensions</dfn> are as follows. These rules return a list
+  of zero or more pairs consisting of a number and a unit, the unit being one of <i>percentage</i>,
+  <i>relative</i>, and <i>absolute</i>.</p>
+
+  <ol><li><p>Let <var>raw input</var> be the string being parsed.<li><p>If the last character in <var>raw input</var> is a U+002C COMMA character (,),
+   then remove that character from <var>raw input</var>.<li><p><a href=#split-a-string-on-commas id=lists-of-dimensions:split-a-string-on-commas>Split the string <var>raw input</var> on
+   commas</a>. Let <var>raw tokens</var> be the resulting list of tokens.<li><p>Let <var>result</var> be an empty list of number/unit pairs.<li>
+
+    <p>For each token in <var>raw tokens</var>, run the following substeps:</p>
+
+    <ol><li><p>Let <var>input</var> be the token.<li><p>Let <var>position</var> be a pointer into <var>input</var>,
+     initially pointing at the start of the string.<li><p>Let <var>value</var> be the number 0.<li><p>Let <var>unit</var> be <i>absolute</i>.<li><p>If <var>position</var> is past the end of <var>input</var>, set <var>unit</var> to <i>relative</i> and jump to the last substep.<li><p>If the character at <var>position</var> is an <a href=#ascii-digits id=lists-of-dimensions:ascii-digits>ASCII digit</a>, <a href=#collect-a-sequence-of-characters id=lists-of-dimensions:collect-a-sequence-of-characters>collect a sequence of characters</a> that are <a href=#ascii-digits id=lists-of-dimensions:ascii-digits-2>ASCII
+     digits</a>, interpret the resulting sequence as an integer in base ten, and increment <var>value</var> by that integer.<li>
+
+      <p>If the character at <var>position</var> is a U+002E FULL STOP character (.), run
+      these substeps:</p>
+
+      <ol><li><p><a href=#collect-a-sequence-of-characters id=lists-of-dimensions:collect-a-sequence-of-characters-2>Collect a sequence of characters</a> consisting of <a href=#space-character id=lists-of-dimensions:space-character>space characters</a> and <a href=#ascii-digits id=lists-of-dimensions:ascii-digits-3>ASCII digits</a>. Let <var>s</var>
+       be the resulting sequence.<li><p>Remove all <a href=#space-character id=lists-of-dimensions:space-character-2>space characters</a> in <var>s</var>.<li>
+
+        <p>If <var>s</var> is not the empty string, run these subsubsteps:</p>
+
+        <ol><li><p>Let <var>length</var> be the number of characters in <var>s</var> (after the spaces were removed).<li><p>Let <var>fraction</var> be the result of interpreting <var>s</var> as a base-ten integer, and then dividing that number by <span>10<sup><var>length</var></sup></span>.<li><p>Increment <var>value</var> by <var>fraction</var>.</ol>
+
+       </ol>
+
+     <li><p><a href=#skip-whitespace id=lists-of-dimensions:skip-whitespace>Skip whitespace</a>.<li>
+
+      <p>If the character at <var>position</var> is a U+0025 PERCENT SIGN character (%),
+      then set <var>unit</var> to <i>percentage</i>.</p>
+
+      <p>Otherwise, if the character at <var>position</var> is a U+002A ASTERISK character
+      (*), then set <var>unit</var> to <i>relative</i>.</p>
+
+     <li><p>Add an entry to <var>result</var> consisting of the number given by <var>value</var> and the unit given by <var>unit</var>.</ol>
+
+   <li><p>Return the list <var>result</var>.</ol>
+
+  
+
+
+  <h4 id=dates-and-times>2.3.5 Dates and times<a href=#dates-and-times class=self-link></a></h4>
+
+  <p>In the algorithms below, the <dfn id=number-of-days-in-month-month-of-year-year>number of days in month <var>month</var> of year
+  <var>year</var></dfn> is: <em>31</em> if <var>month</var> is 1, 3, 5, 7, 8,
+  10, or 12; <em>30</em> if <var>month</var> is 4, 6, 9, or 11; <em>29</em> if <var>month</var> is 2 and <var>year</var> is a number divisible by 400, or if <var>year</var> is a number divisible by 4 but not by 100; and <em>28</em> otherwise. This
+  takes into account leap years in the Gregorian calendar. <a href=#refsGREGORIAN>[GREGORIAN]</a></p>
+
+  <p>When <a href=#ascii-digits id=dates-and-times:ascii-digits>ASCII digits</a> are used in the date and time syntaxes defined in this section,
+  they express numbers in base ten.</p>
+
+  
+
+  <p class=note>While the formats described here are intended to be subsets of the corresponding
+  ISO8601 formats, this specification defines parsing rules in much more detail than ISO8601.
+  Implementors are therefore encouraged to carefully examine any date parsing libraries before using
+  them to implement the parsing rules described below; ISO8601 libraries might not parse dates and
+  times in exactly the same manner. <a href=#refsISO8601>[ISO8601]</a></p>
+
+  
+
+  <p>Where this specification refers to the <dfn id=proleptic-gregorian-calendar>proleptic Gregorian calendar</dfn>, it means the
+  modern Gregorian calendar, extrapolated backwards to year 1. A date in the <a href=#proleptic-gregorian-calendar id=dates-and-times:proleptic-gregorian-calendar>proleptic
+  Gregorian calendar</a>, sometimes explicitly referred to as a <dfn id=proleptic-gregorian-date>proleptic-Gregorian
+  date</dfn>, is one that is described using that calendar even if that calendar was not in use at
+  the time (or place) in question. <a href=#refsGREGORIAN>[GREGORIAN]</a></p>
+
+  <p class=note>The use of the Gregorian calendar as the wire format in this specification is an
+  arbitrary choice resulting from the cultural biases of those involved in the decision. See also
+  the section discussing <a href=#input-author-notes>date, time, and number formats</a> in forms
+  (for authors), <a href=#input-impl-notes>implementation notes regarding
+  localization of form controls</a>, and the <code id=dates-and-times:the-time-element><a href=#the-time-element>time</a></code> element.</p>
+
+
+  <h5 id=months>2.3.5.1 Months<a href=#months class=self-link></a></h5>
+
+  <p>A <dfn id=concept-month>month</dfn> consists of a specific <a href=#proleptic-gregorian-date id=months:proleptic-gregorian-date>proleptic-Gregorian
+  date</a> with no time-zone information and no date information beyond a year and a month. <a href=#refsGREGORIAN>[GREGORIAN]</a></p>
+
+  <p>A string is a <dfn id=valid-month-string>valid month string</dfn> representing a year <var>year</var> and
+  month <var>month</var> if it consists of the following components in the given order:</p>
+
+  <ol><li>Four or more <a href=#ascii-digits id=months:ascii-digits>ASCII digits</a>, representing <var>year</var>, where <var>year</var> > 0<li>A U+002D HYPHEN-MINUS character (-)<li>Two <a href=#ascii-digits id=months:ascii-digits-2>ASCII digits</a>, representing the month <var>month</var>, in the range
+   1 ≤ <var>month</var> ≤ 12</ol>
+
+  
+
+  <p>The rules to <dfn id=parse-a-month-string>parse a month string</dfn> are as follows. This will return either a year and
+  month, or nothing. If at any point the algorithm says that it "fails", this means that it is
+  aborted at that point and returns nothing.</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>position</var> be a pointer into <var>input</var>, initially
+   pointing at the start of the string.<li><p><a href=#parse-a-month-component id=months:parse-a-month-component>Parse a month component</a> to obtain <var>year</var> and <var>month</var>. If this returns nothing, then fail.</p>
+
+   <li><p>If <var>position</var> is <em>not</em> beyond the
+   end of <var>input</var>, then fail.<li><p>Return <var>year</var> and <var>month</var>.</ol>
+
+  <p>The rules to <dfn id=parse-a-month-component>parse a month component</dfn>, given an <var>input</var> string and
+  a <var>position</var>, are as follows. This will return either a year and a month, or
+  nothing. If at any point the algorithm says that it "fails", this means that it is aborted at that
+  point and returns nothing.</p>
+
+  <ol><li><p><a href=#collect-a-sequence-of-characters id=months:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are <a href=#ascii-digits id=months:ascii-digits-3>ASCII digits</a>. If the
+   collected sequence is not at least four characters long, then fail. Otherwise, interpret the
+   resulting sequence as a base-ten integer. Let that number be the <var>year</var>.<li><p>If <var>year</var> is not a number greater than zero, then fail.<li><p>If <var>position</var> is beyond the end of <var>input</var> or if the
+   character at <var>position</var> is not a U+002D HYPHEN-MINUS character, then fail.
+   Otherwise, move <var>position</var> forwards one character.<li><p><a href=#collect-a-sequence-of-characters id=months:collect-a-sequence-of-characters-2>Collect a sequence of characters</a> that are <a href=#ascii-digits id=months:ascii-digits-4>ASCII digits</a>. If the
+   collected sequence is not exactly two characters long, then fail. Otherwise, interpret the
+   resulting sequence as a base-ten integer. Let that number be the <var>month</var>.<li><p>If <var>month</var> is not a number in the range 1 ≤ <var>month</var> ≤ 12, then fail.<li><p>Return <var>year</var> and <var>month</var>.</ol>
+
+  
+
+
+  <h5 id=dates>2.3.5.2 Dates<a href=#dates class=self-link></a></h5>
+
+  <p>A <dfn id=concept-date>date</dfn> consists of a specific <a href=#proleptic-gregorian-date id=dates:proleptic-gregorian-date>proleptic-Gregorian
+  date</a> with no time-zone information, consisting of a year, a month, and a day. <a href=#refsGREGORIAN>[GREGORIAN]</a></p>
+
+  <p>A string is a <dfn id=valid-date-string>valid date string</dfn> representing a year <var>year</var>, month
+  <var>month</var>, and day <var>day</var> if it consists of the following
+  components in the given order:</p>
+
+  <ol><li>A <a href=#valid-month-string id=dates:valid-month-string>valid month string</a>, representing <var>year</var> and <var>month</var><li>A U+002D HYPHEN-MINUS character (-)<li>Two <a href=#ascii-digits id=dates:ascii-digits>ASCII digits</a>, representing <var>day</var>, in the range
+   1 ≤ <var>day</var> ≤ <var>maxday</var> where <var>maxday</var> is the <a href=#number-of-days-in-month-month-of-year-year id=dates:number-of-days-in-month-month-of-year-year>number of
+   days in the month <var>month</var> and year <var>year</var></a></ol>
+
+  
+
+  <p>The rules to <dfn id=parse-a-date-string>parse a date string</dfn> are as follows. This will return either a date, or
+  nothing. If at any point the algorithm says that it "fails", this means that it is aborted at that
+  point and returns nothing.</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>position</var> be a pointer into <var>input</var>, initially
+   pointing at the start of the string.<li><p><a href=#parse-a-date-component id=dates:parse-a-date-component>Parse a date component</a> to obtain <var>year</var>, <var>month</var>, and <var>day</var>. If this returns nothing, then fail.</p>
+
+   <li><p>If <var>position</var> is <em>not</em> beyond the end of <var>input</var>, then fail.<li><p>Let <var>date</var> be the date with year <var>year</var>, month <var>month</var>, and day <var>day</var>.<li><p>Return <var>date</var>.</ol>
+
+  <p>The rules to <dfn id=parse-a-date-component>parse a date component</dfn>, given an <var>input</var> string and a
+  <var>position</var>, are as follows. This will return either a year, a month, and a day,
+  or nothing. If at any point the algorithm says that it "fails", this means that it is aborted at
+  that point and returns nothing.</p>
+
+  <ol><li><p><a href=#parse-a-month-component id=dates:parse-a-month-component>Parse a month component</a> to obtain <var>year</var> and <var>month</var>. If this returns nothing, then fail.<li><p>Let <var>maxday</var> be the <a href=#number-of-days-in-month-month-of-year-year id=dates:number-of-days-in-month-month-of-year-year-2>number of days in month <var>month</var> of year <var>year</var></a>.<li><p>If <var>position</var> is beyond the end of <var>input</var> or if the
+   character at <var>position</var> is not a U+002D HYPHEN-MINUS character, then fail.
+   Otherwise, move <var>position</var> forwards one character.<li><p><a href=#collect-a-sequence-of-characters id=dates:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are <a href=#ascii-digits id=dates:ascii-digits-2>ASCII digits</a>. If the
+   collected sequence is not exactly two characters long, then fail. Otherwise, interpret the
+   resulting sequence as a base-ten integer. Let that number be the <var>day</var>.<li><p>If <var>day</var> is not a number in the range 1 ≤ <var>day</var> ≤ <var>maxday</var>, then fail.<li><p>Return <var>year</var>, <var>month</var>, and <var>day</var>.</ol>
+
+  
+
+
+  <h5 id=yearless-dates>2.3.5.3 Yearless dates<a href=#yearless-dates class=self-link></a></h5>
+
+  <p>A <dfn id=concept-yearless-date>yearless date</dfn> consists of a Gregorian month and a
+  day within that month, but with no associated year. <a href=#refsGREGORIAN>[GREGORIAN]</a></p>
+
+  <p>A string is a <dfn id=valid-yearless-date-string>valid yearless date string</dfn> representing a month <var>month</var> and a day <var>day</var> if it consists of the following components
+  in the given order:</p>
+
+  <ol><li>Optionally, two U+002D HYPHEN-MINUS characters (-)<li>Two <a href=#ascii-digits id=yearless-dates:ascii-digits>ASCII digits</a>, representing the month <var>month</var>, in the range
+   1 ≤ <var>month</var> ≤ 12<li>A U+002D HYPHEN-MINUS character (-)<li>Two <a href=#ascii-digits id=yearless-dates:ascii-digits-2>ASCII digits</a>, representing <var>day</var>, in the range
+   1 ≤ <var>day</var> ≤ <var>maxday</var> where <var>maxday</var> is the <a href=#number-of-days-in-month-month-of-year-year id=yearless-dates:number-of-days-in-month-month-of-year-year>number of
+   days</a> in the month <var>month</var> and any arbitrary leap year (e.g. 4 or
+   2000)</ol>
+
+  <p class=note>In other words, if the <var>month</var> is "<code>02</code>",
+  meaning February, then the day can be 29, as if the year was a leap year.</p>
+
+  
+
+  <p>The rules to <dfn id=parse-a-yearless-date-string>parse a yearless date string</dfn> are as follows. This will return either a
+  month and a day, or nothing. If at any point the algorithm says that it "fails", this means that
+  it is aborted at that point and returns nothing.</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>position</var> be a pointer into <var>input</var>, initially
+   pointing at the start of the string.<li><p><a href=#parse-a-yearless-date-component id=yearless-dates:parse-a-yearless-date-component>Parse a yearless date component</a> to obtain <var>month</var> and <var>day</var>. If this returns nothing, then fail.</p>
+
+   <li><p>If <var>position</var> is <em>not</em> beyond the end of <var>input</var>, then fail.<li><p>Return <var>month</var> and <var>day</var>.</ol>
+
+  <p>The rules to <dfn id=parse-a-yearless-date-component>parse a yearless date component</dfn>, given an <var>input</var>
+  string and a <var>position</var>, are as follows. This will return either a month and a
+  day, or nothing. If at any point the algorithm says that it "fails", this means that it is aborted
+  at that point and returns nothing.</p>
+
+  <ol><li><p><a href=#collect-a-sequence-of-characters id=yearless-dates:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are U+002D HYPHEN-MINUS characters (-).
+   If the collected sequence is not exactly zero or two characters long, then fail.<li><p><a href=#collect-a-sequence-of-characters id=yearless-dates:collect-a-sequence-of-characters-2>Collect a sequence of characters</a> that are <a href=#ascii-digits id=yearless-dates:ascii-digits-3>ASCII digits</a>. If the
+   collected sequence is not exactly two characters long, then fail. Otherwise, interpret the
+   resulting sequence as a base-ten integer. Let that number be the <var>month</var>.<li><p>If <var>month</var> is not a number in the range 1 ≤ <var>month</var> ≤ 12, then fail.<li><p>Let <var>maxday</var> be the <a href=#number-of-days-in-month-month-of-year-year id=yearless-dates:number-of-days-in-month-month-of-year-year-2>number of days</a> in month <var>month</var> of any arbitrary leap year (e.g. 4
+   or 2000).<li><p>If <var>position</var> is beyond the end of <var>input</var> or if the
+   character at <var>position</var> is not a U+002D HYPHEN-MINUS character, then fail.
+   Otherwise, move <var>position</var> forwards one character.<li><p><a href=#collect-a-sequence-of-characters id=yearless-dates:collect-a-sequence-of-characters-3>Collect a sequence of characters</a> that are <a href=#ascii-digits id=yearless-dates:ascii-digits-4>ASCII digits</a>. If the
+   collected sequence is not exactly two characters long, then fail. Otherwise, interpret the
+   resulting sequence as a base-ten integer. Let that number be the <var>day</var>.<li><p>If <var>day</var> is not a number in the range 1 ≤ <var>day</var> ≤ <var>maxday</var>, then fail.<li><p>Return <var>month</var> and <var>day</var>.</ol>
+
+  
+
+
+  <h5 id=times>2.3.5.4 Times<a href=#times class=self-link></a></h5>
+
+  <p>A <dfn id=concept-time>time</dfn> consists of a specific time with no time-zone
+  information, consisting of an hour, a minute, a second, and a fraction of a second.</p>
+
+  <p>A string is a <dfn id=valid-time-string>valid time string</dfn> representing an hour <var>hour</var>, a
+  minute <var>minute</var>, and a second <var>second</var> if it consists of the
+  following components in the given order:</p>
+
+  <ol><li>Two <a href=#ascii-digits id=times:ascii-digits>ASCII digits</a>, representing <var>hour</var>, in the range
+   0 ≤ <var>hour</var> ≤ 23<li>A U+003A COLON character (:)<li>Two <a href=#ascii-digits id=times:ascii-digits-2>ASCII digits</a>, representing <var>minute</var>, in the range
+   0 ≤ <var>minute</var> ≤ 59<li>If <var>second</var> is non-zero, or optionally if <var>second</var> is
+   zero:
+
+    <ol><li>A U+003A COLON character (:)<li>Two <a href=#ascii-digits id=times:ascii-digits-3>ASCII digits</a>, representing the integer part of <var>second</var>,
+     in the range 0 ≤ <var>s</var> ≤ 59<li>If <var>second</var> is not an integer, or optionally if <var>second</var> is an integer:
+
+      <ol><li>A U+002E FULL STOP character (.)<li>One, two, or three <a href=#ascii-digits id=times:ascii-digits-4>ASCII digits</a>, representing the fractional part of <var>second</var></ol>
+
+     </ol>
+
+   </ol>
+
+  <p class=note>The <var>second</var> component cannot be 60 or 61; leap seconds cannot
+  be represented.</p>
+
+  
+
+  <p>The rules to <dfn id=parse-a-time-string>parse a time string</dfn> are as follows. This will return either a time, or
+  nothing. If at any point the algorithm says that it "fails", this means that it is aborted at that
+  point and returns nothing.</p>
+
+  <ol><li><p>Let <var>input</var> be the string being parsed.<li><p>Let <var>position</var> be a pointer into <var>input</var>, initially
+   pointing at the start of the string.<li><p><a href=#parse-a-time-component id=times:parse-a-time-component>Parse a time component</a> to obtain <var>hour</var>, <var>minute</var>, and <var>second</var>. If this returns nothing, then fail.</p>
+
+   <li><p>If <var>position</var> is <em>not</em> beyond the end of <var>input</var>, then fail.<li><p>Let <var>time</var> be the time with hour <var>hour</var>, minute <var>minute</var>, and second <var>second</var>.<li><p>Return <var>time</var>.</ol>
+
+  <p>The rules to <dfn id=parse-a-time-component>parse a time component</dfn>, given an <var>input</var> string and a
+  <var>position</var>, are as follows. This will return either an hour, a minute, and a
+  second, or nothing. If at any point the algorithm says that it "fails", this means that it is
+  aborted at that point and returns nothing.</p>
+
+  <ol><li><p><a href=#collect-a-sequence-of-characters id=times:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are <a href=#ascii-digits id=times:ascii-digits-5>ASCII digits</a>. If the
+   collected sequence is not exactly two characters long, then fail. Otherwise, interpret the
+   resulting sequence as a base-ten integer. Let that number be the <var>hour</var>.<li>If <var>hour</var> is not a number in the range 0 ≤ <var>hour</var> ≤ 23, then fail.<li><p>If <var>position</var> is beyond the end of <var>input</var> or if the
+   character at <var>position</var> is not a U+003A COLON character, then fail. Otherwise,

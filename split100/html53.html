@@ -1,0 +1,850 @@
+    <p>Can be set, to change the fill style.</p>
+
+    <p>The style can be either a string containing a CSS color, or a <code id=fill-and-stroke-styles:canvasgradient><a href=#canvasgradient>CanvasGradient</a></code> or
+    <code id=fill-and-stroke-styles:canvaspattern><a href=#canvaspattern>CanvasPattern</a></code> object. Invalid values are ignored.</p>
+
+   <dt><var>context</var> . <code id=fill-and-stroke-styles:dom-context-2d-strokestyle><a href=#dom-context-2d-strokestyle>strokeStyle</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current style used for stroking shapes.</p>
+
+    <p>Can be set, to change the stroke style.</p>
+
+    <p>The style can be either a string containing a CSS color, or a <code id=fill-and-stroke-styles:canvasgradient-2><a href=#canvasgradient>CanvasGradient</a></code> or
+    <code id=fill-and-stroke-styles:canvaspattern-2><a href=#canvaspattern>CanvasPattern</a></code> object. Invalid values are ignored.</p>
+
+   </dl>
+
+  
+
+  
+
+  <p>Objects that implement the <code id=fill-and-stroke-styles:canvasfillstrokestyles><a href=#canvasfillstrokestyles>CanvasFillStrokeStyles</a></code> interface have attributes and
+  methods (defined in this section) that control how shapes are treated by the object.</p>
+
+  <p>The <dfn id=dom-context-2d-fillstyle><code>fillStyle</code></dfn> attribute represents the
+  color or style to use inside shapes, and the <dfn id=dom-context-2d-strokestyle><code>strokeStyle</code></dfn> attribute represents the color
+  or style to use for the lines around the shapes.</p>
+
+  <p>Both attributes can be either strings, <code id=fill-and-stroke-styles:canvasgradient-3><a href=#canvasgradient>CanvasGradient</a></code>s, or
+  <code id=fill-and-stroke-styles:canvaspattern-3><a href=#canvaspattern>CanvasPattern</a></code>s. On setting, strings must be <a href=#parsed-as-a-css-color-value id=fill-and-stroke-styles:parsed-as-a-css-color-value>parsed as CSS &lt;color> values</a> and the color assigned, and
+  <code id=fill-and-stroke-styles:canvasgradient-4><a href=#canvasgradient>CanvasGradient</a></code> and <code id=fill-and-stroke-styles:canvaspattern-4><a href=#canvaspattern>CanvasPattern</a></code> objects must be assigned themselves. <a href=#refsCSSCOLOR>[CSSCOLOR]</a> If the value is a string but cannot be <a href=#parsed-as-a-css-color-value id=fill-and-stroke-styles:parsed-as-a-css-color-value-2>parsed as a CSS
+  &lt;color> value</a>, then it must be ignored, and the attribute must retain its previous
+  value.
+
+  If the new value is a <code id=fill-and-stroke-styles:canvaspattern-5><a href=#canvaspattern>CanvasPattern</a></code> object that is marked as <a href=#concept-canvas-pattern-not-origin-clean id=fill-and-stroke-styles:concept-canvas-pattern-not-origin-clean>not origin-clean</a>, then the
+  <code id=fill-and-stroke-styles:canvasrenderingcontext2d><a href=#canvasrenderingcontext2d>CanvasRenderingContext2D</a></code>'s <a href=#concept-canvas-origin-clean id=fill-and-stroke-styles:concept-canvas-origin-clean>origin-clean</a> flag must be set to false.
+
+  </p>
+
+  <p>When set to a <code id=fill-and-stroke-styles:canvaspattern-6><a href=#canvaspattern>CanvasPattern</a></code> or <code id=fill-and-stroke-styles:canvasgradient-5><a href=#canvasgradient>CanvasGradient</a></code> object, the assignment
+  is <a href=#live id=fill-and-stroke-styles:live>live</a>, meaning that changes made to the object after the assignment do affect
+  subsequent stroking or filling of shapes.</p>
+
+  <p>On getting, if the value is a color, then the <a href=#serialisation-of-a-color id=fill-and-stroke-styles:serialisation-of-a-color>serialization of the color</a> must be returned. Otherwise, if it is not a color but a
+  <code id=fill-and-stroke-styles:canvasgradient-6><a href=#canvasgradient>CanvasGradient</a></code> or <code id=fill-and-stroke-styles:canvaspattern-7><a href=#canvaspattern>CanvasPattern</a></code>, then the respective object must be
+  returned. (Such objects are opaque and therefore only useful for assigning to other attributes or
+  for comparison to other gradients or patterns.)</p>
+
+  <p>The <dfn id=serialisation-of-a-color>serialization of a color</dfn> for a color
+  value is a string, computed as follows: if it has alpha equal to 1.0, then the string is a
+  lowercase six-digit hex value, prefixed with a "#" character (U+0023 NUMBER SIGN), with the first
+  two digits representing the red component, the next two digits representing the green component,
+  and the last two digits representing the blue component, the digits being <a href=#lowercase-ascii-hex-digits id=fill-and-stroke-styles:lowercase-ascii-hex-digits>lowercase ASCII
+  hex digits</a>. Otherwise, the color value has alpha less than 1.0, and the string is the color
+  value in the CSS <code>rgba()</code> functional-notation format: the literal string
+  "<code>rgba</code>" (U+0072 U+0067 U+0062 U+0061) followed by a U+0028 LEFT PARENTHESIS,
+  a base-ten integer in the range 0-255 representing the red component (using <a href=#ascii-digits id=fill-and-stroke-styles:ascii-digits>ASCII
+  digits</a> in the shortest form possible), a literal U+002C COMMA and U+0020 SPACE, an integer
+  for the green component, a comma and a space, an integer for the blue component, another comma and
+  space, a U+0030 DIGIT ZERO, if the alpha value is greater than zero then a U+002E FULL STOP
+  (representing the decimal point), if the alpha value is greater than zero then one or more
+  <a href=#ascii-digits id=fill-and-stroke-styles:ascii-digits-2>ASCII digits</a> representing the fractional part of the alpha, and finally a U+0029 RIGHT PARENTHESIS. User agents must
+  express the fractional part of the alpha value, if any, with the level of precision necessary for
+  the alpha value, when reparsed, to be interpreted as the same alpha value.</p> 
+
+  <p>When the context is created, the <code id=fill-and-stroke-styles:dom-context-2d-fillstyle-2><a href=#dom-context-2d-fillstyle>fillStyle</a></code> and <code id=fill-and-stroke-styles:dom-context-2d-strokestyle-2><a href=#dom-context-2d-strokestyle>strokeStyle</a></code> attributes
+  must initially have the string value <code>#000000</code>.</p>
+
+  <p>When the value is a color, it must not be affected by the transformation matrix when used to
+  draw on bitmaps.</p> 
+
+  
+
+  <hr>
+
+  <p>There are two types of gradients, linear gradients and radial gradients, both represented by
+  objects implementing the opaque <code id=fill-and-stroke-styles:canvasgradient-7><a href=#canvasgradient>CanvasGradient</a></code> interface.</p>
+
+  <p id=interpolation>Once a gradient has been created (see below), stops are placed along it to
+  define how the colors are distributed along the gradient. The color of the
+  gradient at each stop is the color specified for that stop. Between each such stop, the colors and
+  the alpha component must be linearly interpolated over the RGBA space without premultiplying the
+  alpha value to find the color to use at that offset. Before the first stop, the color must be the
+  color of the first stop. After the last stop, the color must be the color of the last stop. When
+  there are no stops, the gradient is transparent black.</p>
+
+  <dl class=domintro><dt><var>gradient</var> . <code id=fill-and-stroke-styles:dom-canvasgradient-addcolorstop><a href=#dom-canvasgradient-addcolorstop>addColorStop</a></code>(<var>offset</var>, <var>color</var>)<dd>
+
+    <p>Adds a color stop with the given color to the gradient at the given offset. 0.0 is the offset
+    at one end of the gradient, 1.0 is the offset at the other end.</p>
+
+    <p>Throws an <a id=fill-and-stroke-styles:indexsizeerror href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=fill-and-stroke-styles:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the offset
+    is out of range. Throws a <a id=fill-and-stroke-styles:syntaxerror href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=fill-and-stroke-styles:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if
+    the color cannot be parsed.</p>
+
+   <dt><var>gradient</var> = <var>context</var> . <code id=fill-and-stroke-styles:dom-context-2d-createlineargradient><a href=#dom-context-2d-createlineargradient>createLinearGradient</a></code>(<var>x0</var>, <var>y0</var>, <var>x1</var>, <var>y1</var>)<dd>
+
+    <p>Returns a <code id=fill-and-stroke-styles:canvasgradient-8><a href=#canvasgradient>CanvasGradient</a></code> object that represents a
+    linear gradient that paints along the line given by the
+    coordinates represented by the arguments.</p>
+
+   <dt><var>gradient</var> = <var>context</var> . <code id=fill-and-stroke-styles:dom-context-2d-createradialgradient><a href=#dom-context-2d-createradialgradient>createRadialGradient</a></code>(<var>x0</var>, <var>y0</var>, <var>r0</var>, <var>x1</var>, <var>y1</var>, <var>r1</var>)<dd>
+
+    <p>Returns a <code id=fill-and-stroke-styles:canvasgradient-9><a href=#canvasgradient>CanvasGradient</a></code> object that represents a
+    radial gradient that paints along the cone given by the circles
+    represented by the arguments.</p>
+
+    <p>If either of the radii are negative, throws an
+    <a id=fill-and-stroke-styles:indexsizeerror-2 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=fill-and-stroke-styles:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> exception.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-canvasgradient-addcolorstop><code>addColorStop(<var>offset</var>,
+  <var>color</var>)</code></dfn> method on the <code id=fill-and-stroke-styles:canvasgradient-10><a href=#canvasgradient>CanvasGradient</a></code> interface adds a new stop
+  to a gradient. If the <var>offset</var> is less than 0 or greater than 1 then an
+  <a id=fill-and-stroke-styles:indexsizeerror-3 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=fill-and-stroke-styles:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> must be thrown. If the
+  <var>color</var> cannot be <a href=#parsed-as-a-css-color-value id=fill-and-stroke-styles:parsed-as-a-css-color-value-3>parsed as a CSS &lt;color> value</a>, then a
+  <a id=fill-and-stroke-styles:syntaxerror-2 href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=fill-and-stroke-styles:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> must be thrown. Otherwise, the
+  gradient must have a new stop placed, at offset <var>offset</var> relative to the whole gradient,
+  and with the color obtained by <a href=#parsed-as-a-css-color-value id=fill-and-stroke-styles:parsed-as-a-css-color-value-4>parsing
+  <var>color</var> as a CSS &lt;color> value</a>. If multiple stops are added at the same
+  offset on a gradient, then they must be placed in the order added, with the first one closest to
+  the start of the gradient, and each subsequent one infinitesimally further along towards the end
+  point (in effect causing all but the first and last stop added at each point to be ignored).</p>
+
+  <p>The <dfn id=dom-context-2d-createlineargradient><code>createLinearGradient(<var>x0</var>,
+  <var>y0</var>, <var>x1</var>, <var>y1</var>)</code></dfn> method takes four arguments that
+  represent the start point (<var>x0</var>, <var>y0</var>) and end point (<var>x1</var>,
+  <var>y1</var>) of the gradient. The method, when invoked, must return a linear
+  <code id=fill-and-stroke-styles:canvasgradient-11><a href=#canvasgradient>CanvasGradient</a></code> initialized with the specified line.</p>
+
+  <p>Linear gradients must be rendered such that all points on a line perpendicular to the line that
+  crosses the start and end points have the color at the point where those two lines cross (with the
+  colors coming from the <a href=#interpolation>interpolation and extrapolation</a> described
+  above). The points in the linear gradient must be transformed as described by the <a href=#transformations id=fill-and-stroke-styles:transformations>current transformation matrix</a> when rendering.</p>
+
+  <p>If <span><var>x0</var> = <var>x1</var></span> and <span><var>y0</var> = <var>y1</var></span>, then the linear
+  gradient must paint nothing.</p>
+
+  <p>The <dfn id=dom-context-2d-createradialgradient><code>createRadialGradient(<var>x0</var>,
+  <var>y0</var>, <var>r0</var>, <var>x1</var>, <var>y1</var>, <var>r1</var>)</code></dfn> method
+  takes six arguments, the first three representing the start circle with origin (<var>x0</var>,
+  <var>y0</var>) and radius <var>r0</var>, and the last three representing the end circle with
+  origin (<var>x1</var>, <var>y1</var>) and radius <var>r1</var>. The values are in coordinate space
+  units. If either of <var>r0</var> or <var>r1</var> are negative, then an
+  <a id=fill-and-stroke-styles:indexsizeerror-4 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=fill-and-stroke-styles:domexception-6><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> must be thrown. Otherwise,
+  the method, when invoked, must return a radial <code id=fill-and-stroke-styles:canvasgradient-12><a href=#canvasgradient>CanvasGradient</a></code> initialized with the
+  two specified circles.</p>
+
+  <p>Radial gradients must be rendered by following these steps:</p>
+
+  <ol><li><p>If <span><var>x<sub>0</sub></var> = <var>x<sub>1</sub></var></span> and <span><var>y<sub>0</sub></var> = <var>y<sub>1</sub></var></span> and <span><var>r<sub>0</sub></var> = <var>r<sub>1</sub></var></span>, then the radial gradient must
+   paint nothing. Abort these steps.<li>
+
+    <p>Let <span>x(<var>ω</var>) = (<var>x<sub>1</sub></var>-<var>x<sub>0</sub></var>)<var>ω</var> + <var>x<sub>0</sub></var></span></p>
+
+    <p>Let <span>y(<var>ω</var>) = (<var>y<sub>1</sub></var>-<var>y<sub>0</sub></var>)<var>ω</var> + <var>y<sub>0</sub></var></span></p>
+
+    <p>Let <span>r(<var>ω</var>) = (<var>r<sub>1</sub></var>-<var>r<sub>0</sub></var>)<var>ω</var> + <var>r<sub>0</sub></var></span></p>
+
+    <p>Let the color at <var>ω</var> be the color at that position on the gradient
+    (with the colors coming from the <a href=#interpolation>interpolation and extrapolation</a>
+    described above).</p>
+
+   <li><p>For all values of <var>ω</var> where <span>r(<var>ω</var>) > 0</span>, starting with the value of <var>ω</var> nearest to positive infinity and ending with the value of <var>ω</var> nearest to negative infinity, draw the circumference of the circle with
+   radius <span>r(<var>ω</var>)</span> at position (<span>x(<var>ω</var>)</span>, <span>y(<var>ω</var>)</span>), with the
+   color at <var>ω</var>, but only painting on the parts of the bitmap that have not
+   yet been painted on by earlier circles in this step for this rendering of the gradient.</ol>
+
+  <p class=note>This effectively creates a cone, touched by the two circles defined in the
+  creation of the gradient, with the part of the cone before the start circle (0.0) using the color
+  of the first offset, the part of the cone after the end circle (1.0) using the color of the last
+  offset, and areas outside the cone untouched by the gradient (transparent black).</p>
+
+  <p>The resulting radial gradient must then be transformed as described by the <a href=#transformations id=fill-and-stroke-styles:transformations-2>current transformation matrix</a> when rendering.</p>
+
+  <p>Gradients must be painted only where the relevant stroking or filling effects requires that
+  they be drawn.</p>
+
+  
+
+  <hr>
+
+  <p>Patterns are represented by objects implementing the opaque <code id=fill-and-stroke-styles:canvaspattern-8><a href=#canvaspattern>CanvasPattern</a></code>
+  interface.</p>
+
+  <dl class=domintro><dt><var>pattern</var> = <var>context</var> . <code id=fill-and-stroke-styles:dom-context-2d-createpattern><a href=#dom-context-2d-createpattern>createPattern</a></code>(<var>image</var>, <var>repetition</var>)<dd>
+
+    <p>Returns a <code id=fill-and-stroke-styles:canvaspattern-9><a href=#canvaspattern>CanvasPattern</a></code> object that uses the given image and repeats in the
+    direction(s) given by the <var>repetition</var> argument.</p>
+
+    <p>The allowed values for <var>repetition</var> are <code>repeat</code> (both
+    directions), <code>repeat-x</code> (horizontal only), <code>repeat-y</code>
+    (vertical only), and <code>no-repeat</code> (neither). If the <var>repetition</var> argument is empty, the value <code>repeat</code> is used.</p>
+
+    <p>If the image isn't yet fully decoded, then nothing is drawn. If the image is a canvas with no
+    data, throws an <a id=fill-and-stroke-styles:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=fill-and-stroke-styles:domexception-7><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+   <dt><var>pattern</var> . <code id=fill-and-stroke-styles:dom-canvaspattern-settransform><a href=#dom-canvaspattern-settransform>setTransform</a></code>(<var>transform</var>)<dd>
+
+    <p>Sets the transformation matrix that will be used when rendering the pattern during a fill or
+    stroke painting operation.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-context-2d-createpattern><code>createPattern(<var>image</var>,
+  <var>repetition</var>)</code></dfn> method, when invoked, must run these steps:</p>
+
+  <ol><li><p>Let <var>image</var> be the first argument and <var>repetition</var> be
+   the second argument.<li><p><a href=#check-the-usability-of-the-image-argument id=fill-and-stroke-styles:check-the-usability-of-the-image-argument>Check the usability of the <var>image</var> argument</a>. If this
+   returns <i>aborted</i>, then an exception has been thrown and the method doesn't return anything;
+   abort these steps. If it returns <i>bad</i>, then return null and abort these steps. Otherwise it
+   returns <i>good</i>; continue with these steps.<li><p>If <var>repetition</var> is the empty string, then set it to "<code>repeat</code>".</p>
+
+   <li><p>If <var>repetition</var> is not a <a href=#case-sensitive id=fill-and-stroke-styles:case-sensitive>case-sensitive</a> match for one of
+   "<code>repeat</code>", "<code>repeat-x</code>", "<code>repeat-y</code>", or "<code>no-repeat</code>", then throw a
+   <a id=fill-and-stroke-styles:syntaxerror-3 href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=fill-and-stroke-styles:domexception-8><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>Create a new <code id=fill-and-stroke-styles:canvaspattern-10><a href=#canvaspattern>CanvasPattern</a></code> object with the image <var>image</var>
+   and the repetition behavior given by <var>repetition</var>.<li><p>If <a href=#the-image-argument-is-not-origin-clean id=fill-and-stroke-styles:the-image-argument-is-not-origin-clean>the <var>image argument</var> is not origin-clean</a>, then mark the
+   <code id=fill-and-stroke-styles:canvaspattern-11><a href=#canvaspattern>CanvasPattern</a></code> object as <dfn id=concept-canvas-pattern-not-origin-clean>not
+   origin-clean</dfn>.<li><p>Return the <code id=fill-and-stroke-styles:canvaspattern-12><a href=#canvaspattern>CanvasPattern</a></code> object.</ol>
+
+  <p>Modifying the <var>image</var> used when creating a <code id=fill-and-stroke-styles:canvaspattern-13><a href=#canvaspattern>CanvasPattern</a></code> object
+  after calling the <code id=fill-and-stroke-styles:dom-context-2d-createpattern-2><a href=#dom-context-2d-createpattern>createPattern()</a></code> method must
+  not affect the pattern(s) rendered by the <code id=fill-and-stroke-styles:canvaspattern-14><a href=#canvaspattern>CanvasPattern</a></code> object.</p>
+
+  <p>Patterns have a transformation matrix, which controls how the pattern is used when it is
+  painted. Initially, a pattern's transformation matrix must be the identity transform.</p>
+
+  <p>The <dfn id=dom-canvaspattern-settransform><code>setTransform(<var>transform</var>)</code></dfn> method,
+  when invoked, must reset the pattern's transformation matrix to the value represented by the
+  result of <a href=https://drafts.fxtf.org/geometry/#create-a-dommatrix-from-the-dictionary id=fill-and-stroke-styles:create-a-dommatrix-from-a-dictionary data-x-internal=create-a-dommatrix-from-a-dictionary>creating a <code>DOMMatrix</code>
+  from a dictionary</a> <var>transform</var>.</p>
+
+  <p>When a pattern is to be rendered within an area, the user agent must run the following steps to
+  determine what is rendered:</p>
+
+  <ol><li><p>Create an infinite transparent black bitmap.<li>
+
+    <p>Place a copy of the image on the bitmap, anchored such that its top left corner is at the
+    origin of the coordinate space, with one coordinate space unit per <a href=https://drafts.csswg.org/css-values/#px id="fill-and-stroke-styles:'px'" data-x-internal="'px'">CSS
+    pixel</a> of the image, then place repeated copies of this image horizontally to the left and
+    right, if the repetition behavior is "<code>repeat-x</code>", or vertically up and
+    down, if the repetition behavior is "<code>repeat-y</code>", or in all four
+    directions all over the bitmap, if the repetition behavior is "<code>repeat</code>".</p>
+
+    <p>If the original image data is a bitmap image, then the value painted at a point in the area
+    of the repetitions is computed by filtering the original image data. When scaling up, if the
+    <code id=fill-and-stroke-styles:dom-context-2d-imagesmoothingenabled><a href=#dom-context-2d-imagesmoothingenabled>imageSmoothingEnabled</a></code> attribute is
+    set to false, then the image must be rendered using nearest-neighbor interpolation. Otherwise,
+    the user agent may use any filtering algorithm (for example bilinear interpolation or
+    nearest-neighbor). User agents which support multiple filtering algorithms may use the value of
+    the <code id=fill-and-stroke-styles:dom-context-2d-imagesmoothingquality><a href=#dom-context-2d-imagesmoothingquality>imageSmoothingQuality</a></code> attribute
+    to guide the choice of filtering algorithm. When such a filtering algorithm requires a pixel
+    value from outside the original image data, it must instead use the value from wrapping the
+    pixel's coordinates to the original image's dimensions. (That is, the filter uses 'repeat'
+    behavior, regardless of the value of the pattern's repetition behavior.)</p> 
+
+   <li><p>Transform the resulting bitmap according to the pattern's transformation matrix.<li><p>Transform the resulting bitmap again, this time according to the <a href=#transformations id=fill-and-stroke-styles:transformations-3>current transformation matrix</a>.<li><p>Replace any part of the image outside the area in which the pattern is to be rendered with
+   transparent black.<li><p>The resulting bitmap is what is to be rendered, with the same origin and same
+   scale.</ol>
+
+  <hr>
+
+  <p>If a radial gradient or repeated pattern is used when the transformation matrix is singular,
+  then the resulting style must be transparent black (otherwise the gradient or pattern would be
+  collapsed to a point or line, leaving the other pixels undefined). Linear gradients and solid
+  colors always define all points even with singular transformation matrices.</p>
+
+  
+
+
+
+
+  <h6 id=drawing-rectangles-to-the-bitmap>4.12.5.1.10 Drawing rectangles to the bitmap<a href=#drawing-rectangles-to-the-bitmap class=self-link></a></h6>
+
+  <p>Objects that implement the <code id=drawing-rectangles-to-the-bitmap:canvasrect><a href=#canvasrect>CanvasRect</a></code> interface provide the following methods for
+  immediately drawing rectangles to the bitmap. The methods each take four arguments; the first two
+  give the <var>x</var> and <var>y</var> coordinates of the top left of the rectangle, and the
+  second two give the width <var>w</var> and height <var>h</var> of the rectangle, respectively.</p>
+
+  
+
+  <p>The <a href=#transformations id=drawing-rectangles-to-the-bitmap:transformations>current transformation matrix</a> must be
+  applied to the following four coordinates, which form the path that must then be closed to get the
+  specified rectangle: <span>(<var>x</var>, <var>y</var>)</span>, <span>(<span><var>x</var>+<var>w</var></span>, <var>y</var>)</span>, <span>(<span><var>x</var>+<var>w</var></span>, <span><var>y</var>+<var>h</var></span>)</span>, <span>(<var>x</var>, <span><var>y</var>+<var>h</var></span>)</span>.</p>
+
+  <p>Shapes are painted without affecting the <a href=#current-default-path id=drawing-rectangles-to-the-bitmap:current-default-path>current default path</a>, and are subject to
+  the <a href=#clipping-region id=drawing-rectangles-to-the-bitmap:clipping-region>clipping region</a>, and, with the exception of <code id=drawing-rectangles-to-the-bitmap:dom-context-2d-clearrect><a href=#dom-context-2d-clearrect>clearRect()</a></code>, also <a href=#shadows id=drawing-rectangles-to-the-bitmap:shadows>shadow
+  effects</a>, <a href=#dom-context-2d-globalalpha id=drawing-rectangles-to-the-bitmap:dom-context-2d-globalalpha>global alpha</a>, and <a href=#dom-context-2d-globalcompositeoperation id=drawing-rectangles-to-the-bitmap:dom-context-2d-globalcompositeoperation>global composition operators</a>.</p>
+
+  
+
+  <dl class=domintro><dt><var>context</var> . <code id=drawing-rectangles-to-the-bitmap:dom-context-2d-clearrect-2><a href=#dom-context-2d-clearrect>clearRect</a></code>(<var>x</var>, <var>y</var>, <var>w</var>, <var>h</var>)<dd>
+
+    <p>Clears all pixels on the bitmap in the given rectangle to transparent black.</p>
+
+   <dt><var>context</var> . <code id=drawing-rectangles-to-the-bitmap:dom-context-2d-fillrect><a href=#dom-context-2d-fillrect>fillRect</a></code>(<var>x</var>, <var>y</var>, <var>w</var>, <var>h</var>)<dd>
+
+    <p>Paints the given rectangle onto the bitmap, using the current fill style.</p>
+
+   <dt><var>context</var> . <code id=drawing-rectangles-to-the-bitmap:dom-context-2d-strokerect><a href=#dom-context-2d-strokerect>strokeRect</a></code>(<var>x</var>, <var>y</var>, <var>w</var>, <var>h</var>)<dd>
+
+    <p>Paints the box that outlines the given rectangle onto the bitmap, using the current stroke
+    style.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-context-2d-clearrect><code>clearRect(<var>x</var>, <var>y</var>,
+  <var>w</var>, <var>h</var>)</code></dfn> method, when invoked, must run these steps:</p>
+
+  <ol><li><p>If any of the arguments are infinite or NaN, then abort these steps.<li><p>Let <var>pixels</var> be the set of pixels in the specified rectangle that also
+   intersect the current <a href=#clipping-region id=drawing-rectangles-to-the-bitmap:clipping-region-2>clipping region</a>.<li><p>Clear the pixels in <var>pixels</var> to a fully transparent black, erasing any
+   previous image.</ol>
+
+  <p class=note>If either height or width are zero, this method has no effect, since the set of
+  pixels would be empty.</p>
+
+  <p>The <dfn id=dom-context-2d-fillrect><code>fillRect(<var>x</var>, <var>y</var>,
+  <var>w</var>, <var>h</var>)</code></dfn> method, when invoked, must must run these steps:</p>
+
+  <ol><li><p>If any of the arguments are infinite or NaN, then abort these steps.<li><p>If either <var>w</var> or <var>h</var> are zero, then abort these steps.<li><p>Paint the specified rectangular area using the <code id=drawing-rectangles-to-the-bitmap:dom-context-2d-fillstyle><a href=#dom-context-2d-fillstyle>fillStyle</a></code>.</p>
+  </ol>
+
+  <p>The <dfn id=dom-context-2d-strokerect><code>strokeRect(<var>x</var>, <var>y</var>,
+  <var>w</var>, <var>h</var>)</code></dfn> method, when invoked, must run these steps:</p>
+
+  <ol><li><p>If any of the arguments are infinite or NaN, then abort these steps.<li><p>Take the result of <a href=#trace-a-path id=drawing-rectangles-to-the-bitmap:trace-a-path>tracing the path</a> described below,
+   using the <code id=drawing-rectangles-to-the-bitmap:canvaspathdrawingstyles><a href=#canvaspathdrawingstyles>CanvasPathDrawingStyles</a></code> interface's line styles, and fill it with the
+   <code id=drawing-rectangles-to-the-bitmap:dom-context-2d-strokestyle><a href=#dom-context-2d-strokestyle>strokeStyle</a></code>.</ol>
+
+  <p>If both <var>w</var> and <var>h</var> are zero, the path has a single subpath
+  with just one point (<var>x</var>, <var>y</var>), and no lines, and this method
+  thus has no effect (the <a href=#trace-a-path id=drawing-rectangles-to-the-bitmap:trace-a-path-2>trace a path</a> algorithm returns an empty path in that
+  case).</p>
+
+  <p>If just one of either <var>w</var> or <var>h</var> is zero, then the path has
+  a single subpath consisting of two points, with coordinates (<span><var>x</var></span>, <span><var>y</var></span>) and (<span><var>x</var>+<var>w</var></span>, <span><var>y</var></span>+<var>h</var>), in that order, connected by a single straight line.</p>
+
+  <p>Otherwise, the path has a single subpath consisting of four points, with coordinates (<span><var>x</var></span>, <span><var>y</var></span>), (<span><var>x</var>+<var>w</var></span>, <span><var>y</var></span>), (<span><var>x</var>+<var>w</var></span>,
+  <span><var>y</var></span>+<var>h</var>), and (<span><var>x</var></span>, <span><var>y</var>+<var>h</var></span>),
+  connected to each other in that order by straight lines.</p>
+
+  
+
+
+
+  <h6 id=drawing-text-to-the-bitmap>4.12.5.1.11 Drawing text to the bitmap<a href=#drawing-text-to-the-bitmap class=self-link></a></h6><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> canvas-text<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>3.2+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>3.5+</span></span><span class="ie yes"><span>IE</span> <span>9+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>2.1+</span></span><span class="safari yes"><span>Safari</span> <span>4+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>10.5+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=canvas-text">caniuse.com</a></div>
+
+  <dl id=text-0 class=domintro><dt><var>context</var> . <code id=drawing-text-to-the-bitmap:dom-context-2d-filltext><a href=#dom-context-2d-filltext>fillText</a></code>(<var>text</var>, <var>x</var>, <var>y</var> [, <var>maxWidth</var> ] )<dt><var>context</var> . <code id=drawing-text-to-the-bitmap:dom-context-2d-stroketext><a href=#dom-context-2d-stroketext>strokeText</a></code>(<var>text</var>, <var>x</var>, <var>y</var> [, <var>maxWidth</var> ] )<dd>
+
+    <p>Fills or strokes (respectively) the given text at the given position. If a maximum width is
+    provided, the text will be scaled to fit that width if necessary.</p>
+
+   <dt><var>metrics</var> = <var>context</var> . <code id=drawing-text-to-the-bitmap:dom-context-2d-measuretext><a href=#dom-context-2d-measuretext>measureText</a></code>(<var>text</var>)<dd>
+
+    <p>Returns a <code id=drawing-text-to-the-bitmap:textmetrics><a href=#textmetrics>TextMetrics</a></code> object with the metrics of the given text in the current
+    font.</p>
+
+   <dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-width><a href=#dom-textmetrics-width>width</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-actualboundingboxleft><a href=#dom-textmetrics-actualboundingboxleft>actualBoundingBoxLeft</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-actualboundingboxright><a href=#dom-textmetrics-actualboundingboxright>actualBoundingBoxRight</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-fontboundingboxascent><a href=#dom-textmetrics-fontboundingboxascent>fontBoundingBoxAscent</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-fontboundingboxdescent><a href=#dom-textmetrics-fontboundingboxdescent>fontBoundingBoxDescent</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-actualboundingboxascent><a href=#dom-textmetrics-actualboundingboxascent>actualBoundingBoxAscent</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-actualboundingboxdescent><a href=#dom-textmetrics-actualboundingboxdescent>actualBoundingBoxDescent</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-emheightascent><a href=#dom-textmetrics-emheightascent>emHeightAscent</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-emheightdescent><a href=#dom-textmetrics-emheightdescent>emHeightDescent</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-hangingbaseline><a href=#dom-textmetrics-hangingbaseline>hangingBaseline</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-alphabeticbaseline><a href=#dom-textmetrics-alphabeticbaseline>alphabeticBaseline</a></code><dt><var>metrics</var> . <code id=drawing-text-to-the-bitmap:dom-textmetrics-ideographicbaseline><a href=#dom-textmetrics-ideographicbaseline>ideographicBaseline</a></code><dd>
+
+    <p>Returns the measurement described below.</p>
+
+   </dl>
+
+  
+
+  <p>Objects that implement the <code id=drawing-text-to-the-bitmap:canvastext><a href=#canvastext>CanvasText</a></code> interface provide the following methods for
+  rendering text.</p>
+
+  <p>The <dfn id=dom-context-2d-filltext><code>fillText()</code></dfn> and <dfn id=dom-context-2d-stroketext><code>strokeText()</code></dfn> methods take three or four arguments,
+  <var>text</var>, <var>x</var>, <var>y</var>, and optionally <var>maxWidth</var>, and render the
+  given <var>text</var> at the given (<var>x</var>, <var>y</var>) coordinates ensuring that the text
+  isn't wider than <var>maxWidth</var> if specified, using the current <code id=drawing-text-to-the-bitmap:dom-context-2d-font><a href=#dom-context-2d-font>font</a></code>, <code id=drawing-text-to-the-bitmap:dom-context-2d-textalign><a href=#dom-context-2d-textalign>textAlign</a></code>, and <code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline><a href=#dom-context-2d-textbaseline>textBaseline</a></code> values. Specifically, when the methods
+  are invoked, the user agent must run these steps:</p>
+
+  <ol><li><p>If any of the arguments are infinite or NaN, then abort these steps.<li><p>Run the <a href=#text-preparation-algorithm id=drawing-text-to-the-bitmap:text-preparation-algorithm>text preparation algorithm</a>, passing it <var>text</var>, the object
+   implementing the <code id=drawing-text-to-the-bitmap:canvastext-2><a href=#canvastext>CanvasText</a></code> interface, and, if the <var>maxWidth</var> argument was
+   provided, that argument. Let <var>glyphs</var> be the result.</p>
+
+   <li><p>Move all the shapes in <var>glyphs</var> to the right by <var>x</var>
+   <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'" data-x-internal="'px'">CSS pixels</a> and down by <var>y</var> <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-2" data-x-internal="'px'">CSS
+   pixels</a>.<li>
+
+    <p>Paint the shapes given in <var>glyphs</var>, as transformed by the <a href=#transformations id=drawing-text-to-the-bitmap:transformations>current transformation matrix</a>, with each <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-3" data-x-internal="'px'">CSS pixel</a> in the coordinate space of <var>glyphs</var> mapped to one
+    coordinate space unit.</p>
+
+    <p>For <code id=drawing-text-to-the-bitmap:dom-context-2d-filltext-2><a href=#dom-context-2d-filltext>fillText()</a></code>, <code id=drawing-text-to-the-bitmap:dom-context-2d-fillstyle><a href=#dom-context-2d-fillstyle>fillStyle</a></code> must be applied to the shapes and <code id=drawing-text-to-the-bitmap:dom-context-2d-strokestyle><a href=#dom-context-2d-strokestyle>strokeStyle</a></code> must be ignored. For <code id=drawing-text-to-the-bitmap:dom-context-2d-stroketext-2><a href=#dom-context-2d-stroketext>strokeText()</a></code>, the reverse holds: <code id=drawing-text-to-the-bitmap:dom-context-2d-strokestyle-2><a href=#dom-context-2d-strokestyle>strokeStyle</a></code> must be applied to the result of <a href=#trace-a-path id=drawing-text-to-the-bitmap:trace-a-path>tracing</a> the shapes using the object implementing the
+    <code id=drawing-text-to-the-bitmap:canvastext-3><a href=#canvastext>CanvasText</a></code> interface for the line styles, and <code id=drawing-text-to-the-bitmap:dom-context-2d-fillstyle-2><a href=#dom-context-2d-fillstyle>fillStyle</a></code> must be ignored.</p>
+
+    <p>These shapes are painted without affecting the current path, and are subject to <a href=#shadows id=drawing-text-to-the-bitmap:shadows>shadow effects</a>, <a href=#dom-context-2d-globalalpha id=drawing-text-to-the-bitmap:dom-context-2d-globalalpha>global
+    alpha</a>, the <a href=#clipping-region id=drawing-text-to-the-bitmap:clipping-region>clipping region</a>, and <a href=#dom-context-2d-globalcompositeoperation id=drawing-text-to-the-bitmap:dom-context-2d-globalcompositeoperation>global composition operators</a>.</p>
+
+   </ol>
+
+
+
+  <p>The <dfn id=dom-context-2d-measuretext><code>measureText()</code></dfn> method takes one
+  argument, <var>text</var>. When the method is invoked, the user agent must run the
+  <a href=#text-preparation-algorithm id=drawing-text-to-the-bitmap:text-preparation-algorithm-2>text preparation algorithm</a>, passing it <var>text</var> and the object implementing
+  the <code id=drawing-text-to-the-bitmap:canvastext-4><a href=#canvastext>CanvasText</a></code> interface, and then using the returned <a id=drawing-text-to-the-bitmap:inline-box href=https://drafts.csswg.org/css2/visuren.html#inline-box data-x-internal=inline-box>inline box</a> must
+  create a new <code id=drawing-text-to-the-bitmap:textmetrics-2><a href=#textmetrics>TextMetrics</a></code> object with its attributes set as described in the following
+  list.
+
+  If doing these measurements requires using a font that has an <a href=#concept-origin id=drawing-text-to-the-bitmap:concept-origin>origin</a> that is not the
+  <a href=#same-origin id=drawing-text-to-the-bitmap:same-origin>same</a> as that of the <code id=drawing-text-to-the-bitmap:document><a href=#document>Document</a></code> object that owns the
+  <code id=drawing-text-to-the-bitmap:the-canvas-element><a href=#the-canvas-element>canvas</a></code> element (even if "using a font" means just checking if that font has a
+  particular glyph in it before falling back to another font), then the method, when invoked, must
+  throw a <a id=drawing-text-to-the-bitmap:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=drawing-text-to-the-bitmap:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.
+
+  Otherwise, it must return the new <code id=drawing-text-to-the-bitmap:textmetrics-3><a href=#textmetrics>TextMetrics</a></code> object.
+  <a href=#refsCSS>[CSS]</a>
+  <a href=#fingerprinting-vector id=drawing-text-to-the-bitmap:fingerprinting-vector class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a>
+  </p>
+
+  
+
+  <dl><dt><dfn id=dom-textmetrics-width><code>width</code></dfn> attribute<dd><p>The width of that <a id=drawing-text-to-the-bitmap:inline-box-2 href=https://drafts.csswg.org/css2/visuren.html#inline-box data-x-internal=inline-box>inline box</a>, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-4" data-x-internal="'px'">CSS pixels</a>. (The
+   text's advance width.)<dt><dfn id=dom-textmetrics-actualboundingboxleft><code>actualBoundingBoxLeft</code></dfn> attribute<dd>
+
+    <p>The distance parallel to the baseline from the alignment point given by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textalign-2><a href=#dom-context-2d-textalign>textAlign</a></code> attribute to the left side of the bounding
+    rectangle of the given text, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-5" data-x-internal="'px'">CSS pixels</a>; positive numbers
+    indicating a distance going left from the given alignment point.
+
+    <p class=note>The sum of this value and the next (<code id=drawing-text-to-the-bitmap:dom-textmetrics-actualboundingboxright-2><a href=#dom-textmetrics-actualboundingboxright>actualBoundingBoxRight</a></code>) can be wider than
+    the width of the <a id=drawing-text-to-the-bitmap:inline-box-3 href=https://drafts.csswg.org/css2/visuren.html#inline-box data-x-internal=inline-box>inline box</a> (<code id=drawing-text-to-the-bitmap:dom-textmetrics-width-2><a href=#dom-textmetrics-width>width</a></code>), in
+    particular with slanted fonts where characters overhang their advance width.</p>
+
+   <dt><dfn id=dom-textmetrics-actualboundingboxright><code>actualBoundingBoxRight</code></dfn> attribute<dd>
+
+    <p>The distance parallel to the baseline from the alignment point given by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textalign-3><a href=#dom-context-2d-textalign>textAlign</a></code> attribute to the right side of the bounding
+    rectangle of the given text, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-6" data-x-internal="'px'">CSS pixels</a>; positive numbers
+    indicating a distance going right from the given alignment point.</p>
+
+   <dt><dfn id=dom-textmetrics-fontboundingboxascent><code>fontBoundingBoxAscent</code></dfn> attribute<dd>
+
+    <p>The distance from the horizontal line indicated by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-2><a href=#dom-context-2d-textbaseline>textBaseline</a></code> attribute to the top of the highest
+    bounding rectangle of all the fonts used to render the text, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-7" data-x-internal="'px'">CSS
+    pixels</a>; positive numbers indicating a distance going up from the given baseline.</p>
+
+    <p class=note>This value and the next are useful when rendering a background that must have a
+    consistent height even if the exact text being rendered changes. The <code id=drawing-text-to-the-bitmap:dom-textmetrics-actualboundingboxascent-2><a href=#dom-textmetrics-actualboundingboxascent>actualBoundingBoxAscent</a></code> attribute (and
+    its corresponding attribute for the descent) are useful when drawing a bounding box around
+    specific text.</p>
+
+   <dt><dfn id=dom-textmetrics-fontboundingboxdescent><code>fontBoundingBoxDescent</code></dfn> attribute<dd><p>The distance from the horizontal line indicated by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-3><a href=#dom-context-2d-textbaseline>textBaseline</a></code> attribute to the bottom of the lowest
+   bounding rectangle of all the fonts used to render the text, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-8" data-x-internal="'px'">CSS
+   pixels</a>; positive numbers indicating a distance going down from the given
+   baseline.<dt><dfn id=dom-textmetrics-actualboundingboxascent><code>actualBoundingBoxAscent</code></dfn> attribute<dd>
+
+    <p>The distance from the horizontal line indicated by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-4><a href=#dom-context-2d-textbaseline>textBaseline</a></code> attribute to the top of the bounding
+    rectangle of the given text, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-9" data-x-internal="'px'">CSS pixels</a>; positive numbers
+    indicating a distance going up from the given baseline.
+
+    <p class=note>This number can vary greatly based on the input text, even if the first font
+    specified covers all the characters in the input. For example, the <code id=drawing-text-to-the-bitmap:dom-textmetrics-actualboundingboxascent-3><a href=#dom-textmetrics-actualboundingboxascent>actualBoundingBoxAscent</a></code> of a lowercase
+    "o" from an alphabetic baseline would be less than that of an uppercase "F". The value can
+    easily be negative; for example, the distance from the top of the em box (<code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-5><a href=#dom-context-2d-textbaseline>textBaseline</a></code> value "<code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-top><a href=#dom-context-2d-textbaseline-top>top</a></code>") to the top of the bounding rectangle when
+    the given text is just a single comma "<code>,</code>" would likely (unless the font is
+    quite unusual) be negative.</p>
+
+   <dt><dfn id=dom-textmetrics-actualboundingboxdescent><code>actualBoundingBoxDescent</code></dfn> attribute<dd><p>The distance from the horizontal line indicated by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-6><a href=#dom-context-2d-textbaseline>textBaseline</a></code> attribute to the bottom of the bounding
+   rectangle of the given text, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-10" data-x-internal="'px'">CSS pixels</a>; positive numbers
+   indicating a distance going down from the given baseline.<dt><dfn id=dom-textmetrics-emheightascent><code>emHeightAscent</code></dfn> attribute<dd><p>The distance from the horizontal line indicated by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-7><a href=#dom-context-2d-textbaseline>textBaseline</a></code> attribute to the highest top of the em
+   squares in the <a id=drawing-text-to-the-bitmap:line-box href=https://drafts.csswg.org/css2/visuren.html#line-box data-x-internal=line-box>line box</a>, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-11" data-x-internal="'px'">CSS pixels</a>; positive numbers
+   indicating that the given baseline is below the top of that em square (so this value will usually
+   be positive). Zero if the given baseline is the top of that em square; half the font size if the
+   given baseline is the middle of that em square.<dt><dfn id=dom-textmetrics-emheightdescent><code>emHeightDescent</code></dfn> attribute<dd><p>The distance from the horizontal line indicated by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-8><a href=#dom-context-2d-textbaseline>textBaseline</a></code> attribute to the lowest bottom of the em
+   squares in the <a id=drawing-text-to-the-bitmap:line-box-2 href=https://drafts.csswg.org/css2/visuren.html#line-box data-x-internal=line-box>line box</a>, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-12" data-x-internal="'px'">CSS pixels</a>; positive numbers
+   indicating that the given baseline is below the bottom of that em square (so this value will
+   usually be negative). (Zero if the given baseline is the bottom of that em square.)<dt><dfn id=dom-textmetrics-hangingbaseline><code>hangingBaseline</code></dfn> attribute<dd><p>The distance from the horizontal line indicated by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-9><a href=#dom-context-2d-textbaseline>textBaseline</a></code> attribute to the hanging baseline of the
+   <a id=drawing-text-to-the-bitmap:line-box-3 href=https://drafts.csswg.org/css2/visuren.html#line-box data-x-internal=line-box>line box</a>, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-13" data-x-internal="'px'">CSS pixels</a>; positive numbers indicating that
+   the given baseline is below the hanging baseline. (Zero if the given baseline is the hanging
+   baseline.)<dt><dfn id=dom-textmetrics-alphabeticbaseline><code>alphabeticBaseline</code></dfn> attribute<dd><p>The distance from the horizontal line indicated by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-10><a href=#dom-context-2d-textbaseline>textBaseline</a></code> attribute to the alphabetic baseline of
+   the <a id=drawing-text-to-the-bitmap:line-box-4 href=https://drafts.csswg.org/css2/visuren.html#line-box data-x-internal=line-box>line box</a>, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-14" data-x-internal="'px'">CSS pixels</a>; positive numbers indicating
+   that the given baseline is below the alphabetic baseline. (Zero if the given baseline is the
+   alphabetic baseline.)<dt><dfn id=dom-textmetrics-ideographicbaseline><code>ideographicBaseline</code></dfn> attribute<dd><p>The distance from the horizontal line indicated by the <code id=drawing-text-to-the-bitmap:dom-context-2d-textbaseline-11><a href=#dom-context-2d-textbaseline>textBaseline</a></code> attribute to the ideographic baseline of
+   the <a id=drawing-text-to-the-bitmap:line-box-5 href=https://drafts.csswg.org/css2/visuren.html#line-box data-x-internal=line-box>line box</a>, in <a href=https://drafts.csswg.org/css-values/#px id="drawing-text-to-the-bitmap:'px'-15" data-x-internal="'px'">CSS pixels</a>; positive numbers indicating
+   that the given baseline is below the ideographic baseline. (Zero if the given baseline is the
+   ideographic baseline.)</dl>
+
+  <p class=note>Glyphs rendered using <code id=drawing-text-to-the-bitmap:dom-context-2d-filltext-3><a href=#dom-context-2d-filltext>fillText()</a></code> and
+  <code id=drawing-text-to-the-bitmap:dom-context-2d-stroketext-3><a href=#dom-context-2d-stroketext>strokeText()</a></code> can spill out of the box given by the
+  font size (the em square size) and the width returned by <code id=drawing-text-to-the-bitmap:dom-context-2d-measuretext-2><a href=#dom-context-2d-measuretext>measureText()</a></code> (the text width). Authors are encouraged
+  to use the bounding box values described above if this is an issue.</p>
+
+  <p class=note>A future version of the 2D context API may provide a way to render fragments of
+  documents, rendered using CSS, straight to the canvas. This would be provided in preference to a
+  dedicated way of doing multiline layout.</p>
+
+
+
+  <h6 id=drawing-paths-to-the-canvas>4.12.5.1.12 Drawing paths to the canvas<a href=#drawing-paths-to-the-canvas class=self-link></a></h6>
+
+  <p>Objects that implement the <code id=drawing-paths-to-the-canvas:canvasdrawpath><a href=#canvasdrawpath>CanvasDrawPath</a></code> interface have a <dfn id=current-default-path>current default
+  path</dfn>. There is only one <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path>current default path</a>, it is not part of the
+  <a href=#drawing-state id=drawing-paths-to-the-canvas:drawing-state>drawing state</a>. The <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-2>current default path</a> is a <a href=#concept-path id=drawing-paths-to-the-canvas:concept-path>path</a>, as described above.</p>
+
+  <dl class=domintro><dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-beginpath><a href=#dom-context-2d-beginpath>beginPath</a></code>()<dd>
+
+    <p>Resets the <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-3>current default path</a>.</p>
+
+   <dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-fill><a href=#dom-context-2d-fill>fill</a></code>( [ <var>fillRule</var> ] )<dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-fill-2><a href=#dom-context-2d-fill>fill</a></code>(<var>path</var> [, <var>fillRule</var> ] )<dd>
+
+    <p>Fills the subpaths of the <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-4>current default path</a> or the given path with the
+    current fill style, obeying the given fill rule.</p>
+
+   <dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-stroke><a href=#dom-context-2d-stroke>stroke</a></code>()<dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-stroke-2><a href=#dom-context-2d-stroke>stroke</a></code>(<var>path</var>)<dd>
+
+    <p>Strokes the subpaths of the <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-5>current default path</a> or the given path with the
+    current stroke style.</p>
+
+   <dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-clip><a href=#dom-context-2d-clip>clip</a></code>( [ <var>fillRule</var> ] )<dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-clip-2><a href=#dom-context-2d-clip>clip</a></code>(<var>path</var> [, <var>fillRule</var> ] )<dd>
+
+    <p>Further constrains the clipping region to the <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-6>current default path</a> or the given
+    path, using the given fill rule to determine what points are in the path.</p>
+
+   <dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-resetclip><a href=#dom-context-2d-resetclip>resetClip</a></code>()<dd>
+
+    <p>Unconstrains the clipping region.</p>
+
+   <dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-ispointinpath><a href=#dom-context-2d-ispointinpath>isPointInPath</a></code>(<var>x</var>, <var>y</var> [, <var>fillRule</var> ] )<dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-ispointinpath-2><a href=#dom-context-2d-ispointinpath>isPointInPath</a></code>(<var>path</var>, <var>x</var>, <var>y</var> [, <var>fillRule</var> ] )<dd>
+
+    <p>Returns true if the given point is in the <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-7>current default path</a> or the given
+    path, using the given fill rule to determine what points are in the path.</p>
+
+   <dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-ispointinstroke><a href=#dom-context-2d-ispointinstroke>isPointInStroke</a></code>(<var>x</var>, <var>y</var>)<dt><var>context</var> . <code id=drawing-paths-to-the-canvas:dom-context-2d-ispointinstroke-2><a href=#dom-context-2d-ispointinstroke>isPointInStroke</a></code>(<var>path</var>, <var>x</var>, <var>y</var>)<dd>
+
+    <p>Returns true if the given point would be in the region covered by the stroke of the
+    <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-8>current default path</a> or the given path, given the current stroke style.</p>
+
+   </dl><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=28217" title="<canvas>: not clear if two polygon paths with a common edge should have no line visible">28217</a></div>
+
+  
+
+  <p>The <dfn id=dom-context-2d-beginpath><code>beginPath()</code></dfn> method, when invoked,
+  must empty the list of subpaths in the context's <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-9>current default path</a> so that the it
+  once again has zero subpaths.</p>
+
+  <p>Where the following method definitions use the term <i>intended path</i>, it means the
+  <code id=drawing-paths-to-the-canvas:path2d><a href=#path2d>Path2D</a></code> argument, if one was provided, or the <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-10>current default path</a>
+  otherwise.</p>
+
+  <p>When the intended path is a <code id=drawing-paths-to-the-canvas:path2d-2><a href=#path2d>Path2D</a></code> object, the coordinates and lines of its
+  subpaths must be transformed according to the <a href=#transformations id=drawing-paths-to-the-canvas:transformations>
+  current transformation matrix</a> on the object implementing the
+  <code id=drawing-paths-to-the-canvas:canvastransform><a href=#canvastransform>CanvasTransform</a></code> interface when used by these methods (without affecting the
+  <code id=drawing-paths-to-the-canvas:path2d-3><a href=#path2d>Path2D</a></code> object itself). When the intended path is the <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-11>current default
+  path</a>, it is not affected by the transform. (This is because transformations already affect
+  the <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-12>current default path</a> when it is constructed, so applying it when it is painted as
+  well would result in a double transformation.)</p>
+
+  <p>The <dfn id=dom-context-2d-fill><code>fill()</code></dfn> method, when invoked, must fill
+  all the subpaths of the intended path, using <code id=drawing-paths-to-the-canvas:dom-context-2d-fillstyle><a href=#dom-context-2d-fillstyle>fillStyle</a></code>, and using the <a href=#fill-rule id=drawing-paths-to-the-canvas:fill-rule>fill rule</a> indicated
+  by the <var>fillRule</var> argument. Open subpaths must be implicitly closed when being filled
+  (without affecting the actual subpaths).</p>
+
+  <p>The <dfn id=dom-context-2d-stroke><code>stroke()</code></dfn> method, when invoked, must
+  <a href=#trace-a-path id=drawing-paths-to-the-canvas:trace-a-path>trace</a> the intended path, using this
+  <code id=drawing-paths-to-the-canvas:canvaspathdrawingstyles><a href=#canvaspathdrawingstyles>CanvasPathDrawingStyles</a></code> object for the line styles, and then fill the resulting path
+  using the <code id=drawing-paths-to-the-canvas:dom-context-2d-strokestyle><a href=#dom-context-2d-strokestyle>strokeStyle</a></code> attribute, using the <a href=#dom-context-2d-fillrule-nonzero id=drawing-paths-to-the-canvas:dom-context-2d-fillrule-nonzero>non-zero winding rule</a>.</p>
+
+  <p class=note>As a result of how the algorithm to <a href=#trace-a-path id=drawing-paths-to-the-canvas:trace-a-path-2>trace a path</a> is defined,
+  overlapping parts of the paths in one stroke operation are treated as if their union was what was
+  painted.</p>
+
+  <p class=note>The stroke <em>style</em> is affected by the transformation during painting, even
+  if the intended path is the <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-13>current default path</a>.</p>
+
+  <p>Paths, when filled or stroked, must be painted without affecting the <a href=#current-default-path id=drawing-paths-to-the-canvas:current-default-path-14>current default
+  path</a> or any <code id=drawing-paths-to-the-canvas:path2d-4><a href=#path2d>Path2D</a></code> objects, and must be subject to <a href=#shadows id=drawing-paths-to-the-canvas:shadows>shadow effects</a>, <a href=#dom-context-2d-globalalpha id=drawing-paths-to-the-canvas:dom-context-2d-globalalpha>global
+  alpha</a>, the <a href=#clipping-region id=drawing-paths-to-the-canvas:clipping-region>clipping region</a>, and <a href=#dom-context-2d-globalcompositeoperation id=drawing-paths-to-the-canvas:dom-context-2d-globalcompositeoperation>global composition operators</a>. (The effect
+  of transformations is described above and varies based on which path is being used.)</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-context-2d-clip><code>clip()</code></dfn> method, when invoked, must
+  create a new <dfn id=clipping-region>clipping region</dfn> by calculating the intersection of the current clipping
+  region and the area described by the intended path, using the <a href=#fill-rule id=drawing-paths-to-the-canvas:fill-rule-2>fill rule</a> indicated by
+  the <var>fillRule</var> argument. Open subpaths must be implicitly closed when computing the
+  clipping region, without affecting the actual subpaths. The new clipping region replaces the
+  current clipping region.</p>
+
+  <p>When the context is initialized, the clipping region must be set to the largest infinite
+  surface (i.e. by default, no clipping occurs).</p>
+
+  
+
+  <p>The <dfn id=dom-context-2d-resetclip><code>resetClip()</code></dfn> method, when invoked,
+  must create a new <a href=#clipping-region id=drawing-paths-to-the-canvas:clipping-region-2>clipping region</a> that is the largest infinite surface. The new
+  clipping region replaces the current clipping region.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-context-2d-ispointinpath><code>isPointInPath()</code></dfn> method, when
+  invoked, must return true if the point given by the <var>x</var> and <var>y</var> coordinates
+  passed to the method, when treated as coordinates in the canvas coordinate space unaffected by the
+  current transformation, is inside the intended path as determined by the <a href=#fill-rule id=drawing-paths-to-the-canvas:fill-rule-3>fill rule</a>
+  indicated by the <var>fillRule</var> argument; and must return false otherwise. Open subpaths must
+  be implicitly closed when computing the area inside the path, without affecting the actual
+  subpaths. Points on the path itself must be considered to be inside the path. If either of the
+  arguments are infinite or NaN, then the method must return false.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-context-2d-ispointinstroke><code>isPointInStroke()</code></dfn> method,
+  when invoked, must return true if the point given by the <var>x</var> and <var>y</var> coordinates
+  passed to the method, when treated as coordinates in the canvas coordinate space unaffected by the
+  current transformation, is inside the path that results from <a href=#trace-a-path id=drawing-paths-to-the-canvas:trace-a-path-3>tracing</a> the intended path, using the <a href=#dom-context-2d-fillrule-nonzero id=drawing-paths-to-the-canvas:dom-context-2d-fillrule-nonzero-2>non-zero winding rule</a>, and using the
+  <code id=drawing-paths-to-the-canvas:canvaspathdrawingstyles-2><a href=#canvaspathdrawingstyles>CanvasPathDrawingStyles</a></code> interface for the line styles; and must return false
+  otherwise. Points on the resulting path must be considered to be inside the path. If either of the
+  arguments are infinite or NaN, then the method must return false.</p>
+
+  <hr>
+
+  
+
+  <div id=drawCustomFocusRingExample class=example>
+
+   <p>This <code id=drawing-paths-to-the-canvas:the-canvas-element><a href=#the-canvas-element>canvas</a></code> element has a couple of checkboxes. The path-related commands are
+   highlighted:</p>
+
+   <pre>&lt;canvas height=400 width=750>
+ &lt;label>&lt;input type=checkbox id=showA> Show As&lt;/label>
+ &lt;label>&lt;input type=checkbox id=showB> Show Bs&lt;/label>
+ &lt;!-- ... -->
+&lt;/canvas>
+&lt;script>
+ function drawCheckbox(context, element, x, y, paint) {
+   context.save();
+   context.font = '10px sans-serif';
+   context.textAlign = 'left';
+   context.textBaseline = 'middle';
+   var metrics = context.measureText(element.labels[0].textContent);
+   if (paint) {
+<strong>     context.beginPath();
+     context.strokeStyle = 'black';
+     context.rect(x-5, y-5, 10, 10);
+     context.stroke();
+</strong>     if (element.checked) {
+<strong>       context.fillStyle = 'black';
+       context.fill();
+</strong>     }
+     context.fillText(element.labels[0].textContent, x+5, y);
+   }
+<strong>   context.beginPath();
+   context.rect(x-7, y-7, 12 + metrics.width+2, 14);
+</strong>
+   context.drawFocusIfNeeded(element);
+   context.restore();
+ }
+ function drawBase() { /* ... */ }
+ function drawAs() { /* ... */ }
+ function drawBs() { /* ... */ }
+ function redraw() {
+   var canvas = document.getElementsByTagName('canvas')[0];
+   var context = canvas.getContext('2d');
+   context.clearRect(0, 0, canvas.width, canvas.height);
+   drawCheckbox(context, document.getElementById('showA'), 20, 40, true);
+   drawCheckbox(context, document.getElementById('showB'), 20, 60, true);
+   drawBase();
+   if (document.getElementById('showA').checked)
+     drawAs();
+   if (document.getElementById('showB').checked)
+     drawBs();
+ }
+ function processClick(event) {
+   var canvas = document.getElementsByTagName('canvas')[0];
+   var context = canvas.getContext('2d');
+   var x = event.clientX;
+   var y = event.clientY;
+   var node = event.target;
+   while (node) {
+     x -= node.offsetLeft - node.scrollLeft;
+     y -= node.offsetTop - node.scrollTop;
+     node = node.offsetParent;
+   }
+   drawCheckbox(context, document.getElementById('showA'), 20, 40, false);
+   if (<strong>context.isPointInPath(x, y)</strong>)
+     document.getElementById('showA').checked = !(document.getElementById('showA').checked);
+   drawCheckbox(context, document.getElementById('showB'), 20, 60, false);
+   if (<strong>context.isPointInPath(x, y)</strong>)
+     document.getElementById('showB').checked = !(document.getElementById('showB').checked);
+   redraw();
+ }
+ document.getElementsByTagName('canvas')[0].addEventListener('focus', redraw, true);
+ document.getElementsByTagName('canvas')[0].addEventListener('blur', redraw, true);
+ document.getElementsByTagName('canvas')[0].addEventListener('change', redraw, true);
+ document.getElementsByTagName('canvas')[0].addEventListener('click', processClick, false);
+ redraw();
+&lt;/script></pre>
+
+
+  </div>
+
+  <h6 id=drawing-focus-rings-and-scrolling-paths-into-view>4.12.5.1.13 Drawing focus rings and scrolling paths into view<a href=#drawing-focus-rings-and-scrolling-paths-into-view class=self-link></a></h6>
+
+  <dl class=domintro><dt><var>context</var> . <code id=drawing-focus-rings-and-scrolling-paths-into-view:dom-context-2d-drawfocusifneeded><a href=#dom-context-2d-drawfocusifneeded>drawFocusIfNeeded</a></code>(<var>element</var>)<dt><var>context</var> . <code id=drawing-focus-rings-and-scrolling-paths-into-view:dom-context-2d-drawfocusifneeded-2><a href=#dom-context-2d-drawfocusifneeded>drawFocusIfNeeded</a></code>(<var>path</var>, <var>element</var>)<dd>
+
+    <p>If the given element is <a href=#focused id=drawing-focus-rings-and-scrolling-paths-into-view:focused>focused</a>, draws a focus ring around the <a href=#current-default-path id=drawing-focus-rings-and-scrolling-paths-into-view:current-default-path>current
+    default path</a> or the given path, following the platform conventions for focus rings.</p>
+
+   <dt><var>context</var> . <code id=drawing-focus-rings-and-scrolling-paths-into-view:dom-context-2d-scrollpathintoview><a href=#dom-context-2d-scrollpathintoview>scrollPathIntoView</a></code>()<dt><var>context</var> . <code id=drawing-focus-rings-and-scrolling-paths-into-view:dom-context-2d-scrollpathintoview-2><a href=#dom-context-2d-scrollpathintoview>scrollPathIntoView</a></code>(<var>path</var>)<dd>
+
+    <p>Scrolls the <a href=#current-default-path id=drawing-focus-rings-and-scrolling-paths-into-view:current-default-path-2>current default path</a> or the given path into view. This is especially
+    useful on devices with small screens, where the whole canvas might not be visible at once.</p>
+
+   </dl>
+
+  
+
+  Objects that implement the <code id=drawing-focus-rings-and-scrolling-paths-into-view:canvasuserinterface><a href=#canvasuserinterface>CanvasUserInterface</a></code> interface provide the following
+  methods to control drawing focus rings and scrolling paths into view.
+
+  <hr>
+
+  <p id=dom-context-2d-drawosfocusring>The <dfn id=dom-context-2d-drawfocusifneeded><code>drawFocusIfNeeded(<var>element</var>)</code></dfn>
+  method, when invoked, must run these steps:</p>
+
+  <ol><li><p>If <var>element</var> is not <a href=#focused id=drawing-focus-rings-and-scrolling-paths-into-view:focused-2>focused</a> or is not a descendant of the element with
+   whose context the method is associated, then abort these steps.<li>
+
+    <p>Draw a focus ring of the appropriate style along the intended path, following platform
+    conventions.</p>
+
+    <p class=note>Some platforms only draw focus rings around elements that have been focused from
+    the keyboard, and not those focused from the mouse. Other platforms simply don't draw focus
+    rings around some elements at all unless relevant accessibility features are enabled. This API
+    is intended to follow these conventions. User agents that implement distinctions based on the
+    manner in which the element was focused are encouraged to classify focus driven by the <code id=drawing-focus-rings-and-scrolling-paths-into-view:dom-focus><a href=#dom-focus>focus()</a></code> method based on the kind of user interaction event from which
+    the call was triggered (if any).</p>
+
+    <p>The focus ring should not be subject to the <a href=#shadows id=drawing-focus-rings-and-scrolling-paths-into-view:shadows>shadow effects</a>, the
+    <a href=#dom-context-2d-globalalpha id=drawing-focus-rings-and-scrolling-paths-into-view:dom-context-2d-globalalpha>global alpha</a>, the <a href=#dom-context-2d-globalcompositeoperation id=drawing-focus-rings-and-scrolling-paths-into-view:dom-context-2d-globalcompositeoperation>global composition operators</a>, or any of
+    the members in the <code id=drawing-focus-rings-and-scrolling-paths-into-view:canvasfillstrokestyles><a href=#canvasfillstrokestyles>CanvasFillStrokeStyles</a></code>, <code id=drawing-focus-rings-and-scrolling-paths-into-view:canvaspathdrawingstyles><a href=#canvaspathdrawingstyles>CanvasPathDrawingStyles</a></code>,
+    <code id=drawing-focus-rings-and-scrolling-paths-into-view:canvastextdrawingstyles><a href=#canvastextdrawingstyles>CanvasTextDrawingStyles</a></code> interfaces, but <em>should</em> be subject to the
+    <a href=#clipping-region id=drawing-focus-rings-and-scrolling-paths-into-view:clipping-region>clipping region</a>. (The effect of transformations is described above and varies based
+    on which path is being used.)</p>
+
+   <li><p><a href=#inform>Inform the user</a> that the focus is at the location given by the
+   intended path. User agents may wait until the next time the <a href=#event-loop id=drawing-focus-rings-and-scrolling-paths-into-view:event-loop>event loop</a> reaches its
+   <i>update the rendering</i> step to optionally inform the user.</ol>
+
+  <p>User agents should not implicitly close open subpaths in the intended path when drawing the
+  focus ring.</p>
+
+  <p class=note>This might be a moot point, however. For example, if the focus ring is drawn as an
+  axis-aligned bounding rectangle around the points in the intended path, then whether the subpaths
+  are closed or not has no effect. This specification intentionally does not specify precisely how
+  focus rings are to be drawn: user agents are expected to honor their platform's native
+  conventions.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-context-2d-scrollpathintoview><code>scrollPathIntoView()</code></dfn>
+  method, when invoked, must run these steps:</p>
+
+  <ol><li><p>Let <var>the specified rectangle</var> be the rectangle of the bounding box of
+   the intended path.<li><p>Let <var>notional child</var> be a hypothetical element that is a rendered child
+   of the <code id=drawing-focus-rings-and-scrolling-paths-into-view:the-canvas-element><a href=#the-canvas-element>canvas</a></code> element whose dimensions are those of <var>the specified
+   rectangle</var>.<li><p><a href=https://drafts.csswg.org/cssom-view/#scroll-an-element-into-view id=drawing-focus-rings-and-scrolling-paths-into-view:scroll-an-element-into-view data-x-internal=scroll-an-element-into-view>Scroll <var>notional child</var> into
+   view</a> with the <var>align to top flag</var> set.</p>
+
+   <li><p>Optionally, <a href=#inform>inform the user</a> that the caret or selection (or both)
+   cover <var>the specified rectangle</var> of the canvas. The user agent may wait until the next
+   time the <a href=#event-loop id=drawing-focus-rings-and-scrolling-paths-into-view:event-loop-2>event loop</a> reaches its <i>update the rendering</i> step to
+   optionally inform the user.</ol>
+
+  <p id=inform>"Inform the user", as used in this section, does not imply any persistent state
+  change. It could mean, for instance, calling a system accessibility API to notify assistive
+  technologies such as magnification tools so that the user's magnifier moves to the given area of
+  the canvas. However, it does not associate the path with the element, or provide a region for
+  tactile feedback, etc.</p>
+
+  
+
+  <h6 id=drawing-images>4.12.5.1.14 Drawing images<a href=#drawing-images class=self-link></a></h6>
+
+  <p>Objects that implement the <code id=drawing-images:canvasdrawimage><a href=#canvasdrawimage>CanvasDrawImage</a></code> interface have the <dfn id=dom-context-2d-drawimage><code>drawImage</code></dfn> method to draw images.</p>
+
+  
+
+  <p>This method can be invoked with three different sets of arguments:</p>
+
+  <ul class=brief><li><code>drawImage(<var>image</var>, <var>dx</var>, <var>dy</var>)</code>
+   <li><code>drawImage(<var>image</var>, <var>dx</var>, <var>dy</var>, <var>dw</var>, <var>dh</var>)</code>
+   <li><code>drawImage(<var>image</var>, <var>sx</var>, <var>sy</var>, <var>sw</var>, <var>sh</var>, <var>dx</var>, <var>dy</var>, <var>dw</var>, <var>dh</var>)</code>
+  </ul>
+
+  
+
+  <dl class=domintro><dt><var>context</var> . <code id=drawing-images:dom-context-2d-drawimage><a href=#dom-context-2d-drawimage>drawImage</a></code>(<var>image</var>, <var>dx</var>, <var>dy</var>)<dt><var>context</var> . <code id=drawing-images:dom-context-2d-drawimage-2><a href=#dom-context-2d-drawimage>drawImage</a></code>(<var>image</var>, <var>dx</var>, <var>dy</var>, <var>dw</var>, <var>dh</var>)<dt><var>context</var> . <code id=drawing-images:dom-context-2d-drawimage-3><a href=#dom-context-2d-drawimage>drawImage</a></code>(<var>image</var>, <var>sx</var>, <var>sy</var>, <var>sw</var>, <var>sh</var>, <var>dx</var>, <var>dy</var>, <var>dw</var>, <var>dh</var>)<dd>
+
+    <p>Draws the given image onto the canvas. The arguments are
+    interpreted as follows:</p>
+
+    <p><img src=/images/drawImage.png width=356 alt="The sx and sy parameters give the x and y coordinates of the source rectangle; the sw and sh arguments give the width and height of the source rectangle; the dx and dy give the x and y coordinates of the destination rectangle; and the dw and dh arguments give the width and height of the destination rectangle." height=356></p>
+
+    <p>If the image isn't yet fully decoded, then nothing is drawn. If the image is a canvas with no
+    data, throws an <a id=drawing-images:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=drawing-images:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+   </dl>
+
+  
+
+  <p>When the <code id=drawing-images:dom-context-2d-drawimage-4><a href=#dom-context-2d-drawimage>drawImage()</a></code> method is invoked, the user
+  agent must run these steps:</p>
+
+  <ol><li><p>If any of the arguments are infinite or NaN, then abort these steps.<li><p><a href=#check-the-usability-of-the-image-argument id=drawing-images:check-the-usability-of-the-image-argument>Check the usability of the <var>image</var> argument</a>. If this
+   returns <i>aborted</i>, then an exception has been thrown and the method doesn't return anything;
+   abort these steps. If it returns <i>bad</i>, then abort these steps without drawing anything.
+   Otherwise it returns <i>good</i>; continue with these steps.<li>
+
+    <p>Establish the source and destination rectangles as follows:</p>
+
+    <p>If not specified, the <var>dw</var> and <var>dh</var> arguments must default to the values of
+    <var>sw</var> and <var>sh</var>, interpreted such that one <a href=https://drafts.csswg.org/css-values/#px id="drawing-images:'px'" data-x-internal="'px'">CSS pixel</a>
+    in the image is treated as one unit in the <a href=#output-bitmap id=drawing-images:output-bitmap>output bitmap</a>'s coordinate space. If the
+    <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are omitted, then they
+    must default to 0, 0, the image's <a href=#intrinsic-width id=drawing-images:intrinsic-width>intrinsic width</a> in image pixels, and the image's
+    <a href=#intrinsic-height id=drawing-images:intrinsic-height>intrinsic height</a> in image pixels, respectively. If the image has no <a id=drawing-images:intrinsic-dimensions href=https://drafts.csswg.org/css2/conform.html#intrinsic data-x-internal=intrinsic-dimensions>intrinsic
+    dimensions</a>, then the <i>concrete object size</i> must be used instead, as determined
+    using the CSS "<a href=https://drafts.csswg.org/css-images/#default-sizing>Concrete Object
+    Size Resolution</a>" algorithm, with the <i>specified size</i> having neither a definite width
+    nor height, nor any additional constraints, the object's intrinsic properties being those of the
+    <var>image</var> argument, and the <a id=drawing-images:default-object-size href=https://drafts.csswg.org/css-images/#default-object-size data-x-internal=default-object-size>default object size</a> being the size of the
+    <a href=#output-bitmap id=drawing-images:output-bitmap-2>output bitmap</a>. <a href=#refsCSSIMAGES>[CSSIMAGES]</a></p>
+
+    <p>The source rectangle is the rectangle whose corners are the four points (<var>sx</var>, <var>sy</var>), (<span><var>sx</var>+<var>sw</var></span>, <var>sy</var>), (<span><var>sx</var>+<var>sw</var></span>, <span><var>sy</var>+<var>sh</var></span>),
+    (<var>sx</var>, <span><var>sy</var>+<var>sh</var></span>).</p>
+
+    <p>The destination rectangle is the rectangle whose corners are the four points (<var>dx</var>, <var>dy</var>), (<span><var>dx</var>+<var>dw</var></span>, <var>dy</var>), (<span><var>dx</var>+<var>dw</var></span>, <span><var>dy</var>+<var>dh</var></span>),
+    (<var>dx</var>, <span><var>dy</var>+<var>dh</var></span>).</p>
+
+    <p>When the source rectangle is outside the source image, the source rectangle must be clipped
+    to the source image and the destination rectangle must be clipped in the same proportion.</p>
+
+    <p class=note>When the destination rectangle is outside the destination image (the
+    <a href=#output-bitmap id=drawing-images:output-bitmap-3>output bitmap</a>), the pixels that land outside the <a href=#output-bitmap id=drawing-images:output-bitmap-4>output bitmap</a> are
+    discarded, as if the destination was an infinite canvas whose rendering was clipped to the
+    dimensions of the <a href=#output-bitmap id=drawing-images:output-bitmap-5>output bitmap</a>.</p>
+
+   <li><p>If one of the <var>sw</var> or <var>sh</var> arguments is zero, then abort
+   these steps. Nothing is painted.<li>
+
+    <p>Paint the region of the <var>image</var> argument specified by the source rectangle

@@ -1,0 +1,850 @@
+
+  </div>
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="date-state-(type=date):the-input-element-4"><a href=#the-input-element>input</a></code> element content
+   attributes, IDL attributes, and methods <a href=#concept-input-apply id="date-state-(type=date):concept-input-apply">apply</a> to the element:
+   <code id="date-state-(type=date):attr-fe-autocomplete"><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="date-state-(type=date):attr-input-list"><a href=#attr-input-list>list</a></code>,
+   <code id="date-state-(type=date):attr-input-max-2"><a href=#attr-input-max>max</a></code>,
+   <code id="date-state-(type=date):attr-input-min-2"><a href=#attr-input-min>min</a></code>,
+   <code id="date-state-(type=date):attr-input-readonly"><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="date-state-(type=date):attr-input-required"><a href=#attr-input-required>required</a></code>, and
+   <code id="date-state-(type=date):attr-input-step-2"><a href=#attr-input-step>step</a></code> content attributes;
+   <code id="date-state-(type=date):dom-input-list"><a href=#dom-input-list>list</a></code>,
+   <code id="date-state-(type=date):dom-input-value"><a href=#dom-input-value>value</a></code>,
+   <code id="date-state-(type=date):dom-input-valueasdate"><a href=#dom-input-valueasdate>valueAsDate</a></code>, and
+   <code id="date-state-(type=date):dom-input-valueasnumber"><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="date-state-(type=date):dom-textarea/input-select"><a href=#dom-textarea/input-select>select()</a></code>,
+   <code id="date-state-(type=date):dom-input-stepdown"><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="date-state-(type=date):dom-input-stepup"><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+   <p>The <code id="date-state-(type=date):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is
+   in mode <a href=#dom-input-value-value id="date-state-(type=date):dom-input-value-value">value</a>.</p>
+
+   <p>The <code id="date-state-(type=date):event-input"><a href=#event-input>input</a></code> and <code id="date-state-(type=date):event-change"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="date-state-(type=date):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="date-state-(type=date):do-not-apply">do not
+   apply</a> to the element:
+   <code id="date-state-(type=date):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="date-state-(type=date):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="date-state-(type=date):attr-input-checked" class=no-backref><a href=#attr-input-checked>checked</a></code>,
+   <code id="date-state-(type=date):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="date-state-(type=date):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="date-state-(type=date):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="date-state-(type=date):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="date-state-(type=date):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="date-state-(type=date):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="date-state-(type=date):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="date-state-(type=date):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="date-state-(type=date):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="date-state-(type=date):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="date-state-(type=date):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="date-state-(type=date):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="date-state-(type=date):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="date-state-(type=date):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="date-state-(type=date):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>, and
+   <code id="date-state-(type=date):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="date-state-(type=date):do-not-apply-2">do not apply</a> to the
+   element:
+   <code id="date-state-(type=date):dom-input-checked" class=no-backref><a href=#dom-input-checked>checked</a></code>,
+   <code id="date-state-(type=date):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="date-state-(type=date):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>, and
+   <code id="date-state-(type=date):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code> IDL attributes;
+   <code id="date-state-(type=date):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>, and
+   <code id="date-state-(type=date):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code> methods.</p>
+
+  </div>
+
+
+  <h6 id="month-state-(type=month)">4.10.5.1.8 <dfn>Month</dfn> state (<code>type=month</code>)<a href="#month-state-(type=month)" class=self-link></a></h6>
+
+  
+
+  <p>When an <code id="month-state-(type=month):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="month-state-(type=month):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#month-state-(type=month)" id="month-state-(type=month):month-state-(type=month)">Month</a> state, the rules in this section apply.</p>
+
+  
+
+  <p>The <code id="month-state-(type=month):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="month-state-(type=month):represents">represents</a> a control for setting the element's
+  <a href=#concept-fe-value id="month-state-(type=month):concept-fe-value">value</a> to a string representing a specific <a href=#concept-month id="month-state-(type=month):concept-month">month</a>.</p>
+
+  
+
+  <p>If the element is <i id="month-state-(type=month):concept-fe-mutable"><a href=#concept-fe-mutable>mutable</a></i>, the user agent should allow the
+  user to change the <a href=#concept-month id="month-state-(type=month):concept-month-2">month</a> represented by its <a href=#concept-fe-value id="month-state-(type=month):concept-fe-value-2">value</a>, as obtained by <a href=#parse-a-month-string id="month-state-(type=month):parse-a-month-string">parsing a
+  month</a> from it. User agents must not allow the user to set the <a href=#concept-fe-value id="month-state-(type=month):concept-fe-value-3">value</a> to a non-empty string that is not a <a href=#valid-month-string id="month-state-(type=month):valid-month-string">valid month
+  string</a>. If the user agent provides a user interface for selecting a <a href=#concept-month id="month-state-(type=month):concept-month-3">month</a>, then the <a href=#concept-fe-value id="month-state-(type=month):concept-fe-value-4">value</a> must be
+  set to a <a href=#valid-month-string id="month-state-(type=month):valid-month-string-2">valid month string</a> representing the user's selection. User agents should
+  allow the user to set the <a href=#concept-fe-value id="month-state-(type=month):concept-fe-value-5">value</a> to the empty string.</p>
+
+  <p><strong>Constraint validation</strong>: While the user interface describes input that the user
+  agent cannot convert to a <a href=#valid-month-string id="month-state-(type=month):valid-month-string-3">valid month string</a>, the control is <a href=#suffering-from-bad-input id="month-state-(type=month):suffering-from-bad-input">suffering from bad
+  input</a>.</p>
+
+  
+
+  <p class=note>See the <a href=#input-author-notes>introduction section</a> for a discussion of
+  the difference between the input format and submission format for date, time, and number form
+  controls, and the <a href=#input-impl-notes>implementation notes</a>
+  regarding localization of form controls.</p>
+
+  <p>The <code id="month-state-(type=month):attr-input-value"><a href=#attr-input-value>value</a></code> attribute, if specified and not empty, must
+  have a value that is a <a href=#valid-month-string id="month-state-(type=month):valid-month-string-4">valid month string</a>.</p> 
+
+  
+
+  <p><strong>The <a href=#value-sanitization-algorithm id="month-state-(type=month):value-sanitization-algorithm">value sanitization algorithm</a> is as follows</strong>: If the <a href=#concept-fe-value id="month-state-(type=month):concept-fe-value-6">value</a> of the element is not a <a href=#valid-month-string id="month-state-(type=month):valid-month-string-5">valid month string</a>,
+  then set it to the empty string instead.</p>
+
+  
+
+  <p>The <code id="month-state-(type=month):attr-input-min"><a href=#attr-input-min>min</a></code> attribute, if specified, must have a value that is
+  a <a href=#valid-month-string id="month-state-(type=month):valid-month-string-6">valid month string</a>. The <code id="month-state-(type=month):attr-input-max"><a href=#attr-input-max>max</a></code> attribute, if
+  specified, must have a value that is a <a href=#valid-month-string id="month-state-(type=month):valid-month-string-7">valid month string</a>.</p>
+
+  <p>The <code id="month-state-(type=month):attr-input-step"><a href=#attr-input-step>step</a></code> attribute is expressed in months. The <a href=#concept-input-step-scale id="month-state-(type=month):concept-input-step-scale">step scale factor</a> is 1 (there is no
+  conversion needed as the algorithms use months). The <a href=#concept-input-step-default id="month-state-(type=month):concept-input-step-default">default step</a> is 1 month.</p>
+
+  
+
+  <p>When the element is <a href=#suffering-from-a-step-mismatch id="month-state-(type=month):suffering-from-a-step-mismatch">suffering from a step mismatch</a>, the user agent may round the
+  element's <a href=#concept-fe-value id="month-state-(type=month):concept-fe-value-7">value</a> to the nearest <a href=#concept-month id="month-state-(type=month):concept-month-4">month</a> for which the element would not <a href=#suffering-from-a-step-mismatch id="month-state-(type=month):suffering-from-a-step-mismatch-2">suffer from a step mismatch</a>.</p>
+
+  <p><strong>The <a href=#concept-input-value-string-number id="month-state-(type=month):concept-input-value-string-number">algorithm to convert a string to a
+  number</a>, given a string <var>input</var>, is as follows</strong>: If <a href=#parse-a-month-string id="month-state-(type=month):parse-a-month-string-2">parsing a month</a> from <var>input</var> results in an
+  error, then return an error; otherwise, return the number of months between January 1970 and the
+  parsed <a href=#concept-month id="month-state-(type=month):concept-month-5">month</a>.</p>
+
+  <p><strong>The <a href=#concept-input-value-number-string id="month-state-(type=month):concept-input-value-number-string">algorithm to convert a number to a
+  string</a>, given a number <var>input</var>, is as follows</strong>: Return a
+  <a href=#valid-month-string id="month-state-(type=month):valid-month-string-8">valid month string</a> that represents the <a href=#concept-month id="month-state-(type=month):concept-month-6">month</a> that
+  has <var>input</var> months between it and January 1970.</p>
+
+  
+
+  <p><strong>The <a href=#concept-input-value-string-date id="month-state-(type=month):concept-input-value-string-date">algorithm to convert a string to a
+  <code>Date</code> object</a>, given a string <var>input</var>, is as follows</strong>:
+  If <a href=#parse-a-month-string id="month-state-(type=month):parse-a-month-string-3">parsing a month</a> from <var>input</var>
+  results in an error, then return an error; otherwise, return <a href=#create-a-date-object id="month-state-(type=month):create-a-date-object">a
+  new <code>Date</code> object</a> representing midnight UTC on the morning of the first day of
+  the parsed <a href=#concept-month id="month-state-(type=month):concept-month-7">month</a>.</p>
+
+  <p><strong>The <a href=#concept-input-value-date-string id="month-state-(type=month):concept-input-value-date-string">algorithm to convert a
+  <code>Date</code> object to a string</a>, given a <code id="month-state-(type=month):date"><a data-x-internal=date href=https://tc39.github.io/ecma262/#sec-date-objects>Date</a></code> object <var>input</var>, is
+  as follows</strong>: Return a <a href=#valid-month-string id="month-state-(type=month):valid-month-string-9">valid month string</a> that represents the <a href=#concept-month id="month-state-(type=month):concept-month-8">month</a> current at the time represented by <var>input</var> in the UTC
+  time zone.</p>
+
+  
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="month-state-(type=month):the-input-element-3"><a href=#the-input-element>input</a></code> element content
+   attributes, IDL attributes, and methods <a href=#concept-input-apply id="month-state-(type=month):concept-input-apply">apply</a> to the element:
+   <code id="month-state-(type=month):attr-fe-autocomplete"><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="month-state-(type=month):attr-input-list"><a href=#attr-input-list>list</a></code>,
+   <code id="month-state-(type=month):attr-input-max-2"><a href=#attr-input-max>max</a></code>,
+   <code id="month-state-(type=month):attr-input-min-2"><a href=#attr-input-min>min</a></code>,
+   <code id="month-state-(type=month):attr-input-readonly"><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="month-state-(type=month):attr-input-required"><a href=#attr-input-required>required</a></code>, and
+   <code id="month-state-(type=month):attr-input-step-2"><a href=#attr-input-step>step</a></code> content attributes;
+   <code id="month-state-(type=month):dom-input-list"><a href=#dom-input-list>list</a></code>,
+   <code id="month-state-(type=month):dom-input-value"><a href=#dom-input-value>value</a></code>,
+   <code id="month-state-(type=month):dom-input-valueasdate"><a href=#dom-input-valueasdate>valueAsDate</a></code>, and
+   <code id="month-state-(type=month):dom-input-valueasnumber"><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="month-state-(type=month):dom-textarea/input-select"><a href=#dom-textarea/input-select>select()</a></code>,
+   <code id="month-state-(type=month):dom-input-stepdown"><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="month-state-(type=month):dom-input-stepup"><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+   <p>The <code id="month-state-(type=month):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is
+   in mode <a href=#dom-input-value-value id="month-state-(type=month):dom-input-value-value">value</a>.</p>
+
+   <p>The <code id="month-state-(type=month):event-input"><a href=#event-input>input</a></code> and <code id="month-state-(type=month):event-change"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="month-state-(type=month):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="month-state-(type=month):do-not-apply">do not
+   apply</a> to the element:
+   <code id="month-state-(type=month):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="month-state-(type=month):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="month-state-(type=month):attr-input-checked" class=no-backref><a href=#attr-input-checked>checked</a></code>,
+   <code id="month-state-(type=month):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="month-state-(type=month):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="month-state-(type=month):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="month-state-(type=month):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="month-state-(type=month):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="month-state-(type=month):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="month-state-(type=month):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="month-state-(type=month):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="month-state-(type=month):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="month-state-(type=month):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="month-state-(type=month):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="month-state-(type=month):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="month-state-(type=month):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="month-state-(type=month):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="month-state-(type=month):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>, and
+   <code id="month-state-(type=month):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="month-state-(type=month):do-not-apply-2">do not apply</a> to the
+   element:
+   <code id="month-state-(type=month):dom-input-checked" class=no-backref><a href=#dom-input-checked>checked</a></code>,
+   <code id="month-state-(type=month):dom-input-files" class=no-backref><a href=#dom-input-files>files</a></code>,
+   <code id="month-state-(type=month):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="month-state-(type=month):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>, and
+   <code id="month-state-(type=month):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code> IDL attributes;
+   <code id="month-state-(type=month):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>, and
+   <code id="month-state-(type=month):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code> methods.</p>
+
+  </div>
+
+
+  <h6 id="week-state-(type=week)">4.10.5.1.9 <dfn>Week</dfn> state (<code>type=week</code>)<a href="#week-state-(type=week)" class=self-link></a></h6>
+
+  
+
+  <p>When an <code id="week-state-(type=week):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="week-state-(type=week):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#week-state-(type=week)" id="week-state-(type=week):week-state-(type=week)">Week</a> state, the rules in this section apply.</p>
+
+  
+
+  <p>The <code id="week-state-(type=week):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="week-state-(type=week):represents">represents</a> a control for setting the element's
+  <a href=#concept-fe-value id="week-state-(type=week):concept-fe-value">value</a> to a string representing a specific <a href=#concept-week id="week-state-(type=week):concept-week">week</a>.</p>
+
+  
+
+  <p>If the element is <i id="week-state-(type=week):concept-fe-mutable"><a href=#concept-fe-mutable>mutable</a></i>, the user agent should allow the
+  user to change the <a href=#concept-week id="week-state-(type=week):concept-week-2">week</a> represented by its <a href=#concept-fe-value id="week-state-(type=week):concept-fe-value-2">value</a>, as obtained by <a href=#parse-a-week-string id="week-state-(type=week):parse-a-week-string">parsing a
+  week</a> from it. User agents must not allow the user to set the <a href=#concept-fe-value id="week-state-(type=week):concept-fe-value-3">value</a> to a non-empty string that is not a <a href=#valid-week-string id="week-state-(type=week):valid-week-string">valid week
+  string</a>. If the user agent provides a user interface for selecting a <a href=#concept-week id="week-state-(type=week):concept-week-3">week</a>, then the <a href=#concept-fe-value id="week-state-(type=week):concept-fe-value-4">value</a> must be set
+  to a <a href=#valid-week-string id="week-state-(type=week):valid-week-string-2">valid week string</a> representing the user's selection. User agents should allow
+  the user to set the <a href=#concept-fe-value id="week-state-(type=week):concept-fe-value-5">value</a> to the empty string.</p>
+
+  <p><strong>Constraint validation</strong>: While the user interface describes input that the user
+  agent cannot convert to a <a href=#valid-week-string id="week-state-(type=week):valid-week-string-3">valid week string</a>, the control is <a href=#suffering-from-bad-input id="week-state-(type=week):suffering-from-bad-input">suffering from bad
+  input</a>.</p>
+
+  
+
+  <p class=note>See the <a href=#input-author-notes>introduction section</a> for a discussion of
+  the difference between the input format and submission format for date, time, and number form
+  controls, and the <a href=#input-impl-notes>implementation notes</a>
+  regarding localization of form controls.</p>
+
+  <p>The <code id="week-state-(type=week):attr-input-value"><a href=#attr-input-value>value</a></code> attribute, if specified and not empty, must
+  have a value that is a <a href=#valid-week-string id="week-state-(type=week):valid-week-string-4">valid week string</a>.</p> 
+
+  
+
+  <p><strong>The <a href=#value-sanitization-algorithm id="week-state-(type=week):value-sanitization-algorithm">value sanitization algorithm</a> is as follows</strong>: If the <a href=#concept-fe-value id="week-state-(type=week):concept-fe-value-6">value</a> of the element is not a <a href=#valid-week-string id="week-state-(type=week):valid-week-string-5">valid week string</a>, then
+  set it to the empty string instead.</p>
+
+  
+
+  <p>The <code id="week-state-(type=week):attr-input-min"><a href=#attr-input-min>min</a></code> attribute, if specified, must have a value that is
+  a <a href=#valid-week-string id="week-state-(type=week):valid-week-string-6">valid week string</a>. The <code id="week-state-(type=week):attr-input-max"><a href=#attr-input-max>max</a></code> attribute, if
+  specified, must have a value that is a <a href=#valid-week-string id="week-state-(type=week):valid-week-string-7">valid week string</a>.</p>
+
+  <p>The <code id="week-state-(type=week):attr-input-step"><a href=#attr-input-step>step</a></code> attribute is expressed in weeks. The <a href=#concept-input-step-scale id="week-state-(type=week):concept-input-step-scale">step scale factor</a> is 604,800,000
+  (which converts the weeks to milliseconds, as used in the other algorithms). The <a href=#concept-input-step-default id="week-state-(type=week):concept-input-step-default">default step</a> is 1 week. The <a href=#concept-input-step-default-base id="week-state-(type=week):concept-input-step-default-base">default step base</a> is −259,200,000 (the start
+  of week 1970-W01).</p>
+
+  
+
+  <p>When the element is <a href=#suffering-from-a-step-mismatch id="week-state-(type=week):suffering-from-a-step-mismatch">suffering from a step mismatch</a>, the user agent may round the
+  element's <a href=#concept-fe-value id="week-state-(type=week):concept-fe-value-7">value</a> to the nearest <a href=#concept-week id="week-state-(type=week):concept-week-4">week</a> for which the element would not <a href=#suffering-from-a-step-mismatch id="week-state-(type=week):suffering-from-a-step-mismatch-2">suffer from a step mismatch</a>.</p>
+
+  <p><strong>The <a href=#concept-input-value-string-number id="week-state-(type=week):concept-input-value-string-number">algorithm to convert a string to a
+  number</a>, given a string <var>input</var>, is as follows</strong>: If <a href=#parse-a-week-string id="week-state-(type=week):parse-a-week-string-2">parsing a week string</a> from <var>input</var> results in
+  an error, then return an error; otherwise, return the number of milliseconds elapsed from midnight
+  UTC on the morning of 1970-01-01 (the time represented by the value "<code>1970-01-01T00:00:00.0Z</code>") to midnight UTC on the morning of the Monday of the
+  parsed <a href=#concept-week id="week-state-(type=week):concept-week-5">week</a>, ignoring leap seconds.</p>
+
+  <p><strong>The <a href=#concept-input-value-number-string id="week-state-(type=week):concept-input-value-number-string">algorithm to convert a number to a
+  string</a>, given a number <var>input</var>, is as follows</strong>: Return a
+  <a href=#valid-week-string id="week-state-(type=week):valid-week-string-8">valid week string</a> that represents the <a href=#concept-week id="week-state-(type=week):concept-week-6">week</a> that, in
+  UTC, is current <var>input</var> milliseconds after midnight UTC on the morning of
+  1970-01-01 (the time represented by the value "<code>1970-01-01T00:00:00.0Z</code>").</p>
+
+  <p><strong>The <a href=#concept-input-value-string-date id="week-state-(type=week):concept-input-value-string-date">algorithm to convert a string to a
+  <code>Date</code> object</a>, given a string <var>input</var>, is as follows</strong>: If <a href=#parse-a-week-string id="week-state-(type=week):parse-a-week-string-3">parsing a week</a> from <var>input</var> results in an error, then
+  return an error; otherwise, return <a href=#create-a-date-object id="week-state-(type=week):create-a-date-object">a new <code>Date</code>
+  object</a> representing midnight UTC on the morning of the Monday of the parsed <a href=#concept-week id="week-state-(type=week):concept-week-7">week</a>.</p>
+
+  <p><strong>The <a href=#concept-input-value-date-string id="week-state-(type=week):concept-input-value-date-string">algorithm to convert a
+  <code>Date</code> object to a string</a>, given a <code id="week-state-(type=week):date"><a data-x-internal=date href=https://tc39.github.io/ecma262/#sec-date-objects>Date</a></code> object <var>input</var>, is
+  as follows</strong>: Return a <a href=#valid-week-string id="week-state-(type=week):valid-week-string-9">valid week string</a> that represents the <a href=#concept-week id="week-state-(type=week):concept-week-8">week</a> current at the time represented by <var>input</var> in the UTC
+  time zone.</p>
+
+  
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="week-state-(type=week):the-input-element-3"><a href=#the-input-element>input</a></code> element content attributes, IDL attributes, and
+   methods <a href=#concept-input-apply id="week-state-(type=week):concept-input-apply">apply</a> to the element:
+   <code id="week-state-(type=week):attr-fe-autocomplete"><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="week-state-(type=week):attr-input-list"><a href=#attr-input-list>list</a></code>,
+   <code id="week-state-(type=week):attr-input-max-2"><a href=#attr-input-max>max</a></code>,
+   <code id="week-state-(type=week):attr-input-min-2"><a href=#attr-input-min>min</a></code>,
+   <code id="week-state-(type=week):attr-input-readonly"><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="week-state-(type=week):attr-input-required"><a href=#attr-input-required>required</a></code>, and
+   <code id="week-state-(type=week):attr-input-step-2"><a href=#attr-input-step>step</a></code> content attributes;
+   <code id="week-state-(type=week):dom-input-list"><a href=#dom-input-list>list</a></code>,
+   <code id="week-state-(type=week):dom-input-value"><a href=#dom-input-value>value</a></code>,
+   <code id="week-state-(type=week):dom-input-valueasdate"><a href=#dom-input-valueasdate>valueAsDate</a></code>, and
+   <code id="week-state-(type=week):dom-input-valueasnumber"><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="week-state-(type=week):dom-textarea/input-select"><a href=#dom-textarea/input-select>select()</a></code>,
+   <code id="week-state-(type=week):dom-input-stepdown"><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="week-state-(type=week):dom-input-stepup"><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+   <p>The <code id="week-state-(type=week):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is in mode <a href=#dom-input-value-value id="week-state-(type=week):dom-input-value-value">value</a>.</p>
+
+   <p>The <code id="week-state-(type=week):event-input"><a href=#event-input>input</a></code> and <code id="week-state-(type=week):event-change"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="week-state-(type=week):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="week-state-(type=week):do-not-apply">do not apply</a> to the
+   element:
+   <code id="week-state-(type=week):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="week-state-(type=week):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="week-state-(type=week):attr-input-checked" class=no-backref><a href=#attr-input-checked>checked</a></code>,
+   <code id="week-state-(type=week):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="week-state-(type=week):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="week-state-(type=week):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="week-state-(type=week):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="week-state-(type=week):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="week-state-(type=week):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="week-state-(type=week):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="week-state-(type=week):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="week-state-(type=week):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="week-state-(type=week):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="week-state-(type=week):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="week-state-(type=week):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="week-state-(type=week):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="week-state-(type=week):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="week-state-(type=week):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>, and
+   <code id="week-state-(type=week):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="week-state-(type=week):do-not-apply-2">do not apply</a> to the element:
+   <code id="week-state-(type=week):dom-input-checked" class=no-backref><a href=#dom-input-checked>checked</a></code>,
+   <code id="week-state-(type=week):dom-input-files" class=no-backref><a href=#dom-input-files>files</a></code>,
+   <code id="week-state-(type=week):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="week-state-(type=week):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>, and
+   <code id="week-state-(type=week):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code> IDL attributes;
+   <code id="week-state-(type=week):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>, and
+   <code id="week-state-(type=week):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code> methods.</p>
+
+  </div>
+
+
+  <h6 id="time-state-(type=time)">4.10.5.1.10 <dfn>Time</dfn> state (<code>type=time</code>)<a href="#time-state-(type=time)" class=self-link></a></h6>
+
+  
+
+  <p>When an <code id="time-state-(type=time):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="time-state-(type=time):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#time-state-(type=time)" id="time-state-(type=time):time-state-(type=time)">Time</a> state, the rules in this section apply.</p>
+
+  
+
+  <p>The <code id="time-state-(type=time):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="time-state-(type=time):represents">represents</a> a control for setting the element's
+  <a href=#concept-fe-value id="time-state-(type=time):concept-fe-value">value</a> to a string representing a specific <a href=#concept-time id="time-state-(type=time):concept-time">time</a>.</p>
+
+  
+
+  <p>If the element is <i id="time-state-(type=time):concept-fe-mutable"><a href=#concept-fe-mutable>mutable</a></i>, the user agent should allow the
+  user to change the <a href=#concept-time id="time-state-(type=time):concept-time-2">time</a> represented by its <a href=#concept-fe-value id="time-state-(type=time):concept-fe-value-2">value</a>, as obtained by <a href=#parse-a-time-string id="time-state-(type=time):parse-a-time-string">parsing a
+  time</a> from it. User agents must not allow the user to set the <a href=#concept-fe-value id="time-state-(type=time):concept-fe-value-3">value</a> to a non-empty string that is not a <a href=#valid-time-string id="time-state-(type=time):valid-time-string">valid time
+  string</a>. If the user agent provides a user interface for selecting a <a href=#concept-time id="time-state-(type=time):concept-time-3">time</a>, then the <a href=#concept-fe-value id="time-state-(type=time):concept-fe-value-4">value</a> must be set
+  to a <a href=#valid-time-string id="time-state-(type=time):valid-time-string-2">valid time string</a> representing the user's selection. User agents should allow
+  the user to set the <a href=#concept-fe-value id="time-state-(type=time):concept-fe-value-5">value</a> to the empty string.</p>
+
+  <p><strong>Constraint validation</strong>: While the user interface describes input that the user
+  agent cannot convert to a <a href=#valid-time-string id="time-state-(type=time):valid-time-string-3">valid time string</a>, the control is <a href=#suffering-from-bad-input id="time-state-(type=time):suffering-from-bad-input">suffering from bad
+  input</a>.</p>
+
+  
+
+  <p class=note>See the <a href=#input-author-notes>introduction section</a> for a discussion of
+  the difference between the input format and submission format for date, time, and number form
+  controls, and the <a href=#input-impl-notes>implementation notes</a>
+  regarding localization of form controls.</p>
+
+  <p>The <code id="time-state-(type=time):attr-input-value"><a href=#attr-input-value>value</a></code> attribute, if specified and not empty, must
+  have a value that is a <a href=#valid-time-string id="time-state-(type=time):valid-time-string-4">valid time string</a>.</p> 
+
+  
+
+  <p><strong>The <a href=#value-sanitization-algorithm id="time-state-(type=time):value-sanitization-algorithm">value sanitization algorithm</a> is as follows</strong>: If the <a href=#concept-fe-value id="time-state-(type=time):concept-fe-value-6">value</a> of the element is not a <a href=#valid-time-string id="time-state-(type=time):valid-time-string-5">valid time string</a>, then
+  set it to the empty string instead.</p>
+
+  <p>The form control <a href=#has-a-periodic-domain id="time-state-(type=time):has-a-periodic-domain">has a periodic domain</a>.</p>
+
+  
+
+  <p>The <code id="time-state-(type=time):attr-input-min"><a href=#attr-input-min>min</a></code> attribute, if specified, must have a value that is
+  a <a href=#valid-time-string id="time-state-(type=time):valid-time-string-6">valid time string</a>. The <code id="time-state-(type=time):attr-input-max"><a href=#attr-input-max>max</a></code> attribute, if
+  specified, must have a value that is a <a href=#valid-time-string id="time-state-(type=time):valid-time-string-7">valid time string</a>.</p>
+
+  <p>The <code id="time-state-(type=time):attr-input-step"><a href=#attr-input-step>step</a></code> attribute is expressed in seconds. The <a href=#concept-input-step-scale id="time-state-(type=time):concept-input-step-scale">step scale factor</a> is 1000 (which
+  converts the seconds to milliseconds, as used in the other algorithms). The <a href=#concept-input-step-default id="time-state-(type=time):concept-input-step-default">default step</a> is 60 seconds.</p>
+
+  
+
+  <p>When the element is <a href=#suffering-from-a-step-mismatch id="time-state-(type=time):suffering-from-a-step-mismatch">suffering from a step mismatch</a>, the user agent may round the
+  element's <a href=#concept-fe-value id="time-state-(type=time):concept-fe-value-7">value</a> to the nearest <a href=#concept-time id="time-state-(type=time):concept-time-4">time</a> for which the element would not <a href=#suffering-from-a-step-mismatch id="time-state-(type=time):suffering-from-a-step-mismatch-2">suffer from a step mismatch</a>.</p>
+
+  <p><strong>The <a href=#concept-input-value-string-number id="time-state-(type=time):concept-input-value-string-number">algorithm to convert a string to a
+  number</a>, given a string <var>input</var>, is as follows</strong>: If <a href=#parse-a-time-string id="time-state-(type=time):parse-a-time-string-2">parsing a time</a> from <var>input</var> results in an
+  error, then return an error; otherwise, return the number of milliseconds elapsed from midnight to
+  the parsed <a href=#concept-time id="time-state-(type=time):concept-time-5">time</a> on a day with no time changes.</p>
+
+  <p><strong>The <a href=#concept-input-value-number-string id="time-state-(type=time):concept-input-value-number-string">algorithm to convert a number to a
+  string</a>, given a number <var>input</var>, is as follows</strong>: Return a
+  <a href=#valid-time-string id="time-state-(type=time):valid-time-string-8">valid time string</a> that represents the <a href=#concept-time id="time-state-(type=time):concept-time-6">time</a> that is
+  <var>input</var> milliseconds after midnight on a day with no time changes.</p>
+
+  <p><strong>The <a href=#concept-input-value-string-date id="time-state-(type=time):concept-input-value-string-date">algorithm to convert a string to a
+  <code>Date</code> object</a>, given a string <var>input</var>, is as
+  follows</strong>: If <a href=#parse-a-time-string id="time-state-(type=time):parse-a-time-string-3">parsing a time</a> from
+  <var>input</var> results
+  in an error, then return an error; otherwise, return <a href=#create-a-date-object id="time-state-(type=time):create-a-date-object">a new
+  <code>Date</code> object</a> representing the parsed <a href=#concept-time id="time-state-(type=time):concept-time-7">time</a> in
+  UTC on 1970-01-01.</p>
+
+  <p><strong>The <a href=#concept-input-value-date-string id="time-state-(type=time):concept-input-value-date-string">algorithm to convert a
+  <code>Date</code> object to a string</a>, given a <code id="time-state-(type=time):date"><a data-x-internal=date href=https://tc39.github.io/ecma262/#sec-date-objects>Date</a></code> object <var>input</var>, is
+  as follows</strong>: Return a <a href=#valid-time-string id="time-state-(type=time):valid-time-string-9">valid time string</a> that represents the UTC <a href=#concept-time id="time-state-(type=time):concept-time-8">time</a> component that is represented by <var>input</var>.</p>
+
+  
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="time-state-(type=time):the-input-element-3"><a href=#the-input-element>input</a></code> element content attributes, IDL attributes, and
+   methods <a href=#concept-input-apply id="time-state-(type=time):concept-input-apply">apply</a> to the element:
+   <code id="time-state-(type=time):attr-fe-autocomplete"><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="time-state-(type=time):attr-input-list"><a href=#attr-input-list>list</a></code>,
+   <code id="time-state-(type=time):attr-input-max-2"><a href=#attr-input-max>max</a></code>,
+   <code id="time-state-(type=time):attr-input-min-2"><a href=#attr-input-min>min</a></code>,
+   <code id="time-state-(type=time):attr-input-readonly"><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="time-state-(type=time):attr-input-required"><a href=#attr-input-required>required</a></code>, and
+   <code id="time-state-(type=time):attr-input-step-2"><a href=#attr-input-step>step</a></code> content attributes;
+   <code id="time-state-(type=time):dom-input-list"><a href=#dom-input-list>list</a></code>,
+   <code id="time-state-(type=time):dom-input-value"><a href=#dom-input-value>value</a></code>,
+   <code id="time-state-(type=time):dom-input-valueasdate"><a href=#dom-input-valueasdate>valueAsDate</a></code>, and
+   <code id="time-state-(type=time):dom-input-valueasnumber"><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="time-state-(type=time):dom-textarea/input-select"><a href=#dom-textarea/input-select>select()</a></code>,
+   <code id="time-state-(type=time):dom-input-stepdown"><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="time-state-(type=time):dom-input-stepup"><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+   <p>The <code id="time-state-(type=time):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is in mode <a href=#dom-input-value-value id="time-state-(type=time):dom-input-value-value">value</a>.</p>
+
+   <p>The <code id="time-state-(type=time):event-input"><a href=#event-input>input</a></code> and <code id="time-state-(type=time):event-change"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="time-state-(type=time):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="time-state-(type=time):do-not-apply">do not apply</a> to the
+   element:
+   <code id="time-state-(type=time):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="time-state-(type=time):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="time-state-(type=time):attr-input-checked" class=no-backref><a href=#attr-input-checked>checked</a></code>,
+   <code id="time-state-(type=time):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="time-state-(type=time):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="time-state-(type=time):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="time-state-(type=time):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="time-state-(type=time):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="time-state-(type=time):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="time-state-(type=time):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="time-state-(type=time):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="time-state-(type=time):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="time-state-(type=time):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="time-state-(type=time):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="time-state-(type=time):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="time-state-(type=time):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="time-state-(type=time):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="time-state-(type=time):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>, and
+   <code id="time-state-(type=time):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="time-state-(type=time):do-not-apply-2">do not apply</a> to the element:
+   <code id="time-state-(type=time):dom-input-checked" class=no-backref><a href=#dom-input-checked>checked</a></code>,
+   <code id="time-state-(type=time):dom-input-files" class=no-backref><a href=#dom-input-files>files</a></code>,
+   <code id="time-state-(type=time):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="time-state-(type=time):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>, and
+   <code id="time-state-(type=time):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code> IDL attributes;
+   <code id="time-state-(type=time):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>, and
+   <code id="time-state-(type=time):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code> methods.</p>
+
+  </div>
+
+
+  <h6 id="local-date-and-time-state-(type=datetime-local)">4.10.5.1.11 <dfn>Local Date and Time</dfn> state (<code>type=datetime-local</code>)<a href="#local-date-and-time-state-(type=datetime-local)" class=self-link></a></h6>
+
+  
+
+  <p>When an <code id="local-date-and-time-state-(type=datetime-local):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="local-date-and-time-state-(type=datetime-local):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#local-date-and-time-state-(type=datetime-local)" id="local-date-and-time-state-(type=datetime-local):local-date-and-time-state-(type=datetime-local)">Local Date and Time</a> state, the rules in
+  this section apply.</p>
+
+  
+
+  <p>The <code id="local-date-and-time-state-(type=datetime-local):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="local-date-and-time-state-(type=datetime-local):represents">represents</a> a control for setting the element's
+  <a href=#concept-fe-value id="local-date-and-time-state-(type=datetime-local):concept-fe-value">value</a> to a string representing a <a href=#concept-datetime-local id="local-date-and-time-state-(type=datetime-local):concept-datetime-local">local date and time</a>, with no time-zone offset
+  information.</p>
+
+  
+
+  <p>If the element is <i id="local-date-and-time-state-(type=datetime-local):concept-fe-mutable"><a href=#concept-fe-mutable>mutable</a></i>, the user agent should allow the
+  user to change the <a href=#concept-datetime-local id="local-date-and-time-state-(type=datetime-local):concept-datetime-local-2">date and time</a> represented by its
+  <a href=#concept-fe-value id="local-date-and-time-state-(type=datetime-local):concept-fe-value-2">value</a>, as obtained by <a href=#parse-a-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):parse-a-local-date-and-time-string">parsing a date and time</a> from it. User agents must not allow the user to set
+  the <a href=#concept-fe-value id="local-date-and-time-state-(type=datetime-local):concept-fe-value-3">value</a> to a non-empty string that is not a <a href=#valid-normalised-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):valid-normalised-local-date-and-time-string">valid
+  normalized local date and time string</a>. If the user agent provides a user interface for
+  selecting a <a href=#concept-datetime-local id="local-date-and-time-state-(type=datetime-local):concept-datetime-local-3">local date and time</a>, then the <a href=#concept-fe-value id="local-date-and-time-state-(type=datetime-local):concept-fe-value-4">value</a> must be set to a <a href=#valid-normalised-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):valid-normalised-local-date-and-time-string-2">valid normalized local date and time
+  string</a> representing the user's selection. User agents should allow the user to set the
+  <a href=#concept-fe-value id="local-date-and-time-state-(type=datetime-local):concept-fe-value-5">value</a> to the empty string.</p>
+
+  <p><strong>Constraint validation</strong>: While the user interface describes input that the user
+  agent cannot convert to a <a href=#valid-normalised-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):valid-normalised-local-date-and-time-string-3">valid normalized local date and time string</a>, the control is
+  <a href=#suffering-from-bad-input id="local-date-and-time-state-(type=datetime-local):suffering-from-bad-input">suffering from bad input</a>.</p>
+
+  
+
+  <p class=note>See the <a href=#input-author-notes>introduction section</a> for a discussion of
+  the difference between the input format and submission format for date, time, and number form
+  controls, and the <a href=#input-impl-notes>implementation notes</a>
+  regarding localization of form controls.</p>
+
+  <p>The <code id="local-date-and-time-state-(type=datetime-local):attr-input-value"><a href=#attr-input-value>value</a></code> attribute, if specified and not empty, must
+  have a value that is a <a href=#valid-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):valid-local-date-and-time-string">valid local date and time string</a>.</p> 
+
+  
+
+  <p><strong>The <a href=#value-sanitization-algorithm id="local-date-and-time-state-(type=datetime-local):value-sanitization-algorithm">value sanitization algorithm</a> is as follows</strong>: If the <a href=#concept-fe-value id="local-date-and-time-state-(type=datetime-local):concept-fe-value-6">value</a> of the element is a <a href=#valid-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):valid-local-date-and-time-string-2">valid local date and time
+  string</a>, then set it to a <a href=#valid-normalised-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):valid-normalised-local-date-and-time-string-4">valid normalized local date and time string</a>
+  representing the same date and time; otherwise, set it to the empty string instead.</p>
+
+  
+
+  <p>The <code id="local-date-and-time-state-(type=datetime-local):attr-input-min"><a href=#attr-input-min>min</a></code> attribute, if specified, must have a value that is
+  a <a href=#valid-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):valid-local-date-and-time-string-3">valid local date and time string</a>. The <code id="local-date-and-time-state-(type=datetime-local):attr-input-max"><a href=#attr-input-max>max</a></code>
+  attribute, if specified, must have a value that is a <a href=#valid-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):valid-local-date-and-time-string-4">valid local date and time
+  string</a>.</p>
+
+  <p>The <code id="local-date-and-time-state-(type=datetime-local):attr-input-step"><a href=#attr-input-step>step</a></code> attribute is expressed in seconds. The <a href=#concept-input-step-scale id="local-date-and-time-state-(type=datetime-local):concept-input-step-scale">step scale factor</a> is 1000 (which
+  converts the seconds to milliseconds, as used in the other algorithms). The <a href=#concept-input-step-default id="local-date-and-time-state-(type=datetime-local):concept-input-step-default">default step</a> is 60 seconds.</p>
+
+  
+
+  <p>When the element is <a href=#suffering-from-a-step-mismatch id="local-date-and-time-state-(type=datetime-local):suffering-from-a-step-mismatch">suffering from a step mismatch</a>, the user agent may round the
+  element's <a href=#concept-fe-value id="local-date-and-time-state-(type=datetime-local):concept-fe-value-7">value</a> to the nearest <a href=#concept-datetime-local id="local-date-and-time-state-(type=datetime-local):concept-datetime-local-4">local date and time</a> for which the element would not <a href=#suffering-from-a-step-mismatch id="local-date-and-time-state-(type=datetime-local):suffering-from-a-step-mismatch-2">suffer from a step mismatch</a>.</p>
+
+  <p><strong>The <a href=#concept-input-value-string-number id="local-date-and-time-state-(type=datetime-local):concept-input-value-string-number">algorithm to convert a string to a
+  number</a>, given a string <var>input</var>, is as follows</strong>: If <a href=#parse-a-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):parse-a-local-date-and-time-string-2">parsing a date and time</a> from <var>input</var> results in an error, then return an error; otherwise, return the number of
+  milliseconds elapsed from midnight on the morning of 1970-01-01 (the time represented by the value
+  "<code>1970-01-01T00:00:00.0</code>") to the parsed <a href=#concept-datetime-local id="local-date-and-time-state-(type=datetime-local):concept-datetime-local-5">local date and time</a>, ignoring leap seconds.</p>
+
+  <p><strong>The <a href=#concept-input-value-number-string id="local-date-and-time-state-(type=datetime-local):concept-input-value-number-string">algorithm to convert a number to a
+  string</a>, given a number <var>input</var>, is as follows</strong>: Return a
+  <a href=#valid-normalised-local-date-and-time-string id="local-date-and-time-state-(type=datetime-local):valid-normalised-local-date-and-time-string-5">valid normalized local date and time string</a> that represents the date and time that is
+  <var>input</var> milliseconds after midnight on the morning of 1970-01-01 (the time
+  represented by the value "<code>1970-01-01T00:00:00.0</code>").</p>
+
+  
+
+  <p class=note>See <a href=#only-contemporary-times>the note on historical dates</a> in the
+  <a href="#date-state-(type=date)" id="local-date-and-time-state-(type=datetime-local):date-state-(type=date)">Date</a> state section.</p>
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="local-date-and-time-state-(type=datetime-local):the-input-element-3"><a href=#the-input-element>input</a></code> element content
+   attributes, IDL attributes, and methods <a href=#concept-input-apply id="local-date-and-time-state-(type=datetime-local):concept-input-apply">apply</a> to the element:
+   <code id="local-date-and-time-state-(type=datetime-local):attr-fe-autocomplete"><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-list"><a href=#attr-input-list>list</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-max-2"><a href=#attr-input-max>max</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-min-2"><a href=#attr-input-min>min</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-readonly"><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-required"><a href=#attr-input-required>required</a></code>, and
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-step-2"><a href=#attr-input-step>step</a></code> content attributes;
+   <code id="local-date-and-time-state-(type=datetime-local):dom-input-list"><a href=#dom-input-list>list</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):dom-input-value"><a href=#dom-input-value>value</a></code>, and
+   <code id="local-date-and-time-state-(type=datetime-local):dom-input-valueasnumber"><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="local-date-and-time-state-(type=datetime-local):dom-textarea/input-select"><a href=#dom-textarea/input-select>select()</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):dom-input-stepdown"><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="local-date-and-time-state-(type=datetime-local):dom-input-stepup"><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+   <p>The <code id="local-date-and-time-state-(type=datetime-local):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is
+   in mode <a href=#dom-input-value-value id="local-date-and-time-state-(type=datetime-local):dom-input-value-value">value</a>.</p>
+
+   <p>The <code id="local-date-and-time-state-(type=datetime-local):event-input"><a href=#event-input>input</a></code> and <code id="local-date-and-time-state-(type=datetime-local):event-change"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="local-date-and-time-state-(type=datetime-local):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="local-date-and-time-state-(type=datetime-local):do-not-apply">do not
+   apply</a> to the element:
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-checked" class=no-backref><a href=#attr-input-checked>checked</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>, and
+   <code id="local-date-and-time-state-(type=datetime-local):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="local-date-and-time-state-(type=datetime-local):do-not-apply-2">do not apply</a> to the
+   element:
+   <code id="local-date-and-time-state-(type=datetime-local):dom-input-checked" class=no-backref><a href=#dom-input-checked>checked</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):dom-input-files" class=no-backref><a href=#dom-input-files>files</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>,
+   <code id="local-date-and-time-state-(type=datetime-local):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code>, and
+   <code id="local-date-and-time-state-(type=datetime-local):dom-input-valueasdate" class=no-backref><a href=#dom-input-valueasdate>valueAsDate</a></code> IDL attributes;
+   <code id="local-date-and-time-state-(type=datetime-local):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>, and
+   <code id="local-date-and-time-state-(type=datetime-local):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code> methods.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following example shows part of a flight booking application. The application uses an
+   <code id="local-date-and-time-state-(type=datetime-local):the-input-element-4"><a href=#the-input-element>input</a></code> element with its <code id="local-date-and-time-state-(type=datetime-local):attr-input-type-2"><a href=#attr-input-type>type</a></code> attribute set to
+   <code id="local-date-and-time-state-(type=datetime-local):local-date-and-time-state-(type=datetime-local)-2"><a href="#local-date-and-time-state-(type=datetime-local)">datetime-local</a></code>, and it then interprets the
+   given date and time in the time zone of the selected airport.</p>
+
+   <pre>&lt;fieldset>
+ &lt;legend>Destination&lt;/legend>
+ &lt;p>&lt;label>Airport: &lt;input type=text name=to list=airports>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Departure time: &lt;input type=datetime-local name=totime step=3600>&lt;/label>&lt;/p>
+&lt;/fieldset>
+&lt;datalist id=airports>
+ &lt;option value=ATL label="Atlanta">
+ &lt;option value=MEM label="Memphis">
+ &lt;option value=LHR label="London Heathrow">
+ &lt;option value=LAX label="Los Angeles">
+ &lt;option value=FRA label="Frankfurt">
+&lt;/datalist></pre>
+
+  </div>
+
+
+  <h6 id="number-state-(type=number)">4.10.5.1.12 <dfn id=number-state>Number</dfn> state (<code>type=number</code>)<a href="#number-state-(type=number)" class=self-link></a></h6><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> input-number<span class="and_chr partial"><span>Chrome for Android (limited)</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>6+</span></span><span class="ios_saf partial"><span>iOS Safari (limited)</span> <span>3.2+</span></span><span class="and_uc partial"><span>UC Browser for Android (limited)</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>29+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung partial"><span>Samsung Internet (limited)</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android partial"><span>Android Browser (limited)</span> <span>4+</span></span><span class="safari yes"><span>Safari</span> <span>5+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>9+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=input-number">caniuse.com</a></div>
+
+  
+
+  <p>When an <code id="number-state-(type=number):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="number-state-(type=number):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#number-state-(type=number)" id="number-state-(type=number):number-state-(type=number)">Number</a> state, the rules in this section apply.</p>
+
+  
+
+  <p>The <code id="number-state-(type=number):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="number-state-(type=number):represents">represents</a> a control for setting the element's
+  <a href=#concept-fe-value id="number-state-(type=number):concept-fe-value">value</a> to a string representing a number.</p>
+
+  
+
+  <p>If the element is <i id="number-state-(type=number):concept-fe-mutable"><a href=#concept-fe-mutable>mutable</a></i>, the user agent should allow the
+  user to change the number represented by its <a href=#concept-fe-value id="number-state-(type=number):concept-fe-value-2">value</a>, as
+  obtained from applying the <a href=#rules-for-parsing-floating-point-number-values id="number-state-(type=number):rules-for-parsing-floating-point-number-values">rules for parsing floating-point number values</a> to it. User
+  agents must not allow the user to set the <a href=#concept-fe-value id="number-state-(type=number):concept-fe-value-3">value</a> to a
+  non-empty string that is not a <a href=#valid-floating-point-number id="number-state-(type=number):valid-floating-point-number">valid floating-point number</a>. If the user agent
+  provides a user interface for selecting a number, then the <a href=#concept-fe-value id="number-state-(type=number):concept-fe-value-4">value</a> must be set to the <a href=#best-representation-of-the-number-as-a-floating-point-number id="number-state-(type=number):best-representation-of-the-number-as-a-floating-point-number">best representation of the number representing the user's
+  selection as a floating-point number</a>. User agents should allow the user to set the <a href=#concept-fe-value id="number-state-(type=number):concept-fe-value-5">value</a> to the empty string.</p>
+
+  <p><strong>Constraint validation</strong>: While the user interface describes input that the user
+  agent cannot convert to a <a href=#valid-floating-point-number id="number-state-(type=number):valid-floating-point-number-2">valid floating-point number</a>, the control is <a href=#suffering-from-bad-input id="number-state-(type=number):suffering-from-bad-input">suffering
+  from bad input</a>.</p>
+
+  
+
+  <p class=note>This specification does not define what user interface user agents are to use;
+  user agent vendors are encouraged to consider what would best serve their users' needs. For
+  example, a user agent in Persian or Arabic markets might support Persian and Arabic numeric input
+  (converting it to the format required for submission as described above). Similarly, a user agent
+  designed for Romans might display the value in Roman numerals rather than in decimal; or (more
+  realistically) a user agent designed for the French market might display the value with
+  apostrophes between thousands and commas before the decimals, and allow the user to enter a value
+  in that manner, internally converting it to the submission format described above.</p>
+
+  <p>The <code id="number-state-(type=number):attr-input-value"><a href=#attr-input-value>value</a></code> attribute, if specified and not empty, must
+  have a value that is a <a href=#valid-floating-point-number id="number-state-(type=number):valid-floating-point-number-3">valid floating-point number</a>.</p> 
+
+  
+
+  <p><strong>The <a href=#value-sanitization-algorithm id="number-state-(type=number):value-sanitization-algorithm">value sanitization algorithm</a> is as follows</strong>: If the <a href=#concept-fe-value id="number-state-(type=number):concept-fe-value-6">value</a> of the element is not a <a href=#valid-floating-point-number id="number-state-(type=number):valid-floating-point-number-4">valid floating-point
+  number</a>, then set it to the empty string instead.</p>
+
+  
+
+  <p>The <code id="number-state-(type=number):attr-input-min"><a href=#attr-input-min>min</a></code> attribute, if specified, must have a value that is
+  a <a href=#valid-floating-point-number id="number-state-(type=number):valid-floating-point-number-5">valid floating-point number</a>. The <code id="number-state-(type=number):attr-input-max"><a href=#attr-input-max>max</a></code> attribute,
+  if specified, must have a value that is a <a href=#valid-floating-point-number id="number-state-(type=number):valid-floating-point-number-6">valid floating-point number</a>.</p>
+
+  <p>The <a href=#concept-input-step-scale id="number-state-(type=number):concept-input-step-scale">step scale factor</a> is
+  1. The <a href=#concept-input-step-default id="number-state-(type=number):concept-input-step-default">default step</a> is 1 (allowing only
+  integers to be selected by the user, unless the <a href=#concept-input-min-zero id="number-state-(type=number):concept-input-min-zero">step
+  base</a> has a non-integer value).</p>
+
+  
+
+  <p>When the element is <a href=#suffering-from-a-step-mismatch id="number-state-(type=number):suffering-from-a-step-mismatch">suffering from a step mismatch</a>, the user agent may round the
+  element's <a href=#concept-fe-value id="number-state-(type=number):concept-fe-value-7">value</a> to the nearest number for which the element
+  would not <a href=#suffering-from-a-step-mismatch id="number-state-(type=number):suffering-from-a-step-mismatch-2">suffer from a step mismatch</a>. If
+  there are two such numbers, user agents are encouraged to pick the one nearest positive
+  infinity.</p>
+
+  <p><strong>The <a href=#concept-input-value-string-number id="number-state-(type=number):concept-input-value-string-number">algorithm to convert a string to a
+  number</a>, given a string <var>input</var>, is as follows</strong>: If applying the
+  <a href=#rules-for-parsing-floating-point-number-values id="number-state-(type=number):rules-for-parsing-floating-point-number-values-2">rules for parsing floating-point number values</a> to <var>input</var> results
+  in an error, then return an error; otherwise, return the resulting number.</p>
+
+  <p><strong>The <a href=#concept-input-value-number-string id="number-state-(type=number):concept-input-value-number-string">algorithm to convert a number to a
+  string</a>, given a number <var>input</var>, is as follows</strong>: Return a
+  <a href=#valid-floating-point-number id="number-state-(type=number):valid-floating-point-number-7">valid floating-point number</a> that represents <var>input</var>.</p>
+
+  
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="number-state-(type=number):the-input-element-3"><a href=#the-input-element>input</a></code> element content attributes, IDL attributes, and
+   methods <a href=#concept-input-apply id="number-state-(type=number):concept-input-apply">apply</a> to the element:
+   <code id="number-state-(type=number):attr-fe-autocomplete"><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="number-state-(type=number):attr-input-list"><a href=#attr-input-list>list</a></code>,
+   <code id="number-state-(type=number):attr-input-max-2"><a href=#attr-input-max>max</a></code>,
+   <code id="number-state-(type=number):attr-input-min-2"><a href=#attr-input-min>min</a></code>,
+   <code id="number-state-(type=number):attr-input-placeholder"><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="number-state-(type=number):attr-input-readonly"><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="number-state-(type=number):attr-input-required"><a href=#attr-input-required>required</a></code>, and
+   <code id="number-state-(type=number):attr-input-step"><a href=#attr-input-step>step</a></code> content attributes;
+   <code id="number-state-(type=number):dom-input-list"><a href=#dom-input-list>list</a></code>,
+   <code id="number-state-(type=number):dom-input-value"><a href=#dom-input-value>value</a></code>, and
+   <code id="number-state-(type=number):dom-input-valueasnumber"><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="number-state-(type=number):dom-textarea/input-select"><a href=#dom-textarea/input-select>select()</a></code>,
+   <code id="number-state-(type=number):dom-input-stepdown"><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="number-state-(type=number):dom-input-stepup"><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+   <p>The <code id="number-state-(type=number):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is in mode <a href=#dom-input-value-value id="number-state-(type=number):dom-input-value-value">value</a>.</p>
+
+   <p>The <code id="number-state-(type=number):event-input"><a href=#event-input>input</a></code> and <code id="number-state-(type=number):event-change"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="number-state-(type=number):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="number-state-(type=number):do-not-apply">do not apply</a> to the
+   element:
+   <code id="number-state-(type=number):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="number-state-(type=number):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="number-state-(type=number):attr-input-checked" class=no-backref><a href=#attr-input-checked>checked</a></code>,
+   <code id="number-state-(type=number):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="number-state-(type=number):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="number-state-(type=number):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="number-state-(type=number):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="number-state-(type=number):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="number-state-(type=number):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="number-state-(type=number):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="number-state-(type=number):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="number-state-(type=number):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="number-state-(type=number):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="number-state-(type=number):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="number-state-(type=number):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="number-state-(type=number):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="number-state-(type=number):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>, and
+   <code id="number-state-(type=number):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="number-state-(type=number):do-not-apply-2">do not apply</a> to the element:
+   <code id="number-state-(type=number):dom-input-checked" class=no-backref><a href=#dom-input-checked>checked</a></code>,
+   <code id="number-state-(type=number):dom-input-files" class=no-backref><a href=#dom-input-files>files</a></code>,
+   <code id="number-state-(type=number):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="number-state-(type=number):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>,
+   <code id="number-state-(type=number):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code>, and
+   <code id="number-state-(type=number):dom-input-valueasdate" class=no-backref><a href=#dom-input-valueasdate>valueAsDate</a></code> IDL attributes;
+   <code id="number-state-(type=number):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>, and
+   <code id="number-state-(type=number):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code> methods.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here is an example of using a numeric input control:</p>
+
+   <pre>&lt;label>How much do you want to charge? $&lt;input type=number min=0 step=0.01 name=price>&lt;/label></pre>
+
+   <p>As described above, a user agent might support numeric input in the user's local format,
+   converting it to the format required for submission as described above. This might include
+   handling grouping separators (as in "872,000,000,000") and various decimal separators (such as
+   "3,99" vs "3.99") or using local digits (such as those in Arabic, Devanagari, Persian, and
+   Thai).</p>
+
+  </div>
+
+  <p class=note>The <code>type=number</code> state is not appropriate for input that
+  happens to only consist of numbers but isn't strictly speaking a number. For example, it would be
+  inappropriate for credit card numbers or US postal codes. A simple way of determining whether to
+  use <code>type=number</code> is to consider whether it would make sense for the input
+  control to have a spinbox interface (e.g. with "up" and "down" arrows). Getting a credit card
+  number wrong by 1 in the last digit isn't a minor mistake, it's as wrong as getting every digit
+  incorrect. So it would not make sense for the user to select a credit card number using "up" and
+  "down" buttons. When a spinbox interface is not appropriate, <code>type=text</code> is
+  probably the right choice (possibly with a <code id="number-state-(type=number):attr-input-pattern-2"><a href=#attr-input-pattern>pattern</a></code>
+  attribute).</p>
+
+
+
+  <h6 id="range-state-(type=range)">4.10.5.1.13 <dfn>Range</dfn> state (<code>type=range</code>)<a href="#range-state-(type=range)" class=self-link></a></h6><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> input-range<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>23+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.2+</span></span><span class="safari yes"><span>Safari</span> <span>3.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>9+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=input-range">caniuse.com</a></div>
+
+  
+
+  <p>When an <code id="range-state-(type=range):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="range-state-(type=range):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#range-state-(type=range)" id="range-state-(type=range):range-state-(type=range)">Range</a> state, the rules in this section apply.</p>
+
+  
+
+  <p>The <code id="range-state-(type=range):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="range-state-(type=range):represents">represents</a> a control for setting the element's
+  <a href=#concept-fe-value id="range-state-(type=range):concept-fe-value">value</a> to a string representing a number, but with the
+  caveat that the exact value is not important, letting UAs provide a simpler interface than they
+  do for the <a href="#number-state-(type=number)" id="range-state-(type=range):number-state-(type=number)">Number</a> state.</p>
+
+  
+
+  <p>If the element is <i id="range-state-(type=range):concept-fe-mutable"><a href=#concept-fe-mutable>mutable</a></i>, the user agent should allow the
+  user to change the number represented by its <a href=#concept-fe-value id="range-state-(type=range):concept-fe-value-2">value</a>, as
+  obtained from applying the <a href=#rules-for-parsing-floating-point-number-values id="range-state-(type=range):rules-for-parsing-floating-point-number-values">rules for parsing floating-point number values</a> to it.
+  User agents must not allow the user to set the <a href=#concept-fe-value id="range-state-(type=range):concept-fe-value-3">value</a> to a
+  string that is not a <a href=#valid-floating-point-number id="range-state-(type=range):valid-floating-point-number">valid floating-point number</a>. If the user agent provides a user
+  interface for selecting a number, then the <a href=#concept-fe-value id="range-state-(type=range):concept-fe-value-4">value</a> must be
+  set to a <a href=#best-representation-of-the-number-as-a-floating-point-number id="range-state-(type=range):best-representation-of-the-number-as-a-floating-point-number">best
+  representation of the number representing the user's selection as a floating-point
+  number</a>. User agents must not allow the user to set the <a href=#concept-fe-value id="range-state-(type=range):concept-fe-value-5">value</a> to the empty string.</p>
+
+  <p><strong>Constraint validation</strong>: While the user interface describes input that the
+  user agent cannot convert to a <a href=#valid-floating-point-number id="range-state-(type=range):valid-floating-point-number-2">valid floating-point number</a>, the control is
+  <a href=#suffering-from-bad-input id="range-state-(type=range):suffering-from-bad-input">suffering from bad input</a>.</p>
+
+  
+
+  <p>The <code id="range-state-(type=range):attr-input-value"><a href=#attr-input-value>value</a></code> attribute, if specified, must have a value
+  that is a <a href=#valid-floating-point-number id="range-state-(type=range):valid-floating-point-number-3">valid floating-point number</a>.</p> 
+
+  
+
+  <p><strong>The <a href=#value-sanitization-algorithm id="range-state-(type=range):value-sanitization-algorithm">value sanitization algorithm</a> is as follows</strong>: If the <a href=#concept-fe-value id="range-state-(type=range):concept-fe-value-6">value</a> of the element is not a <a href=#valid-floating-point-number id="range-state-(type=range):valid-floating-point-number-4">valid floating-point
+  number</a>, then set it to the <a href=#best-representation-of-the-number-as-a-floating-point-number id="range-state-(type=range):best-representation-of-the-number-as-a-floating-point-number-2">best representation, as a floating-point number</a>, of the <a href=#concept-input-value-default-range id="range-state-(type=range):concept-input-value-default-range">default value</a>.</p>
+
+  
+
+  <p>The <dfn id=concept-input-value-default-range>default value</dfn> is the <a href=#concept-input-min id="range-state-(type=range):concept-input-min">minimum</a> plus half the difference between the <a href=#concept-input-min id="range-state-(type=range):concept-input-min-2">minimum</a> and the <a href=#concept-input-max id="range-state-(type=range):concept-input-max">maximum</a>, unless the <a href=#concept-input-max id="range-state-(type=range):concept-input-max-2">maximum</a> is less than the <a href=#concept-input-min id="range-state-(type=range):concept-input-min-3">minimum</a>, in which case the <a href=#concept-input-value-default-range id="range-state-(type=range):concept-input-value-default-range-2">default value</a> is the <a href=#concept-input-min id="range-state-(type=range):concept-input-min-4">minimum</a>.</p>
+
+  
+
+  <p>When the element is <a href=#suffering-from-an-underflow id="range-state-(type=range):suffering-from-an-underflow">suffering from an underflow</a>, the user agent must set the
+  element's <a href=#concept-fe-value id="range-state-(type=range):concept-fe-value-7">value</a> to the <a href=#best-representation-of-the-number-as-a-floating-point-number id="range-state-(type=range):best-representation-of-the-number-as-a-floating-point-number-3">best representation, as a floating-point
+  number</a>, of the <a href=#concept-input-min id="range-state-(type=range):concept-input-min-5">minimum</a>.</p>
+
+  <p>When the element is <a href=#suffering-from-an-overflow id="range-state-(type=range):suffering-from-an-overflow">suffering from an overflow</a>, if the <a href=#concept-input-max id="range-state-(type=range):concept-input-max-3">maximum</a> is not less than the <a href=#concept-input-min id="range-state-(type=range):concept-input-min-6">minimum</a>, the user agent must set the element's <a href=#concept-fe-value id="range-state-(type=range):concept-fe-value-8">value</a> to a <a href=#valid-floating-point-number id="range-state-(type=range):valid-floating-point-number-5">valid floating-point number</a> that
+  represents the <a href=#concept-input-max id="range-state-(type=range):concept-input-max-4">maximum</a>.</p>
+
+  <p>When the element is <a href=#suffering-from-a-step-mismatch id="range-state-(type=range):suffering-from-a-step-mismatch">suffering from a step mismatch</a>, the user agent must round
+  the element's <a href=#concept-fe-value id="range-state-(type=range):concept-fe-value-9">value</a> to the nearest number for which the
+  element would not <a href=#suffering-from-a-step-mismatch id="range-state-(type=range):suffering-from-a-step-mismatch-2">suffer from a step
+  mismatch</a>, and which is greater than or equal to the <a href=#concept-input-min id="range-state-(type=range):concept-input-min-7">minimum</a>, and, if the <a href=#concept-input-max id="range-state-(type=range):concept-input-max-5">maximum</a> is not less than the <a href=#concept-input-min id="range-state-(type=range):concept-input-min-8">minimum</a>, which is less than or equal to the <a href=#concept-input-max id="range-state-(type=range):concept-input-max-6">maximum</a>, if there is a number that matches these constraints.
+  If two numbers match these constraints, then user agents must use the one nearest to positive
+  infinity.</p>
+
+  <p class=example>For example, the markup
+  <code>&lt;input type="range" min=0 max=100 step=20 value=50></code>

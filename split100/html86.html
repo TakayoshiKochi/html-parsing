@@ -1,0 +1,850 @@
+    character's code point) to the <var id=decimal-character-reference-state:character-reference-code-2><a href=#character-reference-code>character reference
+    code</a></var>.<dt>U+003B SEMICOLON<dd>Switch to the <a href=#numeric-character-reference-end-state id=decimal-character-reference-state:numeric-character-reference-end-state>numeric character reference end state</a>.<dt>Anything else<dd><a href=#parse-error id=decimal-character-reference-state:parse-error>Parse error</a>. <a href=#reconsume id=decimal-character-reference-state:reconsume>Reconsume</a> in the <a href=#numeric-character-reference-end-state id=decimal-character-reference-state:numeric-character-reference-end-state-2>numeric character reference
+    end state</a>.</dl>
+
+
+  <h5 id=numeric-character-reference-end-state>12.2.4.78 <dfn>Numeric character reference end state</dfn><a href=#numeric-character-reference-end-state class=self-link></a></h5>
+
+  <p>Check the <var id=numeric-character-reference-end-state:character-reference-code><a href=#character-reference-code>character reference code</a></var>.</p>
+
+  <p>If that number is one of the numbers in the first column of the following table, then this is
+  a <a href=#parse-error id=numeric-character-reference-end-state:parse-error>parse error</a>. Find the row with that number in the first column, and set
+  the <var id=numeric-character-reference-end-state:character-reference-code-2><a href=#character-reference-code>character reference code</a></var> to the number in the
+  second column of that row.</p>
+
+  <table id=table-charref-overrides><thead><tr><th>Number <th colspan=2>Unicode character
+    <tbody><tr><td>0x00 <td>0xFFFD <td>REPLACEMENT CHARACTER
+    
+    <tr><td>0x80 <td>0x20AC <td>EURO SIGN (€)
+    
+    <tr><td>0x82 <td>0x201A <td>SINGLE LOW-9 QUOTATION MARK (‚)
+    <tr><td>0x83 <td>0x0192 <td>LATIN SMALL LETTER F WITH HOOK (ƒ)
+    <tr><td>0x84 <td>0x201E <td>DOUBLE LOW-9 QUOTATION MARK („)
+    <tr><td>0x85 <td>0x2026 <td>HORIZONTAL ELLIPSIS (…)
+    <tr><td>0x86 <td>0x2020 <td>DAGGER (†)
+    <tr><td>0x87 <td>0x2021 <td>DOUBLE DAGGER (‡)
+    <tr><td>0x88 <td>0x02C6 <td>MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    <tr><td>0x89 <td>0x2030 <td>PER MILLE SIGN (‰)
+    <tr><td>0x8A <td>0x0160 <td>LATIN CAPITAL LETTER S WITH CARON (Š)
+    <tr><td>0x8B <td>0x2039 <td>SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    <tr><td>0x8C <td>0x0152 <td>LATIN CAPITAL LIGATURE OE (Œ)
+    
+    <tr><td>0x8E <td>0x017D <td>LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    
+    
+    <tr><td>0x91 <td>0x2018 <td>LEFT SINGLE QUOTATION MARK (‘)
+    <tr><td>0x92 <td>0x2019 <td>RIGHT SINGLE QUOTATION MARK (’)
+    <tr><td>0x93 <td>0x201C <td>LEFT DOUBLE QUOTATION MARK (“)
+    <tr><td>0x94 <td>0x201D <td>RIGHT DOUBLE QUOTATION MARK (”)
+    <tr><td>0x95 <td>0x2022 <td>BULLET (•)
+    <tr><td>0x96 <td>0x2013 <td>EN DASH (–)
+    <tr><td>0x97 <td>0x2014 <td>EM DASH (—)
+    <tr><td>0x98 <td>0x02DC <td>SMALL TILDE (˜)
+    <tr><td>0x99 <td>0x2122 <td>TRADE MARK SIGN (™)
+    <tr><td>0x9A <td>0x0161 <td>LATIN SMALL LETTER S WITH CARON (š)
+    <tr><td>0x9B <td>0x203A <td>SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    <tr><td>0x9C <td>0x0153 <td>LATIN SMALL LIGATURE OE (œ)
+    
+    <tr><td>0x9E <td>0x017E <td>LATIN SMALL LETTER Z WITH CARON (ž)
+    <tr><td>0x9F <td>0x0178 <td>LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+  </table>
+
+  <p>If the number is in the range 0xD800 to 0xDFFF or is greater
+  than 0x10FFFF, then this is a <a href=#parse-error id=numeric-character-reference-end-state:parse-error-2>parse error</a>. Set the <var id=numeric-character-reference-end-state:character-reference-code-3><a href=#character-reference-code>character reference code</a></var> to 0xFFFD.</p>
+
+  <p>If the number is in the range 0x0001 to 0x0008,    0x000D to 0x001F,  0x007F  to 0x009F, 0xFDD0 to 0xFDEF, or is
+  one of 0x000B, 0xFFFE, 0xFFFF, 0x1FFFE, 0x1FFFF, 0x2FFFE, 0x2FFFF, 0x3FFFE, 0x3FFFF, 0x4FFFE,
+  0x4FFFF, 0x5FFFE, 0x5FFFF, 0x6FFFE, 0x6FFFF, 0x7FFFE, 0x7FFFF, 0x8FFFE, 0x8FFFF, 0x9FFFE,
+  0x9FFFF, 0xAFFFE, 0xAFFFF, 0xBFFFE, 0xBFFFF, 0xCFFFE, 0xCFFFF, 0xDFFFE, 0xDFFFF, 0xEFFFE,
+  0xEFFFF, 0xFFFFE, 0xFFFFF, 0x10FFFE, or 0x10FFFF, then this is a <a href=#parse-error id=numeric-character-reference-end-state:parse-error-3>parse error</a>.</p>
+
+  <p>Set the <var id=numeric-character-reference-end-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var> to the empty string. Append the
+  Unicode character with code point equal to the <var id=numeric-character-reference-end-state:character-reference-code-4><a href=#character-reference-code>character
+  reference code</a></var> to the <var id=numeric-character-reference-end-state:temporary-buffer-2><a href=#temporary-buffer>temporary buffer</a></var>. Switch to the
+  <a href=#character-reference-end-state id=numeric-character-reference-end-state:character-reference-end-state>character reference end state</a>.</p>
+
+
+  <h5 id=character-reference-end-state>12.2.4.79 <dfn>Character reference end state</dfn><a href=#character-reference-end-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=character-reference-end-state:next-input-character>next input character</a>.</p>
+
+  <p>Check the <var id=character-reference-end-state:return-state><a href=#return-state>return state</a></var>:</p>
+
+  <dl class=switch><dt><a href=#attribute-value-(double-quoted)-state id=character-reference-end-state:attribute-value-(double-quoted)-state>Attribute value (double-quoted) state</a><dt><a href=#attribute-value-(single-quoted)-state id=character-reference-end-state:attribute-value-(single-quoted)-state>Attribute value (single-quoted) state</a><dt><a href=#attribute-value-(unquoted)-state id=character-reference-end-state:attribute-value-(unquoted)-state>Attribute value (unquoted) state</a><dd>Append each character in the <var id=character-reference-end-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var> (in the
+    order they were added to the buffer) to the current attribute's value.<dt>Anything else<dd>For each of the characters in the <var id=character-reference-end-state:temporary-buffer-2><a href=#temporary-buffer>temporary buffer</a></var> (in
+    the order they were added to the buffer), emit the character as a character token.</dl>
+
+  <p><a href=#reconsume id=character-reference-end-state:reconsume>Reconsume</a> in the <var id=character-reference-end-state:return-state-2><a href=#return-state>return state</a></var>.</p>
+
+  
+
+
+  
+
+  
+
+  <h4 id=tree-construction>12.2.5 <dfn>Tree construction</dfn><a href=#tree-construction class=self-link></a></h4>
+
+  <p>The input to the tree construction stage is a sequence of tokens from the
+  <a href=#tokenization id=tree-construction:tokenization>tokenization</a> stage. The tree construction stage is associated with a DOM
+  <code id=tree-construction:document><a href=#document>Document</a></code> object when a parser is created. The "output" of this stage consists of
+  dynamically modifying or extending that document's DOM tree.</p>
+
+  <p>This specification does not define when an interactive user agent has to render the
+  <code id=tree-construction:document-2><a href=#document>Document</a></code> so that it is available to the user, or when it has to begin accepting user
+  input.</p>
+
+  <hr>
+
+  <p>As each token is emitted from the tokenizer, the user agent must follow the appropriate steps
+  from the following list, known as the <dfn id=tree-construction-dispatcher>tree construction dispatcher</dfn>:</p>
+
+  <dl class=switch><dt>If the <a href=#stack-of-open-elements id=tree-construction:stack-of-open-elements>stack of open elements</a> is empty<dt>If the <a href=#adjusted-current-node id=tree-construction:adjusted-current-node>adjusted current node</a> is an element in the <a id=tree-construction:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a><dt>If the <a href=#adjusted-current-node id=tree-construction:adjusted-current-node-2>adjusted current node</a> is a <a href=#mathml-text-integration-point id=tree-construction:mathml-text-integration-point>MathML text integration point</a> and the token is a start tag whose tag name is neither "mglyph" nor "malignmark"<dt>If the <a href=#adjusted-current-node id=tree-construction:adjusted-current-node-3>adjusted current node</a> is a <a href=#mathml-text-integration-point id=tree-construction:mathml-text-integration-point-2>MathML text integration point</a> and the token is a character token<dt>If the <a href=#adjusted-current-node id=tree-construction:adjusted-current-node-4>adjusted current node</a> is a <a id=tree-construction:mathml-annotation-xml href=https://www.w3.org/Math/draft-spec/chapter5.html#mixing.elements.annotation.xml data-x-internal=mathml-annotation-xml>MathML <code>annotation-xml</code></a> element and the token is a start tag whose tag name is "svg"<dt>If the <a href=#adjusted-current-node id=tree-construction:adjusted-current-node-5>adjusted current node</a> is an <a href=#html-integration-point id=tree-construction:html-integration-point>HTML integration point</a> and the token is a start tag<dt>If the <a href=#adjusted-current-node id=tree-construction:adjusted-current-node-6>adjusted current node</a> is an <a href=#html-integration-point id=tree-construction:html-integration-point-2>HTML integration point</a> and the token is a character token<dt>If the token is an end-of-file token<dd>Process the token according to the rules given in the section corresponding to the current
+   <a href=#insertion-mode id=tree-construction:insertion-mode>insertion mode</a> in HTML content.<dt>Otherwise<dd>Process the token according to the rules given in the section for parsing tokens <a href=#parsing-main-inforeign id=tree-construction:parsing-main-inforeign>in foreign content</a>.</dl>
+
+  <p>The <dfn id=next-token>next token</dfn> is the token that is about to be processed by the <a href=#tree-construction-dispatcher id=tree-construction:tree-construction-dispatcher>tree
+  construction dispatcher</a> (even if the token is subsequently just ignored).</p>
+
+  <p>A node is a <dfn id=mathml-text-integration-point>MathML text integration point</dfn> if it is one of the following
+  elements:</p>
+
+  <ul class=brief><li>A <a id=tree-construction:mathml-mi href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.mi data-x-internal=mathml-mi>MathML <code>mi</code></a> element<li>A <a id=tree-construction:mathml-mo href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.mo data-x-internal=mathml-mo>MathML <code>mo</code></a> element<li>A <a id=tree-construction:mathml-mn href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.mn data-x-internal=mathml-mn>MathML <code>mn</code></a> element<li>A <a id=tree-construction:mathml-ms href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.ms data-x-internal=mathml-ms>MathML <code>ms</code></a> element<li>A <a id=tree-construction:mathml-mtext href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.mtext data-x-internal=mathml-mtext>MathML <code>mtext</code></a> element</ul>
+
+  <p>A node is an <dfn id=html-integration-point>HTML integration point</dfn> if it is one of the following elements:</p>
+
+  <ul class=brief><li>A <a id=tree-construction:mathml-annotation-xml-2 href=https://www.w3.org/Math/draft-spec/chapter5.html#mixing.elements.annotation.xml data-x-internal=mathml-annotation-xml>MathML <code>annotation-xml</code></a> element whose start tag token had an
+   attribute with the name "encoding" whose value was an <a id=tree-construction:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match
+   for the string "<code>text/html</code>"<li>A <a id=tree-construction:mathml-annotation-xml-3 href=https://www.w3.org/Math/draft-spec/chapter5.html#mixing.elements.annotation.xml data-x-internal=mathml-annotation-xml>MathML <code>annotation-xml</code></a> element whose start tag token had an
+   attribute with the name "encoding" whose value was an <a id=tree-construction:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match
+   for the string "<code>application/xhtml+xml</code>"<li>An <a id=tree-construction:svg-foreignobject href=https://www.w3.org/TR/SVG11/extend.html#ForeignObjectElement data-x-internal=svg-foreignobject>SVG <code>foreignObject</code></a> element<li>An <a id=tree-construction:svg-desc href=https://www.w3.org/TR/SVG11/struct.html#DescElement data-x-internal=svg-desc>SVG <code>desc</code></a> element<li>An <a id=tree-construction:svg-title href=https://www.w3.org/TR/SVG11/struct.html#TitleElement data-x-internal=svg-title>SVG <code>title</code></a> element</ul>
+
+  <p class=note>If the node in question is the <var id=tree-construction:concept-frag-parse-context><a href=#concept-frag-parse-context>context</a></var> element passed to the <a href=#html-fragment-parsing-algorithm id=tree-construction:html-fragment-parsing-algorithm>HTML fragment
+  parsing algorithm</a>, then the start tag token for that element is the "fake" token created
+  during by that <a href=#html-fragment-parsing-algorithm id=tree-construction:html-fragment-parsing-algorithm-2>HTML fragment parsing algorithm</a>.</p>
+
+  <hr>
+
+  <p class=note>Not all of the tag names mentioned below are conformant tag names in this
+  specification; many are included to handle legacy content. They still form part of the algorithm
+  that implementations are required to implement to claim conformance.</p>
+
+  <p class=note>The algorithm described below places no limit on the depth of the DOM tree
+  generated, or on the length of tag names, attribute names, attribute values, <code id=tree-construction:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code>
+  nodes, etc. While implementors are encouraged to avoid arbitrary limits, it is recognized that <a href=#hardwareLimitations>practical concerns</a> will likely force user agents to impose nesting
+  depth constraints.</p>
+
+
+  <h5 id=creating-and-inserting-nodes>12.2.5.1 Creating and inserting nodes<a href=#creating-and-inserting-nodes class=self-link></a></h5>
+
+  <p>While the parser is processing a token, it can enable or disable <dfn id=foster-parent>foster parenting</dfn>. This affects the following algorithm.</p>
+
+  <p>The <dfn id=appropriate-place-for-inserting-a-node>appropriate place for inserting a node</dfn>, optionally using a particular
+  <i>override target</i>, is the position in an element returned by running the following steps:</p>
+
+  <ol><li>
+
+    <p>If there was an <i>override target</i> specified, then let <var>target</var> be the
+    <i>override target</i>.</p>
+
+    <p>Otherwise, let <var>target</var> be the <a href=#current-node id=creating-and-inserting-nodes:current-node>current node</a>.</p>
+
+   <li>
+
+    <p>Determine the <var>adjusted insertion location</var> using the first matching steps
+    from the following list:</p>
+
+    <dl class=switch><dt>If <a href=#foster-parent id=creating-and-inserting-nodes:foster-parent>foster parenting</a> is enabled and <var>target</var> is a <code id=creating-and-inserting-nodes:the-table-element><a href=#the-table-element>table</a></code>, <code id=creating-and-inserting-nodes:the-tbody-element><a href=#the-tbody-element>tbody</a></code>, <code id=creating-and-inserting-nodes:the-tfoot-element><a href=#the-tfoot-element>tfoot</a></code>,
+     <code id=creating-and-inserting-nodes:the-thead-element><a href=#the-thead-element>thead</a></code>, or <code id=creating-and-inserting-nodes:the-tr-element><a href=#the-tr-element>tr</a></code> element<dd>
+
+      <p class=note>Foster parenting happens when content is misnested in tables.</p>
+
+      <p>Run these substeps:</p>
+
+      <ol><li><p>Let <var>last template</var> be the last <code id=creating-and-inserting-nodes:the-template-element><a href=#the-template-element>template</a></code> element in the
+       <a href=#stack-of-open-elements id=creating-and-inserting-nodes:stack-of-open-elements>stack of open elements</a>, if any.</p>
+
+       <li><p>Let <var>last table</var> be the last <code id=creating-and-inserting-nodes:the-table-element-2><a href=#the-table-element>table</a></code> element in the
+       <a href=#stack-of-open-elements id=creating-and-inserting-nodes:stack-of-open-elements-2>stack of open elements</a>, if any.</p>
+
+       <li><p>If there is a <var>last template</var> and either there is no <var>last table</var>, or there is one, but <var>last template</var> is lower
+       (more recently added) than <var>last table</var> in the <a href=#stack-of-open-elements id=creating-and-inserting-nodes:stack-of-open-elements-3>stack of open
+       elements</a>, then: let <var>adjusted insertion location</var> be inside <var>last template</var>'s <a href=#template-contents id=creating-and-inserting-nodes:template-contents>template contents</a>, after its last child (if any),
+       and abort these substeps.<li><p>If there is no <var>last table</var>,  then let <var>adjusted insertion
+       location</var> be inside the first element in the <a href=#stack-of-open-elements id=creating-and-inserting-nodes:stack-of-open-elements-4>stack of open elements</a> (the
+       <code id=creating-and-inserting-nodes:the-html-element><a href=#the-html-element>html</a></code> element), after its last child (if any), and abort these substeps.
+       (<a href=#fragment-case id=creating-and-inserting-nodes:fragment-case>fragment case</a>)</p>
+
+       
+
+       <li><p>If <var>last table</var> has a parent node, then let <var>adjusted insertion location</var> be inside <var>last table</var>'s parent
+       node, immediately before <var>last table</var>, and abort these
+       substeps.<li><p>Let <var>previous element</var> be the element immediately above <var>last table</var> in the <a href=#stack-of-open-elements id=creating-and-inserting-nodes:stack-of-open-elements-5>stack of open elements</a>.<li><p>Let <var>adjusted insertion location</var> be inside <var>previous
+       element</var>, after its last child (if any).</ol>
+
+      <p class=note>These steps are involved in part because it's possible for elements, the
+      <code id=creating-and-inserting-nodes:the-table-element-3><a href=#the-table-element>table</a></code> element in this case in particular, to have been moved by a script around
+      in the DOM, or indeed removed from the DOM entirely, after the element was inserted by the
+      parser.</p>
+
+     <dt>Otherwise<dd>
+
+      <p>Let <var>adjusted insertion location</var> be inside <var>target</var>,
+      after its last child (if any).</p>
+
+     </dl>
+
+   <li>
+
+    <p>If the <var>adjusted insertion location</var> is inside a <code id=creating-and-inserting-nodes:the-template-element-2><a href=#the-template-element>template</a></code>
+    element, let it instead be inside the <code id=creating-and-inserting-nodes:the-template-element-3><a href=#the-template-element>template</a></code> element's <a href=#template-contents id=creating-and-inserting-nodes:template-contents-2>template
+    contents</a>, after its last child (if any).</p>
+
+   <li>
+
+    <p>Return the <var>adjusted insertion location</var>.</p>
+
+   </ol>
+
+  <hr>
+
+  <p>When the steps below require the UA to <dfn id=create-an-element-for-the-token>create an
+  element for a token</dfn> in a particular <var>given namespace</var> and with a
+  particular <var>intended parent</var>, the UA must run the following steps:</p>
+
+  <ol><li><p>Let <var>document</var> be <var>intended parent</var>'s <a id=creating-and-inserting-nodes:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.<li><p>Let <var>local name</var> be the tag name of the token.<li><p>Let <var>is</var> be the value of the "<code id=creating-and-inserting-nodes:attr-is><a href=#attr-is>is</a></code>" attribute in the
+   given token, if such an attribute exists, or null otherwise.<li><p>Let <var>definition</var> be the result of <a href=#look-up-a-custom-element-definition id=creating-and-inserting-nodes:look-up-a-custom-element-definition>looking up a custom element definition</a> given <var>document</var>, <var>given
+   namespace</var>, <var>local name</var>, and <var>is</var>.<li><p>If <var>definition</var> is non-null and the parser was not originally created for the
+   <a href=#html-fragment-parsing-algorithm id=creating-and-inserting-nodes:html-fragment-parsing-algorithm>HTML fragment parsing algorithm</a>, then let <var>will execute script</var> be true.
+   Otherwise, let it be false.<li>
+    <p>If <var>will execute script</var> is true, then:</p>
+
+    <ol><li><p>Increment <var>document</var>'s <a href=#throw-on-dynamic-markup-insertion-counter id=creating-and-inserting-nodes:throw-on-dynamic-markup-insertion-counter>throw-on-dynamic-markup-insertion
+     counter</a>.<li><p>If the <a id=creating-and-inserting-nodes:javascript-execution-context-stack href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript execution context stack</a> is empty, then <a href=#perform-a-microtask-checkpoint id=creating-and-inserting-nodes:perform-a-microtask-checkpoint>perform a
+     microtask checkpoint</a>.<li><p>Push a new <a href=#element-queue id=creating-and-inserting-nodes:element-queue>element queue</a> onto the <a href=#custom-element-reactions-stack id=creating-and-inserting-nodes:custom-element-reactions-stack>custom element reactions
+     stack</a>.</ol>
+   <li>
+    <p>Let <var>element</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-create-element id=creating-and-inserting-nodes:create-an-element data-x-internal=create-an-element>creating an
+    element</a> given <var>document</var>, <var>localName</var>, <var>given
+    namespace</var>, null, and <var>is</var>. If <var>will execute script</var> is true, set the
+    <var>synchronous custom elements flag</var>; otherwise, leave it unset.</p>
+
+    <p class=note>This will cause <a href=#custom-element-constructor id=creating-and-inserting-nodes:custom-element-constructor>custom element
+    constructors</a> to run, if <var>will execute script</var> is true. However, since we
+    incremented the <a href=#throw-on-dynamic-markup-insertion-counter id=creating-and-inserting-nodes:throw-on-dynamic-markup-insertion-counter-2>throw-on-dynamic-markup-insertion counter</a>, this cannot cause <a href=#dom-document-write id=creating-and-inserting-nodes:dom-document-write>new characters to be inserted into the tokenizer</a>, or <a href=#dom-document-open id=creating-and-inserting-nodes:dom-document-open>the document to be blown away</a>.</p>
+   <li>
+    <p><a href=https://dom.spec.whatwg.org/#concept-element-attributes-append id=creating-and-inserting-nodes:concept-element-attributes-append data-x-internal=concept-element-attributes-append>Append</a> each attribute in the given
+    token to <var>element</var>.</p>
+
+    <p class=note>This can <a href=#enqueue-a-custom-element-callback-reaction id=creating-and-inserting-nodes:enqueue-a-custom-element-callback-reaction>enqueue a custom element callback reaction</a> for the
+    <code>attributeChangedCallback</code>, which might run immediately (in the next
+    step).</p>
+
+    <p class=note>Even though the <code id=creating-and-inserting-nodes:attr-is-2><a href=#attr-is>is</a></code> attribute governs the <a href=https://dom.spec.whatwg.org/#concept-create-element id=creating-and-inserting-nodes:create-an-element-2 data-x-internal=create-an-element>creation</a> of a <a href=#customized-built-in-element id=creating-and-inserting-nodes:customized-built-in-element>customized built-in element</a>, it is
+    not present during the execution of the relevant <a href=#custom-element-constructor id=creating-and-inserting-nodes:custom-element-constructor-2>custom element constructor</a>; it is
+    appended in this step, along with all other attributes.</p>
+   <li>
+    <p>If <var>will execute script</var> is true, then:</p>
+
+    <ol><li><p>Let <var>queue</var> be the result of popping the <a href=#current-element-queue id=creating-and-inserting-nodes:current-element-queue>current element queue</a>
+     from the <a href=#custom-element-reactions-stack id=creating-and-inserting-nodes:custom-element-reactions-stack-2>custom element reactions stack</a>. (This will be the same <a href=#element-queue id=creating-and-inserting-nodes:element-queue-2>element
+     queue</a> as was pushed above.)<li><p><a href=#invoke-custom-element-reactions id=creating-and-inserting-nodes:invoke-custom-element-reactions>Invoke custom element reactions</a> in <var>queue</var>.<li><p>Decrement <var>document</var>'s <a href=#throw-on-dynamic-markup-insertion-counter id=creating-and-inserting-nodes:throw-on-dynamic-markup-insertion-counter-3>throw-on-dynamic-markup-insertion
+     counter</a>.</ol>
+   <li><p>If <var>element</var> has an <code>xmlns</code> attribute <em>in the <a id=creating-and-inserting-nodes:xmlns-namespace href=https://infra.spec.whatwg.org/#xmlns-namespace data-x-internal=xmlns-namespace>XMLNS
+   namespace</a></em> whose value is not exactly the same as the element's namespace, that is a
+   <a href=#parse-error id=creating-and-inserting-nodes:parse-error>parse error</a>. Similarly, if <var>element</var> has an <code>xmlns:xlink</code> attribute in the <a id=creating-and-inserting-nodes:xmlns-namespace-2 href=https://infra.spec.whatwg.org/#xmlns-namespace data-x-internal=xmlns-namespace>XMLNS namespace</a> whose value is not the
+   <a id=creating-and-inserting-nodes:xlink-namespace href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink Namespace</a>, that is a <a href=#parse-error id=creating-and-inserting-nodes:parse-error-2>parse error</a>.<li><p>If <var>element</var> is a <a href=#category-reset id=creating-and-inserting-nodes:category-reset>resettable element</a>, invoke
+   its <a href=#concept-form-reset-control id=creating-and-inserting-nodes:concept-form-reset-control>reset algorithm</a>. (This initializes the
+   element's <a href=#concept-fe-value id=creating-and-inserting-nodes:concept-fe-value>value</a> and <a href=#concept-fe-checked id=creating-and-inserting-nodes:concept-fe-checked>checkedness</a> based on the element's attributes.)<li><p>If <var>element</var> is a <a href=#form-associated-element id=creating-and-inserting-nodes:form-associated-element>form-associated element</a>, and the <a href=#form-element-pointer id=creating-and-inserting-nodes:form-element-pointer><code>form</code> element pointer</a> is not null, and there is no <code id=creating-and-inserting-nodes:the-template-element-4><a href=#the-template-element>template</a></code>
+   element on the <a href=#stack-of-open-elements id=creating-and-inserting-nodes:stack-of-open-elements-6>stack of open elements</a>, and <var>element</var> is either not <a href=#category-listed id=creating-and-inserting-nodes:category-listed>listed</a> or doesn't have a <code id=creating-and-inserting-nodes:attr-fae-form><a href=#attr-fae-form>form</a></code> attribute, and the <var>intended parent</var> is in
+   the same <a id=creating-and-inserting-nodes:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a> as the element pointed to by the <a href=#form-element-pointer id=creating-and-inserting-nodes:form-element-pointer-2><code>form</code>
+   element pointer</a>, <a href=#concept-form-association id=creating-and-inserting-nodes:concept-form-association>associate</a>
+   <var>element</var> with the <code id=creating-and-inserting-nodes:the-form-element><a href=#the-form-element>form</a></code> element pointed to by the <a href=#form-element-pointer id=creating-and-inserting-nodes:form-element-pointer-3><code>form</code> element pointer</a>, and suppress the running of the <a href=#reset-the-form-owner id=creating-and-inserting-nodes:reset-the-form-owner>reset the
+   form owner</a> algorithm when the parser subsequently attempts to insert the element.<li><p>Return <var>element</var>.</ol>
+
+  <hr>
+
+  
+
+  <p>When the steps below require the user agent to <dfn id=insert-a-foreign-element>insert a foreign element</dfn> for a token
+  in a given namespace, the user agent must run these steps:</p>
+
+  <ol><li><p>Let the <var>adjusted insertion location</var> be the <a href=#appropriate-place-for-inserting-a-node id=creating-and-inserting-nodes:appropriate-place-for-inserting-a-node>appropriate place for
+   inserting a node</a>.<li><p>Let <var>element</var> be the result of <a href=#create-an-element-for-the-token id=creating-and-inserting-nodes:create-an-element-for-the-token>creating an element for the token</a> in the given namespace, with the intended
+   parent being the element in which the <var>adjusted insertion location</var> finds
+   itself.<li>
+    <p>If it is possible to insert <var>element</var> at the <var>adjusted insertion location</var>,
+    then:</p>
+
+    <ol><li><p>Push a new <a href=#element-queue id=creating-and-inserting-nodes:element-queue-3>element queue</a> onto the <a href=#custom-element-reactions-stack id=creating-and-inserting-nodes:custom-element-reactions-stack-3>custom element reactions
+     stack</a>.<li><p>Insert <var>element</var> at the <var>adjusted insertion location</var>.<li><p>Pop the <a href=#element-queue id=creating-and-inserting-nodes:element-queue-4>element queue</a> from the <a href=#custom-element-reactions-stack id=creating-and-inserting-nodes:custom-element-reactions-stack-4>custom element reactions stack</a>,
+     and <a href=#invoke-custom-element-reactions id=creating-and-inserting-nodes:invoke-custom-element-reactions-2>invoke custom element reactions</a> in that queue.</ol>
+
+    <p class=note>If the <var>adjusted insertion location</var> cannot accept more
+    elements, e.g. because it's a <code id=creating-and-inserting-nodes:document><a href=#document>Document</a></code> that already has an element child, then
+    <var>element</var> is dropped on the floor.</p>
+   <li><p>Push <var>element</var> onto the <a href=#stack-of-open-elements id=creating-and-inserting-nodes:stack-of-open-elements-7>stack of open elements</a> so that it is the new
+   <a href=#current-node id=creating-and-inserting-nodes:current-node-2>current node</a>.<li><p>Return <var>element</var>.</ol>
+
+  <p>When the steps below require the user agent to <dfn id=insert-an-html-element>insert an HTML element</dfn> for a token,
+  the user agent must <a href=#insert-a-foreign-element id=creating-and-inserting-nodes:insert-a-foreign-element>insert a foreign element</a> for the token, in the <a id=creating-and-inserting-nodes:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML
+  namespace</a>.</p>
+
+  <hr>
+
+  <p>When the steps below require the user agent to <dfn id=adjust-mathml-attributes>adjust MathML attributes</dfn> for a token,
+  then, if the token has an attribute named <code>definitionurl</code>, change its name to
+  <code>definitionURL</code> (note the case difference).</p>
+
+  <p>When the steps below require the user agent to <dfn id=adjust-svg-attributes>adjust SVG attributes</dfn> for a token,
+  then, for each attribute on the token whose attribute name is one of the ones in the first column
+  of the following table, change the attribute's name to the name given in the corresponding cell in
+  the second column. (This fixes the case of SVG attributes that are not all lowercase.)</p>
+
+  <table><thead><tr><th> Attribute name on token <th> Attribute name on element
+   <tbody><tr><td> <code>attributename</code> <td> <code>attributeName</code>
+    <tr><td> <code>attributetype</code> <td> <code>attributeType</code>
+    <tr><td> <code>basefrequency</code> <td> <code>baseFrequency</code>
+    <tr><td> <code>baseprofile</code> <td> <code>baseProfile</code>
+    <tr><td> <code>calcmode</code> <td> <code>calcMode</code>
+    <tr><td> <code>clippathunits</code> <td> <code>clipPathUnits</code>
+    <tr><td> <code>diffuseconstant</code> <td> <code>diffuseConstant</code>
+    <tr><td> <code>edgemode</code> <td> <code>edgeMode</code>
+    <tr><td> <code>filterunits</code> <td> <code>filterUnits</code>
+    <tr><td> <code>glyphref</code> <td> <code>glyphRef</code>
+    <tr><td> <code>gradienttransform</code> <td> <code>gradientTransform</code>
+    <tr><td> <code>gradientunits</code> <td> <code>gradientUnits</code>
+    <tr><td> <code>kernelmatrix</code> <td> <code>kernelMatrix</code>
+    <tr><td> <code>kernelunitlength</code> <td> <code>kernelUnitLength</code>
+    <tr><td> <code>keypoints</code> <td> <code>keyPoints</code>
+    <tr><td> <code>keysplines</code> <td> <code>keySplines</code>
+    <tr><td> <code>keytimes</code> <td> <code>keyTimes</code>
+    <tr><td> <code>lengthadjust</code> <td> <code>lengthAdjust</code>
+    <tr><td> <code>limitingconeangle</code> <td> <code>limitingConeAngle</code>
+    <tr><td> <code>markerheight</code> <td> <code>markerHeight</code>
+    <tr><td> <code>markerunits</code> <td> <code>markerUnits</code>
+    <tr><td> <code>markerwidth</code> <td> <code>markerWidth</code>
+    <tr><td> <code>maskcontentunits</code> <td> <code>maskContentUnits</code>
+    <tr><td> <code>maskunits</code> <td> <code>maskUnits</code>
+    <tr><td> <code>numoctaves</code> <td> <code>numOctaves</code>
+    <tr><td> <code>pathlength</code> <td> <code>pathLength</code>
+    <tr><td> <code>patterncontentunits</code> <td> <code>patternContentUnits</code>
+    <tr><td> <code>patterntransform</code> <td> <code>patternTransform</code>
+    <tr><td> <code>patternunits</code> <td> <code>patternUnits</code>
+    <tr><td> <code>pointsatx</code> <td> <code>pointsAtX</code>
+    <tr><td> <code>pointsaty</code> <td> <code>pointsAtY</code>
+    <tr><td> <code>pointsatz</code> <td> <code>pointsAtZ</code>
+    <tr><td> <code>preservealpha</code> <td> <code>preserveAlpha</code>
+    <tr><td> <code>preserveaspectratio</code> <td> <code>preserveAspectRatio</code>
+    <tr><td> <code>primitiveunits</code> <td> <code>primitiveUnits</code>
+    <tr><td> <code>refx</code> <td> <code>refX</code>
+    <tr><td> <code>refy</code> <td> <code>refY</code>
+    <tr><td> <code>repeatcount</code> <td> <code>repeatCount</code>
+    <tr><td> <code>repeatdur</code> <td> <code>repeatDur</code>
+    <tr><td> <code>requiredextensions</code> <td> <code>requiredExtensions</code>
+    <tr><td> <code>requiredfeatures</code> <td> <code>requiredFeatures</code>
+    <tr><td> <code>specularconstant</code> <td> <code>specularConstant</code>
+    <tr><td> <code>specularexponent</code> <td> <code>specularExponent</code>
+    <tr><td> <code>spreadmethod</code> <td> <code>spreadMethod</code>
+    <tr><td> <code>startoffset</code> <td> <code>startOffset</code>
+    <tr><td> <code>stddeviation</code> <td> <code>stdDeviation</code>
+    <tr><td> <code>stitchtiles</code> <td> <code>stitchTiles</code>
+    <tr><td> <code>surfacescale</code> <td> <code>surfaceScale</code>
+    <tr><td> <code>systemlanguage</code> <td> <code>systemLanguage</code>
+    <tr><td> <code>tablevalues</code> <td> <code>tableValues</code>
+    <tr><td> <code>targetx</code> <td> <code>targetX</code>
+    <tr><td> <code>targety</code> <td> <code>targetY</code>
+    <tr><td> <code>textlength</code> <td> <code>textLength</code>
+    <tr><td> <code>viewbox</code> <td> <code>viewBox</code>
+    <tr><td> <code>viewtarget</code> <td> <code>viewTarget</code>
+    <tr><td> <code>xchannelselector</code> <td> <code>xChannelSelector</code>
+    <tr><td> <code>ychannelselector</code> <td> <code>yChannelSelector</code>
+    <tr><td> <code>zoomandpan</code> <td> <code>zoomAndPan</code>
+  </table>
+
+  <p>When the steps below require the user agent to <dfn id=adjust-foreign-attributes>adjust foreign attributes</dfn> for a
+  token, then, if any of the attributes on the token match the strings given in the first column of
+  the following table, let the attribute be a namespaced attribute, with the prefix being the string
+  given in the corresponding cell in the second column, the local name being the string given in the
+  corresponding cell in the third column, and the namespace being the namespace given in the
+  corresponding cell in the fourth column. (This fixes the use of namespaced attributes, in
+  particular <a href=#attr-xml-lang id=creating-and-inserting-nodes:attr-xml-lang><code>lang</code> attributes in the <span>XML
+  namespace</span></a>.)</p>
+
+  <table><thead><tr><th> Attribute name <th> Prefix <th> Local name <th> Namespace
+   <tbody><tr><td> <code>xlink:actuate</code> <td> <code>xlink</code> <td> <code>actuate</code> <td> <a id=creating-and-inserting-nodes:xlink-namespace-2 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a>
+    <tr><td> <code>xlink:arcrole</code> <td> <code>xlink</code> <td> <code>arcrole</code> <td> <a id=creating-and-inserting-nodes:xlink-namespace-3 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a>
+    <tr><td> <code>xlink:href</code> <td> <code>xlink</code> <td> <code>href</code> <td> <a id=creating-and-inserting-nodes:xlink-namespace-4 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a>
+    <tr><td> <code>xlink:role</code> <td> <code>xlink</code> <td> <code>role</code> <td> <a id=creating-and-inserting-nodes:xlink-namespace-5 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a>
+    <tr><td> <code>xlink:show</code> <td> <code>xlink</code> <td> <code>show</code> <td> <a id=creating-and-inserting-nodes:xlink-namespace-6 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a>
+    <tr><td> <code>xlink:title</code> <td> <code>xlink</code> <td> <code>title</code> <td> <a id=creating-and-inserting-nodes:xlink-namespace-7 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a>
+    <tr><td> <code>xlink:type</code> <td> <code>xlink</code> <td> <code>type</code> <td> <a id=creating-and-inserting-nodes:xlink-namespace-8 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a>
+    <tr><td> <code>xml:lang</code> <td> <code>xml</code> <td> <code>lang</code> <td> <a id=creating-and-inserting-nodes:xml-namespace href=https://infra.spec.whatwg.org/#xml-namespace data-x-internal=xml-namespace>XML namespace</a>
+    <tr><td> <code>xml:space</code> <td> <code>xml</code> <td> <code>space</code> <td> <a id=creating-and-inserting-nodes:xml-namespace-2 href=https://infra.spec.whatwg.org/#xml-namespace data-x-internal=xml-namespace>XML namespace</a>
+    <tr><td> <code>xmlns</code> <td> (none) <td> <code>xmlns</code> <td> <a id=creating-and-inserting-nodes:xmlns-namespace-3 href=https://infra.spec.whatwg.org/#xmlns-namespace data-x-internal=xmlns-namespace>XMLNS namespace</a>
+    <tr><td> <code>xmlns:xlink</code> <td> <code>xmlns</code> <td> <code>xlink</code> <td> <a id=creating-and-inserting-nodes:xmlns-namespace-4 href=https://infra.spec.whatwg.org/#xmlns-namespace data-x-internal=xmlns-namespace>XMLNS namespace</a>
+  </table>
+
+  <hr>
+
+  <p>When the steps below require the user agent to <dfn id=insert-a-character>insert a character</dfn> while processing a
+  token, the user agent must run the following steps:</p>
+
+  <ol><li><p>Let <var>data</var> be the characters passed to the algorithm, or, if no
+   characters were explicitly specified, the character of the character token being
+   processed.<li><p>Let the <var>adjusted insertion location</var> be the <a href=#appropriate-place-for-inserting-a-node id=creating-and-inserting-nodes:appropriate-place-for-inserting-a-node-2>appropriate
+   place for inserting a node</a>.<li>
+
+    <p>If the <var>adjusted insertion location</var> is in a <code id=creating-and-inserting-nodes:document-2><a href=#document>Document</a></code> node,
+    then abort these steps.
+
+    <p class=note>The DOM will not let <code id=creating-and-inserting-nodes:document-3><a href=#document>Document</a></code> nodes have <code id=creating-and-inserting-nodes:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node
+    children, so they are dropped on the floor.</p>
+
+   <li>
+
+    <p>If there is a <code id=creating-and-inserting-nodes:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node immediately before the <var>adjusted insertion
+    location</var>, then append <var>data</var> to that <code id=creating-and-inserting-nodes:text-3><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node's data.</p>
+
+    <p>Otherwise, create a new <code id=creating-and-inserting-nodes:text-4><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node whose data is <var>data</var> and
+    whose <a id=creating-and-inserting-nodes:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is the same as that of the
+    element in which the <var>adjusted insertion location</var> finds itself, and insert
+    the newly created node at the <var>adjusted insertion location</var>.</p>
+
+   </ol>
+
+  <div class=example>
+
+   <p>Here are some sample inputs to the parser and the corresponding number of <code id=creating-and-inserting-nodes:text-5><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code>
+   nodes that they result in, assuming a user agent that executes scripts.</p>
+
+   <table><thead><tr><th>Input <th>Number of <code id=creating-and-inserting-nodes:text-6><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> nodes
+    <tbody><tr><td><pre>A&lt;script>
+var script = document.getElementsByTagName('script')[0];
+document.body.removeChild(script);
+&lt;/script>B</pre>
+      <td>One <code id=creating-and-inserting-nodes:text-7><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node in the document, containing "AB".
+     <tr><td><pre>A&lt;script>
+var text = document.createTextNode('B');
+document.body.appendChild(text);
+&lt;/script>C</pre>
+      <td>Three <code id=creating-and-inserting-nodes:text-8><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> nodes; "A" before the script, the script's contents, and "BC" after the script (the parser appends to the <code id=creating-and-inserting-nodes:text-9><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node created by the script).
+     <tr><td><pre>A&lt;script>
+var text = document.getElementsByTagName('script')[0].firstChild;
+text.data = 'B';
+document.body.appendChild(text);
+&lt;/script>C</pre>
+      <td>Two adjacent <code id=creating-and-inserting-nodes:text-10><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> nodes in the document, containing "A" and "BC".
+     <tr><td><pre>A&lt;table>B&lt;tr>C&lt;/tr>D&lt;/table></pre>
+      <td>One <code id=creating-and-inserting-nodes:text-11><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node before the table, containing "ABCD". (This is caused by <a href=#foster-parent id=creating-and-inserting-nodes:foster-parent-2>foster parenting</a>.)
+     <tr><td><pre>A&lt;table>&lt;tr> B&lt;/tr> C&lt;/table></pre>
+      <td>One <code id=creating-and-inserting-nodes:text-12><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node before the table, containing "A B C" (A-space-B-space-C). (This is caused by <a href=#foster-parent id=creating-and-inserting-nodes:foster-parent-3>foster parenting</a>.)
+     <tr><td><pre>A&lt;table>&lt;tr> B&lt;/tr> &lt;/em>C&lt;/table></pre>
+      <td>One <code id=creating-and-inserting-nodes:text-13><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node before the table, containing "A BC" (A-space-B-C), and one <code id=creating-and-inserting-nodes:text-14><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node inside the table (as a child of a <code id=creating-and-inserting-nodes:the-tbody-element-2><a href=#the-tbody-element>tbody</a></code>) with a single space character. (Space characters separated from non-space characters by non-character tokens are not affected by <a href=#foster-parent id=creating-and-inserting-nodes:foster-parent-4>foster parenting</a>, even if those other tokens then get ignored.)
+   </table>
+
+  </div>
+
+  <hr>
+
+  <p>When the steps below require the user agent to <dfn id=insert-a-comment>insert a comment</dfn> while processing a
+  comment token, optionally with an explicitly insertion position <var>position</var>, the
+  user agent must run the following steps:</p>
+
+  <ol><li><p>Let <var>data</var> be the data given in the comment token being
+   processed.<li><p>If <var>position</var> was specified, then let the <var>adjusted
+   insertion location</var> be <var>position</var>. Otherwise, let <var>adjusted
+   insertion location</var> be the <a href=#appropriate-place-for-inserting-a-node id=creating-and-inserting-nodes:appropriate-place-for-inserting-a-node-3>appropriate place for inserting a node</a>.<li><p>Create a <code id=creating-and-inserting-nodes:comment-2><a data-x-internal=comment-2 href=https://dom.spec.whatwg.org/#interface-comment>Comment</a></code> node whose <code>data</code> attribute is set to
+   <var>data</var> and whose <a id=creating-and-inserting-nodes:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is
+   the same as that of the node in which the <var>adjusted insertion location</var> finds
+   itself.</p>
+
+   <li><p>Insert the newly created node at the <var>adjusted insertion
+   location</var>.</ol>
+
+  <hr>
+
+  <p id=mutation-during-parsing>DOM mutation events must not fire for changes caused by the UA
+  parsing the document. This includes the parsing of any content inserted using <code id=creating-and-inserting-nodes:dom-document-write-2><a href=#dom-document-write>document.write()</a></code> and <code id=creating-and-inserting-nodes:dom-document-writeln><a href=#dom-document-writeln>document.writeln()</a></code> calls. <a href=#refsUIEVENTS>[UIEVENTS]</a></p>
+
+  <p>However, <a id=creating-and-inserting-nodes:mutation-observers href=https://dom.spec.whatwg.org/#mutation-observers data-x-internal=mutation-observers>mutation observers</a> <em>do</em> fire, as required by the WHATWG DOM
+  Standard.</p>
+
+
+
+  <h5 id=parsing-elements-that-contain-only-text>12.2.5.2 Parsing elements that contain only text<a href=#parsing-elements-that-contain-only-text class=self-link></a></h5>
+
+  <p>The <dfn id=generic-raw-text-element-parsing-algorithm>generic raw text element parsing algorithm</dfn> and the <dfn id=generic-rcdata-element-parsing-algorithm>generic RCDATA element
+  parsing algorithm</dfn> consist of the following steps. These algorithms are always invoked in
+  response to a start tag token.</p>
+
+  <ol><li><p><a href=#insert-an-html-element id=parsing-elements-that-contain-only-text:insert-an-html-element>Insert an HTML element</a> for the token.<li><p>If the algorithm that was invoked is the <a href=#generic-raw-text-element-parsing-algorithm id=parsing-elements-that-contain-only-text:generic-raw-text-element-parsing-algorithm>generic raw text element parsing
+   algorithm</a>, switch the tokenizer to the <a href=#rawtext-state id=parsing-elements-that-contain-only-text:rawtext-state>RAWTEXT state</a>; otherwise the algorithm
+   invoked was the <a href=#generic-rcdata-element-parsing-algorithm id=parsing-elements-that-contain-only-text:generic-rcdata-element-parsing-algorithm>generic RCDATA element parsing algorithm</a>, switch the tokenizer to
+   the <a href=#rcdata-state id=parsing-elements-that-contain-only-text:rcdata-state>RCDATA state</a>.<li><p>Let the <a href=#original-insertion-mode id=parsing-elements-that-contain-only-text:original-insertion-mode>original insertion mode</a> be the current <a href=#insertion-mode id=parsing-elements-that-contain-only-text:insertion-mode>insertion
+   mode</a>.</p>
+
+   <li><p>Then, switch the <a href=#insertion-mode id=parsing-elements-that-contain-only-text:insertion-mode-2>insertion mode</a> to "<a href=#parsing-main-incdata id=parsing-elements-that-contain-only-text:parsing-main-incdata>text</a>".</ol>
+
+
+  <h5 id=closing-elements-that-have-implied-end-tags>12.2.5.3 Closing elements that have implied end tags<a href=#closing-elements-that-have-implied-end-tags class=self-link></a></h5>
+
+  <p>When the steps below require the UA to <dfn id=generate-implied-end-tags>generate implied end tags</dfn>, then, while the
+  <a href=#current-node id=closing-elements-that-have-implied-end-tags:current-node>current node</a> is a <code id=closing-elements-that-have-implied-end-tags:the-dd-element><a href=#the-dd-element>dd</a></code> element, a <code id=closing-elements-that-have-implied-end-tags:the-dt-element><a href=#the-dt-element>dt</a></code> element, an
+  <code id=closing-elements-that-have-implied-end-tags:the-li-element><a href=#the-li-element>li</a></code> element, a <code id=closing-elements-that-have-implied-end-tags:the-menuitem-element><a href=#the-menuitem-element>menuitem</a></code> element, an <code id=closing-elements-that-have-implied-end-tags:the-optgroup-element><a href=#the-optgroup-element>optgroup</a></code> element, an
+  <code id=closing-elements-that-have-implied-end-tags:the-option-element><a href=#the-option-element>option</a></code> element, a <code id=closing-elements-that-have-implied-end-tags:the-p-element><a href=#the-p-element>p</a></code> element, an <code id=closing-elements-that-have-implied-end-tags:rb><a href=#rb>rb</a></code> element, an
+  <code id=closing-elements-that-have-implied-end-tags:the-rp-element><a href=#the-rp-element>rp</a></code> element, an <code id=closing-elements-that-have-implied-end-tags:the-rt-element><a href=#the-rt-element>rt</a></code> element, or an <code id=closing-elements-that-have-implied-end-tags:rtc><a href=#rtc>rtc</a></code> element, the UA must
+  pop the <a href=#current-node id=closing-elements-that-have-implied-end-tags:current-node-2>current node</a> off the <a href=#stack-of-open-elements id=closing-elements-that-have-implied-end-tags:stack-of-open-elements>stack of open elements</a>.</p>
+
+  <p>If a step requires the UA to generate implied end tags but lists an element to exclude from the
+  process, then the UA must perform the above steps as if that element was not in the above
+  list.</p>
+
+  <p>When the steps below require the UA to <dfn id=generate-all-implied-end-tags-thoroughly>generate all implied end tags thoroughly</dfn>,
+  then, while the <a href=#current-node id=closing-elements-that-have-implied-end-tags:current-node-3>current node</a> is a <code id=closing-elements-that-have-implied-end-tags:the-caption-element><a href=#the-caption-element>caption</a></code> element, a
+  <code id=closing-elements-that-have-implied-end-tags:the-colgroup-element><a href=#the-colgroup-element>colgroup</a></code> element, a <code id=closing-elements-that-have-implied-end-tags:the-dd-element-2><a href=#the-dd-element>dd</a></code> element, a <code id=closing-elements-that-have-implied-end-tags:the-dt-element-2><a href=#the-dt-element>dt</a></code> element, an
+  <code id=closing-elements-that-have-implied-end-tags:the-li-element-2><a href=#the-li-element>li</a></code> element, an <code id=closing-elements-that-have-implied-end-tags:the-optgroup-element-2><a href=#the-optgroup-element>optgroup</a></code> element, an <code id=closing-elements-that-have-implied-end-tags:the-option-element-2><a href=#the-option-element>option</a></code> element, a
+  <code id=closing-elements-that-have-implied-end-tags:the-p-element-2><a href=#the-p-element>p</a></code> element, an <code id=closing-elements-that-have-implied-end-tags:rb-2><a href=#rb>rb</a></code> element, an <code id=closing-elements-that-have-implied-end-tags:the-rp-element-2><a href=#the-rp-element>rp</a></code> element, an <code id=closing-elements-that-have-implied-end-tags:the-rt-element-2><a href=#the-rt-element>rt</a></code>
+  element, an <code id=closing-elements-that-have-implied-end-tags:rtc-2><a href=#rtc>rtc</a></code> element, a <code id=closing-elements-that-have-implied-end-tags:the-tbody-element><a href=#the-tbody-element>tbody</a></code> element, a <code id=closing-elements-that-have-implied-end-tags:the-td-element><a href=#the-td-element>td</a></code> element, a
+  <code id=closing-elements-that-have-implied-end-tags:the-tfoot-element><a href=#the-tfoot-element>tfoot</a></code> element, a <code id=closing-elements-that-have-implied-end-tags:the-th-element><a href=#the-th-element>th</a></code> element, a <code id=closing-elements-that-have-implied-end-tags:the-thead-element><a href=#the-thead-element>thead</a></code> element, or a
+  <code id=closing-elements-that-have-implied-end-tags:the-tr-element><a href=#the-tr-element>tr</a></code> element, the UA must pop the <a href=#current-node id=closing-elements-that-have-implied-end-tags:current-node-4>current node</a> off the
+  <a href=#stack-of-open-elements id=closing-elements-that-have-implied-end-tags:stack-of-open-elements-2>stack of open elements</a>.</p>
+
+
+
+  <h5 id=parsing-main-inhtml>12.2.5.4 The rules for parsing tokens in HTML content<a href=#parsing-main-inhtml class=self-link></a></h5>
+
+
+  <h6 id=the-initial-insertion-mode>12.2.5.4.1 The "<dfn>initial</dfn>" insertion mode<a href=#the-initial-insertion-mode class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#the-initial-insertion-mode id=the-initial-insertion-mode:the-initial-insertion-mode>initial</a>" <a href=#insertion-mode id=the-initial-insertion-mode:insertion-mode>insertion mode</a>, the user agent must handle the token as
+  follows:</p>
+
+  <dl class=switch><dt>A character token that is one of U+0009 CHARACTER
+   TABULATION, U+000A LINE FEED (LF), U+000C FORM FEED (FF),
+   U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dd>
+    <p>Ignore the token.</p>
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=the-initial-insertion-mode:insert-a-comment>Insert a comment</a> as the last child of the <code id=the-initial-insertion-mode:document><a href=#document>Document</a></code> object.</p>
+   <dt>A DOCTYPE token<dd>
+
+    <p>If the DOCTYPE token's name is not a <a href=#case-sensitive id=the-initial-insertion-mode:case-sensitive>case-sensitive</a> match for the string "<code>html</code>", or the token's public identifier is not missing, or the token's system
+    identifier is neither missing nor a <a href=#case-sensitive id=the-initial-insertion-mode:case-sensitive-2>case-sensitive</a> match for the string
+    "<code id=the-initial-insertion-mode:about:legacy-compat><a href=#about:legacy-compat>about:legacy-compat</a></code>", then there is a <a href=#parse-error id=the-initial-insertion-mode:parse-error>parse error</a>.</p>
+
+    <p>Append a <code id=the-initial-insertion-mode:documenttype><a data-x-internal=documenttype href=https://dom.spec.whatwg.org/#interface-documenttype>DocumentType</a></code> node to the <code id=the-initial-insertion-mode:document-2><a href=#document>Document</a></code> node, with the <code>name</code> attribute set to the name given in the DOCTYPE token, or the empty string
+    if the name was missing; the <code>publicId</code> attribute set to the public
+    identifier given in the DOCTYPE token, or the empty string if the public identifier was missing;
+    the <code>systemId</code> attribute set to the system identifier given in the DOCTYPE
+    token, or the empty string if the system identifier was missing; and the other attributes
+    specific to <code id=the-initial-insertion-mode:documenttype-2><a data-x-internal=documenttype href=https://dom.spec.whatwg.org/#interface-documenttype>DocumentType</a></code> objects set to null and empty lists as appropriate.
+    Associate the <code id=the-initial-insertion-mode:documenttype-3><a data-x-internal=documenttype href=https://dom.spec.whatwg.org/#interface-documenttype>DocumentType</a></code> node with the <code id=the-initial-insertion-mode:document-3><a href=#document>Document</a></code> object so that it is
+    returned as the value of the <code>doctype</code> attribute of the
+    <code id=the-initial-insertion-mode:document-4><a href=#document>Document</a></code> object.</p>
+
+    <p id=quirks-mode-doctypes>Then, if the document is <em>not</em> <a href=#an-iframe-srcdoc-document id=the-initial-insertion-mode:an-iframe-srcdoc-document>an <code>iframe</code>
+    <code>srcdoc</code> document</a>, and the DOCTYPE token matches
+    one of the conditions in the following list, then set the <code id=the-initial-insertion-mode:document-5><a href=#document>Document</a></code> to <a id=the-initial-insertion-mode:quirks-mode href=https://dom.spec.whatwg.org/#concept-document-quirks data-x-internal=quirks-mode>quirks
+    mode</a>:</p>
+
+    <ul class=brief><li> The <i id=the-initial-insertion-mode:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> is set to <i>on</i>. <li> The name is set to anything other than "<code>html</code>" (compared <a href=#case-sensitive id=the-initial-insertion-mode:case-sensitive-3>case-sensitively</a>). <li> The public identifier is set to: "<code>-//W3O//DTD W3 HTML Strict 3.0//EN//</code>" <li> The public identifier is set to: "<code>-/W3C/DTD HTML 4.0 Transitional/EN</code>" <li> The public identifier is set to: "<code>HTML</code>" <li> The system identifier is set to: "<code>http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd</code>" <li> The public identifier starts with: "<code>+//Silmaril//dtd html Pro v0r11 19970101//</code>" <li> The public identifier starts with: "<code>-//AS//DTD HTML 3.0 asWedit + extensions//</code>" <li> The public identifier starts with: "<code>-//AdvaSoft Ltd//DTD HTML 3.0 asWedit + extensions//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 2.0 Level 1//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 2.0 Level 2//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 2.0 Strict Level 1//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 2.0 Strict Level 2//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 2.0 Strict//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 2.0//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 2.1E//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 3.0//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 3.2 Final//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 3.2//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML 3//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML Level 0//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML Level 1//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML Level 2//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML Level 3//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML Strict Level 0//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML Strict Level 1//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML Strict Level 2//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML Strict Level 3//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML Strict//</code>" <li> The public identifier starts with: "<code>-//IETF//DTD HTML//</code>" <li> The public identifier starts with: "<code>-//Metrius//DTD Metrius Presentational//</code>" <li> The public identifier starts with: "<code>-//Microsoft//DTD Internet Explorer 2.0 HTML Strict//</code>" <li> The public identifier starts with: "<code>-//Microsoft//DTD Internet Explorer 2.0 HTML//</code>" <li> The public identifier starts with: "<code>-//Microsoft//DTD Internet Explorer 2.0 Tables//</code>" <li> The public identifier starts with: "<code>-//Microsoft//DTD Internet Explorer 3.0 HTML Strict//</code>" <li> The public identifier starts with: "<code>-//Microsoft//DTD Internet Explorer 3.0 HTML//</code>" <li> The public identifier starts with: "<code>-//Microsoft//DTD Internet Explorer 3.0 Tables//</code>" <li> The public identifier starts with: "<code>-//Netscape Comm. Corp.//DTD HTML//</code>" <li> The public identifier starts with: "<code>-//Netscape Comm. Corp.//DTD Strict HTML//</code>" <li> The public identifier starts with: "<code>-//O'Reilly and Associates//DTD HTML 2.0//</code>" <li> The public identifier starts with: "<code>-//O'Reilly and Associates//DTD HTML Extended 1.0//</code>" <li> The public identifier starts with: "<code>-//O'Reilly and Associates//DTD HTML Extended Relaxed 1.0//</code>" <li> The public identifier starts with: "<code>-//SQ//DTD HTML 2.0 HoTMetaL + extensions//</code>" <li> The public identifier starts with: "<code>-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//</code>" <li> The public identifier starts with: "<code>-//SoftQuad//DTD HoTMetaL PRO 4.0::19971010::extensions to HTML 4.0//</code>" <li> The public identifier starts with: "<code>-//Spyglass//DTD HTML 2.0 Extended//</code>" <li> The public identifier starts with: "<code>-//Sun Microsystems Corp.//DTD HotJava HTML//</code>" <li> The public identifier starts with: "<code>-//Sun Microsystems Corp.//DTD HotJava Strict HTML//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD HTML 3 1995-03-24//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD HTML 3.2 Draft//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD HTML 3.2 Final//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD HTML 3.2//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD HTML 3.2S Draft//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD HTML 4.0 Frameset//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD HTML 4.0 Transitional//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD HTML Experimental 19960712//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD HTML Experimental 970421//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD W3 HTML//</code>" <li> The public identifier starts with: "<code>-//W3O//DTD W3 HTML 3.0//</code>" <li> The public identifier starts with: "<code>-//WebTechs//DTD Mozilla HTML 2.0//</code>" <li> The public identifier starts with: "<code>-//WebTechs//DTD Mozilla HTML//</code>" <li> The system identifier is missing and the public identifier starts with: "<code>-//W3C//DTD HTML 4.01 Frameset//</code>" <li> The system identifier is missing and the public identifier starts with: "<code>-//W3C//DTD HTML 4.01 Transitional//</code>" </ul>
+
+    <p>Otherwise, if the document is <em>not</em> <a href=#an-iframe-srcdoc-document id=the-initial-insertion-mode:an-iframe-srcdoc-document-2>an <code>iframe</code> <code>srcdoc</code> document</a>, and the DOCTYPE token matches one of
+    the conditions in the following list, then set the <code id=the-initial-insertion-mode:document-6><a href=#document>Document</a></code> to <a id=the-initial-insertion-mode:limited-quirks-mode href=https://dom.spec.whatwg.org/#concept-document-limited-quirks data-x-internal=limited-quirks-mode>limited-quirks
+    mode</a>:</p>
+
+    <ul class=brief><li> The public identifier starts with: "<code>-//W3C//DTD XHTML 1.0 Frameset//</code>" <li> The public identifier starts with: "<code>-//W3C//DTD XHTML 1.0 Transitional//</code>" <li> The system identifier is not missing and the public identifier starts with: "<code>-//W3C//DTD HTML 4.01 Frameset//</code>" <li> The system identifier is not missing and the public identifier starts with: "<code>-//W3C//DTD HTML 4.01 Transitional//</code>" </ul>
+
+    <p>The system identifier and public identifier strings must be compared to the values given in
+    the lists above in an <a id=the-initial-insertion-mode:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> manner. A system identifier whose
+    value is the empty string is not considered missing for the purposes of the conditions
+    above.</p>
+
+    <p>Then, switch the <a href=#insertion-mode id=the-initial-insertion-mode:insertion-mode-2>insertion mode</a> to "<a href=#the-before-html-insertion-mode id=the-initial-insertion-mode:the-before-html-insertion-mode>before html</a>".</p>
+
+   <dt>Anything else<dd>
+
+    <p>If the document is <em>not</em> <a href=#an-iframe-srcdoc-document id=the-initial-insertion-mode:an-iframe-srcdoc-document-3>an <code>iframe</code> <code>srcdoc</code> document</a>, then this is a <a href=#parse-error id=the-initial-insertion-mode:parse-error-2>parse
+    error</a>; set the <code id=the-initial-insertion-mode:document-7><a href=#document>Document</a></code> to <a id=the-initial-insertion-mode:quirks-mode-2 href=https://dom.spec.whatwg.org/#concept-document-quirks data-x-internal=quirks-mode>quirks mode</a>.</p>
+
+    <p>In any case, switch the <a href=#insertion-mode id=the-initial-insertion-mode:insertion-mode-3>insertion mode</a> to "<a href=#the-before-html-insertion-mode id=the-initial-insertion-mode:the-before-html-insertion-mode-2>before html</a>", then reprocess the token.</p>
+
+   </dl>
+
+
+  <h6 id=the-before-html-insertion-mode>12.2.5.4.2 The "<dfn>before html</dfn>" insertion mode<a href=#the-before-html-insertion-mode class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#the-before-html-insertion-mode id=the-before-html-insertion-mode:the-before-html-insertion-mode>before html</a>" <a href=#insertion-mode id=the-before-html-insertion-mode:insertion-mode>insertion mode</a>, the user agent must handle the token as
+  follows:</p>
+
+  <dl class=switch><dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=the-before-html-insertion-mode:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=the-before-html-insertion-mode:insert-a-comment>Insert a comment</a> as the last child of the <code id=the-before-html-insertion-mode:document><a href=#document>Document</a></code> object.</p>
+   <dt>A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C
+   FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dd>
+    <p>Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+
+    <p><a href=#create-an-element-for-the-token id=the-before-html-insertion-mode:create-an-element-for-the-token>Create an element for the token</a> in the <a id=the-before-html-insertion-mode:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>, with the
+    <code id=the-before-html-insertion-mode:document-2><a href=#document>Document</a></code> as the intended parent. Append it to the <code id=the-before-html-insertion-mode:document-3><a href=#document>Document</a></code> object. Put
+    this element in the <a href=#stack-of-open-elements id=the-before-html-insertion-mode:stack-of-open-elements>stack of open elements</a>.</p>
+
+    <p id=parser-appcache>If the <code id=the-before-html-insertion-mode:document-4><a href=#document>Document</a></code> is being loaded as part of <a href=#navigate id=the-before-html-insertion-mode:navigate>navigation</a> of a <a href=#browsing-context id=the-before-html-insertion-mode:browsing-context>browsing context</a>, run these steps:</p>
+
+    <ol><li><p>If the result of running <a href=https://w3c.github.io/ServiceWorker/#scope-match-algorithm id=the-before-html-insertion-mode:scope-match-algorithm data-x-internal=scope-match-algorithm>match service worker
+     registration</a> for the document's <a href=https://dom.spec.whatwg.org/#concept-document-url id="the-before-html-insertion-mode:the-document's-address" data-x-internal="the-document's-address">URL</a> is
+     non-null, run the <a href=#concept-appcache-init id=the-before-html-insertion-mode:concept-appcache-init>application cache selection
+     algorithm</a> passing the <code id=the-before-html-insertion-mode:document-5><a href=#document>Document</a></code> object with no manifest.<li>
+
+      <p>Otherwise, run these substeps:</p>
+
+      <ol><li><p>If the newly created element has a <code id=the-before-html-insertion-mode:attr-html-manifest><a href=#attr-html-manifest>manifest</a></code>
+       attribute whose value is not the empty string, then <a href=#parse-a-url id=the-before-html-insertion-mode:parse-a-url>parse</a> the value of that attribute, relative to the newly created element's
+       <a id=the-before-html-insertion-mode:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>, and if that is successful, run the <a href=#concept-appcache-init id=the-before-html-insertion-mode:concept-appcache-init-2>application cache selection algorithm</a> passing the
+       <code id=the-before-html-insertion-mode:document-6><a href=#document>Document</a></code> object with the result of applying the <a href=https://url.spec.whatwg.org/#concept-url-serializer id=the-before-html-insertion-mode:concept-url-serializer data-x-internal=concept-url-serializer>URL serializer</a> algorithm to the <a href=#resulting-url-record id=the-before-html-insertion-mode:resulting-url-record>resulting URL
+       record</a> with the <i>exclude fragment flag</i> set.<li><p>Otherwise, run the <a href=#concept-appcache-init id=the-before-html-insertion-mode:concept-appcache-init-3>application cache selection
+       algorithm</a> passing the <code id=the-before-html-insertion-mode:document-7><a href=#document>Document</a></code> object with no manifest.</ol>
+
+     </ol>
+
+    <p>Switch the <a href=#insertion-mode id=the-before-html-insertion-mode:insertion-mode-2>insertion mode</a> to "<a href=#the-before-head-insertion-mode id=the-before-html-insertion-mode:the-before-head-insertion-mode>before
+    head</a>".</p>
+
+   <dt>An end tag whose tag name is one of: "head", "body", "html", "br"<dd>
+    <p>Act as described in the "anything else" entry below.</p>
+   <dt>Any other end tag<dd>
+    <p><a href=#parse-error id=the-before-html-insertion-mode:parse-error-2>Parse error</a>. Ignore the token.</p>
+   <dt>Anything else<dd>
+
+    <p>Create an <code id=the-before-html-insertion-mode:the-html-element><a href=#the-html-element>html</a></code> element whose <a id=the-before-html-insertion-mode:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is the <code id=the-before-html-insertion-mode:document-8><a href=#document>Document</a></code> object. Append
+    it to the <code id=the-before-html-insertion-mode:document-9><a href=#document>Document</a></code> object. Put this element in the <a href=#stack-of-open-elements id=the-before-html-insertion-mode:stack-of-open-elements-2>stack of open
+    elements</a>.</p>
+
+    <p>If the <code id=the-before-html-insertion-mode:document-10><a href=#document>Document</a></code> is being loaded as part of <a href=#navigate id=the-before-html-insertion-mode:navigate-2>navigation</a> of a <a href=#browsing-context id=the-before-html-insertion-mode:browsing-context-2>browsing context</a>, then: run the <a href=#concept-appcache-init id=the-before-html-insertion-mode:concept-appcache-init-4>application cache selection algorithm</a> with no manifest,
+    passing it the <code id=the-before-html-insertion-mode:document-11><a href=#document>Document</a></code> object.</p>
+
+    <p>Switch the <a href=#insertion-mode id=the-before-html-insertion-mode:insertion-mode-3>insertion mode</a> to "<a href=#the-before-head-insertion-mode id=the-before-html-insertion-mode:the-before-head-insertion-mode-2>before
+    head</a>", then reprocess the token.</p>
+
+   </dl>
+
+  <p>The <a id=the-before-html-insertion-mode:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a> can end up being removed from the <code id=the-before-html-insertion-mode:document-12><a href=#document>Document</a></code>
+  object, e.g. by scripts; nothing in particular happens in such cases, content continues being
+  appended to the nodes as described in the next section.</p>
+
+
+  <h6 id=the-before-head-insertion-mode>12.2.5.4.3 The "<dfn>before head</dfn>" insertion mode<a href=#the-before-head-insertion-mode class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#the-before-head-insertion-mode id=the-before-head-insertion-mode:the-before-head-insertion-mode>before head</a>" <a href=#insertion-mode id=the-before-head-insertion-mode:insertion-mode>insertion mode</a>, the user agent must handle the token as
+  follows:</p>
+
+  <dl class=switch><dt>A character token that is one of U+0009 CHARACTER
+   TABULATION, U+000A LINE FEED (LF), U+000C FORM FEED (FF),
+   U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dd>
+    <p>Ignore the token.</p> 
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=the-before-head-insertion-mode:insert-a-comment>Insert a comment</a>.</p>
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=the-before-head-insertion-mode:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+    <p>Process the token <a href=#using-the-rules-for id=the-before-head-insertion-mode:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=the-before-head-insertion-mode:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=the-before-head-insertion-mode:insertion-mode-2>insertion mode</a>.</p>
+   <dt>A start tag whose tag name is "head"<dd>
+
+    <p><a href=#insert-an-html-element id=the-before-head-insertion-mode:insert-an-html-element>Insert an HTML element</a> for the token.</p>
+
+    <p>Set the <a href=#head-element-pointer id=the-before-head-insertion-mode:head-element-pointer><code>head</code> element pointer</a> to the newly created
+    <code id=the-before-head-insertion-mode:the-head-element><a href=#the-head-element>head</a></code> element.</p>
+
+    <p>Switch the <a href=#insertion-mode id=the-before-head-insertion-mode:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-inhead id=the-before-head-insertion-mode:parsing-main-inhead>in
+    head</a>".</p>
+
+   <dt>An end tag whose tag name is one of: "head", "body", "html", "br"<dd>
+
+    <p>Act as described in the "anything else" entry below.</p>
+
+   <dt>Any other end tag<dd>
+
+    <p><a href=#parse-error id=the-before-head-insertion-mode:parse-error-2>Parse error</a>. Ignore the token.</p>
+
+   <dt>Anything else<dd>
+
+    
+
+    <p><a href=#insert-an-html-element id=the-before-head-insertion-mode:insert-an-html-element-2>Insert an HTML element</a> for a "head" start tag token with no attributes.</p>
+
+    <p>Set the <a href=#head-element-pointer id=the-before-head-insertion-mode:head-element-pointer-2><code>head</code> element pointer</a> to the newly created
+    <code id=the-before-head-insertion-mode:the-head-element-2><a href=#the-head-element>head</a></code> element.</p>
+
+    <p>Switch the <a href=#insertion-mode id=the-before-head-insertion-mode:insertion-mode-4>insertion mode</a> to "<a href=#parsing-main-inhead id=the-before-head-insertion-mode:parsing-main-inhead-2>in
+    head</a>".</p>
+
+    
+
+    <p>Reprocess the current token.</p>
+
+   </dl>
+
+
+  <h6 id=parsing-main-inhead>12.2.5.4.4 The "<dfn>in head</dfn>" insertion mode<a href=#parsing-main-inhead class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-inhead id=parsing-main-inhead:parsing-main-inhead>in
+  head</a>" <a href=#insertion-mode id=parsing-main-inhead:insertion-mode>insertion mode</a>, the user agent must handle the token as follows:</p>
+
+  <dl class=switch><dt>A character token that is one of U+0009 CHARACTER
+   TABULATION, U+000A LINE FEED (LF), U+000C FORM FEED (FF),
+   U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dd>
+    <p><a href=#insert-a-character id=parsing-main-inhead:insert-a-character>Insert the character</a>.</p>
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=parsing-main-inhead:insert-a-comment>Insert a comment</a>.</p>
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=parsing-main-inhead:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-inhead:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-inhead:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-inhead:insertion-mode-2>insertion mode</a>.</p>
+   <dt>A start tag whose tag name is one of: "base", "basefont",
+   "bgsound", "link"<dd>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inhead:insert-an-html-element>Insert an HTML element</a> for the token. Immediately pop the <a href=#current-node id=parsing-main-inhead:current-node>current
+    node</a> off the <a href=#stack-of-open-elements id=parsing-main-inhead:stack-of-open-elements>stack of open elements</a>.</p>
+
+    <p><a href=#acknowledge-self-closing-flag id=parsing-main-inhead:acknowledge-self-closing-flag>Acknowledge the token's <i>self-closing
+    flag</i></a>, if it is set.</p>
+
+   <dt>A start tag whose tag name is "meta"<dd>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inhead:insert-an-html-element-2>Insert an HTML element</a> for the token. Immediately pop the <a href=#current-node id=parsing-main-inhead:current-node-2>current
+    node</a> off the <a href=#stack-of-open-elements id=parsing-main-inhead:stack-of-open-elements-2>stack of open elements</a>.</p>
+
+    <p><a href=#acknowledge-self-closing-flag id=parsing-main-inhead:acknowledge-self-closing-flag-2>Acknowledge the token's <i>self-closing
+    flag</i></a>, if it is set.</p>
+
+    <p id=meta-charset-during-parse>If the element has a <code id=parsing-main-inhead:attr-meta-charset><a href=#attr-meta-charset>charset</a></code> attribute, and <a id=parsing-main-inhead:getting-an-encoding href=https://encoding.spec.whatwg.org/#concept-encoding-get data-x-internal=getting-an-encoding>getting an encoding</a> from
+    its value results in an <a id=parsing-main-inhead:encoding href=https://encoding.spec.whatwg.org/#encoding data-x-internal=encoding>encoding</a>, and the
+    <a href=#concept-encoding-confidence id=parsing-main-inhead:concept-encoding-confidence>confidence</a> is currently <i>tentative</i>, then
+    <a href=#change-the-encoding id=parsing-main-inhead:change-the-encoding>change the encoding</a> to the resulting encoding.</p>
+
+    <p>Otherwise, if the element has an <code id=parsing-main-inhead:attr-meta-http-equiv><a href=#attr-meta-http-equiv>http-equiv</a></code>
+    attribute whose value is an <a id=parsing-main-inhead:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>Content-Type</code>", and the element has a <code id=parsing-main-inhead:attr-meta-content><a href=#attr-meta-content>content</a></code> attribute, and applying the <a href=#algorithm-for-extracting-a-character-encoding-from-a-meta-element id=parsing-main-inhead:algorithm-for-extracting-a-character-encoding-from-a-meta-element>algorithm for
+    extracting a character encoding from a <code>meta</code> element</a> to that attribute's
+    value returns an <a id=parsing-main-inhead:encoding-2 href=https://encoding.spec.whatwg.org/#encoding data-x-internal=encoding>encoding</a>, and the
+    <a href=#concept-encoding-confidence id=parsing-main-inhead:concept-encoding-confidence-2>confidence</a> is currently <i>tentative</i>, then
+    <a href=#change-the-encoding id=parsing-main-inhead:change-the-encoding-2>change the encoding</a> to the extracted encoding.</p>
+
+   <dt>A start tag whose tag name is "title"<dd>
+    <p>Follow the <a href=#generic-rcdata-element-parsing-algorithm id=parsing-main-inhead:generic-rcdata-element-parsing-algorithm>generic RCDATA element parsing algorithm</a>.</p>
+   <dt>A start tag whose tag name is "noscript", if the <a href=#scripting-flag id=parsing-main-inhead:scripting-flag>scripting flag</a> is enabled<dt>A start tag whose tag name is one of: "noframes", "style"<dd>
+    <p>Follow the <a href=#generic-raw-text-element-parsing-algorithm id=parsing-main-inhead:generic-raw-text-element-parsing-algorithm>generic raw text element parsing algorithm</a>.</p>
+   <dt>A start tag whose tag name is "noscript", if the <a href=#scripting-flag id=parsing-main-inhead:scripting-flag-2>scripting flag</a> is disabled<dd>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inhead:insert-an-html-element-3>Insert an HTML element</a> for the token.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-inhead:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-inheadnoscript id=parsing-main-inhead:parsing-main-inheadnoscript>in
+    head noscript</a>".</p>
+
+   <dt id=scriptTag>A start tag whose tag name is "script"<dd>
+
+    <p>Run these steps:</p>
+
+    <ol><li><p>Let the <var>adjusted insertion location</var> be the <a href=#appropriate-place-for-inserting-a-node id=parsing-main-inhead:appropriate-place-for-inserting-a-node>appropriate place
+     for inserting a node</a>.<li><p><a href=#create-an-element-for-the-token id=parsing-main-inhead:create-an-element-for-the-token>Create an element for the token</a> in the <a id=parsing-main-inhead:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>, with
+     the intended parent being the element in which the <var>adjusted insertion
+     location</var> finds itself.<li>
+
+      <p>Mark the element as being <a href=#parser-inserted id=parsing-main-inhead:parser-inserted>"parser-inserted"</a> and unset the element's
+      <a href=#non-blocking id=parsing-main-inhead:non-blocking>"non-blocking"</a> flag.</p>
+
+      <p class=note>This ensures that, if the script is external, any <code id=parsing-main-inhead:dom-document-write><a href=#dom-document-write>document.write()</a></code> calls in the script will execute in-line,
+      instead of blowing the document away, as would happen in most other cases. It also prevents
+      the script from executing until the end tag is seen.</p>
+
+     <li><p>If the parser was originally created for the <a href=#html-fragment-parsing-algorithm id=parsing-main-inhead:html-fragment-parsing-algorithm>HTML fragment parsing
+     algorithm</a>, then mark the <code id=parsing-main-inhead:the-script-element><a href=#the-script-element>script</a></code> element as <a href=#already-started id=parsing-main-inhead:already-started>"already started"</a>.
+     (<a href=#fragment-case id=parsing-main-inhead:fragment-case>fragment case</a>)<li><p>Insert the newly created element at the <var>adjusted insertion
+     location</var>.<li><p>Push the element onto the <a href=#stack-of-open-elements id=parsing-main-inhead:stack-of-open-elements-3>stack of open elements</a> so that it is the new
+     <a href=#current-node id=parsing-main-inhead:current-node-3>current node</a>.<li><p>Switch the tokenizer to the <a href=#script-data-state id=parsing-main-inhead:script-data-state>script data state</a>.<li><p>Let the <a href=#original-insertion-mode id=parsing-main-inhead:original-insertion-mode>original insertion mode</a> be the current <a href=#insertion-mode id=parsing-main-inhead:insertion-mode-4>insertion
+     mode</a>.</p>
+
+     <li><p>Switch the <a href=#insertion-mode id=parsing-main-inhead:insertion-mode-5>insertion mode</a> to "<a href=#parsing-main-incdata id=parsing-main-inhead:parsing-main-incdata>text</a>".</ol>
+
+   <dt>An end tag whose tag name is "head"<dd>
+
+    <p>Pop the <a href=#current-node id=parsing-main-inhead:current-node-4>current node</a> (which will be the <code id=parsing-main-inhead:the-head-element><a href=#the-head-element>head</a></code> element) off the
+    <a href=#stack-of-open-elements id=parsing-main-inhead:stack-of-open-elements-4>stack of open elements</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-inhead:insertion-mode-6>insertion mode</a> to "<a href=#the-after-head-insertion-mode id=parsing-main-inhead:the-after-head-insertion-mode>after
+    head</a>".</p>
+
+   <dt>An end tag whose tag name is one of: "body", "html", "br"<dd>
+    <p>Act as described in the "anything else" entry below.</p>
+   <dt>A start tag whose tag name is "template"<dd>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inhead:insert-an-html-element-4>Insert an HTML element</a> for the token.</p>
+
+    <p>Insert a <a href=#concept-parser-marker id=parsing-main-inhead:concept-parser-marker>marker</a> at the end of the <a href=#list-of-active-formatting-elements id=parsing-main-inhead:list-of-active-formatting-elements>list of
+    active formatting elements</a>.</p>
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inhead:frameset-ok-flag>frameset-ok flag</a> to "not ok".</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-inhead:insertion-mode-7>insertion mode</a> to "<a href=#parsing-main-intemplate id=parsing-main-inhead:parsing-main-intemplate>in
+    template</a>".</p>
+
+    <p>Push "<a href=#parsing-main-intemplate id=parsing-main-inhead:parsing-main-intemplate-2>in template</a>" onto the <a href=#stack-of-template-insertion-modes id=parsing-main-inhead:stack-of-template-insertion-modes>stack of
+    template insertion modes</a> so that it is the new <a href=#current-template-insertion-mode id=parsing-main-inhead:current-template-insertion-mode>current template insertion
+    mode</a>.</p>
+
+   <dt>An end tag whose tag name is "template"<dd>
+
+    <p>If there is no <code id=parsing-main-inhead:the-template-element><a href=#the-template-element>template</a></code> element on the <a href=#stack-of-open-elements id=parsing-main-inhead:stack-of-open-elements-5>stack of open elements</a>, then
+    this is a <a href=#parse-error id=parsing-main-inhead:parse-error-2>parse error</a>; ignore the token.</p>
+
+    <p>Otherwise, run these steps:</p>
+
+    <ol><li><p><a href=#generate-all-implied-end-tags-thoroughly id=parsing-main-inhead:generate-all-implied-end-tags-thoroughly>Generate all implied end tags thoroughly</a>.<li><p>If the <a href=#current-node id=parsing-main-inhead:current-node-5>current node</a> is not a <code id=parsing-main-inhead:the-template-element-2><a href=#the-template-element>template</a></code> element, then this is a
+     <a href=#parse-error id=parsing-main-inhead:parse-error-3>parse error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inhead:stack-of-open-elements-6>stack of open elements</a> until a <code id=parsing-main-inhead:the-template-element-3><a href=#the-template-element>template</a></code>
+     element has been popped from the stack.<li><a href=#clear-the-list-of-active-formatting-elements-up-to-the-last-marker id=parsing-main-inhead:clear-the-list-of-active-formatting-elements-up-to-the-last-marker>Clear the list of active formatting elements up to the last marker</a>.<li><p>Pop the <a href=#current-template-insertion-mode id=parsing-main-inhead:current-template-insertion-mode-2>current template insertion mode</a> off the <a href=#stack-of-template-insertion-modes id=parsing-main-inhead:stack-of-template-insertion-modes-2>stack of template
+     insertion modes</a>.</p>
+
+     <li><p><a href=#reset-the-insertion-mode-appropriately id=parsing-main-inhead:reset-the-insertion-mode-appropriately>Reset the insertion mode appropriately</a>.</ol>
+
+   <dt>A start tag whose tag name is "head"<dt>Any other end tag<dd>
+    <p><a href=#parse-error id=parsing-main-inhead:parse-error-4>Parse error</a>. Ignore the token.</p>
+   <dt>Anything else<dd>
+
+    
+
+    
+    <p>Pop the <a href=#current-node id=parsing-main-inhead:current-node-6>current node</a> (which will be the <code id=parsing-main-inhead:the-head-element-2><a href=#the-head-element>head</a></code> element) off the
+    <a href=#stack-of-open-elements id=parsing-main-inhead:stack-of-open-elements-7>stack of open elements</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-inhead:insertion-mode-8>insertion mode</a> to "<a href=#the-after-head-insertion-mode id=parsing-main-inhead:the-after-head-insertion-mode-2>after
+    head</a>".</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   </dl>
+
+
+  <h6 id=parsing-main-inheadnoscript>12.2.5.4.5 The "<dfn>in head noscript</dfn>" insertion mode<a href=#parsing-main-inheadnoscript class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-inheadnoscript id=parsing-main-inheadnoscript:parsing-main-inheadnoscript>in head noscript</a>" <a href=#insertion-mode id=parsing-main-inheadnoscript:insertion-mode>insertion mode</a>, the user agent must handle the
+  token as follows:</p>
+
+  <dl class=switch><dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=parsing-main-inheadnoscript:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-inheadnoscript:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-inheadnoscript:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-inheadnoscript:insertion-mode-2>insertion mode</a>.</p>
+
+   <dt>An end tag whose tag name is "noscript"<dd>
+
+    <p>Pop the <a href=#current-node id=parsing-main-inheadnoscript:current-node>current node</a> (which will be a <code id=parsing-main-inheadnoscript:the-noscript-element><a href=#the-noscript-element>noscript</a></code> element) from the
+    <a href=#stack-of-open-elements id=parsing-main-inheadnoscript:stack-of-open-elements>stack of open elements</a>; the new <a href=#current-node id=parsing-main-inheadnoscript:current-node-2>current node</a> will be a
+    <code id=parsing-main-inheadnoscript:the-head-element><a href=#the-head-element>head</a></code> element.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-inheadnoscript:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-inhead id=parsing-main-inheadnoscript:parsing-main-inhead>in
+    head</a>".</p>
+
+   <dt>A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C
+   FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dt>A comment token<dt>A start tag whose tag name is one of: "basefont", "bgsound", "link", "meta", "noframes",
+   "style"<dd>
+

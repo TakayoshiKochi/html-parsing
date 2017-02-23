@@ -1,0 +1,850 @@
+    is more than one cell covering slot (<var>x</var>, <var>y</var>), return to
+    the substep labeled <i>loop</i>.</p>
+
+   <li>
+
+    <p>Let <var>current cell</var> be the cell covering slot (<var>x</var>, <var>y</var>).</p>
+
+   <li>
+
+    <dl class=switch><dt>If <var>current cell</var> is a header cell<dd>
+
+      <ol><li><p>Set <var>in header block</var> to true.<li><p>Add <var>current cell</var> to <var>headers from current header
+       block</var>.<li><p>Let <var>blocked</var> be false.<li>
+
+        <dl class=switch><dt>If Δ<var>x</var> is 0<dd>
+
+          <p>If there are any cells in the <var>opaque headers</var> list anchored with the
+          same <var>x</var>-coordinate as the <var>current cell</var>, and with
+          the same width as <var>current cell</var>, then let <var>blocked</var>
+          be true.</p>
+
+          <p>If the <var>current cell</var> is not a <a href=#column-header id=header-and-data-cell-semantics:column-header>column header</a>, then let
+          <var>blocked</var> be true.</p>
+
+         <dt>If Δ<var>y</var> is 0<dd>
+
+          <p>If there are any cells in the <var>opaque headers</var> list anchored with the
+          same <var>y</var>-coordinate as the <var>current cell</var>, and with
+          the same height as <var>current cell</var>, then let <var>blocked</var>
+          be true.</p>
+
+          <p>If the <var>current cell</var> is not a <a href=#row-header id=header-and-data-cell-semantics:row-header>row header</a>, then let <var>blocked</var> be true.</p>
+
+         </dl>
+
+       <li><p>If <var>blocked</var> is false, then add the <var>current cell</var>
+       to the <var>headers list</var>.</ol>
+
+     <dt>If <var>current cell</var> is a data cell and <var>in header block</var> is true<dd><p>Set <var>in header block</var> to false. Add all the cells in <var>headers from current header block</var> to the <var>opaque headers</var>
+     list, and empty the <var>headers from current header block</var> list.</p>
+
+    </dl>
+
+   <li>
+
+    <p>Return to the step labeled <i>loop</i>.</p>
+
+   </ol>
+
+  <p>A header cell anchored at the slot with coordinate (<var>x</var>, <var>y</var>) with width <var>width</var> and height <var>height</var> is
+  said to be a <dfn id=column-header>column header</dfn> if any of the following conditions are true:</p>
+
+  <ul><li>The cell's <code id=header-and-data-cell-semantics:attr-th-scope><a href=#attr-th-scope>scope</a></code> attribute is in the <a href=#attr-th-scope-col id=header-and-data-cell-semantics:attr-th-scope-col>column</a> state, or<li>The cell's <code id=header-and-data-cell-semantics:attr-th-scope-2><a href=#attr-th-scope>scope</a></code> attribute is in the <a href=#attr-th-scope-auto id=header-and-data-cell-semantics:attr-th-scope-auto>auto</a> state, and there are no data cells in any of the cells
+   covering slots with <var>y</var>-coordinates <var>y</var> .. <span><var>y</var>+<var>height</var>-1</span>.</ul>
+
+  <p>A header cell anchored at the slot with coordinate (<var>x</var>, <var>y</var>) with width <var>width</var> and height <var>height</var> is
+  said to be a <dfn id=row-header>row header</dfn> if any of the following conditions are true:</p>
+
+  <ul><li>The cell's <code id=header-and-data-cell-semantics:attr-th-scope-3><a href=#attr-th-scope>scope</a></code> attribute is in the <a href=#attr-th-scope-row id=header-and-data-cell-semantics:attr-th-scope-row>row</a> state, or<li>The cell's <code id=header-and-data-cell-semantics:attr-th-scope-4><a href=#attr-th-scope>scope</a></code> attribute is in the <a href=#attr-th-scope-auto id=header-and-data-cell-semantics:attr-th-scope-auto-2>auto</a> state, the cell is not a <a href=#column-header id=header-and-data-cell-semantics:column-header-2>column header</a>, and
+   there are no data cells in any of the cells covering slots with <var>x</var>-coordinates
+   <var>x</var> .. <span><var>x</var>+<var>width</var>-1</span>.</ul>
+
+  <p>A header cell is said to be a <dfn id=column-group-header>column group header</dfn> if its <code id=header-and-data-cell-semantics:attr-th-scope-5><a href=#attr-th-scope>scope</a></code> attribute is in the <a href=#attr-th-scope-colgroup id=header-and-data-cell-semantics:attr-th-scope-colgroup>column
+  group</a> state.</p>
+
+  <p>A header cell is said to be a <dfn id=row-group-header>row group header</dfn> if its <code id=header-and-data-cell-semantics:attr-th-scope-6><a href=#attr-th-scope>scope</a></code> attribute is in the <a href=#attr-th-scope-rowgroup id=header-and-data-cell-semantics:attr-th-scope-rowgroup>row
+  group</a> state.</p>
+
+  <p>A cell is said to be an <dfn id=empty-cell>empty cell</dfn> if it contains no elements and its text content,
+  if any, consists only of <a href=#white_space id=header-and-data-cell-semantics:white_space>White_Space</a> characters.</p>
+
+  
+
+  <h4 id=table-examples>4.9.13 Examples<a href=#table-examples class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The following shows how might one mark up the bottom part of table 45 of the <cite>Smithsonian
+  physical tables, Volume 71</cite>:</p>
+
+   
+   
+  <pre>&lt;table>
+ &lt;caption>Specification values: &lt;b>Steel&lt;/b>, &lt;b>Castings&lt;/b>,
+ Ann. A.S.T.M. A27-16, Class B;* P max. 0.06; S max. 0.05.&lt;/caption>
+ &lt;thead>
+  &lt;tr>
+   &lt;th rowspan=2>Grade.&lt;/th>
+   &lt;th rowspan=2>Yield Point.&lt;/th>
+   &lt;th colspan=2>Ultimate tensile strength&lt;/th>
+   &lt;th rowspan=2>Per cent elong. 50.8mm or 2 in.&lt;/th>
+   &lt;th rowspan=2>Per cent reduct. area.&lt;/th>
+  &lt;/tr>
+  &lt;tr>
+   &lt;th>kg/mm&lt;sup>2&lt;/sup>&lt;/th>
+   &lt;th>lb/in&lt;sup>2&lt;/sup>&lt;/th>
+  &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+  &lt;tr>
+   &lt;td>Hard&lt;/td>
+   &lt;td>0.45 ultimate&lt;/td>
+   &lt;td>56.2&lt;/td>
+   &lt;td>80,000&lt;/td>
+   &lt;td>15&lt;/td>
+   &lt;td>20&lt;/td>
+  &lt;/tr>
+  &lt;tr>
+   &lt;td>Medium&lt;/td>
+   &lt;td>0.45 ultimate&lt;/td>
+   &lt;td>49.2&lt;/td>
+   &lt;td>70,000&lt;/td>
+   &lt;td>18&lt;/td>
+   &lt;td>25&lt;/td>
+  &lt;/tr>
+  &lt;tr>
+   &lt;td>Soft&lt;/td>
+   &lt;td>0.45 ultimate&lt;/td>
+   &lt;td>42.2&lt;/td>
+   &lt;td>60,000&lt;/td>
+   &lt;td>22&lt;/td>
+   &lt;td>30&lt;/td>
+  &lt;/tr>
+ &lt;/tbody>
+&lt;/table></pre>
+
+  <p>This table could look like this:</p>
+
+  <table id=table-example-1><caption>Specification values: <b>Steel</b>, <b>Castings</b>,
+   Ann. A.S.T.M. A27-16, Class B;* P max. 0.06; S max. 0.05.</caption><thead><tr><th rowspan=2>Grade.<th rowspan=2>Yield Point.<th colspan=2>Ultimate tensile strength<th rowspan=2>Per cent elong. 50.8 mm or 2 in.<th rowspan=2>Per cent reduct. area.<tr><th>kg/mm<sup>2</sup><th>lb/in<sup>2</sup><tbody><tr><td>Hard<td>0.45 ultimate<td>56.2<td>80,000<td>15<td>20<tr><td>Medium<td>0.45 ultimate<td>49.2<td>70,000<td>18<td>25<tr><td>Soft<td>0.45 ultimate<td>42.2<td>60,000<td>22<td>30</table>
+
+  <hr>
+
+  <p>The following shows how one might mark up the gross margin table on page 46 of Apple, Inc's
+  10-K filing for fiscal year 2008:</p>
+
+  <pre>&lt;table>
+ &lt;thead>
+  &lt;tr>
+   &lt;th>
+   &lt;th>2008
+   &lt;th>2007
+   &lt;th>2006
+ &lt;tbody>
+  &lt;tr>
+   &lt;th>Net sales
+   &lt;td>$ 32,479
+   &lt;td>$ 24,006
+   &lt;td>$ 19,315
+  &lt;tr>
+   &lt;th>Cost of sales
+   &lt;td>  21,334
+   &lt;td>  15,852
+   &lt;td>  13,717
+ &lt;tbody>
+  &lt;tr>
+   &lt;th>Gross margin
+   &lt;td>$ 11,145
+   &lt;td>$  8,154
+   &lt;td>$  5,598
+ &lt;tfoot>
+  &lt;tr>
+   &lt;th>Gross margin percentage
+   &lt;td>34.3%
+   &lt;td>34.0%
+   &lt;td>29.0%
+&lt;/table></pre>
+
+  <p>This table could look like this:</p>
+
+  <table class="apple-table-examples e1"><thead><tr><th>
+     <th>2008
+     <th>2007
+     <th>2006
+   <tbody><tr><th>Net sales
+     <td>$ 32,479
+     <td>$ 24,006
+     <td>$ 19,315
+    <tr><th>Cost of sales
+     <td>  21,334
+     <td>  15,852
+     <td>  13,717
+   <tbody><tr><th>Gross margin
+     <td>$ 11,145
+     <td>$  8,154
+     <td>$  5,598
+   <tfoot><tr><th>Gross margin percentage
+     <td>34.3%
+     <td>34.0%
+     <td>29.0%
+  </table>
+
+  <hr>
+
+  <p>The following shows how one might mark up the operating expenses table from lower on the same
+  page of that document:</p>
+
+  <pre>&lt;table>
+ &lt;colgroup> &lt;col>
+ &lt;colgroup> &lt;col> &lt;col> &lt;col>
+ &lt;thead>
+  &lt;tr> &lt;th> &lt;th>2008 &lt;th>2007 &lt;th>2006
+ &lt;tbody>
+  &lt;tr> &lt;th scope=rowgroup> Research and development
+       &lt;td> $ 1,109 &lt;td> $ 782 &lt;td> $ 712
+  &lt;tr> &lt;th scope=row> Percentage of net sales
+       &lt;td> 3.4% &lt;td> 3.3% &lt;td> 3.7%
+ &lt;tbody>
+  &lt;tr> &lt;th scope=rowgroup> Selling, general, and administrative
+       &lt;td> $ 3,761 &lt;td> $ 2,963 &lt;td> $ 2,433
+  &lt;tr> &lt;th scope=row> Percentage of net sales
+       &lt;td> 11.6% &lt;td> 12.3% &lt;td> 12.6%
+&lt;/table></pre>
+
+  <p>This table could look like this:</p>
+
+  <table class="apple-table-examples e2"><thead><tr><th> <th>2008 <th>2007 <th>2006
+   <tbody><tr><th scope=rowgroup> Research and development
+         <td> $ 1,109 <td> $ 782 <td> $ 712
+    <tr><th scope=row> Percentage of net sales
+         <td> 3.4% <td> 3.3% <td> 3.7%
+   <tbody><tr><th scope=rowgroup> Selling, general, and administrative
+         <td> $ 3,761 <td> $ 2,963 <td> $ 2,433
+    <tr><th scope=row> Percentage of net sales
+         <td> 11.6% <td> 12.3% <td> 12.6%
+  </table>
+
+
+
+  <h3 id=forms>4.10 Forms<a href=#forms class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=12271" title="forms: <input list=&quot;&quot;> needs an event triggered on selection of suggestion">12271</a><p class=support><strong>Support:</strong> forms<span class="and_chr partial"><span>Chrome for Android (limited)</span> <span>55+</span></span><span class="chrome partial"><span>Chrome (limited)</span> <span>4+</span></span><span class="ios_saf partial"><span>iOS Safari (limited)</span> <span>4.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox partial"><span>Firefox (limited)</span> <span>4+</span></span><span class="ie partial"><span>IE (limited)</span> <span>10+</span></span><span class="samsung partial"><span>Samsung Internet (limited)</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android partial"><span>Android Browser (limited)</span> <span>4.4+</span></span><span class="safari partial"><span>Safari (limited)</span> <span>4+</span></span><span class="edge partial"><span>Edge (limited)</span> <span>12+</span></span><span class="opera partial"><span>Opera (limited)</span> <span>15+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=forms">caniuse.com</a></div>
+
+  <h4 id=introduction-4>4.10.1 Introduction<a href=#introduction-4 class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>A form is a component of a Web page that has form controls, such as text, buttons, checkboxes,
+  range, or color picker controls. A user can interact with such a form, providing data that can
+  then be sent to the server for further processing (e.g. returning the results of a search or
+  calculation). No client-side scripting is needed in many cases, though an API is available so that
+  scripts can augment the user experience or use forms for purposes other than submitting data to a
+  server.</p>
+
+  <p>Writing a form consists of several steps, which can be performed in any order: writing the user
+  interface, implementing the server-side processing, and configuring the user interface to
+  communicate with the server.</p>
+
+
+  <h5 id="writing-a-form's-user-interface">4.10.1.1 Writing a form's user interface<a href="#writing-a-form's-user-interface" class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>For the purposes of this brief introduction, we will create a pizza ordering form.</p>
+
+  <p>Any form starts with a <code id="writing-a-form's-user-interface:the-form-element"><a href=#the-form-element>form</a></code> element, inside which are placed the controls. Most
+  controls are represented by the <code id="writing-a-form's-user-interface:the-input-element"><a href=#the-input-element>input</a></code> element, which by default provides a text
+  control. To label a control, the <code id="writing-a-form's-user-interface:the-label-element"><a href=#the-label-element>label</a></code> element is used; the label text and the
+  control itself go inside the <code id="writing-a-form's-user-interface:the-label-element-2"><a href=#the-label-element>label</a></code> element. Each part of a form is considered a
+  <a href=#paragraph id="writing-a-form's-user-interface:paragraph">paragraph</a>, and is typically separated from other parts using <code id="writing-a-form's-user-interface:the-p-element"><a href=#the-p-element>p</a></code> elements.
+  Putting this together, here is how one might ask for the customer's name:</p>
+
+  <pre><strong>&lt;form>
+ &lt;p>&lt;label>Customer name: &lt;input>&lt;/label>&lt;/p>
+&lt;/form></strong></pre>
+
+  <p>To let the user select the size of the pizza, we can use a set of radio buttons. Radio buttons
+  also use the <code id="writing-a-form's-user-interface:the-input-element-2"><a href=#the-input-element>input</a></code> element, this time with a <code id="writing-a-form's-user-interface:attr-input-type"><a href=#attr-input-type>type</a></code> attribute with the value <code id="writing-a-form's-user-interface:radio-button-state-(type=radio)"><a href="#radio-button-state-(type=radio)">radio</a></code>. To make the radio buttons work as a group, they are
+  given a common name using the <code id="writing-a-form's-user-interface:attr-fe-name"><a href=#attr-fe-name>name</a></code> attribute. To group a batch
+  of controls together, such as, in this case, the radio buttons, one can use the
+  <code id="writing-a-form's-user-interface:the-fieldset-element"><a href=#the-fieldset-element>fieldset</a></code> element. The title of such a group of controls is given by the first element
+  in the <code id="writing-a-form's-user-interface:the-fieldset-element-2"><a href=#the-fieldset-element>fieldset</a></code>, which has to be a <code id="writing-a-form's-user-interface:the-legend-element"><a href=#the-legend-element>legend</a></code> element.</p>
+
+  <pre>&lt;form>
+ &lt;p>&lt;label>Customer name: &lt;input>&lt;/label>&lt;/p>
+<strong> &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Large &lt;/label>&lt;/p>
+ &lt;/fieldset></strong>
+&lt;/form></pre>
+
+  <p class=note>Changes from the previous step are highlighted.</p>
+
+  <p>To pick toppings, we can use checkboxes. These use the <code id="writing-a-form's-user-interface:the-input-element-3"><a href=#the-input-element>input</a></code> element with a <code id="writing-a-form's-user-interface:attr-input-type-2"><a href=#attr-input-type>type</a></code> attribute with the value <code id="writing-a-form's-user-interface:checkbox-state-(type=checkbox)"><a href="#checkbox-state-(type=checkbox)">checkbox</a></code>:</p>
+
+  <pre>&lt;form>
+ &lt;p>&lt;label>Customer name: &lt;input>&lt;/label>&lt;/p>
+ &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Large &lt;/label>&lt;/p>
+ &lt;/fieldset>
+<strong> &lt;fieldset>
+  &lt;legend> Pizza Toppings &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=checkbox> Bacon &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Extra Cheese &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Onion &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Mushroom &lt;/label>&lt;/p>
+ &lt;/fieldset></strong>
+&lt;/form></pre>
+
+  <p>The pizzeria for which this form is being written is always making mistakes, so it needs a way
+  to contact the customer. For this purpose, we can use form controls specifically for telephone
+  numbers (<code id="writing-a-form's-user-interface:the-input-element-4"><a href=#the-input-element>input</a></code> elements with their <code id="writing-a-form's-user-interface:attr-input-type-3"><a href=#attr-input-type>type</a></code>
+  attribute set to <code id="writing-a-form's-user-interface:telephone-state-(type=tel)"><a href="#telephone-state-(type=tel)">tel</a></code>) and e-mail addresses
+  (<code id="writing-a-form's-user-interface:the-input-element-5"><a href=#the-input-element>input</a></code> elements with their <code id="writing-a-form's-user-interface:attr-input-type-4"><a href=#attr-input-type>type</a></code> attribute set to
+  <code id="writing-a-form's-user-interface:e-mail-state-(type=email)"><a href="#e-mail-state-(type=email)">email</a></code>):</p>
+
+  <pre>&lt;form>
+ &lt;p>&lt;label>Customer name: &lt;input>&lt;/label>&lt;/p>
+<strong> &lt;p>&lt;label>Telephone: &lt;input type=tel>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>E-mail address: &lt;input type=email>&lt;/label>&lt;/p></strong>
+ &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Large &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;fieldset>
+  &lt;legend> Pizza Toppings &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=checkbox> Bacon &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Extra Cheese &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Onion &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Mushroom &lt;/label>&lt;/p>
+ &lt;/fieldset>
+&lt;/form></pre>
+
+  <p>We can use an <code id="writing-a-form's-user-interface:the-input-element-6"><a href=#the-input-element>input</a></code> element with its <code id="writing-a-form's-user-interface:attr-input-type-5"><a href=#attr-input-type>type</a></code>
+  attribute set to <code id="writing-a-form's-user-interface:time-state-(type=time)"><a href="#time-state-(type=time)">time</a></code> to ask for a delivery time. Many
+  of these form controls have attributes to control exactly what values can be specified; in this
+  case, three attributes of particular interest are <code id="writing-a-form's-user-interface:attr-input-min"><a href=#attr-input-min>min</a></code>, <code id="writing-a-form's-user-interface:attr-input-max"><a href=#attr-input-max>max</a></code>, and <code id="writing-a-form's-user-interface:attr-input-step"><a href=#attr-input-step>step</a></code>. These set the
+  minimum time, the maximum time, and the interval between allowed values (in seconds). This
+  pizzeria only delivers between 11am and 9pm, and doesn't promise anything better than 15 minute
+  increments, which we can mark up as follows:</p>
+
+  <pre>&lt;form>
+ &lt;p>&lt;label>Customer name: &lt;input>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Telephone: &lt;input type=tel>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>E-mail address: &lt;input type=email>&lt;/label>&lt;/p>
+ &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Large &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;fieldset>
+  &lt;legend> Pizza Toppings &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=checkbox> Bacon &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Extra Cheese &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Onion &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Mushroom &lt;/label>&lt;/p>
+ &lt;/fieldset>
+<strong> &lt;p>&lt;label>Preferred delivery time: &lt;input type=time min="11:00" max="21:00" step="900">&lt;/label>&lt;/p></strong>
+&lt;/form></pre>
+
+  <p>The <code id="writing-a-form's-user-interface:the-textarea-element"><a href=#the-textarea-element>textarea</a></code> element can be used to provide a multiline text control. In this
+  instance, we are going to use it to provide a space for the customer to give delivery
+  instructions:</p>
+
+  <pre>&lt;form>
+ &lt;p>&lt;label>Customer name: &lt;input>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Telephone: &lt;input type=tel>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>E-mail address: &lt;input type=email>&lt;/label>&lt;/p>
+ &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Large &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;fieldset>
+  &lt;legend> Pizza Toppings &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=checkbox> Bacon &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Extra Cheese &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Onion &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Mushroom &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;p>&lt;label>Preferred delivery time: &lt;input type=time min="11:00" max="21:00" step="900">&lt;/label>&lt;/p>
+<strong> &lt;p>&lt;label>Delivery instructions: &lt;textarea>&lt;/textarea>&lt;/label>&lt;/p></strong>
+&lt;/form></pre>
+
+  <p>Finally, to make the form submittable we use the <code id="writing-a-form's-user-interface:the-button-element"><a href=#the-button-element>button</a></code> element:</p>
+
+  <pre>&lt;form>
+ &lt;p>&lt;label>Customer name: &lt;input>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Telephone: &lt;input type=tel>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>E-mail address: &lt;input type=email>&lt;/label>&lt;/p>
+ &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size> Large &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;fieldset>
+  &lt;legend> Pizza Toppings &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=checkbox> Bacon &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Extra Cheese &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Onion &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox> Mushroom &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;p>&lt;label>Preferred delivery time: &lt;input type=time min="11:00" max="21:00" step="900">&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Delivery instructions: &lt;textarea>&lt;/textarea>&lt;/label>&lt;/p>
+<strong> &lt;p>&lt;button>Submit order&lt;/button>&lt;/p></strong>
+&lt;/form></pre>
+
+
+  <h5 id=implementing-the-server-side-processing-for-a-form>4.10.1.2 Implementing the server-side processing for a form<a href=#implementing-the-server-side-processing-for-a-form class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The exact details for writing a server-side processor are out of scope for this specification.
+  For the purposes of this introduction, we will assume that the script at <code>https://pizza.example.com/order.cgi</code> is configured to accept submissions using the
+  <code id=implementing-the-server-side-processing-for-a-form:attr-fs-enctype-urlencoded><a href=#attr-fs-enctype-urlencoded>application/x-www-form-urlencoded</a></code> format,
+  expecting the following parameters sent in an HTTP POST body:</p>
+
+  <dl><dt><code>custname</code><dd>Customer's name<dt><code>custtel</code><dd>Customer's telephone number<dt><code>custemail</code><dd>Customer's e-mail address<dt><code>size</code><dd>The pizza size, either <code>small</code>, <code>medium</code>, or <code>large</code><dt><code>topping</code><dd>A topping, specified once for each selected topping, with the allowed values being <code>bacon</code>, <code>cheese</code>, <code>onion</code>, and <code>mushroom</code><dt><code>delivery</code><dd>The requested delivery time<dt><code>comments</code><dd>The delivery instructions</dl>
+
+
+  <h5 id=configuring-a-form-to-communicate-with-a-server>4.10.1.3 Configuring a form to communicate with a server<a href=#configuring-a-form-to-communicate-with-a-server class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Form submissions are exposed to servers in a variety of ways, most commonly as HTTP GET or POST
+  requests. To specify the exact method used, the <code id=configuring-a-form-to-communicate-with-a-server:attr-fs-method><a href=#attr-fs-method>method</a></code>
+  attribute is specified on the <code id=configuring-a-form-to-communicate-with-a-server:the-form-element><a href=#the-form-element>form</a></code> element. This doesn't specify how the form data is
+  encoded, though; to specify that, you use the <code id=configuring-a-form-to-communicate-with-a-server:attr-fs-enctype><a href=#attr-fs-enctype>enctype</a></code>
+  attribute. You also have to specify the <a id=configuring-a-form-to-communicate-with-a-server:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of the service that will handle the
+  submitted data, using the <code id=configuring-a-form-to-communicate-with-a-server:attr-fs-action><a href=#attr-fs-action>action</a></code> attribute.</p>
+
+  <p>For each form control you want submitted, you then have to give a name that will be used to
+  refer to the data in the submission. We already specified the name for the group of radio buttons;
+  the same attribute (<code id=configuring-a-form-to-communicate-with-a-server:attr-fe-name><a href=#attr-fe-name>name</a></code>) also specifies the submission name.
+  Radio buttons can be distinguished from each other in the submission by giving them different
+  values, using the <code id=configuring-a-form-to-communicate-with-a-server:attr-input-value><a href=#attr-input-value>value</a></code> attribute.</p>
+
+  <p>Multiple controls can have the same name; for example, here we give all the checkboxes the same
+  name, and the server distinguishes which checkbox was checked by seeing which values are submitted
+  with that name — like the radio buttons, they are also given unique values with the <code id=configuring-a-form-to-communicate-with-a-server:attr-input-value-2><a href=#attr-input-value>value</a></code> attribute.</p>
+
+  <p>Given the settings in the previous section, this all becomes:</p>
+
+  <pre>&lt;form<strong> method="post"
+      enctype="application/x-www-form-urlencoded"
+      action="https://pizza.example.com/order.cgi"</strong>>
+ &lt;p>&lt;label>Customer name: &lt;input<strong> name="custname"</strong>>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Telephone: &lt;input type=tel<strong> name="custtel"</strong>>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>E-mail address: &lt;input type=email<strong> name="custemail"</strong>>&lt;/label>&lt;/p>
+ &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size<strong> value="small"</strong>> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size<strong> value="medium"</strong>> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size<strong> value="large"</strong>> Large &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;fieldset>
+  &lt;legend> Pizza Toppings &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=checkbox<strong> name="topping" value="bacon"</strong>> Bacon &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox<strong> name="topping" value="cheese"</strong>> Extra Cheese &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox<strong> name="topping" value="onion"</strong>> Onion &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox<strong> name="topping" value="mushroom"</strong>> Mushroom &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;p>&lt;label>Preferred delivery time: &lt;input type=time min="11:00" max="21:00" step="900"<strong> name="delivery"</strong>>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Delivery instructions: &lt;textarea<strong> name="comments"</strong>>&lt;/textarea>&lt;/label>&lt;/p>
+ &lt;p>&lt;button>Submit order&lt;/button>&lt;/p>
+&lt;/form></pre>
+
+  <p class=note>There is no particular significance to the way some of the attributes have their
+  values quoted and others don't. The HTML syntax allows a variety of equally valid ways to specify
+  attributes, as discussed <a href=#syntax-attributes id=configuring-a-form-to-communicate-with-a-server:syntax-attributes>in the syntax section</a>.</p>
+
+  <p>For example, if the customer entered "Denise Lawrence" as their name, "555-321-8642" as their
+  telephone number, did not specify an e-mail address, asked for a medium-sized pizza, selected the
+  Extra Cheese and Mushroom toppings, entered a delivery time of 7pm, and left the delivery
+  instructions text control blank, the user agent would submit the following to the online Web
+  service:</p>
+
+  <pre>custname=Denise+Lawrence&amp;custtel=555-321-8642&amp;custemail=&amp;size=medium&amp;topping=cheese&amp;topping=mushroom&amp;delivery=19%3A00&amp;comments=</pre>
+
+
+  <h5 id=client-side-form-validation>4.10.1.4 Client-side form validation<a href=#client-side-form-validation class=self-link></a></h5><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> form-validation<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>10+</span></span><span class="ios_saf partial"><span>iOS Safari (limited)</span> <span>4.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>4+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini partial"><span>Opera Mini (limited)</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>4.4.3+</span></span><span class="safari yes"><span>Safari</span> <span>10.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>10.0+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=form-validation">caniuse.com</a></div>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Forms can be annotated in such a way that the user agent will check the user's input before the
+  form is submitted. The server still has to verify the input is valid (since hostile users can
+  easily bypass the form validation), but it allows the user to avoid the wait incurred by having
+  the server be the sole checker of the user's input.</p>
+
+  <p>The simplest annotation is the <code id=client-side-form-validation:attr-input-required><a href=#attr-input-required>required</a></code> attribute,
+  which can be specified on <code id=client-side-form-validation:the-input-element><a href=#the-input-element>input</a></code> elements to indicate that the form is not to be
+  submitted until a value is given. By adding this attribute to the customer name, pizza size, and
+  delivery time fields, we allow the user agent to notify the user when the user submits the form
+  without filling in those fields:</p>
+
+  <pre>&lt;form method="post"
+      enctype="application/x-www-form-urlencoded"
+      action="https://pizza.example.com/order.cgi">
+ &lt;p>&lt;label>Customer name: &lt;input name="custname"<strong> required</strong>>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Telephone: &lt;input type=tel name="custtel">&lt;/label>&lt;/p>
+ &lt;p>&lt;label>E-mail address: &lt;input type=email name="custemail">&lt;/label>&lt;/p>
+ &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size<strong> required</strong> value="small"> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size<strong> required</strong> value="medium"> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size<strong> required</strong> value="large"> Large &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;fieldset>
+  &lt;legend> Pizza Toppings &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="bacon"> Bacon &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="cheese"> Extra Cheese &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="onion"> Onion &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="mushroom"> Mushroom &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;p>&lt;label>Preferred delivery time: &lt;input type=time min="11:00" max="21:00" step="900" name="delivery"<strong> required</strong>>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Delivery instructions: &lt;textarea name="comments">&lt;/textarea>&lt;/label>&lt;/p>
+ &lt;p>&lt;button>Submit order&lt;/button>&lt;/p>
+&lt;/form></pre>
+
+  <p>It is also possible to limit the length of the input, using the <code id=client-side-form-validation:attr-fe-maxlength><a href=#attr-fe-maxlength>maxlength</a></code> attribute. By adding this to the <code id=client-side-form-validation:the-textarea-element><a href=#the-textarea-element>textarea</a></code>
+  element, we can limit users to 1000 characters, preventing them from writing huge essays to the
+  busy delivery drivers instead of staying focused and to the point:</p>
+
+  <pre>&lt;form method="post"
+      enctype="application/x-www-form-urlencoded"
+      action="https://pizza.example.com/order.cgi">
+ &lt;p>&lt;label>Customer name: &lt;input name="custname" required>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Telephone: &lt;input type=tel name="custtel">&lt;/label>&lt;/p>
+ &lt;p>&lt;label>E-mail address: &lt;input type=email name="custemail">&lt;/label>&lt;/p>
+ &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size required value="small"> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size required value="medium"> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size required value="large"> Large &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;fieldset>
+  &lt;legend> Pizza Toppings &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="bacon"> Bacon &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="cheese"> Extra Cheese &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="onion"> Onion &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="mushroom"> Mushroom &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;p>&lt;label>Preferred delivery time: &lt;input type=time min="11:00" max="21:00" step="900" name="delivery" required>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Delivery instructions: &lt;textarea name="comments"<strong> maxlength=1000</strong>>&lt;/textarea>&lt;/label>&lt;/p>
+ &lt;p>&lt;button>Submit order&lt;/button>&lt;/p>
+&lt;/form></pre>
+
+  <p class=note>When a form is submitted, <code id=client-side-form-validation:event-invalid><a href=#event-invalid>invalid</a></code> events are
+  fired at each form control that is invalid, and then at the <code id=client-side-form-validation:the-form-element><a href=#the-form-element>form</a></code> element itself. This
+  can be useful for displaying a summary of the problems with the form, since typically the browser
+  itself will only report one problem at a time.</p>
+
+
+
+  <h5 id=enabling-client-side-automatic-filling-of-form-controls>4.10.1.5 Enabling client-side automatic filling of form controls<a href=#enabling-client-side-automatic-filling-of-form-controls class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Some browsers attempt to aid the user by automatically filling form controls rather than having
+  the user reenter their information each time. For example, a field asking for the user's telephone
+  number can be automatically filled with the user's phone number.</p>
+
+  <p>To help the user agent with this, the <code id=enabling-client-side-automatic-filling-of-form-controls:attr-fe-autocomplete><a href=#attr-fe-autocomplete>autocomplete</a></code>
+  attribute can be used to describe the field's purpose. In the case of this form, we have three
+  fields that can be usefully annotated in this way: the information about who the pizza is to be
+  delivered to. Adding this information looks like this:</p>
+
+  <pre>&lt;form method="post"
+      enctype="application/x-www-form-urlencoded"
+      action="https://pizza.example.com/order.cgi">
+ &lt;p>&lt;label>Customer name: &lt;input name="custname" required <strong>autocomplete="shipping name"</strong>>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Telephone: &lt;input type=tel name="custtel" <strong>autocomplete="shipping tel"</strong>>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>E-mail address: &lt;input type=email name="custemail" <strong>autocomplete="shipping email"</strong>>&lt;/label>&lt;/p>
+ &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size required value="small"> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size required value="medium"> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size required value="large"> Large &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;fieldset>
+  &lt;legend> Pizza Toppings &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="bacon"> Bacon &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="cheese"> Extra Cheese &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="onion"> Onion &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="mushroom"> Mushroom &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;p>&lt;label>Preferred delivery time: &lt;input type=time min="11:00" max="21:00" step="900" name="delivery" required>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Delivery instructions: &lt;textarea name="comments" maxlength=1000>&lt;/textarea>&lt;/label>&lt;/p>
+ &lt;p>&lt;button>Submit order&lt;/button>&lt;/p>
+&lt;/form></pre>
+
+
+  <h5 id=improving-the-user-experience-on-mobile-devices>4.10.1.6 Improving the user experience on mobile devices<a href=#improving-the-user-experience-on-mobile-devices class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Some devices, in particular those with on-screen keyboards and those in locales with languages
+  with many characters (e.g. Japanese), can provide the user with multiple input modalities. For
+  example, when typing in a credit card number the user may wish to only see keys for digits 0-9,
+  while when typing in their name they may wish to see a form field that by default capitalises each
+  word.</p>
+
+  <p>Using the <code id=improving-the-user-experience-on-mobile-devices:attr-fe-inputmode><a href=#attr-fe-inputmode>inputmode</a></code> attribute we can select appropriate
+  input modalities:</p>
+
+  <pre>&lt;form method="post"
+      enctype="application/x-www-form-urlencoded"
+      action="https://pizza.example.com/order.cgi">
+ &lt;p>&lt;label>Customer name: &lt;input name="custname" required autocomplete="shipping name" <strong>inputmode="latin-name"</strong>>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Telephone: &lt;input type=tel name="custtel" autocomplete="shipping tel">&lt;/label>&lt;/p>
+ &lt;p>&lt;label>E-mail address: &lt;input type=email name="custemail" autocomplete="shipping email">&lt;/label>&lt;/p>
+ &lt;fieldset>
+  &lt;legend> Pizza Size &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=radio name=size required value="small"> Small &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size required value="medium"> Medium &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=radio name=size required value="large"> Large &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;fieldset>
+  &lt;legend> Pizza Toppings &lt;/legend>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="bacon"> Bacon &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="cheese"> Extra Cheese &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="onion"> Onion &lt;/label>&lt;/p>
+  &lt;p>&lt;label> &lt;input type=checkbox name="topping" value="mushroom"> Mushroom &lt;/label>&lt;/p>
+ &lt;/fieldset>
+ &lt;p>&lt;label>Preferred delivery time: &lt;input type=time min="11:00" max="21:00" step="900" name="delivery" required>&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Delivery instructions: &lt;textarea name="comments" maxlength=1000 <strong>inputmode="latin-prose"</strong>>&lt;/textarea>&lt;/label>&lt;/p>
+ &lt;p>&lt;button>Submit order&lt;/button>&lt;/p>
+&lt;/form></pre>
+
+
+
+  <h5 id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality>4.10.1.7 The difference between the field type, the autofill field name, and the input modality<a href=#the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-input-type><a href=#attr-input-type>type</a></code>, <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete><a href=#attr-fe-autocomplete>autocomplete</a></code>, and <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-inputmode><a href=#attr-fe-inputmode>inputmode</a></code> attributes can seem confusingly similar. For instance,
+  in all three cases, the string "<code>email</code>" is a valid value. This section
+  attempts to illustrate the difference between the three attributes and provides advice suggesting
+  how to use them.</p>
+
+  <p>The <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-input-type-2><a href=#attr-input-type>type</a></code> attribute on <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:the-input-element><a href=#the-input-element>input</a></code> elements decides
+  what kind of control the user agent will use to expose the field. Choosing between different
+  values of this attribute is the same choice as choosing whether to use an <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:the-input-element-2><a href=#the-input-element>input</a></code>
+  element, a <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:the-textarea-element><a href=#the-textarea-element>textarea</a></code> element, a <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:the-select-element><a href=#the-select-element>select</a></code> element, etc.</p>
+
+  <p>The <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete-2><a href=#attr-fe-autocomplete>autocomplete</a></code> attribute, in contrast, describes
+  what the value that the user will enter actually represents. Choosing between different values of
+  this attribute is the same choice as choosing what the label for the element will be.</p>
+
+  <p>First, consider telephone numbers. If a page is asking for a telephone number from the user,
+  the right form control to use is <code id="the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:telephone-state-(type=tel)"><a href="#telephone-state-(type=tel)">&lt;input type=tel></a></code>.
+  However, which <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete-3><a href=#attr-fe-autocomplete>autocomplete</a></code> value to use depends on
+  which phone number the page is asking for, whether they expect a telephone number in the
+  international format or just the local format, and so forth.</p>
+
+  <p>For example, a page that forms part of a checkout process on an e-commerce site for a customer
+  buying a gift to be shipped to a friend might need both the buyer's telephone number (in case of
+  payment issues) and the friend's telephone number (in case of delivery issues). If the site
+  expects international phone numbers (with the country code prefix), this could thus look like
+  this:</p>
+
+  <pre>&lt;p>&lt;label>Your phone number: &lt;input type=tel name=custtel autocomplete="billing tel">&lt;/label>
+&lt;p>&lt;label>Recipient's phone number: &lt;input type=tel name=shiptel autocomplete="shipping tel">&lt;/label>
+&lt;p>Please enter complete phone numbers including the country code prefix, as in "+1 555 123 4567".</pre>
+
+  <p>But if the site only supports British customers and recipients, it might instead look like this
+  (notice the use of <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete-tel-national><a href=#attr-fe-autocomplete-tel-national>tel-national</a></code> rather than
+  <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete-tel><a href=#attr-fe-autocomplete-tel>tel</a></code>):</p>
+
+  <pre>&lt;p>&lt;label>Your phone number: &lt;input type=tel name=custtel autocomplete="billing tel-national">&lt;/label>
+&lt;p>&lt;label>Recipient's phone number: &lt;input type=tel name=shiptel autocomplete="shipping tel-national">&lt;/label>
+&lt;p>Please enter complete UK phone numbers, as in "(01632) 960 123".</pre>
+
+  <p>Now, consider a person's preferred languages. The right <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete-4><a href=#attr-fe-autocomplete>autocomplete</a></code> value is <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete-language><a href=#attr-fe-autocomplete-language>language</a></code>. However, there could be a number of
+  different form controls used for the purpose: a text control (<code id="the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:text-(type=text)-state-and-search-state-(type=search)"><a href="#text-(type=text)-state-and-search-state-(type=search)">&lt;input type=text></a></code>), a drop-down list (<code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:the-select-element-2><a href=#the-select-element>&lt;select></a></code>), radio buttons (<code id="the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:radio-button-state-(type=radio)"><a href="#radio-button-state-(type=radio)">&lt;input
+  type=radio></a></code>), etc. It only depends on what kind of interface is desired.</p>
+
+  <p>The <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-inputmode-2><a href=#attr-fe-inputmode>inputmode</a></code> decides what kind of input modality (e.g.
+  keyboard) to use, when the control is a text control.</p>
+
+  <p>Consider names. If a page just wants one name from the user, then the relevant control is <code id="the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:text-(type=text)-state-and-search-state-(type=search)-2"><a href="#text-(type=text)-state-and-search-state-(type=search)">&lt;input type=text></a></code>. If the page is asking for the user's
+  full name, then the relevant <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete-5><a href=#attr-fe-autocomplete>autocomplete</a></code> value is <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete-name><a href=#attr-fe-autocomplete-name>name</a></code>. But if the user is Japanese, and the page is asking
+  for the user's Japanese name and the user's romanized name, then it would be helpful to the user
+  if the first field defaulted to a Japanese input modality, while the second defaulted to a Latin
+  input modality (ideally with automatic capitalization of each word). This is where the <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-inputmode-3><a href=#attr-fe-inputmode>inputmode</a></code> attribute can help:</p>
+
+  <pre>&lt;p>&lt;label>Japanese name: &lt;input name="j" type="text" autocomplete="section-jp name" inputmode="kana">&lt;/label>
+&lt;label>Romanized name: &lt;input name="e" type="text" autocomplete="section-en name" inputmode="latin-name">&lt;/label></pre>
+
+  <p>In this example, the "<code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete-section><a href=#attr-fe-autocomplete-section>section-*</a></code>" keywords in
+  the <code id=the-difference-between-the-field-type,-the-autofill-field-name,-and-the-input-modality:attr-fe-autocomplete-6><a href=#attr-fe-autocomplete>autocomplete</a></code> attributes' values tell the user agent
+  that the two fields expect <em>different</em> names. Without them, the user agent could
+  automatically fill the second field with the value given in the first field when the user gave a
+  value to the first field.</p>
+
+  <p class=note>The "<code>-jp</code>" and "<code>-en</code>" parts of the
+  keywords are opaque to the user agent; the user agent cannot guess, from those, that the two names
+  are expected to be in Japanese and English respectively.</p>
+
+
+  <h5 id=input-author-notes>4.10.1.8 Date, time, and number formats<a href=#input-author-notes class=self-link></a></h5>
+  
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>In this pizza delivery example, the times are specified in the format "HH:MM": two digits for
+  the hour, in 24-hour format, and two digits for the time. (Seconds could also be specified, though
+  they are not necessary in this example.)</p>
+
+  <p>In some locales, however, times are often expressed differently when presented to users. For
+  example, in the United States, it is still common to use the 12-hour clock with an am/pm
+  indicator, as in "2pm". In France, it is common to separate the hours from the minutes using an
+  "h" character, as in "14h00".</p>
+
+  <p>Similar issues exist with dates, with the added complication that even the order of the
+  components is not always consistent — for example, in Cyprus the first of February 2003
+  would typically be written "1/2/03", while that same date in Japan would typically be written as
+  "2003年02月01日" — and even with numbers, where locales differ, for
+  example, in what punctuation is used as the decimal separator and the thousands separator.</p>
+
+  <p>It is therefore important to distinguish the time, date, and number formats used in HTML and in
+  form submissions, which are always the formats defined in this specification (and based on the
+  well-established ISO 8601 standard for computer-readable date and time formats), from the time,
+  date, and number formats presented to the user by the browser and accepted as input from the user
+  by the browser.</p>
+
+  <p>The format used "on the wire", i.e. in HTML markup and in form submissions, is intended to be
+  computer-readable and consistent irrespective of the user's locale. Dates, for instance, are
+  always written in the format "YYYY-MM-DD", as in "2003-02-01". Users are not expected to ever see
+  this format.</p>
+
+  <p>The time, date, or number given by the page in the wire format is then translated to the user's
+  preferred presentation (based on user preferences or on the locale of the page itself), before
+  being displayed to the user. Similarly, after the user inputs a time, date, or number using their
+  preferred format, the user agent converts it back to the wire format before putting it in the DOM
+  or submitting it.</p>
+
+  <p>This allows scripts in pages and on servers to process times, dates, and numbers in a
+  consistent manner without needing to support dozens of different formats, while still supporting
+  the users' needs.</p>
+
+  
+  <p class=note>See also the <a href=#input-impl-notes>implementation notes</a> regarding
+  localization of form controls.</p>
+  
+
+
+  <h4 id=categories>4.10.2 Categories<a href=#categories class=self-link></a></h4>
+
+  <p>Mostly for historical reasons, elements in this section fall into several overlapping (but
+  subtly different) categories in addition to the usual ones like <a href=#flow-content-2 id=categories:flow-content-2>flow content</a>,
+  <a href=#phrasing-content-2 id=categories:phrasing-content-2>phrasing content</a>, and <a href=#interactive-content-2 id=categories:interactive-content-2>interactive content</a>.</p>
+
+  <p>A number of the elements are <dfn id=form-associated-element>form-associated
+  elements</dfn>, which means they can have a <a href=#form-owner id=categories:form-owner>form owner</a>.
+
+  
+  <ul class="brief category-list"><li><code id=categories:the-button-element><a href=#the-button-element>button</a></code><li><code id=categories:the-fieldset-element><a href=#the-fieldset-element>fieldset</a></code><li><code id=categories:the-input-element><a href=#the-input-element>input</a></code><li><code id=categories:the-object-element><a href=#the-object-element>object</a></code><li><code id=categories:the-output-element><a href=#the-output-element>output</a></code><li><code id=categories:the-select-element><a href=#the-select-element>select</a></code><li><code id=categories:the-textarea-element><a href=#the-textarea-element>textarea</a></code><li><code id=categories:the-img-element><a href=#the-img-element>img</a></code></ul>
+
+  <p>The <a href=#form-associated-element id=categories:form-associated-element>form-associated elements</a> fall into several
+  subcategories:</p>
+
+  <dl><dt><dfn id=category-listed>Listed elements</dfn><dd>
+
+    <p>Denotes elements that are listed in the <code id=categories:dom-form-elements><a href=#dom-form-elements><var>form</var>.elements</a></code> and <code id=categories:dom-fieldset-elements><a href=#dom-fieldset-elements><var>fieldset</var>.elements</a></code> APIs. These elements also
+    have a <code id=categories:attr-fae-form><a href=#attr-fae-form>form</a></code> content attribute, and a matching <code id=categories:dom-fae-form><a href=#dom-fae-form>form</a></code> IDL attribute, that allow authors to specify an explicit
+    <a href=#form-owner id=categories:form-owner-2>form owner</a>.</p>
+
+    
+    <ul class="brief category-list"><li><code id=categories:the-button-element-2><a href=#the-button-element>button</a></code><li><code id=categories:the-fieldset-element-2><a href=#the-fieldset-element>fieldset</a></code><li><code id=categories:the-input-element-2><a href=#the-input-element>input</a></code><li><code id=categories:the-object-element-2><a href=#the-object-element>object</a></code><li><code id=categories:the-output-element-2><a href=#the-output-element>output</a></code><li><code id=categories:the-select-element-2><a href=#the-select-element>select</a></code><li><code id=categories:the-textarea-element-2><a href=#the-textarea-element>textarea</a></code></ul>
+
+   <dt><dfn id=category-submit>Submittable elements</dfn><dd>
+
+    <p>Denotes elements that can be used for <a href=#constructing-form-data-set>constructing the
+    form data set</a> when a <code id=categories:the-form-element><a href=#the-form-element>form</a></code> element is <a href=#concept-form-submit id=categories:concept-form-submit>submitted</a>.</p>
+
+    
+    <ul class="brief category-list"><li><code id=categories:the-button-element-3><a href=#the-button-element>button</a></code><li><code id=categories:the-input-element-3><a href=#the-input-element>input</a></code><li><code id=categories:the-object-element-3><a href=#the-object-element>object</a></code><li><code id=categories:the-select-element-3><a href=#the-select-element>select</a></code><li><code id=categories:the-textarea-element-3><a href=#the-textarea-element>textarea</a></code></ul>
+
+    <p>Some <a href=#category-submit id=categories:category-submit>submittable elements</a> can be, depending on their
+    attributes, <dfn id=concept-button>buttons</dfn>. The prose below defines when an element
+    is a button. Some buttons are specifically <dfn id=concept-submit-button>submit
+    buttons</dfn>.</p>
+
+   <dt><dfn id=category-reset>Resettable elements</dfn><dd>
+
+    <p>Denotes elements that can be affected when a <code id=categories:the-form-element-2><a href=#the-form-element>form</a></code> element is <a href=#concept-form-reset id=categories:concept-form-reset>reset</a>.</p>
+
+    
+    <ul class="brief category-list"><li><code id=categories:the-input-element-4><a href=#the-input-element>input</a></code><li><code id=categories:the-output-element-3><a href=#the-output-element>output</a></code><li><code id=categories:the-select-element-4><a href=#the-select-element>select</a></code><li><code id=categories:the-textarea-element-4><a href=#the-textarea-element>textarea</a></code></ul>
+
+   </dl>
+
+  <p>Some elements, not all of them <a href=#form-associated-element id=categories:form-associated-element-2>form-associated</a>,
+  are categorized as <dfn id=category-label>labelable elements</dfn>. These are elements that
+  can be associated with a <code id=categories:the-label-element><a href=#the-label-element>label</a></code> element.
+
+  
+  <ul class="brief category-list"><li><code id=categories:the-button-element-4><a href=#the-button-element>button</a></code><li><code id=categories:the-input-element-5><a href=#the-input-element>input</a></code> (if the <code id=categories:attr-input-type><a href=#attr-input-type>type</a></code> attribute is <em>not</em> in the <a href="#hidden-state-(type=hidden)" id="categories:hidden-state-(type=hidden)">Hidden</a> state)<li><code id=categories:the-meter-element><a href=#the-meter-element>meter</a></code><li><code id=categories:the-output-element-4><a href=#the-output-element>output</a></code><li><code id=categories:the-progress-element><a href=#the-progress-element>progress</a></code><li><code id=categories:the-select-element-5><a href=#the-select-element>select</a></code><li><code id=categories:the-textarea-element-5><a href=#the-textarea-element>textarea</a></code></ul>
+
+
+  <h4 id=the-form-element data-dfn-type=element data-lt=form>4.10.3 The <dfn><code>form</code></dfn> element<a href=#the-form-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-form-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-form-element:flow-content-2>Flow content</a>.<dd><a href=#palpable-content-2 id=the-form-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-form-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-form-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-form-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-form-element:flow-content-2-3>Flow content</a>, but with no <code id=the-form-element:the-form-element><a href=#the-form-element>form</a></code> element descendants.<dt><a href=#concept-element-tag-omission id=the-form-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-form-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-form-element:global-attributes>Global attributes</a><dd><code id=the-form-element:attr-form-accept-charset><a href=#attr-form-accept-charset>accept-charset</a></code> — Character encodings to use for <a href=#form-submission-2 id=the-form-element:form-submission-2>form submission</a><dd><code id=the-form-element:attr-fs-action><a href=#attr-fs-action>action</a></code> — <a id=the-form-element:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> to use for <a href=#form-submission-2 id=the-form-element:form-submission-2-2>form submission</a><dd><code id=the-form-element:attr-form-autocomplete><a href=#attr-form-autocomplete>autocomplete</a></code> — Default setting for autofill feature for controls in the form<dd><code id=the-form-element:attr-fs-enctype><a href=#attr-fs-enctype>enctype</a></code> — Form data set encoding type to use for <a href=#form-submission-2 id=the-form-element:form-submission-2-3>form submission</a><dd><code id=the-form-element:attr-fs-method><a href=#attr-fs-method>method</a></code> — HTTP method to use for <a href=#form-submission-2 id=the-form-element:form-submission-2-4>form submission</a><dd><code id=the-form-element:attr-form-name><a href=#attr-form-name>name</a></code> — Name of form to use in the <code id=the-form-element:dom-document-forms><a href=#dom-document-forms>document.forms</a></code> API<dd><code id=the-form-element:attr-fs-novalidate><a href=#attr-fs-novalidate>novalidate</a></code> — Bypass form control validation for <a href=#form-submission-2 id=the-form-element:form-submission-2-5>form submission</a><dd><code id=the-form-element:attr-fs-target><a href=#attr-fs-target>target</a></code> — <a href=#browsing-context id=the-form-element:browsing-context>Browsing context</a> for <a href=#form-submission-2 id=the-form-element:form-submission-2-6>form submission</a><dt><a href=#concept-element-dom id=the-form-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[OverrideBuiltins, LegacyUnenumerableNamedProperties, <a href=#htmlconstructor id=the-form-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlformelement>HTMLFormElement</dfn> : <a href=#htmlelement id=the-form-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-form-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-form-acceptcharset id=the-form-element:dom-form-acceptcharset>acceptCharset</a>;
+  [<a href=#cereactions id=the-form-element:cereactions-2>CEReactions</a>] attribute USVString <a href=#dom-fs-action id=the-form-element:dom-fs-action>action</a>;
+  [<a href=#cereactions id=the-form-element:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-form-autocomplete id=the-form-element:dom-form-autocomplete>autocomplete</a>;
+  [<a href=#cereactions id=the-form-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-fs-enctype id=the-form-element:dom-fs-enctype>enctype</a>;
+  [<a href=#cereactions id=the-form-element:cereactions-5>CEReactions</a>] attribute DOMString <a href=#dom-fs-encoding id=the-form-element:dom-fs-encoding>encoding</a>;
+  [<a href=#cereactions id=the-form-element:cereactions-6>CEReactions</a>] attribute DOMString <a href=#dom-fs-method id=the-form-element:dom-fs-method>method</a>;
+  [<a href=#cereactions id=the-form-element:cereactions-7>CEReactions</a>] attribute DOMString <a href=#dom-form-name id=the-form-element:dom-form-name>name</a>;
+  [<a href=#cereactions id=the-form-element:cereactions-8>CEReactions</a>] attribute boolean <a href=#dom-fs-novalidate id=the-form-element:dom-fs-novalidate>noValidate</a>;
+  [<a href=#cereactions id=the-form-element:cereactions-9>CEReactions</a>] attribute DOMString <a href=#dom-fs-target id=the-form-element:dom-fs-target>target</a>;
+
+  [SameObject] readonly attribute <a href=#htmlformcontrolscollection id=the-form-element:htmlformcontrolscollection>HTMLFormControlsCollection</a> <a href=#dom-form-elements id=the-form-element:dom-form-elements>elements</a>;
+  readonly attribute unsigned long <a href=#dom-form-length id=the-form-element:dom-form-length>length</a>;
+  <a href=#dom-form-item>getter</a> <a id=the-form-element:element href=https://dom.spec.whatwg.org/#interface-element data-x-internal=element>Element</a> (unsigned long index);
+  <a href=#dom-form-nameditem>getter</a> (<a href=#radionodelist id=the-form-element:radionodelist>RadioNodeList</a> or <a id=the-form-element:element-2 href=https://dom.spec.whatwg.org/#interface-element data-x-internal=element>Element</a>) (DOMString name);
+
+  void <a href=#dom-form-submit id=the-form-element:dom-form-submit>submit</a>();
+  [<a href=#cereactions id=the-form-element:cereactions-10>CEReactions</a>] void <a href=#dom-form-reset id=the-form-element:dom-form-reset>reset</a>();
+  boolean <a href=#dom-form-checkvalidity id=the-form-element:dom-form-checkvalidity>checkValidity</a>();
+  boolean <a href=#dom-form-reportvalidity id=the-form-element:dom-form-reportvalidity>reportValidity</a>();
+};</pre>
+   </dl>
+
+  <p>The <code id=the-form-element:the-form-element-2><a href=#the-form-element>form</a></code> element <a href=#represents id=the-form-element:represents>represents</a> a collection of <a href=#form-associated-element id=the-form-element:form-associated-element>form-associated elements</a>, some of which can represent
+  editable values that can be submitted to a server for processing.</p>
+
+  <p>The <dfn id=attr-form-accept-charset><code>accept-charset</code></dfn> attribute gives the
+  character encodings that are to be used for the submission. If specified, the value must be an
+  <a href=#ordered-set-of-unique-space-separated-tokens id=the-form-element:ordered-set-of-unique-space-separated-tokens>ordered set of unique space-separated tokens</a> that are <a id=the-form-element:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+  case-insensitive</a>, and each token must be an <a id=the-form-element:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for
+  one of the <a href=https://encoding.spec.whatwg.org/#label id=the-form-element:encoding-label data-x-internal=encoding-label>labels</a> of an <a href=#ascii-compatible-encoding id=the-form-element:ascii-compatible-encoding>ASCII-compatible
+  encoding</a>. <a href=#refsENCODING>[ENCODING]</a></p>
+
+  <p>The <dfn id=attr-form-name><code>name</code></dfn> attribute represents the
+  <code id=the-form-element:the-form-element-3><a href=#the-form-element>form</a></code>'s name within the <code id=the-form-element:dom-document-forms-2><a href=#dom-document-forms>forms</a></code> collection. The
+  value must not be the empty string, and the value must be unique amongst the <code id=the-form-element:the-form-element-4><a href=#the-form-element>form</a></code>
+  elements in the <code id=the-form-element:dom-document-forms-3><a href=#dom-document-forms>forms</a></code> collection that it is in, if
+  any.</p>
+
+  <p>The <dfn id=attr-form-autocomplete><code>autocomplete</code></dfn> attribute is an
+  <a href=#enumerated-attribute id=the-form-element:enumerated-attribute>enumerated attribute</a>. The attribute has two states. The <dfn id=attr-form-autocomplete-on><code>on</code></dfn> keyword maps to the <dfn id=attr-form-autocomplete-on-state>on</dfn> state, and the <dfn id=attr-form-autocomplete-off><code>off</code></dfn> keyword maps to the <dfn id=attr-form-autocomplete-off-state>off</dfn> state. The attribute may also be omitted. The
+  <i id=the-form-element:missing-value-default><a href=#missing-value-default>missing value default</a></i> is the <a href=#attr-form-autocomplete-on-state id=the-form-element:attr-form-autocomplete-on-state>on</a> state. The <a href=#attr-form-autocomplete-off-state id=the-form-element:attr-form-autocomplete-off-state>off</a> state indicates that by default, form
+  controls in the form will have their <a href=#autofill-field-name id=the-form-element:autofill-field-name>autofill field name</a> set to "<code id=the-form-element:attr-fe-autocomplete-off><a href=#attr-fe-autocomplete-off>off</a></code>"; the <a href=#attr-form-autocomplete-on-state id=the-form-element:attr-form-autocomplete-on-state-2>on</a> state indicates that by default, form controls
+  in the form will have their <a href=#autofill-field-name id=the-form-element:autofill-field-name-2>autofill field name</a> set to "<code id=the-form-element:attr-fe-autocomplete-on><a href=#attr-fe-autocomplete-on>on</a></code>".</p>
+
+  <p>The <code id=the-form-element:attr-fs-action-2><a href=#attr-fs-action>action</a></code>, <code id=the-form-element:attr-fs-enctype-2><a href=#attr-fs-enctype>enctype</a></code>,
+  <code id=the-form-element:attr-fs-method-2><a href=#attr-fs-method>method</a></code>, <code id=the-form-element:attr-fs-novalidate-2><a href=#attr-fs-novalidate>novalidate</a></code>,

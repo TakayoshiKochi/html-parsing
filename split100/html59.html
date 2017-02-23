@@ -1,0 +1,850 @@
+
+  <dl><dt><dfn id=md-vcard-kind><code>kind</code></dfn><dd>
+
+    <p>Describes what kind of contact the item represents.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value>value</a> must be text that, when compared in a
+    <a href=#case-sensitive id=vcard:case-sensitive>case-sensitive</a> manner, is equal to one of the <a href=#kind-strings id=vcard:kind-strings>kind strings</a>.</p>
+
+    <p>A single property with the name <code id=vcard:md-vcard-kind><a href=#md-vcard-kind>kind</a></code> may be present within
+    each <a href=#concept-item id=vcard:concept-item>item</a> with the type <code id=vcard:md-vcard><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-fn><code>fn</code></dfn><dd>
+
+    <p>Gives the formatted text corresponding to the name of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-2>value</a> must be text.</p>
+
+    <p>Exactly one property with the name <code id=vcard:md-vcard-fn><a href=#md-vcard-fn>fn</a></code> must be present within
+    each <a href=#concept-item id=vcard:concept-item-2>item</a> with the type <code id=vcard:md-vcard-2><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-n><code>n</code></dfn><dd>
+
+    <p>Gives the structured name of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-3>value</a> must be an <a href=#concept-item id=vcard:concept-item-3>item</a> with zero or more of each of the <code id=vcard:md-vcard-n-family-name><a href=#md-vcard-n-family-name>family-name</a></code>, <code id=vcard:md-vcard-n-given-name><a href=#md-vcard-n-given-name>given-name</a></code>, <code id=vcard:md-vcard-n-additional-name><a href=#md-vcard-n-additional-name>additional-name</a></code>, <code id=vcard:md-vcard-n-honorific-prefix><a href=#md-vcard-n-honorific-prefix>honorific-prefix</a></code>, and <code id=vcard:md-vcard-n-honorific-suffix><a href=#md-vcard-n-honorific-suffix>honorific-suffix</a></code> properties.</p>
+
+    <p>Exactly one property with the name <code id=vcard:md-vcard-n><a href=#md-vcard-n>n</a></code> must be present within
+    each <a href=#concept-item id=vcard:concept-item-4>item</a> with the type <code id=vcard:md-vcard-3><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-n-family-name><code>family-name</code></dfn> (inside <code id=vcard:md-vcard-n-2><a href=#md-vcard-n>n</a></code>)<dd>
+
+    <p>Gives the family name of the person, or the full name of the organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-4>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-n-family-name-2><a href=#md-vcard-n-family-name>family-name</a></code> may be present within the <a href=#concept-item id=vcard:concept-item-5>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-5>value</a> of the <code id=vcard:md-vcard-n-3><a href=#md-vcard-n>n</a></code> property of
+    an <a href=#concept-item id=vcard:concept-item-6>item</a> with the type <code id=vcard:md-vcard-4><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-n-given-name><code>given-name</code></dfn> (inside <code id=vcard:md-vcard-n-4><a href=#md-vcard-n>n</a></code>)<dd>
+
+    <p>Gives the given-name of the person.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-6>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-n-given-name-2><a href=#md-vcard-n-given-name>given-name</a></code>
+    may be present within the <a href=#concept-item id=vcard:concept-item-7>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-7>value</a> of the <code id=vcard:md-vcard-n-5><a href=#md-vcard-n>n</a></code> property of
+    an <a href=#concept-item id=vcard:concept-item-8>item</a> with the type <code id=vcard:md-vcard-5><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-n-additional-name><code>additional-name</code></dfn> (inside <code id=vcard:md-vcard-n-6><a href=#md-vcard-n>n</a></code>)<dd>
+
+    <p>Gives the any additional names of the person.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-8>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-n-additional-name-2><a href=#md-vcard-n-additional-name>additional-name</a></code> may be present within the <a href=#concept-item id=vcard:concept-item-9>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-9>value</a> of the <code id=vcard:md-vcard-n-7><a href=#md-vcard-n>n</a></code> property of
+    an <a href=#concept-item id=vcard:concept-item-10>item</a> with the type <code id=vcard:md-vcard-6><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-n-honorific-prefix><code>honorific-prefix</code></dfn> (inside <code id=vcard:md-vcard-n-8><a href=#md-vcard-n>n</a></code>)<dd>
+
+    <p>Gives the honorific prefix of the person.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-10>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-n-honorific-prefix-2><a href=#md-vcard-n-honorific-prefix>honorific-prefix</a></code> may be present within the <a href=#concept-item id=vcard:concept-item-11>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-11>value</a> of the <code id=vcard:md-vcard-n-9><a href=#md-vcard-n>n</a></code> property of
+    an <a href=#concept-item id=vcard:concept-item-12>item</a> with the type <code id=vcard:md-vcard-7><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-n-honorific-suffix><code>honorific-suffix</code></dfn> (inside <code id=vcard:md-vcard-n-10><a href=#md-vcard-n>n</a></code>)<dd>
+
+    <p>Gives the honorific suffix of the person.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-12>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-n-honorific-suffix-2><a href=#md-vcard-n-honorific-suffix>honorific-suffix</a></code> may be present within the <a href=#concept-item id=vcard:concept-item-13>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-13>value</a> of the <code id=vcard:md-vcard-n-11><a href=#md-vcard-n>n</a></code> property of
+    an <a href=#concept-item id=vcard:concept-item-14>item</a> with the type <code id=vcard:md-vcard-8><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-nickname><code>nickname</code></dfn><dd>
+
+    <p>Gives the nickname of the person or organization.</p>
+
+    
+    <p class=note>The nickname is the descriptive name given instead of or in addition to the one
+    belonging to a person, place, or thing. It can also be used to specify a familiar form of a
+    proper name specified by the <code id=vcard:md-vcard-fn-2><a href=#md-vcard-fn>fn</a></code> or <code id=vcard:md-vcard-n-12><a href=#md-vcard-n>n</a></code> properties.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-14>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-nickname><a href=#md-vcard-nickname>nickname</a></code> may be
+    present within each <a href=#concept-item id=vcard:concept-item-15>item</a> with the type <code id=vcard:md-vcard-9><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-photo><code>photo</code></dfn><dd>
+
+    <p>Gives a photograph of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-15>value</a> must be an <a id=vcard:absolute-url href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-photo><a href=#md-vcard-photo>photo</a></code> may be
+    present within each <a href=#concept-item id=vcard:concept-item-16>item</a> with the type <code id=vcard:md-vcard-10><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-bday><code>bday</code></dfn><dd>
+
+    <p>Gives the birth date of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-16>value</a> must be a <a href=#valid-date-string id=vcard:valid-date-string>valid date
+    string</a>.</p>
+
+    <p>A single property with the name <code id=vcard:md-vcard-bday><a href=#md-vcard-bday>bday</a></code> may be present within
+    each <a href=#concept-item id=vcard:concept-item-17>item</a> with the type <code id=vcard:md-vcard-11><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-anniversary><code>anniversary</code></dfn><dd>
+
+    <p>Gives the birth date of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-17>value</a> must be a <a href=#valid-date-string id=vcard:valid-date-string-2>valid date
+    string</a>.</p>
+
+    <p>A single property with the name <code id=vcard:md-vcard-anniversary><a href=#md-vcard-anniversary>anniversary</a></code> may be
+    present within each <a href=#concept-item id=vcard:concept-item-18>item</a> with the type <code id=vcard:md-vcard-12><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-sex><code>sex</code></dfn><dd>
+
+    <p>Gives the biological sex of the person.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-18>value</a> must be one of
+    <code>F</code>, meaning "female",
+    <code>M</code>, meaning "male",
+    <code>N</code>, meaning "none or not applicable",
+    <code>O</code>, meaning "other", or
+    <code>U</code>, meaning "unknown".</p>
+
+    <p>A single property with the name <code id=vcard:md-vcard-sex><a href=#md-vcard-sex>sex</a></code> may be present within
+    each <a href=#concept-item id=vcard:concept-item-19>item</a> with the type <code id=vcard:md-vcard-13><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-gender-identity><code>gender-identity</code></dfn><dd>
+
+    <p>Gives the gender identity of the person.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-19>value</a> must be text.</p>
+
+    <p>A single property with the name <code id=vcard:md-vcard-gender-identity><a href=#md-vcard-gender-identity>gender-identity</a></code>
+    may be present within each <a href=#concept-item id=vcard:concept-item-20>item</a> with the type <code id=vcard:md-vcard-14><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-adr><code>adr</code></dfn><dd>
+
+    <p>Gives the delivery address of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-20>value</a> must be an <a href=#concept-item id=vcard:concept-item-21>item</a> with zero or more <code id=vcard:md-vcard-adr-type><a href=#md-vcard-adr-type>type</a></code>,
+    <code id=vcard:md-vcard-adr-post-office-box><a href=#md-vcard-adr-post-office-box>post-office-box</a></code>, <code id=vcard:md-vcard-adr-extended-address><a href=#md-vcard-adr-extended-address>extended-address</a></code>, and <code id=vcard:md-vcard-adr-street-address><a href=#md-vcard-adr-street-address>street-address</a></code> properties, and optionally a <code id=vcard:md-vcard-adr-locality><a href=#md-vcard-adr-locality>locality</a></code> property, optionally a <code id=vcard:md-vcard-adr-region><a href=#md-vcard-adr-region>region</a></code> property, optionally a <code id=vcard:md-vcard-adr-postal-code><a href=#md-vcard-adr-postal-code>postal-code</a></code> property, and optionally a <code id=vcard:md-vcard-adr-country-name><a href=#md-vcard-adr-country-name>country-name</a></code> property.</p>
+
+    <p>If no <code id=vcard:md-vcard-adr-type-2><a href=#md-vcard-adr-type>type</a></code> properties are present within an <a href=#concept-item id=vcard:concept-item-22>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-21>value</a> of an <code id=vcard:md-vcard-adr><a href=#md-vcard-adr>adr</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-23>item</a> with the type <code id=vcard:md-vcard-15><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>, then the <a href=#address-type-strings id=vcard:address-type-strings>address type string</a> <code id=vcard:md-vcard-type-adr-work><a href=#md-vcard-type-adr-work>work</a></code> is
+    implied.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-adr-2><a href=#md-vcard-adr>adr</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-24>item</a> with the type <code id=vcard:md-vcard-16><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-adr-type><code>type</code></dfn> (inside <code id=vcard:md-vcard-adr-3><a href=#md-vcard-adr>adr</a></code>)<dd>
+
+    <p>Gives the type of delivery address.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-22>value</a> must be text that, when compared in a
+    <a href=#case-sensitive id=vcard:case-sensitive-2>case-sensitive</a> manner, is equal to one of the <a href=#address-type-strings id=vcard:address-type-strings-2>address type
+    strings</a>.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-adr-type-3><a href=#md-vcard-adr-type>type</a></code> may be
+    present within the <a href=#concept-item id=vcard:concept-item-25>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-23>value</a> of an <code id=vcard:md-vcard-adr-4><a href=#md-vcard-adr>adr</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-26>item</a> with the type <code id=vcard:md-vcard-17><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>, but within each such <code id=vcard:md-vcard-adr-5><a href=#md-vcard-adr>adr</a></code> property <a href=#concept-item id=vcard:concept-item-27>item</a> there must only
+    be one <code id=vcard:md-vcard-adr-type-4><a href=#md-vcard-adr-type>type</a></code> property per distinct value.</p>
+
+   <dt><dfn id=md-vcard-adr-post-office-box><code>post-office-box</code></dfn> (inside <code id=vcard:md-vcard-adr-6><a href=#md-vcard-adr>adr</a></code>)<dd>
+
+    <p>Gives the post office box component of the delivery address of the person or
+    organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-24>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-adr-post-office-box-2><a href=#md-vcard-adr-post-office-box>post-office-box</a></code> may be present within the <a href=#concept-item id=vcard:concept-item-28>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-25>value</a> of an <code id=vcard:md-vcard-adr-7><a href=#md-vcard-adr>adr</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-29>item</a> with the type <code id=vcard:md-vcard-18><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+    <p class=note>The vCard specification urges authors not to use this field.</p>
+
+   <dt><dfn id=md-vcard-adr-extended-address><code>extended-address</code></dfn> (inside <code id=vcard:md-vcard-adr-8><a href=#md-vcard-adr>adr</a></code>)<dd>
+
+    <p>Gives an additional component of the delivery address of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-26>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-adr-extended-address-2><a href=#md-vcard-adr-extended-address>extended-address</a></code> may be present within the <a href=#concept-item id=vcard:concept-item-30>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-27>value</a> of an <code id=vcard:md-vcard-adr-9><a href=#md-vcard-adr>adr</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-31>item</a> with the type <code id=vcard:md-vcard-19><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+    <p class=note>The vCard specification urges authors not to use this field.</p>
+
+   <dt><dfn id=md-vcard-adr-street-address><code>street-address</code></dfn> (inside <code id=vcard:md-vcard-adr-10><a href=#md-vcard-adr>adr</a></code>)<dd>
+
+    <p>Gives the street address component of the delivery address of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-28>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-adr-street-address-2><a href=#md-vcard-adr-street-address>street-address</a></code> may be present within the <a href=#concept-item id=vcard:concept-item-32>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-29>value</a> of an <code id=vcard:md-vcard-adr-11><a href=#md-vcard-adr>adr</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-33>item</a> with the type <code id=vcard:md-vcard-20><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-adr-locality><code>locality</code></dfn> (inside <code id=vcard:md-vcard-adr-12><a href=#md-vcard-adr>adr</a></code>)<dd>
+
+    <p>Gives the locality component (e.g. city) of the delivery address of the person or
+    organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-30>value</a> must be text.</p>
+
+    <p>A single property with the name <code id=vcard:md-vcard-adr-locality-2><a href=#md-vcard-adr-locality>locality</a></code> may be
+    present within the <a href=#concept-item id=vcard:concept-item-34>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-31>value</a> of an <code id=vcard:md-vcard-adr-13><a href=#md-vcard-adr>adr</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-35>item</a> with the type <code id=vcard:md-vcard-21><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-adr-region><code>region</code></dfn> (inside <code id=vcard:md-vcard-adr-14><a href=#md-vcard-adr>adr</a></code>)<dd>
+
+    <p>Gives the region component (e.g. state or province) of the delivery address of the person or
+    organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-32>value</a> must be text.</p>
+
+    <p>A single property with the name <code id=vcard:md-vcard-adr-region-2><a href=#md-vcard-adr-region>region</a></code> may be
+    present within the <a href=#concept-item id=vcard:concept-item-36>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-33>value</a> of an <code id=vcard:md-vcard-adr-15><a href=#md-vcard-adr>adr</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-37>item</a> with the type <code id=vcard:md-vcard-22><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-adr-postal-code><code>postal-code</code></dfn> (inside <code id=vcard:md-vcard-adr-16><a href=#md-vcard-adr>adr</a></code>)<dd>
+
+    <p>Gives the postal code component of the delivery address of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-34>value</a> must be text.</p>
+
+    <p>A single property with the name <code id=vcard:md-vcard-adr-postal-code-2><a href=#md-vcard-adr-postal-code>postal-code</a></code> may
+    be present within the <a href=#concept-item id=vcard:concept-item-38>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-35>value</a> of an <code id=vcard:md-vcard-adr-17><a href=#md-vcard-adr>adr</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-39>item</a> with the type <code id=vcard:md-vcard-23><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-adr-country-name><code>country-name</code></dfn> (inside <code id=vcard:md-vcard-adr-18><a href=#md-vcard-adr>adr</a></code>)<dd>
+
+    <p>Gives the country name component of the delivery address of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-36>value</a> must be text.</p>
+
+    <p>A single property with the name <code id=vcard:md-vcard-adr-country-name-2><a href=#md-vcard-adr-country-name>country-name</a></code>
+    may be present within the <a href=#concept-item id=vcard:concept-item-40>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-37>value</a> of an <code id=vcard:md-vcard-adr-19><a href=#md-vcard-adr>adr</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-41>item</a> with the type <code id=vcard:md-vcard-24><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-tel><code>tel</code></dfn><dd>
+
+    <p>Gives the telephone number of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-38>value</a> must be either text that can be
+    interpreted as a telephone number as defined in the CCITT specifications E.163 and X.121, or an
+    <a href=#concept-item id=vcard:concept-item-42>item</a> with zero or more <code id=vcard:md-vcard-tel-type><a href=#md-vcard-tel-type>type</a></code> properties and exactly one <code id=vcard:md-vcard-tel-value><a href=#md-vcard-tel-value>value</a></code> property. <a href=#refsE163>[E163]</a> <a href=#refsX121>[X121]</a></p>
+
+    <p>If no <code id=vcard:md-vcard-tel-type-2><a href=#md-vcard-tel-type>type</a></code> properties are present within an <a href=#concept-item id=vcard:concept-item-43>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-39>value</a> of a <code id=vcard:md-vcard-tel><a href=#md-vcard-tel>tel</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-44>item</a> with the type <code id=vcard:md-vcard-25><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>, or if the <a href=#concept-property-value id=vcard:concept-property-value-40>value</a> of such a <code id=vcard:md-vcard-tel-2><a href=#md-vcard-tel>tel</a></code>
+    property is text, then the <a href=#telephone-type-strings id=vcard:telephone-type-strings>telephone type string</a>
+    <code id=vcard:md-vcard-type-tel-voice><a href=#md-vcard-type-tel-voice>voice</a></code> is implied.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-tel-3><a href=#md-vcard-tel>tel</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-45>item</a> with the type <code id=vcard:md-vcard-26><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-tel-type><code>type</code></dfn> (inside <code id=vcard:md-vcard-tel-4><a href=#md-vcard-tel>tel</a></code>)<dd>
+
+    <p>Gives the type of telephone number.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-41>value</a> must be text that, when compared in a
+    <a href=#case-sensitive id=vcard:case-sensitive-3>case-sensitive</a> manner, is equal to one of the <a href=#telephone-type-strings id=vcard:telephone-type-strings-2>telephone type
+    strings</a>.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-tel-type-3><a href=#md-vcard-tel-type>type</a></code> may be
+    present within the <a href=#concept-item id=vcard:concept-item-46>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-42>value</a> of a <code id=vcard:md-vcard-tel-5><a href=#md-vcard-tel>tel</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-47>item</a> with the type <code id=vcard:md-vcard-27><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>, but within each such <code id=vcard:md-vcard-tel-6><a href=#md-vcard-tel>tel</a></code> property <a href=#concept-item id=vcard:concept-item-48>item</a> there must only
+    be one <code id=vcard:md-vcard-tel-type-4><a href=#md-vcard-tel-type>type</a></code> property per distinct value.</p>
+
+   <dt><dfn id=md-vcard-tel-value><code>value</code></dfn> (inside <code id=vcard:md-vcard-tel-7><a href=#md-vcard-tel>tel</a></code>)<dd>
+
+    <p>Gives the actual telephone number of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-43>value</a> must be text that can be interpreted as
+    a telephone number as defined in the CCITT specifications E.163 and X.121. <a href=#refsE163>[E163]</a> <a href=#refsX121>[X121]</a></p>
+
+    <p>Exactly one property with the name <code id=vcard:md-vcard-tel-value-2><a href=#md-vcard-tel-value>value</a></code> must be
+    present within the <a href=#concept-item id=vcard:concept-item-49>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-44>value</a> of a <code id=vcard:md-vcard-tel-8><a href=#md-vcard-tel>tel</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-50>item</a> with the type <code id=vcard:md-vcard-28><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-email><code>email</code></dfn><dd>
+
+    <p>Gives the e-mail address of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-45>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-email><a href=#md-vcard-email>email</a></code> may be
+    present within each <a href=#concept-item id=vcard:concept-item-51>item</a> with the type <code id=vcard:md-vcard-29><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-impp><code>impp</code></dfn><dd>
+
+    <p>Gives a <a id=vcard:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> for instant messaging and presence protocol communications with the
+    person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-46>value</a> must be an <a id=vcard:absolute-url-2 href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-impp><a href=#md-vcard-impp>impp</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-52>item</a> with the type <code id=vcard:md-vcard-30><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-lang><code>lang</code></dfn><dd>
+
+    <p>Gives a language understood by the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-47>value</a> must be a valid BCP 47 language tag. <a href=#refsBCP47>[BCP47]</a>.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-lang><a href=#md-vcard-lang>lang</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-53>item</a> with the type <code id=vcard:md-vcard-31><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-tz><code>tz</code></dfn><dd>
+
+    <p>Gives the time zone of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-48>value</a> must be text and must match the
+    following syntax:</p>
+
+    <ol><li>Either a U+002B PLUS SIGN character (+) or a U+002D HYPHEN-MINUS character (-).<li>A <a href=#valid-non-negative-integer id=vcard:valid-non-negative-integer>valid non-negative integer</a> that is exactly two digits long and that
+     represents a number in the range 00..23.<li>A U+003A COLON character (:).<li>A <a href=#valid-non-negative-integer id=vcard:valid-non-negative-integer-2>valid non-negative integer</a> that is exactly two digits long and that
+     represents a number in the range 00..59.</ol>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-tz><a href=#md-vcard-tz>tz</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-54>item</a> with the type <code id=vcard:md-vcard-32><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-geo><code>geo</code></dfn><dd>
+
+    <p>Gives the geographical position of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-49>value</a> must be text and must match the
+    following syntax:</p>
+
+    <ol><li>Optionally, either a U+002B PLUS SIGN character (+) or a U+002D HYPHEN-MINUS character
+     (-).<li>One or more <a href=#ascii-digits id=vcard:ascii-digits>ASCII digits</a>.<li>Optionally*, a U+002E FULL STOP character (.) followed by one or more <a href=#ascii-digits id=vcard:ascii-digits-2>ASCII
+     digits</a>.<li>A U+003B SEMICOLON character (;).<li>Optionally, either a U+002B PLUS SIGN character (+) or a U+002D HYPHEN-MINUS character
+     (-).<li>One or more <a href=#ascii-digits id=vcard:ascii-digits-3>ASCII digits</a>.<li>Optionally*, a U+002E FULL STOP character (.) followed by one or more <a href=#ascii-digits id=vcard:ascii-digits-4>ASCII
+     digits</a>.</ol>
+
+    <p>The optional components marked with an asterisk (*) should be included, and should have six
+    digits each.</p>
+
+    
+    <p class=note>The value specifies latitude and longitude, in that order (i.e., "LAT LON"
+    ordering), in decimal degrees. The longitude represents the location east and west of the prime
+    meridian as a positive or negative real number, respectively. The latitude represents the
+    location north and south of the equator as a positive or negative real number, respectively.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-geo><a href=#md-vcard-geo>geo</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-55>item</a> with the type <code id=vcard:md-vcard-33><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-title><code>title</code></dfn><dd>
+
+    <p>Gives the job title, functional position or function of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-50>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-title><a href=#md-vcard-title>title</a></code> may be
+    present within each <a href=#concept-item id=vcard:concept-item-56>item</a> with the type <code id=vcard:md-vcard-34><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-role><code>role</code></dfn><dd>
+
+    <p>Gives the role, occupation, or business category of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-51>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-role><a href=#md-vcard-role>role</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-57>item</a> with the type <code id=vcard:md-vcard-35><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-logo><code>logo</code></dfn><dd>
+
+    <p>Gives the logo of the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-52>value</a> must be an <a id=vcard:absolute-url-3 href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-logo><a href=#md-vcard-logo>logo</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-58>item</a> with the type <code id=vcard:md-vcard-36><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-agent><code>agent</code></dfn><dd>
+
+    <p>Gives the contact information of another person who will act on behalf of the person or
+    organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-53>value</a> must be either an <a href=#concept-item id=vcard:concept-item-59>item</a> with the type <code id=vcard:md-vcard-37><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>, or an <a id=vcard:absolute-url-4 href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute URL</a>,
+    or text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-agent><a href=#md-vcard-agent>agent</a></code> may be
+    present within each <a href=#concept-item id=vcard:concept-item-60>item</a> with the type <code id=vcard:md-vcard-38><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-org><code>org</code></dfn><dd>
+
+    <p>Gives the name and units of the organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-54>value</a> must be either text or an <a href=#concept-item id=vcard:concept-item-61>item</a> with one <code id=vcard:md-vcard-org-organization-name><a href=#md-vcard-org-organization-name>organization-name</a></code> property and zero or more <code id=vcard:md-vcard-org-organization-unit><a href=#md-vcard-org-organization-unit>organization-unit</a></code> properties.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-org><a href=#md-vcard-org>org</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-62>item</a> with the type <code id=vcard:md-vcard-39><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-org-organization-name><code>organization-name</code></dfn> (inside <code id=vcard:md-vcard-org-2><a href=#md-vcard-org>org</a></code>)<dd>
+
+    <p>Gives the name of the organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-55>value</a> must be text.</p>
+
+    <p>Exactly one property with the name <code id=vcard:md-vcard-org-organization-name-2><a href=#md-vcard-org-organization-name>organization-name</a></code> must be present within the <a href=#concept-item id=vcard:concept-item-63>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-56>value</a> of an <code id=vcard:md-vcard-org-3><a href=#md-vcard-org>org</a></code> property
+    of an <a href=#concept-item id=vcard:concept-item-64>item</a> with the type <code id=vcard:md-vcard-40><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-org-organization-unit><code>organization-unit</code></dfn> (inside <code id=vcard:md-vcard-org-4><a href=#md-vcard-org>org</a></code>)<dd>
+
+    <p>Gives the name of the organization unit.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-57>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-org-organization-unit-2><a href=#md-vcard-org-organization-unit>organization-unit</a></code> may be present within the <a href=#concept-item id=vcard:concept-item-65>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-58>value</a> of the <code id=vcard:md-vcard-org-5><a href=#md-vcard-org>org</a></code>
+    property of an <a href=#concept-item id=vcard:concept-item-66>item</a> with the type <code id=vcard:md-vcard-41><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-member><code>member</code></dfn><dd>
+
+    <p>Gives a <a id=vcard:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> that represents a member of the group.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-59>value</a> must be an <a id=vcard:absolute-url-5 href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-member><a href=#md-vcard-member>member</a></code> may be
+    present within each <a href=#concept-item id=vcard:concept-item-67>item</a> with the type <code id=vcard:md-vcard-42><a href=#md-vcard>http://microformats.org/profile/hcard</a></code> if the <a href=#concept-item id=vcard:concept-item-68>item</a> also has a property with the name <code id=vcard:md-vcard-kind-2><a href=#md-vcard-kind>kind</a></code> whose value is "<code id=vcard:md-vcard-kind-group><a href=#md-vcard-kind-group>group</a></code>".</p>
+
+   <dt><dfn id=md-vcard-related><code>related</code></dfn><dd>
+
+    <p>Gives a relationship to another entity.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-60>value</a> must be an <a href=#concept-item id=vcard:concept-item-69>item</a> with one <code id=vcard:md-vcard-related-url><a href=#md-vcard-related-url>url</a></code>
+    property and one <code id=vcard:md-vcard-related-rel><a href=#md-vcard-related-rel>rel</a></code> properties.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-related><a href=#md-vcard-related>related</a></code> may be
+    present within each <a href=#concept-item id=vcard:concept-item-70>item</a> with the type <code id=vcard:md-vcard-43><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-related-url><code>url</code></dfn> (inside <code id=vcard:md-vcard-related-2><a href=#md-vcard-related>related</a></code>)<dd>
+
+    <p>Gives the <a id=vcard:url-3 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> for the related entity.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-61>value</a> must be an <a id=vcard:absolute-url-6 href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>Exactly one property with the name <code id=vcard:md-vcard-related-url-2><a href=#md-vcard-related-url>url</a></code> must be
+    present within the <a href=#concept-item id=vcard:concept-item-71>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-62>value</a> of a <code id=vcard:md-vcard-related-3><a href=#md-vcard-related>related</a></code>
+    property of an <a href=#concept-item id=vcard:concept-item-72>item</a> with the type <code id=vcard:md-vcard-44><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-related-rel><code>rel</code></dfn> (inside <code id=vcard:md-vcard-related-4><a href=#md-vcard-related>related</a></code>)<dd>
+
+    <p>Gives the relationship between the entity and the related entity.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-63>value</a> must be text that, when compared in a
+    <a href=#case-sensitive id=vcard:case-sensitive-4>case-sensitive</a> manner, is equal to one of the <a href=#relationship-strings id=vcard:relationship-strings>relationship
+    strings</a>.</p>
+
+    <p>Exactly one property with the name <code id=vcard:md-vcard-related-rel-2><a href=#md-vcard-related-rel>rel</a></code> must be
+    present within the <a href=#concept-item id=vcard:concept-item-73>item</a> that forms the <a href=#concept-property-value id=vcard:concept-property-value-64>value</a> of a <code id=vcard:md-vcard-related-5><a href=#md-vcard-related>related</a></code>
+    property of an <a href=#concept-item id=vcard:concept-item-74>item</a> with the type <code id=vcard:md-vcard-45><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-categories><code>categories</code></dfn><dd>
+
+    <p>Gives the name of a category or tag that the person or organization could be classified
+    as.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-65>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-categories><a href=#md-vcard-categories>categories</a></code>
+    may be present within each <a href=#concept-item id=vcard:concept-item-75>item</a> with the type <code id=vcard:md-vcard-46><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-note><code>note</code></dfn><dd>
+
+    <p>Gives supplemental information or a comment about the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-66>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-note><a href=#md-vcard-note>note</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-76>item</a> with the type <code id=vcard:md-vcard-47><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-rev><code>rev</code></dfn><dd>
+
+    <p>Gives the revision date and time of the contact information.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-67>value</a> must be text that is a <a href=#valid-global-date-and-time-string id=vcard:valid-global-date-and-time-string>valid
+    global date and time string</a>.</p>
+
+    
+    <p class=note>The value distinguishes the current revision of the information for other
+    renditions of the information.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-rev><a href=#md-vcard-rev>rev</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-77>item</a> with the type <code id=vcard:md-vcard-48><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-sound><code>sound</code></dfn><dd>
+
+    <p>Gives a sound file relating to the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-68>value</a> must be an <a id=vcard:absolute-url-7 href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-sound><a href=#md-vcard-sound>sound</a></code> may be
+    present within each <a href=#concept-item id=vcard:concept-item-78>item</a> with the type <code id=vcard:md-vcard-49><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-uid><code>uid</code></dfn><dd>
+
+    <p>Gives a globally unique identifier corresponding to the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-69>value</a> must be text.</p>
+
+    <p>A single property with the name <code id=vcard:md-vcard-uid><a href=#md-vcard-uid>uid</a></code> may be present within
+    each <a href=#concept-item id=vcard:concept-item-79>item</a> with the type <code id=vcard:md-vcard-50><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   <dt><dfn id=md-vcard-url><code>url</code></dfn><dd>
+
+    <p>Gives a <a id=vcard:url-4 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> relating to the person or organization.</p>
+
+    <p>The <a href=#concept-property-value id=vcard:concept-property-value-70>value</a> must be an <a id=vcard:absolute-url-8 href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>Any number of properties with the name <code id=vcard:md-vcard-url><a href=#md-vcard-url>url</a></code> may be present
+    within each <a href=#concept-item id=vcard:concept-item-80>item</a> with the type <code id=vcard:md-vcard-51><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.</p>
+
+   </dl>
+
+  <p>The <dfn id=kind-strings>kind strings</dfn> are:</p>
+
+  <dl><dt><dfn id=md-vcard-kind-individual><code>individual</code></dfn><dd>
+    <p>Indicates a single entity (e.g. a person).</p>
+   <dt><dfn id=md-vcard-kind-group><code>group</code></dfn><dd>
+    <p>Indicates multiple entities (e.g. a mailing list).</p>
+   <dt><dfn id=md-vcard-kind-org><code>org</code></dfn><dd>
+    <p>Indicates a single entity that is not a person (e.g. a company).</p>
+   <dt><dfn id=md-vcard-kind-location><code>location</code></dfn><dd>
+    <p>Indicates a geographical place (e.g. an office building).</p>
+   </dl>
+
+  <p>The <dfn id=address-type-strings>address type strings</dfn> are:</p>
+
+  <dl><dt><dfn id=md-vcard-type-adr-home><code>home</code></dfn><dd>
+    <p>Indicates a delivery address for a residence.</p>
+   <dt><dfn id=md-vcard-type-adr-work><code>work</code></dfn><dd>
+    <p>Indicates a delivery address for a place of work.</p>
+   </dl>
+
+  <p>The <dfn id=telephone-type-strings>telephone type strings</dfn> are:</p>
+
+  <dl><dt><dfn id=md-vcard-type-tel-home><code>home</code></dfn><dd>
+    <p>Indicates a residential number.</p>
+   <dt><dfn id=md-vcard-type-tel-work><code>work</code></dfn><dd>
+    <p>Indicates a telephone number for a place of work.</p>
+   <dt><dfn id=md-vcard-type-tel-text><code>text</code></dfn><dd>
+    <p>Indicates that the telephone number supports text messages (SMS).</p>
+   <dt><dfn id=md-vcard-type-tel-voice><code>voice</code></dfn><dd>
+    <p>Indicates a voice telephone number.</p>
+   <dt><dfn id=md-vcard-type-tel-fax><code>fax</code></dfn><dd>
+    <p>Indicates a facsimile telephone number.</p>
+   <dt><dfn id=md-vcard-type-tel-cell><code>cell</code></dfn><dd>
+    <p>Indicates a cellular telephone number.</p>
+   <dt><dfn id=md-vcard-type-tel-video><code>video</code></dfn><dd>
+    <p>Indicates a video conferencing telephone number.</p>
+   <dt><dfn id=md-vcard-type-tel-pager><code>pager</code></dfn><dd>
+    <p>Indicates a paging device telephone number.</p>
+   <dt><dfn id=md-vcard-type-tel-textphone><code>textphone</code></dfn><dd>
+    <p>Indicates a telecommunication device for people with hearing or speech difficulties.</p>
+   </dl>
+
+  <p>The <dfn id=relationship-strings>relationship strings</dfn> are:</p>
+
+  <dl><dt><dfn id=md-vcard-rel-emergency><code>emergency</code></dfn><dd>
+    <p>An emergency contact.</p>
+   <dt><dfn id=md-vcard-rel-agent><code>agent</code></dfn><dd>
+    <p>Another entity that acts on behalf of this entity.</p>
+   <dt><dfn id=md-vcard-rel-contact>contact</dfn><dt><dfn id=md-vcard-rel-acquaintance>acquaintance</dfn><dt><dfn id=md-vcard-rel-friend>friend</dfn><dt><dfn id=md-vcard-rel-met>met</dfn><dt><dfn id=md-vcard-rel-co-worker>worker</dfn><dt><dfn id=md-vcard-rel-colleague>colleague</dfn><dt><dfn id=md-vcard-rel-co-resident>resident</dfn><dt><dfn id=md-vcard-rel-neighbor>neighbor</dfn><dt><dfn id=md-vcard-rel-child>child</dfn><dt><dfn id=md-vcard-rel-parent>parent</dfn><dt><dfn id=md-vcard-rel-sibling>sibling</dfn><dt><dfn id=md-vcard-rel-spouse>spouse</dfn><dt><dfn id=md-vcard-rel-kin>kin</dfn><dt><dfn id=md-vcard-rel-muse>muse</dfn><dt><dfn id=md-vcard-rel-crush>crush</dfn><dt><dfn id=md-vcard-rel-date>date</dfn><dt><dfn id=md-vcard-rel-sweetheart>sweetheart</dfn><dt><dfn id=md-vcard-rel-me>me</dfn><dd>
+    <p>Has the meaning defined in XFN. <a href=#refsXFN>[XFN]</a></p>
+   </dl>
+
+
+  <h5 id=conversion-to-vcard>5.3.1.1 Conversion to vCard<a href=#conversion-to-vcard class=self-link></a></h5>
+
+  <p>Given a list of nodes <var>nodes</var> in a <code id=conversion-to-vcard:document><a href=#document>Document</a></code>, a user agent must
+  run the following algorithm to <dfn id=extracting-a-vcard>extract any vCard data represented
+  by those nodes</dfn> (only the first vCard is returned):</p>
+
+  <ol><li><p>If none of the nodes in <var>nodes</var> are <a href=#concept-item id=conversion-to-vcard:concept-item>items</a> with the <a href=#item-types id=conversion-to-vcard:item-types>item type</a> <code id=conversion-to-vcard:md-vcard><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>, then there is no vCard. Abort the
+   algorithm, returning nothing.<li><p>Let <var>node</var> be the first node in <var>nodes</var> that is an
+   <a href=#concept-item id=conversion-to-vcard:concept-item-2>item</a> with the <a href=#item-types id=conversion-to-vcard:item-types-2>item type</a> <code id=conversion-to-vcard:md-vcard-2><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>.<li><p>Let <var>output</var> be an empty string.<li><p><a href=#add-a-vcard-line id=conversion-to-vcard:add-a-vcard-line>Add a vCard line</a> with the type "<code>BEGIN</code>" and the value
+   "<code>VCARD</code>" to <var>output</var>.<li><p><a href=#add-a-vcard-line id=conversion-to-vcard:add-a-vcard-line-2>Add a vCard line</a> with the type "<code>PROFILE</code>" and the value
+   "<code>VCARD</code>" to <var>output</var>.<li><p><a href=#add-a-vcard-line id=conversion-to-vcard:add-a-vcard-line-3>Add a vCard line</a> with the type "<code>VERSION</code>" and the value
+   "<code>4.0</code>" to <var>output</var>.<li><p><a href=#add-a-vcard-line id=conversion-to-vcard:add-a-vcard-line-4>Add a vCard line</a> with the type "<code>SOURCE</code>" and the result
+   of <a href=#escaping-the-vcard-text-string id=conversion-to-vcard:escaping-the-vcard-text-string>escaping the vCard text string</a> that is the document's <a href=https://dom.spec.whatwg.org/#concept-document-url id="conversion-to-vcard:the-document's-address" data-x-internal="the-document's-address">URL</a> as the value to <var>output</var>.<li><p>If <a href=#the-title-element-2 id=conversion-to-vcard:the-title-element-2>the <code>title</code> element</a> is not null, <a href=#add-a-vcard-line id=conversion-to-vcard:add-a-vcard-line-5>add a vCard line</a>
+   with the type "<code>NAME</code>" and with the result of <a href=#escaping-the-vcard-text-string id=conversion-to-vcard:escaping-the-vcard-text-string-2>escaping the vCard text
+   string</a> obtained from the <code id=conversion-to-vcard:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> of <a href=#the-title-element-2 id=conversion-to-vcard:the-title-element-2-2>the <code>title</code>
+   element</a> as the value to <var>output</var>.<li><p>Let <var>sex</var> be the empty string.<li><p>Let <var>gender-identity</var> be the empty string.<li>
+
+    <p>For each element <var>element</var> that is <a href=#the-properties-of-an-item id=conversion-to-vcard:the-properties-of-an-item>a property of the item</a> <var>node</var>: for each name <var>name</var> in <var>element</var>'s <a href=#property-names id=conversion-to-vcard:property-names>property names</a>, run the
+    following substeps:</p>
+
+    <ol><li><p>Let <var>parameters</var> be an empty set of name-value pairs.<li>
+
+      <p>Run the appropriate set of substeps from the following list. The steps will set a variable
+      <var>value</var>, which is used in the next step.</p>
+
+      <dl><dt>If the property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value>value</a> is an <a href=#concept-item id=conversion-to-vcard:concept-item-3>item</a> <var>subitem</var> and <var>name</var> is
+       <code id=conversion-to-vcard:md-vcard-n><a href=#md-vcard-n>n</a></code><dd>
+
+        <ol><li><p>Let <var>value</var> be the empty string.<li><p>Append to <var>value</var> the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty>collecting the first vCard
+         subproperty</a> named <code id=conversion-to-vcard:md-vcard-n-family-name><a href=#md-vcard-n-family-name>family-name</a></code> in <var>subitem</var>.</p>
+
+         <li>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append to <var>value</var> the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty-2>collecting the first vCard
+         subproperty</a> named <code id=conversion-to-vcard:md-vcard-n-given-name><a href=#md-vcard-n-given-name>given-name</a></code> in <var>subitem</var>.</p>
+
+         <li>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append to <var>value</var> the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty-3>collecting the first vCard
+         subproperty</a> named <code id=conversion-to-vcard:md-vcard-n-additional-name><a href=#md-vcard-n-additional-name>additional-name</a></code> in
+         <var>subitem</var>.</p>
+
+         <li>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append to <var>value</var> the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty-4>collecting the first vCard
+         subproperty</a> named <code id=conversion-to-vcard:md-vcard-n-honorific-prefix><a href=#md-vcard-n-honorific-prefix>honorific-prefix</a></code>
+         in <var>subitem</var>.</p>
+
+         <li>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append to <var>value</var> the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty-5>collecting the first vCard
+         subproperty</a> named <code id=conversion-to-vcard:md-vcard-n-honorific-suffix><a href=#md-vcard-n-honorific-suffix>honorific-suffix</a></code>
+         in <var>subitem</var>.</p>
+
+        </ol>
+
+       <dt>If the property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-2>value</a> is an <a href=#concept-item id=conversion-to-vcard:concept-item-4>item</a> <var>subitem</var> and <var>name</var> is
+       <code id=conversion-to-vcard:md-vcard-adr><a href=#md-vcard-adr>adr</a></code><dd>
+
+        <ol><li><p>Let <var>value</var> be the empty string.<li><p>Append to <var>value</var> the result of <a href=#collecting-vcard-subproperties id=conversion-to-vcard:collecting-vcard-subproperties>collecting vCard
+         subproperties</a> named <code id=conversion-to-vcard:md-vcard-adr-post-office-box><a href=#md-vcard-adr-post-office-box>post-office-box</a></code> in <var>subitem</var>.</p>
+
+         <li>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append to <var>value</var> the result of <a href=#collecting-vcard-subproperties id=conversion-to-vcard:collecting-vcard-subproperties-2>collecting vCard
+         subproperties</a> named <code id=conversion-to-vcard:md-vcard-adr-extended-address><a href=#md-vcard-adr-extended-address>extended-address</a></code> in <var>subitem</var>.</p>
+
+         <li>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append to <var>value</var> the result of <a href=#collecting-vcard-subproperties id=conversion-to-vcard:collecting-vcard-subproperties-3>collecting vCard
+         subproperties</a> named <code id=conversion-to-vcard:md-vcard-adr-street-address><a href=#md-vcard-adr-street-address>street-address</a></code>
+         in <var>subitem</var>.</p>
+
+         <li>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append to <var>value</var> the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty-6>collecting the first vCard
+         subproperty</a> named <code id=conversion-to-vcard:md-vcard-adr-locality><a href=#md-vcard-adr-locality>locality</a></code> in <var>subitem</var>.</p>
+
+         <li>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append to <var>value</var> the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty-7>collecting the first vCard
+         subproperty</a> named <code id=conversion-to-vcard:md-vcard-adr-region><a href=#md-vcard-adr-region>region</a></code> in <var>subitem</var>.</p>
+
+         <li>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append to <var>value</var> the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty-8>collecting the first vCard
+         subproperty</a> named <code id=conversion-to-vcard:md-vcard-adr-postal-code><a href=#md-vcard-adr-postal-code>postal-code</a></code> in <var>subitem</var>.</p>
+
+         <li>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append to <var>value</var> the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty-9>collecting the first vCard
+         subproperty</a> named <code id=conversion-to-vcard:md-vcard-adr-country-name><a href=#md-vcard-adr-country-name>country-name</a></code> in
+         <var>subitem</var>.</p>
+
+         <li><p>If there is a property named <code id=conversion-to-vcard:md-vcard-adr-type><a href=#md-vcard-adr-type>type</a></code> in <var>subitem</var>, and the first such property has a <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-3>value</a> that is not an <a href=#concept-item id=conversion-to-vcard:concept-item-5>item</a> and whose value consists only of <a href=#alphanumeric-ascii-characters id=conversion-to-vcard:alphanumeric-ascii-characters>alphanumeric ASCII
+         characters</a>, then add a parameter named "<code>TYPE</code>" whose value is
+         the <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-4>value</a> of that property to <var>parameters</var>.</ol>
+
+       <dt>If the property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-5>value</a> is an <a href=#concept-item id=conversion-to-vcard:concept-item-6>item</a> <var>subitem</var> and <var>name</var> is
+       <code id=conversion-to-vcard:md-vcard-org><a href=#md-vcard-org>org</a></code><dd>
+
+        <ol><li><p>Let <var>value</var> be the empty string.<li><p>Append to <var>value</var> the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty-10>collecting the first vCard
+         subproperty</a> named <code id=conversion-to-vcard:md-vcard-org-organization-name><a href=#md-vcard-org-organization-name>organization-name</a></code> in <var>subitem</var>.</p>
+
+         <li>
+
+          <p>For each property named <code id=conversion-to-vcard:md-vcard-org-organization-unit><a href=#md-vcard-org-organization-unit>organization-unit</a></code> in <var>subitem</var>, run the following steps:</p>
+
+          <ol><li><p>If the <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-6>value</a> of the property is an
+           <a href=#concept-item id=conversion-to-vcard:concept-item-7>item</a>, then skip this property.<li><p>Append a U+003B SEMICOLON character (;) to <var>value</var>.<li><p>Append the result of <a href=#escaping-the-vcard-text-string id=conversion-to-vcard:escaping-the-vcard-text-string-3>escaping the vCard text string</a> given by the
+           <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-7>value</a> of the property to <var>value</var>.</ol>
+
+         </ol>
+
+       <dt>If the property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-8>value</a> is an <a href=#concept-item id=conversion-to-vcard:concept-item-8>item</a> <var>subitem</var> with the <a href=#item-types id=conversion-to-vcard:item-types-3>item type</a> <code id=conversion-to-vcard:md-vcard-3><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>
+       and <var>name</var> is <code id=conversion-to-vcard:md-vcard-related><a href=#md-vcard-related>related</a></code><dd>
+
+        <ol><li><p>Let <var>value</var> be the empty string.<li><p>If there is a property named <code id=conversion-to-vcard:md-vcard-related-url><a href=#md-vcard-related-url>url</a></code> in
+         <var>subitem</var>, and its element is a <a href=#url-property-elements id=conversion-to-vcard:url-property-elements>URL property
+         element</a>, then append the result of <a href=#escaping-the-vcard-text-string id=conversion-to-vcard:escaping-the-vcard-text-string-4>escaping the vCard text string</a> given
+         by the <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-9>value</a> of the first such property to
+         <var>value</var>, and add a parameter with the name "<code>VALUE</code>" and the
+         value "<code>URI</code>" to <var>parameters</var>.<li><p>If there is a property named <code id=conversion-to-vcard:md-vcard-related-rel><a href=#md-vcard-related-rel>rel</a></code> in
+         <var>subitem</var>, and the first such property has a <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-10>value</a> that is not an <a href=#concept-item id=conversion-to-vcard:concept-item-9>item</a> and whose value consists only of <a href=#alphanumeric-ascii-characters id=conversion-to-vcard:alphanumeric-ascii-characters-2>alphanumeric ASCII
+         characters</a>, then add a parameter named "<code>RELATION</code>" whose value
+         is the <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-11>value</a> of that property to
+         <var>parameters</var>.</ol>
+
+       <dt>If the property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-12>value</a> is an <a href=#concept-item id=conversion-to-vcard:concept-item-10>item</a> and <var>name</var> is none of the above<dd>
+
+        <ol><li><p>Let <var>value</var> be the result of <a href=#collecting-the-first-vcard-subproperty id=conversion-to-vcard:collecting-the-first-vcard-subproperty-11>collecting the first vCard
+         subproperty</a> named <code>value</code> in <var>subitem</var>.</p>
+
+         <li><p>If there is a property named <code>type</code> in <var>subitem</var>, and the first such property has a <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-13>value</a> that is not an <a href=#concept-item id=conversion-to-vcard:concept-item-11>item</a> and whose value consists only of <a href=#alphanumeric-ascii-characters id=conversion-to-vcard:alphanumeric-ascii-characters-3>alphanumeric ASCII
+         characters</a>, then add a parameter named "<code>TYPE</code>" whose value is
+         the <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-14>value</a> of that property to <var>parameters</var>.</ol>
+
+       <dt>If the property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-15>value</a> is not an <a href=#concept-item id=conversion-to-vcard:concept-item-12>item</a> and its <var>name</var> is <code id=conversion-to-vcard:md-vcard-sex><a href=#md-vcard-sex>sex</a></code><dd>
+
+        <p>If this is the first such property to be found, set <var>sex</var> to the
+        property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-16>value</a>.</p>
+
+       <dt>If the property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-17>value</a> is not an <a href=#concept-item id=conversion-to-vcard:concept-item-13>item</a> and its <var>name</var> is <code id=conversion-to-vcard:md-vcard-gender-identity><a href=#md-vcard-gender-identity>gender-identity</a></code><dd>
+
+        <p>If this is the first such property to be found, set <var>gender-identity</var>
+        to the property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-18>value</a>.</p>
+
+       <dt>Otherwise (the property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-19>value</a> is not an
+       <a href=#concept-item id=conversion-to-vcard:concept-item-14>item</a>)<dd>
+
+        <ol><li><p>Let <var>value</var> be the property's <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-20>value</a>.<li><p>If <var>element</var> is one of the <a href=#url-property-elements id=conversion-to-vcard:url-property-elements-2>URL property elements</a>, add
+         a parameter with the name "<code>VALUE</code>" and the value "<code>URI</code>" to <var>parameters</var>.<li><p>Otherwise, if <var>name</var> is <code id=conversion-to-vcard:md-vcard-bday><a href=#md-vcard-bday>bday</a></code> or
+         <code id=conversion-to-vcard:md-vcard-anniversary><a href=#md-vcard-anniversary>anniversary</a></code> and the <var>value</var> is
+         a <a href=#valid-date-string id=conversion-to-vcard:valid-date-string>valid date string</a>, add a parameter with the name "<code>VALUE</code>" and the value "<code>DATE</code>" to <var>parameters</var>.<li><p>Otherwise, if <var>name</var> is <code id=conversion-to-vcard:md-vcard-rev><a href=#md-vcard-rev>rev</a></code> and
+         the <var>value</var> is a <a href=#valid-global-date-and-time-string id=conversion-to-vcard:valid-global-date-and-time-string>valid global date and time string</a>, add a
+         parameter with the name "<code>VALUE</code>" and the value "<code>DATE-TIME</code>" to <var>parameters</var>.<li><p>Prefix every U+005C REVERSE SOLIDUS character (\) in <var>value</var> with
+         another U+005C REVERSE SOLIDUS character (\).<li><p>Prefix every U+002C COMMA character (,) in <var>value</var> with a U+005C
+         REVERSE SOLIDUS character (\).<li><p>Unless <var>name</var> is <code id=conversion-to-vcard:md-vcard-geo><a href=#md-vcard-geo>geo</a></code>, prefix
+         every U+003B SEMICOLON character (;) in <var>value</var> with a U+005C REVERSE
+         SOLIDUS character (\).<li><p>Replace every U+000D CARRIAGE RETURN U+000A LINE FEED character pair (CRLF) in <var>value</var> with a U+005C REVERSE SOLIDUS character (\) followed by a U+006E LATIN
+         SMALL LETTER N character (n).<li><p>Replace every remaining U+000D CARRIAGE RETURN (CR) or U+000A LINE FEED (LF)
+         character in <var>value</var> with a U+005C REVERSE SOLIDUS character (\) followed
+         by a U+006E LATIN SMALL LETTER N character (n).</ol>
+
+       </dl>
+
+     <li>
+
+      <p><a href=#add-a-vcard-line id=conversion-to-vcard:add-a-vcard-line-6>Add a vCard line</a> with the type <var>name</var>, the parameters <var>parameters</var>, and the value <var>value</var> to <var>output</var>.</p>
+
+     </ol>
+
+   <li><p>If either <var>sex</var> or <var>gender-identity</var> has a value that
+   is not the empty string, <a href=#add-a-vcard-line id=conversion-to-vcard:add-a-vcard-line-7>add a vCard line</a> with the type "<code>GENDER</code>" and the value consisting of the concatenation of <var>sex</var>,
+   a U+003B SEMICOLON character (;), and <var>gender-identity</var> to <var>output</var>.<li><p><a href=#add-a-vcard-line id=conversion-to-vcard:add-a-vcard-line-8>Add a vCard line</a> with the type "<code>END</code>" and the value
+   "<code>VCARD</code>" to <var>output</var>.</ol>
+
+  <p>When the above algorithm says that the user agent is to <dfn id=add-a-vcard-line>add a vCard line</dfn> consisting
+  of a type <var>type</var>, optionally some parameters, and a value <var>value</var> to a string <var>output</var>, it must run the following steps:</p>
+
+  <ol><li><p>Let <var>line</var> be an empty string.
+
+   <li><p>Append <var>type</var>, <a id=conversion-to-vcard:converted-to-ascii-uppercase href=https://infra.spec.whatwg.org/#ascii-uppercase data-x-internal=converted-to-ascii-uppercase>converted to ASCII uppercase</a>, to <var>line</var>.<li>
+
+    <p>If there are any parameters, then for each parameter, in the order that they were added, run
+    these substeps:</p>
+
+    <ol><li><p>Append a U+003B SEMICOLON character (;) to <var>line</var>.<li><p>Append the parameter's name to <var>line</var>.<li><p>Append a U+003D EQUALS SIGN character (=) to <var>line</var>.<li><p>Append the parameter's value to <var>line</var>.</ol>
+
+   <li><p>Append a U+003A COLON character (:) to <var>line</var>.<li><p>Append <var>value</var> to <var>line</var>.<li><p>Let <var>maximum length</var> be 75.<li>
+
+    <p>If and while <var>line</var> is longer than <var>maximum length</var>
+    Unicode code points long, run the following substeps:</p>
+
+    <ol><li><p>Append the first <var>maximum length</var> Unicode code points of <var>line</var> to <var>output</var>.<li><p>Remove the first <var>maximum length</var> Unicode code points from <var>line</var>.<li><p>Append a U+000D CARRIAGE RETURN character (CR) to <var>output</var>.<li><p>Append a U+000A LINE FEED character (LF) to <var>output</var>.<li><p>Append a U+0020 SPACE character to <var>output</var>.<li><p>Let <var>maximum length</var> be 74.</ol>
+
+   <li><p>Append (what remains of) <var>line</var> to <var>output</var>.<li><p>Append a U+000D CARRIAGE RETURN character (CR) to <var>output</var>.<li><p>Append a U+000A LINE FEED character (LF) to <var>output</var>.</ol>
+
+  <p>When the steps above require the user agent to obtain the result of <dfn id=collecting-vcard-subproperties>collecting vCard
+  subproperties</dfn> named <var>subname</var> in <var>subitem</var>, the user
+  agent must run the following steps:</p>
+
+  <ol><li><p>Let <var>value</var> be the empty string.<li>
+
+    <p>For each property named <var>subname</var> in the item <var>subitem</var>,
+    run the following substeps:</p>
+
+    <ol><li><p>If the <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-21>value</a> of the property is itself an
+     <a href=#concept-item id=conversion-to-vcard:concept-item-15>item</a>, then skip this property.<li><p>If this is not the first property named <var>subname</var> in <var>subitem</var> (ignoring any that were skipped by the previous step), then append a
+     U+002C COMMA character (,) to <var>value</var>.<li><p>Append the result of <a href=#escaping-the-vcard-text-string id=conversion-to-vcard:escaping-the-vcard-text-string-5>escaping the vCard text string</a> given by the <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-22>value</a> of the property to <var>value</var>.</ol>
+
+   <li><p>Return <var>value</var>.</ol>
+
+  <p>When the steps above require the user agent to obtain the result of <dfn id=collecting-the-first-vcard-subproperty>collecting the first
+  vCard subproperty</dfn> named <var>subname</var> in <var>subitem</var>, the user
+  agent must run the following steps:</p>
+
+  <ol><li><p>If there are no properties named <var>subname</var> in <var>subitem</var>, then abort these substeps, returning the empty string.<li><p>If the <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-23>value</a> of the first property named <var>subname</var> in <var>subitem</var> is an <a href=#concept-item id=conversion-to-vcard:concept-item-16>item</a>, then abort these substeps, returning the empty string.<li><p>Return the result of <a href=#escaping-the-vcard-text-string id=conversion-to-vcard:escaping-the-vcard-text-string-6>escaping the vCard text string</a> given by the <a href=#concept-property-value id=conversion-to-vcard:concept-property-value-24>value</a> of the first property named <var>subname</var> in <var>subitem</var>.</ol>
+
+  <p>When the above algorithms say the user agent is to <dfn id=escaping-the-vcard-text-string>escape the vCard text string</dfn> <var>value</var>, the user agent must use the
+  following steps:</p>
+
+  <ol><li><p>Prefix every U+005C REVERSE SOLIDUS character (\) in <var>value</var> with
+   another U+005C REVERSE SOLIDUS character (\).<li><p>Prefix every U+002C COMMA character (,) in <var>value</var> with a U+005C REVERSE
+   SOLIDUS character (\).<li><p>Prefix every U+003B SEMICOLON character (;) in <var>value</var> with a U+005C
+   REVERSE SOLIDUS character (\).<li><p>Replace every U+000D CARRIAGE RETURN U+000A LINE FEED character pair (CRLF) in <var>value</var> with a U+005C REVERSE SOLIDUS character (\) followed by a U+006E LATIN SMALL
+   LETTER N character (n).<li><p>Replace every remaining U+000D CARRIAGE RETURN (CR) or U+000A LINE FEED (LF) character in
+   <var>value</var> with a U+005C REVERSE SOLIDUS character (\) followed by a U+006E LATIN
+   SMALL LETTER N character (n).<li><p>Return the mutated <var>value</var>.</ol>
+
+  <p class=note>This algorithm can generate invalid vCard output, if the input does not conform to
+  the rules described for the <code id=conversion-to-vcard:md-vcard-4><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>
+  <a href=#item-types id=conversion-to-vcard:item-types-4>item type</a> and <a href=#defined-property-name id=conversion-to-vcard:defined-property-name>defined property
+  names</a>.</p> 
+
+
+
+  <h5 id=examples-2>5.3.1.2 Examples<a href=#examples-2 class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <div class=example>
+
+   <p>Here is a long example vCard for a fictional character called "Jack Bauer":</p>
+
+   <pre>&lt;section id="jack" itemscope itemtype="http://microformats.org/profile/hcard">
+ &lt;h1 itemprop="fn">
+  &lt;span itemprop="n" itemscope>
+   &lt;span itemprop="given-name">Jack&lt;/span>
+   &lt;span itemprop="family-name">Bauer&lt;/span>
+  &lt;/span>
+ &lt;/h1>
+ &lt;img itemprop="photo" alt="" src="jack-bauer.jpg">
+ &lt;p itemprop="org" itemscope>
+  &lt;span itemprop="organization-name">Counter-Terrorist Unit&lt;/span>
+  (&lt;span itemprop="organization-unit">Los Angeles Division&lt;/span>)
+ &lt;/p>
+ &lt;p>
+  &lt;span itemprop="adr" itemscope>
+   &lt;span itemprop="street-address">10201 W. Pico Blvd.&lt;/span>&lt;br>
+   &lt;span itemprop="locality">Los Angeles&lt;/span>,
+   &lt;span itemprop="region">CA&lt;/span>
+   &lt;span itemprop="postal-code">90064&lt;/span>&lt;br>
+   &lt;span itemprop="country-name">United States&lt;/span>&lt;br>
+  &lt;/span>
+  &lt;span itemprop="geo">34.052339;-118.410623&lt;/span>
+ &lt;/p>
+ &lt;h2>Assorted Contact Methods&lt;/h2>
+ &lt;ul>
+  &lt;li itemprop="tel" itemscope>
+   &lt;span itemprop="value">+1 (310) 597 3781&lt;/span> &lt;span itemprop="type">work&lt;/span>
+   &lt;meta itemprop="type" content="voice">
+  &lt;/li>
+  &lt;li>&lt;a itemprop="url" href="https://en.wikipedia.org/wiki/Jack_Bauer">I'm on Wikipedia&lt;/a>
+  so you can leave a message on my user talk page.&lt;/li>
+  &lt;li>&lt;a itemprop="url" href="http://www.jackbauerfacts.com/">Jack Bauer Facts&lt;/a>&lt;/li>
+  &lt;li itemprop="email">&lt;a href="mailto:j.bauer@la.ctu.gov.invalid">j.bauer@la.ctu.gov.invalid&lt;/a>&lt;/li>
+  &lt;li itemprop="tel" itemscope>
+   &lt;span itemprop="value">+1 (310) 555 3781&lt;/span> &lt;span>
+   &lt;meta itemprop="type" content="cell">mobile phone&lt;/span>
+  &lt;/li>
+ &lt;/ul>
+ &lt;ins datetime="2008-07-20 21:00:00+01:00">
+  &lt;meta itemprop="rev" content="2008-07-20 21:00:00+01:00">
+  &lt;p itemprop="tel" itemscope>&lt;strong>Update!&lt;/strong>
+  My new &lt;span itemprop="type">home&lt;/span> phone number is
+  &lt;span itemprop="value">01632 960 123&lt;/span>.&lt;/p>
+ &lt;/ins>
+&lt;/section></pre>
+
+   <p>The odd line wrapping is needed because newlines are meaningful in microdata: newlines would
+   be preserved in a conversion to, for example, the vCard format.</p>
+

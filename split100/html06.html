@@ -1,0 +1,850 @@
+     </ol>
+   <li>
+    <p>Otherwise, if <var>input</var> has [[MapData]] internal slot, then:</p>
+
+    <ol><li><p>Let <var>output</var> be a new Map object in <var>targetRealm</var> whose [[MapData]]
+     internal slot value is a new empty <a href=https://tc39.github.io/ecma262/#sec-list-and-record-specification-type id=structuredclone:js-list data-x-internal=js-list>List</a>.<li><p>Set <var>deepClone</var> to true.</ol>
+   <li>
+    <p>Otherwise, if <var>input</var> has [[SetData]] internal slot, then:</p>
+
+    <ol><li><p>Let <var>output</var> be a new Set object in <var>targetRealm</var> whose [[SetData]]
+     internal slot value is a new empty <a href=https://tc39.github.io/ecma262/#sec-list-and-record-specification-type id=structuredclone:js-list-2 data-x-internal=js-list>List</a>.<li><p>Set <var>deepClone</var> to true.</ol>
+   <li>
+    <p>Otherwise, if <var>input</var> is an Array exotic object, then:</p>
+    
+
+    <ol><li><p>Let <var>inputLen</var> be <a id=structuredclone:ordinarygetownproperty href=https://tc39.github.io/ecma262/#sec-ordinarygetownproperty data-x-internal=ordinarygetownproperty>OrdinaryGetOwnProperty</a>(<var>input</var>,
+     "<code>length</code>").[[Value]].<li><p>Let <var>outputProto</var> be the <a id=structuredclone:%arrayprototype% href=https://tc39.github.io/ecma262/#sec-properties-of-the-array-prototype-object data-x-internal=%arrayprototype%>%ArrayPrototype%</a> intrinsic object in
+     <var>targetRealm</var>.<li><p>Let <var>output</var> be ! <a id=structuredclone:arraycreate href=https://tc39.github.io/ecma262/#sec-arraycreate data-x-internal=arraycreate>ArrayCreate</a>(<var>inputLen</var>,
+     <var>outputProto</var>).<li><p>Set <var>deepClone</var> to true.</ol>
+   <li><p>Otherwise, if <var>input</var> has a <a href=#clone-() id=structuredclone:clone-()>[[Clone]]()</a> internal method, then let
+   <var>output</var> be ? <var>input</var>.<a href=#clone-() id=structuredclone:clone-()-2>[[Clone]]</a>(<var>targetRealm</var>, <var>memory</var>).<li><p>Otherwise, if <a id=structuredclone:iscallable href=https://tc39.github.io/ecma262/#sec-iscallable data-x-internal=iscallable>IsCallable</a>(<var>input</var>) is true, then throw a
+   <a id=structuredclone:datacloneerror-3 href=https://heycam.github.io/webidl/#datacloneerror data-x-internal=datacloneerror>"<code>DataCloneError</code>"</a> <code id=structuredclone:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li>
+    <p>Otherwise, if <var>input</var> has any internal slot other than [[Prototype]] or
+    [[Extensible]], then throw a <a id=structuredclone:datacloneerror-4 href=https://heycam.github.io/webidl/#datacloneerror data-x-internal=datacloneerror>"<code>DataCloneError</code>"</a>
+    <code id=structuredclone:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+    <p class=example>For instance, a [[PromiseState]] or [[WeakMapData]] internal slot.</p>
+   <li>
+    <p>Otherwise, if <var>input</var> is an exotic object, then throw a
+    <a id=structuredclone:datacloneerror-5 href=https://heycam.github.io/webidl/#datacloneerror data-x-internal=datacloneerror>"<code>DataCloneError</code>"</a> <code id=structuredclone:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+    <p class=example>For instance, a proxy object.</p>
+  <li>
+    <p>Otherwise:</p>
+
+    <ol><li><p>Let <var>output</var> be a new Object in <var>targetRealm</var>.<li><p>Set <var>deepClone</var> to true.</ol>
+   <li><p>Create an entry in <var>memory</var> whose key is <var>input</var> and value is
+   <var>output</var>.<li>
+    <p>If <var>deepClone</var> is true, then:</p>
+
+    <ol><li>
+      <p>If <var>input</var> has a [[MapData]] internal slot, then:
+
+      <ol><li><p>Let <var>inputList</var> the value of <var>input</var>'s [[MapData]] internal
+       slot.<li><p>Let <var>copiedList</var> be a new empty <a href=https://tc39.github.io/ecma262/#sec-list-and-record-specification-type id=structuredclone:js-list-3 data-x-internal=js-list>List</a>.
+
+       <li>
+        <p>Repeat for each <a id=structuredclone:record href=https://tc39.github.io/ecma262/#sec-list-and-record-specification-type data-x-internal=record>Record</a> { [[Key]], [[Value]] } <var>entry</var> that is an
+        element of <var>inputList</var>,</p>
+
+        <ol><li><p>Let <var>copiedEntry</var> be a new <a id=structuredclone:record-2 href=https://tc39.github.io/ecma262/#sec-list-and-record-specification-type data-x-internal=record>Record</a> {
+         [[Key]]: <var>entry</var>.[[Key]],
+         [[Value]]: <var>entry</var>.[[Value]] }.<li><p>If <var>copiedEntry</var>.[[Key]] is not empty, append <var>copiedEntry</var> as the
+         last element of <var>copiedList</var>.</ol>
+
+       <li><p>Let <var>outputList</var> be the value of <var>output</var>'s [[MapData]] internal
+       slot.<li>
+        <p>For each <a id=structuredclone:record-3 href=https://tc39.github.io/ecma262/#sec-list-and-record-specification-type data-x-internal=record>Record</a> { [[Key]], [[Value]] } <var>entry</var> that is an element
+        of <var>copiedList</var>,</p>
+
+        <ol><li><p>Let <var>outputKey</var> be ? <a href=#structuredclone id=structuredclone:structuredclone-2>StructuredClone</a>(<var>entry</var>.[[Key]],
+         <var>targetRealm</var>, <var>memory</var>).<li><p>Let <var>outputValue</var> be ?
+         <a href=#structuredclone id=structuredclone:structuredclone-3>StructuredClone</a>(<var>entry</var>.[[Value]], <var>targetRealm</var>,
+         <var>memory</var>).<li><p>Add { [[Key]]: <var>outputKey</var>, [[Value]]: <var>outputValue</var> } as the last
+         element of <var>outputList</var>.</ol>
+       </ol>
+     <li>
+      <p>Otherwise, if <var>input</var> has a [[SetData]] internal slot, then:</p>
+
+      <ol><li><p>Let <var>copiedList</var> be a copy of the value of <var>input</var>'s [[SetData]]
+       internal slot.<li><p>Let <var>outputList</var> be the value of <var>output</var>'s [[SetData]] internal
+       slot.<li>
+        <p>For each <var>entry</var> that is an element of <var>copiedList</var> that is not
+        empty,</p>
+
+        <ol><li><p>Let <var>outputEntry</var> be ? <a href=#structuredclone id=structuredclone:structuredclone-4>StructuredClone</a>(<var>entry</var>,
+         <var>targetResult</var>, <var>memory</var>).<li><p>Add <var>outputEntry</var> as the last element of <var>outputList</var>.</ol>
+       </ol>
+     <li>
+      <p>Otherwise:
+
+      <ol><li><p>Let <var>enumerableKeys</var> be a new empty <a href=https://tc39.github.io/ecma262/#sec-list-and-record-specification-type id=structuredclone:js-list-4 data-x-internal=js-list>List</a>.<li>
+        <p>For each <var>key</var> in ! <var>input</var>.[[OwnPropertyKeys]]():</p>
+
+        <ol><li>
+          <p>If <a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values id=structuredclone:js-type-3 data-x-internal=js-type>Type</a>(<var>key</var>) is String, then:</p>
+
+          <ol><li><p>Let <var>inputDesc</var> be !
+           <var>input</var>.[[GetOwnProperty]](<var>key</var>).<li><p>If <var>inputDesc</var>.[[Enumerable]] is true, then add <var>key</var> as the
+           last element of <var>enumerableKeys</var>.</ol>
+         </ol>
+       <li>
+        <p>For each <var>key</var> in <var>enumerableKeys</var>:</p>
+
+        <ol><li>
+          <p>If ! <a id=structuredclone:hasownproperty href=https://tc39.github.io/ecma262/#sec-hasownproperty data-x-internal=hasownproperty>HasOwnProperty</a>(<var>input</var>, <var>key</var>) is true, then:</p>
+
+          <ol><li><p>Let <var>inputValue</var> be ? <var>input</var>.[[Get]](<var>key</var>,
+           <var>input</var>).<li><p>Let <var>outputValue</var> be ?
+           <a href=#structuredclone id=structuredclone:structuredclone-5>StructuredClone</a>(<var>inputValue</var>, <var>targetRealm</var>,
+           <var>memory</var>).<li><p>Perform ? <a id=structuredclone:createdataproperty href=https://tc39.github.io/ecma262/#sec-createdataproperty data-x-internal=createdataproperty>CreateDataProperty</a>(<var>output</var>, <var>key</var>,
+           <var>outputValue</var>).</ol>
+         </ol>
+       </ol>
+
+      <p class=note>The key collection performed above is very similar to the JavaScript
+      specification's <a id=structuredclone:enumerableownproperties href=https://tc39.github.io/ecma262/#sec-enumerableownproperties data-x-internal=enumerableownproperties>EnumerableOwnProperties</a> operation, but crucially it uses the
+      deterministic ordering provided by the [[OwnPropertyKeys]] internal method, instead of
+      reordering the keys in an unspecified manner as <a id=structuredclone:enumerableownproperties-2 href=https://tc39.github.io/ecma262/#sec-enumerableownproperties data-x-internal=enumerableownproperties>EnumerableOwnProperties</a> does.
+      <a href=#refsJAVASCRIPT>[JAVASCRIPT]</a></p>
+     </ol>
+   <li><p>Return <var>output</var>.</ol>
+
+  <p class=note>In general implementations will need to use some kind of serialization and
+  marshalling to implement the creation of objects in <var>targetRealm</var>, as
+  <var>targetRealm</var> could be in a different <a href=#event-loop id=structuredclone:event-loop>event loop</a> and not easily accessible
+  to the code that invokes <a href=#structuredclonewithtransfer id=structuredclone:structuredclonewithtransfer>StructuredCloneWithTransfer</a> or
+  <a href=#structuredclone id=structuredclone:structuredclone-6>StructuredClone</a>.</p>
+
+  <h4 id=istransferable data-dfn-type=abstract-op data-lt=IsTransferable data-export="">2.7.5 <dfn>IsTransferable</dfn> ( <var>O</var> )<a href=#istransferable class=self-link></a></h4>
+
+  <ol><li><p>Assert: <a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values id=istransferable:js-type data-x-internal=js-type>Type</a>(<var>O</var>) is Object.<li>
+    <p>If <var>O</var> has an [[ArrayBufferData]] internal slot, then:</p>
+
+    <ol><li><p>If <a id=istransferable:isdetachedbuffer href=https://tc39.github.io/ecma262/#sec-isdetachedbuffer data-x-internal=isdetachedbuffer>IsDetachedBuffer</a>(<var>O</var>) is true, then return false.<li><p>Return true.</ol>
+   <li>
+    <p>Otherwise, if <var>O</var> has a <a href=#detached id=istransferable:detached>[[Detached]]</a> internal slot, then:</p>
+
+    <ol><li><p>If <var>O</var>'s <a href=#detached id=istransferable:detached-2>[[Detached]]</a> internal slot value is true, then return
+     false.<li><p>Return true.</ol>
+   <li><p>Return false.</ol>
+
+  <h4 id=transfer-abstract-op data-dfn-type=abstract-op data-lt=Transfer data-export="">2.7.6 <dfn>Transfer</dfn> ( <var>input</var>, <var>targetRealm</var> )<a href=#transfer-abstract-op class=self-link></a></h4>
+
+  <ol><li>
+    <p>If <var>input</var> has an [[ArrayBufferData]] internal slot, then:</p>
+
+    <ol><li><p>Let <var>output</var> be a new ArrayBuffer object in <var>targetRealm</var> whose
+     [[ArrayBufferByteLength]] internal slot value is the [[ArrayBufferByteLength]] internal slot
+     value of <var>input</var>, and whose [[ArrayBufferData]] internal slot value is the
+     [[ArrayBufferData]] internal slot value of <var>input</var>.<li><p>Perform ! <a id=transfer-abstract-op:detacharraybuffer href=https://tc39.github.io/ecma262/#sec-detacharraybuffer data-x-internal=detacharraybuffer>DetachArrayBuffer</a>(<var>input</var>).<li><p>Return <var>output</var>.</ol>
+   <li><p>Return ? <var>input</var>.<a href=#transfer-() id=transfer-abstract-op:transfer-()>[[Transfer]]</a>(<var>targetRealm</var>).</ol>
+
+  <h4 id=performing-structured-clones-from-other-specifications>2.7.7 Performing structured clones from other specifications<a href=#performing-structured-clones-from-other-specifications class=self-link></a></h4>
+
+  <p>Other specifications may use the <a href=#structuredclone id=performing-structured-clones-from-other-specifications:structuredclone>StructuredClone</a>,
+  <a href=#structuredclonewithtransfer id=performing-structured-clones-from-other-specifications:structuredclonewithtransfer>StructuredCloneWithTransfer</a>, <a href=#istransferable id=performing-structured-clones-from-other-specifications:istransferable>IsTransferable</a>, and <a href=#transfer-abstract-op id=performing-structured-clones-from-other-specifications:transfer-abstract-op>Transfer</a> abstract operations.</p>
+
+  <p>In general, call sites may pass in Web IDL values instead of JavaScript values; this is to be
+  understood to perform an implicit <a href=https://heycam.github.io/webidl/#es-type-mapping id=performing-structured-clones-from-other-specifications:concept-idl-convert data-x-internal=concept-idl-convert>conversion</a> to the
+  JavaScript value before invoking these algorithms.</p>
+
+  <p>Call sites that are not invoked as a result of author code synchronously calling into a user
+  agent method must take care to properly <a href=#prepare-to-run-script id=performing-structured-clones-from-other-specifications:prepare-to-run-script>prepare to run script</a> and <a href=#prepare-to-run-a-callback id=performing-structured-clones-from-other-specifications:prepare-to-run-a-callback>prepare to
+  run a callback</a> before invoking these abstract operations, if they are being performed on
+  arbitrary objects. This is necessary because the <a href=#structuredclone id=performing-structured-clones-from-other-specifications:structuredclone-2>StructuredClone</a> operation can invoke
+  author-defined accessors as part of its final deep-cloning steps, and these accessors could call
+  into operations that rely on the <a href=#concept-entry-everything id=performing-structured-clones-from-other-specifications:concept-entry-everything>entry</a> and <a href=#concept-incumbent-everything id=performing-structured-clones-from-other-specifications:concept-incumbent-everything>incumbent</a> concepts being properly set up.</p>
+
+  <p class=example><code id=performing-structured-clones-from-other-specifications:dom-window-postmessage><a href=#dom-window-postmessage>postMessage</a></code> performs
+  <a href=#structuredclonewithtransfer id=performing-structured-clones-from-other-specifications:structuredclonewithtransfer-2>StructuredCloneWithTransfer</a> on its arguments, but is careful to do so immediately,
+  inside the synchronous portion of its algorithm. Thus it is able to use the structured cloning
+  algorithms without needing to <a href=#prepare-to-run-script id=performing-structured-clones-from-other-specifications:prepare-to-run-script-2>prepare to run script</a> and <a href=#prepare-to-run-a-callback id=performing-structured-clones-from-other-specifications:prepare-to-run-a-callback-2>prepare to run a
+  callback</a>.</p>
+
+  <p class=example><a href=https://url.spec.whatwg.org/#concept-url-parser id=performing-structured-clones-from-other-specifications:url-parser data-x-internal=url-parser>Parsing</a> URLs can happen at a variety of times
+  that are not the synchronous result of author code. However, the URL parser only applies
+  <a href=#structuredclone id=performing-structured-clones-from-other-specifications:structuredclone-3>StructuredClone</a> to <code id=performing-structured-clones-from-other-specifications:blob><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> objects, so it is not in danger of running
+  author code with incorrect <a href=#concept-entry-everything id=performing-structured-clones-from-other-specifications:concept-entry-everything-2>entry</a> and <a href=#concept-incumbent-everything id=performing-structured-clones-from-other-specifications:concept-incumbent-everything-2>incumbent</a> values, and thus it too does not need to
+  perform these preparation steps.</p>
+
+  <p class=example>In contrast, a hypothetical API that used <a href=#structuredclone id=performing-structured-clones-from-other-specifications:structuredclone-4>StructuredClone</a> to
+  serialize some author-supplied object periodically, directly from a <a href=#concept-task id=performing-structured-clones-from-other-specifications:concept-task>task</a> on the <a href=#event-loop id=performing-structured-clones-from-other-specifications:event-loop>event loop</a>, would need to ensure it performs
+  the appropriate preparations before calling into the structured clone algorithms. As of this time,
+  we know of no such APIs on the platform; usually it is simpler to perform the clone ahead of time,
+  as a synchronous consequence of author code, like <code id=performing-structured-clones-from-other-specifications:dom-window-postmessage-2><a href=#dom-window-postmessage>postMessage</a></code>.</p>
+
+  <h4 id=monkey-patch-for-blob-and-filelist-objects>2.7.8 Monkey patch for <code id=monkey-patch-for-blob-and-filelist-objects:blob><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> and <code id=monkey-patch-for-blob-and-filelist-objects:filelist><a data-x-internal=filelist href=https://w3c.github.io/FileAPI/#filelist-section>FileList</a></code> objects<a href=#monkey-patch-for-blob-and-filelist-objects class=self-link></a></h4>
+
+  <p class=XXX>This monkey patch will be removed in due course. See <a href=https://github.com/w3c/FileAPI/issues/32>w3c/FileAPI issue 32</a>.</p>
+
+  <p><code id=monkey-patch-for-blob-and-filelist-objects:blob-2><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> objects are <a href=#cloneable-objects id=monkey-patch-for-blob-and-filelist-objects:cloneable-objects>cloneable objects</a>.</p>
+
+  <p>Each <code id=monkey-patch-for-blob-and-filelist-objects:blob-3><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object's <a href=#clone-() id=monkey-patch-for-blob-and-filelist-objects:clone-()>[[Clone]](<var>targetRealm</var>,
+  <var>memory</var>)</a> internal method must run these steps:</p>
+
+  <ol><li><p>If <b>this</b> is <a href=https://w3c.github.io/FileAPI/#closed id=monkey-patch-for-blob-and-filelist-objects:concept-blob-closed data-x-internal=concept-blob-closed>closed</a>, then throw a
+   <a id=monkey-patch-for-blob-and-filelist-objects:datacloneerror href=https://heycam.github.io/webidl/#datacloneerror data-x-internal=datacloneerror>"<code>DataCloneError</code>"</a> <code id=monkey-patch-for-blob-and-filelist-objects:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Return a new instance of <b>this</b> in <var>targetRealm</var>, corresponding to the
+   same underlying data.</ol>
+
+  <p><code id=monkey-patch-for-blob-and-filelist-objects:filelist-2><a data-x-internal=filelist href=https://w3c.github.io/FileAPI/#filelist-section>FileList</a></code> objects are <a href=#cloneable-objects id=monkey-patch-for-blob-and-filelist-objects:cloneable-objects-2>cloneable objects</a>.</p>
+
+  <p>Each <code id=monkey-patch-for-blob-and-filelist-objects:filelist-3><a data-x-internal=filelist href=https://w3c.github.io/FileAPI/#filelist-section>FileList</a></code> object's <a href=#clone-() id=monkey-patch-for-blob-and-filelist-objects:clone-()-2>[[Clone]](<var>targetRealm</var>, <var>memory</var>)</a> internal method
+  must run these steps:</p>
+
+  <ol><li><p>Let <var>output</var> be a new <code id=monkey-patch-for-blob-and-filelist-objects:filelist-4><a data-x-internal=filelist href=https://w3c.github.io/FileAPI/#filelist-section>FileList</a></code> object in
+   <var>targetRealm</var>.<li><p>For each <var>file</var> in <b>this</b>, add ?
+   <a href=#structuredclone id=monkey-patch-for-blob-and-filelist-objects:structuredclone>StructuredClone</a>(<var>file</var>, <var>targetRealm</var>, <var>memory</var>) to the
+   end of the list of <code id=monkey-patch-for-blob-and-filelist-objects:file><a data-x-internal=file href=https://w3c.github.io/FileAPI/#file>File</a></code> objects of <var>output</var>.<li><p>Return <var>output</var>.</ol>
+
+  
+
+
+
+  <h2 id=dom>3 Semantics, structure, and APIs of HTML documents<a href=#dom class=self-link></a></h2>
+
+  <h3 id=documents>3.1 Documents<a href=#documents class=self-link></a></h3>
+
+  <p>Every XML and HTML document in an HTML UA is represented by a <code id=documents:document><a href=#document>Document</a></code> object. <a href=#refsDOM>[DOM]</a></p>
+
+  <p>The <code id=documents:document-2><a href=#document>Document</a></code> object's <dfn data-x-for=Document id="the-document's-address"><a href=https://dom.spec.whatwg.org/#concept-document-url>URL</a></dfn> is defined in the WHATWG DOM standard. It is initially set when
+  the <code id=documents:document-3><a href=#document>Document</a></code> object is created, but can change during the lifetime of the
+  <code id=documents:document-4><a href=#document>Document</a></code> object; for example, it changes when the user <a href=#navigate id=documents:navigate>navigates</a> to a <a href=#scroll-to-fragid id=documents:scroll-to-fragid>fragment</a> on the page
+  and when the <code id=documents:dom-history-pushstate><a href=#dom-history-pushstate>pushState()</a></code> method is called with a new
+  <a id=documents:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>. <a href=#refsDOM>[DOM]</a></p>
+  
+
+  <p class=warning>Interactive user agents typically expose the <code id=documents:document-5><a href=#document>Document</a></code> object's
+  <a href=https://dom.spec.whatwg.org/#concept-document-url id="documents:the-document's-address" data-x-internal="the-document's-address">URL</a> in their user interface. This is the primary
+  mechanism by which a user can tell if a site is attempting to impersonate another.</p>
+
+  <p>When a <code id=documents:document-6><a href=#document>Document</a></code> is created by a <a href=#concept-script id=documents:concept-script>script</a> using
+  the <code id=documents:dom-domimplementation-createdocument><a data-x-internal=dom-domimplementation-createdocument href=https://dom.spec.whatwg.org/#dom-domimplementation-createdocument>createDocument()</a></code> or <code id=documents:dom-domimplementation-createhtmldocument><a data-x-internal=dom-domimplementation-createhtmldocument href=https://dom.spec.whatwg.org/#dom-domimplementation-createhtmldocument>createHTMLDocument()</a></code> the
+  <code id=documents:document-7><a href=#document>Document</a></code> is both <a href=#ready-for-post-load-tasks id=documents:ready-for-post-load-tasks>ready for post-load tasks</a> and <a href=#completely-loaded id=documents:completely-loaded>completely
+  loaded</a> immediately.</p>
+
+  <p><dfn id="the-document's-referrer" data-export="">The document's referrer</dfn> is a string (representing a <a id=documents:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>)
+  that can be set when the <code id=documents:document-8><a href=#document>Document</a></code> is created. If it is not explicitly set, then its
+  value is the empty string.</p>
+
+  <p>Each <code id=documents:document-9><a href=#document>Document</a></code> object has a <dfn id=reload-override-flag>reload override flag</dfn> that is originally
+  unset. The flag is set by the <code id=documents:dom-document-open><a href=#dom-document-open>document.open()</a></code> and <code id=documents:dom-document-open-2><a href=#dom-document-open>document.write()</a></code> methods in certain situations. When the flag is
+  set, the <code id=documents:document-10><a href=#document>Document</a></code> also has a <dfn id=reload-override-buffer>reload override buffer</dfn> which is a Unicode
+  string that is used as the source of the document when it is reloaded.</p>
+
+  <p>When the user agent is to perform <dfn id=an-overridden-reload>an overridden reload</dfn>, given a <a href=#source-browsing-context id=documents:source-browsing-context>source
+  browsing context</a>, it must act as follows:</p>
+
+  <ol><li><p>Let <var>source</var> be the value of the <a href=#browsing-context id=documents:browsing-context>browsing context</a>'s
+   <a href=#active-document id=documents:active-document>active document</a>'s <a href=#reload-override-buffer id=documents:reload-override-buffer>reload override buffer</a>.<li><p>Let <var>address</var> be the <a href=#browsing-context id=documents:browsing-context-2>browsing context</a>'s <a href=#active-document id=documents:active-document-2>active
+   document</a>'s <a href=https://dom.spec.whatwg.org/#concept-document-url id="documents:the-document's-address-2" data-x-internal="the-document's-address">URL</a>.<li><p>Let <var>HTTPS state</var> be the <a href=#concept-document-https-state id=documents:concept-document-https-state>HTTPS
+   state</a> of the <a href=#browsing-context id=documents:browsing-context-3>browsing context</a>'s <a href=#active-document id=documents:active-document-3>active document</a>.<li><p>Let <var>referrer policy</var> be the <a href=#concept-document-referrer-policy id=documents:concept-document-referrer-policy>referrer policy</a> of the <a href=#browsing-context id=documents:browsing-context-4>browsing
+   context</a>'s <a href=#active-document id=documents:active-document-4>active document</a>.<li><p>Let <var>CSP list</var> be the <a href=#concept-document-csp-list id=documents:concept-document-csp-list>CSP list</a>
+   of the <a href=#browsing-context id=documents:browsing-context-5>browsing context</a>'s <a href=#active-document id=documents:active-document-5>active document</a>.<li>
+
+    <p><a href=#navigate id=documents:navigate-2>Navigate</a> the <a href=#browsing-context id=documents:browsing-context-6>browsing context</a> to
+    a new <a href=https://fetch.spec.whatwg.org/#concept-response id=documents:concept-response data-x-internal=concept-response>response</a> whose <a href=https://fetch.spec.whatwg.org/#concept-response-body id=documents:concept-response-body data-x-internal=concept-response-body>body</a> is <var>source</var>, <a href=https://fetch.spec.whatwg.org/#concept-response-header-list id=documents:concept-response-header-list data-x-internal=concept-response-header-list>header list</a> is `<code id=documents:http-referrer-policy><a data-x-internal=http-referrer-policy href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-header-dfn>Referrer-Policy</a></code>`/<var>referrer policy</var>, <a href=https://fetch.spec.whatwg.org/#concept-response-csp-list id=documents:concept-response-csp-list data-x-internal=concept-response-csp-list>CSP list</a> is <var>CSP list</var> and <a href=https://fetch.spec.whatwg.org/#concept-response-https-state id=documents:concept-response-https-state data-x-internal=concept-response-https-state>HTTPS state</a> is <var>HTTPS state</var>, with the
+    <var><a href=#exceptions-enabled id=documents:exceptions-enabled>exceptions enabled flag</a></var> set and <a href=#replacement-enabled id=documents:replacement-enabled>replacement enabled</a>. The
+    <a href=#source-browsing-context id=documents:source-browsing-context-2>source browsing context</a> is that given to the <a href=#an-overridden-reload id=documents:an-overridden-reload>overridden reload</a> algorithm. When the <a href=#navigate id=documents:navigate-3>navigate</a> algorithm creates a
+    <code id=documents:document-11><a href=#document>Document</a></code> object for this purpose, set that <code id=documents:document-12><a href=#document>Document</a></code>'s <a href=#reload-override-flag id=documents:reload-override-flag>reload
+    override flag</a> and set its <a href=#reload-override-buffer id=documents:reload-override-buffer-2>reload override buffer</a> to <var>source</var>.
+    Rethrow any exceptions.</p>
+
+    <p>When it comes time to <a href="#set-the-document's-address" id="documents:set-the-document's-address">set the document's address</a> in the <a href=#navigate id=documents:navigate-4>navigation algorithm</a>, use <var>address</var> as the
+    <a href=#override-url id=documents:override-url>override URL</a>.</p>
+
+   </ol>
+
+
+
+  <h4 id=the-document-object>3.1.1 The <code id=the-document-object:document><a href=#document>Document</a></code> object<a href=#the-document-object class=self-link></a></h4>
+
+  <p>The WHATWG DOM standard defines a <code id=the-document-object:dom-document><a data-x-internal=dom-document href=https://dom.spec.whatwg.org/#interface-document>Document</a></code> interface, which
+  this specification extends significantly:</p>
+
+  <pre class=idl>enum <dfn id=documentreadystate>DocumentReadyState</dfn> { "loading", "interactive", "complete" };
+typedef (<a href=#htmlscriptelement id=the-document-object:htmlscriptelement>HTMLScriptElement</a> or <a id=the-document-object:svgscriptelement href=https://www.w3.org/TR/SVG11/script.html#InterfaceSVGScriptElement data-x-internal=svgscriptelement>SVGScriptElement</a>) <dfn id=htmlorsvgscriptelement>HTMLOrSVGScriptElement</dfn>;
+
+[OverrideBuiltins]
+partial interface <dfn data-lt="" id=document>Document</dfn> {
+  // <a href=#resource-metadata-management id=the-document-object:resource-metadata-management>resource metadata management</a>
+  [PutForwards=<a href=#dom-location-href id=the-document-object:dom-location-href>href</a>, Unforgeable] readonly attribute <a href=#location id=the-document-object:location>Location</a>? <a href=#dom-document-location id=the-document-object:dom-document-location>location</a>;
+  attribute USVString <a href=#dom-document-domain id=the-document-object:dom-document-domain>domain</a>;
+  readonly attribute USVString <a href=#dom-document-referrer id=the-document-object:dom-document-referrer>referrer</a>;
+  attribute USVString <a href=#dom-document-cookie id=the-document-object:dom-document-cookie>cookie</a>;
+  readonly attribute DOMString <a href=#dom-document-lastmodified id=the-document-object:dom-document-lastmodified>lastModified</a>;
+  readonly attribute <a href=#documentreadystate id=the-document-object:documentreadystate>DocumentReadyState</a> <a href=#dom-document-readystate id=the-document-object:dom-document-readystate>readyState</a>;
+
+  // <a href=#dom-tree-accessors id=the-document-object:dom-tree-accessors>DOM tree accessors</a>
+  <a href=#dom-document-nameditem>getter</a> object (DOMString name);
+  [<a href=#cereactions id=the-document-object:cereactions>CEReactions</a>] attribute DOMString <a href=#document.title id=the-document-object:document.title>title</a>;
+  [<a href=#cereactions id=the-document-object:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-document-dir id=the-document-object:dom-document-dir>dir</a>;
+  [<a href=#cereactions id=the-document-object:cereactions-3>CEReactions</a>] attribute <a href=#htmlelement id=the-document-object:htmlelement>HTMLElement</a>? <a href=#dom-document-body id=the-document-object:dom-document-body>body</a>;
+  readonly attribute <a href=#htmlheadelement id=the-document-object:htmlheadelement>HTMLHeadElement</a>? <a href=#dom-document-head id=the-document-object:dom-document-head>head</a>;
+  [SameObject] readonly attribute <a id=the-document-object:htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-document-images id=the-document-object:dom-document-images>images</a>;
+  [SameObject] readonly attribute <a id=the-document-object:htmlcollection-2 href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-document-embeds id=the-document-object:dom-document-embeds>embeds</a>;
+  [SameObject] readonly attribute <a id=the-document-object:htmlcollection-3 href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-document-plugins id=the-document-object:dom-document-plugins>plugins</a>;
+  [SameObject] readonly attribute <a id=the-document-object:htmlcollection-4 href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-document-links id=the-document-object:dom-document-links>links</a>;
+  [SameObject] readonly attribute <a id=the-document-object:htmlcollection-5 href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-document-forms id=the-document-object:dom-document-forms>forms</a>;
+  [SameObject] readonly attribute <a id=the-document-object:htmlcollection-6 href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-document-scripts id=the-document-object:dom-document-scripts>scripts</a>;
+  NodeList <a href=#dom-document-getelementsbyname id=the-document-object:dom-document-getelementsbyname>getElementsByName</a>(DOMString elementName);
+  readonly attribute <a href=#htmlorsvgscriptelement id=the-document-object:htmlorsvgscriptelement>HTMLOrSVGScriptElement</a>? <a href=#dom-document-currentscript id=the-document-object:dom-document-currentscript>currentScript</a>; // classic scripts in a document tree only
+
+  // <a href=#dynamic-markup-insertion id=the-document-object:dynamic-markup-insertion>dynamic markup insertion</a>
+  [<a href=#cereactions id=the-document-object:cereactions-4>CEReactions</a>] <a href=#document id=the-document-object:document-2>Document</a> <a href=#dom-document-open id=the-document-object:dom-document-open>open</a>(optional DOMString type = "text/html", optional DOMString replace = "");
+  <a href=#windowproxy id=the-document-object:windowproxy>WindowProxy</a> <a href=#dom-document-open id=the-document-object:dom-document-open-2>open</a>(USVString url, DOMString name, DOMString features);
+  [<a href=#cereactions id=the-document-object:cereactions-5>CEReactions</a>] void <a href=#dom-document-close id=the-document-object:dom-document-close>close</a>();
+  [<a href=#cereactions id=the-document-object:cereactions-6>CEReactions</a>] void <a href=#dom-document-write id=the-document-object:dom-document-write>write</a>(DOMString... text);
+  [<a href=#cereactions id=the-document-object:cereactions-7>CEReactions</a>] void <a href=#dom-document-writeln id=the-document-object:dom-document-writeln>writeln</a>(DOMString... text);
+
+  // <a href=#editing id=the-document-object:editing>user interaction</a>
+  readonly attribute <a href=#windowproxy id=the-document-object:windowproxy-2>WindowProxy</a>? <a href=#dom-document-defaultview id=the-document-object:dom-document-defaultview>defaultView</a>;
+  readonly attribute <a id=the-document-object:element href=https://dom.spec.whatwg.org/#interface-element data-x-internal=element>Element</a>? <a href=#dom-document-activeelement id=the-document-object:dom-document-activeelement>activeElement</a>;
+  boolean <a href=#dom-document-hasfocus id=the-document-object:dom-document-hasfocus>hasFocus</a>();
+  [<a href=#cereactions id=the-document-object:cereactions-8>CEReactions</a>] attribute DOMString <a href=#designMode id=the-document-object:designMode>designMode</a>;
+  [<a href=#cereactions id=the-document-object:cereactions-9>CEReactions</a>] boolean <a href=https://w3c.github.io/editing/execCommand.html#execcommand%28%29 id=the-document-object:execCommand data-x-internal=execCommand>execCommand</a>(DOMString commandId, optional boolean showUI = false, optional DOMString value = "");
+  boolean <a href=https://w3c.github.io/editing/execCommand.html#querycommandenabled%28%29 id=the-document-object:dom-document-querycommandenabled data-x-internal=dom-document-querycommandenabled>queryCommandEnabled</a>(DOMString commandId);
+  boolean <a href=https://w3c.github.io/editing/execCommand.html#querycommandindeterm%28%29 id=the-document-object:dom-document-querycommandindeterm data-x-internal=dom-document-querycommandindeterm>queryCommandIndeterm</a>(DOMString commandId);
+  boolean <a href=https://w3c.github.io/editing/execCommand.html#querycommandstate%28%29 id=the-document-object:dom-document-querycommandstate data-x-internal=dom-document-querycommandstate>queryCommandState</a>(DOMString commandId);
+  boolean <a href=https://w3c.github.io/editing/execCommand.html#querycommandsupported%28%29 id=the-document-object:dom-document-querycommandsupported data-x-internal=dom-document-querycommandsupported>queryCommandSupported</a>(DOMString commandId);
+  DOMString <a href=https://w3c.github.io/editing/execCommand.html#querycommandvalue%28%29 id=the-document-object:dom-document-querycommandvalue data-x-internal=dom-document-querycommandvalue>queryCommandValue</a>(DOMString commandId);
+
+  // special <a href=#event-handler-idl-attributes id=the-document-object:event-handler-idl-attributes>event handler IDL attributes</a> that only apply to Document objects
+  [LenientThis] attribute <a href=#eventhandler id=the-document-object:eventhandler>EventHandler</a> <a href=#handler-onreadystatechange id=the-document-object:handler-onreadystatechange>onreadystatechange</a>;
+};
+<a href=#document id=the-document-object:document-3>Document</a> implements <a href=#globaleventhandlers id=the-document-object:globaleventhandlers>GlobalEventHandlers</a>;
+<a href=#document id=the-document-object:document-4>Document</a> implements <a href=#documentandelementeventhandlers id=the-document-object:documentandelementeventhandlers>DocumentAndElementEventHandlers</a>;</pre>
+
+  <p>The <code id=the-document-object:document-5><a href=#document>Document</a></code> has an <dfn data-dfn-for=Document id=concept-document-https-state data-export="">HTTPS state</dfn> (an <a id=the-document-object:https-state-value href=https://fetch.spec.whatwg.org/#concept-https-state-value data-x-internal=https-state-value>HTTPS state value</a>), initially "<code>none</code>", which represents the security properties of the network channel used to
+  deliver the <code id=the-document-object:document-6><a href=#document>Document</a></code>'s data.</p>
+
+  <p>The <code id=the-document-object:document-7><a href=#document>Document</a></code> has a <dfn data-dfn-for=Document id=concept-document-referrer-policy data-export="">referrer policy</dfn> (a <a id=the-document-object:referrer-policy href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a>), initially the
+  empty string, which represents the default <a id=the-document-object:referrer-policy-2 href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a> used by <a href=https://fetch.spec.whatwg.org/#concept-fetch id=the-document-object:concept-fetch data-x-internal=concept-fetch>fetches</a> initiated by the <code id=the-document-object:document-8><a href=#document>Document</a></code>.</p>
+
+  <p>The <code id=the-document-object:document-9><a href=#document>Document</a></code> has a <dfn data-dfn-for=Document id=concept-document-csp-list data-export="">CSP list</dfn>, which is a list of <a id=the-document-object:content-security-policy href=https://w3c.github.io/webappsec-csp/#policy data-x-internal=content-security-policy>Content Security Policy</a>
+  objects active in this context. The list is empty unless otherwise specified.</p>
+
+  <p>The <code id=the-document-object:document-10><a href=#document>Document</a></code> has a <dfn data-dfn-for=Document id=concept-document-module-map>module map</dfn>, which is a <a href=#module-map id=the-document-object:module-map>module map</a>,
+  initially empty.</p>
+
+
+  <h4 id=resource-metadata-management>3.1.2 <dfn>Resource metadata management</dfn><a href=#resource-metadata-management class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>document</var> . <code id=resource-metadata-management:dom-document-referrer><a href=#dom-document-referrer>referrer</a></code><dd>
+
+    <p>Returns the <a href=https://dom.spec.whatwg.org/#concept-document-url id="resource-metadata-management:the-document's-address" data-x-internal="the-document's-address">URL</a> of the <code id=resource-metadata-management:document><a href=#document>Document</a></code>
+    from which the user navigated to this one, unless it was blocked or there was no such document,
+    in which case it returns the empty string.</p>
+
+    <p>The <code id=resource-metadata-management:link-type-noreferrer><a href=#link-type-noreferrer>noreferrer</a></code> link type can be used to block the
+    referrer.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-document-referrer><code>referrer</code></dfn> attribute must return
+  <a href="#the-document's-referrer" id="resource-metadata-management:the-document's-referrer">the document's referrer</a>.</p>
+
+  
+
+  <hr>
+
+  <dl class=domintro><dt><var>document</var> . <code id=resource-metadata-management:dom-document-cookie><a href=#dom-document-cookie>cookie</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the HTTP cookies that apply to the <code id=resource-metadata-management:document-2><a href=#document>Document</a></code>. If there are no cookies or
+    cookies can't be applied to this resource, the empty string will be returned.</p>
+
+    <p>Can be set, to add a new cookie to the element's set of HTTP cookies.</p>
+
+    <p>If the contents are <a href=#sandboxed-origin-browsing-context-flag id=resource-metadata-management:sandboxed-origin-browsing-context-flag>sandboxed into a
+    unique origin</a> (e.g. in an <code id=resource-metadata-management:the-iframe-element><a href=#the-iframe-element>iframe</a></code> with the <code id=resource-metadata-management:attr-iframe-sandbox><a href=#attr-iframe-sandbox>sandbox</a></code> attribute), a
+    <a id=resource-metadata-management:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=resource-metadata-management:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> will be thrown on getting
+    and setting.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-document-cookie><code>cookie</code></dfn> attribute represents the
+  cookies of the resource identified by the document's <a href=https://dom.spec.whatwg.org/#concept-document-url id="resource-metadata-management:the-document's-address-2" data-x-internal="the-document's-address">URL</a>.</p>
+
+  <p>A <code id=resource-metadata-management:document-3><a href=#document>Document</a></code> object that falls into one of the following conditions is a
+  <dfn id=cookie-averse-document-object>cookie-averse <code>Document</code> object</dfn>:</p>
+
+  <ul><li>A <code id=resource-metadata-management:document-4><a href=#document>Document</a></code> that has no <a href=#concept-document-bc id=resource-metadata-management:concept-document-bc>browsing
+   context</a>.<li>A <code id=resource-metadata-management:document-5><a href=#document>Document</a></code> whose <a href=https://dom.spec.whatwg.org/#concept-document-url id="resource-metadata-management:the-document's-address-3" data-x-internal="the-document's-address">URL</a>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=resource-metadata-management:concept-url-scheme data-x-internal=concept-url-scheme>scheme</a> is not a <a id=resource-metadata-management:network-scheme href=https://url.spec.whatwg.org/#network-scheme data-x-internal=network-scheme>network scheme</a>.</ul>
+
+  
+
+  <p id=sandboxCookies>On getting, if the document is a <a href=#cookie-averse-document-object id=resource-metadata-management:cookie-averse-document-object>cookie-averse <code>Document</code>
+  object</a>, then the user agent must return the empty string. Otherwise, if the
+  <code id=resource-metadata-management:document-6><a href=#document>Document</a></code>'s <a href=#concept-origin id=resource-metadata-management:concept-origin>origin</a> is an <a href=#concept-origin-opaque id=resource-metadata-management:concept-origin-opaque>opaque
+  origin</a>, the user agent must throw a <a id=resource-metadata-management:securityerror-2 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a>
+  <code id=resource-metadata-management:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>. Otherwise, the user agent must return the <a href=#cookie-string id=resource-metadata-management:cookie-string>cookie-string</a>
+  for the document's <a href=https://dom.spec.whatwg.org/#concept-document-url id="resource-metadata-management:the-document's-address-4" data-x-internal="the-document's-address">URL</a> for a "non-HTTP" API, decoded
+  using <a id=resource-metadata-management:utf-8-decode-without-bom href=https://encoding.spec.whatwg.org/#utf-8-decode-without-bom data-x-internal=utf-8-decode-without-bom>UTF-8 decode without BOM</a>. <a href=#refsCOOKIES>[COOKIES]</a><a href=#fingerprinting-vector id=resource-metadata-management:fingerprinting-vector class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a></p>
+
+  <p>On setting, if the document is a <a href=#cookie-averse-document-object id=resource-metadata-management:cookie-averse-document-object-2>cookie-averse <code>Document</code> object</a>, then
+  the user agent must do nothing. Otherwise, if the <code id=resource-metadata-management:document-7><a href=#document>Document</a></code>'s <a href=#concept-origin id=resource-metadata-management:concept-origin-2>origin</a> is
+  an <a href=#concept-origin-opaque id=resource-metadata-management:concept-origin-opaque-2>opaque origin</a>, the user agent must throw a
+  <a id=resource-metadata-management:securityerror-3 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=resource-metadata-management:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>. Otherwise, the user agent
+  must act as it would when <a href=#receives-a-set-cookie-string id=resource-metadata-management:receives-a-set-cookie-string>receiving a
+  set-cookie-string</a> for the document's <a href=https://dom.spec.whatwg.org/#concept-document-url id="resource-metadata-management:the-document's-address-5" data-x-internal="the-document's-address">URL</a> via a
+  "non-HTTP" API, consisting of the new value <a href=https://encoding.spec.whatwg.org/#utf-8-encode id=resource-metadata-management:utf-8-encode data-x-internal=utf-8-encode>encoded as UTF-8</a>.
+  <a href=#refsCOOKIES>[COOKIES]</a> <a href=#refsENCODING>[ENCODING]</a></p>
+
+  <p class=note>Since the <code id=resource-metadata-management:dom-document-cookie-2><a href=#dom-document-cookie>cookie</a></code> attribute is accessible
+  across frames, the path restrictions on cookies are only a tool to help manage which cookies are
+  sent to which parts of the site, and are not in any way a security feature.</p>
+
+  <p class=warning>The <code id=resource-metadata-management:dom-document-cookie-3><a href=#dom-document-cookie>cookie</a></code> attribute's getter and
+  setter synchronously access shared state. Since there is no locking mechanism, other browsing
+  contexts in a multiprocess user agent can modify cookies while scripts are running. A site could,
+  for instance, try to read a cookie, increment its value, then write it back out, using the new
+  value of the cookie as a unique identifier for the session; if the site does this twice in two
+  different browser windows at the same time, it might end up using the same "unique" identifier for
+  both sessions, with potentially disastrous effects.</p>
+
+  <hr>
+
+  
+
+  <dl class=domintro><dt><var>document</var> . <code id=resource-metadata-management:dom-document-lastmodified><a href=#dom-document-lastmodified>lastModified</a></code><dd>
+    <p>Returns the date of the last modification to the document, as reported by the server, in the
+    form "<code>MM/DD/YYYY hh:mm:ss</code>", in the user's local time zone.</p>
+    <p>If the last modification date is not known, the current time is returned instead.</p>
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-document-lastmodified><code>lastModified</code></dfn> attribute, on
+  getting, must return the date and time of the <code id=resource-metadata-management:document-8><a href=#document>Document</a></code>'s source file's last
+  modification, in the user's local time zone, in the following format:</p>
+
+  <ol><li> The month component of the date. <li> A U+002F SOLIDUS character (/). <li> The day component of the date. <li> A U+002F SOLIDUS character (/). <li> The year component of the date. <li> A U+0020 SPACE character. <li> The hours component of the time. <li> A U+003A COLON character (:). <li> The minutes component of the time. <li> A U+003A COLON character (:). <li> The seconds component of the time. </ol>
+
+  <p>All the numeric components above, other than the year, must be given as two <a href=#ascii-digits id=resource-metadata-management:ascii-digits>ASCII
+  digits</a> representing the number in base ten, zero-padded if necessary. The year must be
+  given as the shortest possible string of four or more <a href=#ascii-digits id=resource-metadata-management:ascii-digits-2>ASCII digits</a> representing the
+  number in base ten, zero-padded if necessary.</p>
+
+  <p>The <code id=resource-metadata-management:document-9><a href=#document>Document</a></code>'s source file's last modification date and time must be derived from
+  relevant features of the networking protocols used, e.g. from the value of the HTTP `<code id=resource-metadata-management:http-last-modified><a data-x-internal=http-last-modified href=https://tools.ietf.org/html/rfc7232#section-2.2>Last-Modified</a></code>` header of the document, or from metadata in the
+  file system for local files. If the last modification date and time are not known, the attribute
+  must return the current date and time in the above format.</p>
+
+  <hr>
+
+  
+
+  <dl class=domintro><dt><var>document</var> . <code id=resource-metadata-management:dom-document-readystate><a href=#dom-document-readystate>readyState</a></code><dd>
+    <p>Returns "<code>loading</code>" while the <code id=resource-metadata-management:document-10><a href=#document>Document</a></code> is loading, "<code>interactive</code>" once it is finished parsing but still loading sub-resources, and
+    "<code>complete</code>" once it has loaded.</p>
+    <p>The <code id=resource-metadata-management:event-readystatechange><a href=#event-readystatechange>readystatechange</a></code> event fires on the
+    <code id=resource-metadata-management:document-11><a href=#document>Document</a></code> object when this value changes.</p>
+   </dl>
+
+  
+
+  <p>Each document has a <dfn id=current-document-readiness>current document readiness</dfn>. When a <code id=resource-metadata-management:document-12><a href=#document>Document</a></code> object
+  is created, it must have its <a href=#current-document-readiness id=resource-metadata-management:current-document-readiness>current document readiness</a> set to the string "<code>loading</code>" if the document is associated with an <a href=#html-parser id=resource-metadata-management:html-parser>HTML parser</a>, an
+  <a href=#xml-parser id=resource-metadata-management:xml-parser>XML parser</a>, or an XSLT processor, and to the string "<code>complete</code>"
+  otherwise. Various algorithms during page loading affect this value. When the value is set, the
+  user agent must <a href=https://dom.spec.whatwg.org/#concept-event-fire id=resource-metadata-management:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=resource-metadata-management:event-readystatechange-2><a href=#event-readystatechange>readystatechange</a></code> at the <code id=resource-metadata-management:document-13><a href=#document>Document</a></code> object.</p>
+
+  <p>A <code id=resource-metadata-management:document-14><a href=#document>Document</a></code> is said to have an <dfn id=active-parser>active parser</dfn> if it is associated with an
+  <a href=#html-parser id=resource-metadata-management:html-parser-2>HTML parser</a> or an <a href=#xml-parser id=resource-metadata-management:xml-parser-2>XML parser</a> that has not yet been <a href=#stop-parsing id=resource-metadata-management:stop-parsing>stopped</a> or <a href=#abort-a-parser id=resource-metadata-management:abort-a-parser>aborted</a>.</p>
+
+  <p>The <dfn id=dom-document-readystate><code>readyState</code></dfn> IDL attribute must, on
+  getting, return the <a href=#current-document-readiness id=resource-metadata-management:current-document-readiness-2>current document readiness</a>.</p>
+
+  
+
+
+
+  <h4 id=dom-tree-accessors>3.1.3 <dfn>DOM tree accessors</dfn><a href=#dom-tree-accessors class=self-link></a></h4>
+
+  <p><dfn id=the-html-element-2>The <code>html</code> element</dfn> of a document is its <a id=dom-tree-accessors:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>,
+  if it's an <code id=dom-tree-accessors:the-html-element><a href=#the-html-element>html</a></code> element, and null otherwise.</p>
+
+  <hr>
+
+  <dl class=domintro><dt><var>document</var> . <code id=dom-tree-accessors:dom-document-head><a href=#dom-document-head>head</a></code><dd>
+    <p>Returns <a href=#the-head-element-2 id=dom-tree-accessors:the-head-element-2>the <code>head</code> element</a>.</p>
+   </dl>
+
+  <p><dfn id=the-head-element-2>The <code>head</code> element</dfn> of a document is the first <code id=dom-tree-accessors:the-head-element><a href=#the-head-element>head</a></code> element
+  that is a child of <a href=#the-html-element-2 id=dom-tree-accessors:the-html-element-2>the <code>html</code> element</a>, if there is one, or null
+  otherwise.</p>
+
+  
+
+  <p>The <dfn id=dom-document-head><code>head</code></dfn> attribute, on getting, must return
+  <a href=#the-head-element-2 id=dom-tree-accessors:the-head-element-2-2>the <code>head</code> element</a> of the document (a <code id=dom-tree-accessors:the-head-element-3><a href=#the-head-element>head</a></code> element or
+  null).<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> documenthead<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>4.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>4+</span></span><span class="ie yes"><span>IE</span> <span>9+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>2.3+</span></span><span class="safari yes"><span>Safari</span> <span>5.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>11+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=documenthead">caniuse.com</a></div>
+
+  
+
+  <hr>
+
+  <dl class=domintro><dt><var>document</var> . <code id=dom-tree-accessors:document.title><a href=#document.title>title</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the document's title, as given by <a href=#the-title-element-2 id=dom-tree-accessors:the-title-element-2>the <code>title</code> element</a> for
+    HTML and as given by the <a id=dom-tree-accessors:svg-title href=https://www.w3.org/TR/SVG11/struct.html#TitleElement data-x-internal=svg-title>SVG <code>title</code></a> element for SVG.</p>
+
+    <p>Can be set, to update the document's title. If there is no appropriate element to update, the
+    new value is ignored.</p>
+
+   </dl>
+
+  <p><dfn id=the-title-element-2>The <code>title</code> element</dfn> of a document is the first <code id=dom-tree-accessors:the-title-element><a href=#the-title-element>title</a></code> element
+  in the document (in <a id=dom-tree-accessors:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>), if there is one, or null otherwise.</p>
+
+  
+
+  <p>The <dfn id=document.title><code>title</code></dfn> attribute
+  must, on getting, run the following algorithm:</p>
+
+  <ol><li><p>If the <a id=dom-tree-accessors:document-element-2 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a> is an <a id=dom-tree-accessors:svg-svg href=https://www.w3.org/TR/SVG11/struct.html#SVGElement data-x-internal=svg-svg>SVG <code>svg</code></a> element, then
+   let <var>value</var> be the <a href=#child-text-content id=dom-tree-accessors:child-text-content>child text content</a> of the first <a id=dom-tree-accessors:svg-title-2 href=https://www.w3.org/TR/SVG11/struct.html#TitleElement data-x-internal=svg-title>SVG
+   <code>title</code></a> element that is a child of the <a id=dom-tree-accessors:document-element-3 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>.<li><p>Otherwise, let <var>value</var> be the <a href=#child-text-content id=dom-tree-accessors:child-text-content-2>child text content</a> of <a href=#the-title-element-2 id=dom-tree-accessors:the-title-element-2-2>the
+   <code>title</code> element</a>, or the empty string if <a href=#the-title-element-2 id=dom-tree-accessors:the-title-element-2-3>the <code>title</code>
+   element</a> is null.<li><p><a href=#strip-and-collapse-whitespace id=dom-tree-accessors:strip-and-collapse-whitespace>Strip and collapse whitespace</a> in <var>value</var>.<li><p>Return <var>value</var>.</ol>
+
+  <p>On setting, the steps corresponding to the first matching condition in the following list must
+  be run:</p>
+
+  <dl class=switch><dt>If the <a id=dom-tree-accessors:document-element-4 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a> is an <a id=dom-tree-accessors:svg-svg-2 href=https://www.w3.org/TR/SVG11/struct.html#SVGElement data-x-internal=svg-svg>SVG <code>svg</code></a> element<dd>
+
+    <ol><li><p>If there is an <a id=dom-tree-accessors:svg-title-3 href=https://www.w3.org/TR/SVG11/struct.html#TitleElement data-x-internal=svg-title>SVG <code>title</code></a> element that is a child of the
+     <a id=dom-tree-accessors:document-element-5 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>, let <var>element</var> be the first such element.<li>
+      <p>Otherwise:</p>
+
+      <ol><li><p>Let <var>element</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-create-element id=dom-tree-accessors:create-an-element data-x-internal=create-an-element>creating an
+       element</a> given the <a id=dom-tree-accessors:document-element-6 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>'s <a id=dom-tree-accessors:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>, <code id=dom-tree-accessors:svg-title-4><a data-x-internal=svg-title href=https://www.w3.org/TR/SVG11/struct.html#TitleElement>title</a></code>, and the <a id=dom-tree-accessors:svg-namespace href=https://infra.spec.whatwg.org/#svg-namespace data-x-internal=svg-namespace>SVG namespace</a>.</p>
+
+       <li><p>Insert <var>element</var> as the first child of the <a id=dom-tree-accessors:document-element-7 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document
+       element</a>.</ol>
+     <li><p>Act as if the <code id=dom-tree-accessors:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute of <var>element</var> was
+     set to the new value being assigned.</ol>
+
+   <dt>If the <a id=dom-tree-accessors:document-element-8 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a> is in the <a id=dom-tree-accessors:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a><dd>
+
+    <ol><li><p>If <a href=#the-title-element-2 id=dom-tree-accessors:the-title-element-2-4>the <code>title</code> element</a> is null and <a href=#the-head-element-2 id=dom-tree-accessors:the-head-element-2-3>the <code>head</code>
+     element</a> is null, then abort these steps.<li><p>If <a href=#the-title-element-2 id=dom-tree-accessors:the-title-element-2-5>the <code>title</code> element</a> is non-null, let <var>element</var> be
+     <a href=#the-title-element-2 id=dom-tree-accessors:the-title-element-2-6>the <code>title</code> element</a>.<li>
+      <p>Otherwise:</p>
+
+      <ol><li><p>Let <var>element</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-create-element id=dom-tree-accessors:create-an-element-2 data-x-internal=create-an-element>creating an
+       element</a> given the <a id=dom-tree-accessors:document-element-9 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>'s <a id=dom-tree-accessors:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>,
+       <code id=dom-tree-accessors:the-title-element-3><a href=#the-title-element>title</a></code>, and the <a id=dom-tree-accessors:html-namespace-2-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>.</p>
+
+       <li><p><a href=https://dom.spec.whatwg.org/#concept-node-append id=dom-tree-accessors:concept-node-append data-x-internal=concept-node-append>Append</a> <var>element</var> to <a href=#the-head-element-2 id=dom-tree-accessors:the-head-element-2-4>the
+       <code>head</code> element</a>.</ol>
+     <li><p>Act as if the <code id=dom-tree-accessors:textcontent-2><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute of <var>element</var> was
+     set to the new value being assigned.</ol>
+
+   <dt>Otherwise<dd>
+
+    <p>Do nothing.</p>
+
+   </dl>
+
+  
+
+  <hr>
+
+  <dl class=domintro><dt><var>document</var> . <code id=dom-tree-accessors:dom-document-body><a href=#dom-document-body>body</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns <a href=#the-body-element-2 id=dom-tree-accessors:the-body-element-2>the body element</a>.</p>
+
+    <p>Can be set, to replace <a href=#the-body-element-2 id=dom-tree-accessors:the-body-element-2-2>the body element</a>.</p>
+
+    <p>If the new value is not a <code id=dom-tree-accessors:the-body-element><a href=#the-body-element>body</a></code> or <code id=dom-tree-accessors:frameset><a href=#frameset>frameset</a></code> element, this will throw
+    a <a id=dom-tree-accessors:hierarchyrequesterror href=https://heycam.github.io/webidl/#hierarchyrequesterror data-x-internal=hierarchyrequesterror>"<code>HierarchyRequestError</code>"</a> <code id=dom-tree-accessors:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+   </dl>
+
+  <p><dfn id=the-body-element-2>The body element</dfn> of a document is the first child of <a href=#the-html-element-2 id=dom-tree-accessors:the-html-element-2-2>the <code>html</code>
+  element</a> that is either a <code id=dom-tree-accessors:the-body-element-3><a href=#the-body-element>body</a></code> element or a <code id=dom-tree-accessors:frameset-2><a href=#frameset>frameset</a></code> element. If
+  there is no such element, it is null.</p>
+
+  
+
+  <p>The <dfn id=dom-document-body><code>body</code></dfn> attribute, on getting, must return
+  <a href=#the-body-element-2 id=dom-tree-accessors:the-body-element-2-3>the body element</a> of the document (either a <code id=dom-tree-accessors:the-body-element-4><a href=#the-body-element>body</a></code> element, a
+  <code id=dom-tree-accessors:frameset-3><a href=#frameset>frameset</a></code> element, or null). On setting, the following algorithm must be run:</p>
+
+  <ol><li>If the new value is not a <code id=dom-tree-accessors:the-body-element-5><a href=#the-body-element>body</a></code> or <code id=dom-tree-accessors:frameset-4><a href=#frameset>frameset</a></code> element, then throw a
+   <a id=dom-tree-accessors:hierarchyrequesterror-2 href=https://heycam.github.io/webidl/#hierarchyrequesterror data-x-internal=hierarchyrequesterror>"<code>HierarchyRequestError</code>"</a> <code id=dom-tree-accessors:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li>Otherwise, if the new value is the same as <a href=#the-body-element-2 id=dom-tree-accessors:the-body-element-2-4>the body element</a>, do nothing. Abort
+   these steps.<li>Otherwise, if <a href=#the-body-element-2 id=dom-tree-accessors:the-body-element-2-5>the body element</a> is not null, then <a href=https://dom.spec.whatwg.org/#concept-node-replace id=dom-tree-accessors:concept-node-replace data-x-internal=concept-node-replace>replace</a> <a href=#the-body-element-2 id=dom-tree-accessors:the-body-element-2-6>the body element</a> with the new value
+   within <a href=#the-body-element-2 id=dom-tree-accessors:the-body-element-2-7>the body element</a>'s parent and abort these steps.<li>Otherwise, if there is no <a id=dom-tree-accessors:document-element-10 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>, throw a
+   <a id=dom-tree-accessors:hierarchyrequesterror-3 href=https://heycam.github.io/webidl/#hierarchyrequesterror data-x-internal=hierarchyrequesterror>"<code>HierarchyRequestError</code>"</a> <code id=dom-tree-accessors:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li>Otherwise, <a href=#the-body-element-2 id=dom-tree-accessors:the-body-element-2-8>the body element</a> is null, but there's a
+   <a id=dom-tree-accessors:document-element-11 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>. <a href=https://dom.spec.whatwg.org/#concept-node-append id=dom-tree-accessors:concept-node-append-2 data-x-internal=concept-node-append>Append</a> the new value to
+   the <a id=dom-tree-accessors:document-element-12 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>.</ol>
+
+  
+
+  <hr>
+
+  <dl class=domintro><dt><var>document</var> . <code id=dom-tree-accessors:dom-document-images><a href=#dom-document-images>images</a></code><dd>
+    <p>Returns an <code id=dom-tree-accessors:htmlcollection><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> of the <code id=dom-tree-accessors:the-img-element><a href=#the-img-element>img</a></code> elements in the <code id=dom-tree-accessors:document><a href=#document>Document</a></code>.</p>
+   <dt><var>document</var> . <code id=dom-tree-accessors:dom-document-embeds><a href=#dom-document-embeds>embeds</a></code><dt><var>document</var> . <code id=dom-tree-accessors:dom-document-plugins><a href=#dom-document-plugins>plugins</a></code><dd>
+    <p>Return an <code id=dom-tree-accessors:htmlcollection-2><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> of the <code id=dom-tree-accessors:the-embed-element><a href=#the-embed-element>embed</a></code> elements in the <code id=dom-tree-accessors:document-2><a href=#document>Document</a></code>.</p>
+   <dt><var>document</var> . <code id=dom-tree-accessors:dom-document-links><a href=#dom-document-links>links</a></code><dd>
+    <p>Returns an <code id=dom-tree-accessors:htmlcollection-3><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> of the <code id=dom-tree-accessors:the-a-element><a href=#the-a-element>a</a></code> and <code id=dom-tree-accessors:the-area-element><a href=#the-area-element>area</a></code> elements
+    in the <code id=dom-tree-accessors:document-3><a href=#document>Document</a></code> that have <code id=dom-tree-accessors:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code>
+    attributes.</p>
+   <dt><var>document</var> . <code id=dom-tree-accessors:dom-document-forms><a href=#dom-document-forms>forms</a></code><dd>
+    <p>Return an <code id=dom-tree-accessors:htmlcollection-4><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> of the <code id=dom-tree-accessors:the-form-element><a href=#the-form-element>form</a></code> elements in the <code id=dom-tree-accessors:document-4><a href=#document>Document</a></code>.</p>
+   <dt><var>document</var> . <code id=dom-tree-accessors:dom-document-scripts><a href=#dom-document-scripts>scripts</a></code><dd>
+    <p>Return an <code id=dom-tree-accessors:htmlcollection-5><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> of the <code id=dom-tree-accessors:the-script-element><a href=#the-script-element>script</a></code> elements in the <code id=dom-tree-accessors:document-5><a href=#document>Document</a></code>.</p>
+   </dl>
+
+  
+
+  
+
+  <p>The <dfn id=dom-document-images><code>images</code></dfn> attribute must return an
+  <code id=dom-tree-accessors:htmlcollection-6><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> rooted at the <code id=dom-tree-accessors:document-6><a href=#document>Document</a></code> node, whose filter matches only
+  <code id=dom-tree-accessors:the-img-element-2><a href=#the-img-element>img</a></code> elements.</p>
+
+  <p>The <dfn id=dom-document-embeds><code>embeds</code></dfn> attribute must return an
+  <code id=dom-tree-accessors:htmlcollection-7><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> rooted at the <code id=dom-tree-accessors:document-7><a href=#document>Document</a></code> node, whose filter matches only
+  <code id=dom-tree-accessors:the-embed-element-2><a href=#the-embed-element>embed</a></code> elements.</p>
+
+  <p>The <dfn id=dom-document-plugins><code>plugins</code></dfn> attribute must return the
+  same object as that returned by the <code id=dom-tree-accessors:dom-document-embeds-2><a href=#dom-document-embeds>embeds</a></code>
+  attribute.</p>
+
+  <p>The <dfn id=dom-document-links><code>links</code></dfn> attribute must return an
+  <code id=dom-tree-accessors:htmlcollection-8><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> rooted at the <code id=dom-tree-accessors:document-8><a href=#document>Document</a></code> node, whose filter matches only
+  <code id=dom-tree-accessors:the-a-element-2><a href=#the-a-element>a</a></code> elements with <code id=dom-tree-accessors:attr-hyperlink-href-2><a href=#attr-hyperlink-href>href</a></code> attributes and
+  <code id=dom-tree-accessors:the-area-element-2><a href=#the-area-element>area</a></code> elements with <code id=dom-tree-accessors:attr-hyperlink-href-3><a href=#attr-hyperlink-href>href</a></code> attributes.</p>
+
+  <p>The <dfn id=dom-document-forms><code>forms</code></dfn> attribute must return an
+  <code id=dom-tree-accessors:htmlcollection-9><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> rooted at the <code id=dom-tree-accessors:document-9><a href=#document>Document</a></code> node, whose filter matches only
+  <code id=dom-tree-accessors:the-form-element-2><a href=#the-form-element>form</a></code> elements.</p>
+
+  <p>The <dfn id=dom-document-scripts><code>scripts</code></dfn> attribute must return an
+  <code id=dom-tree-accessors:htmlcollection-10><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> rooted at the <code id=dom-tree-accessors:document-10><a href=#document>Document</a></code> node, whose filter matches only
+  <code id=dom-tree-accessors:the-script-element-2><a href=#the-script-element>script</a></code> elements.</p>
+
+  <hr>
+
+  
+
+  <dl class=domintro><dt><var>collection</var> = <var>document</var> . <code id=dom-tree-accessors:dom-document-getelementsbyname><a href=#dom-document-getelementsbyname>getElementsByName</a></code>(<var>name</var>)<dd>
+
+    <p>Returns a <code id=dom-tree-accessors:nodelist><a data-x-internal=nodelist href=https://dom.spec.whatwg.org/#interface-nodelist>NodeList</a></code> of elements in the <code id=dom-tree-accessors:document-11><a href=#document>Document</a></code> that have a <code>name</code> attribute with the value <var>name</var>.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-document-getelementsbyname><code>getElementsByName(<var>name</var>)</code></dfn> method takes a string <var>name</var>, and must
+  return a <a href=#live id=dom-tree-accessors:live>live</a> <code id=dom-tree-accessors:nodelist-2><a data-x-internal=nodelist href=https://dom.spec.whatwg.org/#interface-nodelist>NodeList</a></code> containing all the <a href=#html-elements id=dom-tree-accessors:html-elements>HTML elements</a> in
+  that document that have a <code>name</code> attribute whose value is equal to the <var>name</var> argument (in a <a href=#case-sensitive id=dom-tree-accessors:case-sensitive>case-sensitive</a> manner), in <a id=dom-tree-accessors:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree
+  order</a>. When the method is invoked on a <code id=dom-tree-accessors:document-12><a href=#document>Document</a></code> object again with the same
+  argument, the user agent may return the same as the object returned by the earlier call. In other
+  cases, a new <code id=dom-tree-accessors:nodelist-3><a data-x-internal=nodelist href=https://dom.spec.whatwg.org/#interface-nodelist>NodeList</a></code> object must be returned.</p>
+
+  
+
+  <hr>
+
+  <dl class=domintro><dt><var>document</var> . <code id=dom-tree-accessors:dom-document-currentscript><a href=#dom-document-currentscript>currentScript</a></code><dd>
+
+    <p>Returns the <code id=dom-tree-accessors:the-script-element-3><a href=#the-script-element>script</a></code> element, or the <a id=dom-tree-accessors:svg-script href=https://www.w3.org/TR/SVG11/script.html#ScriptElement data-x-internal=svg-script>SVG <code>script</code></a> element,
+    that is currently executing, as long as the element represents a <a href=#classic-script id=dom-tree-accessors:classic-script>classic script</a>.
+    In the case of reentrant script execution, returns the one that most recently started executing
+    amongst those that have not yet finished executing.</p>
+
+    <p>Returns null if the <code id=dom-tree-accessors:document-13><a href=#document>Document</a></code> is not currently executing a <code id=dom-tree-accessors:the-script-element-4><a href=#the-script-element>script</a></code>
+    or <a id=dom-tree-accessors:svg-script-2 href=https://www.w3.org/TR/SVG11/script.html#ScriptElement data-x-internal=svg-script>SVG <code>script</code></a> element (e.g., because the running script is an event
+    handler, or a timeout), or if the currently executing <code id=dom-tree-accessors:the-script-element-5><a href=#the-script-element>script</a></code> or <a id=dom-tree-accessors:svg-script-3 href=https://www.w3.org/TR/SVG11/script.html#ScriptElement data-x-internal=svg-script>SVG
+    <code>script</code></a> element represents a <a href=#module-script id=dom-tree-accessors:module-script>module script</a>.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-document-currentscript><code>currentScript</code></dfn> attribute, on
+  getting, must return the value to which it was most recently set. When the <code id=dom-tree-accessors:document-14><a href=#document>Document</a></code>
+  is created, the <code id=dom-tree-accessors:dom-document-currentscript-2><a href=#dom-document-currentscript>currentScript</a></code> must be
+  initialized to null.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> document-currentscript<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>29+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>8+</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox yes"><span>Firefox</span> <span>4+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>8+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>16+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=document-currentscript">caniuse.com</a></div>
+
+  
+
+  <p class=note>This API has fallen out of favor in the implementor and standards community, as
+  it globally exposes <code id=dom-tree-accessors:the-script-element-6><a href=#the-script-element>script</a></code> or <a id=dom-tree-accessors:svg-script-4 href=https://www.w3.org/TR/SVG11/script.html#ScriptElement data-x-internal=svg-script>SVG <code>script</code></a> elements. As such,
+  it is not available in newer contexts, such as when running <a href=#module-script id=dom-tree-accessors:module-script-2>module
+  scripts</a> or when running scripts in a <a id=dom-tree-accessors:shadow-tree href=https://dom.spec.whatwg.org/#concept-shadow-tree data-x-internal=shadow-tree>shadow tree</a>. We are looking into creating
+  a new solution for identifying the running script in such contexts, which does not make it
+  globally available: see issue <a href=https://github.com/whatwg/html/issues/1013>#1013</a>.</p>
+
+  
+
+  <hr>
+
+  <p id=dom-document-namedItem-which>The <code id=dom-tree-accessors:document-15><a href=#document>Document</a></code> interface <a href=https://heycam.github.io/webidl/#dfn-support-named-properties id=dom-tree-accessors:support-named-properties data-x-internal=support-named-properties>supports named properties</a>. The <a id=dom-tree-accessors:supported-property-names href=https://heycam.github.io/webidl/#dfn-supported-property-names data-x-internal=supported-property-names>supported property names</a> of a
+  <code id=dom-tree-accessors:document-16><a href=#document>Document</a></code> object <var>document</var> at any moment consist of the following, in
+  <a id=dom-tree-accessors:tree-order-3 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> according to the element that contributed them, ignoring later duplicates,
+  and with values from <code id=dom-tree-accessors:the-id-attribute><a href=#the-id-attribute>id</a></code> attributes coming before values from <code>name</code> attributes when the same element contributes both:</p>
+
+  <ul><li><p>the value of the <code>name</code> content attribute for all <code id=dom-tree-accessors:the-applet-element><a href=#the-applet-element>applet</a></code>,
+   <a href=#exposed id=dom-tree-accessors:exposed>exposed</a> <code id=dom-tree-accessors:the-embed-element-3><a href=#the-embed-element>embed</a></code>, <code id=dom-tree-accessors:the-form-element-3><a href=#the-form-element>form</a></code>, <code id=dom-tree-accessors:the-iframe-element><a href=#the-iframe-element>iframe</a></code>,
+   <code id=dom-tree-accessors:the-img-element-3><a href=#the-img-element>img</a></code>, and <a href=#exposed id=dom-tree-accessors:exposed-2>exposed</a> <code id=dom-tree-accessors:the-object-element><a href=#the-object-element>object</a></code> elements that have a non-empty
+   <code>name</code> content attribute and are <a id=dom-tree-accessors:in-a-document-tree href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a> with
+   <var>document</var> as their <a id=dom-tree-accessors:root href=https://dom.spec.whatwg.org/#concept-tree-root data-x-internal=root>root</a>;<p><li><p>the value of the <code id=dom-tree-accessors:the-id-attribute-2><a href=#the-id-attribute>id</a></code> content attribute for all
+   <code id=dom-tree-accessors:the-applet-element-2><a href=#the-applet-element>applet</a></code> and <a href=#exposed id=dom-tree-accessors:exposed-3>exposed</a> <code id=dom-tree-accessors:the-object-element-2><a href=#the-object-element>object</a></code> elements that have a non-empty
+   <code id=dom-tree-accessors:the-id-attribute-3><a href=#the-id-attribute>id</a></code> content attribute and are <a id=dom-tree-accessors:in-a-document-tree-2 href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a> with
+   <var>document</var> as their <a id=dom-tree-accessors:root-2 href=https://dom.spec.whatwg.org/#concept-tree-root data-x-internal=root>root</a>; and<li><p>the value of the <code id=dom-tree-accessors:the-id-attribute-4><a href=#the-id-attribute>id</a></code> content attribute for all
+   <code id=dom-tree-accessors:the-img-element-4><a href=#the-img-element>img</a></code> elements that have both a non-empty <code id=dom-tree-accessors:the-id-attribute-5><a href=#the-id-attribute>id</a></code> content
+   attribute and a non-empty <code>name</code> content attribute, and are <a id=dom-tree-accessors:in-a-document-tree-3 href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a
+   document tree</a> with <var>document</var> as their <a id=dom-tree-accessors:root-3 href=https://dom.spec.whatwg.org/#concept-tree-root data-x-internal=root>root</a>.</ul>
+
+  <p id=dom-document-nameditem>To <a id=dom-tree-accessors:determine-the-value-of-a-named-property href=https://heycam.github.io/webidl/#dfn-determine-the-value-of-a-named-property data-x-internal=determine-the-value-of-a-named-property>determine the value of a named property</a>
+  <var>name</var> for a <code id=dom-tree-accessors:document-17><a href=#document>Document</a></code>, the user agent must return the value obtained using
+  the following steps:</p>
+
+  <ol><li>
+
+    <p>Let <var>elements</var> be the list of <a href=#dom-document-nameditem-filter id=dom-tree-accessors:dom-document-nameditem-filter>named
+    elements</a> with the name <var>name</var> that are <a id=dom-tree-accessors:in-a-document-tree-4 href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a> with the
+    <code id=dom-tree-accessors:document-18><a href=#document>Document</a></code> as their <a id=dom-tree-accessors:root-4 href=https://dom.spec.whatwg.org/#concept-tree-root data-x-internal=root>root</a>.</p>
+
+    <p class=note>There will be at least one such element, by definition.</p>
+
+   <li>
+
+    <p>If <var>elements</var> has only one element, and that element is an <code id=dom-tree-accessors:the-iframe-element-2><a href=#the-iframe-element>iframe</a></code>
+    element, and that <code id=dom-tree-accessors:the-iframe-element-3><a href=#the-iframe-element>iframe</a></code> element's <a href=#nested-browsing-context id=dom-tree-accessors:nested-browsing-context>nested browsing context</a> is not
+    null, then return the <code id=dom-tree-accessors:windowproxy><a href=#windowproxy>WindowProxy</a></code> object of the element's <a href=#nested-browsing-context id=dom-tree-accessors:nested-browsing-context-2>nested browsing
+    context</a>.</p>
+
+   <li>
+
+    <p>Otherwise, if <var>elements</var> has only one element, return that element.</p>
+
+   <li>
+
+    <p>Otherwise return an <code id=dom-tree-accessors:htmlcollection-11><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> rooted at the <code id=dom-tree-accessors:document-19><a href=#document>Document</a></code> node,
+    whose filter matches only <a href=#dom-document-nameditem-filter id=dom-tree-accessors:dom-document-nameditem-filter-2>named elements</a> with
+    the name <var>name</var>.</p> 
+
+   </ol>
+
+  <p><dfn id=dom-document-nameditem-filter>Named elements</dfn> with the name <var>name</var>, for the purposes of the above algorithm, are those that are either:</p>
+
+  <ul><li><code id=dom-tree-accessors:the-applet-element-3><a href=#the-applet-element>applet</a></code>, <a href=#exposed id=dom-tree-accessors:exposed-4>exposed</a> <code id=dom-tree-accessors:the-embed-element-4><a href=#the-embed-element>embed</a></code>, <code id=dom-tree-accessors:the-form-element-4><a href=#the-form-element>form</a></code>,
+   <code id=dom-tree-accessors:the-iframe-element-4><a href=#the-iframe-element>iframe</a></code>, <code id=dom-tree-accessors:the-img-element-5><a href=#the-img-element>img</a></code>, or <a href=#exposed id=dom-tree-accessors:exposed-5>exposed</a> <code id=dom-tree-accessors:the-object-element-3><a href=#the-object-element>object</a></code> elements that
+   have a <code>name</code> content attribute whose value is <var>name</var>, or<li><code id=dom-tree-accessors:the-applet-element-4><a href=#the-applet-element>applet</a></code> or <a href=#exposed id=dom-tree-accessors:exposed-6>exposed</a> <code id=dom-tree-accessors:the-object-element-4><a href=#the-object-element>object</a></code> elements that have an <code id=dom-tree-accessors:the-id-attribute-6><a href=#the-id-attribute>id</a></code> content attribute whose value is <var>name</var>, or<li><code id=dom-tree-accessors:the-img-element-6><a href=#the-img-element>img</a></code> elements that have an <code id=dom-tree-accessors:the-id-attribute-7><a href=#the-id-attribute>id</a></code> content attribute
+   whose value is <var>name</var>, and that have a non-empty <code>name</code>
+   content attribute present also.</ul>
+
+  <p>An <code id=dom-tree-accessors:the-embed-element-5><a href=#the-embed-element>embed</a></code> or <code id=dom-tree-accessors:the-object-element-5><a href=#the-object-element>object</a></code> element is said to be <dfn id=exposed>exposed</dfn> if it has
+  no <a href=#exposed id=dom-tree-accessors:exposed-7>exposed</a> <code id=dom-tree-accessors:the-object-element-6><a href=#the-object-element>object</a></code> ancestor, and, for <code id=dom-tree-accessors:the-object-element-7><a href=#the-object-element>object</a></code> elements, is
+  additionally either not showing its <a href=#fallback-content id=dom-tree-accessors:fallback-content>fallback content</a> or has no <code id=dom-tree-accessors:the-object-element-8><a href=#the-object-element>object</a></code> or
+  <code id=dom-tree-accessors:the-embed-element-6><a href=#the-embed-element>embed</a></code> descendants.</p>
+
+  
+
+  <hr>
+
+  <p class=note>The <code id=dom-tree-accessors:dom-document-dir><a href=#dom-document-dir>dir</a></code> attribute on the
+  <code id=dom-tree-accessors:document-20><a href=#document>Document</a></code> interface is defined along with the <code id=dom-tree-accessors:the-dir-attribute><a href=#the-dir-attribute>dir</a></code>
+  content attribute.</p>
+
+
+
+  <h3 id=elements>3.2 Elements<a href=#elements class=self-link></a></h3>
+
+  <h4 id=semantics-2>3.2.1 Semantics<a href=#semantics-2 class=self-link></a></h4>
+
+  <p>Elements, attributes, and attribute values in HTML are defined (by this specification) to have
+  certain meanings (semantics). For example, the <code id=semantics-2:the-ol-element><a href=#the-ol-element>ol</a></code> element represents an ordered list,
+  and the <code id=semantics-2:attr-lang><a href=#attr-lang>lang</a></code> attribute represents the language of the content.</p>
+
+  <p>These definitions allow HTML processors, such as Web browsers or search engines, to present and
+  use documents and applications in a wide variety of contexts that the author might not have
+  considered.</p>
+
+  <div class=example>
+
+   <p>As a simple example, consider a Web page written by an author who only considered desktop
+   computer Web browsers:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>My Page&lt;/title>
+ &lt;/head>
+ &lt;body>
+  &lt;h1>Welcome to my page&lt;/h1>
+  &lt;p>I like cars and lorries and have a big Jeep!&lt;/p>
+  &lt;h2>Where I live&lt;/h2>
+  &lt;p>I live in a small hut on a mountain!&lt;/p>
+ &lt;/body>
+&lt;/html></pre>
+
+   <p>Because HTML conveys <em>meaning</em>, rather than presentation, the same
+   page can also be used by a small browser on a mobile phone, without any change to the page.
+   Instead of headings being in large letters as on the desktop, for example, the browser on the
+   mobile phone might use the same size text for the whole the page, but with the headings in
+   bold.</p>
+
+   <p>But it goes further than just differences in screen size: the same page could equally be used
+   by a blind user using a browser based around speech synthesis, which instead of displaying the
+   page on a screen, reads the page to the user, e.g. using headphones. Instead of large text for
+   the headings, the speech browser might use a different volume or a slower voice.</p>
+
+   <p>That's not all, either. Since the browsers know which parts of the page are the headings, they
+   can create a document outline that the user can use to quickly navigate around the document,
+   using keys for "jump to next heading" or "jump to previous heading". Such features are especially
+   common with speech browsers, where users would otherwise find quickly navigating a page quite
+   difficult.</p>
+
+   <p>Even beyond browsers, software can make use of this information. Search engines can use the
+   headings to more effectively index a page, or to provide quick links to subsections of the page
+   from their results. Tools can use the headings to create a table of contents (that is in fact how
+   this very specification's table of contents is generated).</p>
+
+   <p>This example has focused on headings, but the same principle applies to all of the semantics
+   in HTML.</p>
+
+  </div>
+
+  <p>Authors must not use elements, attributes, or attribute values for purposes other than their
+  appropriate intended semantic purpose, as doing so prevents software from correctly processing the
+  page.</p>
+
+  <div class=example>
+
+   <p>For example, the following snippet, intended to represent the heading of a
+   corporate site, is non-conforming because the second line is not intended to
+   be a heading of a subsection, but merely a subheading or subtitle (a
+   subordinate heading for the same section).</p>
+
+   <pre class=bad>&lt;body>
+ &lt;h1>ACME Corporation&lt;/h1>
+ &lt;h2>The leaders in arbitrary fast delivery since 1920&lt;/h2>
+ ...</pre>
+
+   <p>The <code id=semantics-2:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code> element is intended for these kinds of situations:</p>
+
+   <pre>&lt;body>
+ &lt;hgroup>
+  &lt;h1>ACME Corporation&lt;/h1>
+  &lt;h2>The leaders in arbitrary fast delivery since 1920&lt;/h2>
+ &lt;/hgroup>
+ ...</pre>
+
+  </div>
+
+  <div class=example>
+

@@ -1,0 +1,850 @@
+  </div>
+
+  <div class=example>
+
+   <p>Suppose a file A contained the following fragment:</p>
+
+   <pre>&lt;iframe sandbox="allow-same-origin allow-forms" src=B>&lt;/iframe></pre>
+
+   <p>Suppose that file B contained an iframe also:</p>
+
+   <pre>&lt;iframe sandbox="allow-scripts" src=C>&lt;/iframe></pre>
+
+   <p>Further, suppose that file C contained a link:</p>
+
+   <pre>&lt;a href=D>Link&lt;/a></pre>
+
+   <p>For this example, suppose all the files were served as <code id=the-iframe-element:text/html-2><a href=#text/html>text/html</a></code>.</p>
+
+   <p>Page C in this scenario has all the sandboxing flags set. Scripts are disabled, because the
+   <code id=the-iframe-element:the-iframe-element-36><a href=#the-iframe-element>iframe</a></code> in A has scripts disabled, and this overrides the <code id=the-iframe-element:attr-iframe-sandbox-allow-scripts-4><a href=#attr-iframe-sandbox-allow-scripts>allow-scripts</a></code> keyword set on the
+   <code id=the-iframe-element:the-iframe-element-37><a href=#the-iframe-element>iframe</a></code> in B. Forms are also disabled, because the inner <code id=the-iframe-element:the-iframe-element-38><a href=#the-iframe-element>iframe</a></code> (in B)
+   does not have the <code id=the-iframe-element:attr-iframe-sandbox-allow-forms-3><a href=#attr-iframe-sandbox-allow-forms>allow-forms</a></code> keyword
+   set.</p>
+
+   <p>Suppose now that a script in A removes all the <code id=the-iframe-element:attr-iframe-sandbox-10><a href=#attr-iframe-sandbox>sandbox</a></code> attributes in A  and B.
+   This would change nothing immediately. If the user clicked the link in C, loading page D into the
+   <code id=the-iframe-element:the-iframe-element-39><a href=#the-iframe-element>iframe</a></code> in B, page D would now act as if the <code id=the-iframe-element:the-iframe-element-40><a href=#the-iframe-element>iframe</a></code> in B had the <code id=the-iframe-element:attr-iframe-sandbox-allow-same-origin-4><a href=#attr-iframe-sandbox-allow-same-origin>allow-same-origin</a></code> and <code id=the-iframe-element:attr-iframe-sandbox-allow-forms-4><a href=#attr-iframe-sandbox-allow-forms>allow-forms</a></code> keywords set, because that was the
+   state of the <a href=#nested-browsing-context id=the-iframe-element:nested-browsing-context-24>nested browsing context</a> in the <code id=the-iframe-element:the-iframe-element-41><a href=#the-iframe-element>iframe</a></code> in A when page B was
+   loaded.</p>
+
+   <p>Generally speaking, dynamically removing or changing the <code id=the-iframe-element:attr-iframe-sandbox-11><a href=#attr-iframe-sandbox>sandbox</a></code> attribute is ill-advised, because it can make it quite
+   hard to reason about what will be allowed and what will not.</p>
+
+  </div>
+
+
+  <hr> 
+
+  <p>The <dfn id=attr-iframe-allowfullscreen><code>allowfullscreen</code></dfn> attribute is a
+  <a href=#boolean-attribute id=the-iframe-element:boolean-attribute>boolean attribute</a>. When specified, it indicates that <code id=the-iframe-element:document-13><a href=#document>Document</a></code> objects in
+  the <code id=the-iframe-element:the-iframe-element-42><a href=#the-iframe-element>iframe</a></code> element's <a href=#browsing-context id=the-iframe-element:browsing-context-9>browsing context</a> are to be allowed to use <code id=the-iframe-element:dom-element-requestfullscreen-2><a data-x-internal=dom-element-requestfullscreen href=https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen>requestFullscreen()</a></code> (if it's not blocked for other
+  reasons, e.g. there is another ancestor <code id=the-iframe-element:the-iframe-element-43><a href=#the-iframe-element>iframe</a></code> without this attribute set).</p>
+
+  <div class=example>
+
+   <p>Here, an <code id=the-iframe-element:the-iframe-element-44><a href=#the-iframe-element>iframe</a></code> is used to embed a player from a video site. The <code id=the-iframe-element:attr-iframe-allowfullscreen-2><a href=#attr-iframe-allowfullscreen>allowfullscreen</a></code> attribute is needed to enable the
+   player to show its video fullscreen.</p>
+
+   <pre>&lt;article>
+ &lt;header>
+  &lt;p>&lt;img src="/usericons/1627591962735"> &lt;b>Fred Flintstone&lt;/b>&lt;/p>
+  &lt;p>&lt;a href="/posts/3095182851" rel=bookmark>12:44&lt;/a> — &lt;a href="#acl-3095182851">Private Post&lt;/a>&lt;/p>
+ &lt;/header>
+ &lt;main>
+  &lt;p>Check out my new ride!&lt;/p>
+  <strong>&lt;iframe src="https://video.example.com/embed?id=92469812" allowfullscreen>&lt;/iframe></strong>
+ &lt;/main>
+&lt;/article></pre>
+
+  </div>
+
+  <p>The <dfn id=attr-iframe-allowpaymentrequest><code>allowpaymentrequest</code></dfn>
+  attribute is a <a href=#boolean-attribute id=the-iframe-element:boolean-attribute-2>boolean attribute</a>. When specified, it indicates that
+  <code id=the-iframe-element:document-14><a href=#document>Document</a></code> objects in the <code id=the-iframe-element:the-iframe-element-45><a href=#the-iframe-element>iframe</a></code> element's <a href=#browsing-context id=the-iframe-element:browsing-context-10>browsing context</a>
+  are to be allowed to use the <code id=the-iframe-element:paymentrequest-2><a data-x-internal=paymentrequest href=https://w3c.github.io/browser-payment-api/#paymentrequest-interface>PaymentRequest</a></code> interface to make payment requests.</p>
+
+  <p>The <dfn id=attr-iframe-allowusermedia><code>allowusermedia</code></dfn> attribute is a
+  <a href=#boolean-attribute id=the-iframe-element:boolean-attribute-3>boolean attribute</a>. When specified, it indicates that <code id=the-iframe-element:document-15><a href=#document>Document</a></code> objects in
+  the <code id=the-iframe-element:the-iframe-element-46><a href=#the-iframe-element>iframe</a></code> element's <a href=#browsing-context id=the-iframe-element:browsing-context-11>browsing context</a> are to be allowed to use <code id=the-iframe-element:dom-mediadevices-getusermedia-2><a data-x-internal=dom-mediadevices-getusermedia href=https://w3c.github.io/mediacapture-main/#dom-mediadevices-getusermedia>getUserMedia()</a></code> (if it's not blocked for other
+  reasons, e.g. there is another ancestor <code id=the-iframe-element:the-iframe-element-47><a href=#the-iframe-element>iframe</a></code> without this attribute set).</p>
+
+  
+   <p id=fullscreen-logic>To determine whether a <code id=the-iframe-element:document-16><a href=#document>Document</a></code> object <var>document</var>
+   is <dfn id=allowed-to-use data-export="">allowed to use</dfn> the feature indicated by attribute name
+   <var>allowattribute</var>, run these steps:</p>
+
+   <ol><li><p>If <var>document</var> has no <a href=#concept-document-bc id=the-iframe-element:concept-document-bc-2>browsing context</a>,
+    then return false.<li><p>If <var>document</var>'s <a href=#concept-document-bc id=the-iframe-element:concept-document-bc-3>browsing context</a>'s
+    <a href=#active-document id=the-iframe-element:active-document-6>active document</a> is not <var>document</var>, then return false.<li><p>If <var>document</var>'s <a href=#concept-document-bc id=the-iframe-element:concept-document-bc-4>browsing context</a> is a
+    <a href=#top-level-browsing-context id=the-iframe-element:top-level-browsing-context-2>top-level browsing context</a>, then return true.<li>
+     <p>If <var>allowattribute</var> is <code id=the-iframe-element:attr-iframe-allowfullscreen-3><a href=#attr-iframe-allowfullscreen>allowfullscreen</a></code>, then follow these substeps:</p>
+
+     <ol><li><p>If <var>document</var>'s <a href=#concept-document-bc id=the-iframe-element:concept-document-bc-5>browsing context</a> has
+      a <a href=#browsing-context-container id=the-iframe-element:browsing-context-container>browsing context container</a> that is an <code id=the-iframe-element:the-iframe-element-48><a href=#the-iframe-element>iframe</a></code> element with an
+      <var>allowattribute</var> attribute specified, and whose <a id=the-iframe-element:node-document-5 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is
+      <a href=#allowed-to-use id=the-iframe-element:allowed-to-use>allowed to use</a> the feature indicated by <var>allowattribute</var>, then return
+      true.</ol>
+
+     <p class=big-issue>This step is legacy behavior for the <code id=the-iframe-element:attr-iframe-allowfullscreen-4><a href=#attr-iframe-allowfullscreen>allowfullscreen</a></code> attribute that should not be used
+     for new features. If possible this will be removed, see <a href=https://github.com/whatwg/html/issues/2143#issuecomment-265514585>issue 2143</a>.</p>
+    <li>
+     <p>Otherwise, follow these substeps:</p>
+
+     <ol><li><p>If <var>document</var> has the <var><var>allowattribute</var> flag</var> set, and
+      <var>document</var>'s <a href=#concept-document-bc id=the-iframe-element:concept-document-bc-6>browsing context</a> has a
+      <a href=#browsing-context-container id=the-iframe-element:browsing-context-container-2>browsing context container</a> that is an <code id=the-iframe-element:the-iframe-element-49><a href=#the-iframe-element>iframe</a></code> element whose
+      <a id=the-iframe-element:node-document-6 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is <a href=#allowed-to-use id=the-iframe-element:allowed-to-use-2>allowed to use</a> the feature indicated by
+      <var>allowattribute</var>, then return true.</ol>
+    <li><p>Return false.</ol>
+
+   <p>To <dfn id=set-the-allow*-flags>set the allow* flags</dfn> for a <code id=the-iframe-element:document-17><a href=#document>Document</a></code> <var>document</var> means to
+   run these steps:</p>
+
+   <ol><li>
+     <p>If <var>document</var>'s <a href=#concept-document-bc id=the-iframe-element:concept-document-bc-7>browsing context</a> has a
+     <a href=#browsing-context-container id=the-iframe-element:browsing-context-container-3>browsing context container</a> whose <a id=the-iframe-element:node-document-7 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <a href=#concept-origin id=the-iframe-element:concept-origin-3>origin</a>
+     is <a href=#same-origin-domain id=the-iframe-element:same-origin-domain>same origin-domain</a> with <var>document</var>'s <a href=#concept-origin id=the-iframe-element:concept-origin-4>origin</a>, then set the
+     <var>allowpaymentrequest flag</var> and the <var>allowusermedia flag</var> on
+     <var>document</var>, and abort these steps.</p>
+
+     <p class=note>If <code id=the-iframe-element:dom-document-domain><a href=#dom-document-domain>document.domain</a></code> has been used for
+     the <a href=#browsing-context-container id=the-iframe-element:browsing-context-container-4>browsing context container</a>'s <a id=the-iframe-element:node-document-8 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>, then its
+     <a href=#concept-origin id=the-iframe-element:concept-origin-5>origin</a> cannot be <a href=#same-origin-domain id=the-iframe-element:same-origin-domain-2>same origin-domain</a> with <var>document</var>'s
+     <a href=#concept-origin id=the-iframe-element:concept-origin-6>origin</a>, because these steps run when <var>document</var> is initialized so it
+     cannot itself yet have used <code id=the-iframe-element:dom-document-domain-2><a href=#dom-document-domain>document.domain</a></code>. Note
+     that this is less permissive compared to doing a <a href=#same-origin id=the-iframe-element:same-origin-2>same origin</a> check instead.</p>
+
+     <div class=example>
+      <p>In this example, the child document is not allowed to use <code id=the-iframe-element:paymentrequest-3><a data-x-internal=paymentrequest href=https://w3c.github.io/browser-payment-api/#paymentrequest-interface>PaymentRequest</a></code>,
+      despite being <a href=#same-origin-domain id=the-iframe-element:same-origin-domain-3>same origin-domain</a> at the time the child document tries to use it.
+      At the time the child document is initialized, only the parent document has set <code id=the-iframe-element:dom-document-domain-3><a href=#dom-document-domain>document.domain</a></code>, and the child document has not.</p>
+
+      <pre>&lt;!-- https://foo.example.com/a.html -->
+&lt;!doctype html>
+&lt;script>
+ document.domain = 'example.com';
+&lt;/script>
+&lt;iframe src=b.html>&lt;/iframe></pre>
+
+      <pre>&lt;!-- https://bar.example.com/b.html -->
+&lt;!doctype html>
+&lt;script>
+ document.domain = 'example.com'; // This happens after the document is initialized
+ new PaymentRequest(…); // Not allowed to use
+&lt;/script></pre>
+     </div>
+
+     <div class=example>
+      <p>In this example, the child document <em>is</em> allowed to use <code id=the-iframe-element:paymentrequest-4><a data-x-internal=paymentrequest href=https://w3c.github.io/browser-payment-api/#paymentrequest-interface>PaymentRequest</a></code>,
+      despite not being <a href=#same-origin-domain id=the-iframe-element:same-origin-domain-4>same origin-domain</a> at the time the child document tries to use
+      it. At the time the child document is initialized, none of the documents have set <code id=the-iframe-element:dom-document-domain-4><a href=#dom-document-domain>document.domain</a></code> yet so <a href=#same-origin-domain id=the-iframe-element:same-origin-domain-5>same origin-domain</a>
+      falls back to a normal <a href=#same-origin id=the-iframe-element:same-origin-3>same origin</a> check.</p>
+
+      <pre>&lt;!-- https://example.com/a.html -->
+&lt;!doctype html>
+&lt;iframe src=b.html>&lt;/iframe>
+&lt;!-- The child document is now initialized, before the script below is run. -->
+&lt;script>
+ document.domain = 'example.com';
+&lt;/script></pre>
+
+      <pre>&lt;!-- https://example.com/b.html -->
+&lt;!doctype html>
+&lt;script>
+ new PaymentRequest(…); // Allowed to use
+&lt;/script></pre>
+     </div>
+    <li><p>If <var>document</var>'s <a href=#concept-document-bc id=the-iframe-element:concept-document-bc-8>browsing context</a> has a
+    <a href=#browsing-context-container id=the-iframe-element:browsing-context-container-5>browsing context container</a> that is an <code id=the-iframe-element:the-iframe-element-50><a href=#the-iframe-element>iframe</a></code> element, let
+    <var>iframe</var> be that element. Otherwise, abort these steps.<li><p>If <var>iframe</var> has an <code id=the-iframe-element:attr-iframe-allowpaymentrequest-2><a href=#attr-iframe-allowpaymentrequest>allowpaymentrequest</a></code> attribute specified, then
+    set the <var>allowpaymentrequest flag</var> on <var>document</var>.<li><p>If <var>iframe</var> has an <code id=the-iframe-element:attr-iframe-allowusermedia-2><a href=#attr-iframe-allowusermedia>allowusermedia</a></code> attribute specified, then set the
+    <var>allowusermedia flag</var> on <var>document</var>.</ol>
+  
+
+  <hr> 
+
+  <p>The <code id=the-iframe-element:the-iframe-element-51><a href=#the-iframe-element>iframe</a></code> element supports <a href=#dimension-attributes id=the-iframe-element:dimension-attributes>dimension attributes</a> for cases where the
+  embedded content has specific dimensions (e.g. ad units have well-defined dimensions).</p>
+
+  <p>An <code id=the-iframe-element:the-iframe-element-52><a href=#the-iframe-element>iframe</a></code> element never has <a href=#fallback-content id=the-iframe-element:fallback-content>fallback content</a>, as it will always
+  <a href=#creating-a-new-browsing-context id=the-iframe-element:creating-a-new-browsing-context-2>create</a> a nested <a href=#browsing-context id=the-iframe-element:browsing-context-12>browsing context</a>, regardless of whether the specified initial
+  contents are successfully used.</p>
+
+  <hr> 
+
+  <p>The <dfn id=attr-iframe-referrerpolicy><code>referrerpolicy</code></dfn> attribute is a
+  <a href=#referrer-policy-attribute id=the-iframe-element:referrer-policy-attribute>referrer policy attribute</a>. Its purpose is to set the <a id=the-iframe-element:referrer-policy-2 href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a>
+  used when <a href=#process-the-iframe-attributes id=the-iframe-element:process-the-iframe-attributes-6>processing the <code>iframe</code>
+  attributes</a>. <a href=#refsREFERRERPOLICY>[REFERRERPOLICY]</a></p>
+
+  <hr> 
+
+  <p>Descendants of <code id=the-iframe-element:the-iframe-element-53><a href=#the-iframe-element>iframe</a></code> elements represent nothing. (In legacy user agents that do
+  not support <code id=the-iframe-element:the-iframe-element-54><a href=#the-iframe-element>iframe</a></code> elements, the contents would be parsed as markup that could act as
+  fallback content.)</p>
+
+  <p class=note>The <a href=#html-parser id=the-iframe-element:html-parser>HTML parser</a> treats markup inside <code id=the-iframe-element:the-iframe-element-55><a href=#the-iframe-element>iframe</a></code> elements as
+  text.</p>
+
+
+  
+
+  <hr> 
+
+  <p>The IDL attributes <dfn id=dom-iframe-src><code>src</code></dfn>, <dfn id=dom-iframe-srcdoc><code>srcdoc</code></dfn>, <dfn id=dom-iframe-name><code>name</code></dfn>,and <dfn id=dom-iframe-sandbox><code>sandbox</code></dfn> must <a href=#reflect id=the-iframe-element:reflect>reflect</a> the respective content
+  attributes of the same name.</p>
+
+  <p>The <a href=https://dom.spec.whatwg.org/#concept-supported-tokens id=the-iframe-element:concept-supported-tokens data-x-internal=concept-supported-tokens>supported tokens</a> for <code id=the-iframe-element:dom-iframe-sandbox-2><a href=#dom-iframe-sandbox>sandbox</a></code>'s <code id=the-iframe-element:domtokenlist-2><a data-x-internal=domtokenlist href=https://dom.spec.whatwg.org/#interface-domtokenlist>DOMTokenList</a></code> are the allowed
+  values defined in the <code id=the-iframe-element:attr-iframe-sandbox-12><a href=#attr-iframe-sandbox>sandbox</a></code> attribute and supported by
+  the user agent.</p>
+
+  <p>The <dfn id=dom-iframe-allowfullscreen><code>allowFullscreen</code></dfn> IDL attribute
+  must <a href=#reflect id=the-iframe-element:reflect-2>reflect</a> the <code id=the-iframe-element:attr-iframe-allowfullscreen-5><a href=#attr-iframe-allowfullscreen>allowfullscreen</a></code>
+  content attribute.</p>
+
+  <p>The <dfn id=dom-iframe-allowpaymentrequest><code>allowPaymentRequest</code></dfn> IDL
+  attribute must <a href=#reflect id=the-iframe-element:reflect-3>reflect</a> the <code id=the-iframe-element:attr-iframe-allowpaymentrequest-3><a href=#attr-iframe-allowpaymentrequest>allowpaymentrequest</a></code> content attribute.</p>
+
+  <p>The <dfn id=dom-iframe-allowusermedia><code>allowUserMedia</code></dfn> IDL attribute
+  must <a href=#reflect id=the-iframe-element:reflect-4>reflect</a> the <code id=the-iframe-element:attr-iframe-allowusermedia-3><a href=#attr-iframe-allowusermedia>allowusermedia</a></code>
+  content attribute.</p>
+
+  <p>The <dfn id=dom-iframe-referrerpolicy><code>referrerPolicy</code></dfn> IDL attribute
+  must <a href=#reflect id=the-iframe-element:reflect-5>reflect</a> the <code id=the-iframe-element:attr-iframe-referrerpolicy-3><a href=#attr-iframe-referrerpolicy>referrerpolicy</a></code>
+  content attribute, <a href=#limited-to-only-known-values id=the-iframe-element:limited-to-only-known-values>limited to only known values</a>.</p>
+
+  <p>The <dfn id=dom-iframe-contentdocument><code>contentDocument</code></dfn> IDL attribute,
+  on getting, must return the <code id=the-iframe-element:the-iframe-element-56><a href=#the-iframe-element>iframe</a></code> element's <a href=#concept-bcc-content-document id=the-iframe-element:concept-bcc-content-document>content document</a>.</p>
+
+  <p>The <dfn id=dom-iframe-contentwindow><code>contentWindow</code></dfn> IDL attribute must
+  return the <code id=the-iframe-element:windowproxy-3><a href=#windowproxy>WindowProxy</a></code> object of the <code id=the-iframe-element:the-iframe-element-57><a href=#the-iframe-element>iframe</a></code> element's <a href=#nested-browsing-context id=the-iframe-element:nested-browsing-context-25>nested
+  browsing context</a>, if its <a href=#nested-browsing-context id=the-iframe-element:nested-browsing-context-26>nested browsing context</a> is non-null, or null
+  otherwise.</p>
+
+  
+
+  <div class=example>
+
+   <p>Here is an example of a page using an <code id=the-iframe-element:the-iframe-element-58><a href=#the-iframe-element>iframe</a></code> to include advertising from an
+   advertising broker:</p>
+
+   <pre>&lt;iframe src="https://ads.example.com/?customerid=923513721&amp;amp;format=banner"
+        width="468" height="60">&lt;/iframe></pre>
+
+  </div>
+
+
+
+
+  <h4 id=the-embed-element data-dfn-type=element data-lt=embed>4.8.6 The <dfn><code>embed</code></dfn> element<a href=#the-embed-element class=self-link></a></h4>
+
+
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-embed-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-embed-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-embed-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#embedded-content-category id=the-embed-element:embedded-content-category>Embedded content</a>.<dd><a href=#interactive-content-2 id=the-embed-element:interactive-content-2>Interactive content</a>.<dd><a href=#palpable-content-2 id=the-embed-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-embed-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#embedded-content-category id=the-embed-element:embedded-content-category-2>embedded content</a> is expected.<dt><a href=#concept-element-content-model id=the-embed-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-embed-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-embed-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-embed-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-embed-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-embed-element:global-attributes>Global attributes</a><dd><code id=the-embed-element:attr-embed-src><a href=#attr-embed-src>src</a></code> — Address of the resource<dd><code id=the-embed-element:attr-embed-type><a href=#attr-embed-type>type</a></code> — Type of embedded resource<dd><code id=the-embed-element:attr-dim-width><a href=#attr-dim-width>width</a></code> — Horizontal dimension<dd><code id=the-embed-element:attr-dim-height><a href=#attr-dim-height>height</a></code> — Vertical dimension<dd>Any other attribute that has no namespace (see prose).<dt><a href=#concept-element-dom id=the-embed-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-embed-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlembedelement>HTMLEmbedElement</dfn> : <a href=#htmlelement id=the-embed-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-embed-element:cereactions>CEReactions</a>] attribute USVString <a href=#dom-embed-src id=the-embed-element:dom-embed-src>src</a>;
+  [<a href=#cereactions id=the-embed-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-embed-type id=the-embed-element:dom-embed-type>type</a>;
+  [<a href=#cereactions id=the-embed-element:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-dim-width id=the-embed-element:dom-dim-width>width</a>;
+  [<a href=#cereactions id=the-embed-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-dim-height id=the-embed-element:dom-dim-height>height</a>;
+  <a href=#document id=the-embed-element:document>Document</a>? <a href=#dom-media-getsvgdocument id=the-embed-element:dom-media-getsvgdocument>getSVGDocument</a>();
+
+  // <a href="#HTMLEmbedElement-partial">also has obsolete members</a>
+};</pre>
+    
+    <p>Depending on the type of content instantiated by the
+    <code id=the-embed-element:the-embed-element><a href=#the-embed-element>embed</a></code> element, the node may also support other
+    interfaces.</p>
+    
+   </dl>
+
+  <p>The <code id=the-embed-element:the-embed-element-2><a href=#the-embed-element>embed</a></code> element provides an integration point for an external (typically
+  non-HTML) application or interactive content.</p>
+
+  <p>The <dfn id=attr-embed-src><code>src</code></dfn> attribute gives the <a id=the-embed-element:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of
+  the resource being embedded. The attribute, if present, must contain a <a href=#valid-non-empty-url-potentially-surrounded-by-spaces id=the-embed-element:valid-non-empty-url-potentially-surrounded-by-spaces>valid non-empty URL
+  potentially surrounded by spaces</a>.</p>
+
+  <p>If the <code id=the-embed-element:names:-the-itemprop-attribute><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute is specified on an
+  <code id=the-embed-element:the-embed-element-3><a href=#the-embed-element>embed</a></code> element, then the <code id=the-embed-element:attr-embed-src-2><a href=#attr-embed-src>src</a></code> attribute must also
+  be specified.</p>
+
+  <p>The <dfn id=attr-embed-type><code>type</code></dfn> attribute, if present, gives the
+  <a id=the-embed-element:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> by which the plugin to instantiate is selected. The value must be a
+  <a id=the-embed-element:valid-mime-type href=https://mimesniff.spec.whatwg.org/#valid-mime-type data-x-internal=valid-mime-type>valid MIME type</a>. If both the <code id=the-embed-element:attr-embed-type-2><a href=#attr-embed-type>type</a></code> attribute and
+  the <code id=the-embed-element:attr-embed-src-3><a href=#attr-embed-src>src</a></code> attribute are present, then the <code id=the-embed-element:attr-embed-type-3><a href=#attr-embed-type>type</a></code> attribute must specify the same type as the <a href=#content-type id=the-embed-element:content-type>explicit Content-Type metadata</a> of the resource given by the <code id=the-embed-element:attr-embed-src-4><a href=#attr-embed-src>src</a></code> attribute.</p>
+
+  
+
+  <p>While any of the following conditions are occurring, any <a href=#plugin id=the-embed-element:plugin>plugin</a> instantiated for
+  the element must be removed, and the <code id=the-embed-element:the-embed-element-4><a href=#the-embed-element>embed</a></code> element <a href=#represents id=the-embed-element:represents>represents</a>
+  nothing:</p>
+
+  <ul class=brief><li><p>The element has neither a <code id=the-embed-element:attr-embed-src-5><a href=#attr-embed-src>src</a></code> attribute nor a <code id=the-embed-element:attr-embed-type-4><a href=#attr-embed-type>type</a></code> attribute.<li><p>The element has a <a href=#media-element id=the-embed-element:media-element>media element</a> ancestor.<li><p>The element has an ancestor <code id=the-embed-element:the-object-element><a href=#the-object-element>object</a></code> element that is <em>not</em> showing its
+   <a href=#fallback-content id=the-embed-element:fallback-content>fallback content</a>.</ul>
+
+  <p>An <code id=the-embed-element:the-embed-element-5><a href=#the-embed-element>embed</a></code> element is said to be <dfn id=concept-embed-active>potentially
+  active</dfn> when the following conditions are all met simultaneously:</p>
+
+  <ul class=brief><li>The element is <a id=the-embed-element:in-a-document href=https://dom.spec.whatwg.org/#in-a-document data-x-internal=in-a-document>in a document</a> or was <a id=the-embed-element:in-a-document-2 href=https://dom.spec.whatwg.org/#in-a-document data-x-internal=in-a-document>in a document</a> the last time the
+   <a href=#event-loop id=the-embed-element:event-loop>event loop</a> reached <a href=#step1>step 1</a>.<li>The element's <a id=the-embed-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is <a href=#fully-active id=the-embed-element:fully-active>fully active</a>.<li>The element has either a <code id=the-embed-element:attr-embed-src-6><a href=#attr-embed-src>src</a></code> attribute set or a <code id=the-embed-element:attr-embed-type-5><a href=#attr-embed-type>type</a></code> attribute set (or both).<li>The element's <code id=the-embed-element:attr-embed-src-7><a href=#attr-embed-src>src</a></code> attribute is either absent or its value
+   is not the empty string.<li>The element is not a descendant of a <a href=#media-element id=the-embed-element:media-element-2>media element</a>.<li>The element is not a descendant of an <code id=the-embed-element:the-object-element-2><a href=#the-object-element>object</a></code> element that is not showing its
+   <a href=#fallback-content id=the-embed-element:fallback-content-2>fallback content</a>.<li>The element is <a href=#being-rendered id=the-embed-element:being-rendered>being rendered</a>, or was <a href=#being-rendered id=the-embed-element:being-rendered-2>being rendered</a> the last time
+   the <a href=#event-loop id=the-embed-element:event-loop-2>event loop</a> reached <a href=#step1>step 1</a>.</ul>
+
+  <p>Whenever an <code id=the-embed-element:the-embed-element-6><a href=#the-embed-element>embed</a></code> element that was not <a href=#concept-embed-active id=the-embed-element:concept-embed-active>potentially active</a> becomes <a href=#concept-embed-active id=the-embed-element:concept-embed-active-2>potentially active</a>, and whenever a <a href=#concept-embed-active id=the-embed-element:concept-embed-active-3>potentially active</a> <code id=the-embed-element:the-embed-element-7><a href=#the-embed-element>embed</a></code> element that is
+  remaining <a href=#concept-embed-active id=the-embed-element:concept-embed-active-4>potentially active</a> and has its <code id=the-embed-element:attr-embed-type-6><a href=#attr-embed-type>src</a></code> attribute set, changed, or removed or its <code id=the-embed-element:attr-embed-type-7><a href=#attr-embed-type>type</a></code> attribute set, changed, or removed, the user agent must
+  <a href=#queue-a-task id=the-embed-element:queue-a-task>queue a task</a> using the <dfn id=embed-task-source>embed task source</dfn> to run <a href=#the-embed-element-setup-steps id=the-embed-element:the-embed-element-setup-steps>the
+  <code>embed</code> element setup steps</a>.</p>
+
+  <p><dfn id=the-embed-element-setup-steps>The <code>embed</code> element setup steps</dfn> are as follows:</p>
+
+  <ol><li><p>If another <a href=#concept-task id=the-embed-element:concept-task>task</a> has since been queued to run <a href=#the-embed-element-setup-steps id=the-embed-element:the-embed-element-setup-steps-2>the
+   <code>embed</code> element setup steps</a> for this element, then abort these steps.<li><p>If the <a id=the-embed-element:should-element-be-blocked-a-priori-by-content-security-policy href=https://w3c.github.io/webappsec-csp/#should-plugin-element-be-blocked-a-priori-by-content-security-policy data-x-internal=should-element-be-blocked-a-priori-by-content-security-policy>Should element be blocked <i lang=la>a priori</i> by Content Security
+   Policy?</a> algorithm returns "<code>Blocked</code>" when executed on the element,
+   then abort these steps. <a href=#refsCSP>[CSP]</a><li>
+
+    <dl class=switch><dt>If the element has a <code id=the-embed-element:attr-embed-src-8><a href=#attr-embed-src>src</a></code> attribute set<dd>
+
+      <p>The user agent must <a href=#parse-a-url id=the-embed-element:parse-a-url>parse</a> the value of the element's
+      <code id=the-embed-element:attr-embed-src-9><a href=#attr-embed-src>src</a></code> attribute, relative to the element's <a id=the-embed-element:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+      document</a>. If that is successful, the user agent should run these steps:
+
+      <ol><li><p>Let <var>request</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id=the-embed-element:concept-request data-x-internal=concept-request>request</a> whose
+       <a href=https://fetch.spec.whatwg.org/#concept-request-url id=the-embed-element:concept-request-url data-x-internal=concept-request-url>url</a> is the <a href=#resulting-url-record id=the-embed-element:resulting-url-record>resulting URL record</a>,
+       <a href=https://fetch.spec.whatwg.org/#concept-request-client id=the-embed-element:concept-request-client data-x-internal=concept-request-client>client</a> is the element's <a id=the-embed-element:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+       document</a>'s <code id=the-embed-element:window><a href=#window>Window</a></code> object's <a href=#environment-settings-object id=the-embed-element:environment-settings-object>environment settings object</a>,
+       <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=the-embed-element:concept-request-destination data-x-internal=concept-request-destination>destination</a> is "<code>embed</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-credentials-mode id=the-embed-element:concept-request-credentials-mode data-x-internal=concept-request-credentials-mode>credentials
+       mode</a> is "<code>include</code>", and whose <a id=the-embed-element:use-url-credentials-flag href=https://fetch.spec.whatwg.org/#concept-request-use-url-credentials-flag data-x-internal=use-url-credentials-flag>use-URL-credentials
+       flag</a> is set.<li><p><a href=https://fetch.spec.whatwg.org/#concept-fetch id=the-embed-element:concept-fetch data-x-internal=concept-fetch>Fetch</a> <var>request</var>.</ol>
+
+      <p>The <a href=#concept-task id=the-embed-element:concept-task-2>task</a> that is <a href=#queue-a-task id=the-embed-element:queue-a-task-2>queued</a> by the <a href=#networking-task-source id=the-embed-element:networking-task-source>networking task source</a> once the
+      resource has been fetched must run the following steps:</p>
+      
+
+      <ol><li><p>If another <a href=#concept-task id=the-embed-element:concept-task-3>task</a> has since been queued to run
+       <a href=#the-embed-element-setup-steps id=the-embed-element:the-embed-element-setup-steps-3>the <code>embed</code> element setup steps</a> for this element, then abort these
+       steps.<li>
+
+        <p>Determine the <dfn id=concept-embed-type>type of the content</dfn> being embedded, as
+        follows (stopping at the first substep that determines the type):</p>
+
+        <ol><li><p>If the element has a <code id=the-embed-element:attr-embed-type-8><a href=#attr-embed-type>type</a></code> attribute, and that
+attribute's value is a type that a <a href=#plugin id=the-embed-element:plugin-2>plugin</a> supports, then the value of the
+         <code id=the-embed-element:attr-embed-type-9><a href=#attr-embed-type>type</a></code> attribute is the <a href=#concept-embed-type id=the-embed-element:concept-embed-type>content's type</a>.<li>
+
+          
+
+          <p>Otherwise, if applying the <a id=the-embed-element:url-parser href=https://url.spec.whatwg.org/#concept-url-parser data-x-internal=url-parser>URL parser</a> algorithm to the <a id=the-embed-element:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of
+          the specified resource (after any redirects) results in a <a id=the-embed-element:url-record href=https://url.spec.whatwg.org/#concept-url data-x-internal=url-record>URL record</a> whose
+          <a href=https://url.spec.whatwg.org/#concept-url-path id=the-embed-element:concept-url-path data-x-internal=concept-url-path>path</a> component matches a pattern that a
+          <a href=#plugin id=the-embed-element:plugin-3>plugin</a> supports, then the <a href=#concept-embed-type id=the-embed-element:concept-embed-type-2>content's
+          type</a> is the type that that plugin can handle.</p>
+
+          <p class=example>For example, a plugin might say that it can handle resources with <a href=https://url.spec.whatwg.org/#concept-url-path id=the-embed-element:concept-url-path-2 data-x-internal=concept-url-path>path</a> components that end with the four character string
+          "<code>.swf</code>".</p>
+
+          
+          
+
+         <li><p>Otherwise, if the specified resource has <a href=#content-type id=the-embed-element:content-type-2>explicit
+         Content-Type metadata</a>, then that is the <a href=#concept-embed-type id=the-embed-element:concept-embed-type-3>content's
+         type</a>.<li><p>Otherwise, the content has no <a href=#concept-embed-type id=the-embed-element:concept-embed-type-4>type</a> and there
+         can be no appropriate <a href=#plugin id=the-embed-element:plugin-4>plugin</a> for it.</ol>
+
+       <li>
+
+        <p>If the previous step determined that the <a href=#concept-embed-type id=the-embed-element:concept-embed-type-5>content's
+        type</a> is <code>image/svg+xml</code>, then run the following substeps:</p>
+
+        <ol><li><p>If the <code id=the-embed-element:the-embed-element-8><a href=#the-embed-element>embed</a></code> element's <a href=#nested-browsing-context id=the-embed-element:nested-browsing-context>nested browsing context</a> is null,
+         set the element's <a href=#nested-browsing-context id=the-embed-element:nested-browsing-context-2>nested browsing context</a> to a <a href=#creating-a-new-browsing-context id=the-embed-element:creating-a-new-browsing-context>newly-created browsing context</a>, and, if the element has a <code id=the-embed-element:attr-embed-name><a href=#attr-embed-name>name</a></code> attribute, set the <a href=#browsing-context-name id=the-embed-element:browsing-context-name>browsing context name</a>
+         of the element's new <a href=#nested-browsing-context id=the-embed-element:nested-browsing-context-3>nested browsing context</a> to the value of this
+         attribute.</p>
+         
+
+         <li><p><a href=#navigate id=the-embed-element:navigate>Navigate</a> the <a href=#nested-browsing-context id=the-embed-element:nested-browsing-context-4>nested browsing context</a> to
+         the fetched resource, with <a href=#replacement-enabled id=the-embed-element:replacement-enabled>replacement enabled</a>, and with the
+         <code id=the-embed-element:the-embed-element-9><a href=#the-embed-element>embed</a></code> element's <a id=the-embed-element:node-document-4 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <a href=#concept-document-bc id=the-embed-element:concept-document-bc>browsing context</a> as the <a href=#source-browsing-context id=the-embed-element:source-browsing-context>source browsing
+         context</a>. (The <code id=the-embed-element:attr-embed-src-10><a href=#attr-embed-src>src</a></code> attribute of the
+         <code id=the-embed-element:the-embed-element-10><a href=#the-embed-element>embed</a></code> element doesn't get updated if the browsing context gets further
+         navigated to other locations.)<li><p>The <code id=the-embed-element:the-embed-element-11><a href=#the-embed-element>embed</a></code> element now <a href=#represents id=the-embed-element:represents-2>represents</a> its <a href=#nested-browsing-context id=the-embed-element:nested-browsing-context-5>nested browsing
+         context</a>.</ol>
+
+       <li>
+
+        <p>Otherwise, find and instantiate an appropriate <a href=#plugin id=the-embed-element:plugin-5>plugin</a> based on the <a href=#concept-embed-type id=the-embed-element:concept-embed-type-6>content's type</a>, and hand that <a href=#plugin id=the-embed-element:plugin-6>plugin</a> the
+        content of the resource, replacing any previously instantiated plugin for the element. The
+        <code id=the-embed-element:the-embed-element-12><a href=#the-embed-element>embed</a></code> element now represents this <a href=#plugin id=the-embed-element:plugin-7>plugin</a> instance.</p>
+
+       <li><p>Once the resource or plugin has completely loaded, <a href=#queue-a-task id=the-embed-element:queue-a-task-3>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-embed-element:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=the-embed-element:event-load><a href=#event-load>load</a></code>
+       at the element.</ol>
+
+      <p>Whether the resource is fetched successfully or not (e.g. whether the response status was
+      an <a id=the-embed-element:ok-status href=https://fetch.spec.whatwg.org/#ok-status data-x-internal=ok-status>ok status</a>) must be ignored when determining the <a href=#concept-embed-type id=the-embed-element:concept-embed-type-7>content's type</a> and when handing the resource to the
+      plugin.</p>
+
+      <p class=note>This allows servers to return data for plugins even with error responses (e.g.
+      HTTP 500 Internal Server Error codes can still contain plugin data).</p>
+
+      <p>Fetching the resource must <a href=#delay-the-load-event id=the-embed-element:delay-the-load-event>delay the load event</a> of the element's <a id=the-embed-element:node-document-5 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.</p>
+      
+      
+      
+
+     <dt>If the element has no <code id=the-embed-element:attr-embed-src-11><a href=#attr-embed-src>src</a></code> attribute set<dd>
+
+      <p>The user agent should find and instantiate an appropriate <a href=#plugin id=the-embed-element:plugin-8>plugin</a> based on the
+      value of the <code id=the-embed-element:attr-embed-type-10><a href=#attr-embed-type>type</a></code> attribute. The <code id=the-embed-element:the-embed-element-13><a href=#the-embed-element>embed</a></code>
+      element now represents this <a href=#plugin id=the-embed-element:plugin-9>plugin</a> instance.</p>
+
+      <p>Once the plugin is completely loaded, <a href=#queue-a-task id=the-embed-element:queue-a-task-4>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-embed-element:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=the-embed-element:event-load-2><a href=#event-load>load</a></code>
+      at the element.</p>
+
+     </dl>
+
+   </ol>
+
+  <p>The <code id=the-embed-element:the-embed-element-14><a href=#the-embed-element>embed</a></code> element has no <a href=#fallback-content id=the-embed-element:fallback-content-3>fallback content</a>. If the user agent can't
+  find a suitable plugin when attempting to find and instantiate one for the algorithm above, then
+  the user agent must use a default plugin. This default could be as simple as saying "Unsupported
+  Format".</p>
+
+  <p>Whenever an <code id=the-embed-element:the-embed-element-15><a href=#the-embed-element>embed</a></code> element that was <a href=#concept-embed-active id=the-embed-element:concept-embed-active-5>potentially
+  active</a> stops being <a href=#concept-embed-active id=the-embed-element:concept-embed-active-6>potentially active</a>, any
+  <a href=#plugin id=the-embed-element:plugin-10>plugin</a> that had been instantiated for that element must be unloaded.</p>
+
+  <p id=sandboxPluginEmbed>When a <a href=#plugin id=the-embed-element:plugin-11>plugin</a> is to be instantiated but it cannot be <a href=#concept-plugin-secure id=the-embed-element:concept-plugin-secure>secured</a> and the <a href=#sandboxed-plugins-browsing-context-flag id=the-embed-element:sandboxed-plugins-browsing-context-flag>sandboxed plugins browsing context
+  flag</a> is set on the <code id=the-embed-element:the-embed-element-16><a href=#the-embed-element>embed</a></code> element's <a id=the-embed-element:node-document-6 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <a href=#active-sandboxing-flag-set id=the-embed-element:active-sandboxing-flag-set>active
+  sandboxing flag set</a>, then the user agent must not instantiate the <a href=#plugin id=the-embed-element:plugin-12>plugin</a>, and
+  must instead render the <code id=the-embed-element:the-embed-element-17><a href=#the-embed-element>embed</a></code> element in a manner that conveys that the
+  <a href=#plugin id=the-embed-element:plugin-13>plugin</a> was disabled. The user agent may offer the user the option to override the
+  sandbox and instantiate the <a href=#plugin id=the-embed-element:plugin-14>plugin</a> anyway; if the user invokes such an option, the
+  user agent must act as if the conditions above did not apply for the purposes of this element.</p>
+
+  <p class=warning>Plugins that cannot be <a href=#concept-plugin-secure id=the-embed-element:concept-plugin-secure-2>secured</a> are
+  disabled in sandboxed browsing contexts because they might not honor the restrictions imposed by
+  the sandbox (e.g. they might allow scripting even when scripting in the sandbox is disabled). User
+  agents should convey the danger of overriding the sandbox to the user if an option to do so is
+  provided.</p>
+
+  <p>When an <code id=the-embed-element:the-embed-element-18><a href=#the-embed-element>embed</a></code> element has a non-null <a href=#nested-browsing-context id=the-embed-element:nested-browsing-context-6>nested browsing context</a>: if the
+  <code id=the-embed-element:the-embed-element-19><a href=#the-embed-element>embed</a></code> element's <a href=#nested-browsing-context id=the-embed-element:nested-browsing-context-7>nested browsing context</a>'s <a href=#active-document id=the-embed-element:active-document>active document</a>
+  is not <a href=#ready-for-post-load-tasks id=the-embed-element:ready-for-post-load-tasks>ready for post-load tasks</a>, and when anything is <a href=#delay-the-load-event id=the-embed-element:delay-the-load-event-2>delaying the load event</a> of the <code id=the-embed-element:the-embed-element-20><a href=#the-embed-element>embed</a></code> element's <a href=#browsing-context id=the-embed-element:browsing-context>browsing
+  context</a>'s <a href=#active-document id=the-embed-element:active-document-2>active document</a>, and when the <code id=the-embed-element:the-embed-element-21><a href=#the-embed-element>embed</a></code> element's
+  <a href=#browsing-context id=the-embed-element:browsing-context-2>browsing context</a> is in the <a href=#delaying-load-events-mode id=the-embed-element:delaying-load-events-mode>delaying <code>load</code>
+  events mode</a>, the <code id=the-embed-element:the-embed-element-22><a href=#the-embed-element>embed</a></code> must <a href=#delay-the-load-event id=the-embed-element:delay-the-load-event-3>delay the load event</a> of its
+  document.</p>
+
+  <p>The <a href=#task-source id=the-embed-element:task-source>task source</a> for the <a href=#concept-task id=the-embed-element:concept-task-4>tasks</a> mentioned in this
+  section is the <a href=#dom-manipulation-task-source id=the-embed-element:dom-manipulation-task-source>DOM manipulation task source</a>.</p>
+
+  
+
+  <p>Any namespace-less attribute other than <code id=the-embed-element:attr-embed-name-2><a href=#attr-embed-name>name</a></code>, <code id=the-embed-element:attr-embed-align><a href=#attr-embed-align>align</a></code>, <code id=the-embed-element:attr-embed-hspace><a href=#attr-embed-hspace>hspace</a></code>, and <code id=the-embed-element:attr-embed-vspace><a href=#attr-embed-vspace>vspace</a></code>  may be
+  specified on the <code id=the-embed-element:the-embed-element-23><a href=#the-embed-element>embed</a></code> element, so long as its name is <a href=#xml-compatible id=the-embed-element:xml-compatible>XML-compatible</a>
+  and contains no <a href=#uppercase-ascii-letters id=the-embed-element:uppercase-ascii-letters>uppercase ASCII letters</a>. These attributes are then passed as
+  parameters to the <a href=#plugin id=the-embed-element:plugin-15>plugin</a>.</p>
+
+  <p class=note>All attributes in <a id=the-embed-element:html-documents href=https://dom.spec.whatwg.org/#html-document data-x-internal=html-documents>HTML documents</a> get lowercased automatically, so the
+  restriction on uppercase letters doesn't affect such documents.</p>
+
+  <p class=note>The four exceptions are to exclude legacy attributes that have side-effects beyond
+  just sending parameters to the <a href=#plugin id=the-embed-element:plugin-16>plugin</a>.</p>
+
+  
+
+  <p>The user agent should pass the names and values of all the attributes of the <code id=the-embed-element:the-embed-element-24><a href=#the-embed-element>embed</a></code>
+  element that have no namespace to the <a href=#plugin id=the-embed-element:plugin-17>plugin</a> used, when one is instantiated.</p>
+
+  <p>The <code id=the-embed-element:htmlembedelement><a href=#htmlembedelement>HTMLEmbedElement</a></code> object representing the element must expose the scriptable
+  interface of the <a href=#plugin id=the-embed-element:plugin-18>plugin</a> instantiated for the <code id=the-embed-element:the-embed-element-25><a href=#the-embed-element>embed</a></code> element, if any.</p>
+
+  
+
+  <p>The <code id=the-embed-element:the-embed-element-26><a href=#the-embed-element>embed</a></code> element supports <a href=#dimension-attributes id=the-embed-element:dimension-attributes>dimension attributes</a>.</p>
+
+  
+
+  <p>The IDL attributes <dfn id=dom-embed-src><code>src</code></dfn> and <dfn id=dom-embed-type><code>type</code></dfn> each must <a href=#reflect id=the-embed-element:reflect>reflect</a> the respective
+  content attributes of the same name.</p>
+
+  
+
+  <div class=example>
+
+   <p>Here's a way to embed a resource that requires a proprietary plugin, like Flash:</p>
+
+   <pre>&lt;embed src="catgame.swf"></pre>
+
+   <p>If the user does not have the plugin (for example if the plugin vendor doesn't support the
+   user's platform), then the user will be unable to use the resource.</p>
+
+   <p>To pass the plugin a parameter "quality" with the value "high", an attribute can be
+   specified:</p>
+
+   <pre>&lt;embed src="catgame.swf" quality="high"></pre>
+
+   <p>This would be equivalent to the following, when using an <code id=the-embed-element:the-object-element-3><a href=#the-object-element>object</a></code> element
+   instead:</p>
+
+   <pre>&lt;object data="catgame.swf">
+ &lt;param name="quality" value="high">
+&lt;/object></pre>
+
+  </div>
+
+
+
+
+  <h4 id=the-object-element data-dfn-type=element data-lt=object>4.8.7 The <dfn><code>object</code></dfn> element<a href=#the-object-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=25553" title="Shouldn't <object> also allow intermixed script-supporting elements?">25553</a>, <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27480" title="<object> Consider not unloading/loading SVG when flipping rendering.">27480</a>, <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24852" title="The algorithm should probably unload the plugin even if it doesn't end up at the fallback step. Should also destroy the nested browsing context if it had one.">24852</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-object-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-object-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-object-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#embedded-content-category id=the-object-element:embedded-content-category>Embedded content</a>.<dd>If the element has a <code id=the-object-element:attr-hyperlink-usemap><a href=#attr-hyperlink-usemap>usemap</a></code> attribute: <a href=#interactive-content-2 id=the-object-element:interactive-content-2>Interactive content</a>.<dd><a href=#category-listed id=the-object-element:category-listed>Listed</a> and <a href=#category-submit id=the-object-element:category-submit>submittable</a> <a href=#form-associated-element id=the-object-element:form-associated-element>form-associated element</a>.<dd><a href=#palpable-content-2 id=the-object-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-object-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#embedded-content-category id=the-object-element:embedded-content-category-2>embedded content</a> is expected.<dt><a href=#concept-element-content-model id=the-object-element:concept-element-content-model>Content model</a>:<dd>Zero or more <code id=the-object-element:the-param-element><a href=#the-param-element>param</a></code> elements, then, <a href=#transparent id=the-object-element:transparent>transparent</a>.<dt><a href=#concept-element-tag-omission id=the-object-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-object-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-object-element:global-attributes>Global attributes</a><dd><code id=the-object-element:attr-object-data><a href=#attr-object-data>data</a></code> — Address of the resource<dd><code id=the-object-element:attr-object-type><a href=#attr-object-type>type</a></code> — Type of embedded resource<dd><code id=the-object-element:attr-object-typemustmatch><a href=#attr-object-typemustmatch>typemustmatch</a></code> — Whether the <code id=the-object-element:attr-object-type-2><a href=#attr-object-type>type</a></code> attribute and the <a href=#content-type id=the-object-element:content-type>Content-Type</a> value need to match for the resource to be used<dd><code id=the-object-element:attr-object-name><a href=#attr-object-name>name</a></code> — Name of <a href=#nested-browsing-context id=the-object-element:nested-browsing-context>nested browsing context</a><dd><code id=the-object-element:attr-hyperlink-usemap-2><a href=#attr-hyperlink-usemap>usemap</a></code> — Name of <a href=#image-map id=the-object-element:image-map>image map</a> to use<dd><code id=the-object-element:attr-fae-form><a href=#attr-fae-form>form</a></code> — Associates the control with a <code id=the-object-element:the-form-element><a href=#the-form-element>form</a></code> element<dd><code id=the-object-element:attr-dim-width><a href=#attr-dim-width>width</a></code> — Horizontal dimension<dd><code id=the-object-element:attr-dim-height><a href=#attr-dim-height>height</a></code> — Vertical dimension<dt><a href=#concept-element-dom id=the-object-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-object-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlobjectelement>HTMLObjectElement</dfn> : <a href=#htmlelement id=the-object-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-object-element:cereactions>CEReactions</a>] attribute USVString <a href=#dom-object-data id=the-object-element:dom-object-data>data</a>;
+  [<a href=#cereactions id=the-object-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-object-type id=the-object-element:dom-object-type>type</a>;
+  [<a href=#cereactions id=the-object-element:cereactions-3>CEReactions</a>] attribute boolean <a href=#dom-object-typemustmatch id=the-object-element:dom-object-typemustmatch>typeMustMatch</a>;
+  [<a href=#cereactions id=the-object-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-object-name id=the-object-element:dom-object-name>name</a>;
+  [<a href=#cereactions id=the-object-element:cereactions-5>CEReactions</a>] attribute DOMString <a href=#dom-object-usemap id=the-object-element:dom-object-usemap>useMap</a>;
+  readonly attribute <a href=#htmlformelement id=the-object-element:htmlformelement>HTMLFormElement</a>? <a href=#dom-fae-form id=the-object-element:dom-fae-form>form</a>;
+  [<a href=#cereactions id=the-object-element:cereactions-6>CEReactions</a>] attribute DOMString <a href=#dom-dim-width id=the-object-element:dom-dim-width>width</a>;
+  [<a href=#cereactions id=the-object-element:cereactions-7>CEReactions</a>] attribute DOMString <a href=#dom-dim-height id=the-object-element:dom-dim-height>height</a>;
+  readonly attribute <a href=#document id=the-object-element:document>Document</a>? <a href=#dom-object-contentdocument id=the-object-element:dom-object-contentdocument>contentDocument</a>;
+  readonly attribute <a href=#windowproxy id=the-object-element:windowproxy>WindowProxy</a>? <a href=#dom-object-contentwindow id=the-object-element:dom-object-contentwindow>contentWindow</a>;
+  <a href=#document id=the-object-element:document-2>Document</a>? <a href=#dom-media-getsvgdocument id=the-object-element:dom-media-getsvgdocument>getSVGDocument</a>();
+
+  readonly attribute boolean <a href=#dom-cva-willvalidate id=the-object-element:dom-cva-willvalidate>willValidate</a>;
+  readonly attribute <a href=#validitystate id=the-object-element:validitystate>ValidityState</a> <a href=#dom-cva-validity id=the-object-element:dom-cva-validity>validity</a>;
+  readonly attribute DOMString <a href=#dom-cva-validationmessage id=the-object-element:dom-cva-validationmessage>validationMessage</a>;
+  boolean <a href=#dom-cva-checkvalidity id=the-object-element:dom-cva-checkvalidity>checkValidity</a>();
+  boolean <a href=#dom-cva-reportvalidity id=the-object-element:dom-cva-reportvalidity>reportValidity</a>();
+  void <a href=#dom-cva-setcustomvalidity id=the-object-element:dom-cva-setcustomvalidity>setCustomValidity</a>(DOMString error);
+
+  // <a href="#HTMLObjectElement-partial">also has obsolete members</a>
+};</pre>
+    
+    <p>Depending on the type of content instantiated by the
+    <code id=the-object-element:the-object-element><a href=#the-object-element>object</a></code> element, the node also supports other
+    interfaces.</p>
+    
+   </dl>
+
+  <p>The <code id=the-object-element:the-object-element-2><a href=#the-object-element>object</a></code> element can represent an external resource, which, depending on the
+  type of the resource, will either be treated as an image, as a <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-2>nested browsing
+  context</a>, or as an external resource to be processed by a <a href=#plugin id=the-object-element:plugin>plugin</a>.</p>
+
+  <p>The <dfn id=attr-object-data><code>data</code></dfn> attribute, if present, specifies the
+  <a id=the-object-element:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of the resource. If present, the attribute must be a <a href=#valid-non-empty-url-potentially-surrounded-by-spaces id=the-object-element:valid-non-empty-url-potentially-surrounded-by-spaces>valid non-empty URL
+  potentially surrounded by spaces</a>.</p>
+
+  <p class=warning>Authors who reference resources from other <a href=#concept-origin id=the-object-element:concept-origin>origins</a>
+  that they do not trust are urged to use the <code id=the-object-element:attr-object-typemustmatch-2><a href=#attr-object-typemustmatch>typemustmatch</a></code> attribute defined below. Without that
+  attribute, it is possible in certain cases for an attacker on the remote host to use the plugin
+  mechanism to run arbitrary scripts, even if the author has used features such as the Flash
+  "allowScriptAccess" parameter.</p> 
+
+  <p>The <dfn id=attr-object-type><code>type</code></dfn> attribute, if present, specifies the
+  type of the resource. If present, the attribute must be a <a id=the-object-element:valid-mime-type href=https://mimesniff.spec.whatwg.org/#valid-mime-type data-x-internal=valid-mime-type>valid MIME type</a>.</p>
+
+  <p>At least one of either the <code id=the-object-element:attr-object-data-2><a href=#attr-object-data>data</a></code> attribute or the <code id=the-object-element:attr-object-type-3><a href=#attr-object-type>type</a></code> attribute must be present.</p>
+
+  <p>If the <code id=the-object-element:names:-the-itemprop-attribute><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute is specified on an <code id=the-object-element:the-object-element-3><a href=#the-object-element>object</a></code>
+  element, then the <code id=the-object-element:attr-object-data-3><a href=#attr-object-data>data</a></code> attribute must also be specified.</p>
+
+  <p>The <dfn id=attr-object-typemustmatch><code>typemustmatch</code></dfn> attribute is a
+  <a href=#boolean-attribute id=the-object-element:boolean-attribute>boolean attribute</a> whose presence indicates that the resource specified by the <code id=the-object-element:attr-object-data-4><a href=#attr-object-data>data</a></code> attribute is only to be used if the value of the <code id=the-object-element:attr-object-type-4><a href=#attr-object-type>type</a></code> attribute and the <a href=#content-type id=the-object-element:content-type-2>Content-Type</a> of the
+  aforementioned resource match.</p>
+
+  <p>The <code id=the-object-element:attr-object-typemustmatch-3><a href=#attr-object-typemustmatch>typemustmatch</a></code> attribute must not be
+  specified unless both the <code id=the-object-element:attr-object-data-5><a href=#attr-object-data>data</a></code> attribute and the <code id=the-object-element:attr-object-type-5><a href=#attr-object-type>type</a></code> attribute are present.</p>
+
+  <p>The <dfn id=attr-object-name><code>name</code></dfn> attribute, if present, must be a
+  <a href=#valid-browsing-context-name id=the-object-element:valid-browsing-context-name>valid browsing context name</a>. The given value is used to name the <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-3>nested
+  browsing context</a>, if applicable.</p>
+
+  
+
+  <p>Whenever one of the following conditions occur:</p>
+
+  <ul><li>the element is created,
+
+   <li>the element is popped off the <a href=#stack-of-open-elements id=the-object-element:stack-of-open-elements>stack of open elements</a> of an <a href=#html-parser id=the-object-element:html-parser>HTML
+   parser</a> or <a href=#xml-parser id=the-object-element:xml-parser>XML parser</a>,
+
+   <li>the element is not on the <a href=#stack-of-open-elements id=the-object-element:stack-of-open-elements-2>stack of open elements</a> of an <a href=#html-parser id=the-object-element:html-parser-2>HTML parser</a>
+   or <a href=#xml-parser id=the-object-element:xml-parser-2>XML parser</a>, and it is either <a href=#insert-an-element-into-a-document id=the-object-element:insert-an-element-into-a-document>inserted into a document</a> or <a href=#remove-an-element-from-a-document id=the-object-element:remove-an-element-from-a-document>removed from a document</a>,
+
+   <li>the element's <a id=the-object-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> changes whether it is <a href=#fully-active id=the-object-element:fully-active>fully active</a>,
+
+   <li>one of the element's ancestor <code id=the-object-element:the-object-element-4><a href=#the-object-element>object</a></code> elements changes to or from showing its
+   <a href=#fallback-content id=the-object-element:fallback-content>fallback content</a>,
+
+   <li>the element's <code id=the-object-element:attr-object-classid><a href=#attr-object-classid>classid</a></code> attribute is set, changed, or
+   removed,
+
+   <li>the element's <code id=the-object-element:attr-object-classid-2><a href=#attr-object-classid>classid</a></code> attribute is not present, and
+   its <code id=the-object-element:attr-object-data-6><a href=#attr-object-data>data</a></code> attribute is set, changed, or removed,
+
+   <li>neither the element's <code id=the-object-element:attr-object-classid-3><a href=#attr-object-classid>classid</a></code> attribute nor its
+   <code id=the-object-element:attr-object-data-7><a href=#attr-object-data>data</a></code> attribute are present, and its <code id=the-object-element:attr-object-type-6><a href=#attr-object-type>type</a></code> attribute is set, changed, or removed,
+
+   <li>the element changes from <a href=#being-rendered id=the-object-element:being-rendered>being rendered</a> to not being rendered, or vice versa,
+
+  </ul> 
+
+  <p>...the user agent must <a href=#queue-a-task id=the-object-element:queue-a-task>queue a task</a> to run the following steps to (re)determine
+  what the <code id=the-object-element:the-object-element-5><a href=#the-object-element>object</a></code> element represents. This <a href=#concept-task id=the-object-element:concept-task>task</a>
+  being <a href=#queue-a-task id=the-object-element:queue-a-task-2>queued</a> or actively running must <a href=#delay-the-load-event id=the-object-element:delay-the-load-event>delay the load
+  event</a> of the element's <a id=the-object-element:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>. </p>
+
+  <ol><li>
+
+    <p>If the user has indicated a preference that this <code id=the-object-element:the-object-element-6><a href=#the-object-element>object</a></code> element's <a href=#fallback-content id=the-object-element:fallback-content-2>fallback
+    content</a> be shown instead of the element's usual behavior, then jump to the step below
+    labeled <i>fallback</i>.</p>
+
+    <p class=note>For example, a user could ask for the element's <a href=#fallback-content id=the-object-element:fallback-content-3>fallback content</a> to
+    be shown because that content uses a format that the user finds more accessible.</p>
+
+   <li>
+
+    <p>If the element has an ancestor <a href=#media-element id=the-object-element:media-element>media element</a>, or has an ancestor
+    <code id=the-object-element:the-object-element-7><a href=#the-object-element>object</a></code> element that is <em>not</em> showing its <a href=#fallback-content id=the-object-element:fallback-content-4>fallback content</a>, or
+    if the element is not <a id=the-object-element:in-a-document href=https://dom.spec.whatwg.org/#in-a-document data-x-internal=in-a-document>in a document</a> that has a <a href=#concept-document-bc id=the-object-element:concept-document-bc>browsing context</a>, or if the element's <a id=the-object-element:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+    document</a> is not <a href=#fully-active id=the-object-element:fully-active-2>fully active</a>, or if the element is still in the <a href=#stack-of-open-elements id=the-object-element:stack-of-open-elements-3>stack
+    of open elements</a> of an <a href=#html-parser id=the-object-element:html-parser-3>HTML parser</a> or <a href=#xml-parser id=the-object-element:xml-parser-3>XML parser</a>, or if the
+    element is not <a href=#being-rendered id=the-object-element:being-rendered-2>being rendered</a>, or if the <a id=the-object-element:should-element-be-blocked-a-priori-by-content-security-policy href=https://w3c.github.io/webappsec-csp/#should-plugin-element-be-blocked-a-priori-by-content-security-policy data-x-internal=should-element-be-blocked-a-priori-by-content-security-policy>Should element be blocked
+    <i lang=la>a priori</i> by Content Security Policy?</a> algorithm returns "<code>Blocked</code>" when executed on the element, then jump to the step below labeled
+    <i>fallback</i>. <a href=#refsCSP>[CSP]</a></p>
+
+   <li>
+
+    
+
+    <p>If the <code id=the-object-element:attr-object-classid-4><a href=#attr-object-classid>classid</a></code> attribute is present, and has a
+    value that isn't the empty string, then: if the user agent can find a <a href=#plugin id=the-object-element:plugin-2>plugin</a>
+    suitable according to the value of the <code id=the-object-element:attr-object-classid-5><a href=#attr-object-classid>classid</a></code>
+    attribute, and either <a href=#sandboxPluginObject>plugins aren't being sandboxed</a> or that
+    <a href=#plugin id=the-object-element:plugin-3>plugin</a> can be <a href=#concept-plugin-secure id=the-object-element:concept-plugin-secure>secured</a>, then that
+    <a href=#plugin id=the-object-element:plugin-4>plugin</a> <a href=#object-plugin>should be used</a>, and the value of the <code id=the-object-element:attr-object-data-8><a href=#attr-object-data>data</a></code> attribute, if any, should be passed to the
+    <a href=#plugin id=the-object-element:plugin-5>plugin</a>. If no suitable <a href=#plugin id=the-object-element:plugin-6>plugin</a> can be found, or if the
+    <a href=#plugin id=the-object-element:plugin-7>plugin</a> reports an error, jump to the step below labeled <i>fallback</i>.</p>
+
+    
+
+   <li><p>If the <code id=the-object-element:attr-object-data-9><a href=#attr-object-data>data</a></code> attribute is present and its value is
+   not the empty string, then:</p>
+
+    <ol><li><p>If the <code id=the-object-element:attr-object-type-7><a href=#attr-object-type>type</a></code> attribute is present and its value is
+     not a type that the user agent supports, and is not a type that the user agent can find a
+     <a href=#plugin id=the-object-element:plugin-8>plugin</a> for, then the user agent may jump to the step below labeled <i>fallback</i>
+     without fetching the content to examine its real type.<li><p><a href=#parse-a-url id=the-object-element:parse-a-url>Parse</a> the <a id=the-object-element:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> specified by the <code id=the-object-element:attr-object-data-10><a href=#attr-object-data>data</a></code> attribute, relative to the element's <a id=the-object-element:node-document-4 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+     document</a>.<li><p>If that failed, <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-object-element:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=the-object-element:event-error><a href=#event-error>error</a></code> at the element, then jump to the step below labeled
+     <i>fallback</i>.<li><p>Let <var>request</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id=the-object-element:concept-request data-x-internal=concept-request>request</a> whose
+     <a href=https://fetch.spec.whatwg.org/#concept-request-url id=the-object-element:concept-request-url data-x-internal=concept-request-url>url</a> is the <a href=#resulting-url-record id=the-object-element:resulting-url-record>resulting URL record</a>,
+     <a href=https://fetch.spec.whatwg.org/#concept-request-client id=the-object-element:concept-request-client data-x-internal=concept-request-client>client</a> is the element's <a id=the-object-element:node-document-5 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+     document</a>'s <code id=the-object-element:window><a href=#window>Window</a></code> object's <a href=#environment-settings-object id=the-object-element:environment-settings-object>environment settings object</a>,
+     <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=the-object-element:concept-request-destination data-x-internal=concept-request-destination>destination</a> is "<code>object</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-credentials-mode id=the-object-element:concept-request-credentials-mode data-x-internal=concept-request-credentials-mode>credentials
+     mode</a> is "<code>include</code>", and whose <a id=the-object-element:use-url-credentials-flag href=https://fetch.spec.whatwg.org/#concept-request-use-url-credentials-flag data-x-internal=use-url-credentials-flag>use-URL-credentials
+     flag</a> is set.<li>
+
+      <p><a href=https://fetch.spec.whatwg.org/#concept-fetch id=the-object-element:concept-fetch data-x-internal=concept-fetch>Fetch</a> <var>request</var>.</p>
+
+      
+      <p>Fetching the resource must <a href=#delay-the-load-event id=the-object-element:delay-the-load-event-2>delay the load event</a> of the element's <a id=the-object-element:node-document-6 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+      document</a> until the <a href=#concept-task id=the-object-element:concept-task-2>task</a> that is <a href=#queue-a-task id=the-object-element:queue-a-task-3>queued</a> by the <a href=#networking-task-source id=the-object-element:networking-task-source>networking task source</a> once the resource has been
+      fetched (defined next) has been run.</p>
+
+      <p>For the purposes of the <a href=#application-cache id=the-object-element:application-cache>application cache</a> networking model, this fetch
+      operation is not for a <a href=#child-browsing-context id=the-object-element:child-browsing-context>child browsing context</a> (though it might end up being used
+      for one after all, as defined below).</p>
+
+     <li><p>If the resource is not yet available (e.g. because the resource was not available in the
+     cache, so that loading the resource required making a request over the network), then jump to
+     the step below labeled <i>fallback</i>. The <a href=#concept-task id=the-object-element:concept-task-3>task</a> that is
+     <a href=#queue-a-task id=the-object-element:queue-a-task-4>queued</a> by the <a href=#networking-task-source id=the-object-element:networking-task-source-2>networking task source</a> once the
+     resource is available must restart this algorithm from this step. Resources can load
+     incrementally; user agents may opt to consider a resource "available" whenever enough data has
+     been obtained to begin processing the resource.<li><p>If the load failed (e.g. there was an HTTP 404 error, there was a DNS error), <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-object-element:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=the-object-element:event-error-2><a href=#event-error>error</a></code>
+     at the element, then jump to the step below labeled <i>fallback</i>.<li id=object-type-detection>
+
+      <p>Determine the <var>resource type</var>, as follows:</p>
+
+
+
+      <ol><li>
+
+        <p>Let the <var>resource type</var> be unknown.</p>
+
+       <li>
+
+        <p>If the <code id=the-object-element:the-object-element-8><a href=#the-object-element>object</a></code> element has a <code id=the-object-element:attr-object-type-8><a href=#attr-object-type>type</a></code>
+        attribute and a <code id=the-object-element:attr-object-typemustmatch-4><a href=#attr-object-typemustmatch>typemustmatch</a></code> attribute, and
+        the resource has <a href=#content-type id=the-object-element:content-type-3>associated Content-Type metadata</a>, and the
+        type specified in <a href=#content-type id=the-object-element:content-type-4>the resource's Content-Type metadata</a> is
+        an <a id=the-object-element:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the value of the element's <code id=the-object-element:attr-object-type-9><a href=#attr-object-type>type</a></code> attribute, then let <var>resource type</var>
+        be that type and jump to the step below labeled <i>handler</i>.</p>
+
+        
+
+       <li>
+
+        <p>If the <code id=the-object-element:the-object-element-9><a href=#the-object-element>object</a></code> element has a <code id=the-object-element:attr-object-typemustmatch-5><a href=#attr-object-typemustmatch>typemustmatch</a></code> attribute, jump to the step below
+        labeled <i>handler</i>.</p>
+
+       <li>
+
+        
+
+        <p>If the user agent is configured to strictly obey Content-Type headers for this resource,
+        and the resource has <a href=#content-type id=the-object-element:content-type-5>associated Content-Type metadata</a>,
+        then let the <var>resource type</var> be the type specified in <a href=#content-type id=the-object-element:content-type-6>the resource's Content-Type metadata</a>, and jump to the step below
+        labeled <i>handler</i>.</p>
+
+        <p class=warning>This can introduce a vulnerability, wherein a site is trying to embed a
+        resource that uses a particular plugin, but the remote site overrides that and instead
+        furnishes the user agent with a resource that triggers a different plugin with different
+        security characteristics. </p>
+
+       <li>
+
+        <p>If there is a <code id=the-object-element:attr-object-type-10><a href=#attr-object-type>type</a></code> attribute present on the
+        <code id=the-object-element:the-object-element-10><a href=#the-object-element>object</a></code> element, and that attribute's value is not a type that the user agent
+        supports, but it <em>is</em> a type that a <a href=#plugin id=the-object-element:plugin-9>plugin</a> supports, then let the <var>resource type</var> be the type specified in that <code id=the-object-element:attr-object-type-11><a href=#attr-object-type>type</a></code> attribute, and jump to the step below labeled
+        <i>handler</i>.</p>
+
+       <li>
+
+        <p>Run the appropriate set of steps from the following
+        list:</p>
+
+        <dl class=switch><dt>If the resource has <a href=#content-type id=the-object-element:content-type-7>associated Content-Type
+         metadata</a><dd>
+
+          <ol><li>
+
+            <p>Let <var>binary</var> be false.</p>
+
+           <li>
+
+            <p>If the type specified in <a href=#content-type id=the-object-element:content-type-8>the resource's Content-Type
+            metadata</a> is "<code id=the-object-element:text/plain><a data-x-internal=text/plain href=https://tools.ietf.org/html/rfc2046#section-4.1.3>text/plain</a></code>", and the result of applying the <a href=https://mimesniff.spec.whatwg.org/#rules-for-text-or-binary id=the-object-element:content-type-sniffing:-text-or-binary data-x-internal=content-type-sniffing:-text-or-binary>rules for distinguishing if a resource is
+            text or binary</a> to the resource is that the resource is not
+            <code id=the-object-element:text/plain-2><a data-x-internal=text/plain href=https://tools.ietf.org/html/rfc2046#section-4.1.3>text/plain</a></code>, then set <var>binary</var> to true.</p>
+
+           <li>
+
+            <p>If the type specified in <a href=#content-type id=the-object-element:content-type-9>the resource's Content-Type
+            metadata</a> is "<code id=the-object-element:application/octet-stream><a data-x-internal=application/octet-stream href=https://tools.ietf.org/html/rfc2046#section-4.5.1>application/octet-stream</a></code>", then set <var>binary</var> to true.</p>
+
+           <li>
+
+            <p>If <var>binary</var> is false, then let the <var>resource
+            type</var> be the type specified in <a href=#content-type id=the-object-element:content-type-10>the resource's
+            Content-Type metadata</a>, and jump to the step below labeled <i>handler</i>.</p>
+
+           <li>
+
+            <p>If there is a <code id=the-object-element:attr-object-type-12><a href=#attr-object-type>type</a></code> attribute present on the
+            <code id=the-object-element:the-object-element-11><a href=#the-object-element>object</a></code> element, and its value is not <code id=the-object-element:application/octet-stream-2><a data-x-internal=application/octet-stream href=https://tools.ietf.org/html/rfc2046#section-4.5.1>application/octet-stream</a></code>,
+            then run the following steps:</p>
+
+            <ol><li>
+
+              <p>If the attribute's value is a type that a <a href=#plugin id=the-object-element:plugin-10>plugin</a> supports, or the
+     attribute's value is a type that starts with "<code>image/</code>" that is
+              not also an <a id=the-object-element:xml-mime-type href=https://mimesniff.spec.whatwg.org/#xml-mime-type data-x-internal=xml-mime-type>XML MIME type</a>, then let the <var>resource type</var> be the
+              type specified in that <code id=the-object-element:attr-object-type-13><a href=#attr-object-type>type</a></code> attribute.</p>
+
+             <li>
+
+              <p>Jump to the step below labeled <i>handler</i>.</p>
+
+             </ol>
+
+           </ol>
+
+         <dt>Otherwise, if the resource does not have <a href=#content-type id=the-object-element:content-type-11>associated
+         Content-Type metadata</a><dd>
+
+          <ol><li>
+
+            <p>If there is a <code id=the-object-element:attr-object-type-14><a href=#attr-object-type>type</a></code> attribute present on the
+            <code id=the-object-element:the-object-element-12><a href=#the-object-element>object</a></code> element, then let the <var>tentative type</var> be the type
+            specified in that <code id=the-object-element:attr-object-type-15><a href=#attr-object-type>type</a></code> attribute.</p>
+
+            <p>Otherwise, let <var>tentative type</var> be the <a href=https://mimesniff.spec.whatwg.org/#computed-mime-type id=the-object-element:content-type-sniffing-2 data-x-internal=content-type-sniffing-2>computed type of the resource</a>.</p>
+
+           <li>
+
+            <p>If <var>tentative type</var> is <em>not</em>
+            <code id=the-object-element:application/octet-stream-3><a data-x-internal=application/octet-stream href=https://tools.ietf.org/html/rfc2046#section-4.5.1>application/octet-stream</a></code>, then let <var>resource type</var> be
+            <var>tentative type</var> and jump to the step below labeled
+            <i>handler</i>.</p>
+
+           </ol>
+
+         </dl>
+
+       <li>
+
+        
+
+        <p>If applying the <a id=the-object-element:url-parser href=https://url.spec.whatwg.org/#concept-url-parser data-x-internal=url-parser>URL parser</a> algorithm to the <a id=the-object-element:url-3 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of the
+        specified resource (after any redirects) results in a <a id=the-object-element:url-record href=https://url.spec.whatwg.org/#concept-url data-x-internal=url-record>URL record</a> whose <a href=https://url.spec.whatwg.org/#concept-url-path id=the-object-element:concept-url-path data-x-internal=concept-url-path>path</a> component matches a pattern that a <a href=#plugin id=the-object-element:plugin-11>plugin</a>
+        supports, then let <var>resource type</var> be the type that that plugin can
+        handle.</p>
+
+        <p class=example>For example, a plugin might say that it can handle resources with <a href=https://url.spec.whatwg.org/#concept-url-path id=the-object-element:concept-url-path-2 data-x-internal=concept-url-path>path</a> components that end with the four character string
+        "<code>.swf</code>".</p>
+
+        
+        
+
+       </ol>
+
+      <p class=note>It is possible for this step to finish, or for one of the substeps above to
+      jump straight to the next step, with <var>resource type</var> still being unknown. In
+      both cases, the next step will trigger fallback.</p>
+
+     <li><p><i>Handler</i>: Handle the content as given by the first of the following cases that
+     matches:</p>
+
+      <dl class=switch><dt>If the <var>resource type</var> is not a type that the user agent supports, but
+       it <em>is</em> a type that a <a href=#plugin id=the-object-element:plugin-12>plugin</a> supports<dd>
+
+        <p>If the <code id=the-object-element:the-object-element-13><a href=#the-object-element>object</a></code> element's <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-4>nested browsing context</a> is non-null,
+        then it must be <a href=#a-browsing-context-is-discarded id=the-object-element:a-browsing-context-is-discarded>discarded</a> and then set
+        to null.</p>
+
+        <p>If <a href=#sandboxPluginObject>plugins are being sandboxed</a> and the plugin that
+        supports <var>resource type</var> cannot be <a href=#concept-plugin-secure id=the-object-element:concept-plugin-secure-2>secured</a>, jump to the step below labeled <i>fallback</i>.</p>
+
+        <p>Otherwise, the user agent should <a href=#object-plugin>use the plugin that supports
+        <var>resource type</var></a> and pass the content of the resource to that
+        <a href=#plugin id=the-object-element:plugin-13>plugin</a>. If the <a href=#plugin id=the-object-element:plugin-14>plugin</a> reports an error, then jump to the step
+        below labeled <i>fallback</i>.</p>
+
+       <dt>If the <var>resource type</var> is an <a id=the-object-element:xml-mime-type-2 href=https://mimesniff.spec.whatwg.org/#xml-mime-type data-x-internal=xml-mime-type>XML MIME type</a>, or  if the <var>resource type</var>
+       does not start with "<code>image/</code>"<dd>
+
+        <p>If the <code id=the-object-element:the-object-element-14><a href=#the-object-element>object</a></code> element's <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-5>nested browsing context</a> is null, set
+        the element's <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-6>nested browsing context</a> to a <a href=#creating-a-new-browsing-context id=the-object-element:creating-a-new-browsing-context>newly-created browsing context</a>.</p>
+
+        <p>The <code id=the-object-element:the-object-element-15><a href=#the-object-element>object</a></code> element must be associated with a newly created <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-7>nested
+        browsing context</a>, if it does not already have one.</p>
+
+        <p>If the <a id=the-object-element:url-4 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of the given resource is not <code id=the-object-element:about:blank><a href=#about:blank>about:blank</a></code>, the
+        element's <a href=#nested-browsing-context id=the-object-element:nested-browsing-context-8>nested browsing context</a> must then be <a href=#navigate id=the-object-element:navigate>navigated</a> to that resource, with
+        <a href=#replacement-enabled id=the-object-element:replacement-enabled>replacement enabled</a>, and with the <code id=the-object-element:the-object-element-16><a href=#the-object-element>object</a></code> element's <a id=the-object-element:node-document-7 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+        document</a>'s <a href=#concept-document-bc id=the-object-element:concept-document-bc-2>browsing context</a> as the
+        <a href=#source-browsing-context id=the-object-element:source-browsing-context>source browsing context</a>. (The <code id=the-object-element:attr-object-data-11><a href=#attr-object-data>data</a></code>
+        attribute of the <code id=the-object-element:the-object-element-17><a href=#the-object-element>object</a></code> element doesn't get updated if the browsing context
+        gets further navigated to other locations.)</p>
+
+        <p>If the <a id=the-object-element:url-5 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of the given resource <em>is</em> <code id=the-object-element:about:blank-2><a href=#about:blank>about:blank</a></code>, then,
+        instead, the user agent must <a href=#queue-a-task id=the-object-element:queue-a-task-5>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-object-element:concept-event-fire-3 data-x-internal=concept-event-fire>fire an event</a> named <code id=the-object-element:event-load><a href=#event-load>load</a></code>
+        at the <code id=the-object-element:the-object-element-18><a href=#the-object-element>object</a></code> element. <span class=note>No <code id=the-object-element:event-load-2><a href=#event-load>load</a></code> event is fired at the <code id=the-object-element:about:blank-3><a href=#about:blank>about:blank</a></code> document
+        itself.</span></p>

@@ -1,0 +1,850 @@
+  </div>
+
+  
+
+  <p>The second storage mechanism is designed for storage that spans multiple windows, and lasts
+  beyond the current session. In particular, Web applications may wish to store megabytes of user
+  data, such as entire user-authored documents or a user's mailbox, on the client side for
+  performance reasons.</p>
+
+  <p>Again, cookies do not handle this case well, because they are transmitted with every
+  request.</p>
+
+  <p>The <code id=introduction-15:dom-localstorage><a href=#dom-localstorage>localStorage</a></code> IDL attribute is used to access a page's
+  local storage area.</p>
+
+  <div class=example>
+
+   <p>The site at example.com can display a count of how many times the user has loaded its page by
+   putting the following at the bottom of its page:</p>
+
+   <pre>&lt;p>
+  You have viewed this page
+  &lt;span id="count">an untold number of&lt;/span>
+  time(s).
+&lt;/p>
+&lt;script>
+  if (!localStorage.pageLoadCount)
+    localStorage.pageLoadCount = 0;
+  localStorage.pageLoadCount = parseInt(localStorage.pageLoadCount) + 1;
+  document.getElementById('count').textContent = localStorage.pageLoadCount;
+&lt;/script></pre>
+
+  </div>
+
+  <p>Each site has its own separate storage area.</p>
+
+
+
+
+  <h3 id=storage>11.2 The API<a href=#storage class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> namevalue-storage<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>3.2+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>3.5+</span></span><span class="ie yes"><span>IE</span> <span>8+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>2.1+</span></span><span class="safari yes"><span>Safari</span> <span>4+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>10.5+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=namevalue-storage">caniuse.com</a></div>
+
+  <h4 id=the-storage-interface>11.2.1 The <code id=the-storage-interface:storage-2><a href=#storage-2>Storage</a></code> interface<a href=#the-storage-interface class=self-link></a></h4>
+
+  <pre class=idl>interface <dfn id=storage-2>Storage</dfn> {
+  readonly attribute unsigned long <a href=#dom-storage-length id=the-storage-interface:dom-storage-length>length</a>;
+  DOMString? <a href=#dom-storage-key id=the-storage-interface:dom-storage-key>key</a>(unsigned long index);
+  getter DOMString? <a href=#dom-storage-getitem id=the-storage-interface:dom-storage-getitem>getItem</a>(DOMString key);
+  setter void <a href=#dom-storage-setitem id=the-storage-interface:dom-storage-setitem>setItem</a>(DOMString key, DOMString value);
+  deleter void <a href=#dom-storage-removeitem id=the-storage-interface:dom-storage-removeitem>removeItem</a>(DOMString key);
+  void <a href=#dom-storage-clear id=the-storage-interface:dom-storage-clear>clear</a>();
+};</pre>
+
+  
+
+  <p>Each <code id=the-storage-interface:storage-2-2><a href=#storage-2>Storage</a></code> object provides access to a list of key/value pairs, which are
+  sometimes called items. Keys are strings. Any string (including the empty string) is a valid key.
+  Values are similarly strings.</p>
+
+  <p>Each <code id=the-storage-interface:storage-2-3><a href=#storage-2>Storage</a></code> object is associated with a list of key/value pairs when it is
+  created, as defined in the sections on the <code id=the-storage-interface:dom-sessionstorage><a href=#dom-sessionstorage>sessionStorage</a></code>
+  and <code id=the-storage-interface:dom-localstorage><a href=#dom-localstorage>localStorage</a></code> attributes. Multiple separate objects
+  implementing the <code id=the-storage-interface:storage-2-4><a href=#storage-2>Storage</a></code> interface can all be associated with the same list of
+  key/value pairs simultaneously.</p>
+
+  <p>The <dfn id=dom-storage-length><code>length</code></dfn> attribute must return the number
+  of key/value pairs currently present in the list associated with the object.</p>
+
+  <p>The <dfn id=dom-storage-key><code>key(<var>n</var>)</code></dfn> method must
+  return the name of the <var>n</var>th key in the list. The order of keys is user-agent
+  defined, but must be consistent within an object so long as the number of keys doesn't change.
+  (Thus, <a href=#dom-storage-setitem id=the-storage-interface:dom-storage-setitem-2>adding</a> or <a href=#dom-storage-removeitem id=the-storage-interface:dom-storage-removeitem-2>removing</a> a key may change the order of the keys, but merely
+  changing the value of an existing key must not.)  If <var>n</var> is
+   greater than or equal to the number of key/value pairs
+  in the object, then this method must return null.</p>
+
+  <p>The <a id=the-storage-interface:supported-property-names href=https://heycam.github.io/webidl/#dfn-supported-property-names data-x-internal=supported-property-names>supported property names</a> on a <code id=the-storage-interface:storage-2-5><a href=#storage-2>Storage</a></code> object are the keys of each
+  key/value pair currently present in the list associated with the object, in the order that the
+  keys were last added to the storage area.</p>
+
+  <p>The <dfn id=dom-storage-getitem><code>getItem(<var>key</var>)</code></dfn> method
+  must return the current value associated with the given <var>key</var>. If the given <var>key</var> does not exist in the list associated with the object then this method must
+  return null. </p>
+
+  <p>The <dfn id=dom-storage-setitem><code>setItem(<var>key</var>, <var>value</var>)</code></dfn> method must first check if a key/value pair with the given <var>key</var> already exists in the list associated with the object.</p>
+
+  <p>If it does not, then a new key/value pair must be added to the list, with the given <var>key</var> and with its value set to <var>value</var>.</p>
+
+  <p>If the given <var>key</var> <em>does</em> exist in the list, and its value is not
+  equal to <var>value</var>, then it must have its value updated to <var>value</var>. If its previous value <em>is</em> equal to <var>value</var>, then
+  the method must do nothing.</p>
+
+  <p>If it couldn't set the new value, the method must throw a
+  <a id=the-storage-interface:quotaexceedederror href=https://heycam.github.io/webidl/#quotaexceedederror data-x-internal=quotaexceedederror>"<code>QuotaExceededError</code>"</a> <code id=the-storage-interface:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> exception. (Setting could
+  fail if, e.g., the user has disabled storage for the site, or if the quota has been exceeded.)</p>
+
+  <p>The <dfn id=dom-storage-removeitem><code>removeItem(<var>key</var>)</code></dfn>
+  method must cause the key/value pair with the given <var>key</var> to be removed from the
+  list associated with the object, if it exists. If no item with that key exists, the method must do
+  nothing.</p>
+
+  <p>The <code id=the-storage-interface:dom-storage-setitem-3><a href=#dom-storage-setitem>setItem()</a></code> and <code id=the-storage-interface:dom-storage-removeitem-3><a href=#dom-storage-removeitem>removeItem()</a></code> methods must be atomic with respect to failure.
+  In the case of failure, the method does nothing. That is, changes to the data storage area must
+  either be successful, or the data storage area must not be changed at all.</p>
+
+  <p>The <dfn id=dom-storage-clear><code>clear()</code></dfn> method must atomically cause the
+  list associated with the object to be emptied of all key/value pairs, if there are any. If there
+  are none, then the method must do nothing.</p>
+
+  <p class=note>When the <code id=the-storage-interface:dom-storage-setitem-4><a href=#dom-storage-setitem>setItem()</a></code>, <code id=the-storage-interface:dom-storage-removeitem-4><a href=#dom-storage-removeitem>removeItem()</a></code>, and <code id=the-storage-interface:dom-storage-clear-2><a href=#dom-storage-clear>clear()</a></code> methods are invoked, events are fired on the
+  <code id=the-storage-interface:window><a href=#window>Window</a></code> objects of other <code id=the-storage-interface:document><a href=#document>Document</a></code>s that can access the newly stored or
+  removed data, as defined in the sections on the <code id=the-storage-interface:dom-sessionstorage-2><a href=#dom-sessionstorage>sessionStorage</a></code> and <code id=the-storage-interface:dom-localstorage-2><a href=#dom-localstorage>localStorage</a></code> attributes.</p> 
+
+  <p class=note>This specification does not require that the above methods wait until the data has
+  been physically written to disk. Only consistency in what different scripts accessing the same
+  underlying list of key/value pairs see is required.</p>
+
+
+  <h4 id=the-sessionstorage-attribute>11.2.2 The <code id=the-sessionstorage-attribute:dom-sessionstorage><a href=#dom-sessionstorage>sessionStorage</a></code> attribute<a href=#the-sessionstorage-attribute class=self-link></a></h4>
+
+  <pre class=idl>[NoInterfaceObject]
+interface <dfn id=windowsessionstorage>WindowSessionStorage</dfn> {
+  readonly attribute <a href=#storage-2 id=the-sessionstorage-attribute:storage-2>Storage</a> <a href=#dom-sessionstorage id=the-sessionstorage-attribute:dom-sessionstorage-2>sessionStorage</a>;
+};
+<a href=#window id=the-sessionstorage-attribute:window>Window</a> implements <a href=#windowsessionstorage id=the-sessionstorage-attribute:windowsessionstorage>WindowSessionStorage</a>;</pre>
+
+  <p>The <dfn id=dom-sessionstorage><code>sessionStorage</code></dfn> attribute represents the
+  set of storage areas specific to the current <a href=#top-level-browsing-context id=the-sessionstorage-attribute:top-level-browsing-context>top-level browsing context</a>.</p>
+
+  <p>Each <a href=#top-level-browsing-context id=the-sessionstorage-attribute:top-level-browsing-context-2>top-level browsing context</a> has a unique set of session storage areas, one for
+  each <a href=#concept-origin id=the-sessionstorage-attribute:concept-origin>origin</a>.</p>
+
+  <p>User agents should not expire data from a browsing context's session storage areas, but may do
+  so when the user requests that such data be deleted, or when the UA detects that it has limited
+  storage space, or for security reasons. User agents should always avoid deleting data while a
+  script that could access that data is running. When a top-level browsing context is destroyed (and
+  therefore permanently inaccessible to the user) the data stored in its session storage areas can
+  be discarded with it, as the API described in this specification provides no way for that data to
+  ever be subsequently retrieved.</p>
+
+  <p class=note>The lifetime of a browsing context can be unrelated to the lifetime of the actual
+  user agent process itself, as the user agent may support resuming sessions after a restart.</p>
+
+  <p>When a new <code id=the-sessionstorage-attribute:document><a href=#document>Document</a></code> is created in a <a href=#browsing-context id=the-sessionstorage-attribute:browsing-context>browsing context</a> which has a
+  <a href=#top-level-browsing-context id=the-sessionstorage-attribute:top-level-browsing-context-3>top-level browsing context</a>, the user agent must check to see if that <a href=#top-level-browsing-context id=the-sessionstorage-attribute:top-level-browsing-context-4>top-level
+  browsing context</a> has a session storage area for that document's <a href=#concept-origin id=the-sessionstorage-attribute:concept-origin-2>origin</a>. If it
+  does, then that is the <code id=the-sessionstorage-attribute:document-2><a href=#document>Document</a></code>'s assigned session storage area. If it does not, a
+  new storage area for that document's <a href=#concept-origin id=the-sessionstorage-attribute:concept-origin-3>origin</a> must be created, and then <em>that</em>
+  is the <code id=the-sessionstorage-attribute:document-3><a href=#document>Document</a></code>'s assigned session storage area. A <code id=the-sessionstorage-attribute:document-4><a href=#document>Document</a></code>'s assigned
+  storage area does not change during the lifetime of a <code id=the-sessionstorage-attribute:document-5><a href=#document>Document</a></code>.</p>
+
+  <p class=note>In the case of an <code id=the-sessionstorage-attribute:the-iframe-element><a href=#the-iframe-element>iframe</a></code> being moved to another
+  <code id=the-sessionstorage-attribute:document-6><a href=#document>Document</a></code>, the nested browsing context is destroyed and a new one created.</p>
+
+  <p>The <code id=the-sessionstorage-attribute:dom-sessionstorage-3><a href=#dom-sessionstorage>sessionStorage</a></code> attribute must return a
+  <code id=the-sessionstorage-attribute:storage-2-2><a href=#storage-2>Storage</a></code> object associated with the <code id=the-sessionstorage-attribute:document-7><a href=#document>Document</a></code>'s assigned session storage
+  area, if any, or null if there isn't one. Each <code id=the-sessionstorage-attribute:document-8><a href=#document>Document</a></code> object must have a separate
+  object for its <code id=the-sessionstorage-attribute:window-2><a href=#window>Window</a></code>'s <code id=the-sessionstorage-attribute:dom-sessionstorage-4><a href=#dom-sessionstorage>sessionStorage</a></code>
+  attribute.</p>
+
+  <p>When a new <a href=#top-level-browsing-context id=the-sessionstorage-attribute:top-level-browsing-context-5>top-level browsing context</a> is created by cloning an existing
+  <a href=#browsing-context id=the-sessionstorage-attribute:browsing-context-2>browsing context</a>, the new browsing context must start with the same session storage
+  areas as the original, but the two sets must from that point on be considered separate, not
+  affecting each other in any way.</p>
+
+  <p>When a new <a href=#top-level-browsing-context id=the-sessionstorage-attribute:top-level-browsing-context-6>top-level browsing context</a> is created by a <a href=#concept-script id=the-sessionstorage-attribute:concept-script>script</a> in an existing <a href=#browsing-context id=the-sessionstorage-attribute:browsing-context-3>browsing context</a>, or by the user
+  following a link in an existing browsing context, or in some other way related to a specific
+  <code id=the-sessionstorage-attribute:document-9><a href=#document>Document</a></code>, and the creation is not a new start for session storage, then the session
+  storage area of the <a href=#concept-origin id=the-sessionstorage-attribute:concept-origin-4>origin</a> of that <code id=the-sessionstorage-attribute:document-10><a href=#document>Document</a></code> must be copied into the new
+  browsing context when it is created. From that point on, however, the two session storage areas
+  must be considered separate, not affecting each other in any way.</p>
+
+  <p id=sessionStorageEvent>When the <code id=the-sessionstorage-attribute:dom-storage-setitem><a href=#dom-storage-setitem>setItem()</a></code>, <code id=the-sessionstorage-attribute:dom-storage-removeitem><a href=#dom-storage-removeitem>removeItem()</a></code>, and <code id=the-sessionstorage-attribute:dom-storage-clear><a href=#dom-storage-clear>clear()</a></code> methods are called on a <code id=the-sessionstorage-attribute:storage-2-3><a href=#storage-2>Storage</a></code> object <var>x</var> that is associated with a session storage area, if the methods did not throw an
+  exception or "do nothing" as defined above, then for every <code id=the-sessionstorage-attribute:document-11><a href=#document>Document</a></code> object whose
+  <code id=the-sessionstorage-attribute:window-3><a href=#window>Window</a></code> object's <code id=the-sessionstorage-attribute:dom-sessionstorage-5><a href=#dom-sessionstorage>sessionStorage</a></code> attribute's
+  <code id=the-sessionstorage-attribute:storage-2-4><a href=#storage-2>Storage</a></code> object is associated with the same storage area, other than <var>x</var>, <a href=#send-a-storage-notification id=the-sessionstorage-attribute:send-a-storage-notification>send a storage notification</a>.</p>
+
+
+  <h4 id=the-localstorage-attribute>11.2.3 The <code id=the-localstorage-attribute:dom-localstorage><a href=#dom-localstorage>localStorage</a></code> attribute<a href=#the-localstorage-attribute class=self-link></a></h4>
+
+  <pre class=idl>[NoInterfaceObject]
+interface <dfn id=windowlocalstorage>WindowLocalStorage</dfn> {
+  readonly attribute <a href=#storage-2 id=the-localstorage-attribute:storage-2>Storage</a> <a href=#dom-localstorage id=the-localstorage-attribute:dom-localstorage-2>localStorage</a>;
+};
+<a href=#window id=the-localstorage-attribute:window>Window</a> implements <a href=#windowlocalstorage id=the-localstorage-attribute:windowlocalstorage>WindowLocalStorage</a>;</pre>
+
+  <p>The <dfn id=dom-localstorage><code>localStorage</code></dfn> object provides a
+  <code id=the-localstorage-attribute:storage-2-2><a href=#storage-2>Storage</a></code> object for an <a href=#concept-origin id=the-localstorage-attribute:concept-origin>origin</a>.
+  <a href=#fingerprinting-vector id=the-localstorage-attribute:fingerprinting-vector class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a>
+  </p>
+
+  <p>User agents must have a set of local storage areas, one for each <a href=#concept-origin id=the-localstorage-attribute:concept-origin-2>origin</a>.</p>
+
+  <p>User agents should expire data from the local storage areas only for security reasons or when
+  requested to do so by the user. User agents should always avoid deleting data while a script that
+  could access that data is running.</p>
+
+  <p>When the <code id=the-localstorage-attribute:dom-localstorage-3><a href=#dom-localstorage>localStorage</a></code> attribute is accessed, the user
+  agent must run the following steps, which are known as the
+  <dfn id=storage-object-initialisation-steps><code>Storage</code> object
+  initialization steps</dfn>:</p> 
+
+  <ol><li><p>The user agent may throw a <a id=the-localstorage-attribute:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a>
+   <code id=the-localstorage-attribute:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps instead of returning a <code id=the-localstorage-attribute:storage-2-3><a href=#storage-2>Storage</a></code>
+   object if the request violates a policy decisions (e.g. if the user agent is configured to not
+   allow the page to persist data).<li><p>If the <code id=the-localstorage-attribute:document><a href=#document>Document</a></code>'s <a href=#concept-origin id=the-localstorage-attribute:concept-origin-3>origin</a> is an <a href=#concept-origin-opaque id=the-localstorage-attribute:concept-origin-opaque>opaque origin</a>, then throw a
+   <a id=the-localstorage-attribute:securityerror-2 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-localstorage-attribute:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li><p>Check to see if the user agent has allocated a local storage area for the
+   <a href=#concept-origin id=the-localstorage-attribute:concept-origin-4>origin</a> of the <code id=the-localstorage-attribute:document-2><a href=#document>Document</a></code> of the <code id=the-localstorage-attribute:window-2><a href=#window>Window</a></code> object on which the
+   attribute was accessed. If it has not, create a new storage area for that
+   <a href=#concept-origin id=the-localstorage-attribute:concept-origin-5>origin</a>.<li><p>Return the <code id=the-localstorage-attribute:storage-2-4><a href=#storage-2>Storage</a></code> object associated with that origin's local storage area.
+   Each <code id=the-localstorage-attribute:document-3><a href=#document>Document</a></code> object must have a separate object for its <code id=the-localstorage-attribute:window-3><a href=#window>Window</a></code>'s <code id=the-localstorage-attribute:dom-localstorage-4><a href=#dom-localstorage>localStorage</a></code> attribute.</p>
+
+  </ol>
+
+  <p id=localStorageEvent>When the <code id=the-localstorage-attribute:dom-storage-setitem><a href=#dom-storage-setitem>setItem()</a></code>, <code id=the-localstorage-attribute:dom-storage-removeitem><a href=#dom-storage-removeitem>removeItem()</a></code>, and <code id=the-localstorage-attribute:dom-storage-clear><a href=#dom-storage-clear>clear()</a></code> methods are called on a <code id=the-localstorage-attribute:storage-2-5><a href=#storage-2>Storage</a></code> object <var>x</var> that is associated with a local storage area, if the methods did not throw an
+  exception or "do nothing" as defined above, then for every <code id=the-localstorage-attribute:document-4><a href=#document>Document</a></code> object whose
+  <code id=the-localstorage-attribute:window-4><a href=#window>Window</a></code> object's <code id=the-localstorage-attribute:dom-localstorage-5><a href=#dom-localstorage>localStorage</a></code> attribute's
+  <code id=the-localstorage-attribute:storage-2-6><a href=#storage-2>Storage</a></code> object is associated with the same storage area, other than <var>x</var>, <a href=#send-a-storage-notification id=the-localstorage-attribute:send-a-storage-notification>send a storage notification</a>.
+
+  <p class=warning>The <code id=the-localstorage-attribute:dom-localstorage-6><a href=#dom-localstorage>localStorage</a></code> attribute provides
+  access to shared state. This specification does not define the interaction with other browsing
+  contexts in a multiprocess user agent, and authors are encouraged to assume that there is no
+  locking mechanism. A site could, for instance, try to read the value of a key, increment its
+  value, then write it back out, using the new value as a unique identifier for the session; if the
+  site does this twice in two different browser windows at the same time, it might end up using the
+  same "unique" identifier for both sessions, with potentially disastrous effects.</p>
+
+
+  <h4 id=the-storage-event>11.2.4 The <code id=the-storage-event:event-storage><a href=#event-storage>storage</a></code> event<a href=#the-storage-event class=self-link></a></h4>
+
+  <p>The <code id=the-storage-event:event-storage-2><a href=#event-storage>storage</a></code> event is fired on a <code id=the-storage-event:document><a href=#document>Document</a></code>'s
+  <code id=the-storage-event:window><a href=#window>Window</a></code> object when a storage area changes, as described in the previous two sections
+  (<a href=#sessionStorageEvent>for session storage</a>, <a href=#localStorageEvent>for local
+  storage</a>).</p>
+
+  <p>When a user agent is to <dfn id=send-a-storage-notification>send a storage notification</dfn> for a <code id=the-storage-event:document-2><a href=#document>Document</a></code>, the
+  user agent must <a href=#queue-a-task id=the-storage-event:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-storage-event:concept-event-fire data-x-internal=concept-event-fire>fire an
+  event</a> named <code id=the-storage-event:storage-2><a href=#storage-2>storage</a></code> at the <code id=the-storage-event:document-3><a href=#document>Document</a></code> object's <code id=the-storage-event:window-2><a href=#window>Window</a></code>
+  object, using <code id=the-storage-event:storageevent><a href=#storageevent>StorageEvent</a></code>.</p>
+
+  <p class=note>Such a <code id=the-storage-event:document-4><a href=#document>Document</a></code> object is not necessarily <a href=#fully-active id=the-storage-event:fully-active>fully active</a>,
+  but events fired on such objects are ignored by the <a href=#event-loop id=the-storage-event:event-loop>event loop</a> until the
+  <code id=the-storage-event:document-5><a href=#document>Document</a></code> becomes <a href=#fully-active id=the-storage-event:fully-active-2>fully active</a> again.</p>
+
+  <p>The <a href=#task-source id=the-storage-event:task-source>task source</a> for these tasks is the <a href=#dom-manipulation-task-source id=the-storage-event:dom-manipulation-task-source>DOM manipulation task
+  source</a>.</p>
+
+  <p>If the event is being fired due to an invocation of the <code id=the-storage-event:dom-storage-setitem><a href=#dom-storage-setitem>setItem()</a></code> or <code id=the-storage-event:dom-storage-removeitem><a href=#dom-storage-removeitem>removeItem()</a></code> methods, the event must have its <code id=the-storage-event:dom-storageevent-key><a href=#dom-storageevent-key>key</a></code> attribute initialized to the name of the key in question,
+  its <code id=the-storage-event:dom-storageevent-oldvalue><a href=#dom-storageevent-oldvalue>oldValue</a></code> attribute initialized to the old
+  value of the key in question, or null if the key is newly added, and its <code id=the-storage-event:dom-storageevent-newvalue><a href=#dom-storageevent-newvalue>newValue</a></code> attribute initialized to the new value of the
+  key in question, or null if the key was removed.</p>
+
+  <p>Otherwise, if the event is being fired due to an invocation of the <code id=the-storage-event:dom-storage-clear><a href=#dom-storage-clear>clear()</a></code> method, the event must have its <code id=the-storage-event:dom-storageevent-key-2><a href=#dom-storageevent-key>key</a></code>, <code id=the-storage-event:dom-storageevent-oldvalue-2><a href=#dom-storageevent-oldvalue>oldValue</a></code>,
+  and <code id=the-storage-event:dom-storageevent-newvalue-2><a href=#dom-storageevent-newvalue>newValue</a></code> attributes initialized to null.</p>
+
+  <p>In addition, the event must have its <code id=the-storage-event:dom-storageevent-url><a href=#dom-storageevent-url>url</a></code> attribute
+  initialized to the <a href=https://dom.spec.whatwg.org/#concept-document-url id="the-storage-event:the-document's-address" data-x-internal="the-document's-address">URL</a> of the document whose
+  <code id=the-storage-event:storage-2-2><a href=#storage-2>Storage</a></code> object was affected; and its <code id=the-storage-event:dom-storageevent-storagearea><a href=#dom-storageevent-storagearea>storageArea</a></code> attribute initialized to the
+  <code id=the-storage-event:storage-2-3><a href=#storage-2>Storage</a></code> object from the <code id=the-storage-event:window-3><a href=#window>Window</a></code> object of the target
+  <code id=the-storage-event:document-6><a href=#document>Document</a></code> that represents the same kind of <code id=the-storage-event:storage-2-4><a href=#storage-2>Storage</a></code> area as was affected
+  (i.e. session or local).</p>
+
+
+  <h5 id=the-storageevent-interface>11.2.4.1 The <code id=the-storageevent-interface:storageevent><a href=#storageevent>StorageEvent</a></code> interface<a href=#the-storageevent-interface class=self-link></a></h5>
+
+  <pre class=idl>[Constructor(DOMString type, optional <a href=#storageeventinit id=the-storageevent-interface:storageeventinit>StorageEventInit</a> eventInitDict)]
+interface <dfn id=storageevent>StorageEvent</dfn> : <a id=the-storageevent-interface:event href=https://dom.spec.whatwg.org/#interface-event data-x-internal=event>Event</a> {
+  readonly attribute DOMString? <a href=#dom-storageevent-key id=the-storageevent-interface:dom-storageevent-key>key</a>;
+  readonly attribute DOMString? <a href=#dom-storageevent-oldvalue id=the-storageevent-interface:dom-storageevent-oldvalue>oldValue</a>;
+  readonly attribute DOMString? <a href=#dom-storageevent-newvalue id=the-storageevent-interface:dom-storageevent-newvalue>newValue</a>;
+  readonly attribute USVString <a href=#dom-storageevent-url id=the-storageevent-interface:dom-storageevent-url>url</a>;
+  readonly attribute <a href=#storage-2 id=the-storageevent-interface:storage-2>Storage</a>? <a href=#dom-storageevent-storagearea id=the-storageevent-interface:dom-storageevent-storagearea>storageArea</a>;
+};
+
+dictionary <dfn id=storageeventinit>StorageEventInit</dfn> : <a id=the-storageevent-interface:eventinit href=https://dom.spec.whatwg.org/#dictdef-eventinit data-x-internal=eventinit>EventInit</a> {
+  DOMString? key = null;
+  DOMString? oldValue = null;
+  DOMString? newValue = null;
+  USVString url = "";
+  <a href=#storage-2 id=the-storageevent-interface:storage-2-2>Storage</a>? storageArea = null;
+};</pre>
+
+  <p>The <dfn id=dom-storageevent-key><code>key</code></dfn> attribute must return the value
+  it was initialized to. It represents the key being changed.</p>
+
+  <p>The <dfn id=dom-storageevent-oldvalue><code>oldValue</code></dfn> attribute must return
+  the value it was initialized to. It represents the old value of the key being changed.</p>
+
+  <p>The <dfn id=dom-storageevent-newvalue><code>newValue</code></dfn> attribute must return
+  the value it was initialized to. It represents the new value of the key being changed.</p>
+
+  <p>The <dfn id=dom-storageevent-url><code>url</code></dfn> attribute must return the value
+  it was initialized to. It represents the <a id=the-storageevent-interface:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of the document whose key changed.</p>
+
+  <p>The <dfn id=dom-storageevent-storagearea><code>storageArea</code></dfn> attribute must
+  return the value it was initialized to. It represents the <code id=the-storageevent-interface:storage-2-3><a href=#storage-2>Storage</a></code> object that was
+  affected.</p>
+
+
+  <h3 id=disk-space-2>11.3 Disk space<a href=#disk-space-2 class=self-link></a></h3>
+
+  <p>User agents should limit the total amount of space allowed for storage areas, because hostile
+  authors could otherwise use this feature to exhaust the user's available disk space.</p>
+
+  <p>User agents should guard against sites storing data under their origin's other affiliated
+  sites, e.g. storing up to the limit in a1.example.com, a2.example.com, a3.example.com, etc,
+  circumventing the main example.com storage limit.</p>
+
+  <p>User agents may prompt the user when quotas are reached, allowing the user to grant a site more
+  space. This enables sites to store many user-created documents on the user's computer, for
+  instance.</p>
+
+  <p>User agents should allow users to see how much space each domain is using.</p>
+
+  
+
+  <p>A mostly arbitrary limit of five megabytes per <a href=#concept-origin id=disk-space-2:concept-origin>origin</a> is suggested. Implementation
+  feedback is welcome and will be used to update this suggestion in the future.</p>
+
+  <p>For predictability, quotas should be based on the uncompressed size of data stored.</p>
+  
+
+
+  <h3 id=privacy>11.4 Privacy<a href=#privacy class=self-link></a></h3>
+
+  <h4 id=user-tracking>11.4.1 User tracking<a href=#user-tracking class=self-link></a></h4>
+
+  <p>A third-party advertiser (or any entity capable of getting content distributed to multiple
+  sites) could use a unique identifier stored in its local storage area to track a user across
+  multiple sessions, building a profile of the user's interests to allow for highly targeted
+  advertising. In conjunction with a site that is aware of the user's real identity (for example an
+  e-commerce site that requires authenticated credentials), this could allow oppressive groups to
+  target individuals with greater accuracy than in a world with purely anonymous Web usage.</p>
+
+  <p>There are a number of techniques that can be used to mitigate the risk of user tracking:</p>
+
+  <dl><dt>Blocking third-party storage<dd>
+
+    <p>User agents may restrict access to the <code id=user-tracking:dom-localstorage><a href=#dom-localstorage>localStorage</a></code>
+    objects to scripts originating at the domain of the <a href=#active-document id=user-tracking:active-document>active document</a> of the <a href=#top-level-browsing-context id=user-tracking:top-level-browsing-context>top-level browsing
+    context</a>, for instance denying access to the API for pages from other domains running in
+    <code id=user-tracking:the-iframe-element><a href=#the-iframe-element>iframe</a></code>s.</p>
+
+   <dt>Expiring stored data<dd>
+
+    <p>User agents may, possibly in a manner configured by the user, automatically delete stored
+    data after a period of time.</p>
+
+    <p>For example, a user agent could be configured to treat third-party local storage areas as
+    session-only storage, deleting the data once the user had closed all the <a href=#browsing-context id=user-tracking:browsing-context>browsing contexts</a> that could access it.</p>
+
+    <p>This can restrict the ability of a site to track a user, as the site would then only be able
+    to track the user across multiple sessions when they authenticate with the site itself (e.g. by
+    making a purchase or logging in to a service).</p>
+
+    <p>However, this also reduces the usefulness of the API as a long-term storage mechanism. It can
+    also put the user's data at risk, if the user does not fully understand the implications of data
+    expiration.</p>
+
+    
+
+   <dt>Treating persistent storage as cookies<dd>
+
+    <p>If users attempt to protect their privacy by clearing cookies without also clearing data
+    stored in the local storage area, sites can defeat those attempts by using the two features as
+    redundant backup for each other. User agents should present the interfaces for clearing these in
+    a way that helps users to understand this possibility and enables them to delete data in all
+    persistent storage features simultaneously. <a href=#refsCOOKIES>[COOKIES]</a></p>
+
+   <dt>Site-specific safelisting of access to local storage areas<dd>
+
+    <p>User agents may allow sites to access session storage areas in
+    an unrestricted manner, but require the user to authorize access
+    to local storage areas.</p>
+
+   <dt>Origin-tracking of stored data<dd>
+
+    <p>User agents may record the <a href=#concept-origin id=user-tracking:concept-origin>origins</a> of sites that contained
+    content from third-party origins that caused data to be stored.</p>
+
+    <p>If this information is then used to present the view of data currently in persistent storage,
+    it would allow the user to make informed decisions about which parts of the persistent storage
+    to prune. Combined with a blocklist ("delete this data and prevent this domain from ever storing
+    data again"), the user can restrict the use of persistent storage to sites that they trust.</p>
+
+   <dt>Shared blocklists<dd>
+
+    <p>User agents may allow users to share their persistent storage domain blocklists.</p>
+
+    <p>This would allow communities to act together to protect their privacy.</p>
+
+   </dl>
+
+  <p>While these suggestions prevent trivial use of this API for user tracking, they do not block it
+  altogether. Within a single domain, a site can continue to track the user during a session, and
+  can then pass all this information to the third party along with any identifying information
+  (names, credit card numbers, addresses) obtained by the site. If a third party cooperates with
+  multiple sites to obtain such information, a profile can still be created.</p>
+
+  <p>However, user tracking is to some extent possible even with no cooperation from the user agent
+  whatsoever, for instance by using session identifiers in URLs, a technique already commonly used
+  for innocuous purposes but easily repurposed for user tracking (even retroactively). This
+  information can then be shared with other sites, using visitors' IP addresses and other
+  user-specific data (e.g. user-agent headers and configuration settings) to combine separate
+  sessions into coherent user profiles.</p>
+
+
+  <h4 id=sensitivity-of-data>11.4.2 Sensitivity of data<a href=#sensitivity-of-data class=self-link></a></h4>
+
+  <p>User agents should treat persistently stored data as potentially sensitive; it's quite possible
+  for e-mails, calendar appointments, health records, or other confidential documents to be stored
+  in this mechanism.</p>
+
+  <p>To this end, user agents should ensure that when deleting data, it is promptly deleted from the
+  underlying storage.</p>
+
+
+
+  <h3 id=security-storage>11.5 Security<a href=#security-storage class=self-link></a></h3>
+
+  <h4 id=dns-spoofing-attacks>11.5.1 DNS spoofing attacks<a href=#dns-spoofing-attacks class=self-link></a></h4>
+
+  <p>Because of the potential for DNS spoofing attacks, one cannot guarantee that a host claiming to
+  be in a certain domain really is from that domain. To mitigate this, pages can use TLS. Pages
+  using TLS can be sure that only the user, software working on behalf of the user, and other pages
+  using TLS that have certificates identifying them as being from the same domain, can access their
+  storage areas.</p>
+
+
+  <h4 id=cross-directory-attacks>11.5.2 Cross-directory attacks<a href=#cross-directory-attacks class=self-link></a></h4>
+
+  <p>Different authors sharing one host name, for example users hosting content on the now defunct
+  <code>geocities.com</code>, all share one local storage object. There is no feature to
+  restrict the access by pathname. Authors on shared hosts are therefore urged to avoid using these
+  features, as it would be trivial for other authors to read the data and overwrite it.</p>
+
+  <p class=note>Even if a path-restriction feature was made available, the usual DOM scripting
+  security model would make it trivial to bypass this protection and access the data from any
+  path.</p>
+
+
+  <h4 id=implementation-risks>11.5.3 Implementation risks<a href=#implementation-risks class=self-link></a></h4>
+
+  <p>The two primary risks when implementing these persistent storage features are letting hostile
+  sites read information from other domains, and letting hostile sites write information that is
+  then read from other domains.</p>
+
+  <p>Letting third-party sites read data that is not supposed to be read from their domain causes
+  <em>information leakage</em>, For example, a user's shopping wishlist on one domain could be used
+  by another domain for targeted advertising; or a user's work-in-progress confidential documents
+  stored by a word-processing site could be examined by the site of a competing company.</p>
+
+  <p>Letting third-party sites write data to the persistent storage of other domains can result in
+  <em>information spoofing</em>, which is equally dangerous. For example, a hostile site could add
+  items to a user's wishlist; or a hostile site could set a user's session identifier to a known ID
+  that the hostile site can then use to track the user's actions on the victim site.</p>
+
+  <p>Thus, strictly following the <a href=#concept-origin id=implementation-risks:concept-origin>origin</a> model described in this specification is
+  important for user security.</p>
+
+
+
+
+
+  <h2 id=syntax>12 <dfn>The HTML syntax</dfn><a href=#syntax class=self-link></a></h2>
+
+  <p class=note>This section only describes the rules for resources labeled with an <a id=syntax:html-mime-type href=https://mimesniff.spec.whatwg.org/#html-mime-type data-x-internal=html-mime-type>HTML
+  MIME type</a>. Rules for XML resources are discussed in the section below entitled "<a href=#the-xhtml-syntax id=syntax:the-xhtml-syntax>The
+  XML syntax</a>".</p>
+
+
+  <h3 id=writing>12.1 Writing HTML documents<a href=#writing class=self-link></a></h3>
+
+  
+
+  <p><i>This section only applies to documents, authoring tools, and markup generators. In
+  particular, it does not apply to conformance checkers; conformance checkers must use the
+  requirements given in the next section ("parsing HTML documents").</i></p>
+
+  
+
+  <p>Documents must consist of the following parts, in the given
+  order:</p>
+
+  <ol><li>Optionally, a single U+FEFF BYTE ORDER MARK (BOM) character.<li>Any number of <a href=#syntax-comments id=writing:syntax-comments>comments</a> and <a href=#space-character id=writing:space-character>space characters</a>.<li>A <a href=#syntax-doctype id=writing:syntax-doctype>DOCTYPE</a>.
+
+   <li>Any number of <a href=#syntax-comments id=writing:syntax-comments-2>comments</a> and <a href=#space-character id=writing:space-character-2>space characters</a>.<li>The <a id=writing:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>, in the form of an <code id=writing:the-html-element><a href=#the-html-element>html</a></code> <a href=#syntax-elements id=writing:syntax-elements>element</a>.<li>Any number of <a href=#syntax-comments id=writing:syntax-comments-3>comments</a> and <a href=#space-character id=writing:space-character-3>space characters</a>.</ol>
+
+  <p>The various types of content mentioned above are described in the next few sections.</p>
+
+  <p>In addition, there are some restrictions on how <a href=#character-encoding-declaration id=writing:character-encoding-declaration>character encoding declarations</a> are to be serialized, as discussed in the
+  section on that topic.</p>
+
+  <div class=note>
+
+   <p>Space characters before the <code id=writing:the-html-element-2><a href=#the-html-element>html</a></code> element, and space characters at the start of
+   the <code id=writing:the-html-element-3><a href=#the-html-element>html</a></code> element and before the <code id=writing:the-head-element><a href=#the-head-element>head</a></code> element, will be dropped when the
+   document is parsed; space characters <em>after</em> the <code id=writing:the-html-element-4><a href=#the-html-element>html</a></code> element will be parsed
+   as if they were at the end of the <code id=writing:the-body-element><a href=#the-body-element>body</a></code> element. Thus, space characters around the
+   <a id=writing:document-element-2 href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a> do not round-trip.</p>
+
+   <p>It is suggested that newlines be inserted after the DOCTYPE, after any comments that are
+   before the document element, after the <code id=writing:the-html-element-5><a href=#the-html-element>html</a></code> element's start tag (if it is not <a href=#syntax-tag-omission id=writing:syntax-tag-omission>omitted</a>), and after any comments that are inside the
+   <code id=writing:the-html-element-6><a href=#the-html-element>html</a></code> element but before the <code id=writing:the-head-element-2><a href=#the-head-element>head</a></code> element.</p>
+
+  </div>
+
+  <p>Many strings in the HTML syntax (e.g. the names of elements and their attributes) are
+  case-insensitive, but only for <a href=#uppercase-ascii-letters id=writing:uppercase-ascii-letters>uppercase ASCII letters</a> and <a href=#lowercase-ascii-letters id=writing:lowercase-ascii-letters>lowercase ASCII
+  letters</a>. For convenience, in this section this is just referred to as
+  "case-insensitive".</p>
+
+
+  <h4 id=the-doctype>12.1.1 The DOCTYPE<a href=#the-doctype class=self-link></a></h4>
+
+  <p>A <dfn id=syntax-doctype>DOCTYPE</dfn> is a 
+  required preamble.</p>
+
+  <p class=note>DOCTYPEs are required for legacy reasons. When omitted, browsers tend to use a
+  different rendering mode that is incompatible with some specifications. Including the DOCTYPE in a
+  document ensures that the browser makes a best-effort attempt at following the relevant
+  specifications.</p>
+
+  <p>A DOCTYPE must consist of the following components, in this order:</p>
+
+  <ol class=brief><li>A string that is an <a id=the-doctype:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>&lt;!DOCTYPE</code>".<li>One or more <a href=#space-character id=the-doctype:space-character>space characters</a>.<li>A string that is an <a id=the-doctype:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>html</code>".<li>Optionally, a <a href=#doctype-legacy-string id=the-doctype:doctype-legacy-string>DOCTYPE legacy string</a>.<li>Zero or more <a href=#space-character id=the-doctype:space-character-2>space characters</a>.<li>A U+003E GREATER-THAN SIGN character (>).</ol>
+
+  <p class=note>In other words, <code>&lt;!DOCTYPE html></code>, case-insensitively.</p>
+
+  <hr>
+
+  <p>For the purposes of HTML generators that cannot output HTML markup with the short DOCTYPE
+  "<code>&lt;!DOCTYPE html></code>", a <dfn id=doctype-legacy-string>DOCTYPE legacy string</dfn> may be inserted
+  into the DOCTYPE (in the position defined above). This string must consist of:</p>
+
+  <ol class=brief><li>One or more <a href=#space-character id=the-doctype:space-character-3>space characters</a>.<li>A string that is an <a id=the-doctype:ascii-case-insensitive-3 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>SYSTEM</code>".<li>One or more <a href=#space-character id=the-doctype:space-character-4>space characters</a>.<li>A U+0022 QUOTATION MARK or U+0027 APOSTROPHE character (the <i>quote mark</i>).<li>The literal string "<code id=the-doctype:about:legacy-compat><a href=#about:legacy-compat>about:legacy-compat</a></code>".<li>A matching U+0022 QUOTATION MARK or U+0027 APOSTROPHE character (i.e. the same character as in the earlier step labeled <i>quote mark</i>).</ol>
+
+  <p class=note>In other words, <code>&lt;!DOCTYPE html SYSTEM "about:legacy-compat"></code> or
+  <code>&lt;!DOCTYPE html SYSTEM 'about:legacy-compat'></code>, case-insensitively except for the
+  part in single or double quotes.</p>
+
+  <p>The <a href=#doctype-legacy-string id=the-doctype:doctype-legacy-string-2>DOCTYPE legacy string</a> should not be used unless the document is generated from
+  a system that cannot output the shorter string.</p>
+
+
+
+  <h4 id=elements-2>12.1.2 Elements<a href=#elements-2 class=self-link></a></h4>
+
+  <p>There are five different kinds of <dfn id=syntax-elements>elements</dfn>: <a href=#void-elements id=elements-2:void-elements>void
+  elements</a>, <a href=#raw-text-elements id=elements-2:raw-text-elements>raw text elements</a>, <a href=#escapable-raw-text-elements id=elements-2:escapable-raw-text-elements>escapable raw text elements</a>,
+  <a href=#foreign-elements id=elements-2:foreign-elements>foreign elements</a>, and <a href=#normal-elements id=elements-2:normal-elements>normal elements</a>.</p>
+
+  <dl><dt><dfn id=void-elements>Void elements</dfn><dd><code id=elements-2:the-area-element><a href=#the-area-element>area</a></code>, <code id=elements-2:the-base-element><a href=#the-base-element>base</a></code>, <code id=elements-2:the-br-element><a href=#the-br-element>br</a></code>, <code id=elements-2:the-col-element><a href=#the-col-element>col</a></code>, <code id=elements-2:the-embed-element><a href=#the-embed-element>embed</a></code>,
+   <code id=elements-2:the-hr-element><a href=#the-hr-element>hr</a></code>, <code id=elements-2:the-img-element><a href=#the-img-element>img</a></code>, <code id=elements-2:the-input-element><a href=#the-input-element>input</a></code>, <code id=elements-2:the-link-element><a href=#the-link-element>link</a></code>, <code id=elements-2:the-meta-element><a href=#the-meta-element>meta</a></code>,
+   <code id=elements-2:the-param-element><a href=#the-param-element>param</a></code>, <code id=elements-2:the-source-element><a href=#the-source-element>source</a></code>, <code id=elements-2:the-track-element><a href=#the-track-element>track</a></code>, <code id=elements-2:the-wbr-element><a href=#the-wbr-element>wbr</a></code><dt><dfn id=raw-text-elements>Raw text elements</dfn><dd><code id=elements-2:the-script-element><a href=#the-script-element>script</a></code>, <code id=elements-2:the-style-element><a href=#the-style-element>style</a></code><dt><dfn id=escapable-raw-text-elements>escapable raw text elements</dfn><dd><code id=elements-2:the-textarea-element><a href=#the-textarea-element>textarea</a></code>, <code id=elements-2:the-title-element><a href=#the-title-element>title</a></code><dt><dfn id=foreign-elements>Foreign elements</dfn><dd>Elements from the <a id=elements-2:mathml-namespace href=https://infra.spec.whatwg.org/#mathml-namespace data-x-internal=mathml-namespace>MathML namespace</a> and the <a id=elements-2:svg-namespace href=https://infra.spec.whatwg.org/#svg-namespace data-x-internal=svg-namespace>SVG namespace</a>.<dt><dfn id=normal-elements>Normal elements</dfn><dd>All other allowed <a href=#html-elements id=elements-2:html-elements>HTML elements</a> are normal elements.</dl>
+
+  <p><dfn id=syntax-tags>Tags</dfn> are used to delimit the start and end of elements in the
+  markup. <a href=#raw-text-elements id=elements-2:raw-text-elements-2>Raw text</a>, <a href=#escapable-raw-text-elements id=elements-2:escapable-raw-text-elements-2>escapable raw text</a>, and <a href=#normal-elements id=elements-2:normal-elements-2>normal</a> elements have
+  a <a href=#syntax-start-tag id=elements-2:syntax-start-tag>start tag</a> to indicate where they begin, and an <a href=#syntax-end-tag id=elements-2:syntax-end-tag>end tag</a> to indicate where they end. The start and end tags of
+  certain <a href=#normal-elements id=elements-2:normal-elements-3>normal elements</a> can be <a href=#syntax-tag-omission id=elements-2:syntax-tag-omission>omitted</a>, as
+  described below in the section on <a href=#syntax-tag-omission id=elements-2:syntax-tag-omission-2>optional tags</a>. Those
+  that cannot be omitted must not be omitted. <a href=#void-elements id=elements-2:void-elements-2>Void elements</a> only have a start tag; end
+  tags must not be specified for <a href=#void-elements id=elements-2:void-elements-3>void elements</a>. <a href=#foreign-elements id=elements-2:foreign-elements-2>Foreign elements</a> must
+  either have a start tag and an end tag, or a start tag that is marked as self-closing, in which
+  case they must not have an end tag.</p>
+
+  <p>The <a href=#concept-html-contents id=elements-2:concept-html-contents>contents</a> of the element must be placed between
+  just after the start tag (which <a href=#syntax-tag-omission id=elements-2:syntax-tag-omission-3>might be implied, in certain
+  cases</a>) and just before the end tag (which again, <a href=#syntax-tag-omission id=elements-2:syntax-tag-omission-4>might be
+  implied in certain cases</a>). The exact allowed contents of each individual element depend on
+  the <a href=#content-models id=elements-2:content-models>content model</a> of that element, as described earlier in
+  this specification. Elements must not contain content that their content model disallows. In
+  addition to the restrictions placed on the contents by those content models, however, the five
+  types of elements have additional <em>syntactic</em> requirements.</p>
+
+  <p><a href=#void-elements id=elements-2:void-elements-4>Void elements</a> can't have any contents (since there's no end tag, no content can be
+  put between the start tag and the end tag).</p>
+
+  <p><a href=#raw-text-elements id=elements-2:raw-text-elements-3>Raw text elements</a> can have <a href=#syntax-text id=elements-2:syntax-text>text</a>, though it has <a href=#cdata-rcdata-restrictions>restrictions</a> described below.</p>
+
+  <p><a href=#escapable-raw-text-elements id=elements-2:escapable-raw-text-elements-3>Escapable raw text elements</a> can have <a href=#syntax-text id=elements-2:syntax-text-2>text</a> and
+  <a href=#syntax-charref id=elements-2:syntax-charref>character references</a>, but the text must not contain an <a href=#syntax-ambiguous-ampersand id=elements-2:syntax-ambiguous-ampersand>ambiguous ampersand</a>. There are also <a href=#cdata-rcdata-restrictions>further restrictions</a> described below.</p>
+
+  <p><a href=#foreign-elements id=elements-2:foreign-elements-3>Foreign elements</a> whose start tag is marked as self-closing can't have any contents
+  (since, again, as there's no end tag, no content can be put between the start tag and the end
+  tag). <a href=#foreign-elements id=elements-2:foreign-elements-4>Foreign elements</a> whose start tag is <em>not</em> marked as self-closing can
+  have <a href=#syntax-text id=elements-2:syntax-text-3>text</a>, <a href=#syntax-charref id=elements-2:syntax-charref-2>character
+  references</a>, <a href=#syntax-cdata id=elements-2:syntax-cdata>CDATA sections</a>, other <a href=#syntax-elements id=elements-2:syntax-elements>elements</a>, and <a href=#syntax-comments id=elements-2:syntax-comments>comments</a>, but
+  the text must not contain the character U+003C LESS-THAN SIGN (&lt;) or an <a href=#syntax-ambiguous-ampersand id=elements-2:syntax-ambiguous-ampersand-2>ambiguous ampersand</a>.</p>
+
+  <div class=note>
+
+   <p>The HTML syntax does not support namespace declarations, even in <a href=#foreign-elements id=elements-2:foreign-elements-5>foreign
+   elements</a>.</p>
+
+   <p>For instance, consider the following HTML fragment:</p>
+
+   <pre>&lt;p>
+ &lt;svg>
+  &lt;metadata>
+   &lt;!-- this is invalid -->
+   &lt;cdr:license xmlns:cdr="https://www.example.com/cdr/metadata" name="MIT"/>
+  &lt;/metadata>
+ &lt;/svg>
+&lt;/p></pre>
+
+   <p>The innermost element, <code>cdr:license</code>, is actually in the SVG namespace, as
+   the "<code>xmlns:cdr</code>" attribute has no effect (unlike in XML). In fact, as the
+   comment in the fragment above says, the fragment is actually non-conforming. This is because the
+   SVG specification does not define any elements called "<code>cdr:license</code>" in the
+   SVG namespace.</p>
+
+  </div>
+
+  <p><a href=#normal-elements id=elements-2:normal-elements-4>Normal elements</a> can have <a href=#syntax-text id=elements-2:syntax-text-4>text</a>, <a href=#syntax-charref id=elements-2:syntax-charref-3>character references</a>, other <a href=#syntax-elements id=elements-2:syntax-elements-2>elements</a>, and <a href=#syntax-comments id=elements-2:syntax-comments-2>comments</a>, but
+  the text must not contain the character U+003C LESS-THAN SIGN (&lt;) or an <a href=#syntax-ambiguous-ampersand id=elements-2:syntax-ambiguous-ampersand-3>ambiguous ampersand</a>. Some <a href=#normal-elements id=elements-2:normal-elements-5>normal elements</a>
+  also have <a href=#element-restrictions>yet more restrictions</a> on what content they are
+  allowed to hold, beyond the restrictions imposed by the content model and those described in this
+  paragraph. Those restrictions are described below.</p>
+
+  <p>Tags contain a <dfn id=syntax-tag-name>tag name</dfn>, giving the element's name. HTML
+  elements all have names that only use <a href=#alphanumeric-ascii-characters id=elements-2:alphanumeric-ascii-characters>alphanumeric ASCII characters</a>. In the HTML
+  syntax, tag names, even those for <a href=#foreign-elements id=elements-2:foreign-elements-6>foreign elements</a>, may be written with any mix of
+  lower- and uppercase letters that, when converted to all-lowercase, matches the element's tag
+  name; tag names are case-insensitive.</p>
+
+
+  <h5 id=start-tags>12.1.2.1 Start tags<a href=#start-tags class=self-link></a></h5>
+
+  <p><dfn id=syntax-start-tag>Start tags</dfn> must have the following format:</p>
+
+  <ol><li>The first character of a start tag must be a U+003C LESS-THAN SIGN character (&lt;).<li>The next few characters of a start tag must be the element's <a href=#syntax-tag-name id=start-tags:syntax-tag-name>tag name</a>.<li>If there are to be any attributes in the next step, there must first be one or more <a href=#space-character id=start-tags:space-character>space characters</a>.<li>Then, the start tag may have a number of attributes, the <a href=#syntax-attributes id=start-tags:syntax-attributes>syntax for which</a> is described below. Attributes must be
+   separated from each other by one or more <a href=#space-character id=start-tags:space-character-2>space
+   characters</a>.<li>After the attributes, or after the <a href=#syntax-tag-name id=start-tags:syntax-tag-name-2>tag name</a> if there are
+   no attributes, there may be one or more <a href=#space-character id=start-tags:space-character-3>space characters</a>.
+   (Some attributes are required to be followed by a space. See the <a href=#syntax-attributes id=start-tags:syntax-attributes-2>attributes section</a> below.)<li>Then, if the element is one of the <a href=#void-elements id=start-tags:void-elements>void elements</a>, or if the element is a <a href=#foreign-elements id=start-tags:foreign-elements>foreign element</a>, then there may be a single U+002F SOLIDUS
+   character (/). This character has no effect on <a href=#void-elements id=start-tags:void-elements-2>void elements</a>, but on <a href=#foreign-elements id=start-tags:foreign-elements-2>foreign
+   elements</a> it marks the start tag as self-closing.<li>Finally, start tags must be closed by a U+003E GREATER-THAN SIGN character (>).</ol>
+
+
+  <h5 id=end-tags>12.1.2.2 End tags<a href=#end-tags class=self-link></a></h5>
+
+  <p><dfn id=syntax-end-tag>End tags</dfn> must have the following format:</p>
+
+  <ol><li>The first character of an end tag must be a U+003C LESS-THAN SIGN character (&lt;).<li>The second character of an end tag must be a U+002F SOLIDUS character (/).<li>The next few characters of an end tag must be the element's <a href=#syntax-tag-name id=end-tags:syntax-tag-name>tag
+   name</a>.<li>After the tag name, there may be one or more <a href=#space-character id=end-tags:space-character>space
+   characters</a>.<li>Finally, end tags must be closed by a U+003E GREATER-THAN SIGN character (>).</ol>
+
+
+  <h5 id=attributes-2>12.1.2.3 Attributes<a href=#attributes-2 class=self-link></a></h5>
+
+  <p><dfn id=syntax-attributes>Attributes</dfn> for an element are expressed inside the
+  element's start tag.</p>
+
+  <p>Attributes have a name and a value. <dfn id=syntax-attribute-name>Attribute names</dfn>
+  must consist of one or more characters other than the <a href=#space-character id=attributes-2:space-character>space
+  characters</a>, U+0000 NULL, U+0022 QUOTATION MARK ("), U+0027 APOSTROPHE ('), U+003E
+  GREATER-THAN SIGN (>), U+002F SOLIDUS (/), and U+003D EQUALS SIGN (=) characters, the <a href=#control-characters id=attributes-2:control-characters>control
+  characters</a>, and any characters that are not defined by Unicode. In the HTML syntax, attribute
+  names, even those for <a href=#foreign-elements id=attributes-2:foreign-elements>foreign elements</a>, may be written with any mix of lower- and
+  uppercase letters that are an <a id=attributes-2:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the attribute's
+  name.</p>
+
+  <p><dfn id=syntax-attribute-value>Attribute values</dfn> are a mixture of <a href=#syntax-text id=attributes-2:syntax-text>text</a> and <a href=#syntax-charref id=attributes-2:syntax-charref>character references</a>,
+  except with the additional restriction that the text cannot contain an <a href=#syntax-ambiguous-ampersand id=attributes-2:syntax-ambiguous-ampersand>ambiguous ampersand</a>.</p>
+
+  <p>Attributes can be specified in four different ways:</p>
+
+  <dl><dt>Empty attribute syntax<dd>
+
+    <p>Just the <a href=#syntax-attribute-name id=attributes-2:syntax-attribute-name>attribute name</a>. The value is implicitly
+    the empty string.</p>
+
+    <div class=example>
+
+     <p>In the following example, the <code id=attributes-2:attr-fe-disabled><a href=#attr-fe-disabled>disabled</a></code> attribute is
+     given with the empty attribute syntax:</p>
+
+     <pre>&lt;input <em>disabled</em>></pre>
+
+    </div>
+
+    <p>If an attribute using the empty attribute syntax is to be followed by another attribute, then
+    there must be a <a href=#space-character id=attributes-2:space-character-2>space character</a> separating the two.</p>
+
+   <dt id=unquoted>Unquoted attribute value syntax<dd>
+
+    <p>The <a href=#syntax-attribute-name id=attributes-2:syntax-attribute-name-2>attribute name</a>, followed by zero or more <a href=#space-character id=attributes-2:space-character-3>space characters</a>, followed by a single U+003D EQUALS SIGN
+    character, followed by zero or more <a href=#space-character id=attributes-2:space-character-4>space characters</a>,
+    followed by the <a href=#syntax-attribute-value id=attributes-2:syntax-attribute-value>attribute value</a>, which, in addition
+    to the requirements given above for attribute values, must not contain any literal <a href=#space-character id=attributes-2:space-character-5>space characters</a>, any U+0022 QUOTATION MARK characters ("),
+    U+0027 APOSTROPHE characters ('), U+003D EQUALS SIGN characters (=), U+003C LESS-THAN SIGN
+    characters (&lt;), U+003E GREATER-THAN SIGN characters (>), or U+0060 GRAVE ACCENT characters
+    (`), and must not be the empty string.</p>
+
+    
+
+
+    <div class=example>
+
+     <p>In the following example, the <code id=attributes-2:attr-input-value><a href=#attr-input-value>value</a></code> attribute is given
+     with the unquoted attribute value syntax:</p>
+
+     <pre>&lt;input <em>value=yes</em>></pre>
+
+    </div>
+
+    <p>If an attribute using the unquoted attribute syntax is to be followed by another attribute or
+    by the optional U+002F SOLIDUS character (/) allowed in step 6 of the <a href=#syntax-start-tag id=attributes-2:syntax-start-tag>start tag</a> syntax above, then there must be a <a href=#space-character id=attributes-2:space-character-6>space
+    character</a> separating the two.</p>
+
+   <dt>Single-quoted attribute value syntax<dd>
+
+    <p>The <a href=#syntax-attribute-name id=attributes-2:syntax-attribute-name-3>attribute name</a>, followed by zero or more <a href=#space-character id=attributes-2:space-character-7>space characters</a>, followed by a single U+003D EQUALS SIGN
+    character, followed by zero or more <a href=#space-character id=attributes-2:space-character-8>space characters</a>,
+    followed by a single U+0027 APOSTROPHE character ('), followed by the <a href=#syntax-attribute-value id=attributes-2:syntax-attribute-value-2>attribute value</a>, which, in addition to the requirements
+    given above for attribute values, must not contain any literal U+0027 APOSTROPHE characters ('),
+    and finally followed by a second single U+0027 APOSTROPHE character (').</p>
+
+    <div class=example>
+
+     <p>In the following example, the <code id=attributes-2:attr-input-type><a href=#attr-input-type>type</a></code> attribute is given
+     with the single-quoted attribute value syntax:</p>
+
+     <pre>&lt;input <em>type='checkbox'</em>></pre>
+
+    </div>
+
+    <p>If an attribute using the single-quoted attribute syntax is to be followed by another
+    attribute, then there must be a <a href=#space-character id=attributes-2:space-character-9>space character</a> separating the two.</p>
+
+   <dt>Double-quoted attribute value syntax<dd>
+
+    <p>The <a href=#syntax-attribute-name id=attributes-2:syntax-attribute-name-4>attribute name</a>, followed by zero or more <a href=#space-character id=attributes-2:space-character-10>space characters</a>, followed by a single U+003D EQUALS SIGN
+    character, followed by zero or more <a href=#space-character id=attributes-2:space-character-11>space characters</a>,
+    followed by a single U+0022 QUOTATION MARK character ("), followed by the <a href=#syntax-attribute-value id=attributes-2:syntax-attribute-value-3>attribute value</a>, which, in addition to the requirements
+    given above for attribute values, must not contain any literal U+0022 QUOTATION MARK characters
+    ("), and finally followed by a second single U+0022 QUOTATION MARK character (").</p>
+
+    <div class=example>
+
+     <p>In the following example, the <code id=attributes-2:attr-fe-name><a href=#attr-fe-name>name</a></code> attribute is given with
+     the double-quoted attribute value syntax:</p>
+
+     <pre>&lt;input <em>name="be evil"</em>></pre>
+
+    </div>
+
+    <p>If an attribute using the double-quoted attribute syntax is to be followed by another
+    attribute, then there must be a <a href=#space-character id=attributes-2:space-character-12>space character</a> separating the two.</p>
+
+   </dl>
+
+  <p>There must never be two or more attributes on the same start tag whose names are an <a id=attributes-2:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+  case-insensitive</a> match for each other.</p>
+
+  <hr>
+
+  <p>When a <a href=#foreign-elements id=attributes-2:foreign-elements-2>foreign element</a> has one of the namespaced
+  attributes given by the local name and namespace of the first and second cells of a row from the
+  following table, it must be written using the name given by the third cell from the same row.</p>
+
+  <table><thead><tr><th> Local name <th> Namespace <th> Attribute name
+   <tbody><tr><td> <code>actuate</code> <td> <a id=attributes-2:xlink-namespace href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a> <td> <code>xlink:actuate</code>
+    <tr><td> <code>arcrole</code> <td> <a id=attributes-2:xlink-namespace-2 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a> <td> <code>xlink:arcrole</code>
+    <tr><td> <code>href</code> <td> <a id=attributes-2:xlink-namespace-3 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a> <td> <code>xlink:href</code>
+    <tr><td> <code>role</code> <td> <a id=attributes-2:xlink-namespace-4 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a> <td> <code>xlink:role</code>
+    <tr><td> <code>show</code> <td> <a id=attributes-2:xlink-namespace-5 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a> <td> <code>xlink:show</code>
+    <tr><td> <code>title</code> <td> <a id=attributes-2:xlink-namespace-6 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a> <td> <code>xlink:title</code>
+    <tr><td> <code>type</code> <td> <a id=attributes-2:xlink-namespace-7 href=https://infra.spec.whatwg.org/#xlink-namespace data-x-internal=xlink-namespace>XLink namespace</a> <td> <code>xlink:type</code>
+    <tr><td> <code>lang</code> <td> <a id=attributes-2:xml-namespace href=https://infra.spec.whatwg.org/#xml-namespace data-x-internal=xml-namespace>XML namespace</a> <td> <code>xml:lang</code>
+    <tr><td> <code>space</code> <td> <a id=attributes-2:xml-namespace-2 href=https://infra.spec.whatwg.org/#xml-namespace data-x-internal=xml-namespace>XML namespace</a> <td> <code>xml:space</code>
+    <tr><td> <code>xmlns</code> <td> <a id=attributes-2:xmlns-namespace href=https://infra.spec.whatwg.org/#xmlns-namespace data-x-internal=xmlns-namespace>XMLNS namespace</a> <td> <code>xmlns</code>
+    <tr><td> <code>xlink</code> <td> <a id=attributes-2:xmlns-namespace-2 href=https://infra.spec.whatwg.org/#xmlns-namespace data-x-internal=xmlns-namespace>XMLNS namespace</a> <td> <code>xmlns:xlink</code>
+  </table>
+
+  <p>No other namespaced attribute can be expressed in <a href=#syntax id=attributes-2:syntax>the HTML syntax</a>.</p>
+
+  <p class=note>Whether the attributes in the table above are conforming or not is defined by
+  other specifications (e.g. the SVG and MathML specifications); this section only describes the
+  syntax rules if the attributes are serialized using the HTML syntax.</p>
+
+
+  <h5 id=optional-tags>12.1.2.4 Optional tags<a href=#optional-tags class=self-link></a></h5>
+
+  <p>Certain tags can be <dfn id=syntax-tag-omission>omitted</dfn>.</p>
+
+  <p class=note>Omitting an element's <a href=#syntax-start-tag id=optional-tags:syntax-start-tag>start tag</a> in the
+  situations described below does not mean the element is not present; it is implied, but it is
+  still there. For example, an HTML document always has a root <code id=optional-tags:the-html-element><a href=#the-html-element>html</a></code> element, even if
+  the string <code>&lt;html></code> doesn't appear anywhere in the markup.</p>
+
+  
+  <p>An <code id=optional-tags:the-html-element-2><a href=#the-html-element>html</a></code> element's <a href=#syntax-start-tag id=optional-tags:syntax-start-tag-2>start tag</a> may be omitted
+  if the first thing inside the <code id=optional-tags:the-html-element-3><a href=#the-html-element>html</a></code> element is not a <a href=#syntax-comments id=optional-tags:syntax-comments>comment</a>.</p>
+
+  <div class=example>
+
+   <p>For example, in the following case it's ok to remove the "<code>&lt;html></code>"
+   tag:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+<strong>&lt;html></strong>
+  &lt;head>
+    &lt;title>Hello&lt;/title>
+  &lt;/head>
+  &lt;body>
+    &lt;p>Welcome to this example.&lt;/p>
+  &lt;/body>
+&lt;/html></pre>
+
+   <p>Doing so would make the document look like this:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+
+  &lt;head>
+    &lt;title>Hello&lt;/title>
+  &lt;/head>
+  &lt;body>
+    &lt;p>Welcome to this example.&lt;/p>
+  &lt;/body>
+&lt;/html></pre>
+
+   <p>This has the exact same DOM. In particular, note that whitespace around the <a id=optional-tags:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document
+   element</a> is ignored by the parser. The following example would also have the exact same
+   DOM:</p>
+
+   <pre>&lt;!DOCTYPE HTML>&lt;head>
+    &lt;title>Hello&lt;/title>
+  &lt;/head>
+  &lt;body>
+    &lt;p>Welcome to this example.&lt;/p>
+  &lt;/body>
+&lt;/html></pre>
+
+   <p>However, in the following example, removing the start tag moves the comment to before the
+   <code id=optional-tags:the-html-element-4><a href=#the-html-element>html</a></code> element:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html>
+  <strong>&lt;!-- where is this comment in the DOM? --></strong>
+  &lt;head>
+    &lt;title>Hello&lt;/title>
+  &lt;/head>
+  &lt;body>
+    &lt;p>Welcome to this example.&lt;/p>
+  &lt;/body>
+&lt;/html></pre>
+
+   <p>With the tag removed, the document actually turns into the same as this:</p>

@@ -1,0 +1,850 @@
+
+  <p>The <dfn id="width-of-the-select's-labels">width of the <code>select</code>'s labels</dfn> is the wider of the width necessary to
+  render the widest <code id=the-select-element-2:the-optgroup-element-4><a href=#the-optgroup-element>optgroup</a></code>, and the width necessary to render the widest
+  <code id=the-select-element-2:the-option-element-2><a href=#the-option-element>option</a></code> element in the element's <a href=#concept-select-option-list id=the-select-element-2:concept-select-option-list-2>list of
+  options</a> (including its indent, if any).</p>
+
+  <p>If a <code id=the-select-element-2:the-select-element-5><a href=#the-select-element>select</a></code> element contains a <a href=#placeholder-label-option id=the-select-element-2:placeholder-label-option>placeholder label option</a>, the user
+  agent is expected to render that <code id=the-select-element-2:the-option-element-3><a href=#the-option-element>option</a></code> in a manner that conveys that it is a label,
+  rather than a valid option of the control. This can include preventing the <a href=#placeholder-label-option id=the-select-element-2:placeholder-label-option-2>placeholder label
+  option</a> from being explicitly selected by the user. When the <a href=#placeholder-label-option id=the-select-element-2:placeholder-label-option-3>placeholder label
+  option</a>'s <a href=#concept-option-selectedness id=the-select-element-2:concept-option-selectedness>selectedness</a> is true, the control
+  is expected to be displayed in a fashion that indicates that no valid option is currently
+  selected.</p>
+
+  <p>User agents are expected to render the labels in a <code id=the-select-element-2:the-select-element-6><a href=#the-select-element>select</a></code> in such a manner that
+  any alignment remains consistent whether the label is being displayed as part of the page or in a
+  menu control.</p>
+
+  
+
+
+  
+
+  <h4 id=the-textarea-element-2>14.5.15 The <code id=the-textarea-element-2:the-textarea-element><a href=#the-textarea-element>textarea</a></code> element<a href=#the-textarea-element-2 class=self-link></a></h4>
+
+  <p>The <code id=the-textarea-element-2:the-textarea-element-2><a href=#the-textarea-element>textarea</a></code> element is expected to render as an <a id="the-textarea-element-2:'inline-block'" href=https://drafts.csswg.org/css2/visuren.html#value-def-inline-block data-x-internal="'inline-block'">'inline-block'</a> box
+  depicting a multiline text control. If this multiline text control provides a selection, then,
+  when the user changes the current selection, the user agent is expected to <a href=#queue-a-task id=the-textarea-element-2:queue-a-task>queue a
+  task</a>, using the <a href=#user-interaction-task-source id=the-textarea-element-2:user-interaction-task-source>user interaction task source</a>, to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-textarea-element-2:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=the-textarea-element-2:event-select><a href=#event-select>select</a></code>
+  at the element, with the <code id=the-textarea-element-2:dom-event-bubbles><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to
+  true.</p>
+
+  <p>If the element has a <code id=the-textarea-element-2:attr-textarea-cols><a href=#attr-textarea-cols>cols</a></code> attribute, and parsing that
+  attribute's value using the <a href=#rules-for-parsing-non-negative-integers id=the-textarea-element-2:rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</a> doesn't generate
+  an error, then the user agent is expected to use the attribute as a <a href=#presentational-hints id=the-textarea-element-2:presentational-hints>presentational hint</a> for the <a id="the-textarea-element-2:'width'" href=https://drafts.csswg.org/css2/visudet.html#the-width-property data-x-internal="'width'">'width'</a> property on the element, with the
+  value being the <a href=#textarea-effective-width id=the-textarea-element-2:textarea-effective-width>textarea effective width</a> (as defined below). Otherwise, the user
+  agent is expected to act as if it had a user-agent-level style sheet rule setting the
+  <a id="the-textarea-element-2:'width'-2" href=https://drafts.csswg.org/css2/visudet.html#the-width-property data-x-internal="'width'">'width'</a> property on the element to the <a href=#textarea-effective-width id=the-textarea-element-2:textarea-effective-width-2>textarea effective width</a>.</p>
+
+  <p>The <dfn id=textarea-effective-width>textarea effective width</dfn> of a <code id=the-textarea-element-2:the-textarea-element-3><a href=#the-textarea-element>textarea</a></code> element is <span><var>size</var>×<var>avg</var> + <var>sbw</var></span>, where
+  <var>size</var> is the element's <a href=#attr-textarea-cols-value id=the-textarea-element-2:attr-textarea-cols-value>character width</a>,
+  <var>avg</var> is the average character width of the primary font of the element, in <a href=https://drafts.csswg.org/css-values/#px id="the-textarea-element-2:'px'" data-x-internal="'px'">CSS pixels</a>, and <var>sbw</var> is the width of a scroll bar, in <a href=https://drafts.csswg.org/css-values/#px id="the-textarea-element-2:'px'-2" data-x-internal="'px'">CSS pixels</a>. (The element's <a id="the-textarea-element-2:'letter-spacing'" href=https://drafts.csswg.org/css-text/#letter-spacing-property data-x-internal="'letter-spacing'">'letter-spacing'</a> property does not
+  affect the result.)</p>
+
+  <p>If the element has a <code id=the-textarea-element-2:attr-textarea-rows><a href=#attr-textarea-rows>rows</a></code> attribute, and parsing that
+  attribute's value using the <a href=#rules-for-parsing-non-negative-integers id=the-textarea-element-2:rules-for-parsing-non-negative-integers-2>rules for parsing non-negative integers</a> doesn't generate
+  an error, then the user agent is expected to use the attribute as a <a href=#presentational-hints id=the-textarea-element-2:presentational-hints-2>presentational hint</a> for the <a id="the-textarea-element-2:'height'" href=https://drafts.csswg.org/css2/visudet.html#the-height-property data-x-internal="'height'">'height'</a> property on the element, with the
+  value being the <a href=#textarea-effective-height id=the-textarea-element-2:textarea-effective-height>textarea effective height</a> (as defined below). Otherwise, the user
+  agent is expected to act as if it had a user-agent-level style sheet rule setting the
+  <a id="the-textarea-element-2:'height'-2" href=https://drafts.csswg.org/css2/visudet.html#the-height-property data-x-internal="'height'">'height'</a> property on the element to the <a href=#textarea-effective-height id=the-textarea-element-2:textarea-effective-height-2>textarea effective height</a>.</p>
+
+  <p>The <dfn id=textarea-effective-height>textarea effective height</dfn> of a <code id=the-textarea-element-2:the-textarea-element-4><a href=#the-textarea-element>textarea</a></code> element is the height in
+  <a href=https://drafts.csswg.org/css-values/#px id="the-textarea-element-2:'px'-3" data-x-internal="'px'">CSS pixels</a> of the number of lines specified the element's <a href=#attr-textarea-rows-value id=the-textarea-element-2:attr-textarea-rows-value>character height</a>, plus the height of a scrollbar in <a href=https://drafts.csswg.org/css-values/#px id="the-textarea-element-2:'px'-4" data-x-internal="'px'">CSS pixels</a>.</p>
+
+  <p>User agents are expected to apply the <a id="the-textarea-element-2:'white-space'" href=https://drafts.csswg.org/css-text/#white-space-property data-x-internal="'white-space'">'white-space'</a> CSS property to
+  <code id=the-textarea-element-2:the-textarea-element-5><a href=#the-textarea-element>textarea</a></code> elements. For historical reasons, if the element has a <code id=the-textarea-element-2:attr-textarea-wrap><a href=#attr-textarea-wrap>wrap</a></code> attribute whose value is an <a id=the-textarea-element-2:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+  case-insensitive</a> match for the string "<code>off</code>", then the user agent is expected to treat the attribute as a <a href=#presentational-hints id=the-textarea-element-2:presentational-hints-3>presentational hint</a> setting the element's
+  <a id="the-textarea-element-2:'white-space'-2" href=https://drafts.csswg.org/css-text/#white-space-property data-x-internal="'white-space'">'white-space'</a> property to 'pre'.</p>
+
+  
+
+
+
+  
+
+  <h3 id=frames-and-framesets>14.6 Frames and framesets<a href=#frames-and-framesets class=self-link></a></h3>
+
+  <p>User agent are expected to render <code id=frames-and-framesets:frameset><a href=#frameset>frameset</a></code> elements as a box with the height and
+  width of the <a id=frames-and-framesets:viewport href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>, with a surface rendered according to the following layout
+  algorithm:</p>
+
+  <ol><li>
+
+    <p>The <var>cols</var> and <var>rows</var> variables are lists of zero or more pairs consisting
+    of a number and a unit, the unit being one of <i>percentage</i>, <i>relative</i>, and
+    <i>absolute</i>.</p>
+
+    <p>Use the <a href=#rules-for-parsing-a-list-of-dimensions id=frames-and-framesets:rules-for-parsing-a-list-of-dimensions>rules for parsing a list of dimensions</a> to parse the value of the
+    element's <code>cols</code> attribute, if there is one.
+    Let <var>cols</var> be the result, or an empty list if there is no such attribute.</p>
+
+    <p>Use the <a href=#rules-for-parsing-a-list-of-dimensions id=frames-and-framesets:rules-for-parsing-a-list-of-dimensions-2>rules for parsing a list of dimensions</a> to parse the value of the
+    element's <code>rows</code> attribute, if there is one.
+    Let <var>rows</var> be the result, or an empty list if there is no such attribute.</p>
+
+   <li>
+
+    <p>For any of the entries in <var>cols</var> or <var>rows</var> that have the number zero and
+    the unit <i>relative</i>, change the entry's number to one.</p>
+
+   <li>
+
+    <p>If <var>cols</var> has no entries, then add a single entry consisting of the value 1 and the
+    unit <i>relative</i> to <var>cols</var>.</p>
+
+    <p>If <var>rows</var> has no entries, then add a single entry consisting of the value 1 and the
+    unit <i>relative</i> to <var>rows</var>.</p>
+
+   <li>
+
+    <p>Invoke the algorithm defined below to <a href=#convert-a-list-of-dimensions-to-a-list-of-pixel-values id=frames-and-framesets:convert-a-list-of-dimensions-to-a-list-of-pixel-values>convert a list of dimensions to a list of pixel
+    values</a> using <var>cols</var> as the input list, and the width of the surface that the
+    <code id=frames-and-framesets:frameset-2><a href=#frameset>frameset</a></code> is being rendered into, in <a href=https://drafts.csswg.org/css-values/#px id="frames-and-framesets:'px'" data-x-internal="'px'">CSS pixels</a>, as the
+    input dimension. Let <var>sized cols</var> be the resulting list.</p>
+
+    <p>Invoke the algorithm defined below to <a href=#convert-a-list-of-dimensions-to-a-list-of-pixel-values id=frames-and-framesets:convert-a-list-of-dimensions-to-a-list-of-pixel-values-2>convert a list of dimensions to a list of pixel
+    values</a> using <var>rows</var> as the input list, and the height of the surface that the
+    <code id=frames-and-framesets:frameset-3><a href=#frameset>frameset</a></code> is being rendered into, in <a href=https://drafts.csswg.org/css-values/#px id="frames-and-framesets:'px'-2" data-x-internal="'px'">CSS pixels</a>, as the
+    input dimension. Let <var>sized rows</var> be the resulting list.</p>
+
+   <li>
+
+    <p>Split the surface into a grid of <span><var>w</var>×<var>h</var></span>
+    rectangles, where <var>w</var> is the number of entries in <var>sized cols</var> and
+    <var>h</var> is the number of entries in <var>sized rows</var>.</p>
+
+    <p>Size the columns so that each column in the grid is as many <a href=https://drafts.csswg.org/css-values/#px id="frames-and-framesets:'px'-3" data-x-internal="'px'">CSS
+    pixels</a> wide as the corresponding entry in the <var>sized cols</var> list.</p>
+
+    <p>Size the rows so that each row in the grid is as many <a href=https://drafts.csswg.org/css-values/#px id="frames-and-framesets:'px'-4" data-x-internal="'px'">CSS pixels</a>
+    high as the corresponding entry in the <var>sized rows</var> list.</p>
+
+   <li>
+
+    <p>Let <var>children</var> be the list of <code id=frames-and-framesets:frame><a href=#frame>frame</a></code> and <code id=frames-and-framesets:frameset-4><a href=#frameset>frameset</a></code> elements
+    that are <a href=https://dom.spec.whatwg.org/#concept-tree-child id=frames-and-framesets:concept-tree-child data-x-internal=concept-tree-child>children</a> of the <code id=frames-and-framesets:frameset-5><a href=#frameset>frameset</a></code> element
+    for which the algorithm was invoked.</p>
+
+   <li>
+
+    <p>For each row of the grid of rectangles created in the previous step, from top to bottom, run
+    these substeps:</p>
+
+    <ol><li>
+
+      <p>For each rectangle in the row, from left to right, run these substeps:</p>
+
+      <ol><li>
+
+        <p>If there are any elements left in <var>children</var>, take the first element in the
+        list, and assign it to the rectangle.</p>
+
+        <p>If this is a <code id=frames-and-framesets:frameset-6><a href=#frameset>frameset</a></code> element, then recurse the entire <code id=frames-and-framesets:frameset-7><a href=#frameset>frameset</a></code>
+        layout algorithm for that <code id=frames-and-framesets:frameset-8><a href=#frameset>frameset</a></code> element, with the rectangle as the
+        surface.</p>
+
+        <p>Otherwise, it is a <code id=frames-and-framesets:frame-2><a href=#frame>frame</a></code> element; render its <a href=#nested-browsing-context id=frames-and-framesets:nested-browsing-context>nested browsing
+        context</a>, positioned and sized to fit the rectangle.</p>
+
+       <li>
+
+        <p>If there are any elements left in <var>children</var>, remove the first element from
+        <var>children</var>.</p>
+
+       </ol>
+
+     </ol>
+
+   <li>
+
+    <p>If the <code id=frames-and-framesets:frameset-9><a href=#frameset>frameset</a></code> element <a href=#has-a-border id=frames-and-framesets:has-a-border>has a border</a>, draw an outer set of borders
+    around the rectangles, using the element's <a href=#frame-border-colour id=frames-and-framesets:frame-border-colour>frame border color</a>.</p>
+
+    <p>For each rectangle, if there is an element assigned to that rectangle, and that element
+    <a href=#has-a-border id=frames-and-framesets:has-a-border-2>has a border</a>, draw an inner set of borders around that rectangle, using the
+    element's <a href=#frame-border-colour id=frames-and-framesets:frame-border-colour-2>frame border color</a>.</p>
+
+    <p>For each (visible) border that does not abut a rectangle that is assigned a
+    <code id=frames-and-framesets:frame-3><a href=#frame>frame</a></code> element with a <code>noresize</code>
+    attribute (including rectangles in further nested <code id=frames-and-framesets:frameset-10><a href=#frameset>frameset</a></code> elements), the user
+    agent is expected to allow the user to move the border, resizing the rectangles within, keeping
+    the proportions of any nested <code id=frames-and-framesets:frameset-11><a href=#frameset>frameset</a></code> grids.</p>
+
+    <p>A <code id=frames-and-framesets:frameset-12><a href=#frameset>frameset</a></code> or <code id=frames-and-framesets:frame-4><a href=#frame>frame</a></code> element <dfn id=has-a-border>has a border</dfn> if the
+    following algorithm returns true:</p>
+
+    <ol><li><p>If the element has a <code>frameborder</code> attribute whose value is not the
+     empty string and whose first character is either a U+0031 DIGIT ONE (1) character, a U+0079
+     LATIN SMALL LETTER Y character (y), or a U+0059 LATIN CAPITAL LETTER Y character (Y), then
+     return true.<li><p>Otherwise, if the element has a <code>frameborder</code> attribute, return
+     false.<li><p>Otherwise, if the element has a parent element that is a <code id=frames-and-framesets:frameset-13><a href=#frameset>frameset</a></code> element,
+     then return true if <em>that</em> element <a href=#has-a-border id=frames-and-framesets:has-a-border-3>has a border</a>, and false if it does
+     not.<li><p>Otherwise, return true.</ol>
+
+    <p>The <dfn id=frame-border-colour>frame border color</dfn> of a
+    <code id=frames-and-framesets:frameset-14><a href=#frameset>frameset</a></code> or <code id=frames-and-framesets:frame-5><a href=#frame>frame</a></code> element is the color obtained from the following
+    algorithm:</p>
+
+    <ol><li><p>If the element has a <code>bordercolor</code> attribute, and applying the
+     <a href=#rules-for-parsing-a-legacy-colour-value id=frames-and-framesets:rules-for-parsing-a-legacy-colour-value>rules for parsing a legacy color value</a> to that attribute's value does not result
+     in an error, then return the color so obtained.<li><p>Otherwise, if the element has a parent element that is a <code id=frames-and-framesets:frameset-15><a href=#frameset>frameset</a></code> element,
+     then return the <a href=#frame-border-colour id=frames-and-framesets:frame-border-colour-3>frame border color</a> of that element.</p>
+
+     <li><p>Otherwise, return gray.</ol>
+
+   </ol>
+
+  <p>The algorithm to <dfn id=convert-a-list-of-dimensions-to-a-list-of-pixel-values>convert a list of dimensions to a list of pixel values</dfn> consists of
+  the following steps:</p>
+
+  <ol><li>
+
+    <p>Let <var>input list</var> be the list of numbers and units passed to the algorithm.</p>
+
+    <p>Let <var>output list</var> be a list of numbers the same length as <var>input list</var>, all
+    zero.</p>
+
+    <p>Entries in <var>output list</var> correspond to the entries in <var>input list</var> that
+    have the same position.</p>
+
+   <li><p>Let <var>input dimension</var> be the size passed to the algorithm.</p>
+
+   <li>
+
+    <p>Let <var>count percentage</var> be the number of entries in <var>input list</var> whose unit
+    is <i>percentage</i>.</p>
+
+    <p>Let <var>total percentage</var> be the sum of all the numbers in <var>input list</var> whose
+    unit is <i>percentage</i>.</p>
+
+    <p>Let <var>count relative</var> be the number of entries in <var>input list</var> whose unit is
+    <i>relative</i>.</p>
+
+    <p>Let <var>total relative</var> be the sum of all the numbers in <var>input list</var> whose
+    unit is <i>relative</i>.</p>
+
+    <p>Let <var>count absolute</var> be the number of entries in <var>input list</var> whose unit is
+    <i>absolute</i>.</p>
+
+    <p>Let <var>total absolute</var> be the sum of all the numbers in <var>input list</var> whose
+    unit is <i>absolute</i>.</p>
+
+    <p>Let <var>remaining space</var> be the value of <var>input dimension</var>.</p>
+
+   <li>
+
+    <p>If <var>total absolute</var> is greater than <var>remaining space</var>, then for each entry
+    in <var>input list</var> whose unit is <i>absolute</i>, set the corresponding value in
+    <var>output list</var> to the number of the entry in <var>input list</var> multiplied by
+    <var>remaining space</var> and divided by <var>total absolute</var>. Then, set <var>remaining
+    space</var> to zero.</p>
+
+    <p>Otherwise, for each entry in <var>input list</var> whose unit is <i>absolute</i>, set the
+    corresponding value in <var>output list</var> to the number of the entry in <var>input
+    list</var>. Then, decrement <var>remaining space</var> by <var>total absolute</var>.</p>
+
+   <li>
+
+    <p>If <var>total percentage</var> multiplied by the <var>input dimension</var> and divided by
+    100 is greater than <var>remaining space</var>, then for each entry in <var>input list</var>
+    whose unit is <i>percentage</i>, set the corresponding value in <var>output list</var> to the
+    number of the entry in <var>input list</var> multiplied by <var>remaining space</var> and
+    divided by <var>total percentage</var>. Then, set <var>remaining space</var> to zero.</p>
+
+    <p>Otherwise, for each entry in <var>input list</var> whose unit is <i>percentage</i>, set the
+    corresponding value in <var>output list</var> to the number of the entry in <var>input
+    list</var> multiplied by the <var>input dimension</var> and divided by 100. Then, decrement
+    <var>remaining space</var> by <var>total percentage</var> multiplied by the <var>input
+    dimension</var> and divided by 100.</p>
+
+   <li>
+
+    <p>For each entry in <var>input list</var> whose unit is <i>relative</i>, set the corresponding
+    value in <var>output list</var> to the number of the entry in <var>input list</var> multiplied
+    by <var>remaining space</var> and divided by <var>total relative</var>.</p>
+
+   <li><p>Return <var>output list</var>.</ol>
+
+  <p>User agents working with integer values for frame widths (as opposed to user agents that can
+  lay frames out with subpixel accuracy) are expected to distribute the remainder first to the last
+  entry whose unit is <i>relative</i>, then equally (not proportionally) to each entry whose unit is
+  <i>percentage</i>, then equally (not proportionally) to each entry whose unit is <i>absolute</i>,
+  and finally, failing all else, to the last entry.</p>
+
+  <hr>
+
+
+
+  <p>The contents of a <code id=frames-and-framesets:frame-6><a href=#frame>frame</a></code> element that does not have a <code id=frames-and-framesets:frameset-16><a href=#frameset>frameset</a></code> parent
+  are expected to be rendered as transparent black; the user agent is expected to not render the
+  <a href=#nested-browsing-context id=frames-and-framesets:nested-browsing-context-2>nested browsing context</a> in this case, and that <a href=#nested-browsing-context id=frames-and-framesets:nested-browsing-context-3>nested browsing context</a>
+  is expected to have a <a id=frames-and-framesets:viewport-2 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> with zero width and zero height.</p>
+
+  
+
+
+  
+
+  <h3 id=interactive-media>14.7 Interactive media<a href=#interactive-media class=self-link></a></h3>
+
+  <h4 id=links,-forms,-and-navigation>14.7.1 Links, forms, and navigation<a href=#links,-forms,-and-navigation class=self-link></a></h4>
+
+  <p>User agents are expected to allow the user to control aspects of <a href=#hyperlink id=links,-forms,-and-navigation:hyperlink>hyperlink</a>
+  activation and <a href=#form-submission-2 id=links,-forms,-and-navigation:form-submission-2>form submission</a>, such as which <a href=#browsing-context id=links,-forms,-and-navigation:browsing-context>browsing context</a> is to be
+  used for the subsequent <a href=#navigate id=links,-forms,-and-navigation:navigate>navigation</a>.</p>
+
+  <p>User agents are expected to allow users to discover the destination of <a href=#hyperlink id=links,-forms,-and-navigation:hyperlink-2>hyperlinks</a> and of <a href=#the-form-element id=links,-forms,-and-navigation:the-form-element>forms</a> before triggering their
+  <a href=#navigate id=links,-forms,-and-navigation:navigate-2>navigation</a>.</p>
+
+  <p>User agents are expected to inform the user of whether a <a href=#hyperlink id=links,-forms,-and-navigation:hyperlink-3>hyperlink</a> includes
+  <a href=#hyperlink-auditing id=links,-forms,-and-navigation:hyperlink-auditing>hyperlink auditing</a>, and to let them know at a minimum which domains will be contacted
+  as part of such auditing.</p>
+
+  <p>User agents may allow users to <a href=#navigate id=links,-forms,-and-navigation:navigate-3>navigate</a> <a href=#browsing-context id=links,-forms,-and-navigation:browsing-context-2>browsing contexts</a> to the URLs <a href=#parse-a-url id=links,-forms,-and-navigation:parse-a-url>indicated</a> by the
+  <code>cite</code> attributes on <code id=links,-forms,-and-navigation:the-q-element><a href=#the-q-element>q</a></code>, <code id=links,-forms,-and-navigation:the-blockquote-element><a href=#the-blockquote-element>blockquote</a></code>,
+  <code id=links,-forms,-and-navigation:the-ins-element><a href=#the-ins-element>ins</a></code>, and <code id=links,-forms,-and-navigation:the-del-element><a href=#the-del-element>del</a></code> elements.</p>
+
+  <p>User agents may surface <a href=#hyperlink id=links,-forms,-and-navigation:hyperlink-4>hyperlinks</a> created by <code id=links,-forms,-and-navigation:the-link-element><a href=#the-link-element>link</a></code>
+  elements in their user interface.</p>
+
+  <p class=note>While <code id=links,-forms,-and-navigation:the-link-element-2><a href=#the-link-element>link</a></code> elements that create <a href=#hyperlink id=links,-forms,-and-navigation:hyperlink-5>hyperlinks</a> will match the <code id=links,-forms,-and-navigation:selector-link><a href=#selector-link>:link</a></code> or
+  <code id=links,-forms,-and-navigation:selector-visited><a href=#selector-visited>:visited</a></code> <a href=https://drafts.csswg.org/selectors/#pseudo-class id=links,-forms,-and-navigation:pseudo-class data-x-internal=pseudo-class>pseudo-classes</a>,
+  will react to clicks if visible, and so forth, this does not extend to any browser interface
+  constructs that expose those same links. Activating a link through the browser's interface, rather
+  than in the page itself, does not trigger <code id=links,-forms,-and-navigation:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> events and the
+  like.</p>
+
+
+
+
+  <h4 id=the-title-attribute-2>14.7.2 The <code id=the-title-attribute-2:attr-title><a href=#attr-title>title</a></code> attribute<a href=#the-title-attribute-2 class=self-link></a></h4>
+
+  <p>User agents are expected to expose the <a href=#advisory-information id=the-title-attribute-2:advisory-information>advisory information</a> of elements upon user
+  request, and to make the user aware of the presence of such information.</p>
+
+  <p>On interactive graphical systems where the user can use a pointing device, this could take the
+  form of a tooltip. When the user is unable to use a pointing device, then the user agent is
+  expected to make the content available in some other fashion, e.g. by making the element a
+  <i>focusable area</i> and always displaying the <a href=#advisory-information id=the-title-attribute-2:advisory-information-2>advisory information</a> of the currently
+  <a href=#focused id=the-title-attribute-2:focused>focused</a> element, or by showing the <a href=#advisory-information id=the-title-attribute-2:advisory-information-3>advisory information</a> of the elements
+  under the user's finger on a touch device as the user pans around the screen.</p>
+
+  <p>U+000A LINE FEED (LF) characters are expected to cause line breaks in the tooltip; U+0009
+  CHARACTER TABULATION (tab) characters are expected to render as a non-zero horizontal shift that
+  lines up the next glyph with the next tab stop, with tab stops occurring at points that are
+  multiples of 8 times the width of a U+0020 SPACE character.</p>
+
+  <div class=example>
+
+   <p>For example, a visual user agent could make elements with a <code id=the-title-attribute-2:attr-title-2><a href=#attr-title>title</a></code> attribute <a href=#focusable-area id=the-title-attribute-2:focusable-area>focusable</a>, and could make any <a href=#focused id=the-title-attribute-2:focused-2>focused</a> element with a
+   <code id=the-title-attribute-2:attr-title-3><a href=#attr-title>title</a></code> attribute show its tooltip under the element while the
+   element has focus. This would allow a user to tab around the document to find all the advisory
+   text.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>As another example, a screen reader could provide an audio cue when reading an element with a
+   tooltip, with an associated key to read the last tooltip for which a cue was played.</p>
+
+  </div>
+
+
+  <h4 id=editing-hosts>14.7.3 Editing hosts<a href=#editing-hosts class=self-link></a></h4>
+
+  <p>The current text editing caret (i.e. the <a id=editing-hosts:active-range href=https://w3c.github.io/editing/execCommand.html#active-range data-x-internal=active-range>active range</a>, if it is empty and in an
+  <a id=editing-hosts:editing-host href=https://w3c.github.io/editing/execCommand.html#editing-host data-x-internal=editing-host>editing host</a>), if any, is expected to act like an inline
+  <a id=editing-hosts:replaced-element href=https://drafts.csswg.org/css2/conform.html#replaced-element data-x-internal=replaced-element>replaced element</a> with the vertical dimensions of the caret and with zero width for
+  the purposes of the CSS rendering model.</p>
+
+  <p class=note>This means that even an empty block can have the caret inside it, and that when
+  the caret is in such an element, it prevents <a href=https://drafts.csswg.org/css2/box.html#collapsing-margins id=editing-hosts:collapsing-margins data-x-internal=collapsing-margins>margins from
+  collapsing</a> through the element.</p>
+
+
+
+  <h4 id=text-rendered-in-native-user-interfaces>14.7.4 Text rendered in native user interfaces<a href=#text-rendered-in-native-user-interfaces class=self-link></a></h4>
+
+  <p>User agents are expected to honor the Unicode semantics of text that is exposed in user
+  interfaces, for example supporting the bidirectional algorithm in text shown in dialogs, title
+  bars, pop-up menus, and tooltips. Text from the contents of elements is expected to be rendered in
+  a manner that honors <a href=#the-directionality id=text-rendered-in-native-user-interfaces:the-directionality>the directionality</a> of the element from which the text was
+  obtained. Text from attributes is expected to be rendered in a manner that honours the
+  <a href=#directionality-of-the-attribute id=text-rendered-in-native-user-interfaces:directionality-of-the-attribute>directionality of the attribute</a>.</p>
+
+  <div class=example>
+
+   <p>Consider the following markup, which has Hebrew text asking for a programming language, the
+   languages being text for which a left-to-right direction is important given the punctuation in
+   some of their names:</p>
+
+   <pre>&lt;p dir="rtl" lang="he">
+ &lt;label>
+  <span dir=rtl lang=he>בחר שפת תכנות:</span>
+  &lt;select>
+   &lt;option dir="ltr">C++&lt;/option>
+   &lt;option dir="ltr">C#&lt;/option>
+   &lt;option dir="ltr">FreePascal&lt;/option>
+   &lt;option dir="ltr">F#&lt;/option>
+  &lt;/select>
+ &lt;/label>
+&lt;/p></pre>
+
+   <p>If the <code id=text-rendered-in-native-user-interfaces:the-select-element><a href=#the-select-element>select</a></code> element was rendered as a drop down box, a correct rendering would
+   ensure that the punctuation was the same both in the drop down, and in the box showing the
+   current selection.</p>
+
+   <p><img src=/images/bidiselect.png width=206 alt="" height=105></p> 
+
+  </div>
+
+  <div class=example>
+
+   <p>The directionality of attributes depends on the attribute and on the element's <code id=text-rendered-in-native-user-interfaces:the-dir-attribute><a href=#the-dir-attribute>dir</a></code> attribute, as the following example demonstrates. Consider this
+   markup:</p>
+
+   <pre><bdo dir=ltr>&lt;table>
+ &lt;tr>
+  &lt;th abbr="(א" dir=ltr>A
+  &lt;th abbr="(א" dir=rtl>A
+  &lt;th abbr="(א" dir=auto>A
+&lt;/table></bdo></pre>
+
+   <p>If the <code id=text-rendered-in-native-user-interfaces:attr-th-abbr><a href=#attr-th-abbr>abbr</a></code> attributes are rendered, e.g. in a tooltip or
+   other user interface, the first will have a left parenthesis (because the direction is 'ltr'),
+   the second will have a right parenthesis (because the direction is 'rtl'), and the third will
+   have a right parenthesis (because the direction is determined <em>from the attribute value</em>
+   to be 'rtl').</p>
+
+   <p>However, if instead the attribute was not a <a href=#directionality-capable-attribute id=text-rendered-in-native-user-interfaces:directionality-capable-attribute>directionality-capable attribute</a>, the
+   results would be different:</p>
+
+   <pre><bdo dir=ltr>&lt;table>
+ &lt;tr>
+  &lt;th data-abbr="(א" dir=ltr>A
+  &lt;th data-abbr="(א" dir=rtl>A
+  &lt;th data-abbr="(א" dir=auto>A
+&lt;/table></bdo></pre>
+
+   <p>In this case, if the user agent were to expose the <code>data-abbr</code> attribute
+   in the user interface (e.g. in a debugging environment), the last case would be rendered with a
+   <em>left</em> parenthesis, because the direction would be determined from the element's
+   contents.</p>
+
+  </div>
+
+  <p>A string provided by a script (e.g. the argument to <code id=text-rendered-in-native-user-interfaces:dom-alert><a href=#dom-alert>window.alert()</a></code>) is expected to be treated as an independent set of one or
+  more bidirectional algorithm paragraphs when displayed, as defined by the bidirectional algorithm,
+  including, for instance, supporting the paragraph-breaking behavior of U+000A LINE FEED (LF)
+  characters. For the purposes of determining the paragraph level of such text in the bidirectional
+  algorithm, this specification does <em>not</em> provide a higher-level override of rules P2 and
+  P3. <a href=#refsBIDI>[BIDI]</a></p>
+
+  <p>When necessary, authors can enforce a particular direction for a given paragraph by starting it
+  with the Unicode U+200E LEFT-TO-RIGHT MARK or U+200F RIGHT-TO-LEFT MARK characters.</p>
+
+  <div class=example>
+
+   <p>Thus, the following script:</p>
+
+   <pre>alert('\u05DC\u05DE\u05D3 HTML \u05D4\u05D9\u05D5\u05DD!')</pre>
+
+   <p>...would always result in a message reading
+        "<bdo dir=rtl lang="">למד LMTH היום!</bdo>"
+   (not "<bdo dir=ltr lang="">דמל HTML םויה!</bdo>"),
+   regardless of the language of the user agent interface or the
+   direction of the page or any of its elements.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>For a more complex example, consider the following script:</p>
+
+   <pre class=bad>/* Warning: this script does not handle right-to-left scripts correctly */
+var s;
+if (s = prompt('What is your name?')) {
+  alert(s + '! Ok, Fred, ' + s + ', and Wilma will get the car.');
+}</pre>
+
+   <p>When the user enters "<kbd>Kitty</kbd>", the user agent would alert "<samp>Kitty! Ok, Fred,
+   Kitty, and Wilma will get the car.</samp>". However, if the user enters "<kbd dir=rtl lang=ar>لا أفهم</kbd>", then the bidirectional
+   algorithm will determine that the direction of the paragraph is right-to-left, and so the output
+   will be the following unintended mess: "<samp lang=""><bdo dir=rtl>لا أفهم! derF ,kO, لا أفهم, rac eht teg lliw amliW dna.</bdo></samp>"</p>
+
+   <p>To force an alert that starts with user-provided text (or other text of unknown
+   directionality) to render left-to-right, the string can be prefixed with a U+200E LEFT-TO-RIGHT
+   MARK character:</p>
+
+   <pre>var s;
+if (s = prompt('What is your name?')) {
+  alert('<strong>\u200E</strong>' + s + '! Ok, Fred, ' + s + ', and Wilma will get the car.');
+}</pre>
+
+  </div>
+
+
+
+  <h3 id=print-media>14.8 Print media<a href=#print-media class=self-link></a></h3>
+
+  <p>User agents are expected to allow the user to request the opportunity to <dfn id=obtain-a-physical-form>obtain a physical
+  form</dfn> (or a representation of a physical form) of a <code id=print-media:document><a href=#document>Document</a></code>. For example,
+  selecting the option to print a page or convert it to PDF format. <a href=#refsPDF>[PDF]</a></p>
+
+  <p>When the user actually <a href=#obtain-a-physical-form id=print-media:obtain-a-physical-form>obtains a physical form</a> (or
+  a representation of a physical form) of a <code id=print-media:document-2><a href=#document>Document</a></code>, the user agent is expected to
+  create a new rendering of the <code id=print-media:document-3><a href=#document>Document</a></code> for the print media.</p>
+
+
+
+  <h3 id=unstyled-xml-documents>14.9 Unstyled XML documents<a href=#unstyled-xml-documents class=self-link></a></h3>
+
+  
+
+  <p>HTML user agents may, in certain circumstances, find themselves rendering non-HTML documents
+  that use vocabularies for which they lack any built-in knowledge. This section provides for a way
+  for user agents to handle such documents in a somewhat useful manner.</p>
+
+  <p>While a <code id=unstyled-xml-documents:document><a href=#document>Document</a></code> is an <a href=#unstyled-document id=unstyled-xml-documents:unstyled-document>unstyled document</a>, the user agent is expected
+  to render <a href=#an-unstyled-document-view id=unstyled-xml-documents:an-unstyled-document-view>an unstyled document view</a>.</p>
+
+  <p>A <code id=unstyled-xml-documents:document-2><a href=#document>Document</a></code> is an <dfn id=unstyled-document>unstyled document</dfn> while it matches the following
+  conditions:</p>
+
+  <ul><li>The <code id=unstyled-xml-documents:document-3><a href=#document>Document</a></code> has no author style sheets (whether referenced by HTTP headers, processing instructions, elements like <code id=unstyled-xml-documents:the-link-element><a href=#the-link-element>link</a></code>, inline elements like <code id=unstyled-xml-documents:the-style-element><a href=#the-style-element>style</a></code>, or any other mechanism).
+   <li>None of the elements in the <code id=unstyled-xml-documents:document-4><a href=#document>Document</a></code> have any <a href=#presentational-hints id=unstyled-xml-documents:presentational-hints>presentational hints</a>.
+   <li>None of the elements in the <code id=unstyled-xml-documents:document-5><a href=#document>Document</a></code> have any <a href=https://drafts.csswg.org/css-style-attr/#style-attribute id=unstyled-xml-documents:css-styling-attribute data-x-internal=css-styling-attribute>style attributes</a>.
+   <li>None of the elements in the <code id=unstyled-xml-documents:document-6><a href=#document>Document</a></code> are in any of the following namespaces: <a id=unstyled-xml-documents:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>, <a id=unstyled-xml-documents:svg-namespace href=https://infra.spec.whatwg.org/#svg-namespace data-x-internal=svg-namespace>SVG namespace</a>, <a id=unstyled-xml-documents:mathml-namespace href=https://infra.spec.whatwg.org/#mathml-namespace data-x-internal=mathml-namespace>MathML namespace</a>
+   <li>The <code id=unstyled-xml-documents:document-7><a href=#document>Document</a></code> has no <i>focusable area</i> (e.g. from XLink) other than the <a id=unstyled-xml-documents:viewport href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>.
+   <li>The <code id=unstyled-xml-documents:document-8><a href=#document>Document</a></code> has no <a href=#hyperlink id=unstyled-xml-documents:hyperlink>hyperlinks</a> (e.g. from XLink).
+   <li>There exists no <a href=#concept-script id=unstyled-xml-documents:concept-script>script</a> whose <a href=#settings-object id=unstyled-xml-documents:settings-object>settings object</a> specifies this <code id=unstyled-xml-documents:document-9><a href=#document>Document</a></code> as the <a href=#responsible-document id=unstyled-xml-documents:responsible-document>responsible document</a>.
+   <li>None of the elements in the <code id=unstyled-xml-documents:document-10><a href=#document>Document</a></code> have any registered event listeners.
+  </ul>
+
+  <p><dfn id=an-unstyled-document-view>An unstyled document view</dfn> is one where the DOM is not rendered according to CSS
+  (which would, since there are no applicable styles in this context, just result in a wall of
+  text), but is instead rendered in a manner that is useful for a developer. This could consist of
+  just showing the <code id=unstyled-xml-documents:document-11><a href=#document>Document</a></code> object's source, maybe with syntax highlighting, or it
+  could consist of displaying just the DOM tree, or simply a message saying that the page is not a
+  styled document.</p>
+
+  <p class=note>If a <code id=unstyled-xml-documents:document-12><a href=#document>Document</a></code> stops being an <a href=#unstyled-document id=unstyled-xml-documents:unstyled-document-2>unstyled document</a>, then the
+  conditions above stop applying, and thus a user agent following these requirements will switch to
+  using the regular CSS rendering.</p>
+
+  
+
+
+
+
+
+  <h2 id=obsolete>15 Obsolete features<a href=#obsolete class=self-link></a></h2>
+
+  <h3 id=obsolete-but-conforming-features>15.1 Obsolete but conforming features<a href=#obsolete-but-conforming-features class=self-link></a></h3>
+
+  <p>Features listed in this section will trigger warnings in conformance checkers.</p>
+
+  <p>Authors should not specify a <code id=obsolete-but-conforming-features:attr-img-border><a href=#attr-img-border>border</a></code> attribute on an
+  <code id=obsolete-but-conforming-features:the-img-element><a href=#the-img-element>img</a></code> element. If the attribute is present, its value must be the string "<code>0</code>". CSS should be used instead.</p>
+
+  <p>Authors should not specify a <code id=obsolete-but-conforming-features:attr-script-language><a href=#attr-script-language>language</a></code> attribute on a
+  <code id=obsolete-but-conforming-features:the-script-element><a href=#the-script-element>script</a></code> element. If the attribute is present, its value must be an <a id=obsolete-but-conforming-features:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+  case-insensitive</a> match for the string "<code>JavaScript</code>" and either the
+  <code id=obsolete-but-conforming-features:attr-script-type><a href=#attr-script-type>type</a></code> attribute must be omitted or its value must be an
+  <a id=obsolete-but-conforming-features:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>text/javascript</code>".
+  The attribute should be entirely omitted instead (with the value "<code>JavaScript</code>", it has no effect), or replaced with use of the <code id=obsolete-but-conforming-features:attr-script-type-2><a href=#attr-script-type>type</a></code> attribute.</p>
+
+  <p>Authors should not specify the <code id=obsolete-but-conforming-features:attr-a-name><a href=#attr-a-name>name</a></code> attribute on
+  <code id=obsolete-but-conforming-features:the-a-element><a href=#the-a-element>a</a></code> elements. If the attribute is present, its value must not be the empty string and
+  must neither be equal to the value of any of the <a href=https://dom.spec.whatwg.org/#concept-id id=obsolete-but-conforming-features:concept-id data-x-internal=concept-id>IDs</a> in the
+  element's <a id=obsolete-but-conforming-features:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a> other than the element's own <a href=https://dom.spec.whatwg.org/#concept-id id=obsolete-but-conforming-features:concept-id-2 data-x-internal=concept-id>ID</a>, if
+  any, nor be equal to the value of any of the other <code id=obsolete-but-conforming-features:attr-a-name-2><a href=#attr-a-name>name</a></code>
+  attributes on <code id=obsolete-but-conforming-features:the-a-element-2><a href=#the-a-element>a</a></code> elements in the element's <a id=obsolete-but-conforming-features:tree-2 href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a>. If this attribute is
+  present and the element has an <a href=https://dom.spec.whatwg.org/#concept-id id=obsolete-but-conforming-features:concept-id-3 data-x-internal=concept-id>ID</a>, then the attribute's value
+  must be equal to the element's <a href=https://dom.spec.whatwg.org/#concept-id id=obsolete-but-conforming-features:concept-id-4 data-x-internal=concept-id>ID</a>. In earlier versions of the
+  language, this attribute was intended as a way to specify possible targets for <a href=https://url.spec.whatwg.org/#concept-url-fragment id=obsolete-but-conforming-features:concept-url-fragment data-x-internal=concept-url-fragment>fragments</a> in <a href=https://url.spec.whatwg.org/#concept-url id=obsolete-but-conforming-features:url data-x-internal=url>URLs</a>. The <code id=obsolete-but-conforming-features:the-id-attribute><a href=#the-id-attribute>id</a></code> attribute should be used instead.</p>
+
+  
+  <p>Authors should not, but may despite requirements to the contrary elsewhere in this
+  specification, specify the <code id=obsolete-but-conforming-features:attr-input-maxlength><a href=#attr-input-maxlength>maxlength</a></code> and <code id=obsolete-but-conforming-features:attr-input-size><a href=#attr-input-size>size</a></code> attributes on <code id=obsolete-but-conforming-features:the-input-element><a href=#the-input-element>input</a></code> elements whose <code id=obsolete-but-conforming-features:attr-input-type><a href=#attr-input-type>type</a></code> attributes are in the <a href="#number-state-(type=number)" id="obsolete-but-conforming-features:number-state-(type=number)">Number</a> state. One valid reason for using these attributes
+  regardless is to help legacy user agents that do not support <code id=obsolete-but-conforming-features:the-input-element-2><a href=#the-input-element>input</a></code> elements with
+  <code>type="number"</code> to still render the text control with a useful width.</p>
+
+
+  
+
+  <h4 id=warnings-for-obsolete-but-conforming-features>15.1.1 Warnings for obsolete but conforming features<a href=#warnings-for-obsolete-but-conforming-features class=self-link></a></h4>
+
+  <p>To ease the transition from HTML4 Transitional documents to the language defined in
+  <em>this</em> specification, and to discourage certain features that are only allowed in very few
+  circumstances, conformance checkers must warn the user when the following features are used in a
+  document. These are generally old obsolete features that have no effect, and are allowed only to
+  distinguish between likely mistakes (regular conformance errors) and mere vestigial markup or
+  unusual and discouraged practices (these warnings).</p>
+
+  <p>The following features must be categorized as described
+  above:</p>
+
+  <ul><li><p>The presence of a <code id=warnings-for-obsolete-but-conforming-features:attr-img-border><a href=#attr-img-border>border</a></code> attribute on an
+   <code id=warnings-for-obsolete-but-conforming-features:the-img-element><a href=#the-img-element>img</a></code> element if its value is the string "<code>0</code>".<li><p>The presence of a <code id=warnings-for-obsolete-but-conforming-features:attr-script-language><a href=#attr-script-language>language</a></code> attribute on a
+   <code id=warnings-for-obsolete-but-conforming-features:the-script-element><a href=#the-script-element>script</a></code> element if its value is an <a id=warnings-for-obsolete-but-conforming-features:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the
+   string "<code>JavaScript</code>" and if there is no <code id=warnings-for-obsolete-but-conforming-features:attr-script-type><a href=#attr-script-type>type</a></code> attribute or there is and its value is an <a id=warnings-for-obsolete-but-conforming-features:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+   case-insensitive</a> match for the string "<code>text/javascript</code>".<li><p>The presence of a <code id=warnings-for-obsolete-but-conforming-features:attr-a-name><a href=#attr-a-name>name</a></code> attribute on an <code id=warnings-for-obsolete-but-conforming-features:the-a-element><a href=#the-a-element>a</a></code>
+   element, if its value is not the empty string.<li><p>The presence of a <code id=warnings-for-obsolete-but-conforming-features:attr-input-maxlength><a href=#attr-input-maxlength>maxlength</a></code> attribute on an
+   <code id=warnings-for-obsolete-but-conforming-features:the-input-element><a href=#the-input-element>input</a></code> element whose <code id=warnings-for-obsolete-but-conforming-features:attr-input-type><a href=#attr-input-type>type</a></code> attribute is in the
+   <a href="#number-state-(type=number)" id="warnings-for-obsolete-but-conforming-features:number-state-(type=number)">Number</a> state.<li><p>The presence of a <code id=warnings-for-obsolete-but-conforming-features:attr-input-size><a href=#attr-input-size>size</a></code> attribute on an
+   <code id=warnings-for-obsolete-but-conforming-features:the-input-element-2><a href=#the-input-element>input</a></code> element whose <code id=warnings-for-obsolete-but-conforming-features:attr-input-type-2><a href=#attr-input-type>type</a></code> attribute is in the
+   <a href="#number-state-(type=number)" id="warnings-for-obsolete-but-conforming-features:number-state-(type=number)-2">Number</a> state.</ul>
+
+  <p>Conformance checkers must distinguish between pages that have no conformance errors and have
+  none of these obsolete features, and pages that have no conformance errors but do have some of
+  these obsolete features.</p>
+
+  <p class=example>For example, a validator could report some pages as "Valid HTML" and others as
+  "Valid HTML with warnings".</p>
+
+  
+
+
+  <h3 id=non-conforming-features>15.2 Non-conforming features<a href=#non-conforming-features class=self-link></a></h3>
+
+  <p>Elements in the following list are entirely obsolete, and must not be used by authors:</p>
+
+  <dl><dt><code id=non-conforming-features:the-applet-element><a href=#the-applet-element>applet</a></code><dd><p>Use <code id=non-conforming-features:the-embed-element><a href=#the-embed-element>embed</a></code> or <code id=non-conforming-features:the-object-element><a href=#the-object-element>object</a></code> instead.<dt><dfn id=acronym><code>acronym</code></dfn><dd><p>Use <code id=non-conforming-features:the-abbr-element><a href=#the-abbr-element>abbr</a></code> instead.<dt><dfn id=bgsound><code>bgsound</code></dfn><dd><p>Use <code id=non-conforming-features:the-audio-element><a href=#the-audio-element>audio</a></code> instead.<dt><dfn id=dir><code>dir</code></dfn><dd><p>Use <code id=non-conforming-features:the-ul-element><a href=#the-ul-element>ul</a></code> instead.<dt><code id=non-conforming-features:frame><a href=#frame>frame</a></code><dt><code id=non-conforming-features:frameset><a href=#frameset>frameset</a></code><dt><dfn id=noframes><code>noframes</code></dfn><dd><p>Either use <code id=non-conforming-features:the-iframe-element><a href=#the-iframe-element>iframe</a></code> and CSS instead, or use server-side includes to generate complete pages with the various invariant parts merged in.<dt><dfn id=isindex><code>isindex</code></dfn><dd><p>Use an explicit <code id=non-conforming-features:the-form-element><a href=#the-form-element>form</a></code> and <a href="#text-(type=text)-state-and-search-state-(type=search)" id="non-conforming-features:text-(type=text)-state-and-search-state-(type=search)">text control</a> combination instead.<dt><dfn id=listing><code>listing</code></dfn><dd><p>Use <code id=non-conforming-features:the-pre-element><a href=#the-pre-element>pre</a></code> and <code id=non-conforming-features:the-code-element><a href=#the-code-element>code</a></code> instead.<dt><dfn id=keygen><code>keygen</code></dfn><dd>
+    <p>For enterprise device management use cases, use native on-device management capabilities.</p>
+
+    <p>For certificate enrollment use cases, use the Web Cryptography API to generate a keypair for the certificate, and
+    then export the certificate and key to allow the user to install them manually. <a href=#refsWEBCRYPTO>[WEBCRYPTO]</a></p>
+   <dt><dfn id=nextid><code>nextid</code></dfn><dd><p>Use GUIDs instead.<dt><dfn id=noembed><code>noembed</code></dfn><dd><p>Use <code id=non-conforming-features:the-object-element-2><a href=#the-object-element>object</a></code> instead of <code id=non-conforming-features:the-embed-element-2><a href=#the-embed-element>embed</a></code> when fallback is necessary.<dt><dfn id=plaintext><code>plaintext</code></dfn><dd><p>Use the "<code id=non-conforming-features:text/plain><a data-x-internal=text/plain href=https://tools.ietf.org/html/rfc2046#section-4.1.3>text/plain</a></code>" <a id=non-conforming-features:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> instead.<dt><dfn id=rb><code>rb</code></dfn><dt><dfn id=rtc><code>rtc</code></dfn><dd><p>Providing the ruby base directly inside the <code id=non-conforming-features:the-ruby-element><a href=#the-ruby-element>ruby</a></code> element or using nested
+   <code id=non-conforming-features:the-ruby-element-2><a href=#the-ruby-element>ruby</a></code> elements is sufficient.<dt><dfn id=strike><code>strike</code></dfn><dd><p>Use <code id=non-conforming-features:the-del-element><a href=#the-del-element>del</a></code> instead if the element is marking an edit, otherwise use <code id=non-conforming-features:the-s-element><a href=#the-s-element>s</a></code> instead.<dt><dfn id=xmp><code>xmp</code></dfn><dd><p>Use <code id=non-conforming-features:the-pre-element-2><a href=#the-pre-element>pre</a></code> and <code id=non-conforming-features:the-code-element-2><a href=#the-code-element>code</a></code> instead, and escape "<code>&lt;</code>" and "<code>&amp;</code>" characters as "<code>&amp;lt;</code>" and "<code>&amp;amp;</code>" respectively.<dt><dfn id=basefont><code>basefont</code></dfn><dt><dfn id=big><code>big</code></dfn><dt><dfn id=blink><code>blink</code></dfn><dt><dfn id=center><code>center</code></dfn><dt><dfn id=font><code>font</code></dfn><dt><code id=non-conforming-features:the-marquee-element><a href=#the-marquee-element>marquee</a></code><dt><dfn id=multicol><code>multicol</code></dfn><dt><dfn id=nobr><code>nobr</code></dfn><dt><dfn id=spacer><code>spacer</code></dfn><dt><dfn id=tt><code>tt</code></dfn><dd>
+
+    <p>Use appropriate elements or CSS instead.</p>
+
+    <p>Where the <code id=non-conforming-features:tt><a href=#tt>tt</a></code> element would have been used for marking up keyboard input,
+    consider the <code id=non-conforming-features:the-kbd-element><a href=#the-kbd-element>kbd</a></code> element; for variables, consider the <code id=non-conforming-features:the-var-element><a href=#the-var-element>var</a></code> element; for
+    computer code, consider the <code id=non-conforming-features:the-code-element-3><a href=#the-code-element>code</a></code> element; and for computer output, consider the
+    <code id=non-conforming-features:the-samp-element><a href=#the-samp-element>samp</a></code> element.</p>
+
+    <p>Similarly, if the <code id=non-conforming-features:big><a href=#big>big</a></code> element is being used to denote a heading, consider using
+    the <code id=non-conforming-features:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> element; if it is being used for marking up important passages, consider the
+    <code id=non-conforming-features:the-strong-element><a href=#the-strong-element>strong</a></code> element; and if it is being used for highlighting text for reference
+    purposes, consider the <code id=non-conforming-features:the-mark-element><a href=#the-mark-element>mark</a></code> element.</p>
+
+    <p>See also the <a href=#usage-summary>text-level semantics usage summary</a> for more
+    suggestions with examples.</p>
+
+   </dl>
+
+  <hr>
+
+  <p>The following attributes are obsolete (though the elements are still part of the language), and
+  must not be used by authors:</p>
+
+  <dl><dt><dfn id=attr-a-charset><code>charset</code></dfn> on <code id=non-conforming-features:the-a-element><a href=#the-a-element>a</a></code> elements<dt><dfn id=attr-link-charset><code>charset</code></dfn> on <code id=non-conforming-features:the-link-element><a href=#the-link-element>link</a></code> elements<dd><p>Use an HTTP `<code id=non-conforming-features:content-type><a href=#content-type>Content-Type</a></code>` header on the linked resource instead.<dt><dfn id=attr-a-coords><code>coords</code></dfn> on <code id=non-conforming-features:the-a-element-2><a href=#the-a-element>a</a></code> elements<dt><dfn id=attr-a-shape><code>shape</code></dfn> on <code id=non-conforming-features:the-a-element-3><a href=#the-a-element>a</a></code> elements<dd><p>Use <code id=non-conforming-features:the-area-element><a href=#the-area-element>area</a></code> instead of <code id=non-conforming-features:the-a-element-4><a href=#the-a-element>a</a></code> for image maps.<dt><dfn id=attr-a-methods><code>methods</code></dfn> on <code id=non-conforming-features:the-a-element-5><a href=#the-a-element>a</a></code> elements<dt><dfn id=attr-link-methods><code>methods</code></dfn> on <code id=non-conforming-features:the-link-element-2><a href=#the-link-element>link</a></code> elements<dd><p>Use the HTTP OPTIONS feature instead.<dt><dfn id=attr-a-name><code>name</code></dfn> on <code id=non-conforming-features:the-a-element-6><a href=#the-a-element>a</a></code> elements (except as noted in the previous section)<dt><dfn id=attr-embed-name><code>name</code></dfn> on <code id=non-conforming-features:the-embed-element-3><a href=#the-embed-element>embed</a></code> elements<dt><dfn id=attr-img-name><code>name</code></dfn> on <code id=non-conforming-features:the-img-element><a href=#the-img-element>img</a></code> elements<dt><dfn id=attr-option-name><code>name</code></dfn> on <code id=non-conforming-features:the-option-element><a href=#the-option-element>option</a></code> elements<dd><p>Use the <code id=non-conforming-features:the-id-attribute><a href=#the-id-attribute>id</a></code> attribute instead.<dt><dfn id=attr-a-rev><code>rev</code></dfn> on <code id=non-conforming-features:the-a-element-7><a href=#the-a-element>a</a></code> elements<dt><dfn id=attr-link-rev><code>rev</code></dfn> on <code id=non-conforming-features:the-link-element-3><a href=#the-link-element>link</a></code> elements<dd><p>Use the <code id=non-conforming-features:attr-hyperlink-rel><a href=#attr-hyperlink-rel>rel</a></code>
+   attribute instead, with an opposite term. (For example, instead of
+   <code>rev="made"</code>, use <code>rel="author"</code>.)<dt><dfn id=attr-a-urn><code>urn</code></dfn> on <code id=non-conforming-features:the-a-element-8><a href=#the-a-element>a</a></code> elements<dt><dfn id=attr-link-urn><code>urn</code></dfn> on <code id=non-conforming-features:the-link-element-4><a href=#the-link-element>link</a></code> elements<dd><p>Specify the preferred persistent identifier using the <code id=non-conforming-features:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> attribute instead.<dt><dfn id=attr-form-accept><code>accept</code></dfn> on <code id=non-conforming-features:the-form-element-2><a href=#the-form-element>form</a></code> elements<dd><p>Use the <code id=non-conforming-features:attr-input-accept><a href=#attr-input-accept>accept</a></code> attribute directly on the <code id=non-conforming-features:the-input-element><a href=#the-input-element>input</a></code> elements instead.<dt><dfn id=attr-area-hreflang><code>hreflang</code></dfn> on <code id=non-conforming-features:the-area-element-2><a href=#the-area-element>area</a></code>
+   elements<dt><dfn id=attr-area-type><code>type</code></dfn> on <code id=non-conforming-features:the-area-element-3><a href=#the-area-element>area</a></code> elements<dd><p>These attributes do not do anything useful, and for historical reasons there are no
+   corresponding IDL attributes on <code id=non-conforming-features:the-area-element-4><a href=#the-area-element>area</a></code> elements. Omit them altogether.<dt><dfn id=attr-area-nohref><code>nohref</code></dfn> on <code id=non-conforming-features:the-area-element-5><a href=#the-area-element>area</a></code> elements<dd><p>Omitting the <code id=non-conforming-features:attr-hyperlink-href-2><a href=#attr-hyperlink-href>href</a></code>
+   attribute is sufficient; the <code id=non-conforming-features:attr-area-nohref><a href=#attr-area-nohref>nohref</a></code> attribute is
+   unnecessary. Omit it altogether.<dt><dfn id=attr-head-profile><code>profile</code></dfn> on <code id=non-conforming-features:the-head-element><a href=#the-head-element>head</a></code> elements<dd><p>When used for declaring which <code id=non-conforming-features:the-meta-element><a href=#the-meta-element>meta</a></code> terms are
+   used in the document, unnecessary; omit it altogether, and <a href=#concept-meta-extensions id=non-conforming-features:concept-meta-extensions>register the names</a>.<dd><p>When used for triggering specific user agent behaviors: use
+   a <code id=non-conforming-features:the-link-element-5><a href=#the-link-element>link</a></code> element instead.<dt><dfn id=attr-html-version><code>version</code></dfn> on <code id=non-conforming-features:the-html-element><a href=#the-html-element>html</a></code> elements<dd><p>Unnecessary. Omit it altogether.<dt><dfn id=attr-input-ismap><code>ismap</code></dfn> on <code id=non-conforming-features:the-input-element-2><a href=#the-input-element>input</a></code> elements<dd><p>Unnecessary. Omit it altogether. All <code id=non-conforming-features:the-input-element-3><a href=#the-input-element>input</a></code> elements with a <code id=non-conforming-features:attr-input-type><a href=#attr-input-type>type</a></code> attribute in the <a href="#image-button-state-(type=image)" id="non-conforming-features:image-button-state-(type=image)">Image
+   Button</a> state are processed as server-side image maps.<dt><dfn id=attr-input-usemap><code>usemap</code></dfn> on <code id=non-conforming-features:the-input-element-4><a href=#the-input-element>input</a></code> elements<dd><p>Use <code id=non-conforming-features:the-img-element-2><a href=#the-img-element>img</a></code> instead of <code id=non-conforming-features:the-input-element-5><a href=#the-input-element>input</a></code> for image maps.<dt><dfn id=attr-iframe-longdesc><code>longdesc</code></dfn> on <code id=non-conforming-features:the-iframe-element-2><a href=#the-iframe-element>iframe</a></code> elements<dt><dfn id=attr-img-longdesc><code>longdesc</code></dfn> on <code id=non-conforming-features:the-img-element-3><a href=#the-img-element>img</a></code> elements<dd><p>Use a regular <code id=non-conforming-features:the-a-element-9><a href=#the-a-element>a</a></code> element to link to the
+   description, or (in the case of images) use an <a href=#image-map id=non-conforming-features:image-map>image
+   map</a> to provide a link from the image to the image's
+   description.<dt><dfn id=attr-img-lowsrc><code>lowsrc</code></dfn> on <code id=non-conforming-features:the-img-element-4><a href=#the-img-element>img</a></code> elements<dd><p>Use a progressive JPEG image (given in the <code id=non-conforming-features:attr-img-src><a href=#attr-img-src>src</a></code> attribute),
+   instead of using two separate images.<dt><dfn id=attr-link-target><code>target</code></dfn> on <code id=non-conforming-features:the-link-element-6><a href=#the-link-element>link</a></code> elements<dd><p>Unnecessary. Omit it altogether.<dt><dfn id=attr-meta-scheme><code>scheme</code></dfn> on <code id=non-conforming-features:the-meta-element-2><a href=#the-meta-element>meta</a></code> elements<dd><p>Use only one scheme per field, or make the scheme declaration part of the value.<dt><dfn id=attr-object-archive><code>archive</code></dfn> on <code id=non-conforming-features:the-object-element-3><a href=#the-object-element>object</a></code> elements<dt><dfn id=attr-object-classid><code>classid</code></dfn> on <code id=non-conforming-features:the-object-element-4><a href=#the-object-element>object</a></code> elements<dt><dfn id=attr-object-code><code>code</code></dfn> on <code id=non-conforming-features:the-object-element-5><a href=#the-object-element>object</a></code> elements<dt><dfn id=attr-object-codebase><code>codebase</code></dfn> on <code id=non-conforming-features:the-object-element-6><a href=#the-object-element>object</a></code> elements<dt><dfn id=attr-object-codetype><code>codetype</code></dfn> on <code id=non-conforming-features:the-object-element-7><a href=#the-object-element>object</a></code> elements<dd><p>Use the <code id=non-conforming-features:attr-object-data><a href=#attr-object-data>data</a></code> and <code id=non-conforming-features:attr-object-type><a href=#attr-object-type>type</a></code> attributes to invoke <a href=#plugin id=non-conforming-features:plugin>plugins</a>. To set parameters with these names
+   in particular, the <code id=non-conforming-features:the-param-element><a href=#the-param-element>param</a></code> element can be used.<dt><dfn id=attr-object-declare><code>declare</code></dfn> on <code id=non-conforming-features:the-object-element-8><a href=#the-object-element>object</a></code> elements<dd><p>Repeat the <code id=non-conforming-features:the-object-element-9><a href=#the-object-element>object</a></code> element completely each time the resource is to be reused.<dt><dfn id=attr-object-standby><code>standby</code></dfn> on <code id=non-conforming-features:the-object-element-10><a href=#the-object-element>object</a></code> elements<dd><p>Optimize the linked resource so that it loads quickly or, at least, incrementally.<dt><dfn id=attr-param-type><code>type</code></dfn> on <code id=non-conforming-features:the-param-element-2><a href=#the-param-element>param</a></code> elements<dt><dfn id=attr-param-valuetype><code>valuetype</code></dfn> on <code id=non-conforming-features:the-param-element-3><a href=#the-param-element>param</a></code> elements<dd><p>Use the <code id=non-conforming-features:attr-param-name><a href=#attr-param-name>name</a></code> and <code id=non-conforming-features:attr-param-value><a href=#attr-param-value>value</a></code> attributes without declaring
+   value types.<dt><dfn id=attr-script-language><code>language</code></dfn> on <code id=non-conforming-features:the-script-element><a href=#the-script-element>script</a></code> elements (except as noted in the previous section)<dd><p>Use the <code id=non-conforming-features:attr-script-type><a href=#attr-script-type>type</a></code> attribute
+   instead.<dt><dfn id=attr-script-event><code>event</code></dfn> on <code id=non-conforming-features:the-script-element-2><a href=#the-script-element>script</a></code> elements<dt><dfn id=attr-script-for><code>for</code></dfn> on <code id=non-conforming-features:the-script-element-3><a href=#the-script-element>script</a></code> elements<dd><p>Use DOM events mechanisms to register event listeners. <a href=#refsDOM>[DOM]</a><dt><dfn id=attr-table-datapagesize><code>datapagesize</code></dfn> on <code id=non-conforming-features:the-table-element><a href=#the-table-element>table</a></code> elements<dd><p>Unnecessary. Omit it altogether.<dt><dfn id=attr-table-summary><code>summary</code></dfn> on <code id=non-conforming-features:the-table-element-2><a href=#the-table-element>table</a></code> elements<dd><p>Use one of the <a href=#table-descriptions-techniques>techniques for describing
+   tables</a> given in the <code id=non-conforming-features:the-table-element-3><a href=#the-table-element>table</a></code> section instead.<dt><dfn id=attr-td-abbr><code>abbr</code></dfn> on <code id=non-conforming-features:the-td-element><a href=#the-td-element>td</a></code> elements<dd><p>Use text that begins in an unambiguous and terse manner, and include any more elaborate text after that. The <code id=non-conforming-features:attr-title><a href=#attr-title>title</a></code> attribute can also be useful in including more detailed text, so that the cell's contents can be made terse. If it's a heading, use <code id=non-conforming-features:the-th-element><a href=#the-th-element>th</a></code> (which has an <code id=non-conforming-features:attr-th-abbr><a href=#attr-th-abbr>abbr</a></code> attribute).</p>
+
+   <dt><dfn id=attr-tdth-axis><code>axis</code></dfn> on <code id=non-conforming-features:the-td-element-2><a href=#the-td-element>td</a></code> and <code id=non-conforming-features:the-th-element-2><a href=#the-th-element>th</a></code> elements<dd><p>Use the <code id=non-conforming-features:attr-th-scope><a href=#attr-th-scope>scope</a></code> attribute on the relevant <code id=non-conforming-features:the-th-element-3><a href=#the-th-element>th</a></code>.</p>
+
+   <dt><dfn id=attr-td-scope><code>scope</code></dfn> on <code id=non-conforming-features:the-td-element-3><a href=#the-td-element>td</a></code> elements<dd><p>Use <code id=non-conforming-features:the-th-element-4><a href=#the-th-element>th</a></code> elements for heading cells.</p>
+
+   <dt><dfn id=attr-datasrc><code>datasrc</code></dfn> on <code id=non-conforming-features:the-a-element-10><a href=#the-a-element>a</a></code>, <code id=non-conforming-features:the-applet-element-2><a href=#the-applet-element>applet</a></code>, <code id=non-conforming-features:the-button-element><a href=#the-button-element>button</a></code>, <code id=non-conforming-features:the-div-element><a href=#the-div-element>div</a></code>, <code id=non-conforming-features:frame-2><a href=#frame>frame</a></code>, <code id=non-conforming-features:the-iframe-element-3><a href=#the-iframe-element>iframe</a></code>, <code id=non-conforming-features:the-img-element-5><a href=#the-img-element>img</a></code>, <code id=non-conforming-features:the-input-element-6><a href=#the-input-element>input</a></code>, <code id=non-conforming-features:the-label-element><a href=#the-label-element>label</a></code>, <code id=non-conforming-features:the-legend-element><a href=#the-legend-element>legend</a></code>, <code id=non-conforming-features:the-marquee-element-2><a href=#the-marquee-element>marquee</a></code>, <code id=non-conforming-features:the-object-element-11><a href=#the-object-element>object</a></code>, <code id=non-conforming-features:the-option-element-2><a href=#the-option-element>option</a></code>, <code id=non-conforming-features:the-select-element><a href=#the-select-element>select</a></code>, <code id=non-conforming-features:the-span-element><a href=#the-span-element>span</a></code>, <code id=non-conforming-features:the-table-element-4><a href=#the-table-element>table</a></code>, and <code id=non-conforming-features:the-textarea-element><a href=#the-textarea-element>textarea</a></code> elements<dt><dfn id=attr-datafld><code>datafld</code></dfn> on <code id=non-conforming-features:the-a-element-11><a href=#the-a-element>a</a></code>, <code id=non-conforming-features:the-applet-element-3><a href=#the-applet-element>applet</a></code>, <code id=non-conforming-features:the-button-element-2><a href=#the-button-element>button</a></code>, <code id=non-conforming-features:the-div-element-2><a href=#the-div-element>div</a></code>, <code id=non-conforming-features:the-fieldset-element><a href=#the-fieldset-element>fieldset</a></code>, <code id=non-conforming-features:frame-3><a href=#frame>frame</a></code>, <code id=non-conforming-features:the-iframe-element-4><a href=#the-iframe-element>iframe</a></code>, <code id=non-conforming-features:the-img-element-6><a href=#the-img-element>img</a></code>, <code id=non-conforming-features:the-input-element-7><a href=#the-input-element>input</a></code>, <code id=non-conforming-features:the-label-element-2><a href=#the-label-element>label</a></code>, <code id=non-conforming-features:the-legend-element-2><a href=#the-legend-element>legend</a></code>, <code id=non-conforming-features:the-marquee-element-3><a href=#the-marquee-element>marquee</a></code>, <code id=non-conforming-features:the-object-element-12><a href=#the-object-element>object</a></code>, <code id=non-conforming-features:the-param-element-4><a href=#the-param-element>param</a></code>, <code id=non-conforming-features:the-select-element-2><a href=#the-select-element>select</a></code>, <code id=non-conforming-features:the-span-element-2><a href=#the-span-element>span</a></code>, and <code id=non-conforming-features:the-textarea-element-2><a href=#the-textarea-element>textarea</a></code> elements<dt><dfn id=attr-dataformatas><code>dataformatas</code></dfn> on <code id=non-conforming-features:the-button-element-3><a href=#the-button-element>button</a></code>, <code id=non-conforming-features:the-div-element-3><a href=#the-div-element>div</a></code>, <code id=non-conforming-features:the-input-element-8><a href=#the-input-element>input</a></code>, <code id=non-conforming-features:the-label-element-3><a href=#the-label-element>label</a></code>, <code id=non-conforming-features:the-legend-element-3><a href=#the-legend-element>legend</a></code>, <code id=non-conforming-features:the-marquee-element-4><a href=#the-marquee-element>marquee</a></code>, <code id=non-conforming-features:the-object-element-13><a href=#the-object-element>object</a></code>, <code id=non-conforming-features:the-option-element-3><a href=#the-option-element>option</a></code>, <code id=non-conforming-features:the-select-element-3><a href=#the-select-element>select</a></code>, <code id=non-conforming-features:the-span-element-3><a href=#the-span-element>span</a></code>, and <code id=non-conforming-features:the-table-element-5><a href=#the-table-element>table</a></code> elements<dd><p>Use script and a mechanism such as <code id=non-conforming-features:xmlhttprequest><a data-x-internal=xmlhttprequest href=https://xhr.spec.whatwg.org/#xmlhttprequest>XMLHttpRequest</a></code> to populate the page dynamically. <a href=#refsXHR>[XHR]</a><dt><dfn id=attr-body-alink><code>alink</code></dfn> on <code id=non-conforming-features:the-body-element><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-body-bgcolor><code>bgcolor</code></dfn> on <code id=non-conforming-features:the-body-element-2><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-body-bottommargin><code>bottommargin</code></dfn> on <code id=non-conforming-features:the-body-element-3><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-body-leftmargin><code>leftmargin</code></dfn> on <code id=non-conforming-features:the-body-element-4><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-body-link><code>link</code></dfn> on <code id=non-conforming-features:the-body-element-5><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-body-marginheight><code>marginheight</code></dfn> on <code id=non-conforming-features:the-body-element-6><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-body-marginwidth><code>marginwidth</code></dfn> on <code id=non-conforming-features:the-body-element-7><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-body-rightmargin><code>rightmargin</code></dfn> on <code id=non-conforming-features:the-body-element-8><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-body-text><code>text</code></dfn> on <code id=non-conforming-features:the-body-element-9><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-body-topmargin><code>margintop</code></dfn> on <code id=non-conforming-features:the-body-element-10><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-body-vlink><code>vlink</code></dfn> on <code id=non-conforming-features:the-body-element-11><a href=#the-body-element>body</a></code> elements<dt><dfn id=attr-br-clear><code>clear</code></dfn> on <code id=non-conforming-features:the-br-element><a href=#the-br-element>br</a></code> elements<dt><dfn id=attr-caption-align><code>align</code></dfn> on <code id=non-conforming-features:the-caption-element><a href=#the-caption-element>caption</a></code> elements<dt><dfn id=attr-col-align><code>align</code></dfn> on <code id=non-conforming-features:the-col-element><a href=#the-col-element>col</a></code> elements<dt><dfn id=attr-col-char><code>char</code></dfn> on <code id=non-conforming-features:the-col-element-2><a href=#the-col-element>col</a></code> elements<dt><dfn id=attr-col-charoff><code>charoff</code></dfn> on <code id=non-conforming-features:the-col-element-3><a href=#the-col-element>col</a></code> elements<dt><dfn id=attr-col-valign><code>valign</code></dfn> on <code id=non-conforming-features:the-col-element-4><a href=#the-col-element>col</a></code> elements<dt><dfn id=attr-col-width><code>width</code></dfn> on <code id=non-conforming-features:the-col-element-5><a href=#the-col-element>col</a></code> elements<dt><dfn id=attr-div-align><code>align</code></dfn> on <code id=non-conforming-features:the-div-element-4><a href=#the-div-element>div</a></code> elements<dt><dfn id=attr-dl-compact><code>compact</code></dfn> on <code id=non-conforming-features:the-dl-element><a href=#the-dl-element>dl</a></code> elements<dt><dfn id=attr-embed-align><code>align</code></dfn> on <code id=non-conforming-features:the-embed-element-4><a href=#the-embed-element>embed</a></code> elements<dt><dfn id=attr-embed-hspace><code>hspace</code></dfn> on <code id=non-conforming-features:the-embed-element-5><a href=#the-embed-element>embed</a></code> elements<dt><dfn id=attr-embed-vspace><code>vspace</code></dfn> on <code id=non-conforming-features:the-embed-element-6><a href=#the-embed-element>embed</a></code> elements<dt><dfn id=attr-hr-align><code>align</code></dfn> on <code id=non-conforming-features:the-hr-element><a href=#the-hr-element>hr</a></code> elements<dt><dfn id=attr-hr-color><code>color</code></dfn> on <code id=non-conforming-features:the-hr-element-2><a href=#the-hr-element>hr</a></code> elements<dt><dfn id=attr-hr-noshade><code>noshade</code></dfn> on <code id=non-conforming-features:the-hr-element-3><a href=#the-hr-element>hr</a></code> elements<dt><dfn id=attr-hr-size><code>size</code></dfn> on <code id=non-conforming-features:the-hr-element-4><a href=#the-hr-element>hr</a></code> elements<dt><dfn id=attr-hr-width><code>width</code></dfn> on <code id=non-conforming-features:the-hr-element-5><a href=#the-hr-element>hr</a></code> elements<dt><dfn id=attr-hx-align><code>align</code></dfn> on <code id=non-conforming-features:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>—<code id=non-conforming-features:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-3><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> elements<dt><dfn id=attr-iframe-align><code>align</code></dfn> on <code id=non-conforming-features:the-iframe-element-5><a href=#the-iframe-element>iframe</a></code> elements<dt><dfn id=attr-iframe-allowtransparency><code>allowtransparency</code></dfn> on <code id=non-conforming-features:the-iframe-element-6><a href=#the-iframe-element>iframe</a></code> elements<dt><dfn id=attr-iframe-frameborder><code>frameborder</code></dfn> on <code id=non-conforming-features:the-iframe-element-7><a href=#the-iframe-element>iframe</a></code> elements<dt><dfn id=attr-iframe-framespacing><code>framespacing</code></dfn> on <code id=non-conforming-features:the-iframe-element-8><a href=#the-iframe-element>iframe</a></code> elements<dt><dfn id=attr-iframe-hspace><code>hspace</code></dfn> on <code id=non-conforming-features:the-iframe-element-9><a href=#the-iframe-element>iframe</a></code> elements<dt><dfn id=attr-iframe-marginheight><code>marginheight</code></dfn> on <code id=non-conforming-features:the-iframe-element-10><a href=#the-iframe-element>iframe</a></code> elements<dt><dfn id=attr-iframe-marginwidth><code>marginwidth</code></dfn> on <code id=non-conforming-features:the-iframe-element-11><a href=#the-iframe-element>iframe</a></code> elements<dt><dfn id=attr-iframe-scrolling><code>scrolling</code></dfn> on <code id=non-conforming-features:the-iframe-element-12><a href=#the-iframe-element>iframe</a></code> elements<dt><dfn id=attr-iframe-vspace><code>vspace</code></dfn> on <code id=non-conforming-features:the-iframe-element-13><a href=#the-iframe-element>iframe</a></code> elements<dt><dfn id=attr-input-align><code>align</code></dfn> on <code id=non-conforming-features:the-input-element-9><a href=#the-input-element>input</a></code> elements<dt><dfn id=attr-input-border><code>border</code></dfn> on <code id=non-conforming-features:the-input-element-10><a href=#the-input-element>input</a></code> elements<dt><dfn id=attr-input-hspace><code>hspace</code></dfn> on <code id=non-conforming-features:the-input-element-11><a href=#the-input-element>input</a></code> elements<dt><dfn id=attr-input-vspace><code>vspace</code></dfn> on <code id=non-conforming-features:the-input-element-12><a href=#the-input-element>input</a></code> elements<dt><dfn id=attr-img-align><code>align</code></dfn> on <code id=non-conforming-features:the-img-element-7><a href=#the-img-element>img</a></code> elements<dt><dfn id=attr-img-border><code>border</code></dfn> on <code id=non-conforming-features:the-img-element-8><a href=#the-img-element>img</a></code> elements (except as noted in the previous section)<dt><dfn id=attr-img-hspace><code>hspace</code></dfn> on <code id=non-conforming-features:the-img-element-9><a href=#the-img-element>img</a></code> elements<dt><dfn id=attr-img-vspace><code>vspace</code></dfn> on <code id=non-conforming-features:the-img-element-10><a href=#the-img-element>img</a></code> elements<dt><dfn id=attr-legend-align><code>align</code></dfn> on <code id=non-conforming-features:the-legend-element-4><a href=#the-legend-element>legend</a></code> elements<dt><dfn id=attr-li-type><code>type</code></dfn> on <code id=non-conforming-features:the-li-element><a href=#the-li-element>li</a></code> elements<dt><dfn id=attr-menu-compact><code>compact</code></dfn> on <code id=non-conforming-features:the-menu-element><a href=#the-menu-element>menu</a></code> elements<dt><dfn id=attr-object-align><code>align</code></dfn> on <code id=non-conforming-features:the-object-element-14><a href=#the-object-element>object</a></code> elements<dt><dfn id=attr-object-border><code>border</code></dfn> on <code id=non-conforming-features:the-object-element-15><a href=#the-object-element>object</a></code> elements<dt><dfn id=attr-object-hspace><code>hspace</code></dfn> on <code id=non-conforming-features:the-object-element-16><a href=#the-object-element>object</a></code> elements<dt><dfn id=attr-object-vspace><code>vspace</code></dfn> on <code id=non-conforming-features:the-object-element-17><a href=#the-object-element>object</a></code> elements<dt><dfn id=attr-ol-compact><code>compact</code></dfn> on <code id=non-conforming-features:the-ol-element><a href=#the-ol-element>ol</a></code> elements<dt><dfn id=attr-p-align><code>align</code></dfn> on <code id=non-conforming-features:the-p-element><a href=#the-p-element>p</a></code> elements<dt><dfn id=attr-pre-width><code>width</code></dfn> on <code id=non-conforming-features:the-pre-element-3><a href=#the-pre-element>pre</a></code> elements<dt><dfn id=attr-table-align><code>align</code></dfn> on <code id=non-conforming-features:the-table-element-6><a href=#the-table-element>table</a></code> elements<dt><dfn id=attr-table-bgcolor><code>bgcolor</code></dfn> on <code id=non-conforming-features:the-table-element-7><a href=#the-table-element>table</a></code> elements<dt><dfn id=attr-table-border><code>border</code></dfn> on <code id=non-conforming-features:the-table-element-8><a href=#the-table-element>table</a></code> elements<dt><dfn id=attr-table-bordercolor><code>bordercolor</code></dfn> on <code id=non-conforming-features:the-table-element-9><a href=#the-table-element>table</a></code> elements<dt><dfn id=attr-table-cellpadding><code>cellpadding</code></dfn> on <code id=non-conforming-features:the-table-element-10><a href=#the-table-element>table</a></code> elements<dt><dfn id=attr-table-cellspacing><code>cellspacing</code></dfn> on <code id=non-conforming-features:the-table-element-11><a href=#the-table-element>table</a></code> elements<dt><dfn id=attr-table-frame><code>frame</code></dfn> on <code id=non-conforming-features:the-table-element-12><a href=#the-table-element>table</a></code> elements<dt><dfn id=attr-table-height><code>height</code></dfn> on <code id=non-conforming-features:the-table-element-13><a href=#the-table-element>table</a></code> elements<dt><dfn id=attr-table-rules><code>rules</code></dfn> on <code id=non-conforming-features:the-table-element-14><a href=#the-table-element>table</a></code> elements<dt><dfn id=attr-table-width><code>width</code></dfn> on <code id=non-conforming-features:the-table-element-15><a href=#the-table-element>table</a></code> elements<dt><dfn id=attr-tbody-align><code>align</code></dfn> on <code id=non-conforming-features:the-tbody-element><a href=#the-tbody-element>tbody</a></code>, <code id=non-conforming-features:the-thead-element><a href=#the-thead-element>thead</a></code>, and <code id=non-conforming-features:the-tfoot-element><a href=#the-tfoot-element>tfoot</a></code> elements<dt><dfn id=attr-tbody-char><code>char</code></dfn> on <code id=non-conforming-features:the-tbody-element-2><a href=#the-tbody-element>tbody</a></code>, <code id=non-conforming-features:the-thead-element-2><a href=#the-thead-element>thead</a></code>, and <code id=non-conforming-features:the-tfoot-element-2><a href=#the-tfoot-element>tfoot</a></code> elements<dt><dfn id=attr-tbody-charoff><code>charoff</code></dfn> on <code id=non-conforming-features:the-tbody-element-3><a href=#the-tbody-element>tbody</a></code>, <code id=non-conforming-features:the-thead-element-3><a href=#the-thead-element>thead</a></code>, and <code id=non-conforming-features:the-tfoot-element-3><a href=#the-tfoot-element>tfoot</a></code> elements<dt><dfn id=attr-tbody-valign><code>valign</code></dfn> on <code id=non-conforming-features:the-tbody-element-4><a href=#the-tbody-element>tbody</a></code>, <code id=non-conforming-features:the-thead-element-4><a href=#the-thead-element>thead</a></code>, and <code id=non-conforming-features:the-tfoot-element-4><a href=#the-tfoot-element>tfoot</a></code> elements<dt><dfn id=attr-tdth-align><code>align</code></dfn> on <code id=non-conforming-features:the-td-element-4><a href=#the-td-element>td</a></code> and <code id=non-conforming-features:the-th-element-5><a href=#the-th-element>th</a></code> elements<dt><dfn id=attr-tdth-bgcolor><code>bgcolor</code></dfn> on <code id=non-conforming-features:the-td-element-5><a href=#the-td-element>td</a></code> and <code id=non-conforming-features:the-th-element-6><a href=#the-th-element>th</a></code> elements<dt><dfn id=attr-tdth-char><code>char</code></dfn> on <code id=non-conforming-features:the-td-element-6><a href=#the-td-element>td</a></code> and <code id=non-conforming-features:the-th-element-7><a href=#the-th-element>th</a></code> elements<dt><dfn id=attr-tdth-charoff><code>charoff</code></dfn> on <code id=non-conforming-features:the-td-element-7><a href=#the-td-element>td</a></code> and <code id=non-conforming-features:the-th-element-8><a href=#the-th-element>th</a></code> elements<dt><dfn id=attr-tdth-height><code>height</code></dfn> on <code id=non-conforming-features:the-td-element-8><a href=#the-td-element>td</a></code> and <code id=non-conforming-features:the-th-element-9><a href=#the-th-element>th</a></code> elements<dt><dfn id=attr-tdth-nowrap><code>nowrap</code></dfn> on <code id=non-conforming-features:the-td-element-9><a href=#the-td-element>td</a></code> and <code id=non-conforming-features:the-th-element-10><a href=#the-th-element>th</a></code> elements<dt><dfn id=attr-tdth-valign><code>valign</code></dfn> on <code id=non-conforming-features:the-td-element-10><a href=#the-td-element>td</a></code> and <code id=non-conforming-features:the-th-element-11><a href=#the-th-element>th</a></code> elements<dt><dfn id=attr-tdth-width><code>width</code></dfn> on <code id=non-conforming-features:the-td-element-11><a href=#the-td-element>td</a></code> and <code id=non-conforming-features:the-th-element-12><a href=#the-th-element>th</a></code> elements<dt><dfn id=attr-tr-align><code>align</code></dfn> on <code id=non-conforming-features:the-tr-element><a href=#the-tr-element>tr</a></code> elements<dt><dfn id=attr-tr-bgcolor><code>bgcolor</code></dfn> on <code id=non-conforming-features:the-tr-element-2><a href=#the-tr-element>tr</a></code> elements<dt><dfn id=attr-tr-char><code>char</code></dfn> on <code id=non-conforming-features:the-tr-element-3><a href=#the-tr-element>tr</a></code> elements<dt><dfn id=attr-tr-charoff><code>charoff</code></dfn> on <code id=non-conforming-features:the-tr-element-4><a href=#the-tr-element>tr</a></code> elements<dt><dfn id=attr-tr-height><code>height</code></dfn> on <code id=non-conforming-features:the-tr-element-5><a href=#the-tr-element>tr</a></code> elements<dt><dfn id=attr-tr-valign><code>valign</code></dfn> on <code id=non-conforming-features:the-tr-element-6><a href=#the-tr-element>tr</a></code> elements<dt><dfn id=attr-ul-compact><code>compact</code></dfn> on <code id=non-conforming-features:the-ul-element-2><a href=#the-ul-element>ul</a></code> elements<dt><dfn id=attr-ul-type><code>type</code></dfn> on <code id=non-conforming-features:the-ul-element-3><a href=#the-ul-element>ul</a></code> elements<dt><dfn id=attr-background><code>background</code></dfn> on <code id=non-conforming-features:the-body-element-12><a href=#the-body-element>body</a></code>, <code id=non-conforming-features:the-table-element-16><a href=#the-table-element>table</a></code>, <code id=non-conforming-features:the-thead-element-5><a href=#the-thead-element>thead</a></code>, <code id=non-conforming-features:the-tbody-element-5><a href=#the-tbody-element>tbody</a></code>, <code id=non-conforming-features:the-tfoot-element-5><a href=#the-tfoot-element>tfoot</a></code>, <code id=non-conforming-features:the-tr-element-7><a href=#the-tr-element>tr</a></code>, <code id=non-conforming-features:the-td-element-12><a href=#the-td-element>td</a></code>, and <code id=non-conforming-features:the-th-element-13><a href=#the-th-element>th</a></code> elements<dd><p>Use CSS instead.</dl>
+
+
+  
+
+  <h3 id=requirements-for-implementations>15.3 Requirements for implementations<a href=#requirements-for-implementations class=self-link></a></h3>
+
+  <h4 id=the-applet-element data-dfn-type=element data-lt=applet>15.3.1 The <dfn><code>applet</code></dfn> element<a href=#the-applet-element class=self-link></a></h4>
+
+  <p class=critical>This feature is in the process of being removed from the Web platform. (This
+  is a long process that takes many years.) Using the <code id=the-applet-element:the-applet-element><a href=#the-applet-element>applet</a></code> element at this time is
+  highly discouraged. Follow progress toward complete removal in <a href=https://github.com/whatwg/html/issues/454>issue #454</a>.</p>
+
+  <p>The <code id=the-applet-element:the-applet-element-2><a href=#the-applet-element>applet</a></code> element is a Java-specific variant of the <code id=the-applet-element:the-embed-element><a href=#the-embed-element>embed</a></code> element.
+  The <code id=the-applet-element:the-applet-element-3><a href=#the-applet-element>applet</a></code> element is now obsoleted so that all extension frameworks (Java, .NET,
+  Flash, etc) are handled in a consistent manner.</p>
+
+  <p>When the element matches any of the following conditions, it <a href=#represents id=the-applet-element:represents>represents</a> its
+  contents:</p>
+
+  <ul class=brief><li>The element is still in the <a href=#stack-of-open-elements id=the-applet-element:stack-of-open-elements>stack of open elements</a> of an <a href=#html-parser id=the-applet-element:html-parser>HTML
+   parser</a> or <a href=#xml-parser id=the-applet-element:xml-parser>XML parser</a>.<li>The element is not <a id=the-applet-element:in-a-document href=https://dom.spec.whatwg.org/#in-a-document data-x-internal=in-a-document>in a document</a>.<li>The element's <a id=the-applet-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is not <a href=#fully-active id=the-applet-element:fully-active>fully active</a>.<li id=sandboxPluginApplet>The element's <a id=the-applet-element:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <a href=#active-sandboxing-flag-set id=the-applet-element:active-sandboxing-flag-set>active sandboxing flag
+   set</a> has its <a href=#sandboxed-plugins-browsing-context-flag id=the-applet-element:sandboxed-plugins-browsing-context-flag>sandboxed plugins browsing context flag</a> set.<li>The element has an ancestor <a href=#media-element id=the-applet-element:media-element>media element</a>.<li>The element has an ancestor <code id=the-applet-element:the-object-element><a href=#the-object-element>object</a></code> element that is <em>not</em> showing its
+   <a href=#fallback-content id=the-applet-element:fallback-content>fallback content</a>.<li>No Java Language runtime <a href=#plugin id=the-applet-element:plugin>plugin</a> is available.<li>A Java runtime <a href=#plugin id=the-applet-element:plugin-2>plugin</a> is available but it is disabled.<li>The <a id=the-applet-element:should-element-be-blocked-a-priori-by-content-security-policy href=https://w3c.github.io/webappsec-csp/#should-plugin-element-be-blocked-a-priori-by-content-security-policy data-x-internal=should-element-be-blocked-a-priori-by-content-security-policy>Should element be blocked <i lang=la>a priori</i> by Content Security
+   Policy?</a> algorithm returns "<code>Blocked</code>" when executed on the
+   element. <a href=#refsCSP>[CSP]</a></ul>
+
+  
+
+  <p>Otherwise, the user agent should instantiate a Java Language runtime <a href=#plugin id=the-applet-element:plugin-3>plugin</a>, and
+  should pass the names and values of all the attributes on the element, in the order they were
+  added to the element, with the attributes added by the parser being ordered in source order, and
+  then a parameter named "PARAM" whose value is null, and then all the names and values of <a href=#concept-param-parameter id=the-applet-element:concept-param-parameter>parameters</a> given by <code id=the-applet-element:the-param-element><a href=#the-param-element>param</a></code> elements that are
+  children of the <code id=the-applet-element:the-applet-element-4><a href=#the-applet-element>applet</a></code> element, in <a id=the-applet-element:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>, to the
+  <a href=#plugin id=the-applet-element:plugin-4>plugin</a> used. If the <a href=#plugin id=the-applet-element:plugin-5>plugin</a> supports a scriptable interface, the
+  <code id=the-applet-element:htmlappletelement><a href=#htmlappletelement>HTMLAppletElement</a></code> object representing the element should expose that interface. The
+  <code id=the-applet-element:the-applet-element-5><a href=#the-applet-element>applet</a></code> element <a href=#represents id=the-applet-element:represents-2>represents</a> the <a href=#plugin id=the-applet-element:plugin-6>plugin</a>.</p>
+
+  
+
+  <p class=note>The <code id=the-applet-element:the-applet-element-6><a href=#the-applet-element>applet</a></code> element is unaffected by the CSS <a id="the-applet-element:'display'" href=https://drafts.csswg.org/css2/visuren.html#display-prop data-x-internal="'display'">'display'</a>
+  property. The Java Language runtime is instantiated even if the element is hidden with a
+  'display:none' CSS style.</p>
+
+  <p>The <code id=the-applet-element:the-applet-element-7><a href=#the-applet-element>applet</a></code> element must implement the <code id=the-applet-element:htmlappletelement-2><a href=#htmlappletelement>HTMLAppletElement</a></code>
+  interface.</p>
+
+  <pre class=idl>// Note: <a href=#customized-built-in-element-restrictions>intentionally</a> not [<a href=#htmlconstructor id=the-applet-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlappletelement>HTMLAppletElement</dfn> : <a href=#htmlelement id=the-applet-element:htmlelement>HTMLElement</a> {
+  attribute DOMString <a href=#dom-applet-align id=the-applet-element:dom-applet-align>align</a>;
+  attribute DOMString <a href=#dom-applet-alt id=the-applet-element:dom-applet-alt>alt</a>;
+  attribute DOMString <a href=#dom-applet-archive id=the-applet-element:dom-applet-archive>archive</a>;
+  attribute DOMString <a href=#dom-applet-code id=the-applet-element:dom-applet-code>code</a>;
+  attribute USVString <a href=#dom-applet-codebase id=the-applet-element:dom-applet-codebase>codeBase</a>;
+  attribute DOMString <a href=#dom-applet-height id=the-applet-element:dom-applet-height>height</a>;
+  attribute unsigned long <a href=#dom-applet-hspace id=the-applet-element:dom-applet-hspace>hspace</a>;
+  attribute DOMString <a href=#dom-applet-name id=the-applet-element:dom-applet-name>name</a>;
+  attribute USVString _<a href=#dom-applet-object id=the-applet-element:dom-applet-object>object</a>; // the underscore is not part of the identifier 
+  attribute unsigned long <a href=#dom-applet-vspace id=the-applet-element:dom-applet-vspace>vspace</a>;
+  attribute DOMString <a href=#dom-applet-width id=the-applet-element:dom-applet-width>width</a>;
+};</pre>
+
+  <p>The <dfn id=dom-applet-align><code>align</code></dfn>, <dfn id=dom-applet-alt><code>alt</code></dfn>, <dfn id=dom-applet-archive><code>archive</code></dfn>, <dfn id=dom-applet-code><code>code</code></dfn>, <dfn id=dom-applet-height><code>height</code></dfn>, <dfn id=dom-applet-hspace><code>hspace</code></dfn>, <dfn id=dom-applet-name><code>name</code></dfn>, <dfn id=dom-applet-object><code>object</code></dfn>, <dfn id=dom-applet-vspace><code>vspace</code></dfn>, and <dfn id=dom-applet-width><code>width</code></dfn> IDL attributes must <a href=#reflect id=the-applet-element:reflect>reflect</a> the
+  respective content attributes of the same name. For the purposes of reflection, the
+  <code id=the-applet-element:the-applet-element-8><a href=#the-applet-element>applet</a></code> element's <code>object</code> content
+  attribute is defined as containing a <a id=the-applet-element:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>.</p>
+
+  <p>The <dfn id=dom-applet-codebase><code>codeBase</code></dfn> IDL attribute must
+  <a href=#reflect id=the-applet-element:reflect-2>reflect</a> the <code>codebase</code> content
+  attribute, which for the purposes of reflection is defined as containing a <a id=the-applet-element:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>.</p>
+
+
+  <h4 id=the-marquee-element>15.3.2 The <dfn><code>marquee</code></dfn> element<a href=#the-marquee-element class=self-link></a></h4>
+
+  <p>The <code id=the-marquee-element:the-marquee-element><a href=#the-marquee-element>marquee</a></code> element is a presentational element that animates content. CSS
+  transitions and animations are a more appropriate mechanism. <a href=#refsCSSANIMATIONS>[CSSANIMATIONS]</a> <a href=#refsCSSTRANSITIONS>[CSSTRANSITIONS]</a></p>
+
+  <p>The <a href=#task-source id=the-marquee-element:task-source>task source</a> for tasks mentioned in this section is the <a href=#dom-manipulation-task-source id=the-marquee-element:dom-manipulation-task-source>DOM manipulation
+  task source</a>.</p>
+
+  <p>The <code id=the-marquee-element:the-marquee-element-2><a href=#the-marquee-element>marquee</a></code> element must implement the <code id=the-marquee-element:htmlmarqueeelement><a href=#htmlmarqueeelement>HTMLMarqueeElement</a></code>
+  interface.</p>
+
+  <pre class=idl>[<a href=#htmlconstructor id=the-marquee-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlmarqueeelement>HTMLMarqueeElement</dfn> : <a href=#htmlelement id=the-marquee-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-marquee-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-marquee-behavior id=the-marquee-element:dom-marquee-behavior>behavior</a>;
+  [<a href=#cereactions id=the-marquee-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-marquee-bgcolor id=the-marquee-element:dom-marquee-bgcolor>bgColor</a>;
+  [<a href=#cereactions id=the-marquee-element:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-marquee-direction id=the-marquee-element:dom-marquee-direction>direction</a>;
+  [<a href=#cereactions id=the-marquee-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-marquee-height id=the-marquee-element:dom-marquee-height>height</a>;
+  [<a href=#cereactions id=the-marquee-element:cereactions-5>CEReactions</a>] attribute unsigned long <a href=#dom-marquee-hspace id=the-marquee-element:dom-marquee-hspace>hspace</a>;
+  [<a href=#cereactions id=the-marquee-element:cereactions-6>CEReactions</a>] attribute long <a href=#dom-marquee-loop id=the-marquee-element:dom-marquee-loop>loop</a>;
+  [<a href=#cereactions id=the-marquee-element:cereactions-7>CEReactions</a>] attribute unsigned long <a href=#dom-marquee-scrollamount id=the-marquee-element:dom-marquee-scrollamount>scrollAmount</a>;
+  [<a href=#cereactions id=the-marquee-element:cereactions-8>CEReactions</a>] attribute unsigned long <a href=#dom-marquee-scrolldelay id=the-marquee-element:dom-marquee-scrolldelay>scrollDelay</a>;
+  [<a href=#cereactions id=the-marquee-element:cereactions-9>CEReactions</a>] attribute boolean <a href=#dom-marquee-truespeed id=the-marquee-element:dom-marquee-truespeed>trueSpeed</a>;
+  [<a href=#cereactions id=the-marquee-element:cereactions-10>CEReactions</a>] attribute unsigned long <a href=#dom-marquee-vspace id=the-marquee-element:dom-marquee-vspace>vspace</a>;
+  [<a href=#cereactions id=the-marquee-element:cereactions-11>CEReactions</a>] attribute DOMString <a href=#dom-marquee-width id=the-marquee-element:dom-marquee-width>width</a>;
+
+  attribute <a href=#eventhandler id=the-marquee-element:eventhandler>EventHandler</a> <a href=#handler-marquee-onbounce id=the-marquee-element:handler-marquee-onbounce>onbounce</a>;
+  attribute <a href=#eventhandler id=the-marquee-element:eventhandler-2>EventHandler</a> <a href=#handler-marquee-onfinish id=the-marquee-element:handler-marquee-onfinish>onfinish</a>;
+  attribute <a href=#eventhandler id=the-marquee-element:eventhandler-3>EventHandler</a> <a href=#handler-marquee-onstart id=the-marquee-element:handler-marquee-onstart>onstart</a>;
+
+  void <a href=#dom-marquee-start id=the-marquee-element:dom-marquee-start>start</a>();
+  void <a href=#dom-marquee-stop id=the-marquee-element:dom-marquee-stop>stop</a>();
+};</pre>
+
+  <p>A <code id=the-marquee-element:the-marquee-element-3><a href=#the-marquee-element>marquee</a></code> element can be <dfn id=concept-marquee-on>turned on</dfn> or <dfn id=concept-marquee-off>turned off</dfn>. When it is created, it is <a href=#concept-marquee-on id=the-marquee-element:concept-marquee-on>turned on</a>.</p>
+
+  <p>When the <dfn id=dom-marquee-start><code>start()</code></dfn> method is called, the
+  <code id=the-marquee-element:the-marquee-element-4><a href=#the-marquee-element>marquee</a></code> element must be <a href=#concept-marquee-on id=the-marquee-element:concept-marquee-on-2>turned on</a>.</p>
+
+  <p>When the <dfn id=dom-marquee-stop><code>stop()</code></dfn> method is called, the
+  <code id=the-marquee-element:the-marquee-element-5><a href=#the-marquee-element>marquee</a></code> element must be <a href=#concept-marquee-off id=the-marquee-element:concept-marquee-off>turned off</a>.</p>
+
+  <p>When a <code id=the-marquee-element:the-marquee-element-6><a href=#the-marquee-element>marquee</a></code> element is created, the user agent must <a href=#queue-a-task id=the-marquee-element:queue-a-task>queue a task</a>
+  to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-marquee-element:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code>start</code> at the element.</p>
+
+  <hr>
+
+  <p>The <dfn id=attr-marquee-behavior><code>behavior</code></dfn> content attribute on
+  <code id=the-marquee-element:the-marquee-element-7><a href=#the-marquee-element>marquee</a></code> elements is an <a href=#enumerated-attribute id=the-marquee-element:enumerated-attribute>enumerated attribute</a> with the following keywords
+  (all non-conforming):</p>
+
+  <table><thead><tr><th>Keyword
+     <th>State
+   <tbody><tr><td><code>scroll</code>
+     <td><dfn id=attr-marquee-behavior-scroll>scroll</dfn>
+    <tr><td><code>slide</code>
+     <td><dfn id=attr-marquee-behavior-slide>slide</dfn>
+    <tr><td><code>alternate</code>
+     <td><dfn id=attr-marquee-behavior-alternate>alternate</dfn>
+  </table>
+
+  <p>The <i id=the-marquee-element:missing-value-default><a href=#missing-value-default>missing value default</a></i> is the <a href=#attr-marquee-behavior-scroll id=the-marquee-element:attr-marquee-behavior-scroll>scroll</a> state.</p>
+
+  <hr>
+
+  <p>The <dfn id=attr-marquee-direction><code>direction</code></dfn> content attribute on
+  <code id=the-marquee-element:the-marquee-element-8><a href=#the-marquee-element>marquee</a></code> elements is an <a href=#enumerated-attribute id=the-marquee-element:enumerated-attribute-2>enumerated attribute</a> with the following keywords
+  (all non-conforming):</p>
+
+  <table><thead><tr><th>Keyword
+     <th>State
+   <tbody><tr><td><code>left</code>
+     <td><dfn id=attr-marquee-direction-left>left</dfn>
+    <tr><td><code>right</code>
+     <td><dfn id=attr-marquee-direction-right>right</dfn>
+    <tr><td><code>up</code>
+     <td><dfn id=attr-marquee-direction-up>up</dfn>
+    <tr><td><code>down</code>
+     <td><dfn id=attr-marquee-direction-down>down</dfn>
+  </table>
+
+  <p>The <i id=the-marquee-element:missing-value-default-2><a href=#missing-value-default>missing value default</a></i> is the <a href=#attr-marquee-direction-left id=the-marquee-element:attr-marquee-direction-left>left</a>
+  state.</p>
+
+  <hr>
+
+  <p>The <dfn id=attr-marquee-truespeed><code>truespeed</code></dfn> content attribute on
+  <code id=the-marquee-element:the-marquee-element-9><a href=#the-marquee-element>marquee</a></code> elements is a <a href=#boolean-attribute id=the-marquee-element:boolean-attribute>boolean attribute</a>.</p>
+
+  <hr>
+
+  <p>A <code id=the-marquee-element:the-marquee-element-10><a href=#the-marquee-element>marquee</a></code> element has a <dfn id=marquee-scroll-interval>marquee scroll interval</dfn>, which is obtained as
+  follows:</p>
+
+  <ol><li><p>If the element has a <code>scrolldelay</code> attribute,
+   and parsing its value using the <a href=#rules-for-parsing-non-negative-integers id=the-marquee-element:rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</a> does not
+   return an error, then let <var>delay</var> be the parsed value. Otherwise, let <var>delay</var>
+   be 85.<li><p>If the element does not have a <code id=the-marquee-element:attr-marquee-truespeed><a href=#attr-marquee-truespeed>truespeed</a></code>
+   attribute, and the <var>delay</var> value is less than 60, then let <var>delay</var> be 60
+   instead.<li><p>The <a href=#marquee-scroll-interval id=the-marquee-element:marquee-scroll-interval>marquee scroll interval</a> is <var>delay</var>, interpreted in
+   milliseconds.</ol>
+
+  <hr>
+
+  <p>A <code id=the-marquee-element:the-marquee-element-11><a href=#the-marquee-element>marquee</a></code> element has a <dfn id=marquee-scroll-distance>marquee scroll distance</dfn>, which, if the element
+  has a <code>scrollamount</code> attribute, and
+  parsing its value using the <a href=#rules-for-parsing-non-negative-integers id=the-marquee-element:rules-for-parsing-non-negative-integers-2>rules for parsing non-negative integers</a> does not return
+  an error, is the parsed value interpreted in <a href=https://drafts.csswg.org/css-values/#px id="the-marquee-element:'px'" data-x-internal="'px'">CSS pixels</a>, and otherwise
+  is 6 <a href=https://drafts.csswg.org/css-values/#px id="the-marquee-element:'px'-2" data-x-internal="'px'">CSS pixels</a>.</p>
+
+  <hr>
+

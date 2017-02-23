@@ -1,0 +1,850 @@
+
+
+  <h4 id=browsing-context-names>7.1.5 Browsing context names<a href=#browsing-context-names class=self-link></a></h4>
+
+  <p>Browsing contexts can have a <dfn id=browsing-context-name>browsing context name</dfn>. Unless stated otherwise, it is
+  the empty string.</p>
+
+  <p>A <dfn id=valid-browsing-context-name>valid browsing context name</dfn> is any string with at least one character that does
+  not start with a U+005F LOW LINE character. (Names starting with an underscore are reserved for
+  special keywords.)</p>
+
+  <p>A <dfn id=valid-browsing-context-name-or-keyword>valid browsing context name or keyword</dfn> is any string that is either a <a href=#valid-browsing-context-name id=browsing-context-names:valid-browsing-context-name>valid
+  browsing context name</a> or that is an <a id=browsing-context-names:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for one of:
+  <code>_blank</code>, <code>_self</code>, <code>_parent</code>, or
+  <code>_top</code>.</p>
+
+  <p>These values have different meanings based on whether the page is sandboxed or not, as
+  summarized in the following (non-normative) table. In this table, "current" means the
+  <a href=#browsing-context id=browsing-context-names:browsing-context>browsing context</a> that the link or script is in, "parent" means the <a href=#parent-browsing-context id=browsing-context-names:parent-browsing-context>parent
+  browsing context</a> of the one the link or script is in, "top" means the <a href=#top-level-browsing-context id=browsing-context-names:top-level-browsing-context>top-level
+  browsing context</a> of the one the link or script is in, "new" means a new <a href=#top-level-browsing-context id=browsing-context-names:top-level-browsing-context-2>top-level
+  browsing context</a> or <a href=#auxiliary-browsing-context id=browsing-context-names:auxiliary-browsing-context>auxiliary browsing context</a> is to be created, subject to
+  various user preferences and user agent policies, "none" means that nothing will happen, and
+  "maybe new" means the same as "new" if the "<code id=browsing-context-names:attr-iframe-sandbox-allow-popups><a href=#attr-iframe-sandbox-allow-popups>allow-popups</a></code>" keyword is also specified on the
+  <code id=browsing-context-names:attr-iframe-sandbox><a href=#attr-iframe-sandbox>sandbox</a></code> attribute (or if the user overrode the
+  sandboxing), and the same as "none" otherwise.</p>
+
+  <table><thead><tr><th rowspan=2>Keyword
+     <th rowspan=2>Ordinary effect
+     <th colspan=2>Effect in an <code id=browsing-context-names:the-iframe-element><a href=#the-iframe-element>iframe</a></code> with...
+    <tr><th><code>sandbox=""</code>
+     <th><code>sandbox="allow-top-navigation"</code>
+
+   <tbody><tr><td>none specified, for links and form submissions 
+     <td>current
+     <td>current
+     <td>current
+
+    <tr><td>empty string
+     <td>current
+     <td>current
+     <td>current
+
+    <tr><td><code>_blank</code>
+     <td>new
+     <td>maybe new
+     <td>maybe new
+
+    <tr><td><code>_self</code>
+     <td>current
+     <td>current
+     <td>current
+
+    <tr><td><code>_parent</code> if there isn't a parent
+     <td>current
+     <td>current
+     <td>current
+
+    <tr><td><code>_parent</code> if parent is also top
+     <td>parent/top
+     <td>none
+     <td>parent/top
+
+    <tr><td><code>_parent</code> if there is one and it's not top
+     <td>parent
+     <td>none
+     <td>none
+
+    <tr><td><code>_top</code> if top is current
+     <td>current
+     <td>current
+     <td>current
+
+    <tr><td><code>_top</code> if top is not current
+     <td>top
+     <td>none
+     <td>top
+
+    <tr><td>name that doesn't exist
+     <td>new
+     <td>maybe new
+     <td>maybe new
+
+    <tr><td>name that exists and is a descendant
+     <td>specified descendant
+     <td>specified descendant
+     <td>specified descendant
+
+    <tr><td>name that exists and is current
+     <td>current
+     <td>current
+     <td>current
+
+    <tr><td>name that exists and is an ancestor that is top
+     <td>specified ancestor
+     <td>none
+     <td>specified ancestor/top
+
+    <tr><td>name that exists and is an ancestor that is not top
+     <td>specified ancestor
+     <td>none
+     <td>none
+
+    <tr><td>other name that exists with common top
+     <td>specified
+     <td>none
+     <td>none
+
+    <tr><td>name that exists with different top, if <a href=#familiar-with id=browsing-context-names:familiar-with>familiar</a> and <a href=#one-permitted-sandboxed-navigator id=browsing-context-names:one-permitted-sandboxed-navigator>one permitted sandboxed navigator</a>
+     <td>specified
+     <td>specified
+     <td>specified
+
+    <tr><td>name that exists with different top, if <a href=#familiar-with id=browsing-context-names:familiar-with-2>familiar</a> but not <a href=#one-permitted-sandboxed-navigator id=browsing-context-names:one-permitted-sandboxed-navigator-2>one permitted sandboxed navigator</a>
+     <td>specified
+     <td>none
+     <td>none
+
+    <tr><td>name that exists with different top, not <a href=#familiar-with id=browsing-context-names:familiar-with-3>familiar</a>
+     <td>new
+     <td>maybe new
+     <td>maybe new
+
+  </table>
+
+  <p class=tablenote><small>Most of the restrictions on sandboxed browsing contexts are applied by
+  other algorithms, e.g. the <a href=#navigate id=browsing-context-names:navigate>navigation</a> algorithm, not <a href=#the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name id=browsing-context-names:the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name>the rules
+  for choosing a browsing context given a browsing context name</a> given below.</small></p>
+
+  
+
+  <hr>
+
+  <p><dfn id=the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name>The rules for choosing a browsing context given a browsing context name</dfn> are as
+  follows. The rules assume that they are being applied in the context of a <a href=#browsing-context id=browsing-context-names:browsing-context-2>browsing
+  context</a>, as part of the execution of a <a href=#concept-task id=browsing-context-names:concept-task>task</a>.</p>
+
+  <ol><li>
+
+    <p>If the given browsing context name is the empty string or <code>_self</code>, then
+    the chosen browsing context must be the current one.</p>
+
+   <li><p>If the given browsing context name is <code>_parent</code>, then the chosen
+   browsing context must be the <a href=#parent-browsing-context id=browsing-context-names:parent-browsing-context-2><em>parent</em> browsing context</a> of the current one,
+   unless there isn't one, in which case the chosen browsing context must be the current browsing
+   context.<li><p>If the given browsing context name is <code>_top</code>, then the chosen browsing
+   context must be the <a href=#top-level-browsing-context id=browsing-context-names:top-level-browsing-context-3>top-level browsing context</a> of the current one, if there is one,
+   or else the current browsing context.<li>
+
+    <p>If the given browsing context name is not <code>_blank</code> and there exists a
+    browsing context whose <a href=#browsing-context-name id=browsing-context-names:browsing-context-name>name</a> is the same as the given
+    browsing context name, and the current browsing context is <a href=#familiar-with id=browsing-context-names:familiar-with-4>familiar with</a> that
+    browsing context, and the user agent determines that the two browsing contexts are related
+    enough that it is ok if they reach each other, then that browsing context must be the chosen
+    one. If there are multiple matching browsing contexts, the user agent should select one in some
+    arbitrary consistent manner, such as the most recently opened, most recently focused, or more
+    closely related.</p>
+
+   <li>
+
+    <p>Otherwise, a new browsing context is being requested, and what happens depends on the user
+    agent's configuration and abilities — it is determined by the rules given for the first
+    applicable option from the following list:</p>
+
+    <dl class=switch><dt id=popup-blocker>If the algorithm is not <a href=#triggered-by-user-activation id=browsing-context-names:triggered-by-user-activation>triggered by user activation</a> and
+     the user agent has been configured to not show popups (i.e. the user agent has a "popup
+     blocker" enabled)<dd>
+
+      <p>There is no chosen browsing context. The user agent may inform the user that a popup has
+      been blocked.</p>
+
+     <dt id=sandboxWindowOpen>If the current browsing context's <a href=#active-document id=browsing-context-names:active-document>active document</a>'s
+     <a href=#active-sandboxing-flag-set id=browsing-context-names:active-sandboxing-flag-set>active sandboxing flag set</a> has the <a href=#sandboxed-auxiliary-navigation-browsing-context-flag id=browsing-context-names:sandboxed-auxiliary-navigation-browsing-context-flag>sandboxed auxiliary navigation browsing
+     context flag</a> set.<dd>
+
+      <p>Typically, there is no chosen browsing context.</p>
+
+      <p>The user agent may offer to <a href=#creating-a-new-browsing-context id=browsing-context-names:creating-a-new-browsing-context>create</a> a new <a href=#top-level-browsing-context id=browsing-context-names:top-level-browsing-context-4>top-level browsing context</a> or reuse
+      an existing <a href=#top-level-browsing-context id=browsing-context-names:top-level-browsing-context-5>top-level browsing context</a>. If the user picks one of those options,
+      then the designated browsing context must be the chosen one (the browsing context's name isn't
+      set to the given browsing context name). The default behavior (if the user agent doesn't
+      offer the option to the user, or if the user declines to allow a browsing context to be used)
+      must be that there must not be a chosen browsing context.</p>
+
+      <p class=warning>If this case occurs, it means that an author has explicitly sandboxed the
+      document that is trying to open a link.</p>
+
+     <dt id=noopener>If the user agent has been configured such that in this instance it will
+     create a new browsing context:<dd>
+      <p>A new <a href=#auxiliary-browsing-context id=browsing-context-names:auxiliary-browsing-context-2>auxiliary browsing context</a> must be created, with the <a href=#opener-browsing-context id=browsing-context-names:opener-browsing-context>opener
+      browsing context</a> being the current one. If the given browsing context name is not
+      <code>_blank</code>, then the new auxiliary browsing context's name must be the
+      given browsing context name (otherwise, it has no name). The chosen browsing context must be
+      this new browsing context.</p>
+
+      <p class=note>If the newly created <a href=#browsing-context id=browsing-context-names:browsing-context-3>browsing context</a> is immediately <a href=#navigate id=browsing-context-names:navigate-2>navigated</a>, then the navigation will be done with <a href=#replacement-enabled id=browsing-context-names:replacement-enabled>replacement
+      enabled</a>.</p>
+     <dt>If the user agent has been configured such that in this instance it will reuse the current
+     browsing context<dd><p>The chosen browsing context is the current browsing context.<dt>If the user agent has been configured such that in this instance it will not find a
+     browsing context<dd><p>There must not be a chosen browsing context.</dl>
+
+    <p>User agent implementors are encouraged to provide a way for users to configure the user agent
+    to always reuse the current browsing context.</p>
+
+    <p>If the chosen browsing context picked above, if any, is a new browsing context, then:</p>
+
+    <ol><li><p>Let <var>flagSet</var> be the current browsing context's <a href=#active-document id=browsing-context-names:active-document-2>active document</a>'s
+     <a href=#active-sandboxing-flag-set id=browsing-context-names:active-sandboxing-flag-set-2>active sandboxing flag set</a>.<li><p>If <var>flagSet</var>'s <a href=#sandboxed-navigation-browsing-context-flag id=browsing-context-names:sandboxed-navigation-browsing-context-flag>sandboxed navigation browsing context flag</a> is set,
+     then the current browsing context must be set as the new browsing context's <a href=#one-permitted-sandboxed-navigator id=browsing-context-names:one-permitted-sandboxed-navigator-3>one permitted
+     sandboxed navigator</a>.<li><p>If <var>flagSet</var>'s <a href=#sandbox-propagates-to-auxiliary-browsing-contexts-flag id=browsing-context-names:sandbox-propagates-to-auxiliary-browsing-contexts-flag>sandbox propagates to auxiliary browsing contexts
+     flag</a> is set, then all the flags that are set in <var>flagSet</var> must be set in the
+     new browsing context's <a href=#popup-sandboxing-flag-set id=browsing-context-names:popup-sandboxing-flag-set>popup sandboxing flag set</a>.</ol>
+
+   </ol>
+
+  
+
+
+  
+
+  <h4 id=script-settings-for-browsing-contexts>7.1.6 Script settings for browsing contexts<a href=#script-settings-for-browsing-contexts class=self-link></a></h4>
+
+  <p>When the user agent is required to <dfn id=set-up-a-browsing-context-environment-settings-object>set up a browsing context environment settings
+  object</dfn>, given a <a id=script-settings-for-browsing-contexts:javascript-execution-context href=https://tc39.github.io/ecma262/#sec-execution-contexts data-x-internal=javascript-execution-context>JavaScript execution context</a> <var>execution context</var> and
+  an optional <a href=#environment id=script-settings-for-browsing-contexts:environment>environment</a> <var>reserved environment</var>, it must run the following
+  steps:</p>
+
+  <ol><li><p>Let <var>realm</var> be the value of <var>execution context</var>'s Realm
+   component.<li><p>Let <var>window</var> be <var>realm</var>'s <a href=#concept-realm-global id=script-settings-for-browsing-contexts:concept-realm-global>global
+   object</a>.<li><p>Let <var>url</var> be a copy of the <a href=https://dom.spec.whatwg.org/#concept-document-url id="script-settings-for-browsing-contexts:the-document's-address" data-x-internal="the-document's-address">URL</a> of
+   <var>window</var>'s <a href=#concept-document-window id=script-settings-for-browsing-contexts:concept-document-window>associated
+   <code>Document</code></a>.<li>
+    <p>Let <var>settings object</var> be a new <a href=#environment-settings-object id=script-settings-for-browsing-contexts:environment-settings-object>environment settings object</a> whose
+    algorithms are defined as follows:</p>
+
+    <dl><dt>The <a href=#realm-execution-context id=script-settings-for-browsing-contexts:realm-execution-context>realm execution context</a><dd>
+
+      <p>Return <var>execution context</var>.</p>
+
+     <dt>The <a href=#concept-settings-object-module-map id=script-settings-for-browsing-contexts:concept-settings-object-module-map>module map</a><dd>
+
+      <p>Return the <a href=#concept-document-module-map id=script-settings-for-browsing-contexts:concept-document-module-map>module map</a> of
+      <var>window</var>'s <a href=#concept-document-window id=script-settings-for-browsing-contexts:concept-document-window-2>associated
+      <code>Document</code></a>.</p>
+
+     <dt>The <a href=#responsible-browsing-context id=script-settings-for-browsing-contexts:responsible-browsing-context>responsible browsing context</a><dd>
+
+      <p>Return the <a href=#browsing-context id=script-settings-for-browsing-contexts:browsing-context>browsing context</a> with which <var>window</var> is associated.</p>
+
+     <dt>The <a href=#responsible-event-loop id=script-settings-for-browsing-contexts:responsible-event-loop>responsible event loop</a><dd>
+
+      <p>Return the <a href=#event-loop id=script-settings-for-browsing-contexts:event-loop>event loop</a> that is associated with the <a href=#unit-of-related-similar-origin-browsing-contexts id=script-settings-for-browsing-contexts:unit-of-related-similar-origin-browsing-contexts>unit of related
+      similar-origin browsing contexts</a> to which <var>window</var>'s <a href=#browsing-context id=script-settings-for-browsing-contexts:browsing-context-2>browsing
+      context</a> belongs.</p>
+
+     <dt>The <a href=#responsible-document id=script-settings-for-browsing-contexts:responsible-document>responsible document</a><dd>
+
+      <p>Return <var>window</var>'s <a href=#concept-document-window id=script-settings-for-browsing-contexts:concept-document-window-3>associated
+      <code>Document</code></a>.</p>
+
+     <dt>The <a href=#api-url-character-encoding id=script-settings-for-browsing-contexts:api-url-character-encoding>API URL character encoding</a><dd>
+
+      <p>Return the current <a href=https://dom.spec.whatwg.org/#concept-document-encoding id="script-settings-for-browsing-contexts:document's-character-encoding" data-x-internal="document's-character-encoding">character encoding</a>
+      of <var>window</var>'s <a href=#concept-document-window id=script-settings-for-browsing-contexts:concept-document-window-4>associated
+      <code>Document</code></a>.</p>
+
+     <dt>The <a href=#api-base-url id=script-settings-for-browsing-contexts:api-base-url>API base URL</a><dd>
+
+      <p>Return the current <a href=#document-base-url id=script-settings-for-browsing-contexts:document-base-url>base URL</a> of <var>window</var>'s
+      <a href=#concept-document-window id=script-settings-for-browsing-contexts:concept-document-window-5>associated <code>Document</code></a>.</p>
+
+     <dt>The <a href=#concept-settings-object-origin id=script-settings-for-browsing-contexts:concept-settings-object-origin>origin</a><dd>
+
+      <p>Return the <a href=#concept-origin id=script-settings-for-browsing-contexts:concept-origin>origin</a> of <var>window</var>'s <a href=#concept-document-window id=script-settings-for-browsing-contexts:concept-document-window-6>associated <code>Document</code></a>.</p>
+
+     <dt>The <a href=#https-state id=script-settings-for-browsing-contexts:https-state>HTTPS state</a><dd>
+
+      <p>Return the <a href=#concept-document-https-state id=script-settings-for-browsing-contexts:concept-document-https-state>HTTPS state</a> of
+      <var>window</var>'s <a href=#concept-document-window id=script-settings-for-browsing-contexts:concept-document-window-7>associated
+      <code>Document</code></a>.</p>
+
+     <dt>The <a href=#concept-settings-object-referrer-policy id=script-settings-for-browsing-contexts:concept-settings-object-referrer-policy>referrer policy</a><dd>
+
+      <ol><li><p>Let <var>document</var> be the <code id=script-settings-for-browsing-contexts:document><a href=#document>Document</a></code> with which <var>window</var> is
+       currently associated.<li><p>While <var>document</var> is <a href=#an-iframe-srcdoc-document id=script-settings-for-browsing-contexts:an-iframe-srcdoc-document>an <code>iframe</code>
+       <code>srcdoc</code> document</a> and <var>document</var>'s
+       <a href=#concept-document-referrer-policy id=script-settings-for-browsing-contexts:concept-document-referrer-policy>referrer policy</a> is the empty
+       string, set <var>document</var> to <var>document</var>'s
+       <a href=#concept-document-bc id=script-settings-for-browsing-contexts:concept-document-bc>browsing context</a>'s
+       <a href=#browsing-context-container id=script-settings-for-browsing-contexts:browsing-context-container>browsing context container</a>'s <a id=script-settings-for-browsing-contexts:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.<li><p>Return <var>document</var>'s <a href=#concept-document-referrer-policy id=script-settings-for-browsing-contexts:concept-document-referrer-policy-2>referrer
+       policy</a>.</ol>
+
+    </dl>
+   <li>
+    <p>If <var>reserved environment</var> is given, then:</p>
+
+    <ol><li><p>Set <var>settings object</var>'s <a href=#concept-environment-id id=script-settings-for-browsing-contexts:concept-environment-id>id</a> to
+     <var>reserved environment</var>'s <a href=#concept-environment-id id=script-settings-for-browsing-contexts:concept-environment-id-2>id</a>,
+     <var>settings object</var>'s <a href=#concept-environment-creation-url id=script-settings-for-browsing-contexts:concept-environment-creation-url>creation
+     URL</a> to <var>reserved environment</var>'s <a href=#concept-environment-creation-url id=script-settings-for-browsing-contexts:concept-environment-creation-url-2>creation URL</a>, <var>settings object</var>'s
+     <a href=#concept-environment-target-browsing-context id=script-settings-for-browsing-contexts:concept-environment-target-browsing-context>target browsing context</a> to
+     <var>reserved environment</var>'s <a href=#concept-environment-target-browsing-context id=script-settings-for-browsing-contexts:concept-environment-target-browsing-context-2>target browsing context</a>, and
+     <var>settings object</var>'s <a href=#concept-environment-active-service-worker id=script-settings-for-browsing-contexts:concept-environment-active-service-worker>active
+     service worker</a> to <var>reserved environment</var>'s <a href=#concept-environment-active-service-worker id=script-settings-for-browsing-contexts:concept-environment-active-service-worker-2>active service worker</a>.<li>
+      <p>Set <var>reserved environment</var>'s <a href=#concept-environment-id id=script-settings-for-browsing-contexts:concept-environment-id-3>id</a> to
+      the empty string.</p>
+
+      <p class=note>The identity of the reserved environment is considered to be fully
+      transferred to the created <a href=#environment-settings-object id=script-settings-for-browsing-contexts:environment-settings-object-2>environment settings object</a>. The reserved environment
+      is not searchable by the <a href=#environment id=script-settings-for-browsing-contexts:environment-2>environment</a>’s <a href=#concept-environment-id id=script-settings-for-browsing-contexts:concept-environment-id-4>id</a> from this point on.</p>
+     </ol>
+   <li><p>Otherwise, set <var>settings object</var>'s <a href=#concept-environment-id id=script-settings-for-browsing-contexts:concept-environment-id-5>id</a> to a new unique opaque string, <var>settings
+   object</var>'s <a href=#concept-environment-creation-url id=script-settings-for-browsing-contexts:concept-environment-creation-url-3>creation URL</a> to
+   <var>url</var>, <var>settings object</var>'s <a href=#concept-environment-target-browsing-context id=script-settings-for-browsing-contexts:concept-environment-target-browsing-context-3>target browsing context</a> to null, and
+   <var>settings object</var>'s <a href=#concept-environment-active-service-worker id=script-settings-for-browsing-contexts:concept-environment-active-service-worker-3>active
+   service worker</a> to null.<li><p>Set <var>realm</var>'s [[HostDefined]] field to <var>settings object</var>.<li><p>Return <var>settings object</var>.</ol>
+
+  
+
+
+
+  <h3 id=cross-origin-objects>7.2 Security infrastructure for <code id=cross-origin-objects:window><a href=#window>Window</a></code>,
+  <code id=cross-origin-objects:windowproxy><a href=#windowproxy>WindowProxy</a></code>, and <code id=cross-origin-objects:location><a href=#location>Location</a></code> objects<a href=#cross-origin-objects class=self-link></a></h3>
+
+  <p>Although typically objects cannot be accessed across <a href=#concept-origin id=cross-origin-objects:concept-origin>origins</a>, the
+  web platform would not be true to itself if it did not have some legacy exceptions to that rule
+  that the web depends upon.
+
+
+  <h4 id=integration-with-idl>7.2.1 Integration with IDL<a href=#integration-with-idl class=self-link></a></h4>
+
+  <p>When <a id=integration-with-idl:perform-a-security-check href=https://heycam.github.io/webidl/#dfn-perform-a-security-check data-x-internal=perform-a-security-check>perform a security check</a> is invoked, with a <var>platformObject</var>,
+  <var>identifier</var>, and <var>type</var>, run these steps:</p>
+
+  <ol><li>
+    <p>If <var>platformObject</var> is a <code id=integration-with-idl:window><a href=#window>Window</a></code> or <code id=integration-with-idl:location><a href=#location>Location</a></code> object,
+    then:</p>
+
+    <ol><li>
+      <p>Repeat for each <var>e</var> that is an element of
+      <a href=#crossoriginproperties-(-o-) id=integration-with-idl:crossoriginproperties-(-o-)>CrossOriginProperties</a>(<var>platformObject</var>):</p>
+
+      <ol><li>
+        <p>If <a id=integration-with-idl:samevalue href=https://tc39.github.io/ecma262/#sec-samevalue data-x-internal=samevalue>SameValue</a>(<var>e</var>.[[Property]], <var>identifier</var>) is true,
+        then:</p>
+
+        <ol><li><p>If <var>type</var> is "<code>method</code>" and <var>e</var> has neither
+         [[NeedsGet]] nor [[NeedsSet]], then return.<li><p>Otherwise, if <var>type</var> is "<code>getter</code>" and
+         <var>e</var>.[[NeedsGet]] is true, then return.<li><p>Otherwise, if <var>type</var> is "<code>setter</code>" and
+         <var>e</var>.[[NeedsSet]] is true, then return.</ol>
+       </ol>
+     </ol>
+   <li><p>If <a href=#isplatformobjectsameorigin-(-o-) id=integration-with-idl:isplatformobjectsameorigin-(-o-)>IsPlatformObjectSameOrigin</a>(<var>platformObject</var>) is false, then throw
+   a <a id=integration-with-idl:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=integration-with-idl:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</ol>
+
+
+  <h4 id=shared-internal-slot:-crossoriginpropertydescriptormap>7.2.2 Shared internal slot: [[CrossOriginPropertyDescriptorMap]]<a href=#shared-internal-slot:-crossoriginpropertydescriptormap class=self-link></a></h4>
+
+  <p><code id=shared-internal-slot:-crossoriginpropertydescriptormap:window><a href=#window>Window</a></code> and <code id=shared-internal-slot:-crossoriginpropertydescriptormap:location><a href=#location>Location</a></code> objects both have a
+  <dfn id=crossoriginpropertydescriptormap>[[CrossOriginPropertyDescriptorMap]]</dfn> internal slot, whose value is initially an empty
+  map.
+
+  <p class=note>The <a href=#crossoriginpropertydescriptormap id=shared-internal-slot:-crossoriginpropertydescriptormap:crossoriginpropertydescriptormap>[[CrossOriginPropertyDescriptorMap]]</a> internal slot contains a map
+  with entries whose keys are (<var>currentGlobal</var>, <var>objectGlobal</var>,
+  <var>propertyKey</var>)-tuples and values are property descriptors, as a memoization of what is
+  visible to scripts when <var>currentGlobal</var> inspects a <code id=shared-internal-slot:-crossoriginpropertydescriptormap:window-2><a href=#window>Window</a></code> or
+  <code id=shared-internal-slot:-crossoriginpropertydescriptormap:location-2><a href=#location>Location</a></code> object from <var>objectGlobal</var>. It is filled lazily by
+  <a href=#crossorigingetownpropertyhelper-(-o,-p-) id=shared-internal-slot:-crossoriginpropertydescriptormap:crossorigingetownpropertyhelper-(-o,-p-)>CrossOriginGetOwnPropertyHelper</a>, which consults it on future lookups.</p>
+
+  <p>User agents should allow a value held in the map to be garbage collected along with its
+  corresponding key when nothing holds a reference to any part of the value. That is, as long as
+  garbage collection is not observable.</p>
+
+  <p class=example>For example, with <code>const href =
+  Object.getOwnPropertyDescriptor(crossOriginLocation, "href").set</code> the value and its
+  corresponding key in the map cannot be garbage collected as that would be observable.</p>
+
+  <p>User agents may have an optimization whereby they remove key-value pairs from the map when
+  <code id=shared-internal-slot:-crossoriginpropertydescriptormap:dom-document-domain><a href=#dom-document-domain>document.domain</a></code> is set. This is not observable as <code id=shared-internal-slot:-crossoriginpropertydescriptormap:dom-document-domain-2><a href=#dom-document-domain>document.domain</a></code> cannot revisit an earlier value.</p>
+
+  <p class=example>For example, setting <code id=shared-internal-slot:-crossoriginpropertydescriptormap:dom-document-domain-3><a href=#dom-document-domain>document.domain</a></code>
+  to "<code>example.com</code>" on www.example.com means user agents can remove all
+  key-value pairs from the map where part of the key is www.example.com, as that can never be part
+  of the <a href=#concept-origin id=shared-internal-slot:-crossoriginpropertydescriptormap:concept-origin>origin</a> again and therefore the corresponding value could never be retrieved
+  from the map.</p>
+
+
+  <h4 id=shared-abstract-operations>7.2.3 Shared abstract operations<a href=#shared-abstract-operations class=self-link></a></h4>
+
+  <h5 id=crossoriginproperties-(-o-)>7.2.3.1 <dfn>CrossOriginProperties</dfn> ( <var>O</var> )<a href=#crossoriginproperties-(-o-) class=self-link></a></h5>
+
+  <ol><li><p>Assert: <var>O</var> is a <code id=crossoriginproperties-(-o-):location><a href=#location>Location</a></code> or <code id=crossoriginproperties-(-o-):window><a href=#window>Window</a></code> object.<li><p>If <var>O</var> is a <code id=crossoriginproperties-(-o-):location-2><a href=#location>Location</a></code> object, then return «
+   { [[Property]]: "<code>href</code>", [[NeedsGet]]: false, [[NeedsSet]]: true },
+   { [[Property]]: "<code>replace</code>" } ».<li><p>Let <var>crossOriginWindowProperties</var> be «
+   { [[Property]]: "<code>window</code>", [[NeedsGet]]: true, [[NeedsSet]]: false },
+   { [[Property]]: "<code>self</code>", [[NeedsGet]]: true, [[NeedsSet]]: false },
+   { [[Property]]: "<code>location</code>", [[NeedsGet]]: true, [[NeedsSet]]: true },
+   { [[Property]]: "<code>close</code>" },
+   { [[Property]]: "<code>closed</code>", [[NeedsGet]]: true, [[NeedsSet]]: false },
+   { [[Property]]: "<code>focus</code>" },
+   { [[Property]]: "<code>blur</code>" },
+   { [[Property]]: "<code>frames</code>", [[NeedsGet]]: true, [[NeedsSet]]: false },
+   { [[Property]]: "<code>length</code>", [[NeedsGet]]: true, [[NeedsSet]]: false },
+   { [[Property]]: "<code>top</code>", [[NeedsGet]]: true, [[NeedsSet]]: false },
+   { [[Property]]: "<code>opener</code>", [[NeedsGet]]: true, [[NeedsSet]]: false },
+   { [[Property]]: "<code>parent</code>", [[NeedsGet]]: true, [[NeedsSet]]: false },
+   { [[Property]]: "<code>postMessage</code>" } ».<li>
+    <p>Repeat for each <var>e</var> that is an element of <var>O</var>'s <a href=#document-tree-child-browsing-context-name-property-set id=crossoriginproperties-(-o-):document-tree-child-browsing-context-name-property-set>document-tree child
+    browsing context name property set</a>:</p>
+
+    <ol><li><p>Add { [[Property]]: <var>e</var> } as the last element of
+     <var>crossOriginWindowProperties</var>.</ol>
+   <li><p>Return <var>crossOriginWindowProperties</var>.</ol>
+
+  <p class=note>Indexed properties do not need to be safelisted as they are handled directly by
+  the <code id=crossoriginproperties-(-o-):windowproxy><a href=#windowproxy>WindowProxy</a></code> object.</p>
+
+  <h5 id=isplatformobjectsameorigin-(-o-)>7.2.3.2 <dfn>IsPlatformObjectSameOrigin</dfn> ( <var>O</var> )<a href=#isplatformobjectsameorigin-(-o-) class=self-link></a></h5>
+
+  <ol><li><p>Return true if the <a href=#current-settings-object id=isplatformobjectsameorigin-(-o-):current-settings-object>current settings object</a>'s <a href=#concept-settings-object-origin id=isplatformobjectsameorigin-(-o-):concept-settings-object-origin>origin</a> is <a href=#same-origin-domain id=isplatformobjectsameorigin-(-o-):same-origin-domain>same origin-domain</a> with
+   <var>O</var>'s <a href=#relevant-settings-object id=isplatformobjectsameorigin-(-o-):relevant-settings-object>relevant settings object</a>'s <a href=#concept-settings-object-origin id=isplatformobjectsameorigin-(-o-):concept-settings-object-origin-2>origin</a>, and false otherwise.</ol>
+
+  <h5 id=crossorigingetownpropertyhelper-(-o,-p-)>7.2.3.3 <dfn>CrossOriginGetOwnPropertyHelper</dfn> ( <var>O</var>, <var>P</var> )<a href=#crossorigingetownpropertyhelper-(-o,-p-) class=self-link></a></h5>
+
+  <p class=note>If this abstract operation returns undefined and there is no custom behavior, the
+  caller needs to throw a <a id=crossorigingetownpropertyhelper-(-o,-p-):securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=crossorigingetownpropertyhelper-(-o,-p-):domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+  <ol><li><p>If <var>P</var> is <a href=#@@tostringtag id=crossorigingetownpropertyhelper-(-o,-p-):@@tostringtag>@@toStringTag</a>, <a href=#@@hasinstance id=crossorigingetownpropertyhelper-(-o,-p-):@@hasinstance>@@hasInstance</a>, or
+   <a href=#@@isconcatspreadable id=crossorigingetownpropertyhelper-(-o,-p-):@@isconcatspreadable>@@isConcatSpreadable</a>, then return <a id=crossorigingetownpropertyhelper-(-o,-p-):propertydescriptor href=https://tc39.github.io/ecma262/#sec-property-descriptor-specification-type data-x-internal=propertydescriptor>PropertyDescriptor</a>{
+   [[Value]]: undefined,
+   [[Writable]]: false,
+   [[Enumerable]]: false,
+   [[Configurable]]: true }.<li><p>Let <var>crossOriginKey</var> be a tuple consisting of the <a href=#current-settings-object id=crossorigingetownpropertyhelper-(-o,-p-):current-settings-object>current settings
+   object</a>, <var>O</var>'s <a href=#relevant-settings-object id=crossorigingetownpropertyhelper-(-o,-p-):relevant-settings-object>relevant settings object</a>, and <var>P</var>.<li>
+    <p>Repeat for each <var>e</var> that is an element of
+    <a href=#crossoriginproperties-(-o-) id=crossorigingetownpropertyhelper-(-o,-p-):crossoriginproperties-(-o-)>CrossOriginProperties</a>(<var>O</var>):</p>
+
+    <ol><li>
+      <p>If <a id=crossorigingetownpropertyhelper-(-o,-p-):samevalue href=https://tc39.github.io/ecma262/#sec-samevalue data-x-internal=samevalue>SameValue</a>(<var>e</var>.[[Property]], <var>P</var>) is true, then:</p>
+
+      <ol><li><p>If the value of the <a href=#crossoriginpropertydescriptormap id=crossorigingetownpropertyhelper-(-o,-p-):crossoriginpropertydescriptormap>[[CrossOriginPropertyDescriptorMap]]</a> internal slot of
+       <var>O</var> contains an entry whose key is <var>crossOriginKey</var>, then return that
+       entry's value.<li><p>Let <var>originalDesc</var> be <a id=crossorigingetownpropertyhelper-(-o,-p-):ordinarygetownproperty href=https://tc39.github.io/ecma262/#sec-ordinarygetownproperty data-x-internal=ordinarygetownproperty>OrdinaryGetOwnProperty</a>(<var>O</var>,
+       <var>P</var>).<li><p>Let <var>crossOriginDesc</var> be undefined.<li>
+        <p>If <var>e</var>.[[NeedsGet]] and <var>e</var>.[[NeedsSet]] are absent, then:</p>
+
+        <ol><li><p>Let <var>value</var> be <var>originalDesc</var>.[[Value]].<li><p>If <a id=crossorigingetownpropertyhelper-(-o,-p-):iscallable href=https://tc39.github.io/ecma262/#sec-iscallable data-x-internal=iscallable>IsCallable</a>(<var>value</var>) is true, then set <var>value</var> to
+         an anonymous built-in function, created in the <a id=crossorigingetownpropertyhelper-(-o,-p-):current-realm-record href=https://tc39.github.io/ecma262/#current-realm data-x-internal=current-realm-record>current Realm Record</a>, that
+         performs the same steps as the IDL operation <var>P</var> on object <var>O</var>.<li><p>Set <var>crossOriginDesc</var> to <a id=crossorigingetownpropertyhelper-(-o,-p-):propertydescriptor-2 href=https://tc39.github.io/ecma262/#sec-property-descriptor-specification-type data-x-internal=propertydescriptor>PropertyDescriptor</a>{
+         [[Value]]: <var>value</var>,
+         [[Enumerable]]: false,
+         [[Writable]]: false,
+         [[Configurable]]: true }.</ol>
+       <li>
+        <p>Otherwise:</p>
+
+        <ol><li><p>Let <var>crossOriginGet</var> be undefined.<li><p>If <var>e</var>.[[NeedsGet]] is true, then set <var>crossOriginGet</var> to an
+         anonymous built-in function, created in the <a id=crossorigingetownpropertyhelper-(-o,-p-):current-realm-record-2 href=https://tc39.github.io/ecma262/#current-realm data-x-internal=current-realm-record>current Realm Record</a>, that
+         performs the same steps as the getter of the IDL attribute <var>P</var> on object
+         <var>O</var>.<li><p>Let <var>crossOriginSet</var> be undefined.<li><p>If <var>e</var>.[[NeedsSet]] is true, then set <var>crossOriginSet</var> to an
+         anonymous built-in function, created in the <a id=crossorigingetownpropertyhelper-(-o,-p-):current-realm-record-3 href=https://tc39.github.io/ecma262/#current-realm data-x-internal=current-realm-record>current Realm Record</a>, that
+         performs the same steps as the setter of the IDL attribute <var>P</var> on object
+         <var>O</var>.<li><p>Set <var>crossOriginDesc</var> to <a id=crossorigingetownpropertyhelper-(-o,-p-):propertydescriptor-3 href=https://tc39.github.io/ecma262/#sec-property-descriptor-specification-type data-x-internal=propertydescriptor>PropertyDescriptor</a>{
+         [[Get]]: <var>crossOriginGet</var>,
+         [[Set]]: <var>crossOriginSet</var>,
+         [[Enumerable]]: false,
+         [[Configurable]]: true }.</ol>
+       <li><p>Create an entry in the value of the <a href=#crossoriginpropertydescriptormap id=crossorigingetownpropertyhelper-(-o,-p-):crossoriginpropertydescriptormap-2>[[CrossOriginPropertyDescriptorMap]]</a>
+       internal slot of <var>O</var> with key <var>crossOriginKey</var> and value
+       <var>crossOriginDesc</var>.<li><p>Return <var>crossOriginDesc</var>.</ol>
+     </ol>
+   <li><p>Return undefined.</ol>
+
+  <p class=note>The reason that the property descriptors produced here are configurable is to
+  preserve the <a id=crossorigingetownpropertyhelper-(-o,-p-):invariants-of-the-essential-internal-methods href=https://tc39.github.io/ecma262/#sec-invariants-of-the-essential-internal-methods data-x-internal=invariants-of-the-essential-internal-methods>invariants of the essential internal methods</a> required by the JavaScript
+  specification. In particular, since the value of the property can change as a consequence of
+  navigation, it is required that the property be configurable. (However, see <a href=https://github.com/tc39/ecma262/issues/672>tc39/ecma262 issue #672</a> and references to it
+  elsewhere in this specification for cases where we are not able to preserve these invariants, for
+  compatibility with existing Web content.) <a href=#refsJAVASCRIPT>[JAVASCRIPT]</a></p>
+
+  <h5 id=crossoriginget-(-o,-p,-receiver-)>7.2.3.4 <dfn>CrossOriginGet</dfn> ( <var>O</var>, <var>P</var>, <var>Receiver</var> )<a href=#crossoriginget-(-o,-p,-receiver-) class=self-link></a></h5>
+
+  <ol><li><p>Let <var>desc</var> be ? <var>O</var>.[[GetOwnProperty]](<var>P</var>).<li><p>Assert: <var>desc</var> is not undefined.<li><p>If <a id=crossoriginget-(-o,-p,-receiver-):isdatadescriptor href=https://tc39.github.io/ecma262/#sec-isdatadescriptor data-x-internal=isdatadescriptor>IsDataDescriptor</a>(<var>desc</var>) is true, then return
+   <var>desc</var>.[[Value]].<li><p>Assert: <a id=crossoriginget-(-o,-p,-receiver-):isaccessordescriptor href=https://tc39.github.io/ecma262/#sec-isaccessordescriptor data-x-internal=isaccessordescriptor>IsAccessorDescriptor</a>(<var>desc</var>) is true.<li><p>Let <var>getter</var> be <var>desc</var>.[[Get]].<li><p>If <var>getter</var> is undefined, throw a <a id=crossoriginget-(-o,-p,-receiver-):securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a>
+   <code id=crossoriginget-(-o,-p,-receiver-):domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Return ? <a id=crossoriginget-(-o,-p,-receiver-):call href=https://tc39.github.io/ecma262/#sec-call data-x-internal=call>Call</a>(<var>getter</var>, <var>Receiver</var>).</ol>
+
+  <h5 id=crossoriginset-(-o,-p,-v,-receiver-)>7.2.3.5 <dfn>CrossOriginSet</dfn> ( <var>O</var>, <var>P</var>, <var>V</var>,
+  <var>Receiver</var> )<a href=#crossoriginset-(-o,-p,-v,-receiver-) class=self-link></a></h5>
+
+  <ol><li><p>Let <var>desc</var> be ? <var>O</var>.[[GetOwnProperty]](<var>P</var>).<li><p>Assert: <var>desc</var> is not undefined.<li>
+    <p>If <var>desc</var>.[[Set]] is present and its value is not undefined, then:
+
+    <ol><li><p>Perform ? <a id=crossoriginset-(-o,-p,-v,-receiver-):call href=https://tc39.github.io/ecma262/#sec-call data-x-internal=call>Call</a>(<var>setter</var>, <var>Receiver</var>,
+     «<var>V</var>»).<li><p>Return true.</ol>
+   <li><p>Throw a <a id=crossoriginset-(-o,-p,-v,-receiver-):securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=crossoriginset-(-o,-p,-v,-receiver-):domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</ol>
+
+  <h5 id=crossoriginownpropertykeys-(-o-)>7.2.3.6 <dfn>CrossOriginOwnPropertyKeys</dfn> ( <var>O</var> )<a href=#crossoriginownpropertykeys-(-o-) class=self-link></a></h5>
+
+  <ol><li><p>Let <var>keys</var> be a new empty <a href=https://tc39.github.io/ecma262/#sec-list-and-record-specification-type id=crossoriginownpropertykeys-(-o-):js-list data-x-internal=js-list>List</a>.<li>
+    <p>Repeat for each <var>e</var> that is an element of
+    <a href=#crossoriginproperties-(-o-) id=crossoriginownpropertykeys-(-o-):crossoriginproperties-(-o-)>CrossOriginProperties</a>(<var>O</var>):</p>
+
+    <ol><li><p>Add <var>e</var>.[[Property]] as the last element of <var>keys</var>.</ol>
+   <li><p>Return the concatenation of <var>keys</var> and « <a href=#@@tostringtag id=crossoriginownpropertykeys-(-o-):@@tostringtag>@@toStringTag</a>,
+   <a href=#@@hasinstance id=crossoriginownpropertykeys-(-o-):@@hasinstance>@@hasInstance</a>, <a href=#@@isconcatspreadable id=crossoriginownpropertykeys-(-o-):@@isconcatspreadable>@@isConcatSpreadable</a> ».</ol>
+
+
+
+  <h3 id=the-window-object>7.3 The <code id=the-window-object:window><a href=#window>Window</a></code> object<a href=#the-window-object class=self-link></a></h3>
+
+  <pre class=idl>[PrimaryGlobal, LegacyUnenumerableNamedProperties] 
+interface <dfn id=window data-dfn-type=interface data-export="">Window</dfn> : <a id=the-window-object:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  // the current browsing context
+  [Unforgeable] readonly attribute <a href=#windowproxy id=the-window-object:windowproxy>WindowProxy</a> <a href=#dom-window id=the-window-object:dom-window>window</a>;
+  [Replaceable] readonly attribute <a href=#windowproxy id=the-window-object:windowproxy-2>WindowProxy</a> <a href=#dom-self id=the-window-object:dom-self>self</a>;
+  [Unforgeable] readonly attribute <a href=#document id=the-window-object:document>Document</a> <a href=#dom-document-2 id=the-window-object:dom-document-2>document</a>;
+  attribute DOMString <a href=#dom-name id=the-window-object:dom-name>name</a>; 
+  [PutForwards=<a href=#dom-location-href id=the-window-object:dom-location-href>href</a>, Unforgeable] readonly attribute <a href=#location id=the-window-object:location>Location</a> <a href=#dom-location id=the-window-object:dom-location>location</a>;
+  readonly attribute <a href=#history-3 id=the-window-object:history-3>History</a> <a href=#dom-history id=the-window-object:dom-history>history</a>;
+  readonly attribute <a href=#customelementregistry id=the-window-object:customelementregistry>CustomElementRegistry</a> <a href=#dom-window-customelements id=the-window-object:dom-window-customelements>customElements</a>;
+  [Replaceable] readonly attribute <a href=#barprop id=the-window-object:barprop>BarProp</a> <a href=#dom-window-locationbar id=the-window-object:dom-window-locationbar>locationbar</a>;
+  [Replaceable] readonly attribute <a href=#barprop id=the-window-object:barprop-2>BarProp</a> <a href=#dom-window-menubar id=the-window-object:dom-window-menubar>menubar</a>;
+  [Replaceable] readonly attribute <a href=#barprop id=the-window-object:barprop-3>BarProp</a> <a href=#dom-window-personalbar id=the-window-object:dom-window-personalbar>personalbar</a>;
+  [Replaceable] readonly attribute <a href=#barprop id=the-window-object:barprop-4>BarProp</a> <a href=#dom-window-scrollbars id=the-window-object:dom-window-scrollbars>scrollbars</a>;
+  [Replaceable] readonly attribute <a href=#barprop id=the-window-object:barprop-5>BarProp</a> <a href=#dom-window-statusbar id=the-window-object:dom-window-statusbar>statusbar</a>;
+  [Replaceable] readonly attribute <a href=#barprop id=the-window-object:barprop-6>BarProp</a> <a href=#dom-window-toolbar id=the-window-object:dom-window-toolbar>toolbar</a>;
+  attribute DOMString <a href=#dom-window-status id=the-window-object:dom-window-status>status</a>;
+  void <a href=#dom-window-close id=the-window-object:dom-window-close>close</a>();
+  readonly attribute boolean <a href=#dom-window-closed id=the-window-object:dom-window-closed>closed</a>;
+  void <a href=#dom-window-stop id=the-window-object:dom-window-stop>stop</a>();
+  void <a href=#dom-window-focus id=the-window-object:dom-window-focus>focus</a>();
+  void <a href=#dom-window-blur id=the-window-object:dom-window-blur>blur</a>();
+
+  // other browsing contexts
+  [Replaceable] readonly attribute <a href=#windowproxy id=the-window-object:windowproxy-3>WindowProxy</a> <a href=#dom-frames id=the-window-object:dom-frames>frames</a>;
+  [Replaceable] readonly attribute unsigned long <a href=#dom-length id=the-window-object:dom-length>length</a>;
+  [Unforgeable] readonly attribute <a href=#windowproxy id=the-window-object:windowproxy-4>WindowProxy</a>? <a href=#dom-top id=the-window-object:dom-top>top</a>;
+  attribute any <a href=#dom-opener id=the-window-object:dom-opener>opener</a>;
+  [Replaceable] readonly attribute <a href=#windowproxy id=the-window-object:windowproxy-5>WindowProxy</a>? <a href=#dom-parent id=the-window-object:dom-parent>parent</a>;
+  readonly attribute <a id=the-window-object:element href=https://dom.spec.whatwg.org/#interface-element data-x-internal=element>Element</a>? <a href=#dom-frameelement id=the-window-object:dom-frameelement>frameElement</a>;
+  <a href=#windowproxy id=the-window-object:windowproxy-6>WindowProxy</a>? <a href=#dom-open id=the-window-object:dom-open>open</a>(optional USVString url = "about:blank", optional DOMString target = "_blank", [TreatNullAs=EmptyString] optional DOMString features = "");
+  <a href=#dom-window-nameditem>getter</a> <a href=https://heycam.github.io/webidl/#idl-object id=the-window-object:idl-object data-x-internal=idl-object>object</a> (DOMString name);
+  // Since this is the global object, the IDL named getter adds a NamedPropertiesObject exotic
+  // object on the prototype chain. Indeed, this does not make the global object an exotic object.
+  // Indexed access is taken care of by the <a href=#windowproxy id=the-window-object:windowproxy-7>WindowProxy</a> exotic object.
+
+  // the user agent
+  readonly attribute <a href=#navigator id=the-window-object:navigator>Navigator</a> <a href=#dom-navigator id=the-window-object:dom-navigator>navigator</a>; 
+  readonly attribute <a href=#applicationcache id=the-window-object:applicationcache>ApplicationCache</a> <a href=#dom-applicationcache id=the-window-object:dom-applicationcache>applicationCache</a>;
+
+  // user prompts
+  void <a href=#dom-alert id=the-window-object:dom-alert>alert</a>();
+  void <a href=#dom-alert id=the-window-object:dom-alert-2>alert</a>(DOMString message);
+  boolean <a href=#dom-confirm id=the-window-object:dom-confirm>confirm</a>(optional DOMString message = "");
+  DOMString? <a href=#dom-prompt id=the-window-object:dom-prompt>prompt</a>(optional DOMString message = "", optional DOMString default = "");
+  void <a href=#dom-print id=the-window-object:dom-print>print</a>();
+
+  unsigned long <a href=#dom-window-requestanimationframe id=the-window-object:dom-window-requestanimationframe>requestAnimationFrame</a>(<a href=#framerequestcallback id=the-window-object:framerequestcallback>FrameRequestCallback</a> callback);
+  void <a href=#dom-window-cancelanimationframe id=the-window-object:dom-window-cancelanimationframe>cancelAnimationFrame</a>(unsigned long handle);
+
+  void <a href=#dom-window-postmessage id=the-window-object:dom-window-postmessage>postMessage</a>(any message, USVString targetOrigin, optional sequence&lt;<a href=https://heycam.github.io/webidl/#idl-object id=the-window-object:idl-object-2 data-x-internal=idl-object>object</a>> transfer = []);
+
+  // <a href="#Window-partial">also has obsolete members</a>
+};
+<a href=#window id=the-window-object:window-2>Window</a> implements <a href=#globaleventhandlers id=the-window-object:globaleventhandlers>GlobalEventHandlers</a>;
+<a href=#window id=the-window-object:window-3>Window</a> implements <a href=#windoweventhandlers id=the-window-object:windoweventhandlers>WindowEventHandlers</a>;
+
+callback <dfn id=framerequestcallback>FrameRequestCallback</dfn> = void (<a id=the-window-object:domhighrestimestamp href=https://w3c.github.io/hr-time/#dom-domhighrestimestamp data-x-internal=domhighrestimestamp>DOMHighResTimeStamp</a> time);</pre>
+
+
+
+  <dl class=domintro><dt><var>window</var> . <code id=the-window-object:dom-window-2><a href=#dom-window>window</a></code><dt><var>window</var> . <code id=the-window-object:dom-frames-2><a href=#dom-frames>frames</a></code><dt><var>window</var> . <code id=the-window-object:dom-self-2><a href=#dom-self>self</a></code><dd>
+
+    <p>These attributes all return <var>window</var>.</p>
+
+   <dt><var>window</var> . <code id=the-window-object:dom-document-2-2><a href=#dom-document-2>document</a></code><dd>
+
+    <p>Returns the <code id=the-window-object:document-2><a href=#document>Document</a></code> associated with <var>window</var>.</p>
+
+   <dt><var>document</var> . <code id=the-window-object:dom-document-defaultview><a href=#dom-document-defaultview>defaultView</a></code><dd>
+
+    <p>Returns the <code id=the-window-object:window-4><a href=#window>Window</a></code> object of the <a href=#active-document id=the-window-object:active-document>active document</a>.</p>
+
+   </dl>
+
+  
+
+  <p>The <code id=the-window-object:window-5><a href=#window>Window</a></code> has an <dfn id=concept-document-window data-export="">associated
+  <code>Document</code></dfn>, which is a <code id=the-window-object:document-3><a href=#document>Document</a></code> object. It is set when the
+  <code id=the-window-object:window-6><a href=#window>Window</a></code> object is created, and only ever changed during <a href=#navigate id=the-window-object:navigate>navigation</a> from the initial <code id=the-window-object:about:blank><a href=#about:blank>about:blank</a></code>
+  <code id=the-window-object:document-4><a href=#document>Document</a></code>.</p>
+
+  <p>The <dfn id=dom-window><code>window</code></dfn>, <dfn id=dom-frames><code>frames</code></dfn>, and <dfn id=dom-self><code>self</code></dfn> IDL
+  attributes, on getting, must all return this <code id=the-window-object:window-7><a href=#window>Window</a></code> object's <a href=#browsing-context id=the-window-object:browsing-context>browsing
+  context</a>'s <code id=the-window-object:windowproxy-8><a href=#windowproxy>WindowProxy</a></code> object.</p>
+
+  <p>The <dfn id=dom-document-2><code>document</code></dfn> IDL attribute, on getting, must
+  return this <code id=the-window-object:window-8><a href=#window>Window</a></code> object's <a href=#concept-document-window id=the-window-object:concept-document-window>associated
+  <code>Document</code></a>.</p>
+
+  <p class=note>The <code id=the-window-object:document-5><a href=#document>Document</a></code> object associated with a <code id=the-window-object:window-9><a href=#window>Window</a></code> object can
+  change in exactly one case: when the <a href=#navigate id=the-window-object:navigate-2>navigate</a> algorithm <a href=#initialise-the-document-object id=the-window-object:initialise-the-document-object>initializes a new <code>Document</code> object</a> for the first page loaded
+  in a <a href=#browsing-context id=the-window-object:browsing-context-2>browsing context</a>. In that specific case, the <code id=the-window-object:window-10><a href=#window>Window</a></code> object of the
+  original <code id=the-window-object:about:blank-2><a href=#about:blank>about:blank</a></code> page is reused and gets a new <code id=the-window-object:document-6><a href=#document>Document</a></code> object.</p>
+
+  <p>The <dfn id=dom-document-defaultview><code>defaultView</code></dfn> IDL attribute of the
+  <code id=the-window-object:document-7><a href=#document>Document</a></code> interface, on getting, must return this <code id=the-window-object:document-8><a href=#document>Document</a></code>'s <a href=#concept-document-bc id=the-window-object:concept-document-bc>browsing context</a>'s <code id=the-window-object:windowproxy-9><a href=#windowproxy>WindowProxy</a></code> object, if this
+  <code id=the-window-object:document-9><a href=#document>Document</a></code> has an associated browsing context, or null otherwise.</p>
+
+  <hr>
+
+  <p>For historical reasons, <code id=the-window-object:window-11><a href=#window>Window</a></code> objects must also have a writable, configurable,
+  non-enumerable property named <dfn id=htmldocument><code>HTMLDocument</code></dfn> whose value is the
+  <code id=the-window-object:document-10><a href=#document>Document</a></code> <a id=the-window-object:interface-object href=https://heycam.github.io/webidl/#dfn-interface-object data-x-internal=interface-object>interface object</a>.</p>
+
+  
+
+
+  <h4 id=apis-for-creating-and-navigating-browsing-contexts-by-name>7.3.1 APIs for creating and navigating browsing contexts by name<a href=#apis-for-creating-and-navigating-browsing-contexts-by-name class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>window</var> = <var>window</var> . <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:dom-open><a href=#dom-open>open</a></code>( [ <var>url</var> [, <var>target</var> [, <var>features</var> ] ] ] )<dd>
+
+    <p>Opens a window to show <var>url</var> (defaults to <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:about:blank><a href=#about:blank>about:blank</a></code>), and returns it.
+    The <var>target</var> argument gives the name of the new window. If a window exists with that
+    name already, it is reused. The <var id=apis-for-creating-and-navigating-browsing-contexts-by-name:dom-open-features><a data-x-internal=dom-open-features href=https://drafts.csswg.org/cssom-view/#the-features-argument-to-the-open()-method>features</a></var> argument can be
+    used to influence the rendering of the new window.</p>
+
+   <dt><var>window</var> . <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:dom-name><a href=#dom-name>name</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the name of the window.</p>
+
+    <p>Can be set, to change the name.</p>
+
+   <dt><var>window</var> . <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:dom-window-close><a href=#dom-window-close>close</a></code>()<dd>
+
+    <p>Closes the window.</p>
+
+   <dt><var>window</var> . <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:dom-window-closed><a href=#dom-window-closed>closed</a></code><dd>
+
+    <p>Returns true if the window has been closed, false otherwise.</p>
+
+   <dt><var>window</var> . <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:dom-window-stop><a href=#dom-window-stop>stop</a></code>()<dd>
+
+    <p>Cancels the document load.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-open><code>open(<var>url</var>, <var>target</var>,
+  <var>features</var>)</code></dfn> method on <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:window><a href=#window>Window</a></code> objects provides a mechanism for
+  <a href=#navigate id=apis-for-creating-and-navigating-browsing-contexts-by-name:navigate>navigating</a> an existing <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context>browsing context</a> or opening and
+  navigating an <a href=#auxiliary-browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:auxiliary-browsing-context>auxiliary browsing context</a>.</p>
+
+  <p>When the method is invoked, the user agent must run the following steps:</p>
+
+  <ol><li><p>Let <var>entry settings</var> be the <a href=#entry-settings-object id=apis-for-creating-and-navigating-browsing-contexts-by-name:entry-settings-object>entry settings object</a>.<li><p>Let <var>source browsing context</var> be the <a href=#responsible-browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:responsible-browsing-context>responsible browsing context</a>
+   specified by <var>entry settings</var>.<li><p>If <var>target</var> is the empty string, let it be the string "<code>_blank</code>" instead.<li>
+
+    <p>If the user has indicated a preference for which <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-2>browsing context</a> to navigate,
+    follow these substeps:</p>
+
+    <ol><li><p>Let <var>target browsing context</var> be the <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-3>browsing context</a> indicated by
+     the user.<li><p>If <var>target browsing context</var> is a new <a href=#top-level-browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:top-level-browsing-context>top-level browsing context</a>,
+     let the <var>source browsing context</var> be set as <var>target browsing context</var>'s
+     <a href=#one-permitted-sandboxed-navigator id=apis-for-creating-and-navigating-browsing-contexts-by-name:one-permitted-sandboxed-navigator>one permitted sandboxed navigator</a>.</ol>
+
+    <p class=example>For example, suppose there is a user agent that supports control-clicking a
+    link to open it in a new tab. If a user clicks in that user agent on an element whose <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:handler-onclick><a href=#handler-onclick>onclick</a></code> handler uses the <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:dom-open-2><a href=#dom-open>window.open()</a></code> API to open a page in an iframe, but, while doing so,
+    holds the control key down, the user agent could override the selection of the target browsing
+    context to instead target a new tab.</p>
+
+    <p>Otherwise, apply <a href=#the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name id=apis-for-creating-and-navigating-browsing-contexts-by-name:the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name>the rules for choosing a browsing context given a browsing context
+    name</a> using <var>target</var> as the name and <var>source browsing context</var> as the
+    context in which the algorithm is executed. If this results in there not being a chosen browsing
+    context, then return null. Otherwise, let <var>target browsing context</var> be the
+    <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-4>browsing context</a> so obtained.</p>
+
+   <li><p>If <var>target browsing context</var> was just created, either as part of <a href=#the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name id=apis-for-creating-and-navigating-browsing-contexts-by-name:the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name-2>the rules
+   for choosing a browsing context given a browsing context name</a> or due to the user
+   indicating a preference for navigating a new <a href=#top-level-browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:top-level-browsing-context-2>top-level browsing context</a>, then let
+   <var>new</var> be true. Otherwise, let it be false.<li><p>Interpret <var>features</var> <a href=https://drafts.csswg.org/cssom-view/#the-features-argument-to-the-open()-method id=apis-for-creating-and-navigating-browsing-contexts-by-name:dom-open-features-2 data-x-internal=dom-open-features>as defined in the CSSOM
+   View specification</a>. <a href=#refsCSSOMVIEW>[CSSOMVIEW]</a><li>
+
+    <p>If <var>url</var> is the empty string, run the appropriate steps from the following list:</p>
+
+    <dl><dt>If <var>new</var> is false<dd><p>Jump to the step labeled <i>end</i>.<dt>If <var>new</var> is true<dd><p>Let <var>resource</var> be the <a id=apis-for-creating-and-navigating-browsing-contexts-by-name:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> "<code id=apis-for-creating-and-navigating-browsing-contexts-by-name:about:blank-2><a href=#about:blank>about:blank</a></code>".</dl>
+
+    <p>Otherwise, <a href=#parse-a-url id=apis-for-creating-and-navigating-browsing-contexts-by-name:parse-a-url>parse</a> <var>url</var> relative to <var>entry
+    settings</var>, and let <var>resource</var> be the <a href=#resulting-url-record id=apis-for-creating-and-navigating-browsing-contexts-by-name:resulting-url-record>resulting URL record</a>, if any. If
+    the <a href=#parse-a-url id=apis-for-creating-and-navigating-browsing-contexts-by-name:parse-a-url-2>parse a URL</a> algorithm failed, then run one of the following two steps
+    instead:</p>
+
+    <ul><li><p>Let <var>resource</var> be a resource representing an inline error page.<li><p>If <var>new</var> is false, jump to the step labeled <i>end</i>, otherwise, let
+     <var>resource</var> be the <a id=apis-for-creating-and-navigating-browsing-contexts-by-name:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> "<code id=apis-for-creating-and-navigating-browsing-contexts-by-name:about:blank-3><a href=#about:blank>about:blank</a></code>".</ul>
+
+   <li>
+
+    <p>If <var>resource</var> is "<code id=apis-for-creating-and-navigating-browsing-contexts-by-name:about:blank-4><a href=#about:blank>about:blank</a></code>" and <var>new</var> is true, then
+    <a href=#queue-a-task id=apis-for-creating-and-navigating-browsing-contexts-by-name:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=apis-for-creating-and-navigating-browsing-contexts-by-name:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:event-load><a href=#event-load>load</a></code> at <var>target browsing context</var>'s <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:window-2><a href=#window>Window</a></code>
+    object, with <var>legacy target override flag</var> set.</p>
+
+    <p>Otherwise, <a href=#navigate id=apis-for-creating-and-navigating-browsing-contexts-by-name:navigate-2>navigate</a> <var>target browsing context</var>
+    to <var>resource</var>, with the <var><a href=#exceptions-enabled id=apis-for-creating-and-navigating-browsing-contexts-by-name:exceptions-enabled>exceptions enabled flag</a></var> set. If
+    <var>new</var> is true, then <a href=#replacement-enabled id=apis-for-creating-and-navigating-browsing-contexts-by-name:replacement-enabled>replacement must be
+    enabled</a>. The <a href=#source-browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:source-browsing-context>source browsing context</a> is <var>source browsing context</var>.
+    Rethrow any exceptions.</p>
+
+   <li>
+    <p><i>End</i>:</p>
+
+    <ol><li><p>If the result of <a href=#split-a-string-on-commas id=apis-for-creating-and-navigating-browsing-contexts-by-name:split-a-string-on-commas>splitting <var>features</var>
+     on commas</a> contains the token "<code>noopener</code>", then <a href=#disowned-its-opener id=apis-for-creating-and-navigating-browsing-contexts-by-name:disowned-its-opener>disown <var>target browsing context</var>'s opener</a> and
+     return null.<li><p>Otherwise, return the <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:windowproxy><a href=#windowproxy>WindowProxy</a></code> object of <var>target browsing
+     context</var>.</ol>
+
+   </ol>
+
+  <hr>
+
+  <p>The <dfn id=dom-name><code>name</code></dfn> attribute of the <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:window-3><a href=#window>Window</a></code> object
+  must, on getting, return the current <a href=#browsing-context-name id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-name>name</a> of the
+  <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-5>browsing context</a>; and, on setting, set the <a href=#browsing-context-name id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-name-2>name</a> of the <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-6>browsing context</a> to the new value.</p>
+
+  <p class=note>The name <a href=#resetBCName>gets reset</a> when the browsing context is
+  <a href=#navigate id=apis-for-creating-and-navigating-browsing-contexts-by-name:navigate-3>navigated</a> to another <a href=#concept-origin id=apis-for-creating-and-navigating-browsing-contexts-by-name:concept-origin>origin</a>.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-window-close><code>close()</code></dfn> method on <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:window-4><a href=#window>Window</a></code>
+  objects should, if all the following conditions are met, <a href=#close-a-browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:close-a-browsing-context>close</a> the <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-7>browsing context</a> <var>A</var>:
+
+  <ul class=brief><li>The corresponding <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-8>browsing context</a> <var>A</var> is
+   <a href=#script-closable id=apis-for-creating-and-navigating-browsing-contexts-by-name:script-closable>script-closable</a>.<li>The <a href=#responsible-browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:responsible-browsing-context-2>responsible browsing context</a> specified by the <a href=#incumbent-settings-object id=apis-for-creating-and-navigating-browsing-contexts-by-name:incumbent-settings-object>incumbent settings
+   object</a> is <a href=#familiar-with id=apis-for-creating-and-navigating-browsing-contexts-by-name:familiar-with>familiar with</a> the <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-9>browsing context</a> <var>A</var>.<li id=sandboxClose>The <a href=#responsible-browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:responsible-browsing-context-3>responsible browsing context</a> specified by the
+   <a href=#incumbent-settings-object id=apis-for-creating-and-navigating-browsing-contexts-by-name:incumbent-settings-object-2>incumbent settings object</a> is <a href=#allowed-to-navigate id=apis-for-creating-and-navigating-browsing-contexts-by-name:allowed-to-navigate>allowed to navigate</a> the <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-10>browsing
+   context</a> <var>A</var>.</ul>
+
+  <p>A <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-11>browsing context</a> is <dfn id=script-closable>script-closable</dfn> if it is an <a href=#auxiliary-browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:auxiliary-browsing-context-2>auxiliary
+  browsing context</a> that was created by a script (as opposed to by an action of the user), or
+  if it is a <a href=#top-level-browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:top-level-browsing-context-3>top-level browsing context</a> whose <a href=#session-history id=apis-for-creating-and-navigating-browsing-contexts-by-name:session-history>session history</a> contains
+  only one <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:document><a href=#document>Document</a></code>.</p>
+
+  <p>The <dfn id=dom-window-closed><code>closed</code></dfn> attribute on <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:window-5><a href=#window>Window</a></code>
+  objects must return true if the <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:window-6><a href=#window>Window</a></code> object's <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-12>browsing context</a> has
+  been <a href=#a-browsing-context-is-discarded id=apis-for-creating-and-navigating-browsing-contexts-by-name:a-browsing-context-is-discarded>discarded</a>, and false otherwise.</p>
+
+  <p>The <dfn id=dom-window-stop><code>stop()</code></dfn> method on <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:window-7><a href=#window>Window</a></code>
+  objects should, if there is an existing attempt to <a href=#navigate id=apis-for-creating-and-navigating-browsing-contexts-by-name:navigate-4>navigate</a> the <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-13>browsing
+  context</a> and that attempt is not currently running the <a href=#unload-a-document id=apis-for-creating-and-navigating-browsing-contexts-by-name:unload-a-document>unload a document</a>
+  algorithm, cancel that <a href=#navigate id=apis-for-creating-and-navigating-browsing-contexts-by-name:navigate-5>navigation</a>; then, it must <a href=#abort-a-document id=apis-for-creating-and-navigating-browsing-contexts-by-name:abort-a-document>abort</a> the <a href=#active-document id=apis-for-creating-and-navigating-browsing-contexts-by-name:active-document>active document</a> of the <a href=#browsing-context id=apis-for-creating-and-navigating-browsing-contexts-by-name:browsing-context-14>browsing
+  context</a> of the <code id=apis-for-creating-and-navigating-browsing-contexts-by-name:window-8><a href=#window>Window</a></code> object on which it was invoked.</p>
+
+  
+
+
+  <h4 id=accessing-other-browsing-contexts>7.3.2 Accessing other browsing contexts<a href=#accessing-other-browsing-contexts class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>window</var> . <code id=accessing-other-browsing-contexts:dom-length><a href=#dom-length>length</a></code><dd>
+
+    <p>Returns the number of <a href=#document-tree-child-browsing-context id=accessing-other-browsing-contexts:document-tree-child-browsing-context>document-tree child browsing contexts</a>.</p>
+
+   <dt><var>window</var>[<var>index</var>]<dd>
+
+    <p>Returns the indicated <a href=#document-tree-child-browsing-context id=accessing-other-browsing-contexts:document-tree-child-browsing-context-2>document-tree child browsing context</a>.</p>
+
+   </dl>
+
+  
+
+  <p id=number-of-child-browsing-contexts>The <dfn id=number-of-document-tree-child-browsing-contexts>number of document-tree child browsing
+  contexts</dfn> of a <code id=accessing-other-browsing-contexts:window><a href=#window>Window</a></code> object <var>W</var> is the number of <a href=#document-tree-child-browsing-context id=accessing-other-browsing-contexts:document-tree-child-browsing-context-3>document-tree child browsing contexts</a> of
+  <var>W</var>'s <a href=#concept-document-window id=accessing-other-browsing-contexts:concept-document-window>associated <code>Document</code></a>'s
+  <a href=#concept-document-bc id=accessing-other-browsing-contexts:concept-document-bc>browsing context</a>.</p>
+
+  <p>The <dfn id=dom-length><code>length</code></dfn> IDL attribute's getter must return the
+  <a href=#number-of-document-tree-child-browsing-contexts id=accessing-other-browsing-contexts:number-of-document-tree-child-browsing-contexts>number of document-tree child browsing contexts</a> of this <code id=accessing-other-browsing-contexts:window-2><a href=#window>Window</a></code>
+  object.</p>
+
+  <p class=note>Indexed access to <a href=#document-tree-child-browsing-context id=accessing-other-browsing-contexts:document-tree-child-browsing-context-4>document-tree child browsing contexts</a> is defined through the <a href=#windowproxy-getownproperty>[[GetOwnProperty]]</a> internal method of the
+  <code id=accessing-other-browsing-contexts:windowproxy><a href=#windowproxy>WindowProxy</a></code> object.</p>
+
+  
+
+
+
+  <h4 id=named-access-on-the-window-object>7.3.3 Named access on the <code id=named-access-on-the-window-object:window><a href=#window>Window</a></code> object<a href=#named-access-on-the-window-object class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>window</var>[<var>name</var>]<dd>
+
+    <p>Returns the indicated element or collection of elements.</p>
+
+    <p>As a general rule, relying on this will lead to brittle code. Which IDs end up mapping to
+    this API can vary over time, as new features are added to the Web platform, for example. Instead
+    of this, use <code>document.getElementById()</code> or <code>document.querySelector()</code>.</p>
+
+   </dl>
+
+  
+
+  <p id=child-browsing-context-name-property-set>The <dfn id=document-tree-child-browsing-context-name-property-set>document-tree child browsing context
+  name property set</dfn> of a <code id=named-access-on-the-window-object:window-2><a href=#window>Window</a></code> object <var>window</var> is the return value of
+  running these steps:</p>
+
+  <ol><li><p>Let <var>activeDocument</var> be <var>window</var>'s <a href=#browsing-context id=named-access-on-the-window-object:browsing-context>browsing context</a>'s
+   <a href=#active-document id=named-access-on-the-window-object:active-document>active document</a>.<li><p>Let <var>childBrowsingContexts</var> be all <a href=#document-tree-child-browsing-context id=named-access-on-the-window-object:document-tree-child-browsing-context>document-tree child browsing contexts</a> of <var>activeDocument</var>'s <a href=#concept-document-bc id=named-access-on-the-window-object:concept-document-bc>browsing context</a> whose <a href=#browsing-context-name id=named-access-on-the-window-object:browsing-context-name>browsing context name</a> is
+   not the empty string, in order, and including only the first <a href=#document-tree-child-browsing-context id=named-access-on-the-window-object:document-tree-child-browsing-context-2>document-tree child browsing
+   context</a> with a given <a href=#browsing-context-name id=named-access-on-the-window-object:browsing-context-name-2>name</a> if multiple <a href=#document-tree-child-browsing-context id=named-access-on-the-window-object:document-tree-child-browsing-context-3>document-tree child browsing contexts</a> have
+   the same one.<li><p>Remove each <a href=#browsing-context id=named-access-on-the-window-object:browsing-context-2>browsing context</a> from <var>childBrowsingContexts</var> whose
+   <a href=#active-document id=named-access-on-the-window-object:active-document-2>active document</a>'s <a href=#concept-origin id=named-access-on-the-window-object:concept-origin>origin</a> is not <a href=#same-origin id=named-access-on-the-window-object:same-origin>same origin</a> with
+   <var>activeDocument</var>'s <a href=#concept-origin id=named-access-on-the-window-object:concept-origin-2>origin</a> and whose <a href=#browsing-context-name id=named-access-on-the-window-object:browsing-context-name-3>browsing context name</a> does
+   not match the name of its <a href=#browsing-context-container id=named-access-on-the-window-object:browsing-context-container>browsing context container</a>'s <code>name</code>
+   content attribute value.<li><p>Return the <a href=#browsing-context-name id=named-access-on-the-window-object:browsing-context-name-4>browsing context names</a> of
+   <var>childBrowsingContexts</var>, in the same order.</ol>
+
+  <div class=example>
+   <p>This means that in the following example, hosted on <code>https://example.org/</code>, assuming <code>https://elsewhere.example/</code>
+   sets <code id=named-access-on-the-window-object:dom-name><a href=#dom-name>window.name</a></code> to "<code>spices</code>", evaluating
+   <code>window.spices</code> after everything has loaded will yield undefined:</p>
+
+   <pre>&lt;iframe src=https://elsewhere.example.com/>&lt;/iframe>
+&lt;iframe name=spices>&lt;/iframe></pre>
+  </div>
+
+  <p>The <code id=named-access-on-the-window-object:window-3><a href=#window>Window</a></code> object <a href=https://heycam.github.io/webidl/#dfn-support-named-properties id=named-access-on-the-window-object:support-named-properties data-x-internal=support-named-properties>supports named
+  properties</a>. The <a id=named-access-on-the-window-object:supported-property-names href=https://heycam.github.io/webidl/#dfn-supported-property-names data-x-internal=supported-property-names>supported property names</a> of a <code id=named-access-on-the-window-object:window-4><a href=#window>Window</a></code> object
+  <var>window</var> at any moment consist of the following, in <a id=named-access-on-the-window-object:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> according to
+  the element that contributed them, ignoring later duplicates:</p>
+
+  <ul><li><p><var>window</var>'s <a href=#document-tree-child-browsing-context-name-property-set id=named-access-on-the-window-object:document-tree-child-browsing-context-name-property-set>document-tree child browsing context name property
+   set</a>;<li><p>the value of the <code>name</code> content attribute for all
+   <code id=named-access-on-the-window-object:the-applet-element><a href=#the-applet-element>applet</a></code>, <code id=named-access-on-the-window-object:the-embed-element><a href=#the-embed-element>embed</a></code>, <code id=named-access-on-the-window-object:the-form-element><a href=#the-form-element>form</a></code>, <code id=named-access-on-the-window-object:frameset><a href=#frameset>frameset</a></code>,
+   <code id=named-access-on-the-window-object:the-img-element><a href=#the-img-element>img</a></code>, and <code id=named-access-on-the-window-object:the-object-element><a href=#the-object-element>object</a></code> elements that have a non-empty <code>name</code> content attribute and are <a id=named-access-on-the-window-object:in-a-document-tree href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a> with
+   <var>window</var>'s <a href=#browsing-context id=named-access-on-the-window-object:browsing-context-3>browsing context</a>'s <a href=#active-document id=named-access-on-the-window-object:active-document-3>active document</a> as their
+   <a id=named-access-on-the-window-object:root href=https://dom.spec.whatwg.org/#concept-tree-root data-x-internal=root>root</a>; and<li><p>the value of the <code id=named-access-on-the-window-object:the-id-attribute><a href=#the-id-attribute>id</a></code> content attribute for all <a href=#html-elements id=named-access-on-the-window-object:html-elements>HTML
+   elements</a> that have a non-empty <code id=named-access-on-the-window-object:the-id-attribute-2><a href=#the-id-attribute>id</a></code> content attribute and are
+   <a id=named-access-on-the-window-object:in-a-document-tree-2 href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a> with <var>window</var>'s <a href=#browsing-context id=named-access-on-the-window-object:browsing-context-4>browsing context</a>'s
+   <a href=#active-document id=named-access-on-the-window-object:active-document-4>active document</a> as their <a id=named-access-on-the-window-object:root-2 href=https://dom.spec.whatwg.org/#concept-tree-root data-x-internal=root>root</a>.</ul>
+
+  <p id=dom-window-nameditem>To <a id=named-access-on-the-window-object:determine-the-value-of-a-named-property href=https://heycam.github.io/webidl/#dfn-determine-the-value-of-a-named-property data-x-internal=determine-the-value-of-a-named-property>determine the value of a named property</a>
+  <var>name</var> in a <code id=named-access-on-the-window-object:window-5><a href=#window>Window</a></code>, the user agent must return the value obtained using the
+  following steps:</p>
+
+  <ol><li>
+
+    <p>Let <var>objects</var> be the list of <a href=#dom-window-nameditem-filter id=named-access-on-the-window-object:dom-window-nameditem-filter>named
+    objects</a> with the name <var>name</var>.</p>
+
+    <p class=note>There will be at least one such object, by definition.</p>
+

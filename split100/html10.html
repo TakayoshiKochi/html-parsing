@@ -1,0 +1,850 @@
+  <a href=#reflect id=the-link-element:reflect-2>reflect</a> the <code id=the-link-element:attr-link-crossorigin-3><a href=#attr-link-crossorigin>crossorigin</a></code> content attribute.</p>
+
+  <p>The IDL attribute <dfn id=dom-link-rellist><code>relList</code></dfn> must <a href=#reflect id=the-link-element:reflect-3>reflect</a> the <code id=the-link-element:attr-link-rel-17><a href=#attr-link-rel>rel</a></code> content attribute.</p>
+
+  <p>The IDL attribute <dfn id=dom-link-referrerpolicy><code>referrerPolicy</code></dfn> must
+  <a href=#reflect id=the-link-element:reflect-4>reflect</a> the <code id=the-link-element:attr-link-referrerpolicy-3><a href=#attr-link-referrerpolicy>referrerpolicy</a></code>
+  content attribute, <a href=#limited-to-only-known-values id=the-link-element:limited-to-only-known-values>limited to only known values</a>.</p>
+
+  <p>Other specifications may add <a href=#linkTypes>HTML link types</a> as defined in <a href=#other-link-types>Other link types</a>, with the following additional requirements:</p>
+
+  <ul><li>Such specifications may require that their link types be included in <code id=the-link-element:attr-link-rel-18><a href=#attr-link-rel>rel</a></code>'s <a href=https://dom.spec.whatwg.org/#concept-supported-tokens id=the-link-element:concept-supported-tokens-4 data-x-internal=concept-supported-tokens>supported
+   tokens</a>.<li>Such specifications may specify that their link types are <a href=#body-ok id=the-link-element:body-ok-2>body-ok</a>.</ul>
+
+  
+
+  <p>The <code id=the-link-element:linkstyle-2><a data-x-internal=linkstyle href=https://drafts.csswg.org/cssom/#the-linkstyle-interface>LinkStyle</a></code> interface is also implemented by this element. <a href=#refsCSSOM>[CSSOM]</a></p>
+
+  <div class=example>
+
+   <p>Here, a set of <code id=the-link-element:the-link-element-28><a href=#the-link-element>link</a></code> elements provide some style sheets:</p>
+
+   <pre>&lt;!-- a persistent style sheet -->
+&lt;link rel="stylesheet" href="default.css">
+
+&lt;!-- the preferred alternate style sheet -->
+&lt;link rel="stylesheet" href="green.css" title="Green styles">
+
+&lt;!-- some alternate style sheets -->
+&lt;link rel="alternate stylesheet" href="contrast.css" title="High contrast">
+&lt;link rel="alternate stylesheet" href="big.css" title="Big fonts">
+&lt;link rel="alternate stylesheet" href="wide.css" title="Wide screen"></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following example shows how you can specify versions of the page that use alternative
+   formats, are aimed at other languages, and that are intended for other media:</p>
+
+   <pre>&lt;link rel=alternate href="/en/html" hreflang=en type=text/html title="English HTML">
+&lt;link rel=alternate href="/fr/html" hreflang=fr type=text/html title="French HTML">
+&lt;link rel=alternate href="/en/html/print" hreflang=en type=text/html media=print title="English HTML (for printing)">
+&lt;link rel=alternate href="/fr/html/print" hreflang=fr type=text/html media=print title="French HTML (for printing)">
+&lt;link rel=alternate href="/en/pdf" hreflang=en type=application/pdf title="English PDF">
+&lt;link rel=alternate href="/fr/pdf" hreflang=fr type=application/pdf title="French PDF"></pre>
+
+  </div>
+
+
+
+
+
+  <h4 id=the-meta-element data-dfn-type=element data-lt=meta>4.2.5 The <dfn id=meta><code>meta</code></dfn> element<a href=#the-meta-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-meta-element:concept-element-categories>Categories</a>:<dd><a href=#metadata-content-2 id=the-meta-element:metadata-content-2>Metadata content</a>.<dd>If the <code id=the-meta-element:names:-the-itemprop-attribute><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute is present: <a href=#flow-content-2 id=the-meta-element:flow-content-2>flow content</a>.<dd>If the <code id=the-meta-element:names:-the-itemprop-attribute-2><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute is present: <a href=#phrasing-content-2 id=the-meta-element:phrasing-content-2>phrasing content</a>.<dt><a href=#concept-element-contexts id=the-meta-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>If the <code id=the-meta-element:attr-meta-charset><a href=#attr-meta-charset>charset</a></code> attribute is present, or if the element's <code id=the-meta-element:attr-meta-http-equiv><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute is in the <a href=#attr-meta-http-equiv-content-type id=the-meta-element:attr-meta-http-equiv-content-type>Encoding declaration state</a>: in a <code id=the-meta-element:the-head-element><a href=#the-head-element>head</a></code> element.<dd>If the <code id=the-meta-element:attr-meta-http-equiv-2><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute is present but not in the <a href=#attr-meta-http-equiv-content-type id=the-meta-element:attr-meta-http-equiv-content-type-2>Encoding declaration state</a>: in a <code id=the-meta-element:the-head-element-2><a href=#the-head-element>head</a></code> element.<dd>If the <code id=the-meta-element:attr-meta-http-equiv-3><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute is present but not in the <a href=#attr-meta-http-equiv-content-type id=the-meta-element:attr-meta-http-equiv-content-type-3>Encoding declaration state</a>: in a <code id=the-meta-element:the-noscript-element><a href=#the-noscript-element>noscript</a></code> element that is a child of a <code id=the-meta-element:the-head-element-3><a href=#the-head-element>head</a></code> element.<dd>If the <code id=the-meta-element:attr-meta-name><a href=#attr-meta-name>name</a></code> attribute is present: where <a href=#metadata-content-2 id=the-meta-element:metadata-content-2-2>metadata content</a> is expected.<dd>If the <code id=the-meta-element:names:-the-itemprop-attribute-3><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute is present: where <a href=#metadata-content-2 id=the-meta-element:metadata-content-2-3>metadata content</a> is expected.<dd>If the <code id=the-meta-element:names:-the-itemprop-attribute-4><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute is present: where <a href=#phrasing-content-2 id=the-meta-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-meta-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-meta-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-meta-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-meta-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-meta-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-meta-element:global-attributes>Global attributes</a><dd><code id=the-meta-element:attr-meta-name-2><a href=#attr-meta-name>name</a></code> — Metadata name<dd><code id=the-meta-element:attr-meta-http-equiv-4><a href=#attr-meta-http-equiv>http-equiv</a></code> — Pragma directive<dd><code id=the-meta-element:attr-meta-content><a href=#attr-meta-content>content</a></code> — Value of the element<dd><code id=the-meta-element:attr-meta-charset-2><a href=#attr-meta-charset>charset</a></code> — <a href=#character-encoding-declaration id=the-meta-element:character-encoding-declaration>Character encoding declaration</a><dt><a href=#concept-element-dom id=the-meta-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-meta-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlmetaelement>HTMLMetaElement</dfn> : <a href=#htmlelement id=the-meta-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-meta-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-meta-name id=the-meta-element:dom-meta-name>name</a>;
+  [<a href=#cereactions id=the-meta-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-meta-httpequiv id=the-meta-element:dom-meta-httpequiv>httpEquiv</a>;
+  [<a href=#cereactions id=the-meta-element:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-meta-content id=the-meta-element:dom-meta-content>content</a>;
+
+  // <a href="#HTMLMetaElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-meta-element:the-meta-element><a href=#the-meta-element>meta</a></code> element <a href=#represents id=the-meta-element:represents>represents</a> various kinds of metadata that cannot be
+  expressed using the <code id=the-meta-element:the-title-element><a href=#the-title-element>title</a></code>, <code id=the-meta-element:the-base-element><a href=#the-base-element>base</a></code>, <code id=the-meta-element:the-link-element><a href=#the-link-element>link</a></code>, <code id=the-meta-element:the-style-element><a href=#the-style-element>style</a></code>,
+  and <code id=the-meta-element:the-script-element><a href=#the-script-element>script</a></code> elements.</p>
+
+  <p>The <code id=the-meta-element:the-meta-element-2><a href=#the-meta-element>meta</a></code> element can represent document-level metadata with the <code id=the-meta-element:attr-meta-name-3><a href=#attr-meta-name>name</a></code> attribute, pragma directives with the <code id=the-meta-element:attr-meta-http-equiv-5><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute, and the file's <a href=#character-encoding-declaration id=the-meta-element:character-encoding-declaration-2>character encoding
+  declaration</a> when an HTML document is serialized to string form (e.g. for transmission over
+  the network or for disk storage) with the <code id=the-meta-element:attr-meta-charset-3><a href=#attr-meta-charset>charset</a></code>
+  attribute.</p>
+
+  <p>Exactly one of the <code id=the-meta-element:attr-meta-name-4><a href=#attr-meta-name>name</a></code>, <code id=the-meta-element:attr-meta-http-equiv-6><a href=#attr-meta-http-equiv>http-equiv</a></code>, <code id=the-meta-element:attr-meta-charset-4><a href=#attr-meta-charset>charset</a></code>,
+  and <code id=the-meta-element:names:-the-itemprop-attribute-5><a href=#names:-the-itemprop-attribute>itemprop</a></code> attributes must be specified.</p>
+
+  <p>If either <code id=the-meta-element:attr-meta-name-5><a href=#attr-meta-name>name</a></code>, <code id=the-meta-element:attr-meta-http-equiv-7><a href=#attr-meta-http-equiv>http-equiv</a></code>, or <code id=the-meta-element:names:-the-itemprop-attribute-6><a href=#names:-the-itemprop-attribute>itemprop</a></code> is
+  specified, then the <code id=the-meta-element:attr-meta-content-2><a href=#attr-meta-content>content</a></code> attribute must also be
+  specified. Otherwise, it must be omitted.</p>
+
+  <p>The <dfn id=attr-meta-charset><code>charset</code></dfn> attribute specifies the character
+  encoding used by the document. This is a <a href=#character-encoding-declaration id=the-meta-element:character-encoding-declaration-3>character encoding declaration</a>. If the
+  attribute is present in an <a href=https://dom.spec.whatwg.org/#xml-document id=the-meta-element:xml-documents data-x-internal=xml-documents>XML document</a>, its value must be an
+  <a id=the-meta-element:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>utf-8</code>" (and the
+  document is therefore forced to use <a id=the-meta-element:utf-8 href=https://encoding.spec.whatwg.org/#utf-8 data-x-internal=utf-8>UTF-8</a> as its encoding).</p>
+
+  <p class=note>The <code id=the-meta-element:attr-meta-charset-5><a href=#attr-meta-charset>charset</a></code> attribute on the
+  <code id=the-meta-element:the-meta-element-3><a href=#the-meta-element>meta</a></code> element has no effect in XML documents, and is only allowed in order to
+  facilitate migration to and from XML.</p>
+
+  <p>There must not be more than one <code id=the-meta-element:the-meta-element-4><a href=#the-meta-element>meta</a></code> element with a <code id=the-meta-element:attr-meta-charset-6><a href=#attr-meta-charset>charset</a></code> attribute per document.</p>
+
+  <p>The <dfn data-dfn-for=meta id=attr-meta-content data-dfn-type=element-attr data-export=""><code>content</code></dfn> attribute gives the value of the document metadata
+  or pragma directive when the element is used for those purposes. The allowed values depend on the
+  exact context, as described in subsequent sections of this specification.</p>
+
+  <p>If a <code id=the-meta-element:the-meta-element-5><a href=#the-meta-element>meta</a></code> element has a <dfn id=attr-meta-name><code>name</code></dfn>
+  attribute, it sets document metadata. Document metadata is expressed in terms of name-value pairs,
+  the <code id=the-meta-element:attr-meta-name-6><a href=#attr-meta-name>name</a></code> attribute on the <code id=the-meta-element:the-meta-element-6><a href=#the-meta-element>meta</a></code> element giving the
+  name, and the <code id=the-meta-element:attr-meta-content-3><a href=#attr-meta-content>content</a></code> attribute on the same element giving
+  the value. The name specifies what aspect of metadata is being set; valid names and the meaning of
+  their values are described in the following sections. If a <code id=the-meta-element:the-meta-element-7><a href=#the-meta-element>meta</a></code> element has no <code id=the-meta-element:attr-meta-content-4><a href=#attr-meta-content>content</a></code> attribute, then the value part of the metadata name-value
+  pair is the empty string.</p>
+
+  
+
+  <p>The <dfn id=dom-meta-name><code>name</code></dfn> and <dfn id=dom-meta-content><code>content</code></dfn> IDL attributes must <a href=#reflect id=the-meta-element:reflect>reflect</a> the
+  respective content attributes of the same name. The IDL attribute <dfn id=dom-meta-httpequiv><code>httpEquiv</code></dfn> must <a href=#reflect id=the-meta-element:reflect-2>reflect</a> the content
+  attribute <code id=the-meta-element:attr-meta-http-equiv-8><a href=#attr-meta-http-equiv>http-equiv</a></code>.</p>
+
+  
+
+
+  <h5 id=standard-metadata-names>4.2.5.1 Standard metadata names<a href=#standard-metadata-names class=self-link></a></h5>
+
+  <p>This specification defines a few names for the <code id=standard-metadata-names:attr-meta-name><a href=#attr-meta-name>name</a></code>
+  attribute of the <code id=standard-metadata-names:the-meta-element><a href=#the-meta-element>meta</a></code> element.</p>
+
+  <p>Names are case-insensitive<span class=impl>, and must be compared in an <a id=standard-metadata-names:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+  case-insensitive</a> manner</span>.</p>
+
+  <dl><dt><dfn id=meta-application-name><code>application-name</code></dfn><dd>
+
+    <p>The value must be a short free-form string giving the name of the Web application that the
+    page represents. If the page is not a Web application, the <code id=standard-metadata-names:meta-application-name><a href=#meta-application-name>application-name</a></code> metadata name must not be used.
+    Translations of the Web application's name may be given, using the <code id=standard-metadata-names:attr-lang><a href=#attr-lang>lang</a></code> attribute to specify the language of each name.</p>
+
+    <p>There must not be more than one <code id=standard-metadata-names:the-meta-element-2><a href=#the-meta-element>meta</a></code> element with a given <a href=#language id=standard-metadata-names:language>language</a>
+    and with its <code id=standard-metadata-names:attr-meta-name-2><a href=#attr-meta-name>name</a></code> attribute set to the value <code id=standard-metadata-names:meta-application-name-2><a href=#meta-application-name>application-name</a></code> per document.</p>
+
+    
+
+    <p>User agents may use the application name in UI in preference to the page's
+    <code id=standard-metadata-names:the-title-element><a href=#the-title-element>title</a></code>, since the title might include status messages and the like relevant to the
+    status of the page at a particular moment in time instead of just being the name of the
+    application.</p>
+
+    <p>To find the application name to use given an ordered list of languages (e.g. British English,
+    American English, and English), user agents must run the following steps:</p>
+
+    <ol><li><p>Let <var>languages</var> be the list of languages.<li><p>Let <var>default language</var> be the <a href=#language id=standard-metadata-names:language-2>language</a> of the
+     <code id=standard-metadata-names:document><a href=#document>Document</a></code>'s <a id=standard-metadata-names:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>, if any, and if that language is not
+     unknown.</p>
+
+     <li><p>If there is a <var>default language</var>, and if it is not the same language
+     as any of the languages in <var>languages</var>, append it to <var>languages</var>.<li>
+
+      <p>Let <var>winning language</var> be the first language in <var>languages</var> for which there is a <code id=standard-metadata-names:the-meta-element-3><a href=#the-meta-element>meta</a></code> element in the
+      <code id=standard-metadata-names:document-2><a href=#document>Document</a></code> that has its <code id=standard-metadata-names:attr-meta-name-3><a href=#attr-meta-name>name</a></code> attribute set to
+      the value <code id=standard-metadata-names:meta-application-name-3><a href=#meta-application-name>application-name</a></code> and whose
+      <a href=#language id=standard-metadata-names:language-3>language</a> is the language in question.</p>
+
+      <p>If none of the languages have such a <code id=standard-metadata-names:the-meta-element-4><a href=#the-meta-element>meta</a></code> element, then abort these steps;
+      there's no given application name.</p>
+
+     <li>
+
+      <p>Return the value of the <code id=standard-metadata-names:attr-meta-content><a href=#attr-meta-content>content</a></code> attribute of the
+      first <code id=standard-metadata-names:the-meta-element-5><a href=#the-meta-element>meta</a></code> element in the <code id=standard-metadata-names:document-3><a href=#document>Document</a></code> in <a id=standard-metadata-names:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> that
+      has its <code id=standard-metadata-names:attr-meta-name-4><a href=#attr-meta-name>name</a></code> attribute set to the value <code id=standard-metadata-names:meta-application-name-4><a href=#meta-application-name>application-name</a></code> and whose <a href=#language id=standard-metadata-names:language-4>language</a> is <var>winning language</var>.</p>
+
+     </ol>
+
+    <p class=note>This algorithm would be used by a browser when it needs a name for the page, for
+    instance, to label a bookmark. The languages it would provide to the algorithm would be the
+    user's preferred languages.</p>
+
+    
+
+   <dt><dfn id=meta-author><code>author</code></dfn><dd><p>The value must be a free-form string giving the name of one of the page's
+   authors.<dt><dfn id=meta-description><code>description</code></dfn><dd><p>The value must be a free-form string that describes the page. The value must be
+   appropriate for use in a directory of pages, e.g. in a search engine. There must not be more than
+   one <code id=standard-metadata-names:the-meta-element-6><a href=#the-meta-element>meta</a></code> element with its <code id=standard-metadata-names:attr-meta-name-5><a href=#attr-meta-name>name</a></code> attribute set to
+   the value <code id=standard-metadata-names:meta-description><a href=#meta-description>description</a></code> per document.<dt><dfn id=meta-generator><code>generator</code></dfn><dd>
+
+    <p>The value must be a free-form string that identifies one of the software packages used to
+    generate the document. This value must not be used on pages whose markup is not generated by
+    software, e.g. pages whose markup was written by a user in a text editor.</p>
+
+    <div class=example>
+
+     <p>Here is what a tool called "Frontweaver" could include in its output, in the page's
+     <code id=standard-metadata-names:the-head-element><a href=#the-head-element>head</a></code> element, to identify itself as the tool used to generate the page:</p>
+
+     <pre>&lt;meta name=generator content="Frontweaver 8.2"></pre>
+
+    </div>
+
+   <dt><dfn id=meta-keywords><code>keywords</code></dfn><dd>
+
+    <p>The value must be a <a href=#set-of-comma-separated-tokens id=standard-metadata-names:set-of-comma-separated-tokens>set of comma-separated tokens</a>, each of which is a keyword
+    relevant to the page.</p>
+
+    <div class=example>
+
+     <p>This page about typefaces on British motorways uses a <code id=standard-metadata-names:the-meta-element-7><a href=#the-meta-element>meta</a></code> element to specify
+     some keywords that users might use to look for the page:</p>
+
+     <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en-GB">
+ &lt;head>
+  &lt;title>Typefaces on UK motorways&lt;/title>
+  &lt;meta name="keywords" content="british,type face,font,fonts,highway,highways">
+ &lt;/head>
+ &lt;body>
+  ...</pre>
+
+    </div>
+
+    <p class=note>Many search engines do not consider such keywords, because this feature has
+    historically been used unreliably and even misleadingly as a way to spam search engine results
+    in a way that is not helpful for users.</p>
+
+    
+
+    <p>To obtain the list of keywords that the author has specified as applicable to the page, the
+    user agent must run the following steps:</p>
+
+    <ol><li><p>Let <var>keywords</var> be an empty list.<li>
+
+      <p>For each <code id=standard-metadata-names:the-meta-element-8><a href=#the-meta-element>meta</a></code> element with a <code id=standard-metadata-names:attr-meta-name-6><a href=#attr-meta-name>name</a></code>
+      attribute and a <code id=standard-metadata-names:attr-meta-content-2><a href=#attr-meta-content>content</a></code> attribute and whose <code id=standard-metadata-names:attr-meta-name-7><a href=#attr-meta-name>name</a></code> attribute's value is <code id=standard-metadata-names:meta-keywords><a href=#meta-keywords>keywords</a></code>, run the following substeps:</p>
+
+      <ol><li><p><a href=#split-a-string-on-commas id=standard-metadata-names:split-a-string-on-commas>Split the value of the element's <code>content</code> attribute on commas</a>.<li><p>Add the resulting tokens, if any, to <var>keywords</var>.</ol>
+
+     <li><p>Remove any duplicates from <var>keywords</var>.<li><p>Return <var>keywords</var>. This is the list of keywords that the author has
+     specified as applicable to the page.</ol>
+
+    <p>User agents should not use this information when there is insufficient confidence in the
+    reliability of the value.</p>
+
+    <p class=example>For instance, it would be reasonable for a content management system to use
+    the keyword information of pages within the system to populate the index of a site-specific
+    search engine, but a large-scale content aggregator that used this information would likely find
+    that certain users would try to game its ranking mechanism through the use of inappropriate
+    keywords.</p>
+
+    
+
+   <dt><dfn id=meta-referrer><code>referrer</code></dfn><dd>
+    <p>The value must be a <a id=standard-metadata-names:referrer-policy href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a>, which defines the default <a id=standard-metadata-names:referrer-policy-2 href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer
+    policy</a> for the <code id=standard-metadata-names:document-4><a href=#document>Document</a></code>. <a href=#refsREFERRERPOLICY>[REFERRERPOLICY]</a></p>
+
+    
+
+    <p>If any <code id=standard-metadata-names:the-meta-element-9><a href=#the-meta-element>meta</a></code> elements are <a href=#insert-an-element-into-a-document id=standard-metadata-names:insert-an-element-into-a-document>inserted into the document</a> or <a href=#remove-an-element-from-a-document id=standard-metadata-names:remove-an-element-from-a-document>removed from the document</a>, or existing
+    <code id=standard-metadata-names:the-meta-element-10><a href=#the-meta-element>meta</a></code> elements have their <code id=standard-metadata-names:attr-meta-name-8><a href=#attr-meta-name>name</a></code> or <code id=standard-metadata-names:attr-meta-content-3><a href=#attr-meta-content>content</a></code> attributes changed, user agents must run the
+    following algorithm:</p>
+
+    <ol><li>
+      <p>Let <var>candidate elements</var> be the list of all <code id=standard-metadata-names:the-meta-element-11><a href=#the-meta-element>meta</a></code> elements that
+      meet the following criteria, in <a id=standard-metadata-names:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>:</p>
+
+      <ul class=brief><li>The element is <a id=standard-metadata-names:in-a-document-tree href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a><li>The element has a <code id=standard-metadata-names:attr-meta-name-9><a href=#attr-meta-name>name</a></code> attribute, whose value is
+       <code id=standard-metadata-names:meta-referrer><a href=#meta-referrer>referrer</a></code><li>The element has a <code id=standard-metadata-names:attr-meta-content-4><a href=#attr-meta-content>content</a></code> attribute, whose value
+       is not the empty string<li>The element is a child of <a href=#the-head-element-2 id=standard-metadata-names:the-head-element-2>the <code>head</code> element</a> of the document</ul>
+     <li>
+      <p>For each <var>element</var> in <var>candidate elements</var>, run the following
+      substeps:</p>
+
+      <ol><li><p>Let <var>value</var> be the value of <var>element</var>'s <code id=standard-metadata-names:attr-meta-content-5><a href=#attr-meta-content>content</a></code> attribute, <a id=standard-metadata-names:converted-to-ascii-lowercase href=https://infra.spec.whatwg.org/#ascii-lowercase data-x-internal=converted-to-ascii-lowercase>converted to ASCII
+       lowercase</a>.<li>
+        <p>If <var>value</var> is one of the values given in the first column of the following
+        table, then set <var>value</var> to the value given in the second column:</p>
+
+        <table><thead><tr><th>Legacy value
+           <th>Referrer policy
+         <tbody><tr><td><code>never</code>
+           <td><code id=standard-metadata-names:referrer-policy-no-referrer><a data-x-internal=referrer-policy-no-referrer href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-no-referrer>no-referrer</a></code>
+          <tr><td><code>default</code>
+           <td><code id=standard-metadata-names:referrer-policy-no-referrer-when-downgrade><a data-x-internal=referrer-policy-no-referrer-when-downgrade href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-no-referrer-when-downgrade>no-referrer-when-downgrade</a></code>
+          <tr><td><code>always</code>
+           <td><code id=standard-metadata-names:referrer-policy-unsafe-url><a data-x-internal=referrer-policy-unsafe-url href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-unsafe-url>unsafe-url</a></code>
+          <tr><td><code>origin-when-crossorigin</code>
+           <td><code id=standard-metadata-names:referrer-policy-origin-when-cross-origin><a data-x-internal=referrer-policy-origin-when-cross-origin href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-origin-when-cross-origin>origin-when-cross-origin</a></code>
+        </table>
+       <li><p>If <var>value</var> is a <a id=standard-metadata-names:referrer-policy-3 href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a>, then set <var>element</var>'s
+       <a id=standard-metadata-names:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <a href=#concept-document-referrer-policy id=standard-metadata-names:concept-document-referrer-policy>referrer
+       policy</a> to <var>policy</var>.</ol>
+
+      <p class=note>The fact that these substeps are applied for each element enables <a href=https://w3c.github.io/webappsec-referrer-policy/#unknown-policy-values>deployment of
+      fallback values for older user agents</a>. <a href=#refsREFERRERPOLICY>[REFERRERPOLICY]</a></p>
+     </ol>
+
+    
+   <dt><dfn id=meta-theme-color><code>theme-color</code></dfn><dd>
+
+    <p>The value must be a string that matches the CSS <a id=standard-metadata-names:color href=https://drafts.csswg.org/css-color/#typedef-color data-x-internal=color>&lt;color></a> production, defining
+    a suggested color that user agents should use to customize the display of the page or of the
+    surrounding user interface. For example, a browser might color the page's title bar with the
+    specified value, or use it as a color highlight in a tab bar or task switcher.</p>
+
+    <p>There must not be more than one <code id=standard-metadata-names:the-meta-element-12><a href=#the-meta-element>meta</a></code> element with its <code id=standard-metadata-names:attr-meta-name-10><a href=#attr-meta-name>name</a></code> attribute set to the value <code id=standard-metadata-names:meta-theme-color><a href=#meta-theme-color>theme-color</a></code> per document.</p>
+
+    <div class=example>
+
+     <p>This standard itself uses "WHATWG green" as its theme color:</p>
+
+     <pre>&lt;!DOCTYPE HTML>
+&lt;title>HTML Standard&lt;/title>
+&lt;meta name="theme-color" content="#3c790a">
+...</pre>
+
+    </div>
+
+    
+
+     <p>To obtain a page's theme color, user agents must run the following steps:</p>
+
+     <ol><li>
+       <p>Let <var>candidate elements</var> be the list of all <code id=standard-metadata-names:the-meta-element-13><a href=#the-meta-element>meta</a></code> elements that
+       meet the following criteria, in <a id=standard-metadata-names:tree-order-3 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>:</p>
+
+       <ul class=brief><li>The element is <a id=standard-metadata-names:in-a-document-tree-2 href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a><li>The element has a <code id=standard-metadata-names:attr-meta-name-11><a href=#attr-meta-name>name</a></code> attribute, whose value is
+        <code id=standard-metadata-names:meta-theme-color-2><a href=#meta-theme-color>theme-color</a></code><li>The element has a <code id=standard-metadata-names:attr-meta-content-6><a href=#attr-meta-content>content</a></code> attribute</ul>
+      <li>
+       <p>For each <var>element</var> in <var>candidate elements</var>, run the following
+       substeps:</p>
+
+       <ol><li><p>Let <var>value</var> be the result of <a href=#strip-leading-and-trailing-whitespace id=standard-metadata-names:strip-leading-and-trailing-whitespace>stripping leading and trailing whitespace</a> from the value of
+        <var>element</var>'s <code id=standard-metadata-names:attr-meta-content-7><a href=#attr-meta-content>content</a></code> attribute.<li><p>If <var>value</var> can be <a href=#parsed-as-a-css-color-value id=standard-metadata-names:parsed-as-a-css-color-value>parsed as a CSS &lt;color> value</a>, return
+        the parsed color.</ol>
+      <li><p>If this step is reached, the page has no theme color.</ol>
+
+     <p>If any <code id=standard-metadata-names:the-meta-element-14><a href=#the-meta-element>meta</a></code> elements are <a href=#insert-an-element-into-a-document id=standard-metadata-names:insert-an-element-into-a-document-2>inserted into the document</a> or <a href=#remove-an-element-from-a-document id=standard-metadata-names:remove-an-element-from-a-document-2>removed from the document</a>, or existing <code id=standard-metadata-names:the-meta-element-15><a href=#the-meta-element>meta</a></code> elements have their
+     <code id=standard-metadata-names:attr-meta-name-12><a href=#attr-meta-name>name</a></code> or <code id=standard-metadata-names:attr-meta-content-8><a href=#attr-meta-content>content</a></code>
+     attributes changed, user agents must re-run the above algorithm and apply the result to any
+     affected UI.</p>
+
+    
+
+    <p>When using the theme color in UI, user agents may adjust it in implementation-specific ways
+    to make it more suitable for the UI in question. For example, if a user agent intends to use
+    the theme color as a background and display white text over it, it might use a darker variant of
+    the theme color in that part of the UI, to ensure adequate contrast.</p>
+
+   </dl>
+
+
+
+  <h5 id=other-metadata-names>4.2.5.2 Other metadata names<a href=#other-metadata-names class=self-link></a></h5>
+
+  <p><dfn id=concept-meta-extensions>Extensions to the predefined set of metadata names</dfn>
+  may be registered in the <a href=https://wiki.whatwg.org/wiki/MetaExtensions>WHATWG Wiki
+  MetaExtensions page</a>. <a href=#refsWHATWGWIKI>[WHATWGWIKI]</a></p>
+
+  <p>Anyone is free to edit the WHATWG Wiki MetaExtensions page at any time to add a type. These new
+  names must be specified with the following information:</p>
+
+  <dl><dt>Keyword<dd><p>The actual name being defined. The name should not be confusingly similar to any other
+   defined name (e.g. differing only in case).<dt>Brief description<dd><p>A short non-normative description of what the metadata name's meaning is, including the
+   format the value is required to be in.<dt>Specification<dd>A link to a more detailed description of the metadata name's semantics and requirements. It
+   could be another page on the Wiki, or a link to an external page.<dt>Synonyms<dd><p>A list of other names that have exactly the same processing requirements. Authors should
+   not use the names defined to be synonyms, they are only intended to allow user agents to support
+   legacy content. Anyone may remove synonyms that are not used in practice; only names that need to
+   be processed as synonyms for compatibility with legacy content are to be registered in this
+   way.<dt>Status<dd>
+
+    <p>One of the following:</p>
+
+    <dl><dt>Proposed<dd>The name has not received wide peer review and approval. Someone has proposed it and is, or
+     soon will be, using it.<dt>Ratified<dd>The name has received wide peer review and approval. It has a specification that
+     unambiguously defines how to handle pages that use the name, including when they use it in
+     incorrect ways.<dt>Discontinued<dd>The metadata name has received wide peer review and it has been found wanting. Existing
+     pages are using this metadata name, but new pages should avoid it. The "brief description" and
+     "specification" entries will give details of what authors should use instead, if anything.</dl>
+
+    <p>If a metadata name is found to be redundant with existing values, it should be removed and
+    listed as a synonym for the existing value.</p>
+
+    <p>If a metadata name is registered in the "proposed" state for a period of a month or more
+    without being used or specified, then it may be removed from the registry.</p>
+
+    <p>If a metadata name is added with the "proposed" status and found to be redundant with
+    existing values, it should be removed and listed as a synonym for the existing value. If a
+    metadata name is added with the "proposed" status and found to be harmful, then it should be
+    changed to "discontinued" status.</p>
+
+    <p>Anyone can change the status at any time, but should only do so in accordance with the
+    definitions above.</p>
+
+   </dl>
+
+  
+
+  <p>Conformance checkers must use the information given on the WHATWG Wiki MetaExtensions page to
+  establish if a value is allowed or not: values defined in this specification or marked as
+  "proposed" or "ratified" must be accepted, whereas values marked as "discontinued" or not listed
+  in either this specification or on the aforementioned page must be rejected as invalid.
+  Conformance checkers may cache this information (e.g. for performance reasons or to avoid the use
+  of unreliable network connectivity).</p>
+
+  <p>When an author uses a new metadata name not defined by either this specification or the Wiki
+  page, conformance checkers should offer to add the value to the Wiki, with the details described
+  above, with the "proposed" status.</p>
+
+  
+
+  <p>Metadata names whose values are to be <a href=https://url.spec.whatwg.org/#concept-url id=other-metadata-names:url data-x-internal=url>URLs</a> must not be proposed or
+  accepted. Links must be represented using the <code id=other-metadata-names:the-link-element><a href=#the-link-element>link</a></code> element, not the <code id=other-metadata-names:the-meta-element><a href=#the-meta-element>meta</a></code>
+  element.</p>
+
+
+
+  <h5 id=pragma-directives>4.2.5.3 Pragma directives<a href=#pragma-directives class=self-link></a></h5>
+
+  <p>When the <dfn data-dfn-for=meta id=attr-meta-http-equiv data-dfn-type=element-attr data-export=""><code>http-equiv</code></dfn> attribute is specified on a
+  <code id=pragma-directives:the-meta-element><a href=#the-meta-element>meta</a></code> element, the element is a pragma directive.</p>
+
+  <p>The <code id=pragma-directives:attr-meta-http-equiv><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute is an <a href=#enumerated-attribute id=pragma-directives:enumerated-attribute>enumerated
+  attribute</a>. The following table lists the keywords defined for this attribute. The states
+  given in the first cell of the rows with keywords give the states to which those keywords map.
+  Some of the keywords are non-conforming, as noted in the last
+  column.</p>
+
+
+  <table id=table-http-equiv><thead><tr><th>State
+     <th>Keyword
+     <th>Notes
+   <tbody><tr><td><a href=#attr-meta-http-equiv-content-language id=pragma-directives:attr-meta-http-equiv-content-language>Content Language</a>
+     <td><code>content-language</code>
+     <td>Non-conforming
+    <tr><td><a href=#attr-meta-http-equiv-content-type id=pragma-directives:attr-meta-http-equiv-content-type>Encoding declaration</a>
+     <td><code>content-type</code>
+     <td>
+
+    <tr><td><a href=#attr-meta-http-equiv-default-style id=pragma-directives:attr-meta-http-equiv-default-style>Default style</a>
+     <td><code>default-style</code>
+     <td>
+    <tr><td><a href=#attr-meta-http-equiv-refresh id=pragma-directives:attr-meta-http-equiv-refresh>Refresh</a>
+     <td><code>refresh</code>
+     <td>
+    <tr><td><a href=#attr-meta-http-equiv-set-cookie id=pragma-directives:attr-meta-http-equiv-set-cookie>Cookie setter</a>
+     <td><code>set-cookie</code>
+     <td>Non-conforming
+    <tr><td><a href=#attr-meta-http-equiv-x-ua-compatible id=pragma-directives:attr-meta-http-equiv-x-ua-compatible>X-UA-Compatible</a>
+     <td><code>x-ua-compatible</code>
+     <td>
+    <tr><td><a href=#attr-meta-http-equiv-content-security-policy id=pragma-directives:attr-meta-http-equiv-content-security-policy>Content security policy</a>
+     <td><code>Content-Security-Policy</code>
+     <td>
+  </table>
+
+
+
+  
+
+  <p>When a <code id=pragma-directives:the-meta-element-2><a href=#the-meta-element>meta</a></code> element is <a href=#insert-an-element-into-a-document id=pragma-directives:insert-an-element-into-a-document>inserted
+  into the document</a>, if its <code id=pragma-directives:attr-meta-http-equiv-2><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute is
+  present and represents one of the above states, then the user agent must run the algorithm
+  appropriate for that state, as described in the following list:</p>
+
+  
+
+  <dl><dt><dfn id=attr-meta-http-equiv-content-language>Content language state</dfn>
+   (<code>http-equiv="content-language"</code>)
+
+   <dd>
+
+    <p class=note>This feature is non-conforming. Authors are encouraged to use the <code id=pragma-directives:attr-lang><a href=#attr-lang>lang</a></code> attribute instead.</p>
+
+    <p>This pragma sets the <dfn id=pragma-set-default-language>pragma-set default language</dfn>. Until such a pragma is
+    successfully processed, there is no <a href=#pragma-set-default-language id=pragma-directives:pragma-set-default-language>pragma-set default language</a>.</p>
+
+    
+
+    <ol><li><p>If the <code id=pragma-directives:the-meta-element-3><a href=#the-meta-element>meta</a></code> element has no <code id=pragma-directives:attr-meta-content><a href=#attr-meta-content>content</a></code>
+     attribute, then abort these steps.<li><p>If the element's <code id=pragma-directives:attr-meta-content-2><a href=#attr-meta-content>content</a></code> attribute contains a
+     U+002C COMMA character (,) then abort these steps.<li><p>Let <var>input</var> be the value of the element's <code id=pragma-directives:attr-meta-content-3><a href=#attr-meta-content>content</a></code> attribute.<li><p>Let <var>position</var> point at the first character of <var>input</var>.<li><p><a href=#skip-whitespace id=pragma-directives:skip-whitespace>Skip whitespace</a>.<li><p><a href=#collect-a-sequence-of-characters id=pragma-directives:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are not <a href=#space-character id=pragma-directives:space-character>space characters</a>.<li><p>Let <var>candidate</var> be the string that resulted from the previous
+     step.<li><p>If <var>candidate</var> is the empty string, abort these steps.<li>
+
+      <p>Set the <a href=#pragma-set-default-language id=pragma-directives:pragma-set-default-language-2>pragma-set default language</a> to <var>candidate</var>.</p>
+
+      <p class=note>If the value consists of multiple space-separated tokens, tokens after the
+      first are ignored.</p>
+
+     </ol>
+
+    <p class=note>This pragma is almost, but not quite, entirely unlike the HTTP `<code id=pragma-directives:http-content-language><a data-x-internal=http-content-language href=https://tools.ietf.org/html/rfc7231#section-3.1.3.2>Content-Language</a></code>` header of the same name. <a href=#refsHTTP>[HTTP]</a></p>
+
+   <dt><dfn id=attr-meta-http-equiv-content-type>Encoding declaration state</dfn> (<code>http-equiv="content-type"</code>)
+
+   <dd>
+
+    <p>The <a href=#attr-meta-http-equiv-content-type id=pragma-directives:attr-meta-http-equiv-content-type-2>Encoding declaration state</a> is
+    just an alternative form of setting the <code id=pragma-directives:attr-meta-charset><a href=#attr-meta-charset>charset</a></code>
+    attribute: it is a <a href=#character-encoding-declaration id=pragma-directives:character-encoding-declaration>character encoding declaration</a>. This state's user
+    agent requirements are all handled by the parsing section of the specification.</p>
+
+    <p>For <code id=pragma-directives:the-meta-element-4><a href=#the-meta-element>meta</a></code> elements with an <code id=pragma-directives:attr-meta-http-equiv-3><a href=#attr-meta-http-equiv>http-equiv</a></code>
+    attribute in the <a href=#attr-meta-http-equiv-content-type id=pragma-directives:attr-meta-http-equiv-content-type-3>Encoding declaration
+    state</a>, the <code id=pragma-directives:attr-meta-content-4><a href=#attr-meta-content>content</a></code> attribute must have a value
+    that is an <a id=pragma-directives:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for a string that consists of: the literal
+    string "<code>text/html;</code>", optionally followed by any number of <a href=#space-character id=pragma-directives:space-character-2>space characters</a>, followed by the literal string "<code>charset=</code>", followed by one of the <a href=https://encoding.spec.whatwg.org/#label id=pragma-directives:encoding-label data-x-internal=encoding-label>labels</a> of
+    the <a href=https://encoding.spec.whatwg.org/#encoding id=pragma-directives:encoding data-x-internal=encoding>character encoding</a> of the <a href=#character-encoding-declaration id=pragma-directives:character-encoding-declaration-2>character encoding
+    declaration</a>.</p>
+
+    <p>A document must not contain both a <code id=pragma-directives:the-meta-element-5><a href=#the-meta-element>meta</a></code> element with an <code id=pragma-directives:attr-meta-http-equiv-4><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute in the <a href=#attr-meta-http-equiv-content-type id=pragma-directives:attr-meta-http-equiv-content-type-4>Encoding declaration state</a> and a
+    <code id=pragma-directives:the-meta-element-6><a href=#the-meta-element>meta</a></code> element with the <code id=pragma-directives:attr-meta-charset-2><a href=#attr-meta-charset>charset</a></code> attribute
+    present.</p>
+
+    <p>The <a href=#attr-meta-http-equiv-content-type id=pragma-directives:attr-meta-http-equiv-content-type-5>Encoding declaration state</a> may be
+    used in <a id=pragma-directives:html-documents href=https://dom.spec.whatwg.org/#html-document data-x-internal=html-documents>HTML documents</a>, but elements with an <code id=pragma-directives:attr-meta-http-equiv-5><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute in that state must not be used in
+    <a id=pragma-directives:xml-documents href=https://dom.spec.whatwg.org/#xml-document data-x-internal=xml-documents>XML documents</a>.</p>
+
+   <dt><dfn id=attr-meta-http-equiv-default-style>Default style state</dfn> (<code>http-equiv="default-style"</code>)
+
+   <dd>
+
+    <p>This pragma sets the <a href=https://drafts.csswg.org/cssom/#css-style-sheet-set-name id=pragma-directives:css-style-sheet-set-name data-x-internal=css-style-sheet-set-name>name</a> of the default
+    <a id=pragma-directives:css-style-sheet-set href=https://drafts.csswg.org/cssom/#css-style-sheet-set data-x-internal=css-style-sheet-set>CSS style sheet set</a>.</p>
+
+    
+
+    <ol><li><p>If the <code id=pragma-directives:the-meta-element-7><a href=#the-meta-element>meta</a></code> element has no <code id=pragma-directives:attr-meta-content-5><a href=#attr-meta-content>content</a></code>
+     attribute, or if that attribute's value is the empty string, then abort these steps.<li><p><a id=pragma-directives:change-the-preferred-css-style-sheet-set-name href=https://drafts.csswg.org/cssom/#change-the-preferred-css-style-sheet-set-name data-x-internal=change-the-preferred-css-style-sheet-set-name>Change the preferred CSS style sheet set name</a> with the name being the value
+     of the element's <code id=pragma-directives:attr-meta-content-6><a href=#attr-meta-content>content</a></code> attribute. <a href=#refsCSSOM>[CSSOM]</a></ol>
+
+    
+
+   <dt><dfn id=attr-meta-http-equiv-refresh>Refresh state</dfn> (<code>http-equiv="refresh"</code>)
+
+   <dd>
+
+    <p>This pragma acts as timed redirect.</p>
+
+    
+
+    <ol><li><p>If another <code id=pragma-directives:the-meta-element-8><a href=#the-meta-element>meta</a></code> element with an <code id=pragma-directives:attr-meta-http-equiv-6><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute in the <a href=#attr-meta-http-equiv-refresh id=pragma-directives:attr-meta-http-equiv-refresh-2>Refresh state</a> has already been successfully
+     processed (i.e. when it was inserted the user agent processed it and reached the step labeled
+     <i>end</i>), then abort these steps.<li><p>If the <code id=pragma-directives:the-meta-element-9><a href=#the-meta-element>meta</a></code> element has no <code id=pragma-directives:attr-meta-content-7><a href=#attr-meta-content>content</a></code>
+     attribute, or if that attribute's value is the empty string, then abort these steps.<li><p>Let <var>document</var> be the <code id=pragma-directives:the-meta-element-10><a href=#the-meta-element>meta</a></code> element's <a id=pragma-directives:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+     document</a>.<li><p>Let <var>input</var> be the value of the element's <code id=pragma-directives:attr-meta-content-8><a href=#attr-meta-content>content</a></code> attribute.<li><p>Let <var>position</var> point at the first character of <var>input</var>.<li><p><a href=#skip-whitespace id=pragma-directives:skip-whitespace-2>Skip whitespace</a>.<li><p><a href=#collect-a-sequence-of-characters id=pragma-directives:collect-a-sequence-of-characters-2>Collect a sequence of characters</a> that are <a href=#ascii-digits id=pragma-directives:ascii-digits>ASCII digits</a>, and
+     parse the resulting string using the <a href=#rules-for-parsing-non-negative-integers id=pragma-directives:rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</a>. If
+     the sequence of characters collected is the empty string, then no number will have been parsed;
+     abort these steps. Otherwise, let <var>time</var> be the parsed number.<li><p><a href=#collect-a-sequence-of-characters id=pragma-directives:collect-a-sequence-of-characters-3>Collect a sequence of characters</a> that are <a href=#ascii-digits id=pragma-directives:ascii-digits-2>ASCII digits</a> and
+     U+002E FULL STOP characters (.). Ignore any collected characters.<li><p>Let <var>url</var> be <var>document</var>'s <a href=https://dom.spec.whatwg.org/#concept-document-url id="pragma-directives:the-document's-address" data-x-internal="the-document's-address">URL</a>.<li><p>If <var>position</var> is past the end of <var>input</var>, jump to the step labeled
+     <i>end</i>.<li><p>If the character in <var>input</var> pointed to by <var>position</var> is not a U+003B
+     SEMICOLON character (;), a U+002C COMMA character (,), or a <a href=#space-character id=pragma-directives:space-character-3>space character</a>, then
+     abort these steps.<li><p><a href=#skip-whitespace id=pragma-directives:skip-whitespace-3>Skip whitespace</a>.<li><p>If the character in <var>input</var> pointed to by <var>position</var> is a U+003B
+     SEMICOLON character (;), a U+002C COMMA character (,), then advance <var>position</var> to the
+     next character.<li><p><a href=#skip-whitespace id=pragma-directives:skip-whitespace-4>Skip whitespace</a>.<li><p>If <var>position</var> is past the end of <var>input</var>, jump to the step labeled
+     <i>end</i>.<li><p>Let <var>url</var> be equal to the substring of <var>input</var> from
+     the character at <var>position</var> to the end of the string.<li><p>If the character in <var>input</var> pointed to by <var>position</var>
+     is a U+0055 LATIN CAPITAL LETTER U character (U) or a U+0075 LATIN SMALL LETTER U character
+     (u), then advance <var>position</var> to the next character. Otherwise, jump to the step
+     labeled <i>skip quotes</i>.<li><p>If the character in <var>input</var> pointed to by <var>position</var>
+     is a U+0052 LATIN CAPITAL LETTER R character (R) or a U+0072 LATIN SMALL LETTER R character
+     (r), then advance <var>position</var> to the next character. Otherwise, jump to the step
+     labeled <i>parse</i>.<li><p>If the character in <var>input</var> pointed to by <var>position</var>
+     is s U+004C LATIN CAPITAL LETTER L character (L) or a U+006C LATIN SMALL LETTER L character
+     (l), then advance <var>position</var> to the next character. Otherwise, jump to the step
+     labeled <i>parse</i>.<li><p><a href=#skip-whitespace id=pragma-directives:skip-whitespace-5>Skip whitespace</a>.<li><p>If the character in <var>input</var> pointed to by <var>position</var>
+     is a U+003D EQUALS SIGN (=), then advance <var>position</var> to the next character. Otherwise,
+     jump to the step labeled <i>parse</i>.<li><p><a href=#skip-whitespace id=pragma-directives:skip-whitespace-6>Skip whitespace</a>.<li><p><i>Skip quotes</i>: If the character in <var>input</var> pointed to by
+     <var>position</var> is either a U+0027 APOSTROPHE character (') or U+0022 QUOTATION MARK
+     character ("), then let <var>quote</var> be that character, and advance <var>position</var> to
+     the next character. Otherwise, let <var>quote</var> be the empty string.<li><p>Let <var>url</var> be equal to the substring of <var>input</var> from
+     the character at <var>position</var> to the end of the string.<li><p>If <var>quote</var> is not the empty string, and there is a character in <var>url</var>
+     equal to <var>quote</var>, then truncate <var>url</var> at that character, so that it and all
+     subsequent characters are removed.</p>
+
+     <li><p><i>Parse</i>: <a href=#parse-a-url id=pragma-directives:parse-a-url>Parse</a> <var>url</var> relative to
+     <var>document</var>. If that fails, abort these steps. Otherwise, let <var>urlRecord</var> be
+     the <a href=#resulting-url-record id=pragma-directives:resulting-url-record>resulting URL record</a>.<li>
+
+      <p><i>End</i>: Perform one or more of the following steps:</p>
+
+      <ul><li>
+
+        <p>After the refresh has come due (as defined below), if the user has not canceled the
+        redirect and <var>document</var>'s <a href=#active-sandboxing-flag-set id=pragma-directives:active-sandboxing-flag-set>active sandboxing flag set</a> does not have the
+        <a href=#sandboxed-automatic-features-browsing-context-flag id=pragma-directives:sandboxed-automatic-features-browsing-context-flag>sandboxed automatic features browsing context flag</a> set, <a href=#navigate id=pragma-directives:navigate>navigate</a> <var>document</var>'s <a href=#concept-document-bc id=pragma-directives:concept-document-bc>browsing context</a> to <var>urlRecord</var>, with
+        <a href=#replacement-enabled id=pragma-directives:replacement-enabled>replacement enabled</a>, and with <var>document</var>'s <a href=#concept-document-bc id=pragma-directives:concept-document-bc-2>browsing context</a> as the <a href=#source-browsing-context id=pragma-directives:source-browsing-context>source browsing
+        context</a>.</p>
+
+        <p>For the purposes of the previous paragraph, a refresh is said to have come due as soon as
+        the <em>later</em> of the following two conditions occurs:</p>
+
+        <ul><li>At least <var>time</var> seconds have elapsed since <var>document</var> has
+         <a href=#completely-loaded id=pragma-directives:completely-loaded>completely loaded</a>, adjusted to take into account user or user agent
+         preferences.<li>At least <var>time</var> seconds have elapsed since the <code id=pragma-directives:the-meta-element-11><a href=#the-meta-element>meta</a></code> element was
+         <a href=#insert-an-element-into-a-document id=pragma-directives:insert-an-element-into-a-document-2>inserted into the document</a>
+         <var>document</var>, adjusted to take into account user or user agent preferences.</ul>
+
+        <p class=note>It is important to use <var>document</var> here, and not the
+        <code id=pragma-directives:the-meta-element-12><a href=#the-meta-element>meta</a></code> element's <a id=pragma-directives:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>, as that might have changed between
+        the initial set of steps and the refresh coming due.</p>
+
+       <li><p>Provide the user with an interface that, when selected, <a href=#navigate id=pragma-directives:navigate-2>navigates</a> a <a href=#browsing-context id=pragma-directives:browsing-context>browsing context</a>
+       to <var>urlRecord</var>, with the <code id=pragma-directives:document><a href=#document>Document</a></code>'s <a href=#concept-document-bc id=pragma-directives:concept-document-bc-3>browsing context</a> as the <a href=#source-browsing-context id=pragma-directives:source-browsing-context-2>source browsing
+       context</a>.<li><p>Do nothing.</ul>
+
+      <p>In addition, the user agent may, as with anything, inform the user of any and all aspects
+      of its operation, including the state of any timers, the destinations of any timed redirects,
+      and so forth.</p>
+
+     </ol>
+
+    
+
+    <p>For <code id=pragma-directives:the-meta-element-13><a href=#the-meta-element>meta</a></code> elements with an <code id=pragma-directives:attr-meta-http-equiv-7><a href=#attr-meta-http-equiv>http-equiv</a></code>
+    attribute in the <a href=#attr-meta-http-equiv-refresh id=pragma-directives:attr-meta-http-equiv-refresh-3>Refresh state</a>, the <code id=pragma-directives:attr-meta-content-9><a href=#attr-meta-content>content</a></code> attribute must have a value consisting either of:</p>
+
+    <ul><li>just a <a href=#valid-non-negative-integer id=pragma-directives:valid-non-negative-integer>valid non-negative integer</a>, or<li>a <a href=#valid-non-negative-integer id=pragma-directives:valid-non-negative-integer-2>valid non-negative integer</a>, followed by a U+003B SEMICOLON character
+     (;), followed by one or more <a href=#space-character id=pragma-directives:space-character-4>space characters</a>, followed
+     by a substring that is an <a id=pragma-directives:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>URL</code>", followed by a U+003D EQUALS SIGN character (=), followed by a <a href=#valid-url id=pragma-directives:valid-url>valid
+     URL</a> that does not start with a literal U+0027 APOSTROPHE (') or U+0022 QUOTATION MARK
+     (") character.</ul>
+
+    <p>In the former case, the integer represents a number of seconds before the page is to be
+    reloaded; in the latter case the integer represents a number of seconds before the page is to be
+    replaced by the page at the given <a id=pragma-directives:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>.</p>
+
+    <div class=example>
+
+     <p>A news organization's front page could include the following markup in the page's
+     <code id=pragma-directives:the-head-element><a href=#the-head-element>head</a></code> element, to ensure that the page automatically reloads from the server every
+     five minutes:</p>
+
+     <pre>&lt;meta http-equiv="Refresh" content="300"></pre>
+
+    </div>
+
+    <div class=example>
+
+     <p>A sequence of pages could be used as an automated slide show by making each page refresh to
+     the next page in the sequence, using markup such as the following:</p>
+
+     <pre>&lt;meta http-equiv="Refresh" content="20; URL=page4.html"></pre>
+
+    </div>
+
+   <dt><dfn id=attr-meta-http-equiv-set-cookie>Cookie setter</dfn> (<code>http-equiv="set-cookie"</code>)
+
+   <dd>
+
+    <p>This pragma sets an HTTP cookie. <a href=#refsCOOKIES>[COOKIES]</a></p>
+
+    <p>It is non-conforming. Real HTTP headers should be used instead.</p>
+
+    <ol><li><p>If the <code id=pragma-directives:the-meta-element-14><a href=#the-meta-element>meta</a></code> element has no <code id=pragma-directives:attr-meta-content-10><a href=#attr-meta-content>content</a></code>
+     attribute, or if that attribute's value is the empty string, then abort these steps.<li><p>Act as if <a href=#receives-a-set-cookie-string id=pragma-directives:receives-a-set-cookie-string>receiving a
+     set-cookie-string</a> for the document's <a href=https://dom.spec.whatwg.org/#concept-document-url id="pragma-directives:the-document's-address-2" data-x-internal="the-document's-address">URL</a> via
+     a "non-HTTP" API, consisting of the value of the element's <code id=pragma-directives:attr-meta-content-11><a href=#attr-meta-content>content</a></code> attribute <a href=https://encoding.spec.whatwg.org/#utf-8-encode id=pragma-directives:utf-8-encode data-x-internal=utf-8-encode>encoded as
+     UTF-8</a>. <a href=#refsCOOKIES>[COOKIES]</a> <a href=#refsENCODING>[ENCODING]</a></ol>
+
+   <dt><dfn id=attr-meta-http-equiv-x-ua-compatible>X-UA-Compatible state</dfn> (<code>http-equiv="x-ua-compatible"</code>)
+
+   <dd>
+
+    <p>In practice, this pragma encourages Internet Explorer to more closely follow the
+    specifications.</p>
+
+    <p>For <code id=pragma-directives:the-meta-element-15><a href=#the-meta-element>meta</a></code> elements with an <code id=pragma-directives:attr-meta-http-equiv-8><a href=#attr-meta-http-equiv>http-equiv</a></code>
+    attribute in the <a href=#attr-meta-http-equiv-x-ua-compatible id=pragma-directives:attr-meta-http-equiv-x-ua-compatible-2>X-UA-Compatible state</a>, the
+    <code id=pragma-directives:attr-meta-content-12><a href=#attr-meta-content>content</a></code> attribute must have a value that is an
+    <a id=pragma-directives:ascii-case-insensitive-3 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>IE=edge</code>".</p>
+
+    <p>User agents are required to ignore this pragma.</p>
+
+   <dt><dfn id=attr-meta-http-equiv-content-security-policy data-dfn-type=dfn data-export="">Content security policy state</dfn> (<code>http-equiv="content-security-policy"</code>)
+
+   <dd>
+
+    <p>This pragma <a href=https://w3c.github.io/webappsec-csp/#enforced id=pragma-directives:enforce-the-policy data-x-internal=enforce-the-policy>enforces</a> a <a id=pragma-directives:content-security-policy href=https://w3c.github.io/webappsec-csp/#policy data-x-internal=content-security-policy>Content Security
+    Policy</a> on a <code id=pragma-directives:document-2><a href=#document>Document</a></code>. <a href=#refsCSP>[CSP]</a></p>
+
+    
+
+    <ol><li><p>If the <code id=pragma-directives:the-meta-element-16><a href=#the-meta-element>meta</a></code> element is not a child of a <code id=pragma-directives:the-head-element-2><a href=#the-head-element>head</a></code> element,
+     abort these steps.<li><p>If the <code id=pragma-directives:the-meta-element-17><a href=#the-meta-element>meta</a></code> element has no <code id=pragma-directives:attr-meta-content-13><a href=#attr-meta-content>content</a></code>
+     attribute, or if that attribute's value is the empty string, then abort these steps.<li><p>Let <var>policy</var> be the result of executing Content Security Policy's <a id=pragma-directives:parse-a-serialized-content-security-policy href=https://w3c.github.io/webappsec-csp/#parse-serialized-policy data-x-internal=parse-a-serialized-content-security-policy>parse
+     a serialized Content Security Policy</a> algorithm on the <code id=pragma-directives:the-meta-element-18><a href=#the-meta-element>meta</a></code> element's
+     <code id=pragma-directives:attr-meta-content-14><a href=#attr-meta-content>content</a></code> attribute's value.<li><p>Remove all occurrences of the <code id=pragma-directives:report-uri-directive><a data-x-internal=report-uri-directive href=https://w3c.github.io/webappsec-csp/#report-uri>report-uri</a></code>, <code id=pragma-directives:frame-ancestors-directive><a data-x-internal=frame-ancestors-directive href=https://w3c.github.io/webappsec-csp/#frame-ancestors>frame-ancestors</a></code>, and <code id=pragma-directives:sandbox-directive><a data-x-internal=sandbox-directive href=https://w3c.github.io/webappsec-csp/#sandbox>sandbox</a></code> <a href=https://w3c.github.io/webappsec-csp/#directives id=pragma-directives:content-security-policy-directive data-x-internal=content-security-policy-directive>directives</a> from <var>policy</var>.<li><p><a id=pragma-directives:enforce-the-policy-2 href=https://w3c.github.io/webappsec-csp/#enforced data-x-internal=enforce-the-policy>Enforce the policy</a> <var>policy</var>.</ol>
+
+    
+
+    <p>For <code id=pragma-directives:the-meta-element-19><a href=#the-meta-element>meta</a></code> elements with an <code id=pragma-directives:attr-meta-http-equiv-9><a href=#attr-meta-http-equiv>http-equiv</a></code>
+    attribute in the <a href=#attr-meta-http-equiv-content-security-policy id=pragma-directives:attr-meta-http-equiv-content-security-policy-2>Content security
+    policy state</a>, the <code id=pragma-directives:attr-meta-content-15><a href=#attr-meta-content>content</a></code> attribute must have a
+    value consisting of a <a href=https://w3c.github.io/webappsec-csp/#grammardef-serialized-policy id=pragma-directives:content-security-policy-syntax data-x-internal=content-security-policy-syntax>valid Content Security
+    Policy</a>, but must not contain any <code id=pragma-directives:report-uri-directive-2><a data-x-internal=report-uri-directive href=https://w3c.github.io/webappsec-csp/#report-uri>report-uri</a></code>,
+    <code id=pragma-directives:frame-ancestors-directive-2><a data-x-internal=frame-ancestors-directive href=https://w3c.github.io/webappsec-csp/#frame-ancestors>frame-ancestors</a></code>, or <code id=pragma-directives:sandbox-directive-2><a data-x-internal=sandbox-directive href=https://w3c.github.io/webappsec-csp/#sandbox>sandbox</a></code> <a href=https://w3c.github.io/webappsec-csp/#directives id=pragma-directives:content-security-policy-directive-2 data-x-internal=content-security-policy-directive>directives</a>.
+    The <a id=pragma-directives:content-security-policy-2 href=https://w3c.github.io/webappsec-csp/#policy data-x-internal=content-security-policy>Content Security Policy</a> given in the <code id=pragma-directives:attr-meta-content-16><a href=#attr-meta-content>content</a></code> attribute will be <a href=https://w3c.github.io/webappsec-csp/#enforced id=pragma-directives:enforce-the-policy-3 data-x-internal=enforce-the-policy>enforced</a> upon the current document. <a href=#refsCSP>[CSP]</a></p>
+
+    <div class=example>
+
+     <p>A page might choose to mitigate the risk of cross-site scripting attacks by preventing the
+     execution of inline JavaScript, as well as blocking all plugin content, using a policy such
+     as the following:
+
+     <pre>&lt;meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'none'"></pre>
+
+    </div>
+   </dl><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=28339" title="<meta refresh> Specify Refresh HTTP header">28339</a>, <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=28563" title="As in most cases the http-equiv meta tags are equivalent to their corresponding HTTP header, would i [...]">28563</a></div>
+
+  <p>There must not be more than one <code id=pragma-directives:the-meta-element-20><a href=#the-meta-element>meta</a></code> element with any particular state in the
+  document at a time.</p>
+
+
+  <h5 id=other-pragma-directives>4.2.5.4 Other pragma directives<a href=#other-pragma-directives class=self-link></a></h5>
+
+  <p><dfn id=concept-http-equiv-extensions>Extensions to the predefined set of pragma
+  directives</dfn> may, under certain conditions, be registered in the <a href=https://wiki.whatwg.org/wiki/PragmaExtensions>WHATWG Wiki PragmaExtensions page</a>. <a href=#refsWHATWGWIKI>[WHATWGWIKI]</a></p>
+
+  <p>Such extensions must use a name that is identical to an HTTP header registered in the Permanent
+  Message Header Field Registry, and must have behavior identical to that described for the HTTP
+  header. <a href=#refsIANAPERMHEADERS>[IANAPERMHEADERS]</a></p>
+
+  <p>Pragma directives corresponding to headers describing metadata, or not requiring specific user
+  agent processing, must not be registered; instead, use <a href=#concept-meta-extensions id=other-pragma-directives:concept-meta-extensions>metadata names</a>. Pragma directives corresponding to headers
+  that affect the HTTP processing model (e.g. caching) must not be registered, as they would result
+  in HTTP-level behavior being different for user agents that implement HTML than for user agents
+  that do not.</p>
+
+  <p>Anyone is free to edit the WHATWG Wiki PragmaExtensions page at any time to add a pragma
+  directive satisfying these conditions. Such registrations must specify the following
+  information:</p>
+
+  <dl><dt>Keyword<dd><p>The actual name being defined. The name must match a previously-registered HTTP name with
+   the same requirements.<dt>Brief description<dd><p>A short non-normative description of the purpose of the pragma directive.<dt>Specification<dd>A link to the specification defining the corresponding HTTP header.</dl>
+
+  
+
+  <p>Conformance checkers must use the information given on the WHATWG Wiki PragmaExtensions page to
+  establish if a value is allowed or not: values defined in this specification or listed on the
+  aforementioned page must be accepted, whereas values not listed in either this specification or on
+  the aforementioned page must be rejected as invalid. Conformance checkers may cache this
+  information (e.g. for performance reasons or to avoid the use of unreliable network
+  connectivity).</p>
+
+  
+
+
+
+
+  <h5 id=charset>4.2.5.5 Specifying the document's character encoding<a href=#charset class=self-link></a></h5><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=18338" title="Registries (IANA): text/html MIME type definition should require that charset=&quot;&quot; value be valid and correct">18338</a></div>
+
+  
+
+  <p>A <dfn id=character-encoding-declaration>character encoding declaration</dfn> is a mechanism by which the <a href=https://encoding.spec.whatwg.org/#encoding id=charset:encoding data-x-internal=encoding>character encoding</a> used to store or transmit a document is specified.</p>
+
+  <p>The following restrictions apply to <a href=#character-encoding-declaration id=charset:character-encoding-declaration>character
+  encoding declarations</a>:</p>
+
+  <ul><li>The character encoding name given must be an <a id=charset:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for
+   one of the <a href=https://encoding.spec.whatwg.org/#label id=charset:encoding-label data-x-internal=encoding-label>labels</a> of the <a href=https://encoding.spec.whatwg.org/#encoding id=charset:encoding-2 data-x-internal=encoding>character
+   encoding</a> used to serialize the file. <a href=#refsENCODING>[ENCODING]</a><li>The character encoding declaration must be serialized without the use of <a href=#syntax-charref id=charset:syntax-charref>character references</a> or character escapes of any kind.<li id=charset1024><span id=charset512>The element containing the character encoding
+   declaration must be serialized completely within the first 1024 bytes of the
+   document.</span></ul>
+
+  <p>In addition, due to a number of restrictions on <code id=charset:the-meta-element><a href=#the-meta-element>meta</a></code> elements, there can only be
+  one <code id=charset:the-meta-element-2><a href=#the-meta-element>meta</a></code>-based character encoding declaration per document.</p> 
+
+  <p>If an <a href=https://dom.spec.whatwg.org/#html-document id=charset:html-documents data-x-internal=html-documents>HTML document</a> does not start with a BOM, and its
+  <a id=charset:encoding-3 href=https://encoding.spec.whatwg.org/#encoding data-x-internal=encoding>encoding</a> is not explicitly given by <a href=#content-type id=charset:content-type>Content-Type
+  metadata</a>, and the document is not <a href=#an-iframe-srcdoc-document id=charset:an-iframe-srcdoc-document>an <code>iframe</code> <code>srcdoc</code> document</a>, then the character encoding used must be
+  an <a href=#ascii-compatible-encoding id=charset:ascii-compatible-encoding>ASCII-compatible encoding</a>, and the encoding must be specified using a
+  <code id=charset:the-meta-element-3><a href=#the-meta-element>meta</a></code> element with a <code id=charset:attr-meta-charset><a href=#attr-meta-charset>charset</a></code> attribute or a
+  <code id=charset:the-meta-element-4><a href=#the-meta-element>meta</a></code> element with an <code id=charset:attr-meta-http-equiv><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute
+  in the <a href=#attr-meta-http-equiv-content-type id=charset:attr-meta-http-equiv-content-type>Encoding declaration state</a>.</p>
+
+  <p class=note>A character encoding declaration is required (either in the <a href=#content-type id=charset:content-type-2>Content-Type metadata</a> or explicitly in the file) even when all
+  characters are in the ASCII range, because a character encoding is needed to process non-ASCII
+  characters entered by the user in forms, in URLs generated by scripts, and so forth.</p>
+
+  <p>If the document is <a href=#an-iframe-srcdoc-document id=charset:an-iframe-srcdoc-document-2>an <code>iframe</code> <code>srcdoc</code>
+  document</a>, the document must not have a <a href=#character-encoding-declaration id=charset:character-encoding-declaration-2>character encoding declaration</a>. (In
+  this case, the source is already decoded, since it is part of the document that contained the
+  <code id=charset:the-iframe-element><a href=#the-iframe-element>iframe</a></code>.)</p>
+
+  <p>If an <a href=https://dom.spec.whatwg.org/#html-document id=charset:html-documents-2 data-x-internal=html-documents>HTML document</a> contains a <code id=charset:the-meta-element-5><a href=#the-meta-element>meta</a></code> element
+  with a <code id=charset:attr-meta-charset-2><a href=#attr-meta-charset>charset</a></code> attribute or a <code id=charset:the-meta-element-6><a href=#the-meta-element>meta</a></code> element
+  with an <code id=charset:attr-meta-http-equiv-2><a href=#attr-meta-http-equiv>http-equiv</a></code> attribute in the <a href=#attr-meta-http-equiv-content-type id=charset:attr-meta-http-equiv-content-type-2>Encoding declaration state</a>, then the character
+  encoding used must be an <a href=#ascii-compatible-encoding id=charset:ascii-compatible-encoding-2>ASCII-compatible encoding</a>.</p>
+
+  <p>Authors should use <a id=charset:utf-8 href=https://encoding.spec.whatwg.org/#utf-8 data-x-internal=utf-8>UTF-8</a>. Conformance checkers may advise authors against using
+  legacy encodings. <a href=#refsENCODING>[ENCODING]</a></p>
+
+  
+
+  <p>Authoring tools should default to using <a id=charset:utf-8-2 href=https://encoding.spec.whatwg.org/#utf-8 data-x-internal=utf-8>UTF-8</a> for newly-created documents. <a href=#refsENCODING>[ENCODING]</a></p>
+
+  
+
+  <p>Authors must not use encodings that are not defined in the WHATWG Encoding standard.
+  Additionally, authors should not use <a id=charset:iso-2022-jp href=https://encoding.spec.whatwg.org/#iso-2022-jp data-x-internal=iso-2022-jp>ISO-2022-JP</a>. <a href=#refsENCODING>[ENCODING]</a></p>
+
+  <p class=note>Some encodings that are not defined in the WHATWG Encoding standard use bytes in
+  the range 0x20 to 0x7E, inclusive, to encode characters other than the corresponding characters in
+  the range U+0020 to U+007E, inclusive, and represent a potential security vulnerability: A user
+  agent might end up interpreting supposedly benign plain text content as HTML tags and
+  JavaScript.</p>
+
+  <p class=note>Using non-UTF-8 encodings can have unexpected results on form submission and URL
+  encodings, which use the <a id="charset:document's-character-encoding" href=https://dom.spec.whatwg.org/#concept-document-encoding data-x-internal="document's-character-encoding">document's character encoding</a> by default.</p>
+
+  <p>In XML, the XML declaration should be used for inline character encoding information, if
+  necessary.</p>
+
+  <div class=example>
+
+   <p>In HTML, to declare that the character encoding is <a id=charset:utf-8-3 href=https://encoding.spec.whatwg.org/#utf-8 data-x-internal=utf-8>UTF-8</a>, the author could
+   include the following markup near the top of the document (in the <code id=charset:the-head-element><a href=#the-head-element>head</a></code> element):</p>
+
+   <pre>&lt;meta charset="utf-8"></pre>
+
+   <p>In XML, the XML declaration would be used instead, at the very top of the markup:</p>
+
+   <pre>&lt;?xml version="1.0" encoding="utf-8"?></pre>
+
+  </div>
+
+
+
+  <h4 id=the-style-element data-dfn-type=element data-lt=style>4.2.6 The <dfn><code>style</code></dfn> element<a href=#the-style-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-style-element:concept-element-categories>Categories</a>:<dd><a href=#metadata-content-2 id=the-style-element:metadata-content-2>Metadata content</a>.<dt><a href=#concept-element-contexts id=the-style-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#metadata-content-2 id=the-style-element:metadata-content-2-2>metadata content</a> is expected.<dd>In a <code id=the-style-element:the-noscript-element><a href=#the-noscript-element>noscript</a></code> element that is a child of a <code id=the-style-element:the-head-element><a href=#the-head-element>head</a></code> element.<dt><a href=#concept-element-content-model id=the-style-element:concept-element-content-model>Content model</a>:<dd>Depends on the value of the <code id=the-style-element:attr-style-type><a href=#attr-style-type>type</a></code> attribute, but must match requirements described in prose below.<dt><a href=#concept-element-tag-omission id=the-style-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-style-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-style-element:global-attributes>Global attributes</a><dd><code id=the-style-element:attr-style-media><a href=#attr-style-media>media</a></code> — Applicable media<dd><code id=the-style-element:attr-style-nonce><a href=#attr-style-nonce>nonce</a></code> — Cryptographic nonce used in <cite>Content Security Policy</cite> checks <a href=#refsCSP>[CSP]</a><dd><code id=the-style-element:attr-style-type-2><a href=#attr-style-type>type</a></code> — Type of embedded resource<dd>Also, the <code id=the-style-element:attr-style-title><a href=#attr-style-title>title</a></code> attribute <a href=#attr-style-title id=the-style-element:attr-style-title-2>has special semantics</a> on this element: <a id=the-style-element:css-style-sheet-set-name href=https://drafts.csswg.org/cssom/#css-style-sheet-set-name data-x-internal=css-style-sheet-set-name>CSS style sheet set name</a>.<dt><a href=#concept-element-dom id=the-style-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-style-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlstyleelement>HTMLStyleElement</dfn> : <a href=#htmlelement id=the-style-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-style-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-style-media id=the-style-element:dom-style-media>media</a>;
+  [<a href=#cereactions id=the-style-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-style-nonce id=the-style-element:dom-style-nonce>nonce</a>;
+  [<a href=#cereactions id=the-style-element:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-style-type id=the-style-element:dom-style-type>type</a>;
+};
+<a href=#htmlstyleelement id=the-style-element:htmlstyleelement>HTMLStyleElement</a> implements <a id=the-style-element:linkstyle href=https://drafts.csswg.org/cssom/#the-linkstyle-interface data-x-internal=linkstyle>LinkStyle</a>;</pre>
+   </dl>
+
+  <p>The <code id=the-style-element:the-style-element><a href=#the-style-element>style</a></code> element allows authors to embed style information in their documents.
+  The <code id=the-style-element:the-style-element-2><a href=#the-style-element>style</a></code> element is one of several inputs to the styling processing
+  model. The element does not <a href=#represents id=the-style-element:represents>represent</a> content for the
+  user.</p>
+
+  <p>The <dfn id=attr-style-type><code>type</code></dfn> attribute gives the styling language.
+  If the attribute is present, its value must be a <a id=the-style-element:valid-mime-type href=https://mimesniff.spec.whatwg.org/#valid-mime-type data-x-internal=valid-mime-type>valid MIME type</a> that designates a
+  styling language. The <code>charset</code> parameter must not be specified. The default
+  value for the <code id=the-style-element:attr-style-type-3><a href=#attr-style-type>type</a></code> attribute, which is used if the attribute
+  is absent, is "<code>text/css</code>". <a href=#refsRFC2318>[RFC2318]</a></p>
+
+  
+
+   <p>When examining types
+  to determine if they support the language, user agents must not ignore unknown MIME parameters
+  — types with unknown parameters must be assumed to be unsupported. The <code>charset</code> parameter must be treated as an unknown parameter for the purpose of
+  comparing <a href=https://mimesniff.spec.whatwg.org/#mime-type id=the-style-element:mime-type data-x-internal=mime-type>MIME types</a> here.</p>
+
+  
+
+  <p>The <dfn id=attr-style-media><code>media</code></dfn> attribute says which media the

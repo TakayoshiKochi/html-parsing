@@ -1,0 +1,850 @@
+
+  
+
+  <p>To <dfn id=close-a-worker data-export="">close a worker</dfn>, given a <var>workerGlobal</var>, run these
+  steps:</p>
+
+  <ol><li><p>Discard any <a href=#concept-task id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:concept-task>tasks</a> that have been added to
+   <var>workerGlobal</var>'s <a href=#event-loop id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:event-loop>event loop</a>'s <a href=#task-queue id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:task-queue>task
+   queues</a>.</p>
+
+   <li><p>Set <var>workerGlobal</var>'s <a href=#dom-workerglobalscope-closing id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:dom-workerglobalscope-closing>closing</a>
+   flag to true. (This prevents any further tasks from being queued.)</ol>
+
+  <p>The <dfn id=dom-dedicatedworkerglobalscope-close><code>close()</code></dfn> method, when
+  invoked, must <a href=#close-a-worker id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:close-a-worker>close a worker</a> with this <code id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:dedicatedworkerglobalscope-6><a href=#dedicatedworkerglobalscope>DedicatedWorkerGlobalScope</a></code>
+  object.</p>
+
+  
+
+  <hr>
+
+  <p>The following are the <a href=#event-handlers id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:event-handlers>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:event-handler-event-type>event handler event types</a>) that must be supported, as <a href=#event-handler-idl-attributes id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:event-handler-idl-attributes>event
+  handler IDL attributes</a>, by objects implementing the <code id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:dedicatedworkerglobalscope-7><a href=#dedicatedworkerglobalscope>DedicatedWorkerGlobalScope</a></code>
+  interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-dedicatedworkerglobalscope-onmessage><code>onmessage</code></dfn> <td> <code id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:event-message><a href=#event-message>message</a></code>
+  </table>
+
+  <p>For the purposes of the <a href=#application-cache id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:application-cache>application cache</a> networking model, a dedicated worker is
+  an extension of the <a href=#cache-host id=dedicated-workers-and-the-dedicatedworkerglobalscope-interface:cache-host>cache host</a> from which it was created.</p>
+
+
+
+  <h5 id=shared-workers-and-the-sharedworkerglobalscope-interface>10.2.1.3 Shared workers and the <code id=shared-workers-and-the-sharedworkerglobalscope-interface:sharedworkerglobalscope><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> interface<a href=#shared-workers-and-the-sharedworkerglobalscope-interface class=self-link></a></h5>
+
+  <pre class=idl>[Global=(Worker,SharedWorker),Exposed=SharedWorker]
+interface <dfn id=sharedworkerglobalscope>SharedWorkerGlobalScope</dfn> : <a href=#workerglobalscope id=shared-workers-and-the-sharedworkerglobalscope-interface:workerglobalscope>WorkerGlobalScope</a> {
+  readonly attribute DOMString <a href=#dom-sharedworkerglobalscope-name id=shared-workers-and-the-sharedworkerglobalscope-interface:dom-sharedworkerglobalscope-name>name</a>;
+  readonly attribute <a href=#applicationcache id=shared-workers-and-the-sharedworkerglobalscope-interface:applicationcache>ApplicationCache</a> <a href=#dom-sharedworkerglobalscope-applicationcache id=shared-workers-and-the-sharedworkerglobalscope-interface:dom-sharedworkerglobalscope-applicationcache>applicationCache</a>; // deprecated
+
+  void <a href=#dom-sharedworkerglobalscope-close id=shared-workers-and-the-sharedworkerglobalscope-interface:dom-sharedworkerglobalscope-close>close</a>();
+
+  attribute <a href=#eventhandler id=shared-workers-and-the-sharedworkerglobalscope-interface:eventhandler>EventHandler</a> <a href=#handler-sharedworkerglobalscope-onconnect id=shared-workers-and-the-sharedworkerglobalscope-interface:handler-sharedworkerglobalscope-onconnect>onconnect</a>;
+};</pre>
+
+  <p>A <code id=shared-workers-and-the-sharedworkerglobalscope-interface:sharedworkerglobalscope-2><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> object has an associated <dfn data-dfn-for=SharedWorkerGlobalScope id=concept-sharedworkerglobalscope-constructor-origin>constructor origin</dfn>, <dfn data-dfn-for=SharedWorkerGlobalScope id=concept-sharedworkerglobalscope-constructor-url>constructor url</dfn>, and <dfn data-dfn-for=SharedWorkerGlobalScope id=concept-sharedworkerglobalscope-name>name</dfn>. They are initialized when the
+  <code id=shared-workers-and-the-sharedworkerglobalscope-interface:sharedworkerglobalscope-3><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> object is created, in the <a href=#run-a-worker id=shared-workers-and-the-sharedworkerglobalscope-interface:run-a-worker>run a worker</a>
+  algorithm.
+
+  <p>Shared workers receive message ports through <code id=shared-workers-and-the-sharedworkerglobalscope-interface:event-workerglobalscope-connect><a href=#event-workerglobalscope-connect>connect</a></code> events on their <code id=shared-workers-and-the-sharedworkerglobalscope-interface:sharedworkerglobalscope-4><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> object for each
+  connection.</p>
+
+  <dl class=domintro><dt><var>sharedWorkerGlobal</var> . <code id=shared-workers-and-the-sharedworkerglobalscope-interface:dom-sharedworkerglobalscope-name-2><a href=#dom-sharedworkerglobalscope-name>name</a></code><dd>Returns <var>sharedWorkerGlobal</var>'s <a href=#concept-sharedworkerglobalscope-name id=shared-workers-and-the-sharedworkerglobalscope-interface:concept-sharedworkerglobalscope-name>name</a>.<dt><var>sharedWorkerGlobal</var> . <code id=shared-workers-and-the-sharedworkerglobalscope-interface:dom-sharedworkerglobalscope-close-2><a href=#dom-sharedworkerglobalscope-close>close</a></code>()<dd>Aborts <var>sharedWorkerGlobal</var>.</dl>
+
+  
+
+  <p>The <dfn id=dom-sharedworkerglobalscope-name><code>name</code></dfn> attribute must
+  return the <code id=shared-workers-and-the-sharedworkerglobalscope-interface:sharedworkerglobalscope-5><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> object's <a href=#concept-sharedworkerglobalscope-name id=shared-workers-and-the-sharedworkerglobalscope-interface:concept-sharedworkerglobalscope-name-2>name</a>. Its value represents the name that can
+  be used to obtain a reference to the worker using the <code id=shared-workers-and-the-sharedworkerglobalscope-interface:sharedworker><a href=#sharedworker>SharedWorker</a></code> constructor.</p>
+
+  <p>The <dfn id=dom-sharedworkerglobalscope-close><code>close()</code></dfn> method, when
+  invoked, must <a href=#close-a-worker id=shared-workers-and-the-sharedworkerglobalscope-interface:close-a-worker>close a worker</a> with this <code id=shared-workers-and-the-sharedworkerglobalscope-interface:sharedworkerglobalscope-6><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code>
+  object.</p>
+
+  
+
+  <hr>
+
+  <p>The following are the <a href=#event-handlers id=shared-workers-and-the-sharedworkerglobalscope-interface:event-handlers>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=shared-workers-and-the-sharedworkerglobalscope-interface:event-handler-event-type>event handler event types</a>) that must be supported, as <a href=#event-handler-idl-attributes id=shared-workers-and-the-sharedworkerglobalscope-interface:event-handler-idl-attributes>event
+  handler IDL attributes</a>, by objects implementing the <code id=shared-workers-and-the-sharedworkerglobalscope-interface:sharedworkerglobalscope-7><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code>
+  interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=shared-workers-and-the-sharedworkerglobalscope-interface:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=shared-workers-and-the-sharedworkerglobalscope-interface:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-sharedworkerglobalscope-onconnect><code>onconnect</code></dfn> <td> <code id=shared-workers-and-the-sharedworkerglobalscope-interface:event-workerglobalscope-connect-2><a href=#event-workerglobalscope-connect>connect</a></code>
+  </table>
+
+  <p>For the purposes of the <a href=#application-cache id=shared-workers-and-the-sharedworkerglobalscope-interface:application-cache>application cache</a> networking model, a shared worker is its
+  own <a href=#cache-host id=shared-workers-and-the-sharedworkerglobalscope-interface:cache-host>cache host</a>. The <a href=#run-a-worker id=shared-workers-and-the-sharedworkerglobalscope-interface:run-a-worker-2>run a worker</a> algorithm takes care of associating the
+  worker with an <a href=#application-cache id=shared-workers-and-the-sharedworkerglobalscope-interface:application-cache-2>application cache</a>.</p>
+
+  <p class=note>The <code id=shared-workers-and-the-sharedworkerglobalscope-interface:dom-sharedworkerglobalscope-applicationcache-2><a href=#dom-sharedworkerglobalscope-applicationcache>applicationCache</a></code> attribute returns the
+  <code id=shared-workers-and-the-sharedworkerglobalscope-interface:applicationcache-2><a href=#applicationcache>ApplicationCache</a></code> object for the worker.</p>
+
+
+
+  <h4 id=worker-event-loop>10.2.2 The event loop<a href=#worker-event-loop class=self-link></a></h4>
+
+  <p>Each <code id=worker-event-loop:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> object has a distinct <a href=#event-loop id=worker-event-loop:event-loop>event loop</a>, separate
+  from those used by <a href=#unit-of-related-similar-origin-browsing-contexts id=worker-event-loop:unit-of-related-similar-origin-browsing-contexts>units of related
+  similar-origin browsing contexts</a>. This <a href=#event-loop id=worker-event-loop:event-loop-2>event loop</a> has no associated
+  <a href=#browsing-context id=worker-event-loop:browsing-context>browsing context</a>, and its <a href=#task-queue id=worker-event-loop:task-queue>task queues</a> only have
+  events, callbacks, and networking activity as <a href=#concept-task id=worker-event-loop:concept-task>tasks</a>. These <a href=#event-loop id=worker-event-loop:event-loop-3>event loops</a> are created by the <a href=#run-a-worker id=worker-event-loop:run-a-worker>run a worker</a> algorithm.</p>
+
+  <p>Each <code id=worker-event-loop:workerglobalscope-2><a href=#workerglobalscope>WorkerGlobalScope</a></code> object also has a <dfn id=dom-workerglobalscope-closing>closing</dfn> flag, which must initially be false, but which
+  can get set to true by the algorithms in the processing model section below.</p>
+
+  <p>Once the <code id=worker-event-loop:workerglobalscope-3><a href=#workerglobalscope>WorkerGlobalScope</a></code>'s <a href=#dom-workerglobalscope-closing id=worker-event-loop:dom-workerglobalscope-closing>closing</a> flag is set to true, the <a href=#event-loop id=worker-event-loop:event-loop-4>event
+  loop</a>'s <a href=#task-queue id=worker-event-loop:task-queue-2>task queues</a> must discard any further <a href=#concept-task id=worker-event-loop:concept-task-2>tasks</a> that would be added to them (tasks already on the queue are
+  unaffected except where otherwise specified). Effectively, once the <a href=#dom-workerglobalscope-closing id=worker-event-loop:dom-workerglobalscope-closing-2>closing</a> flag is true, timers stop firing,
+  notifications for all pending background operations are dropped, etc.</p>
+
+
+
+  <h4 id="the-worker's-lifetime">10.2.3 The worker's lifetime<a href="#the-worker's-lifetime" class=self-link></a></h4>
+
+  <p>Workers communicate with other workers and with <a href=#browsing-context id="the-worker's-lifetime:browsing-context">browsing
+  contexts</a> through <a href=#channel-messaging id="the-worker's-lifetime:channel-messaging">message channels</a> and their
+  <code id="the-worker's-lifetime:messageport"><a href=#messageport>MessagePort</a></code> objects.</p>
+
+  <p>Each <code id="the-worker's-lifetime:workerglobalscope"><a href=#workerglobalscope>WorkerGlobalScope</a></code> <var>worker global scope</var> has a list of
+  <dfn id="the-worker's-ports" data-export="">the worker's ports</dfn>, which consists of all the <code id="the-worker's-lifetime:messageport-2"><a href=#messageport>MessagePort</a></code>
+  objects that are entangled with another port and that have one (but only one) port owned by
+  <var>worker global scope</var>. This list includes  the implicit <code id="the-worker's-lifetime:messageport-3"><a href=#messageport>MessagePort</a></code> in the case of <a href=#dedicatedworkerglobalscope id="the-worker's-lifetime:dedicatedworkerglobalscope">dedicated workers</a>.</p>
+
+  <p>Each <code id="the-worker's-lifetime:workerglobalscope-2"><a href=#workerglobalscope>WorkerGlobalScope</a></code> also has a list of <dfn id="the-worker's-workers" data-export="">the worker's
+  workers</dfn>. Initially this list is empty; it is populated when the worker creates or obtains
+  further workers.</p>
+
+  <p>Finally, each <code id="the-worker's-lifetime:workerglobalscope-3"><a href=#workerglobalscope>WorkerGlobalScope</a></code> also has a list of <dfn id="the-worker's-documents" data-export="">the
+  worker's <code>Document</code>s</dfn>. Initially this list is empty; it is populated when the
+  worker is created.</p>
+
+  <p>Whenever a <code id="the-worker's-lifetime:document"><a href=#document>Document</a></code> <var>d</var> is <dfn id="add-a-document-to-the-worker's-documents">added to the worker's <code>Document</code>s</dfn>, the user agent must, for
+  each worker <var>q</var> in the list of <a href="#the-worker's-workers" id="the-worker's-lifetime:the-worker's-workers">the worker's workers</a> whose list of
+  <a href="#the-worker's-documents" id="the-worker's-lifetime:the-worker's-documents">the worker's <code>Document</code>s</a> does not contain <var>d</var>, <a href="#add-a-document-to-the-worker's-documents" id="the-worker's-lifetime:add-a-document-to-the-worker's-documents">add <var>d</var> to <var>q</var>'s <code>WorkerGlobalScope</code> owner's list of <span>the worker's
+  <code>Document</code>s</span></a>.</p> 
+
+  <p>Whenever a <code id="the-worker's-lifetime:document-2"><a href=#document>Document</a></code> object is <a href=#discard-a-document id="the-worker's-lifetime:discard-a-document">discarded</a>,
+  it must be removed from the list of <a href="#the-worker's-documents" id="the-worker's-lifetime:the-worker's-documents-2">the worker's <code>Document</code>s</a> of each
+  worker whose list contains that <code id="the-worker's-lifetime:document-3"><a href=#document>Document</a></code>.</p>
+
+  <p>Given an <a href=#environment-settings-object id="the-worker's-lifetime:environment-settings-object">environment settings object</a> <var>o</var> when creating or obtaining a
+  worker, the <dfn id=list-of-relevant-document-objects-to-add>list of relevant <code>Document</code> objects to add</dfn> depends on the type
+  of <a href=#concept-settings-object-global id="the-worker's-lifetime:concept-settings-object-global">global object</a> specified by <var>o</var>.
+  If <var>o</var> specifies a <a href=#concept-settings-object-global id="the-worker's-lifetime:concept-settings-object-global-2">global object</a>
+  that is a <code id="the-worker's-lifetime:workerglobalscope-4"><a href=#workerglobalscope>WorkerGlobalScope</a></code> object (i.e. if we are creating a nested worker), then
+  the relevant <code id="the-worker's-lifetime:document-4"><a href=#document>Document</a></code>s are the <a href="#the-worker's-documents" id="the-worker's-lifetime:the-worker's-documents-3">the worker's <code>Document</code>s</a> of
+  the <a href=#concept-settings-object-global id="the-worker's-lifetime:concept-settings-object-global-3">global object</a> specified by <var>o</var>.
+  Otherwise, <var>o</var> specifies a <a href=#concept-settings-object-global id="the-worker's-lifetime:concept-settings-object-global-4">global
+  object</a> that is a <code id="the-worker's-lifetime:window"><a href=#window>Window</a></code> object, and the relevant <code id="the-worker's-lifetime:document-5"><a href=#document>Document</a></code> is just
+  the <a href=#responsible-document id="the-worker's-lifetime:responsible-document">responsible document</a> specified by <var>o</var>.</p>
+
+  <hr>
+
+  <p>A worker is said to be a <dfn id=permissible-worker>permissible worker</dfn> if its list of <a href="#the-worker's-documents" id="the-worker's-lifetime:the-worker's-documents-4">the worker's
+  <code>Document</code>s</a> is not empty, or if its list has been empty for no more than a short
+  user-agent-defined timeout value, its <code id="the-worker's-lifetime:workerglobalscope-5"><a href=#workerglobalscope>WorkerGlobalScope</a></code> is actually a
+  <code id="the-worker's-lifetime:sharedworkerglobalscope"><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> object (i.e. the worker is a shared worker), and the user
+  agent has a <a href=#browsing-context id="the-worker's-lifetime:browsing-context-2">browsing context</a> whose <code id="the-worker's-lifetime:document-6"><a href=#document>Document</a></code> is not <a href=#completely-loaded id="the-worker's-lifetime:completely-loaded">completely
+  loaded</a>.</p>
+
+  <p class=note>The second part of this definition allows a shared worker to survive for a short
+  time while a page is loading, in case that page is going to contact the shared worker again. This
+  can be used by user agents as a way to avoid the cost of restarting a shared worker used by a site
+  when the user is navigating from page to page within that site.</p>
+
+  <p>A worker is said to be an <dfn id=active-needed-worker>active needed worker</dfn> if any of the <code id="the-worker's-lifetime:document-7"><a href=#document>Document</a></code>
+  objects in <a href="#the-worker's-documents" id="the-worker's-lifetime:the-worker's-documents-5">the worker's <code>Document</code>s</a> are <a href=#fully-active id="the-worker's-lifetime:fully-active">fully active</a>.</p>
+
+  <p>A worker is said to be a <dfn id=protected-worker>protected worker</dfn> if it is an <a href=#active-needed-worker id="the-worker's-lifetime:active-needed-worker">active needed
+  worker</a> and either it has outstanding timers, database transactions, or network connections,
+  or its list of <a href="#the-worker's-ports" id="the-worker's-lifetime:the-worker's-ports">the worker's ports</a> is not empty, or its <code id="the-worker's-lifetime:workerglobalscope-6"><a href=#workerglobalscope>WorkerGlobalScope</a></code>
+  is actually a <code id="the-worker's-lifetime:sharedworkerglobalscope-2"><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> object (i.e. the worker is a shared
+  worker).</p>
+
+  <p>A worker is said to be a <dfn id=suspendable-worker>suspendable worker</dfn> if it is not an <a href=#active-needed-worker id="the-worker's-lifetime:active-needed-worker-2">active needed
+  worker</a> but it is a <a href=#permissible-worker id="the-worker's-lifetime:permissible-worker">permissible worker</a>.</p>
+
+
+  <h4 id=worker-processing-model>10.2.4 <span id=processing-model-10></span>Processing model<a href=#worker-processing-model class=self-link></a></h4>
+
+  <p>When a user agent is to <dfn id=run-a-worker data-export="">run a worker</dfn> for a script with
+  <code id=worker-processing-model:worker><a href=#worker>Worker</a></code> or <code id=worker-processing-model:sharedworker><a href=#sharedworker>SharedWorker</a></code> object <var>worker</var>, <a id=worker-processing-model:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>
+  <var>url</var>, <a href=#environment-settings-object id=worker-processing-model:environment-settings-object>environment settings object</a> <var>outside settings</var>,
+  <code id=worker-processing-model:messageport><a href=#messageport>MessagePort</a></code> <var>outside port</var>, a <code id=worker-processing-model:workeroptions><a href=#workeroptions>WorkerOptions</a></code> dictionary
+  <var>options</var>, and an optional string <var>name</var>, it must run the following steps.
+  (<var>name</var> is always provided when <var>worker</var> is a <code id=worker-processing-model:sharedworker-2><a href=#sharedworker>SharedWorker</a></code>.)</p>
+
+  <ol><li id=worker-processing-model-top>
+
+    <p>Create a separate parallel execution environment (i.e. a separate thread or process or
+    equivalent construct), and run the rest of these steps in that context.</p>
+
+    <p>For the purposes of timing APIs, this is the <dfn id=official-moment-of-creation data-export="">official moment of
+    creation</dfn> of the worker.</p>
+
+   <li><p>Let <var>is shared</var> be true if <var>worker</var> is a <code id=worker-processing-model:sharedworker-3><a href=#sharedworker>SharedWorker</a></code>
+   object, and false otherwise.<li><p>Let <var>docs</var> be the <a href=#list-of-relevant-document-objects-to-add id=worker-processing-model:list-of-relevant-document-objects-to-add>list of relevant <code>Document</code> objects to
+   add</a> given <var>outside settings</var>.<li><p>Let <var>parent worker global scope</var> be null.</p>
+
+   <li><p>If <var>outside settings</var>'s <a href=#concept-settings-object-global id=worker-processing-model:concept-settings-object-global>global
+   object</a> is a <code id=worker-processing-model:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> object (i.e. we are creating a nested worker),
+   set <var>parent worker global scope</var> to <var>outside settings</var>'s <a href=#concept-settings-object-global id=worker-processing-model:concept-settings-object-global-2>global object</a>.<li>
+    <p>Call the JavaScript <a href=https://tc39.github.io/ecma262/#sec-initializehostdefinedrealm id=worker-processing-model:js-initializehostdefinedrealm data-x-internal=js-initializehostdefinedrealm>InitializeHostDefinedRealm()</a> abstract
+    operation with the following customizations:</p>
+
+    <ul><li><p>For the global object, if <var>is shared</var> is true, create a new
+     <code id=worker-processing-model:sharedworkerglobalscope><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> object. Otherwise, create a new
+     <code id=worker-processing-model:dedicatedworkerglobalscope><a href=#dedicatedworkerglobalscope>DedicatedWorkerGlobalScope</a></code> object. Let <var>worker global scope</var> be the
+     created object.<li><p>Let <var>realm execution context</var> be the created <a id=worker-processing-model:javascript-execution-context href=https://tc39.github.io/ecma262/#sec-execution-contexts data-x-internal=javascript-execution-context>JavaScript execution
+     context</a>.</ul>
+   <li><p><a href=#set-up-a-worker-environment-settings-object id=worker-processing-model:set-up-a-worker-environment-settings-object>Set up a worker environment settings object</a> with <var>realm execution
+   context</var> and <var>outside settings</var>, and let <var>inside settings</var> be the
+   result.<li>
+    <p>If <var>is shared</var> is true, then:</p>
+
+    <ol><li><p>Set <var>worker global scope</var>'s <a href=#concept-sharedworkerglobalscope-constructor-origin id=worker-processing-model:concept-sharedworkerglobalscope-constructor-origin>constructor origin</a> to
+     <var>outside settings</var>'s <a href=#concept-settings-object-origin id=worker-processing-model:concept-settings-object-origin>origin</a>.<li><p>Set <var>worker global scope</var>'s <a href=#concept-sharedworkerglobalscope-constructor-url id=worker-processing-model:concept-sharedworkerglobalscope-constructor-url>constructor url</a> to
+     <var>url</var>.<li><p>Set <var>worker global scope</var>'s <a href=#concept-sharedworkerglobalscope-name id=worker-processing-model:concept-sharedworkerglobalscope-name>name</a> to <var>name</var>.</ol>
+   <li><p>Let <var>destination</var> be "<code>sharedworker</code>" if <var>is
+   shared</var> is true, and "<code>worker</code>" otherwise.<li>
+    <p>Obtain <var>script</var> by switching on the value of <var>options</var>'s <code>type</code> member:</p>
+
+    <dl class=switch><dt>"<code>classic</code>"<dd><a href=#fetch-a-classic-worker-script id=worker-processing-model:fetch-a-classic-worker-script>Fetch a classic worker script</a> given <var>url</var>, <var>outside
+     settings</var>, <var>destination</var>, and <var>inside settings</var>.<dt>"<code>module</code>"<dd><a href=#fetch-a-module-worker-script-tree id=worker-processing-model:fetch-a-module-worker-script-tree>Fetch a module worker script graph</a> given <var>url</var>, <var>outside
+     settings</var>, <var>destination</var>, the value of the <code>credentials</code>
+     member of <var>options</var>, and <var>inside settings</var>.</dl>
+
+    <p>In both cases, to <a href=#fetching-scripts-perform-fetch id=worker-processing-model:fetching-scripts-perform-fetch>perform the fetch</a>
+    given <var>request</var>, perform the following steps if the <var id=worker-processing-model:fetching-scripts-is-top-level><a href=#fetching-scripts-is-top-level>is top-level</a></var> flag is set:</p>
+
+    <ol><li>Set <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-reserved-client id=worker-processing-model:concept-request-reserved-client data-x-internal=concept-request-reserved-client>reserved
+     client</a> to <var>inside settings</var>.<li><p><a href=https://fetch.spec.whatwg.org/#concept-fetch id=worker-processing-model:concept-fetch data-x-internal=concept-fetch>Fetch</a> <var>request</var>, and asynchronously wait
+     to run the remaining steps as part of fetch's <a id=worker-processing-model:process-response href=https://fetch.spec.whatwg.org/#process-response data-x-internal=process-response>process response</a> for the <a href=https://fetch.spec.whatwg.org/#concept-response id=worker-processing-model:concept-response data-x-internal=concept-response>response</a> <var>response</var>.<li><p>Set <var>worker global scope</var>'s <a href=#concept-workerglobalscope-url id=worker-processing-model:concept-workerglobalscope-url>url</a> to <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-url id=worker-processing-model:concept-response-url data-x-internal=concept-response-url>url</a>.<li><p>Set <var>worker global scope</var>'s <a href=#concept-workerglobalscope-https-state id=worker-processing-model:concept-workerglobalscope-https-state>HTTPS state</a> to <var>response</var>'s
+     <a href=https://fetch.spec.whatwg.org/#concept-response-https-state id=worker-processing-model:concept-response-https-state data-x-internal=concept-response-https-state>HTTPS state</a>.<li><p>Set <var>worker global scope</var>'s <a href=#concept-workerglobalscope-referrer-policy id=worker-processing-model:concept-workerglobalscope-referrer-policy>referrer policy</a> to the result of
+     <a href=https://w3c.github.io/webappsec-referrer-policy/#parse-referrer-policy-from-header id=worker-processing-model:parse-referrer-policy-header data-x-internal=parse-referrer-policy-header>parsing the `<code>Referrer-Policy</code>`
+     header</a> of <var>response</var>.<li><p>Execute the <a id="worker-processing-model:initialize-a-global-object's-csp-list" href=https://w3c.github.io/webappsec-csp/#initialize-global-object-csp data-x-internal="initialize-a-global-object's-csp-list">Initialize a <code>global object</code>'s CSP list</a>
+     algorithm on <var>worker global scope</var> and <var>response</var>. <a href=#refsCSP>[CSP]</a><li><p>Asynchronously complete the <a href=#fetching-scripts-perform-fetch id=worker-processing-model:fetching-scripts-perform-fetch-2>perform the
+     fetch</a> steps with <var>response</var>.</ol>
+
+    <p>If the algorithm asynchronously completes with null, <a href=#queue-a-task id=worker-processing-model:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=worker-processing-model:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=worker-processing-model:event-error><a href=#event-error>error</a></code>
+    at <var>worker</var>, and abort these steps. Otherwise, continue the rest of these steps after
+    the algorithm's asynchronous completion, with <var>script</var> being the asynchronous
+    completion value.</p>
+   <li><p>Associate <var>worker</var> with <var>worker global scope</var>.<li><p><a href=#create-a-new-messageport-object id=worker-processing-model:create-a-new-messageport-object>Create a new <code>MessagePort</code> object</a> whose <a href=#concept-port-owner id=worker-processing-model:concept-port-owner>owner</a> is <var>inside settings</var>. Let <var>inside
+   port</var> be this new object.<li><p>Associate <var>inside port</var> with <var>worker global scope</var>.<li><p><a href=#entangle id=worker-processing-model:entangle>Entangle</a> <var>outside port</var> and <var>inside port</var>.<li><p><a href="#add-a-document-to-the-worker's-documents" id="worker-processing-model:add-a-document-to-the-worker's-documents">Add to <var>worker global
+   scope</var>'s list of <span>the worker's <code>Document</code>s</span></a> the
+   <code id=worker-processing-model:document><a href=#document>Document</a></code> objects in <var>docs</var>.<li><p>If <var>parent worker global scope</var> is not null, add <var>worker global scope</var>
+   to the list of <a href="#the-worker's-workers" id="worker-processing-model:the-worker's-workers">the worker's workers</a> of <var>parent worker global
+   scope</var>.<li><p>Set <var>worker global scope</var>'s <a href=#concept-workerglobalscope-type id=worker-processing-model:concept-workerglobalscope-type>type</a> to the value of the <code>type</code> member of <var>options</var>.<li><p>If <var>is shared</var> is true, and there are any <a href=#relevant-application-cache id=worker-processing-model:relevant-application-cache>relevant application caches</a> that are identified by a manifest URL with the
+   <a href=#same-origin id=worker-processing-model:same-origin>same origin</a> as <var>url</var> and that have <var>url</var> as one of their
+   entries, <em>not</em> excluding entries marked as <a href=#concept-appcache-foreign id=worker-processing-model:concept-appcache-foreign>foreign</a>, then associate <var>worker global scope</var>
+   with the <a href=#concept-appcache-selection id=worker-processing-model:concept-appcache-selection>most appropriate application cache</a> of
+   those that match.<li><p>Create a new <code id=worker-processing-model:workerlocation><a href=#workerlocation>WorkerLocation</a></code> object and associate it with <var>worker global
+   scope</var>.</p>
+
+   <li>
+
+    <p><strong>Closing orphan workers</strong>: Start monitoring the worker such that no sooner than
+    it stops being a <a href=#protected-worker id=worker-processing-model:protected-worker>protected worker</a>, and no later than it stops being a
+    <a href=#permissible-worker id=worker-processing-model:permissible-worker>permissible worker</a>, <var>worker global scope</var>'s <a href=#dom-workerglobalscope-closing id=worker-processing-model:dom-workerglobalscope-closing>closing</a> flag is set to true.</p>
+
+   <li>
+
+    <p><strong>Suspending workers</strong>: Start monitoring the worker, such that whenever
+    <var>worker global scope</var>'s <a href=#dom-workerglobalscope-closing id=worker-processing-model:dom-workerglobalscope-closing-2>closing</a>
+    flag is false and the worker is a <a href=#suspendable-worker id=worker-processing-model:suspendable-worker>suspendable worker</a>, the user agent suspends
+    execution of script in that worker until such time as either the <a href=#dom-workerglobalscope-closing id=worker-processing-model:dom-workerglobalscope-closing-3>closing</a> flag switches to true or the worker stops
+    being a <a href=#suspendable-worker id=worker-processing-model:suspendable-worker-2>suspendable worker</a>.</p>
+
+   <li><p>Set <var>inside settings</var>'s <a href=#concept-environment-execution-ready-flag id=worker-processing-model:concept-environment-execution-ready-flag>execution ready flag</a>.<li>
+    <p>If <var>script</var> is a <a href=#classic-script id=worker-processing-model:classic-script>classic script</a>, then <a href=#run-a-classic-script id=worker-processing-model:run-a-classic-script>run the classic script</a> <var>script</var>. Otherwise, it is a <a href=#module-script id=worker-processing-model:module-script>module
+    script</a>; <a href=#run-a-module-script id=worker-processing-model:run-a-module-script>run the module script</a>
+    <var>script</var>.</p>
+
+    <p class=note>In addition to the usual possibilities of returning a value or failing due to
+    an exception, this could be <a href=#abort-a-running-script id=worker-processing-model:abort-a-running-script>prematurely aborted</a> by
+    the "<a href=#kill-a-worker id=worker-processing-model:kill-a-worker>kill a worker</a>" or "<a href=#terminate-a-worker id=worker-processing-model:terminate-a-worker>terminate a worker</a>" algorithms defined
+    below.</p>
+   <li><p>Enable <var>outside port</var>'s <a href=#port-message-queue id=worker-processing-model:port-message-queue>port message queue</a>.<li><p>If <var>is shared</var> is false, enable the <a href=#port-message-queue id=worker-processing-model:port-message-queue-2>port message queue</a>
+   of the worker's implicit port.<li><p>If <var>is shared</var> is true, then <a href=#queue-a-task id=worker-processing-model:queue-a-task-2>queue a task</a>, using the <a href=#dom-manipulation-task-source id=worker-processing-model:dom-manipulation-task-source>DOM
+   manipulation task source</a>, to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=worker-processing-model:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named
+   <code id=worker-processing-model:event-workerglobalscope-connect><a href=#event-workerglobalscope-connect>connect</a></code> at <var>worker global scope</var>,
+   using <code id=worker-processing-model:messageevent><a href=#messageevent>MessageEvent</a></code>, with the <code id=worker-processing-model:dom-messageevent-data><a href=#dom-messageevent-data>data</a></code>
+   attribute initialized to the empty string, the <code id=worker-processing-model:dom-messageevent-ports><a href=#dom-messageevent-ports>ports</a></code>
+   attribute initialized to a new <a id=worker-processing-model:frozen-array href=https://heycam.github.io/webidl/#dfn-frozen-array-type data-x-internal=frozen-array>frozen array</a> containing <var>inside port</var>, and
+   the <code id=worker-processing-model:dom-messageevent-source><a href=#dom-messageevent-source>source</a></code> attribute initialized to <var>inside
+   port</var>.<li><p>Enable the <a href=https://w3c.github.io/ServiceWorker/#dfn-client-message-queue id=worker-processing-model:dfn-client-message-queue data-x-internal=dfn-client-message-queue>client message queue</a> of the
+   <code id=worker-processing-model:serviceworkercontainer><a data-x-internal=serviceworkercontainer href=https://w3c.github.io/ServiceWorker/#serviceworkercontainer>ServiceWorkerContainer</a></code> object whose associated <a href=https://w3c.github.io/ServiceWorker/#serviceworkercontainer-service-worker-client id=worker-processing-model:serviceworkercontainer-service-worker-client data-x-internal=serviceworkercontainer-service-worker-client>service worker client</a> is
+   <var>worker global scope</var>'s <a href=#relevant-settings-object id=worker-processing-model:relevant-settings-object>relevant settings object</a>.<li>
+
+    <p><strong>Event loop</strong>: Run the <a href=#responsible-event-loop id=worker-processing-model:responsible-event-loop>responsible
+    event loop</a> specified by <var>inside settings</var> until it is destroyed.</p>
+
+    <p class=note>The handling of events or the execution of callbacks by <a href=#concept-task id=worker-processing-model:concept-task>tasks</a> run by the <a href=#event-loop id=worker-processing-model:event-loop>event loop</a> might get <a href=#abort-a-running-script id=worker-processing-model:abort-a-running-script-2>prematurely aborted</a> by the "<a href=#kill-a-worker id=worker-processing-model:kill-a-worker-2>kill a worker</a>"
+    or "<a href=#terminate-a-worker id=worker-processing-model:terminate-a-worker-2>terminate a worker</a>" algorithms defined below.</p>
+
+    <p class=note>The worker processing model remains on this step until the event loop is
+    destroyed, which happens after the <a href=#dom-workerglobalscope-closing id=worker-processing-model:dom-workerglobalscope-closing-4>closing</a>
+    flag is set to true, as described in the <a href=#event-loop id=worker-processing-model:event-loop-2>event loop</a> processing model.</p>
+
+   <li>
+
+    <p>Empty the <var>worker global scope</var>'s <a href=#list-of-active-timers id=worker-processing-model:list-of-active-timers>list of active timers</a>.</p>
+
+   <li>
+
+    <p>Disentangle all the ports in the list of <a href="#the-worker's-ports" id="worker-processing-model:the-worker's-ports">the worker's ports</a>.</p>
+
+   <li>
+
+     <p>Empty the worker's list of
+    <a href="#the-worker's-documents" id="worker-processing-model:the-worker's-documents">the worker's <code>Document</code>s</a>.</p>
+
+   </ol>
+
+  <hr>
+
+  <p>When a user agent is to <dfn id=kill-a-worker data-export="">kill a worker</dfn> it must run the following steps
+  <a href=#in-parallel id=worker-processing-model:in-parallel>in parallel</a> with the worker's main loop (the "<a href=#run-a-worker id=worker-processing-model:run-a-worker>run a worker</a>" processing
+  model defined above):</p>
+
+  <ol><li><p>Set the worker's <code id=worker-processing-model:workerglobalscope-2><a href=#workerglobalscope>WorkerGlobalScope</a></code> object's <a href=#dom-workerglobalscope-closing id=worker-processing-model:dom-workerglobalscope-closing-5>closing</a> flag to true.<li><p>If there are any <a href=#concept-task id=worker-processing-model:concept-task-2>tasks</a> queued in the
+   <code id=worker-processing-model:workerglobalscope-3><a href=#workerglobalscope>WorkerGlobalScope</a></code> object's <a href=#event-loop id=worker-processing-model:event-loop-3>event loop</a>'s <a href=#task-queue id=worker-processing-model:task-queue>task
+   queues</a>, discard them without processing them.<li><p>Wait a user-agent-defined amount of time.<li><p><a href=#abort-a-running-script id=worker-processing-model:abort-a-running-script-3>Abort the script</a> currently running in the
+   worker.</ol>
+
+  <p>User agents may invoke the "<a href=#kill-a-worker id=worker-processing-model:kill-a-worker-3>kill a worker</a>" processing model on a worker at any
+  time, e.g. in response to user requests, in response to CPU quota management, or when a worker
+  stops being an <a href=#active-needed-worker id=worker-processing-model:active-needed-worker>active needed worker</a> if the worker continues executing even after its
+  <a href=#dom-workerglobalscope-closing id=worker-processing-model:dom-workerglobalscope-closing-6>closing</a> flag was set to true.</p>
+
+  <hr>
+
+  <p>When a user agent is to <dfn id=terminate-a-worker data-export="">terminate a worker</dfn> it must run the following
+  steps <a href=#in-parallel id=worker-processing-model:in-parallel-2>in parallel</a> with the worker's main loop (the "<a href=#run-a-worker id=worker-processing-model:run-a-worker-2>run a worker</a>"
+  processing model defined above):</p>
+
+  <ol><li><p>Set the worker's <code id=worker-processing-model:workerglobalscope-4><a href=#workerglobalscope>WorkerGlobalScope</a></code> object's <a href=#dom-workerglobalscope-closing id=worker-processing-model:dom-workerglobalscope-closing-7>closing</a> flag to true.<li><p>If there are any <a href=#concept-task id=worker-processing-model:concept-task-3>tasks</a> queued in the
+   <code id=worker-processing-model:workerglobalscope-5><a href=#workerglobalscope>WorkerGlobalScope</a></code> object's <a href=#event-loop id=worker-processing-model:event-loop-4>event loop</a>'s <a href=#task-queue id=worker-processing-model:task-queue-2>task
+   queues</a>, discard them without processing them.<li><p><a href=#abort-a-running-script id=worker-processing-model:abort-a-running-script-4>Abort the script</a> currently running in the
+   worker.<li><p>If the worker's <code id=worker-processing-model:workerglobalscope-6><a href=#workerglobalscope>WorkerGlobalScope</a></code> object is actually a
+   <code id=worker-processing-model:dedicatedworkerglobalscope-2><a href=#dedicatedworkerglobalscope>DedicatedWorkerGlobalScope</a></code> object (i.e. the worker is a dedicated worker), then
+   empty the <a href=#port-message-queue id=worker-processing-model:port-message-queue-3>port message queue</a> of the port that the worker's implicit port is
+   entangled with.</ol>
+
+  <hr>
+
+  <p>The <a href=#task-source id=worker-processing-model:task-source>task source</a> for the tasks mentioned above is the <a href=#dom-manipulation-task-source id=worker-processing-model:dom-manipulation-task-source-2>DOM manipulation task
+  source</a>.</p>
+
+
+  <h4 id=runtime-script-errors-2>10.2.5 Runtime script errors<a href=#runtime-script-errors-2 class=self-link></a></h4>
+
+  <p>Whenever an uncaught runtime script error occurs in one of the worker's scripts, if the error
+  did not occur while handling a previous script error, the user agent must <a href=#report-the-error id=runtime-script-errors-2:report-the-error>report the
+  error</a> for that <a href=#concept-script id=runtime-script-errors-2:concept-script>script</a>, with the position (line number
+  and column number) where the error occurred, using the <code id=runtime-script-errors-2:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> object as
+  the target.</p>
+
+  <p>For shared workers, if the error is still <i id=runtime-script-errors-2:concept-error-nothandled><a href=#concept-error-nothandled>not handled</a></i>
+  afterwards, the error may be reported to a developer console.</p>
+
+  <p>For dedicated workers, if the error is still <i id=runtime-script-errors-2:concept-error-nothandled-2><a href=#concept-error-nothandled>not
+  handled</a></i> afterwards, the user agent must <a href=#queue-a-task id=runtime-script-errors-2:queue-a-task>queue a task</a> to run these steps:</p>
+
+  <ol><li><p>Let <var>notHandled</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-event-fire id=runtime-script-errors-2:concept-event-fire data-x-internal=concept-event-fire>firing an
+   event</a> named <code id=runtime-script-errors-2:event-error><a href=#event-error>error</a></code> at <code id=runtime-script-errors-2:worker><a href=#worker>Worker</a></code> object
+   associated with the worker, using <code id=runtime-script-errors-2:errorevent><a href=#errorevent>ErrorEvent</a></code>, with the <code id=runtime-script-errors-2:dom-event-cancelable><a data-x-internal=dom-event-cancelable href=https://dom.spec.whatwg.org/#dom-event-cancelable>cancelable</a></code> attribute initialized to true, the <code id=runtime-script-errors-2:dom-errorevent-message><a href=#dom-errorevent-message>message</a></code>, <code id=runtime-script-errors-2:dom-errorevent-filename><a href=#dom-errorevent-filename>filename</a></code>, <code id=runtime-script-errors-2:dom-errorevent-lineno><a href=#dom-errorevent-lineno>lineno</a></code>, and <code id=runtime-script-errors-2:dom-errorevent-colno><a href=#dom-errorevent-colno>colno</a></code> attributes initialized appropriately, and the <code id=runtime-script-errors-2:dom-errorevent-error><a href=#dom-errorevent-error>error</a></code> attribute initialized to null.<li><p>If <var>notHandled</var> is true, then the user agent must act as if the uncaught runtime
+   script error had occurred in the global scope that the <code id=runtime-script-errors-2:worker-2><a href=#worker>Worker</a></code> object is in, thus
+   repeating the entire runtime script error reporting process one level up.</ol>
+
+  <p>If the implicit port connecting the worker to its <code id=runtime-script-errors-2:worker-3><a href=#worker>Worker</a></code> object has been
+  disentangled (i.e. if the parent worker has been terminated), then the user agent must act as if
+  the <code id=runtime-script-errors-2:worker-4><a href=#worker>Worker</a></code> object had no <code id=runtime-script-errors-2:event-error-2><a href=#event-error>error</a></code> event handler and as
+  if that worker's <code id=runtime-script-errors-2:handler-workerglobalscope-onerror><a href=#handler-workerglobalscope-onerror>onerror</a></code> attribute was
+  null, but must otherwise act as described above.</p>
+
+  <p class=note>Thus, error reports propagate up to the chain of dedicated workers up to the
+  original <code id=runtime-script-errors-2:document><a href=#document>Document</a></code>, even if some of the workers along this chain have been terminated
+  and garbage collected.</p>
+
+  <p>The <a href=#task-source id=runtime-script-errors-2:task-source>task source</a> for the task mentioned above is the <a href=#dom-manipulation-task-source id=runtime-script-errors-2:dom-manipulation-task-source>DOM manipulation task
+  source</a>.</p>
+
+
+  <h4 id=creating-workers>10.2.6 Creating workers<a href=#creating-workers class=self-link></a></h4>
+
+  <h5 id=the-abstractworker-abstract-interface>10.2.6.1 The <code id=the-abstractworker-abstract-interface:abstractworker><a href=#abstractworker>AbstractWorker</a></code> abstract interface<a href=#the-abstractworker-abstract-interface class=self-link></a></h5>
+
+  <pre class=idl>[NoInterfaceObject, Exposed=(Window,Worker)]
+interface <dfn id=abstractworker>AbstractWorker</dfn> {
+  attribute <a href=#eventhandler id=the-abstractworker-abstract-interface:eventhandler>EventHandler</a> <a href=#handler-abstractworker-onerror id=the-abstractworker-abstract-interface:handler-abstractworker-onerror>onerror</a>;
+};</pre>
+
+  <p>The following are the <a href=#event-handlers id=the-abstractworker-abstract-interface:event-handlers>event handlers</a> (and their
+  corresponding <a href=#event-handler-event-type id=the-abstractworker-abstract-interface:event-handler-event-type>event handler
+  event types</a>) that must be supported, as <a href=#event-handler-idl-attributes id=the-abstractworker-abstract-interface:event-handler-idl-attributes>event handler IDL attributes</a>, by
+  objects implementing the <code id=the-abstractworker-abstract-interface:abstractworker-2><a href=#abstractworker>AbstractWorker</a></code> interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=the-abstractworker-abstract-interface:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=the-abstractworker-abstract-interface:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-abstractworker-onerror><code>onerror</code></dfn> <td> <code id=the-abstractworker-abstract-interface:event-error><a href=#event-error>error</a></code>
+  </table>
+
+
+  <h5 id=script-settings-for-workers>10.2.6.2 Script settings for workers<a href=#script-settings-for-workers class=self-link></a></h5>
+
+  <p>When the user agent is required to <dfn id=set-up-a-worker-environment-settings-object>set up a worker environment settings object</dfn>,
+  given a <a id=script-settings-for-workers:javascript-execution-context href=https://tc39.github.io/ecma262/#sec-execution-contexts data-x-internal=javascript-execution-context>JavaScript execution context</a> <var>execution context</var> and
+  <a href=#environment-settings-object id=script-settings-for-workers:environment-settings-object>environment settings object</a> <var>outside settings</var>, it must run the following
+  steps:</p>
+
+  <ol><li><p>Let <var>inherited responsible browsing context</var> be <var>outside settings</var>'s
+   <a href=#responsible-browsing-context id=script-settings-for-workers:responsible-browsing-context>responsible browsing context</a>.<li><p>Let <var>inherited origin</var> be <var>outside settings</var>'s <a href=#concept-settings-object-origin id=script-settings-for-workers:concept-settings-object-origin>origin</a>.<li><p>Let <var>worker event loop</var> be a newly created <a href=#event-loop id=script-settings-for-workers:event-loop>event
+   loop</a>.<li><p>Let <var>realm</var> be the value of <var>execution context</var>'s Realm
+   component.<li><p>Let <var>worker global scope</var> be <var>realm</var>'s <a href=#concept-realm-global id=script-settings-for-workers:concept-realm-global>global object</a>.<li>
+
+    <p>Let <var>settings object</var> be a new <a href=#environment-settings-object id=script-settings-for-workers:environment-settings-object-2>environment settings object</a> whose algorithms
+    are defined as follows:</p>
+
+    <dl><dt>The <a href=#realm-execution-context id=script-settings-for-workers:realm-execution-context>realm execution context</a><dd>
+
+      <p>Return <var>execution context</var>.
+
+     <dt>The <a href=#concept-settings-object-module-map id=script-settings-for-workers:concept-settings-object-module-map>module map</a><dd>
+
+      <p>Return <var>worker global scope</var>'s <a href=#concept-workerglobalscope-module-map id=script-settings-for-workers:concept-workerglobalscope-module-map>module map</a>.</p>
+
+     <dt>The <a href=#responsible-browsing-context id=script-settings-for-workers:responsible-browsing-context-2>responsible browsing context</a><dd>
+
+      <p>Return <var>inherited responsible browsing context</var>.</p>
+
+     <dt>The <a href=#responsible-event-loop id=script-settings-for-workers:responsible-event-loop>responsible event loop</a><dd>
+
+      <p>Return <var>worker event loop</var>.</p>
+
+     <dt>The <a href=#responsible-document id=script-settings-for-workers:responsible-document>responsible document</a><dd>
+
+      <p>Not applicable (the <a href=#responsible-event-loop id=script-settings-for-workers:responsible-event-loop-2>responsible event loop</a> is not a <a href=#browsing-context id=script-settings-for-workers:browsing-context>browsing context</a>
+      <a href=#event-loop id=script-settings-for-workers:event-loop-2>event loop</a>).</p>
+
+     <dt>The <a href=#api-url-character-encoding id=script-settings-for-workers:api-url-character-encoding>API URL character encoding</a><dd>
+
+      <p>Return <a id=script-settings-for-workers:utf-8 href=https://encoding.spec.whatwg.org/#utf-8 data-x-internal=utf-8>UTF-8</a>.</p>
+
+     <dt>The <a href=#api-base-url id=script-settings-for-workers:api-base-url>API base URL</a><dd>
+
+      <p>Return <var>worker global scope</var>'s <a href=#concept-workerglobalscope-url id=script-settings-for-workers:concept-workerglobalscope-url>url</a>.</p>
+
+     <dt>The <a href=#concept-settings-object-origin id=script-settings-for-workers:concept-settings-object-origin-2>origin</a><dd>
+
+      <p>Return a unique <a href=#concept-origin-opaque id=script-settings-for-workers:concept-origin-opaque>opaque origin</a> if <var>worker
+      global scope</var>'s <a href=#concept-workerglobalscope-url id=script-settings-for-workers:concept-workerglobalscope-url-2>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=script-settings-for-workers:concept-url-scheme data-x-internal=concept-url-scheme>scheme</a> is "<code>data</code>", and <var>inherited
+      origin</var> otherwise.</p>
+
+     <dt>The <a href=#https-state id=script-settings-for-workers:https-state>HTTPS state</a><dd>
+
+      <p>Return <var>worker global scope</var>'s <a href=#concept-workerglobalscope-https-state id=script-settings-for-workers:concept-workerglobalscope-https-state>HTTPS state</a>.</p>
+
+     <dt>The <a href=#concept-settings-object-referrer-policy id=script-settings-for-workers:concept-settings-object-referrer-policy>referrer policy</a><dd>
+
+      <p>Return <var>worker global scope</var>'s <a href=#concept-workerglobalscope-referrer-policy id=script-settings-for-workers:concept-workerglobalscope-referrer-policy>referrer policy</a>.</p>
+
+     </dl>
+
+   <li><p>Set <var>settings object</var>'s <a href=#concept-environment-id id=script-settings-for-workers:concept-environment-id>id</a> to a new
+   unique opaque string, <var>settings object</var>'s <a href=#concept-environment-creation-url id=script-settings-for-workers:concept-environment-creation-url>creation URL</a> to <var>worker global
+   scope</var>'s <a id=script-settings-for-workers:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>url</a>, <var>settings object</var>'s <a href=#concept-environment-target-browsing-context id=script-settings-for-workers:concept-environment-target-browsing-context>target browsing context</a> to null, and
+   <var>settings object</var>'s <a href=#concept-environment-active-service-worker id=script-settings-for-workers:concept-environment-active-service-worker>active
+   service worker</a> to null.<li><p>Set <var>realm</var>'s [[HostDefined]] field to <var>settings object</var>.<li><p>Return <var>settings object</var>.</ol>
+
+
+  <h5 id=dedicated-workers-and-the-worker-interface>10.2.6.3 Dedicated workers and the <code id=dedicated-workers-and-the-worker-interface:worker><a href=#worker>Worker</a></code> interface<a href=#dedicated-workers-and-the-worker-interface class=self-link></a></h5>
+
+  <pre class=idl>[<a href=#dom-worker id=dedicated-workers-and-the-worker-interface:dom-worker>Constructor</a>(USVString scriptURL, optional <a href=#workeroptions id=dedicated-workers-and-the-worker-interface:workeroptions>WorkerOptions</a> options), Exposed=(Window,Worker)]
+interface <dfn id=worker>Worker</dfn> : <a id=dedicated-workers-and-the-worker-interface:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  void <a href=#dom-worker-terminate id=dedicated-workers-and-the-worker-interface:dom-worker-terminate>terminate</a>();
+
+  void <a href=#dom-worker-postmessage id=dedicated-workers-and-the-worker-interface:dom-worker-postmessage>postMessage</a>(any message, optional sequence&lt;<a href=https://heycam.github.io/webidl/#idl-object id=dedicated-workers-and-the-worker-interface:idl-object data-x-internal=idl-object>object</a>> transfer = []);
+  attribute <a href=#eventhandler id=dedicated-workers-and-the-worker-interface:eventhandler>EventHandler</a> <a href=#handler-worker-onmessage id=dedicated-workers-and-the-worker-interface:handler-worker-onmessage>onmessage</a>;
+};
+
+dictionary <dfn id=workeroptions>WorkerOptions</dfn> {
+  <a href=#workertype id=dedicated-workers-and-the-worker-interface:workertype>WorkerType</a> type = "classic";
+  <a id=dedicated-workers-and-the-worker-interface:requestcredentials href=https://fetch.spec.whatwg.org/#requestcredentials data-x-internal=requestcredentials>RequestCredentials</a> credentials = "omit"; // credentials is only used if type is "module"
+};
+
+enum <dfn id=workertype>WorkerType</dfn> { "classic", "module" };
+
+<a href=#worker id=dedicated-workers-and-the-worker-interface:worker-2>Worker</a> implements <a href=#abstractworker id=dedicated-workers-and-the-worker-interface:abstractworker>AbstractWorker</a>;</pre>
+
+  <dl class=domintro><dt><var>worker</var> = new <code id=dedicated-workers-and-the-worker-interface:dom-worker-2><a href=#dom-worker>Worker</a></code>(<var>scriptURL</var> [, <var>options</var> ])<dd>Returns a new <code id=dedicated-workers-and-the-worker-interface:worker-3><a href=#worker>Worker</a></code> object. <var>scriptURL</var> will be fetched and executed
+   in the background, creating a new global environment for which <var>worker</var> represents the
+   communication channel. <var>options</var> can be used to ensure this new global environment
+   supports JavaScript modules (specify <code>type: "module"</code>) and if that is
+   specified, can also be used to specify how <var>scriptURL</var> is fetched through the <code>credentials</code> option.<dt><var>worker</var> . <code id=dedicated-workers-and-the-worker-interface:dom-worker-terminate-2><a href=#dom-worker-terminate>terminate</a></code>()<dd>Aborts <var>worker</var>'s associated global environment.<dt><var>worker</var> . <code id=dedicated-workers-and-the-worker-interface:dom-worker-postmessage-2><a href=#dom-worker-postmessage>postMessage</a></code>(<var>message</var> [, <var>transfer</var> ])
+   <dd>Clones <var>message</var> and transmits it to <var>worker</var>'s global environment.
+   <var>transfer</var> can be passed as a list of objects that are to be transferred rather than
+   cloned.</dl>
+
+  
+
+  <p>The <dfn id=dom-worker-terminate><code>terminate()</code></dfn> method, when invoked, must
+  cause the "<a href=#terminate-a-worker id=dedicated-workers-and-the-worker-interface:terminate-a-worker>terminate a worker</a>" algorithm to be run on the worker with which the object
+  is associated.</p>
+
+  <p><code id=dedicated-workers-and-the-worker-interface:worker-4><a href=#worker>Worker</a></code> objects act as if they had an implicit <code id=dedicated-workers-and-the-worker-interface:messageport><a href=#messageport>MessagePort</a></code> associated
+  with them. This port is part of a channel that is set up when the worker is created, but it is not
+  exposed. This object must never be garbage collected before the <code id=dedicated-workers-and-the-worker-interface:worker-5><a href=#worker>Worker</a></code> object.</p>
+
+  <p>All messages received by that port must immediately be retargeted at the <code id=dedicated-workers-and-the-worker-interface:worker-6><a href=#worker>Worker</a></code>
+  object.</p>
+
+  <p>The <dfn id=dom-worker-postmessage><code>postMessage()</code></dfn> method on
+  <code id=dedicated-workers-and-the-worker-interface:worker-7><a href=#worker>Worker</a></code> objects must act as if, when invoked, it immediately invoked <a href=#dom-messageport-postmessage id=dedicated-workers-and-the-worker-interface:dom-messageport-postmessage>the method of the same name</a> on the port, with the same
+  arguments, and returned the same return value.</p>
+
+  
+
+  <div class=example>
+
+   <p>The <code id=dedicated-workers-and-the-worker-interface:dom-worker-postmessage-3><a href=#dom-worker-postmessage>postMessage()</a></code>
+   method's first argument can be structured data:</p>
+
+   <pre>worker.postMessage({opcode: 'activate', device: 1938, parameters: [23, 102]});</pre>
+
+  </div>
+
+  <p>The following are the <a href=#event-handlers id=dedicated-workers-and-the-worker-interface:event-handlers>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=dedicated-workers-and-the-worker-interface:event-handler-event-type>event handler event types</a>) that must be supported, as <a href=#event-handler-idl-attributes id=dedicated-workers-and-the-worker-interface:event-handler-idl-attributes>event handler IDL attributes</a>,
+  by objects implementing the <code id=dedicated-workers-and-the-worker-interface:worker-8><a href=#worker>Worker</a></code> interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=dedicated-workers-and-the-worker-interface:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=dedicated-workers-and-the-worker-interface:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-worker-onmessage><code>onmessage</code></dfn> <td> <code id=dedicated-workers-and-the-worker-interface:event-message><a href=#event-message>message</a></code>
+  </table>
+
+  
+
+  <hr>
+
+  <p>When the <dfn id=dom-worker><code>Worker(<var>scriptURL</var>,
+  <var>options</var>)</code></dfn> constructor is invoked, the user agent must run the following
+  steps:</p>
+
+  <ol><li><p>The user agent may throw a <a id=dedicated-workers-and-the-worker-interface:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a>
+   <code id=dedicated-workers-and-the-worker-interface:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps if the request violates a policy decision (e.g.
+   if the user agent is configured to not allow the page to start dedicated workers).<li><p>Let <var>outside settings</var> be the <a href=#current-settings-object id=dedicated-workers-and-the-worker-interface:current-settings-object>current settings object</a>.</p>
+
+   <li><p><a href=#parse-a-url id=dedicated-workers-and-the-worker-interface:parse-a-url>Parse</a> the <var>scriptURL</var> argument relative to
+   <var>outside settings</var>.<li><p>If this fails, throw a <a id=dedicated-workers-and-the-worker-interface:syntaxerror href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=dedicated-workers-and-the-worker-interface:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>
+   and abort these steps.<li>
+    <p>Let <var>worker URL</var> be the <a href=#resulting-url-record id=dedicated-workers-and-the-worker-interface:resulting-url-record>resulting URL record</a>.</p>
+
+    <p class=note>Any <a href=#same-origin id=dedicated-workers-and-the-worker-interface:same-origin>same-origin</a> URL (including <code id=dedicated-workers-and-the-worker-interface:blob-protocol><a data-x-internal=blob-protocol href=https://w3c.github.io/FileAPI/#DefinitionOfScheme>blob:</a></code> URLs) can be used. <code id=dedicated-workers-and-the-worker-interface:data-protocol><a data-x-internal=data-protocol href=https://tools.ietf.org/html/rfc2397#section-2>data:</a></code>
+    URLs can also be used, but they create a worker with an <a href=#concept-origin-opaque id=dedicated-workers-and-the-worker-interface:concept-origin-opaque>opaque origin</a>.</p>
+   <li><p>Let <var>worker</var> be a new <code id=dedicated-workers-and-the-worker-interface:worker-9><a href=#worker>Worker</a></code> object.<li><p><a href=#create-a-new-messageport-object id=dedicated-workers-and-the-worker-interface:create-a-new-messageport-object>Create a new <code>MessagePort</code> object</a> whose <a href=#concept-port-owner id=dedicated-workers-and-the-worker-interface:concept-port-owner>owner</a> is <var>outside settings</var>. Let this be the
+   <var>outside port</var>.<li><p>Associate the <var>outside port</var> with <var>worker</var>.<li><p>Let <var>docs</var> be the <a href=#list-of-relevant-document-objects-to-add id=dedicated-workers-and-the-worker-interface:list-of-relevant-document-objects-to-add>list of relevant <code>Document</code> objects to
+   add</a> given <var>outside settings</var>.<li><p>Return <var>worker</var>, and run the following step <a href=#in-parallel id=dedicated-workers-and-the-worker-interface:in-parallel>in parallel</a>.<li><p><a href=#run-a-worker id=dedicated-workers-and-the-worker-interface:run-a-worker>Run a worker</a> given <var>worker</var>, <var>worker URL</var>, <var>outside
+   settings</var>, <var>outside port</var>, and <var>options</var>.</ol>
+
+  
+
+
+  <h5 id=shared-workers-and-the-sharedworker-interface>10.2.6.4 Shared workers and the <code id=shared-workers-and-the-sharedworker-interface:sharedworker><a href=#sharedworker>SharedWorker</a></code> interface<a href=#shared-workers-and-the-sharedworker-interface class=self-link></a></h5>
+
+  <pre class=idl>[<a href=#dom-sharedworker id=shared-workers-and-the-sharedworker-interface:dom-sharedworker>Constructor</a>(USVString scriptURL, optional DOMString name = "", optional <a href=#workeroptions id=shared-workers-and-the-sharedworker-interface:workeroptions>WorkerOptions</a> options), Exposed=(Window,Worker)]
+interface <dfn id=sharedworker>SharedWorker</dfn> : <a id=shared-workers-and-the-sharedworker-interface:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  readonly attribute <a href=#messageport id=shared-workers-and-the-sharedworker-interface:messageport>MessagePort</a> <a href=#dom-sharedworker-port id=shared-workers-and-the-sharedworker-interface:dom-sharedworker-port>port</a>;
+};
+<a href=#sharedworker id=shared-workers-and-the-sharedworker-interface:sharedworker-2>SharedWorker</a> implements <a href=#abstractworker id=shared-workers-and-the-sharedworker-interface:abstractworker>AbstractWorker</a>;</pre>
+
+  <dl class=domintro><dt><var>sharedWorker</var> = new <code id=shared-workers-and-the-sharedworker-interface:dom-sharedworker-2><a href=#dom-sharedworker>SharedWorker</a></code>(<var>scriptURL</var> [, <var>name</var> [,  <var>options</var> ]])<dd>Returns a new <code id=shared-workers-and-the-sharedworker-interface:sharedworker-3><a href=#sharedworker>SharedWorker</a></code> object. <var>scriptURL</var> will be fetched and
+   executed in the background, creating a new global environment for which <var>sharedWorker</var>
+   represents the communication channel. <var>name</var> can be used to define the <a href=#concept-sharedworkerglobalscope-name id=shared-workers-and-the-sharedworker-interface:concept-sharedworkerglobalscope-name>name</a> of that global environment.
+   <var>options</var> can be used to ensure this new global environment
+   supports JavaScript modules (specify <code>type: "module"</code>) and if that is
+   specified, can also be used to specify how <var>scriptURL</var> is fetched through the <code>credentials</code> option.<dt><var>sharedWorker</var> . <code id=shared-workers-and-the-sharedworker-interface:dom-sharedworker-port-2><a href=#dom-sharedworker-port>port</a></code><dd>Returns <var>sharedWorker</var>'s <code id=shared-workers-and-the-sharedworker-interface:messageport-2><a href=#messageport>MessagePort</a></code> object which can be used to
+   communicate with the global environment.</dl>
+
+  
+
+  <p>The <dfn id=dom-sharedworker-port><code>port</code></dfn> attribute must return the value
+  it was assigned by the object's constructor. It represents the <code id=shared-workers-and-the-sharedworker-interface:messageport-3><a href=#messageport>MessagePort</a></code> for
+  communicating with the shared worker.</p>
+
+  <p>When the <dfn id=dom-sharedworker><code>SharedWorker(<var>scriptURL</var>,
+  <var>name</var>, <var>options</var>)</code></dfn> constructor is invoked, the user agent must run
+  the following steps:</p>
+
+  <ol><li><p>The user agent may throw a <a id=shared-workers-and-the-sharedworker-interface:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a>
+   <code id=shared-workers-and-the-sharedworker-interface:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps if the request violates a policy decision (e.g.
+   if the user agent is configured to not allow the page to start shared workers).<li><p>Let <var>outside settings</var> be the <a href=#current-settings-object id=shared-workers-and-the-sharedworker-interface:current-settings-object>current settings object</a>.<li><p><a href=#parse-a-url id=shared-workers-and-the-sharedworker-interface:parse-a-url>Parse</a> <var>scriptURL</var> relative to <var>outside
+   settings</var>.<li><p>If this fails, throw a <a id=shared-workers-and-the-sharedworker-interface:syntaxerror href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=shared-workers-and-the-sharedworker-interface:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>
+   and abort these steps.<li>
+    <p>Otherwise, let <var>urlRecord</var> be the <a href=#resulting-url-record id=shared-workers-and-the-sharedworker-interface:resulting-url-record>resulting URL record</a>.</p>
+
+    <p class=note>Any <a href=#same-origin id=shared-workers-and-the-sharedworker-interface:same-origin>same-origin</a> URL (including <code id=shared-workers-and-the-sharedworker-interface:blob-protocol><a data-x-internal=blob-protocol href=https://w3c.github.io/FileAPI/#DefinitionOfScheme>blob:</a></code> URLs) can be used. <code id=shared-workers-and-the-sharedworker-interface:data-protocol><a data-x-internal=data-protocol href=https://tools.ietf.org/html/rfc2397#section-2>data:</a></code>
+    URLs can also be used, but they create a worker with an <a href=#concept-origin-opaque id=shared-workers-and-the-sharedworker-interface:concept-origin-opaque>opaque origin</a>.</p>
+   <li><p>Let <var>worker</var> be a new <code id=shared-workers-and-the-sharedworker-interface:sharedworker-4><a href=#sharedworker>SharedWorker</a></code> object.<li><p><a href=#create-a-new-messageport-object id=shared-workers-and-the-sharedworker-interface:create-a-new-messageport-object>Create a new <code>MessagePort</code> object</a> whose <a href=#concept-port-owner id=shared-workers-and-the-sharedworker-interface:concept-port-owner>owner</a> is <var>outside settings</var>. Let this be the
+   <var>outside port</var>.<li><p>Assign <var>outside port</var> to the <code id=shared-workers-and-the-sharedworker-interface:dom-sharedworker-port-3><a href=#dom-sharedworker-port>port</a></code>
+   attribute of <var>worker</var>.<li><p>Let <var>isSecureContext</var> be the result of executing <a id=shared-workers-and-the-sharedworker-interface:is-environment-settings-object-a-secure-context href=https://w3c.github.io/webappsec-secure-contexts/#settings-object data-x-internal=is-environment-settings-object-a-secure-context>Is environment settings
+   object a secure context?</a> on <var>outside settings</var>.<li>
+    <p>Run these substeps <a href=#in-parallel id=shared-workers-and-the-sharedworker-interface:in-parallel>in parallel</a>:</p>
+
+    <ol><li><p>Let <var>worker global scope</var> be null.<li>
+      <p>If there exists a <code id=shared-workers-and-the-sharedworker-interface:sharedworkerglobalscope><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> object whose <a href=#dom-workerglobalscope-closing id=shared-workers-and-the-sharedworker-interface:dom-workerglobalscope-closing>closing</a> flag is false, <a href=#concept-sharedworkerglobalscope-constructor-origin id=shared-workers-and-the-sharedworker-interface:concept-sharedworkerglobalscope-constructor-origin>constructor origin</a> is
+      <a href=#same-origin id=shared-workers-and-the-sharedworker-interface:same-origin-2>same origin</a> with <var>outside settings</var>'s <a href=#concept-settings-object-origin id=shared-workers-and-the-sharedworker-interface:concept-settings-object-origin>origin</a>, <a href=#concept-sharedworkerglobalscope-constructor-url id=shared-workers-and-the-sharedworker-interface:concept-sharedworkerglobalscope-constructor-url>constructor url</a> <a href=https://url.spec.whatwg.org/#concept-url-equals id=shared-workers-and-the-sharedworker-interface:concept-url-equals data-x-internal=concept-url-equals>equals</a> <var>urlRecord</var>, and <a href=#concept-sharedworkerglobalscope-name id=shared-workers-and-the-sharedworker-interface:concept-sharedworkerglobalscope-name-2>name</a> is <var>name</var>, then set
+      <var>worker global scope</var> to that <code id=shared-workers-and-the-sharedworker-interface:sharedworkerglobalscope-2><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> object.</p>
+
+      <p class=note><code id=shared-workers-and-the-sharedworker-interface:data-protocol-2><a data-x-internal=data-protocol href=https://tools.ietf.org/html/rfc2397#section-2>data:</a></code> URLs create a worker with an <a href=#concept-origin-opaque id=shared-workers-and-the-sharedworker-interface:concept-origin-opaque-2>opaque origin</a>. Both the <a href=#concept-sharedworkerglobalscope-constructor-origin id=shared-workers-and-the-sharedworker-interface:concept-sharedworkerglobalscope-constructor-origin-2>constructor origin</a> and
+      <a href=#concept-sharedworkerglobalscope-constructor-url id=shared-workers-and-the-sharedworker-interface:concept-sharedworkerglobalscope-constructor-url-2>constructor url</a> are
+      compared so the same <code id=shared-workers-and-the-sharedworker-interface:data-protocol-3><a data-x-internal=data-protocol href=https://tools.ietf.org/html/rfc2397#section-2>data:</a></code> URL can be used within an
+      <a href=#concept-origin id=shared-workers-and-the-sharedworker-interface:concept-origin>origin</a> to get to the same <code id=shared-workers-and-the-sharedworker-interface:sharedworkerglobalscope-3><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> object, but cannot
+      be used to bypass the <a href=#same-origin id=shared-workers-and-the-sharedworker-interface:same-origin-3>same origin</a> restriction.</p>
+     <li>
+      <p>If <var>worker global scope</var> is not null, but the user agent has been
+      configured to disallow communication between the worker represented by the <var>worker global
+      scope</var> and the <a href=#concept-script id=shared-workers-and-the-sharedworker-interface:concept-script>scripts</a> whose <a href=#settings-object id=shared-workers-and-the-sharedworker-interface:settings-object>settings object</a> is <var>outside settings</var>, then set <var>worker global
+      scope</var> to null.</p>
+
+      <p class=note>For example, a user agent could have a development mode that isolates a
+      particular <a href=#top-level-browsing-context id=shared-workers-and-the-sharedworker-interface:top-level-browsing-context>top-level browsing context</a> from all other pages, and scripts in that
+      development mode could be blocked from connecting to shared workers running in the normal
+      browser mode.</p>
+     <li>
+      <p>If <var>worker global scope</var> is not null, then run these subsubsteps:</p>
+
+      <ol><li><p>Let <var>settings object</var> be the <a href=#relevant-settings-object id=shared-workers-and-the-sharedworker-interface:relevant-settings-object>relevant settings object</a> for
+       <var>worker global scope</var>.<li><p>If the result of executing <a id=shared-workers-and-the-sharedworker-interface:is-environment-settings-object-a-secure-context-2 href=https://w3c.github.io/webappsec-secure-contexts/#settings-object data-x-internal=is-environment-settings-object-a-secure-context>Is environment settings object a secure
+       context?</a> on <var>settings object</var> is not <var>isSecureContext</var>, then
+       <a href=#queue-a-task id=shared-workers-and-the-sharedworker-interface:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=shared-workers-and-the-sharedworker-interface:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named
+       <code id=shared-workers-and-the-sharedworker-interface:event-error><a href=#event-error>error</a></code> at <var>worker</var> and abort these subsubsteps.
+       <a href=#refsSECURE-CONTEXTS>[SECURE-CONTEXTS]</a><li><p>Associate <var>worker</var> with <var>worker global scope</var>.<li><p><a href=#create-a-new-messageport-object id=shared-workers-and-the-sharedworker-interface:create-a-new-messageport-object-2>Create a new <code>MessagePort</code> object</a> whose <a href=#concept-port-owner id=shared-workers-and-the-sharedworker-interface:concept-port-owner-2>owner</a> is <var>settings object</var>. Let this be
+       the <var>inside port</var>.<li><p><a href=#entangle id=shared-workers-and-the-sharedworker-interface:entangle>Entangle</a> <var>outside port</var> and <var>inside port</var>.<li><p><a href=#queue-a-task id=shared-workers-and-the-sharedworker-interface:queue-a-task-2>Queue a task</a>, using the <a href=#dom-manipulation-task-source id=shared-workers-and-the-sharedworker-interface:dom-manipulation-task-source>DOM manipulation task source</a>, to
+       <a href=https://dom.spec.whatwg.org/#concept-event-fire id=shared-workers-and-the-sharedworker-interface:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=shared-workers-and-the-sharedworker-interface:event-workerglobalscope-connect><a href=#event-workerglobalscope-connect>connect</a></code> at <var>worker global scope</var>,
+       using <code id=shared-workers-and-the-sharedworker-interface:messageevent><a href=#messageevent>MessageEvent</a></code>, with the <code id=shared-workers-and-the-sharedworker-interface:dom-messageevent-data><a href=#dom-messageevent-data>data</a></code>
+       attribute initialized to the empty string, the <code id=shared-workers-and-the-sharedworker-interface:dom-messageevent-ports><a href=#dom-messageevent-ports>ports</a></code> attribute initialized to a new <a id=shared-workers-and-the-sharedworker-interface:frozen-array href=https://heycam.github.io/webidl/#dfn-frozen-array-type data-x-internal=frozen-array>frozen
+       array</a> containing only <var>inside port</var>, and the <code id=shared-workers-and-the-sharedworker-interface:dom-messageevent-source><a href=#dom-messageevent-source>source</a></code> attribute initialized to <var>inside
+       port</var>.<li><p><a href="#add-a-document-to-the-worker's-documents" id="shared-workers-and-the-sharedworker-interface:add-a-document-to-the-worker's-documents">Add to <var>worker global
+       scope</var>'s list of <span>the worker's <code>Document</code>s</span></a> the
+       <a href=#list-of-relevant-document-objects-to-add id=shared-workers-and-the-sharedworker-interface:list-of-relevant-document-objects-to-add>list of relevant <code>Document</code> objects to add</a> given <var>outside
+       settings</var>.<li><p>If <var>outside settings</var>'s <a href=#concept-settings-object-global id=shared-workers-and-the-sharedworker-interface:concept-settings-object-global>global
+       object</a> is a <code id=shared-workers-and-the-sharedworker-interface:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> object, add <var>worker global scope</var>
+       to the list of <a href="#the-worker's-workers" id="shared-workers-and-the-sharedworker-interface:the-worker's-workers">the worker's workers</a> of <var>outside settings</var>'s <a href=#concept-settings-object-global id=shared-workers-and-the-sharedworker-interface:concept-settings-object-global-2>global object</a>.</ol>
+     <li><p>Otherwise, <a href=#run-a-worker id=shared-workers-and-the-sharedworker-interface:run-a-worker>run a worker</a> given <var>worker</var>, <var>urlRecord</var>,
+     <var>outside settings</var>, <var>outside port</var>, <var>options</var>, and
+     <var>name</var>.</ol>
+   <li><p>Return <var>worker</var>.</ol>
+
+  
+
+
+  <h4 id=navigator.hardwareconcurrency>10.2.7 Concurrent hardware capabilities<a href=#navigator.hardwareconcurrency class=self-link></a></h4>
+
+  <pre class=idl>[NoInterfaceObject, Exposed=(Window,Worker)]
+interface <dfn id=navigatorconcurrenthardware>NavigatorConcurrentHardware</dfn> {
+  readonly attribute unsigned long long <a href=#dom-navigator-hardwareconcurrency id=navigator.hardwareconcurrency:dom-navigator-hardwareconcurrency>hardwareConcurrency</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>window</var> . <code id=navigator.hardwareconcurrency:dom-navigator><a href=#dom-navigator>navigator</a></code> . <code id=navigator.hardwareconcurrency:dom-navigator-hardwareconcurrency-2><a href=#dom-navigator-hardwareconcurrency>hardwareConcurrency</a></code><dd>Returns the number of logical processors potentially available to the user agent.</dl>
+
+  
+
+  <p>The <dfn id=dom-navigator-hardwareconcurrency><code>navigator.hardwareConcurrency</code></dfn> attribute's
+  getter must return a number between 1 and the number of logical processors potentially available
+  to the user agent. If this cannot be determined, the getter must return 1.
+  <a href=#fingerprinting-vector id=navigator.hardwareconcurrency:fingerprinting-vector class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a></p>
+
+  <p>User agents should err toward exposing the number of logical processors available, using lower
+  values only in cases where there are user-agent specific limits in place (such as a limitation
+  on the number of <a href=#worker id=navigator.hardwareconcurrency:worker>workers</a> that can be created) or when the user agent
+  desires to limit fingerprinting possibilities.</p>
+
+  
+
+  <h3 id=apis-available-to-workers>10.3 APIs available to workers<a href=#apis-available-to-workers class=self-link></a></h3>
+
+  
+
+  <h4 id=importing-scripts-and-libraries>10.3.1 Importing scripts and libraries<a href=#importing-scripts-and-libraries class=self-link></a></h4>
+
+  <p>When a script invokes the <dfn id=dom-workerglobalscope-importscripts><code>importScripts(<var>urls</var>)</code></dfn> method on
+  a <code id=importing-scripts-and-libraries:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> object, the user agent must <a href=#import-scripts-into-worker-global-scope id=importing-scripts-and-libraries:import-scripts-into-worker-global-scope>import scripts into worker
+  global scope</a> given this <code id=importing-scripts-and-libraries:workerglobalscope-2><a href=#workerglobalscope>WorkerGlobalScope</a></code> object and <var>urls</var>.</p>
+
+  <p>To <dfn id=import-scripts-into-worker-global-scope data-export="">import scripts into worker global scope</dfn>, given a
+  <code id=importing-scripts-and-libraries:workerglobalscope-3><a href=#workerglobalscope>WorkerGlobalScope</a></code> object <var>worker global scope</var> and a <code>sequence&lt;DOMString></code> <var>urls</var>, run these steps. The algorithm may
+  optionally be customized by supplying custom <a href=#fetching-scripts-perform-fetch id=importing-scripts-and-libraries:fetching-scripts-perform-fetch>perform
+  the fetch</a> hooks, which if provided will be used when invoking <a href=#fetch-a-classic-worker-imported-script id=importing-scripts-and-libraries:fetch-a-classic-worker-imported-script>fetch a classic
+  worker-imported script</a>.</p>
+
+  <ol><li><p>If <var>worker global scope</var>'s <a href=#concept-workerglobalscope-type id=importing-scripts-and-libraries:concept-workerglobalscope-type>type</a> is "<code>module</code>", throw a
+   <code id=importing-scripts-and-libraries:typeerror><a data-x-internal=typeerror href=https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror>TypeError</a></code> exception and abort these steps.<li><p>Let <var>settings object</var> be the <a href=#current-settings-object id=importing-scripts-and-libraries:current-settings-object>current settings object</a>.<li><p>If <var>urls</var> is empty, abort these steps.<li><p><a href=#parse-a-url id=importing-scripts-and-libraries:parse-a-url>Parse</a> each value in <var>urls</var> relative to
+   <var>settings object</var>. If any fail, throw a <a id=importing-scripts-and-libraries:syntaxerror href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a>
+   <code id=importing-scripts-and-libraries:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li>
+    <p>For each <var>url</var> in the <a href=#resulting-url-record id=importing-scripts-and-libraries:resulting-url-record>resulting URL
+    records</a>, run these substeps:</p>
+
+    <ol><li><p><a href=#fetch-a-classic-worker-imported-script id=importing-scripts-and-libraries:fetch-a-classic-worker-imported-script-2>Fetch a classic worker-imported script</a> given <var>url</var> and
+     <var>settings object</var>, passing along any custom <a href=#fetching-scripts-perform-fetch id=importing-scripts-and-libraries:fetching-scripts-perform-fetch-2>perform the fetch</a> steps provided. If this
+     succeeds, let <var>script</var> be the result. Otherwise, rethrow the exception.<li>
+      <p><a href=#run-a-classic-script id=importing-scripts-and-libraries:run-a-classic-script>Run the classic script</a> <var>script</var>,
+      passing the <var>rethrow errors</var> flag.</p>
+
+      <p class=note><var>script</var> will run until it either returns, fails to parse, fails to
+      catch an exception, or gets <a href=#abort-a-running-script id=importing-scripts-and-libraries:abort-a-running-script>prematurely aborted</a>
+      by the "<a href=#kill-a-worker id=importing-scripts-and-libraries:kill-a-worker>kill a worker</a>" or "<a href=#terminate-a-worker id=importing-scripts-and-libraries:terminate-a-worker>terminate a worker</a>" algorithms defined
+      above.</p>
+
+      <p>If an exception was thrown or if the script was <a href=#abort-a-running-script id=importing-scripts-and-libraries:abort-a-running-script-2>prematurely aborted</a>, then abort all these steps, letting the exception or
+      aborting continue to be processed by the calling <a href=#concept-script id=importing-scripts-and-libraries:concept-script>script</a>.</p>
+
+     </ol>
+
+   </ol>
+
+  <p class=note><cite>Service Workers</cite> is an example of a specification that runs this
+  algorithm with its own options for the <a href=#fetching-scripts-perform-fetch id=importing-scripts-and-libraries:fetching-scripts-perform-fetch-3>perform the
+  fetch</a> hook. <a href=#refsSW>[SW]</a></p>
+
+  
+
+
+  <h4 id=the-workernavigator-object>10.3.2 The <code id=the-workernavigator-object:workernavigator><a href=#workernavigator>WorkerNavigator</a></code> object<a href=#the-workernavigator-object class=self-link></a></h4>
+
+  
+
+  <p>The <dfn id=dom-worker-navigator><code>navigator</code></dfn> attribute
+  of the <code id=the-workernavigator-object:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> interface must return an instance of
+  the <code id=the-workernavigator-object:workernavigator-2><a href=#workernavigator>WorkerNavigator</a></code> interface, which represents the
+  identity and state of the user agent (the client):</p>
+
+  
+
+  <pre class=idl>[Exposed=Worker]
+interface <dfn id=workernavigator>WorkerNavigator</dfn> {};
+<a href=#workernavigator id=the-workernavigator-object:workernavigator-3>WorkerNavigator</a> implements <a href=#navigatorid id=the-workernavigator-object:navigatorid>NavigatorID</a>;
+<a href=#workernavigator id=the-workernavigator-object:workernavigator-4>WorkerNavigator</a> implements <a href=#navigatorlanguage id=the-workernavigator-object:navigatorlanguage>NavigatorLanguage</a>;
+<a href=#workernavigator id=the-workernavigator-object:workernavigator-5>WorkerNavigator</a> implements <a href=#navigatoronline id=the-workernavigator-object:navigatoronline>NavigatorOnLine</a>;
+<a href=#workernavigator id=the-workernavigator-object:workernavigator-6>WorkerNavigator</a> implements <a href=#navigatorconcurrenthardware id=the-workernavigator-object:navigatorconcurrenthardware>NavigatorConcurrentHardware</a>;</pre>
+
+
+
+
+  <h4 id=worker-locations>10.3.3 Worker locations<a href=#worker-locations class=self-link></a></h4>
+
+  <pre class=idl>[Exposed=Worker]
+interface <dfn id=workerlocation>WorkerLocation</dfn> {
+  stringifier readonly attribute USVString <a href=#dom-workerlocation-href id=worker-locations:dom-workerlocation-href>href</a>;
+  readonly attribute USVString <a href=#dom-workerlocation-origin id=worker-locations:dom-workerlocation-origin>origin</a>;
+  readonly attribute USVString <a href=#dom-workerlocation-protocol id=worker-locations:dom-workerlocation-protocol>protocol</a>;
+  readonly attribute USVString <a href=#dom-workerlocation-host id=worker-locations:dom-workerlocation-host>host</a>;
+  readonly attribute USVString <a href=#dom-workerlocation-hostname id=worker-locations:dom-workerlocation-hostname>hostname</a>;
+  readonly attribute USVString <a href=#dom-workerlocation-port id=worker-locations:dom-workerlocation-port>port</a>;
+  readonly attribute USVString <a href=#dom-workerlocation-pathname id=worker-locations:dom-workerlocation-pathname>pathname</a>;
+  readonly attribute USVString <a href=#dom-workerlocation-search id=worker-locations:dom-workerlocation-search>search</a>;
+  readonly attribute USVString <a href=#dom-workerlocation-hash id=worker-locations:dom-workerlocation-hash>hash</a>;
+};</pre>
+
+  <p>A <code id=worker-locations:workerlocation><a href=#workerlocation>WorkerLocation</a></code> object has an associated <dfn id=concept-workerlocation-workerglobalscope><code>WorkerGlobalScope</code> object</dfn> (a
+  <code id=worker-locations:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> object).
+
+  <p>The <dfn id=dom-workerlocation-href><code>href</code></dfn> attribute's getter must
+  return the associated <a href=#concept-workerlocation-workerglobalscope id=worker-locations:concept-workerlocation-workerglobalscope><code>WorkerGlobalScope</code> object</a>'s
+  <a href=#concept-workerglobalscope-url id=worker-locations:concept-workerglobalscope-url>url</a>, <a href=https://url.spec.whatwg.org/#concept-url-serializer id=worker-locations:concept-url-serializer data-x-internal=concept-url-serializer>serialized</a>.</p>
+
+  <p>The <dfn id=dom-workerlocation-origin><code>origin</code></dfn> attribute's getter must
+  return the <a href=#unicode-serialisation-of-an-origin id=worker-locations:unicode-serialisation-of-an-origin>Unicode serialization</a> of the
+  associated <a href=#concept-workerlocation-workerglobalscope id=worker-locations:concept-workerlocation-workerglobalscope-2><code>WorkerGlobalScope</code>
+  object</a>'s <a href=#concept-workerglobalscope-url id=worker-locations:concept-workerglobalscope-url-2>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-origin id=worker-locations:concept-url-origin data-x-internal=concept-url-origin>origin</a>.</p>
+
+  <p class="note no-backref">It returns the Unicode rather than the ASCII serialization for
+  compatibility with <code id=worker-locations:messageevent><a href=#messageevent>MessageEvent</a></code>.</p>
+
+  <p>The <dfn id=dom-workerlocation-protocol><code>protocol</code></dfn> attribute's getter
+  must run return the associated <a href=#concept-workerlocation-workerglobalscope id=worker-locations:concept-workerlocation-workerglobalscope-3><code>WorkerGlobalScope</code> object</a>'s
+  <a href=#concept-workerglobalscope-url id=worker-locations:concept-workerglobalscope-url-3>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=worker-locations:concept-url-scheme data-x-internal=concept-url-scheme>scheme</a>, followed by "<code>:</code>".</p>
+
+  <p>The <dfn id=dom-workerlocation-host><code>host</code></dfn> attribute's getter must run
+  these steps:</p>
+
+  <ol><li><p>Let <var>url</var> be the associated <a href=#concept-workerlocation-workerglobalscope id=worker-locations:concept-workerlocation-workerglobalscope-4><code>WorkerGlobalScope</code> object</a>'s
+   <a href=#concept-workerglobalscope-url id=worker-locations:concept-workerglobalscope-url-4>url</a>.<li><p>If <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=worker-locations:concept-url-host data-x-internal=concept-url-host>host</a> is null, return the empty
+   string.<li><p>If <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=worker-locations:concept-url-port data-x-internal=concept-url-port>port</a> is null, return
+   <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=worker-locations:concept-url-host-2 data-x-internal=concept-url-host>host</a>, <a href=https://url.spec.whatwg.org/#concept-host-serializer id=worker-locations:host-serializer data-x-internal=host-serializer>serialized</a>.<li><p>Return <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=worker-locations:concept-url-host-3 data-x-internal=concept-url-host>host</a>, <a href=https://url.spec.whatwg.org/#concept-host-serializer id=worker-locations:host-serializer-2 data-x-internal=host-serializer>serialized</a>, followed by "<code>:</code>" and <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=worker-locations:concept-url-port-2 data-x-internal=concept-url-port>port</a>, <a href=https://url.spec.whatwg.org/#serialize-an-integer id=worker-locations:serialize-an-integer data-x-internal=serialize-an-integer>serialized</a>.</ol>
+
+  <p>The <dfn id=dom-workerlocation-hostname><code>hostname</code></dfn> attribute's getter
+  must run these steps:</p>
+
+  <ol><li><p>Let <var>host</var> be the associated <a href=#concept-workerlocation-workerglobalscope id=worker-locations:concept-workerlocation-workerglobalscope-5><code>WorkerGlobalScope</code> object</a>'s
+   <a href=#concept-workerglobalscope-url id=worker-locations:concept-workerglobalscope-url-5>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=worker-locations:concept-url-host-4 data-x-internal=concept-url-host>host</a>.<li><p>If <var>host</var> is null, return the empty string.<li><p>Return <var>host</var>, <a href=https://url.spec.whatwg.org/#concept-host-serializer id=worker-locations:host-serializer-3 data-x-internal=host-serializer>serialized</a>.</ol>
+
+  <p>The <dfn id=dom-workerlocation-port><code>port</code></dfn> attribute's getter must run
+  these steps:</p>
+
+  <ol><li><p>Let <var>port</var> be the associated <a href=#concept-workerlocation-workerglobalscope id=worker-locations:concept-workerlocation-workerglobalscope-6><code>WorkerGlobalScope</code> object</a>'s
+   <a href=#concept-workerglobalscope-url id=worker-locations:concept-workerglobalscope-url-6>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=worker-locations:concept-url-port-3 data-x-internal=concept-url-port>port</a>.<li><p>If <var>port</var> is null, return the empty string.<li><p>Return <var>port</var>, <a href=https://url.spec.whatwg.org/#serialize-an-integer id=worker-locations:serialize-an-integer-2 data-x-internal=serialize-an-integer>serialized</a>.</ol>
+
+  <p>The <dfn id=dom-workerlocation-pathname><code>pathname</code></dfn> attribute's getter
+  must run these steps:</p>
+
+  <ol><li><p>Let <var>url</var> be the associated <a href=#concept-workerlocation-workerglobalscope id=worker-locations:concept-workerlocation-workerglobalscope-7><code>WorkerGlobalScope</code> object</a>'s
+   <a href=#concept-workerglobalscope-url id=worker-locations:concept-workerglobalscope-url-7>url</a>.<li><p>If <var>url</var>'s <a id=worker-locations:cannot-be-a-base-url-flag href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, return the first string
+   in <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-path id=worker-locations:concept-url-path data-x-internal=concept-url-path>path</a>.<li><p>Return "<code>/</code>", followed by the strings in <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-path id=worker-locations:concept-url-path-2 data-x-internal=concept-url-path>path</a> (including empty strings), separated from each other by
+   "<code>/</code>".</ol>
+
+  <p>The <dfn id=dom-workerlocation-search><code>search</code></dfn> attribute's getter must
+  run these steps:</p>
+
+  <ol><li><p>Let <var>query</var> be the associated <a href=#concept-workerlocation-workerglobalscope id=worker-locations:concept-workerlocation-workerglobalscope-8><code>WorkerGlobalScope</code> object</a>'s
+   <a href=#concept-workerglobalscope-url id=worker-locations:concept-workerglobalscope-url-8>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-query id=worker-locations:concept-url-query data-x-internal=concept-url-query>query</a>.<li><p>If <var>query</var> is either null or the empty string, return the empty string.<li><p>Return "<code>?</code>", followed by <var>query</var>.</ol>
+
+  <p>The <dfn id=dom-workerlocation-hash><code>hash</code></dfn> attribute's getter must run
+  these steps:</p>
+
+  <ol><li><p>Let <var>fragment</var> be the associated <a href=#concept-workerlocation-workerglobalscope id=worker-locations:concept-workerlocation-workerglobalscope-9><code>WorkerGlobalScope</code> object</a>'s
+   <a href=#concept-workerglobalscope-url id=worker-locations:concept-workerglobalscope-url-9>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-fragment id=worker-locations:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a>.<li><p>If <var>fragment</var> is either null or the empty string, return the empty string.<li><p>Return "<code>#</code>", followed by <var>fragment</var>.</ol>
+
+
+
+
+  <h2 id=webstorage>11 Web storage<a href=#webstorage class=self-link></a></h2>
+
+  <h3 id=introduction-15>11.1 Introduction<a href=#introduction-15 class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This specification introduces two related mechanisms, similar to HTTP session cookies, for
+  storing name-value pairs on the client side. <a href=#refsCOOKIES>[COOKIES]</a></p>
+
+  <p>The first is designed for scenarios where the user is carrying out a single transaction, but
+  could be carrying out multiple transactions in different windows at the same time.</p>
+
+  <p>Cookies don't really handle this case well. For example, a user could be buying plane tickets
+  in two different windows, using the same site. If the site used cookies to keep track of which
+  ticket the user was buying, then as the user clicked from page to page in both windows, the ticket
+  currently being purchased would "leak" from one window to the other, potentially causing the user
+  to buy two tickets for the same flight without really noticing.</p>
+
+  <p>To address this, this specification introduces the <code id=introduction-15:dom-sessionstorage><a href=#dom-sessionstorage>sessionStorage</a></code> IDL attribute. Sites can add data to the session
+  storage, and it will be accessible to any page from the same site opened in that window.</p> 
+
+  <div class=example>
+
+   <p>For example, a page could have a checkbox that the user ticks to
+   indicate that they want insurance:</p>
+
+   <pre>&lt;label>
+ &lt;input type="checkbox" onchange="sessionStorage.insurance = checked ? 'true' : ''">
+  I want insurance on this trip.
+&lt;/label></pre>
+
+   <p>A later page could then check, from script, whether the user had checked the checkbox or
+   not:</p>
+
+   <pre>if (sessionStorage.insurance) { ... }</pre>
+
+   <p>If the user had multiple windows opened on the site, each one would have its own individual
+   copy of the session storage object.</p>
+

@@ -1,0 +1,850 @@
+
+  <dl class=switch><dt>U+0026 AMPERSAND (&amp;)<dd>Set the <var id=data-state:return-state><a href=#return-state>return state</a></var> to the <a href=#data-state id=data-state:data-state>data state</a>.
+   Switch to the <a href=#character-reference-state id=data-state:character-reference-state>character reference state</a>.<dt>U+003C LESS-THAN SIGN (&lt;)<dd>Switch to the <a href=#tag-open-state id=data-state:tag-open-state>tag open state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=data-state:parse-error>Parse error</a>. Emit the <a href=#current-input-character id=data-state:current-input-character>current input character</a> as a character
+   token.<dt>EOF<dd>Emit an end-of-file token.<dt>Anything else<dd>Emit the <a href=#current-input-character id=data-state:current-input-character-2>current input character</a> as a character token.</dl>
+
+
+  <h5 id=rcdata-state>12.2.4.2 <dfn>RCDATA state</dfn><a href=#rcdata-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=rcdata-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0026 AMPERSAND (&amp;)<dd>Set the <var id=rcdata-state:return-state><a href=#return-state>return state</a></var> to the <a href=#rcdata-state id=rcdata-state:rcdata-state>RCDATA state</a>.
+   Switch to the <a href=#character-reference-state id=rcdata-state:character-reference-state>character reference state</a>.<dt>U+003C LESS-THAN SIGN (&lt;)<dd>Switch to the <a href=#rcdata-less-than-sign-state id=rcdata-state:rcdata-less-than-sign-state>RCDATA less-than sign state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=rcdata-state:parse-error>Parse error</a>. Emit a U+FFFD REPLACEMENT CHARACTER character token.<dt>EOF<dd>Emit an end-of-file token.<dt>Anything else<dd>Emit the <a href=#current-input-character id=rcdata-state:current-input-character>current input character</a> as a character token.</dl>
+
+
+  <h5 id=rawtext-state>12.2.4.3 <dfn>RAWTEXT state</dfn><a href=#rawtext-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=rawtext-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+003C LESS-THAN SIGN (&lt;)<dd>Switch to the <a href=#rawtext-less-than-sign-state id=rawtext-state:rawtext-less-than-sign-state>RAWTEXT less-than sign state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=rawtext-state:parse-error>Parse error</a>. Emit a U+FFFD REPLACEMENT CHARACTER character token.<dt>EOF<dd>Emit an end-of-file token.<dt>Anything else<dd>Emit the <a href=#current-input-character id=rawtext-state:current-input-character>current input character</a> as a character token.</dl>
+
+
+  <h5 id=script-data-state>12.2.4.4 <dfn>Script data state</dfn><a href=#script-data-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+003C LESS-THAN SIGN (&lt;)<dd>Switch to the <a href=#script-data-less-than-sign-state id=script-data-state:script-data-less-than-sign-state>script data less-than sign state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=script-data-state:parse-error>Parse error</a>. Emit a U+FFFD REPLACEMENT CHARACTER character token.<dt>EOF<dd>Emit an end-of-file token.<dt>Anything else<dd>Emit the <a href=#current-input-character id=script-data-state:current-input-character>current input character</a> as a character token.</dl>
+
+
+  <h5 id=plaintext-state>12.2.4.5 <dfn>PLAINTEXT state</dfn><a href=#plaintext-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=plaintext-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0000 NULL<dd><a href=#parse-error id=plaintext-state:parse-error>Parse error</a>. Emit a U+FFFD REPLACEMENT CHARACTER character token.<dt>EOF<dd>Emit an end-of-file token.<dt>Anything else<dd>Emit the <a href=#current-input-character id=plaintext-state:current-input-character>current input character</a> as a character token.</dl>
+
+
+  <h5 id=tag-open-state>12.2.4.6 <dfn>Tag open state</dfn><a href=#tag-open-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=tag-open-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0021 EXCLAMATION MARK (!)<dd>Switch to the <a href=#markup-declaration-open-state id=tag-open-state:markup-declaration-open-state>markup declaration open state</a>.<dt>U+002F SOLIDUS (/)<dd>Switch to the <a href=#end-tag-open-state id=tag-open-state:end-tag-open-state>end tag open state</a>.<dt><a href=#ascii-letters id=tag-open-state:ascii-letters>ASCII letter</a><dd>Create a new start tag token, set its tag name to the empty string. <a href=#reconsume id=tag-open-state:reconsume>Reconsume</a> in
+   the <a href=#tag-name-state id=tag-open-state:tag-name-state>tag name state</a>.
+
+   <dt>U+003F QUESTION MARK (?)<dd><a href=#parse-error id=tag-open-state:parse-error>Parse error</a>. Create a comment token whose data is the empty string.
+   <a href=#reconsume id=tag-open-state:reconsume-2>Reconsume</a> in the <a href=#bogus-comment-state id=tag-open-state:bogus-comment-state>bogus comment state</a>.<dt>Anything else<dd><a href=#parse-error id=tag-open-state:parse-error-2>Parse error</a>. Emit a U+003C LESS-THAN SIGN character token.
+   <a href=#reconsume id=tag-open-state:reconsume-3>Reconsume</a> in the <a href=#data-state id=tag-open-state:data-state>data state</a>.</dl>
+
+  <h5 id=end-tag-open-state>12.2.4.7 <dfn>End tag open state</dfn><a href=#end-tag-open-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=end-tag-open-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt><a href=#ascii-letters id=end-tag-open-state:ascii-letters>ASCII letter</a><dd>Create a new end tag token, set its tag name to the empty string. <a href=#reconsume id=end-tag-open-state:reconsume>Reconsume</a> in
+   the <a href=#tag-name-state id=end-tag-open-state:tag-name-state>tag name state</a>.
+
+   <dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=end-tag-open-state:parse-error>Parse error</a>. Switch to the <a href=#data-state id=end-tag-open-state:data-state>data state</a>.<dt>EOF<dd><a href=#parse-error id=end-tag-open-state:parse-error-2>Parse error</a>. Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS
+   character token and an end-of-file token.
+
+   <dt>Anything else<dd><a href=#parse-error id=end-tag-open-state:parse-error-3>Parse error</a>. Create a comment token whose data is the empty string.
+   <a href=#reconsume id=end-tag-open-state:reconsume-2>Reconsume</a> in the <a href=#bogus-comment-state id=end-tag-open-state:bogus-comment-state>bogus comment state</a>.</dl>
+
+
+  <h5 id=tag-name-state>12.2.4.8 <dfn>Tag name state</dfn><a href=#tag-name-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=tag-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Switch to the <a href=#before-attribute-name-state id=tag-name-state:before-attribute-name-state>before attribute name state</a>.<dt>U+002F SOLIDUS (/)<dd>Switch to the <a href=#self-closing-start-tag-state id=tag-name-state:self-closing-start-tag-state>self-closing start tag state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=tag-name-state:data-state>data state</a>. Emit the current tag token.<dt><a href=#uppercase-ascii-letters id=tag-name-state:uppercase-ascii-letters>Uppercase ASCII letter</a><dd>Append the lowercase version of the <a href=#current-input-character id=tag-name-state:current-input-character>current input character</a> (add 0x0020 to the
+   character's code point) to the current tag token's tag name.<dt>U+0000 NULL<dd><a href=#parse-error id=tag-name-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the current tag
+   token's tag name.<dt>EOF<dd><a href=#parse-error id=tag-name-state:parse-error-2>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Append the <a href=#current-input-character id=tag-name-state:current-input-character-2>current input character</a> to the current tag token's tag name.</dl>
+
+
+  <h5 id=rcdata-less-than-sign-state>12.2.4.9 <dfn>RCDATA less-than sign state</dfn><a href=#rcdata-less-than-sign-state class=self-link></a></h5>
+  
+
+  <p>Consume the <a href=#next-input-character id=rcdata-less-than-sign-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002F SOLIDUS (/)<dd>Set the <var id=rcdata-less-than-sign-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var> to the empty string. Switch to
+   the <a href=#rcdata-end-tag-open-state id=rcdata-less-than-sign-state:rcdata-end-tag-open-state>RCDATA end tag open state</a>.<dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token. <a href=#reconsume id=rcdata-less-than-sign-state:reconsume>Reconsume</a> in the <a href=#rcdata-state id=rcdata-less-than-sign-state:rcdata-state>RCDATA
+   state</a>.</dl>
+
+
+  <h5 id=rcdata-end-tag-open-state>12.2.4.10 <dfn>RCDATA end tag open state</dfn><a href=#rcdata-end-tag-open-state class=self-link></a></h5>
+  
+
+  <p>Consume the <a href=#next-input-character id=rcdata-end-tag-open-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt><a href=#ascii-letters id=rcdata-end-tag-open-state:ascii-letters>ASCII letter</a><dd>Create a new end tag token, set its tag name to the empty string. <a href=#reconsume id=rcdata-end-tag-open-state:reconsume>Reconsume</a> in
+   the <a href=#rcdata-end-tag-name-state id=rcdata-end-tag-open-state:rcdata-end-tag-name-state>RCDATA end tag name state</a>.
+
+   <dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS character token.
+   <a href=#reconsume id=rcdata-end-tag-open-state:reconsume-2>Reconsume</a> in the <a href=#rcdata-state id=rcdata-end-tag-open-state:rcdata-state>RCDATA state</a>.</dl>
+
+
+  <h5 id=rcdata-end-tag-name-state>12.2.4.11 <dfn>RCDATA end tag name state</dfn><a href=#rcdata-end-tag-name-state class=self-link></a></h5>
+  
+
+  <p>Consume the <a href=#next-input-character id=rcdata-end-tag-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=rcdata-end-tag-name-state:appropriate-end-tag-token>appropriate end tag token</a>, then switch to the
+   <a href=#before-attribute-name-state id=rcdata-end-tag-name-state:before-attribute-name-state>before attribute name state</a>. Otherwise, treat it as per the "anything else" entry
+   below.<dt>U+002F SOLIDUS (/)<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=rcdata-end-tag-name-state:appropriate-end-tag-token-2>appropriate end tag token</a>, then switch to the
+   <a href=#self-closing-start-tag-state id=rcdata-end-tag-name-state:self-closing-start-tag-state>self-closing start tag state</a>. Otherwise, treat it as per the "anything else" entry
+   below.<dt>U+003E GREATER-THAN SIGN (>)<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=rcdata-end-tag-name-state:appropriate-end-tag-token-3>appropriate end tag token</a>, then switch to the
+   <a href=#data-state id=rcdata-end-tag-name-state:data-state>data state</a> and emit the current tag token. Otherwise, treat it as per the "anything
+   else" entry below.<dt><a href=#uppercase-ascii-letters id=rcdata-end-tag-name-state:uppercase-ascii-letters>Uppercase ASCII letter</a><dd>Append the lowercase version of the <a href=#current-input-character id=rcdata-end-tag-name-state:current-input-character>current input character</a> (add 0x0020 to the
+   character's code point) to the current tag token's tag name. Append the <a href=#current-input-character id=rcdata-end-tag-name-state:current-input-character-2>current input
+   character</a> to the <var id=rcdata-end-tag-name-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var>.<dt><a href=#lowercase-ascii-letters id=rcdata-end-tag-name-state:lowercase-ascii-letters>Lowercase ASCII letter</a><dd>Append the <a href=#current-input-character id=rcdata-end-tag-name-state:current-input-character-3>current input character</a> to the current tag token's tag name. Append
+   the <a href=#current-input-character id=rcdata-end-tag-name-state:current-input-character-4>current input character</a> to the <var id=rcdata-end-tag-name-state:temporary-buffer-2><a href=#temporary-buffer>temporary
+   buffer</a></var>.<dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character token, and a
+   character token for each of the characters in the <var id=rcdata-end-tag-name-state:temporary-buffer-3><a href=#temporary-buffer>temporary
+   buffer</a></var> (in the order they were added to the buffer). <a href=#reconsume id=rcdata-end-tag-name-state:reconsume>Reconsume</a> in the
+   <a href=#rcdata-state id=rcdata-end-tag-name-state:rcdata-state>RCDATA state</a>.</dl>
+
+
+  <h5 id=rawtext-less-than-sign-state>12.2.4.12 <dfn>RAWTEXT less-than sign state</dfn><a href=#rawtext-less-than-sign-state class=self-link></a></h5>
+  
+
+  <p>Consume the <a href=#next-input-character id=rawtext-less-than-sign-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002F SOLIDUS (/)<dd>Set the <var id=rawtext-less-than-sign-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var> to the empty string. Switch to
+   the <a href=#rawtext-end-tag-open-state id=rawtext-less-than-sign-state:rawtext-end-tag-open-state>RAWTEXT end tag open state</a>.<dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token. <a href=#reconsume id=rawtext-less-than-sign-state:reconsume>Reconsume</a> in the <a href=#rawtext-state id=rawtext-less-than-sign-state:rawtext-state>RAWTEXT
+   state</a>.</dl>
+
+
+  <h5 id=rawtext-end-tag-open-state>12.2.4.13 <dfn>RAWTEXT end tag open state</dfn><a href=#rawtext-end-tag-open-state class=self-link></a></h5>
+  
+
+  <p>Consume the <a href=#next-input-character id=rawtext-end-tag-open-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt><a href=#ascii-letters id=rawtext-end-tag-open-state:ascii-letters>ASCII letter</a><dd>Create a new end tag token, set its tag name to the empty string. <a href=#reconsume id=rawtext-end-tag-open-state:reconsume>Reconsume</a> in
+   the <a href=#rawtext-end-tag-name-state id=rawtext-end-tag-open-state:rawtext-end-tag-name-state>RAWTEXT end tag name state</a>.
+
+   <dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS character token.
+   <a href=#reconsume id=rawtext-end-tag-open-state:reconsume-2>Reconsume</a> in the <a href=#rawtext-state id=rawtext-end-tag-open-state:rawtext-state>RAWTEXT state</a>.</dl>
+
+
+  <h5 id=rawtext-end-tag-name-state>12.2.4.14 <dfn>RAWTEXT end tag name state</dfn><a href=#rawtext-end-tag-name-state class=self-link></a></h5>
+  
+
+  <p>Consume the <a href=#next-input-character id=rawtext-end-tag-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=rawtext-end-tag-name-state:appropriate-end-tag-token>appropriate end tag token</a>, then switch to the
+   <a href=#before-attribute-name-state id=rawtext-end-tag-name-state:before-attribute-name-state>before attribute name state</a>. Otherwise, treat it as per the "anything else" entry
+   below.<dt>U+002F SOLIDUS (/)<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=rawtext-end-tag-name-state:appropriate-end-tag-token-2>appropriate end tag token</a>, then switch to the
+   <a href=#self-closing-start-tag-state id=rawtext-end-tag-name-state:self-closing-start-tag-state>self-closing start tag state</a>. Otherwise, treat it as per the "anything else" entry
+   below.<dt>U+003E GREATER-THAN SIGN (>)<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=rawtext-end-tag-name-state:appropriate-end-tag-token-3>appropriate end tag token</a>, then switch to the
+   <a href=#data-state id=rawtext-end-tag-name-state:data-state>data state</a> and emit the current tag token. Otherwise, treat it as per the "anything
+   else" entry below.<dt><a href=#uppercase-ascii-letters id=rawtext-end-tag-name-state:uppercase-ascii-letters>Uppercase ASCII letter</a><dd>Append the lowercase version of the <a href=#current-input-character id=rawtext-end-tag-name-state:current-input-character>current input character</a> (add 0x0020 to the
+   character's code point) to the current tag token's tag name. Append the <a href=#current-input-character id=rawtext-end-tag-name-state:current-input-character-2>current input
+   character</a> to the <var id=rawtext-end-tag-name-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var>.<dt><a href=#lowercase-ascii-letters id=rawtext-end-tag-name-state:lowercase-ascii-letters>Lowercase ASCII letter</a><dd>Append the <a href=#current-input-character id=rawtext-end-tag-name-state:current-input-character-3>current input character</a> to the current tag token's tag name. Append
+   the <a href=#current-input-character id=rawtext-end-tag-name-state:current-input-character-4>current input character</a> to the <var id=rawtext-end-tag-name-state:temporary-buffer-2><a href=#temporary-buffer>temporary
+   buffer</a></var>.<dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character token, and a
+   character token for each of the characters in the <var id=rawtext-end-tag-name-state:temporary-buffer-3><a href=#temporary-buffer>temporary
+   buffer</a></var> (in the order they were added to the buffer). <a href=#reconsume id=rawtext-end-tag-name-state:reconsume>Reconsume</a> in the
+   <a href=#rawtext-state id=rawtext-end-tag-name-state:rawtext-state>RAWTEXT state</a>.</dl>
+
+
+  <h5 id=script-data-less-than-sign-state>12.2.4.15 <dfn>Script data less-than sign state</dfn><a href=#script-data-less-than-sign-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-less-than-sign-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002F SOLIDUS (/)<dd>Set the <var id=script-data-less-than-sign-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var> to the empty string. Switch to
+   the <a href=#script-data-end-tag-open-state id=script-data-less-than-sign-state:script-data-end-tag-open-state>script data end tag open state</a>.<dt>U+0021 EXCLAMATION MARK (!)<dd>Switch to the <a href=#script-data-escape-start-state id=script-data-less-than-sign-state:script-data-escape-start-state>script data escape start state</a>. Emit a U+003C LESS-THAN SIGN
+   character token and a U+0021 EXCLAMATION MARK character token.<dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token. <a href=#reconsume id=script-data-less-than-sign-state:reconsume>Reconsume</a> in the <a href=#script-data-state id=script-data-less-than-sign-state:script-data-state>script data
+   state</a>.</dl>
+
+
+  <h5 id=script-data-end-tag-open-state>12.2.4.16 <dfn>Script data end tag open state</dfn><a href=#script-data-end-tag-open-state class=self-link></a></h5>
+  
+
+  <p>Consume the <a href=#next-input-character id=script-data-end-tag-open-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt><a href=#ascii-letters id=script-data-end-tag-open-state:ascii-letters>ASCII letter</a><dd>Create a new end tag token, set its tag name to the empty string. <a href=#reconsume id=script-data-end-tag-open-state:reconsume>Reconsume</a> in
+   the <a href=#script-data-end-tag-name-state id=script-data-end-tag-open-state:script-data-end-tag-name-state>script data end tag name state</a>.
+
+   <dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS character token.
+   <a href=#reconsume id=script-data-end-tag-open-state:reconsume-2>Reconsume</a> in the <a href=#script-data-state id=script-data-end-tag-open-state:script-data-state>script data state</a>.</dl>
+
+
+  <h5 id=script-data-end-tag-name-state>12.2.4.17 <dfn>Script data end tag name state</dfn><a href=#script-data-end-tag-name-state class=self-link></a></h5>
+  
+
+  <p>Consume the <a href=#next-input-character id=script-data-end-tag-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=script-data-end-tag-name-state:appropriate-end-tag-token>appropriate end tag token</a>, then switch to the
+   <a href=#before-attribute-name-state id=script-data-end-tag-name-state:before-attribute-name-state>before attribute name state</a>. Otherwise, treat it as per the "anything else" entry
+   below.<dt>U+002F SOLIDUS (/)<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=script-data-end-tag-name-state:appropriate-end-tag-token-2>appropriate end tag token</a>, then switch to the
+   <a href=#self-closing-start-tag-state id=script-data-end-tag-name-state:self-closing-start-tag-state>self-closing start tag state</a>. Otherwise, treat it as per the "anything else" entry
+   below.<dt>U+003E GREATER-THAN SIGN (>)<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=script-data-end-tag-name-state:appropriate-end-tag-token-3>appropriate end tag token</a>, then switch to the
+   <a href=#data-state id=script-data-end-tag-name-state:data-state>data state</a> and emit the current tag token. Otherwise, treat it as per the "anything
+   else" entry below.<dt><a href=#uppercase-ascii-letters id=script-data-end-tag-name-state:uppercase-ascii-letters>Uppercase ASCII letter</a><dd>Append the lowercase version of the <a href=#current-input-character id=script-data-end-tag-name-state:current-input-character>current input character</a> (add 0x0020 to the
+   character's code point) to the current tag token's tag name. Append the <a href=#current-input-character id=script-data-end-tag-name-state:current-input-character-2>current input
+   character</a> to the <var id=script-data-end-tag-name-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var>.<dt><a href=#lowercase-ascii-letters id=script-data-end-tag-name-state:lowercase-ascii-letters>Lowercase ASCII letter</a><dd>Append the <a href=#current-input-character id=script-data-end-tag-name-state:current-input-character-3>current input character</a> to the current tag token's tag name. Append
+   the <a href=#current-input-character id=script-data-end-tag-name-state:current-input-character-4>current input character</a> to the <var id=script-data-end-tag-name-state:temporary-buffer-2><a href=#temporary-buffer>temporary
+   buffer</a></var>.<dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character token, and a
+   character token for each of the characters in the <var id=script-data-end-tag-name-state:temporary-buffer-3><a href=#temporary-buffer>temporary
+   buffer</a></var> (in the order they were added to the buffer). <a href=#reconsume id=script-data-end-tag-name-state:reconsume>Reconsume</a> in the
+   <a href=#script-data-state id=script-data-end-tag-name-state:script-data-state>script data state</a>.</dl>
+
+
+  <h5 id=script-data-escape-start-state>12.2.4.18 <dfn>Script data escape start state</dfn><a href=#script-data-escape-start-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-escape-start-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#script-data-escape-start-dash-state id=script-data-escape-start-state:script-data-escape-start-dash-state>script data escape start dash state</a>. Emit a U+002D HYPHEN-MINUS
+   character token.<dt>Anything else<dd><a href=#reconsume id=script-data-escape-start-state:reconsume>Reconsume</a> in the <a href=#script-data-state id=script-data-escape-start-state:script-data-state>script data state</a>.</dl>
+
+
+  <h5 id=script-data-escape-start-dash-state>12.2.4.19 <dfn>Script data escape start dash state</dfn><a href=#script-data-escape-start-dash-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-escape-start-dash-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#script-data-escaped-dash-dash-state id=script-data-escape-start-dash-state:script-data-escaped-dash-dash-state>script data escaped dash dash state</a>. Emit a U+002D HYPHEN-MINUS
+   character token.<dt>Anything else<dd><a href=#reconsume id=script-data-escape-start-dash-state:reconsume>Reconsume</a> in the <a href=#script-data-state id=script-data-escape-start-dash-state:script-data-state>script data state</a>.</dl>
+
+
+  <h5 id=script-data-escaped-state>12.2.4.20 <dfn>Script data escaped state</dfn><a href=#script-data-escaped-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-escaped-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#script-data-escaped-dash-state id=script-data-escaped-state:script-data-escaped-dash-state>script data escaped dash state</a>. Emit a U+002D HYPHEN-MINUS
+   character token.<dt>U+003C LESS-THAN SIGN (&lt;)<dd>Switch to the <a href=#script-data-escaped-less-than-sign-state id=script-data-escaped-state:script-data-escaped-less-than-sign-state>script data escaped less-than sign state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=script-data-escaped-state:parse-error>Parse error</a>. Emit a U+FFFD REPLACEMENT CHARACTER character token.<dt>EOF<dd><a href=#parse-error id=script-data-escaped-state:parse-error-2>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Emit the <a href=#current-input-character id=script-data-escaped-state:current-input-character>current input character</a> as a character token.</dl>
+
+
+  <h5 id=script-data-escaped-dash-state>12.2.4.21 <dfn>Script data escaped dash state</dfn><a href=#script-data-escaped-dash-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-escaped-dash-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#script-data-escaped-dash-dash-state id=script-data-escaped-dash-state:script-data-escaped-dash-dash-state>script data escaped dash dash state</a>. Emit a U+002D HYPHEN-MINUS
+   character token.<dt>U+003C LESS-THAN SIGN (&lt;)<dd>Switch to the <a href=#script-data-escaped-less-than-sign-state id=script-data-escaped-dash-state:script-data-escaped-less-than-sign-state>script data escaped less-than sign state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=script-data-escaped-dash-state:parse-error>Parse error</a>. Switch to the <a href=#script-data-escaped-state id=script-data-escaped-dash-state:script-data-escaped-state>script data escaped state</a>. Emit a U+FFFD
+   REPLACEMENT CHARACTER character token.<dt>EOF<dd><a href=#parse-error id=script-data-escaped-dash-state:parse-error-2>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Switch to the <a href=#script-data-escaped-state id=script-data-escaped-dash-state:script-data-escaped-state-2>script data escaped state</a>. Emit the <a href=#current-input-character id=script-data-escaped-dash-state:current-input-character>current input
+   character</a> as a character token.</dl>
+
+
+  <h5 id=script-data-escaped-dash-dash-state>12.2.4.22 <dfn>Script data escaped dash dash state</dfn><a href=#script-data-escaped-dash-dash-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-escaped-dash-dash-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Emit a U+002D HYPHEN-MINUS character token.<dt>U+003C LESS-THAN SIGN (&lt;)<dd>Switch to the <a href=#script-data-escaped-less-than-sign-state id=script-data-escaped-dash-dash-state:script-data-escaped-less-than-sign-state>script data escaped less-than sign state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#script-data-state id=script-data-escaped-dash-dash-state:script-data-state>script data state</a>. Emit a U+003E GREATER-THAN SIGN character
+   token.<dt>U+0000 NULL<dd><a href=#parse-error id=script-data-escaped-dash-dash-state:parse-error>Parse error</a>. Switch to the <a href=#script-data-escaped-state id=script-data-escaped-dash-dash-state:script-data-escaped-state>script data escaped state</a>. Emit a U+FFFD
+   REPLACEMENT CHARACTER character token.<dt>EOF<dd><a href=#parse-error id=script-data-escaped-dash-dash-state:parse-error-2>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Switch to the <a href=#script-data-escaped-state id=script-data-escaped-dash-dash-state:script-data-escaped-state-2>script data escaped state</a>. Emit the <a href=#current-input-character id=script-data-escaped-dash-dash-state:current-input-character>current input
+   character</a> as a character token.</dl>
+
+
+  <h5 id=script-data-escaped-less-than-sign-state>12.2.4.23 <dfn>Script data escaped less-than sign state</dfn><a href=#script-data-escaped-less-than-sign-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-escaped-less-than-sign-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002F SOLIDUS (/)<dd>Set the <var id=script-data-escaped-less-than-sign-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var> to the empty string. Switch to
+   the <a href=#script-data-escaped-end-tag-open-state id=script-data-escaped-less-than-sign-state:script-data-escaped-end-tag-open-state>script data escaped end tag open state</a>.<dt><a href=#ascii-letters id=script-data-escaped-less-than-sign-state:ascii-letters>ASCII letter</a><dd>Set the <var id=script-data-escaped-less-than-sign-state:temporary-buffer-2><a href=#temporary-buffer>temporary buffer</a></var> to the empty string. Emit a
+   U+003C LESS-THAN SIGN character token. <a href=#reconsume id=script-data-escaped-less-than-sign-state:reconsume>Reconsume</a> in the <a href=#script-data-double-escape-start-state id=script-data-escaped-less-than-sign-state:script-data-double-escape-start-state>script data double
+   escape start state</a>.<dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token. <a href=#reconsume id=script-data-escaped-less-than-sign-state:reconsume-2>Reconsume</a> in the <a href=#script-data-escaped-state id=script-data-escaped-less-than-sign-state:script-data-escaped-state>script data
+   escaped state</a>.</dl>
+
+
+  <h5 id=script-data-escaped-end-tag-open-state>12.2.4.24 <dfn>Script data escaped end tag open state</dfn><a href=#script-data-escaped-end-tag-open-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-escaped-end-tag-open-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt><a href=#ascii-letters id=script-data-escaped-end-tag-open-state:ascii-letters>ASCII letter</a><dd>Create a new end tag token. <a href=#reconsume id=script-data-escaped-end-tag-open-state:reconsume>Reconsume</a> in the <a href=#script-data-escaped-end-tag-name-state id=script-data-escaped-end-tag-open-state:script-data-escaped-end-tag-name-state>script data escaped end tag
+   name state</a>. (Don't emit the token yet; further details will be filled in before it is
+   emitted.)<dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS character token.
+   <a href=#reconsume id=script-data-escaped-end-tag-open-state:reconsume-2>Reconsume</a> in the <a href=#script-data-escaped-state id=script-data-escaped-end-tag-open-state:script-data-escaped-state>script data escaped state</a>.</dl>
+
+
+  <h5 id=script-data-escaped-end-tag-name-state>12.2.4.25 <dfn>Script data escaped end tag name state</dfn><a href=#script-data-escaped-end-tag-name-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-escaped-end-tag-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=script-data-escaped-end-tag-name-state:appropriate-end-tag-token>appropriate end tag token</a>, then switch to the
+   <a href=#before-attribute-name-state id=script-data-escaped-end-tag-name-state:before-attribute-name-state>before attribute name state</a>. Otherwise, treat it as per the "anything else" entry
+   below.<dt>U+002F SOLIDUS (/)<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=script-data-escaped-end-tag-name-state:appropriate-end-tag-token-2>appropriate end tag token</a>, then switch to the
+   <a href=#self-closing-start-tag-state id=script-data-escaped-end-tag-name-state:self-closing-start-tag-state>self-closing start tag state</a>. Otherwise, treat it as per the "anything else" entry
+   below.<dt>U+003E GREATER-THAN SIGN (>)<dd>If the current end tag token is an <a href=#appropriate-end-tag-token id=script-data-escaped-end-tag-name-state:appropriate-end-tag-token-3>appropriate end tag token</a>, then switch to the
+   <a href=#data-state id=script-data-escaped-end-tag-name-state:data-state>data state</a> and emit the current tag token. Otherwise, treat it as per the "anything
+   else" entry below.<dt><a href=#uppercase-ascii-letters id=script-data-escaped-end-tag-name-state:uppercase-ascii-letters>Uppercase ASCII letter</a><dd>Append the lowercase version of the <a href=#current-input-character id=script-data-escaped-end-tag-name-state:current-input-character>current input character</a> (add 0x0020 to the
+   character's code point) to the current tag token's tag name. Append the <a href=#current-input-character id=script-data-escaped-end-tag-name-state:current-input-character-2>current input
+   character</a> to the <var id=script-data-escaped-end-tag-name-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var>.<dt><a href=#lowercase-ascii-letters id=script-data-escaped-end-tag-name-state:lowercase-ascii-letters>Lowercase ASCII letter</a><dd>Append the <a href=#current-input-character id=script-data-escaped-end-tag-name-state:current-input-character-3>current input character</a> to the current tag token's tag name. Append
+   the <a href=#current-input-character id=script-data-escaped-end-tag-name-state:current-input-character-4>current input character</a> to the <var id=script-data-escaped-end-tag-name-state:temporary-buffer-2><a href=#temporary-buffer>temporary
+   buffer</a></var>.<dt>Anything else<dd>Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character token, and a
+   character token for each of the characters in the <var id=script-data-escaped-end-tag-name-state:temporary-buffer-3><a href=#temporary-buffer>temporary buffer
+   </a></var> (in the order they were added to the buffer). <a href=#reconsume id=script-data-escaped-end-tag-name-state:reconsume>Reconsume</a> in the <a href=#script-data-escaped-state id=script-data-escaped-end-tag-name-state:script-data-escaped-state>script
+   data escaped state</a>.</dl>
+
+
+  <h5 id=script-data-double-escape-start-state>12.2.4.26 <dfn>Script data double escape start state</dfn><a href=#script-data-double-escape-start-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-double-escape-start-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dt>U+002F SOLIDUS (/)<dt>U+003E GREATER-THAN SIGN (>)<dd>If the <var id=script-data-double-escape-start-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var> is the string "<code>script</code>", then switch to the <a href=#script-data-double-escaped-state id=script-data-double-escape-start-state:script-data-double-escaped-state>script data double escaped state</a>.
+   Otherwise, switch to the <a href=#script-data-escaped-state id=script-data-double-escape-start-state:script-data-escaped-state>script data escaped state</a>. Emit the <a href=#current-input-character id=script-data-double-escape-start-state:current-input-character>current input
+   character</a> as a character token.<dt><a href=#uppercase-ascii-letters id=script-data-double-escape-start-state:uppercase-ascii-letters>Uppercase ASCII letter</a><dd>Append the lowercase version of the <a href=#current-input-character id=script-data-double-escape-start-state:current-input-character-2>current input character</a> (add 0x0020 to the
+   character's code point) to the <var id=script-data-double-escape-start-state:temporary-buffer-2><a href=#temporary-buffer>temporary buffer</a></var>. Emit the
+   <a href=#current-input-character id=script-data-double-escape-start-state:current-input-character-3>current input character</a> as a character token.<dt><a href=#lowercase-ascii-letters id=script-data-double-escape-start-state:lowercase-ascii-letters>Lowercase ASCII letter</a><dd>Append the <a href=#current-input-character id=script-data-double-escape-start-state:current-input-character-4>current input character</a> to the <var id=script-data-double-escape-start-state:temporary-buffer-3><a href=#temporary-buffer>temporary buffer</a></var>. Emit the <a href=#current-input-character id=script-data-double-escape-start-state:current-input-character-5>current input character</a> as a character
+   token.<dt>Anything else<dd><a href=#reconsume id=script-data-double-escape-start-state:reconsume>Reconsume</a> in the <a href=#script-data-escaped-state id=script-data-double-escape-start-state:script-data-escaped-state-2>script data escaped state</a>.</dl>
+
+
+  <h5 id=script-data-double-escaped-state>12.2.4.27 <dfn>Script data double escaped state</dfn><a href=#script-data-double-escaped-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-double-escaped-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#script-data-double-escaped-dash-state id=script-data-double-escaped-state:script-data-double-escaped-dash-state>script data double escaped dash state</a>. Emit a U+002D HYPHEN-MINUS
+   character token.<dt>U+003C LESS-THAN SIGN (&lt;)<dd>Switch to the <a href=#script-data-double-escaped-less-than-sign-state id=script-data-double-escaped-state:script-data-double-escaped-less-than-sign-state>script data double escaped less-than sign state</a>. Emit a U+003C
+   LESS-THAN SIGN character token.<dt>U+0000 NULL<dd><a href=#parse-error id=script-data-double-escaped-state:parse-error>Parse error</a>. Emit a U+FFFD REPLACEMENT CHARACTER character token.<dt>EOF<dd><a href=#parse-error id=script-data-double-escaped-state:parse-error-2>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Emit the <a href=#current-input-character id=script-data-double-escaped-state:current-input-character>current input character</a> as a character token.</dl>
+
+
+  <h5 id=script-data-double-escaped-dash-state>12.2.4.28 <dfn>Script data double escaped dash state</dfn><a href=#script-data-double-escaped-dash-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-double-escaped-dash-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#script-data-double-escaped-dash-dash-state id=script-data-double-escaped-dash-state:script-data-double-escaped-dash-dash-state>script data double escaped dash dash state</a>. Emit a U+002D
+   HYPHEN-MINUS character token.<dt>U+003C LESS-THAN SIGN (&lt;)<dd>Switch to the <a href=#script-data-double-escaped-less-than-sign-state id=script-data-double-escaped-dash-state:script-data-double-escaped-less-than-sign-state>script data double escaped less-than sign state</a>. Emit a U+003C
+   LESS-THAN SIGN character token.<dt>U+0000 NULL<dd><a href=#parse-error id=script-data-double-escaped-dash-state:parse-error>Parse error</a>. Switch to the <a href=#script-data-double-escaped-state id=script-data-double-escaped-dash-state:script-data-double-escaped-state>script data double escaped state</a>. Emit a
+   U+FFFD REPLACEMENT CHARACTER character token.<dt>EOF<dd><a href=#parse-error id=script-data-double-escaped-dash-state:parse-error-2>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Switch to the <a href=#script-data-double-escaped-state id=script-data-double-escaped-dash-state:script-data-double-escaped-state-2>script data double escaped state</a>. Emit the <a href=#current-input-character id=script-data-double-escaped-dash-state:current-input-character>current input
+   character</a> as a character token.</dl>
+
+
+  <h5 id=script-data-double-escaped-dash-dash-state>12.2.4.29 <dfn>Script data double escaped dash dash state</dfn><a href=#script-data-double-escaped-dash-dash-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-double-escaped-dash-dash-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Emit a U+002D HYPHEN-MINUS character token.<dt>U+003C LESS-THAN SIGN (&lt;)<dd>Switch to the <a href=#script-data-double-escaped-less-than-sign-state id=script-data-double-escaped-dash-dash-state:script-data-double-escaped-less-than-sign-state>script data double escaped less-than sign state</a>. Emit a U+003C
+   LESS-THAN SIGN character token.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#script-data-state id=script-data-double-escaped-dash-dash-state:script-data-state>script data state</a>. Emit a U+003E GREATER-THAN SIGN character
+   token.<dt>U+0000 NULL<dd><a href=#parse-error id=script-data-double-escaped-dash-dash-state:parse-error>Parse error</a>. Switch to the <a href=#script-data-double-escaped-state id=script-data-double-escaped-dash-dash-state:script-data-double-escaped-state>script data double escaped state</a>. Emit a
+   U+FFFD REPLACEMENT CHARACTER character token.<dt>EOF<dd><a href=#parse-error id=script-data-double-escaped-dash-dash-state:parse-error-2>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Switch to the <a href=#script-data-double-escaped-state id=script-data-double-escaped-dash-dash-state:script-data-double-escaped-state-2>script data double escaped state</a>. Emit the <a href=#current-input-character id=script-data-double-escaped-dash-dash-state:current-input-character>current input
+   character</a> as a character token.</dl>
+
+
+  <h5 id=script-data-double-escaped-less-than-sign-state>12.2.4.30 <dfn>Script data double escaped less-than sign state</dfn><a href=#script-data-double-escaped-less-than-sign-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-double-escaped-less-than-sign-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002F SOLIDUS (/)<dd>Set the <var id=script-data-double-escaped-less-than-sign-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var> to the empty string. Switch to
+   the <a href=#script-data-double-escape-end-state id=script-data-double-escaped-less-than-sign-state:script-data-double-escape-end-state>script data double escape end state</a>. Emit a U+002F SOLIDUS character token.<dt>Anything else<dd><a href=#reconsume id=script-data-double-escaped-less-than-sign-state:reconsume>Reconsume</a> in the <a href=#script-data-double-escaped-state id=script-data-double-escaped-less-than-sign-state:script-data-double-escaped-state>script data double escaped state</a>.</dl>
+
+
+  <h5 id=script-data-double-escape-end-state>12.2.4.31 <dfn>Script data double escape end state</dfn><a href=#script-data-double-escape-end-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=script-data-double-escape-end-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dt>U+002F SOLIDUS (/)<dt>U+003E GREATER-THAN SIGN (>)<dd>If the <var id=script-data-double-escape-end-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var> is the string "<code>script</code>", then switch to the <a href=#script-data-escaped-state id=script-data-double-escape-end-state:script-data-escaped-state>script data escaped state</a>. Otherwise,
+   switch to the <a href=#script-data-double-escaped-state id=script-data-double-escape-end-state:script-data-double-escaped-state>script data double escaped state</a>. Emit the <a href=#current-input-character id=script-data-double-escape-end-state:current-input-character>current input
+   character</a> as a character token.<dt><a href=#uppercase-ascii-letters id=script-data-double-escape-end-state:uppercase-ascii-letters>Uppercase ASCII letter</a><dd>Append the lowercase version of the <a href=#current-input-character id=script-data-double-escape-end-state:current-input-character-2>current input character</a> (add 0x0020 to the
+   character's code point) to the <var id=script-data-double-escape-end-state:temporary-buffer-2><a href=#temporary-buffer>temporary buffer</a></var>. Emit the
+   <a href=#current-input-character id=script-data-double-escape-end-state:current-input-character-3>current input character</a> as a character token.<dt><a href=#lowercase-ascii-letters id=script-data-double-escape-end-state:lowercase-ascii-letters>Lowercase ASCII letter</a><dd>Append the <a href=#current-input-character id=script-data-double-escape-end-state:current-input-character-4>current input character</a> to the <var id=script-data-double-escape-end-state:temporary-buffer-3><a href=#temporary-buffer>temporary buffer</a></var>. Emit the <a href=#current-input-character id=script-data-double-escape-end-state:current-input-character-5>current input character</a> as a character
+   token.<dt>Anything else<dd><a href=#reconsume id=script-data-double-escape-end-state:reconsume>Reconsume</a> in the <a href=#script-data-double-escaped-state id=script-data-double-escape-end-state:script-data-double-escaped-state-2>script data double escaped state</a>.</dl>
+
+
+  <h5 id=before-attribute-name-state>12.2.4.32 <dfn>Before attribute name state</dfn><a href=#before-attribute-name-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=before-attribute-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Ignore the character.<dt>U+002F SOLIDUS (/)<dt>U+003E GREATER-THAN SIGN (>)<dt>EOF<dd><a href=#reconsume id=before-attribute-name-state:reconsume>Reconsume</a> in the <a href=#after-attribute-name-state id=before-attribute-name-state:after-attribute-name-state>after attribute name state</a>.<dt>U+003D EQUALS SIGN (=)<dd><a href=#parse-error id=before-attribute-name-state:parse-error>Parse error</a>. Start a new attribute in the current tag token. Set that
+   attribute's name to the <a href=#current-input-character id=before-attribute-name-state:current-input-character>current input character</a>, and its value to the empty string.
+   Switch to the <a href=#attribute-name-state id=before-attribute-name-state:attribute-name-state>attribute name state</a>.<dt>Anything else<dd>Start a new attribute in the current tag token. Set that attribute name and value to the
+   empty string. <a href=#reconsume id=before-attribute-name-state:reconsume-2>Reconsume</a> in the <a href=#attribute-name-state id=before-attribute-name-state:attribute-name-state-2>attribute name state</a>.</dl>
+
+
+  <h5 id=attribute-name-state>12.2.4.33 <dfn>Attribute name state</dfn><a href=#attribute-name-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=attribute-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dt>U+002F SOLIDUS (/)<dt>U+003E GREATER-THAN SIGN (>)<dt>EOF<dd><a href=#reconsume id=attribute-name-state:reconsume>Reconsume</a> in the <a href=#after-attribute-name-state id=attribute-name-state:after-attribute-name-state>after attribute name state</a>.<dt>U+003D EQUALS SIGN (=)<dd>Switch to the <a href=#before-attribute-value-state id=attribute-name-state:before-attribute-value-state>before attribute value state</a>.<dt><a href=#uppercase-ascii-letters id=attribute-name-state:uppercase-ascii-letters>Uppercase ASCII letter</a><dd>Append the lowercase version of the <a href=#current-input-character id=attribute-name-state:current-input-character>current input character</a> (add 0x0020 to the
+   character's code point) to the current attribute's name.<dt>U+0000 NULL<dd><a href=#parse-error id=attribute-name-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the current
+   attribute's name.<dt>U+0022 QUOTATION MARK (")<dt>U+0027 APOSTROPHE (')<dt>U+003C LESS-THAN SIGN (&lt;)<dd><a href=#parse-error id=attribute-name-state:parse-error-2>Parse error</a>. Treat it as per the "anything else" entry below.<dt>Anything else<dd>Append the <a href=#current-input-character id=attribute-name-state:current-input-character-2>current input character</a> to the current attribute's name.</dl>
+
+  <p>When the user agent leaves the attribute name state (and before emitting the tag token, if
+  appropriate), the complete attribute's name must be compared to the other attributes on the same
+  token; if there is already an attribute on the token with the exact same name, then this is a
+  <a href=#parse-error id=attribute-name-state:parse-error-3>parse error</a> and the new attribute must be removed from the token.</p>
+
+  <p class=note>If an attribute is so removed from a token, it, and the value that gets associated
+  with it, if any, are never subsequently used by the parser, and are therefore effectively
+  discarded. Removing the attribute in this way does not change its status as the "current
+  attribute" for the purposes of the tokenizer, however.</p>
+
+
+  <h5 id=after-attribute-name-state>12.2.4.34 <dfn>After attribute name state</dfn><a href=#after-attribute-name-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=after-attribute-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Ignore the character.<dt>U+002F SOLIDUS (/)<dd>Switch to the <a href=#self-closing-start-tag-state id=after-attribute-name-state:self-closing-start-tag-state>self-closing start tag state</a>.<dt>U+003D EQUALS SIGN (=)<dd>Switch to the <a href=#before-attribute-value-state id=after-attribute-name-state:before-attribute-value-state>before attribute value state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=after-attribute-name-state:data-state>data state</a>. Emit the current tag token.<dt>EOF<dd><a href=#parse-error id=after-attribute-name-state:parse-error>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Start a new attribute in the current tag token. Set that attribute name and value to the
+   empty string. <a href=#reconsume id=after-attribute-name-state:reconsume>Reconsume</a> in the <a href=#attribute-name-state id=after-attribute-name-state:attribute-name-state>attribute name state</a>.</dl>
+
+
+  <h5 id=before-attribute-value-state>12.2.4.35 <dfn>Before attribute value state</dfn><a href=#before-attribute-value-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=before-attribute-value-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Ignore the character.<dt>U+0022 QUOTATION MARK (")<dd>Switch to the <a href=#attribute-value-(double-quoted)-state id=before-attribute-value-state:attribute-value-(double-quoted)-state>attribute value (double-quoted) state</a>.<dt>U+0027 APOSTROPHE (')<dd>Switch to the <a href=#attribute-value-(single-quoted)-state id=before-attribute-value-state:attribute-value-(single-quoted)-state>attribute value (single-quoted) state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=before-attribute-value-state:parse-error>Parse error</a>. Treat it as per the "anything else" entry below.<dt>Anything else<dd><a href=#reconsume id=before-attribute-value-state:reconsume>Reconsume</a> in the <a href=#attribute-value-(unquoted)-state id=before-attribute-value-state:attribute-value-(unquoted)-state>attribute value (unquoted) state</a>.</dl>
+
+
+  <h5 id=attribute-value-(double-quoted)-state>12.2.4.36 <dfn>Attribute value (double-quoted) state</dfn><a href=#attribute-value-(double-quoted)-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=attribute-value-(double-quoted)-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0022 QUOTATION MARK (")<dd>Switch to the <a href=#after-attribute-value-(quoted)-state id=attribute-value-(double-quoted)-state:after-attribute-value-(quoted)-state>after attribute value (quoted) state</a>.<dt>U+0026 AMPERSAND (&amp;)<dd>Set the <var id=attribute-value-(double-quoted)-state:return-state><a href=#return-state>return state</a></var> to the <a href=#attribute-value-(double-quoted)-state id=attribute-value-(double-quoted)-state:attribute-value-(double-quoted)-state>attribute value
+   (double-quoted) state</a>. Switch to the <a href=#character-reference-state id=attribute-value-(double-quoted)-state:character-reference-state>character reference state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=attribute-value-(double-quoted)-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the current
+   attribute's value.<dt>EOF<dd><a href=#parse-error id=attribute-value-(double-quoted)-state:parse-error-2>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Append the <a href=#current-input-character id=attribute-value-(double-quoted)-state:current-input-character>current input character</a> to the current attribute's value.</dl>
+
+
+  <h5 id=attribute-value-(single-quoted)-state>12.2.4.37 <dfn>Attribute value (single-quoted) state</dfn><a href=#attribute-value-(single-quoted)-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=attribute-value-(single-quoted)-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0027 APOSTROPHE (')<dd>Switch to the <a href=#after-attribute-value-(quoted)-state id=attribute-value-(single-quoted)-state:after-attribute-value-(quoted)-state>after attribute value (quoted) state</a>.<dt>U+0026 AMPERSAND (&amp;)<dd>Set the <var id=attribute-value-(single-quoted)-state:return-state><a href=#return-state>return state</a></var> to the <a href=#attribute-value-(single-quoted)-state id=attribute-value-(single-quoted)-state:attribute-value-(single-quoted)-state>attribute value
+   (single-quoted) state</a>. Switch to the <a href=#character-reference-state id=attribute-value-(single-quoted)-state:character-reference-state>character reference state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=attribute-value-(single-quoted)-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the current
+   attribute's value.<dt>EOF<dd><a href=#parse-error id=attribute-value-(single-quoted)-state:parse-error-2>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Append the <a href=#current-input-character id=attribute-value-(single-quoted)-state:current-input-character>current input character</a> to the current attribute's value.</dl>
+
+
+  <h5 id=attribute-value-(unquoted)-state>12.2.4.38 <dfn>Attribute value (unquoted) state</dfn><a href=#attribute-value-(unquoted)-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=attribute-value-(unquoted)-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Switch to the <a href=#before-attribute-name-state id=attribute-value-(unquoted)-state:before-attribute-name-state>before attribute name state</a>.<dt>U+0026 AMPERSAND (&amp;)<dd>Set the <var id=attribute-value-(unquoted)-state:return-state><a href=#return-state>return state</a></var> to the <a href=#attribute-value-(unquoted)-state id=attribute-value-(unquoted)-state:attribute-value-(unquoted)-state>attribute value
+   (unquoted) state</a>. Switch to the <a href=#character-reference-state id=attribute-value-(unquoted)-state:character-reference-state>character reference state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=attribute-value-(unquoted)-state:data-state>data state</a>. Emit the current tag token.<dt>U+0000 NULL<dd><a href=#parse-error id=attribute-value-(unquoted)-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the current
+   attribute's value.<dt>U+0022 QUOTATION MARK (")<dt>U+0027 APOSTROPHE (')<dt>U+003C LESS-THAN SIGN (&lt;)<dt>U+003D EQUALS SIGN (=)<dt>U+0060 GRAVE ACCENT (`)<dd><a href=#parse-error id=attribute-value-(unquoted)-state:parse-error-2>Parse error</a>. Treat it as per the "anything else" entry below.<dt>EOF<dd><a href=#parse-error id=attribute-value-(unquoted)-state:parse-error-3>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Append the <a href=#current-input-character id=attribute-value-(unquoted)-state:current-input-character>current input character</a> to the current attribute's value.</dl>
+
+
+  <h5 id=after-attribute-value-(quoted)-state>12.2.4.39 <dfn>After attribute value (quoted) state</dfn><a href=#after-attribute-value-(quoted)-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=after-attribute-value-(quoted)-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Switch to the <a href=#before-attribute-name-state id=after-attribute-value-(quoted)-state:before-attribute-name-state>before attribute name state</a>.<dt>U+002F SOLIDUS (/)<dd>Switch to the <a href=#self-closing-start-tag-state id=after-attribute-value-(quoted)-state:self-closing-start-tag-state>self-closing start tag state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=after-attribute-value-(quoted)-state:data-state>data state</a>. Emit the current tag token.<dt>EOF<dd><a href=#parse-error id=after-attribute-value-(quoted)-state:parse-error>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd><a href=#parse-error id=after-attribute-value-(quoted)-state:parse-error-2>Parse error</a>. <a href=#reconsume id=after-attribute-value-(quoted)-state:reconsume>Reconsume</a> in the <a href=#before-attribute-name-state id=after-attribute-value-(quoted)-state:before-attribute-name-state-2>before attribute name
+   state</a>.</dl>
+
+
+  <h5 id=self-closing-start-tag-state>12.2.4.40 <dfn>Self-closing start tag state</dfn><a href=#self-closing-start-tag-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=self-closing-start-tag-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+003E GREATER-THAN SIGN (>)<dd>Set the <i id=self-closing-start-tag-state:self-closing-flag><a href=#self-closing-flag>self-closing flag</a></i> of the current tag token. Switch to the <a href=#data-state id=self-closing-start-tag-state:data-state>data
+   state</a>. Emit the current tag token.<dt>EOF<dd><a href=#parse-error id=self-closing-start-tag-state:parse-error>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd><a href=#parse-error id=self-closing-start-tag-state:parse-error-2>Parse error</a>. <a href=#reconsume id=self-closing-start-tag-state:reconsume>Reconsume</a> in the <a href=#before-attribute-name-state id=self-closing-start-tag-state:before-attribute-name-state>before attribute name
+   state</a>.</dl>
+
+
+  <h5 id=bogus-comment-state>12.2.4.41 <dfn>Bogus comment state</dfn><a href=#bogus-comment-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=bogus-comment-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=bogus-comment-state:data-state>data state</a>. Emit the comment token.<dt>EOF<dd>Emit the comment. Emit an end-of-file token.<dt>U+0000 NULL<dd>Append a U+FFFD REPLACEMENT CHARACTER character to the comment token's data.<dt>Anything else<dd>Append the <a href=#current-input-character id=bogus-comment-state:current-input-character>current input character</a> to the comment token's data.</dl>
+
+
+  <h5 id=markup-declaration-open-state>12.2.4.42 <dfn>Markup declaration open state</dfn><a href=#markup-declaration-open-state class=self-link></a></h5>
+
+  <p>If the next two characters are both U+002D HYPHEN-MINUS characters (-), consume those two
+  characters, create a comment token whose data is the empty string, and switch to the <a href=#comment-start-state id=markup-declaration-open-state:comment-start-state>comment
+  start state</a>.</p>
+
+  <p>Otherwise, if the next seven characters are an <a id=markup-declaration-open-state:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for
+  the word "DOCTYPE", then consume those characters and switch to the <a href=#doctype-state id=markup-declaration-open-state:doctype-state>DOCTYPE
+  state</a>.</p>
+
+  <p>Otherwise, if there is an <a href=#adjusted-current-node id=markup-declaration-open-state:adjusted-current-node>adjusted current node</a> and it is not an element in the
+  <a id=markup-declaration-open-state:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a> and the next seven characters are a <a href=#case-sensitive id=markup-declaration-open-state:case-sensitive>case-sensitive</a> match
+  for the string "[CDATA[" (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET
+  character before and after), then consume those characters and switch to the <a href=#cdata-section-state id=markup-declaration-open-state:cdata-section-state>CDATA section
+  state</a>.</p>
+
+  <p>Otherwise, this is a <a href=#parse-error id=markup-declaration-open-state:parse-error>parse error</a>. Create a comment token whose data is the empty
+  string. Switch to the <a href=#bogus-comment-state id=markup-declaration-open-state:bogus-comment-state>bogus comment state</a> (don't consume anything in the current
+  state).</p>
+
+
+  <h5 id=comment-start-state>12.2.4.43 <dfn>Comment start state</dfn><a href=#comment-start-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=comment-start-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#comment-start-dash-state id=comment-start-state:comment-start-dash-state>comment start dash state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=comment-start-state:parse-error>Parse error</a>. Switch to the <a href=#data-state id=comment-start-state:data-state>data state</a>. Emit the comment token.<dt>Anything else<dd><a href=#reconsume id=comment-start-state:reconsume>Reconsume</a> in the <a href=#comment-state id=comment-start-state:comment-state>comment state</a>.</dl>
+
+
+  <h5 id=comment-start-dash-state>12.2.4.44 <dfn>Comment start dash state</dfn><a href=#comment-start-dash-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=comment-start-dash-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#comment-end-state id=comment-start-dash-state:comment-end-state>comment end state</a><dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=comment-start-dash-state:parse-error>Parse error</a>. Switch to the <a href=#data-state id=comment-start-dash-state:data-state>data state</a>. Emit the comment token.<dt>EOF<dd><a href=#parse-error id=comment-start-dash-state:parse-error-2>Parse error</a>. Emit the comment token. Emit an end-of-file token.<dt>Anything else<dd>Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
+   <a href=#reconsume id=comment-start-dash-state:reconsume>Reconsume</a> in the <a href=#comment-state id=comment-start-dash-state:comment-state>comment state</a>.</dl>
+
+
+  <h5 id=comment-state>12.2.4.45 <dfn id=comment>Comment state</dfn><a href=#comment-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=comment-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+003C LESS-THAN SIGN (&lt;)<dd>Append the <a href=#current-input-character id=comment-state:current-input-character>current input character</a> to the comment token's data. Switch to the
+   <a href=#comment-less-than-sign-state id=comment-state:comment-less-than-sign-state>comment less-than sign state</a>.<dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#comment-end-dash-state id=comment-state:comment-end-dash-state>comment end dash state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=comment-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the comment
+   token's data.<dt>EOF<dd><a href=#parse-error id=comment-state:parse-error-2>Parse error</a>. Emit the comment token. Emit an end-of-file token.<dt>Anything else<dd>Append the <a href=#current-input-character id=comment-state:current-input-character-2>current input character</a> to the comment token's data.</dl>
+
+
+  <h5 id=comment-less-than-sign-state>12.2.4.46 <dfn>Comment less-than sign state</dfn><a href=#comment-less-than-sign-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=comment-less-than-sign-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0021 EXCLAMATION MARK (!)<dd>Append the <a href=#current-input-character id=comment-less-than-sign-state:current-input-character>current input character</a> to the comment token's data. Switch to the
+   <a href=#comment-less-than-sign-bang-state id=comment-less-than-sign-state:comment-less-than-sign-bang-state>comment less-than sign bang state</a>.<dt>U+003C LESS-THAN SIGN (&lt;)<dd>Append the <a href=#current-input-character id=comment-less-than-sign-state:current-input-character-2>current input character</a> to the comment token's data.<dt>Anything else<dd><a href=#reconsume id=comment-less-than-sign-state:reconsume>Reconsume</a> in the <a href=#comment-state id=comment-less-than-sign-state:comment-state>comment state</a>.</dl>
+
+
+  <h5 id=comment-less-than-sign-bang-state>12.2.4.47 <dfn>Comment less-than sign bang state</dfn><a href=#comment-less-than-sign-bang-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=comment-less-than-sign-bang-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#comment-less-than-sign-bang-dash-state id=comment-less-than-sign-bang-state:comment-less-than-sign-bang-dash-state>comment less-than sign bang dash state</a>.<dt>Anything else<dd><a href=#reconsume id=comment-less-than-sign-bang-state:reconsume>Reconsume</a> in the <a href=#comment-state id=comment-less-than-sign-bang-state:comment-state>comment state</a>.</dl>
+
+
+  <h5 id=comment-less-than-sign-bang-dash-state>12.2.4.48 <dfn>Comment less-than sign bang dash state</dfn><a href=#comment-less-than-sign-bang-dash-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=comment-less-than-sign-bang-dash-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#comment-less-than-sign-bang-dash-dash-state id=comment-less-than-sign-bang-dash-state:comment-less-than-sign-bang-dash-dash-state>comment less-than sign bang dash dash state</a>.<dt>Anything else<dd><a href=#reconsume id=comment-less-than-sign-bang-dash-state:reconsume>Reconsume</a> in the <a href=#comment-end-dash-state id=comment-less-than-sign-bang-dash-state:comment-end-dash-state>comment end dash state</a>.</dl>
+
+
+  <h5 id=comment-less-than-sign-bang-dash-dash-state>12.2.4.49 <dfn>Comment less-than sign bang dash dash state</dfn><a href=#comment-less-than-sign-bang-dash-dash-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=comment-less-than-sign-bang-dash-dash-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+003E GREATER-THAN SIGN (>)<dt>EOF<dd><a href=#reconsume id=comment-less-than-sign-bang-dash-dash-state:reconsume>Reconsume</a> in the <a href=#comment-end-state id=comment-less-than-sign-bang-dash-dash-state:comment-end-state>comment end state</a>.<dt>Anything else<dd><a href=#parse-error id=comment-less-than-sign-bang-dash-dash-state:parse-error>Parse error</a>. <a href=#reconsume id=comment-less-than-sign-bang-dash-dash-state:reconsume-2>Reconsume</a> in the <a href=#comment-end-state id=comment-less-than-sign-bang-dash-dash-state:comment-end-state-2>comment end state</a>.</dl>
+
+
+  <h5 id=comment-end-dash-state>12.2.4.50 <dfn>Comment end dash state</dfn><a href=#comment-end-dash-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=comment-end-dash-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Switch to the <a href=#comment-end-state id=comment-end-dash-state:comment-end-state>comment end state</a><dt>EOF<dd><a href=#parse-error id=comment-end-dash-state:parse-error>Parse error</a>. Emit the comment token. Emit an end-of-file token.<dt>Anything else<dd>Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
+   <a href=#reconsume id=comment-end-dash-state:reconsume>Reconsume</a> in the <a href=#comment-state id=comment-end-dash-state:comment-state>comment state</a>.</dl>
+
+
+  <h5 id=comment-end-state>12.2.4.51 <dfn>Comment end state</dfn><a href=#comment-end-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=comment-end-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=comment-end-state:data-state>data state</a>. Emit the comment token.<dt>U+0021 EXCLAMATION MARK (!)<dd>Switch to the <a href=#comment-end-bang-state id=comment-end-state:comment-end-bang-state>comment end bang state</a>.<dt>U+002D HYPHEN-MINUS (-)<dd>Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.<dt>EOF<dd><a href=#parse-error id=comment-end-state:parse-error>Parse error</a>. Emit the comment token. Emit an end-of-file token.<dt>Anything else<dd>Append two U+002D HYPHEN-MINUS characters (-) to the comment token's data.
+   <a href=#reconsume id=comment-end-state:reconsume>Reconsume</a> in the <a href=#comment-state id=comment-end-state:comment-state>comment state</a>.</dl>
+
+
+  <h5 id=comment-end-bang-state>12.2.4.52 <dfn>Comment end bang state</dfn><a href=#comment-end-bang-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=comment-end-bang-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+002D HYPHEN-MINUS (-)<dd>Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character (!) to
+   the comment token's data. Switch to the <a href=#comment-end-dash-state id=comment-end-bang-state:comment-end-dash-state>comment end dash state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=comment-end-bang-state:parse-error>Parse error</a>. Switch to the <a href=#data-state id=comment-end-bang-state:data-state>data state</a>. Emit the comment token.<dt>EOF<dd><a href=#parse-error id=comment-end-bang-state:parse-error-2>Parse error</a>. Emit the comment token. Emit an end-of-file token.<dt>Anything else<dd>Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character (!) to
+   the comment token's data. <a href=#reconsume id=comment-end-bang-state:reconsume>Reconsume</a> in the <a href=#comment-state id=comment-end-bang-state:comment-state>comment state</a>.</dl>
+
+
+  <h5 id=doctype-state>12.2.4.53 <dfn>DOCTYPE state</dfn><a href=#doctype-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=doctype-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Switch to the <a href=#before-doctype-name-state id=doctype-state:before-doctype-name-state>before DOCTYPE name state</a>.<dt>EOF<dd><a href=#parse-error id=doctype-state:parse-error>Parse error</a>. Create a new DOCTYPE token. Set its <i id=doctype-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>. Emit the token. Emit an end-of-file token.<dt>Anything else<dd><a href=#parse-error id=doctype-state:parse-error-2>Parse error</a>. <a href=#reconsume id=doctype-state:reconsume>Reconsume</a> in the <a href=#before-doctype-name-state id=doctype-state:before-doctype-name-state-2>before DOCTYPE name
+   state</a>.</dl>
+
+
+  <h5 id=before-doctype-name-state>12.2.4.54 <dfn>Before DOCTYPE name state</dfn><a href=#before-doctype-name-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=before-doctype-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Ignore the character.<dt><a href=#uppercase-ascii-letters id=before-doctype-name-state:uppercase-ascii-letters>Uppercase ASCII letter</a><dd>Create a new DOCTYPE token. Set the token's name to the lowercase version of the
+   <a href=#current-input-character id=before-doctype-name-state:current-input-character>current input character</a> (add 0x0020 to the character's code point). Switch to the
+   <a href=#doctype-name-state id=before-doctype-name-state:doctype-name-state>DOCTYPE name state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=before-doctype-name-state:parse-error>Parse error</a>. Create a new DOCTYPE token. Set the token's name to a U+FFFD
+   REPLACEMENT CHARACTER character. Switch to the <a href=#doctype-name-state id=before-doctype-name-state:doctype-name-state-2>DOCTYPE name state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=before-doctype-name-state:parse-error-2>Parse error</a>. Create a new DOCTYPE token. Set its <i id=before-doctype-name-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>. Switch to the <a href=#data-state id=before-doctype-name-state:data-state>data state</a>.
+   Emit the token.<dt>EOF<dd><a href=#parse-error id=before-doctype-name-state:parse-error-3>Parse error</a>. Create a new DOCTYPE token. Set its <i id=before-doctype-name-state:force-quirks-flag-2><a href=#force-quirks-flag> force-quirks flag</a></i> to <i>on</i>. Emit the token. Emit an end-of-file token.<dt>Anything else<dd>Create a new DOCTYPE token. Set the token's name to the <a href=#current-input-character id=before-doctype-name-state:current-input-character-2>current input character</a>.
+   Switch to the <a href=#doctype-name-state id=before-doctype-name-state:doctype-name-state-3>DOCTYPE name state</a>.</dl>
+
+
+  <h5 id=doctype-name-state>12.2.4.55 <dfn>DOCTYPE name state</dfn><a href=#doctype-name-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=doctype-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Switch to the <a href=#after-doctype-name-state id=doctype-name-state:after-doctype-name-state>after DOCTYPE name state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=doctype-name-state:data-state>data state</a>. Emit the current DOCTYPE token.<dt><a href=#uppercase-ascii-letters id=doctype-name-state:uppercase-ascii-letters>Uppercase ASCII letter</a><dd>Append the lowercase version of the <a href=#current-input-character id=doctype-name-state:current-input-character>current input character</a> (add 0x0020 to the
+   character's code point) to the current DOCTYPE token's name.<dt>U+0000 NULL<dd><a href=#parse-error id=doctype-name-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the current
+   DOCTYPE token's name.<dt>EOF<dd><a href=#parse-error id=doctype-name-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's <i id=doctype-name-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd>Append the <a href=#current-input-character id=doctype-name-state:current-input-character-2>current input character</a> to the current DOCTYPE token's name.</dl>
+
+
+  <h5 id=after-doctype-name-state>12.2.4.56 <dfn>After DOCTYPE name state</dfn><a href=#after-doctype-name-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=after-doctype-name-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Ignore the character.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=after-doctype-name-state:data-state>data state</a>. Emit the current DOCTYPE token.<dt>EOF<dd><a href=#parse-error id=after-doctype-name-state:parse-error>Parse error</a>. Set the DOCTYPE token's <i id=after-doctype-name-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd>
+
+    <p>If the six characters starting from the <a href=#current-input-character id=after-doctype-name-state:current-input-character>current input character</a> are an
+    <a id=after-doctype-name-state:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the word "PUBLIC", then consume those characters
+    and switch to the <a href=#after-doctype-public-keyword-state id=after-doctype-name-state:after-doctype-public-keyword-state>after DOCTYPE public keyword state</a>.</p>
+
+    <p>Otherwise, if the six characters starting from the <a href=#current-input-character id=after-doctype-name-state:current-input-character-2>current input character</a> are
+    an <a id=after-doctype-name-state:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the word "SYSTEM", then consume those
+    characters and switch to the <a href=#after-doctype-system-keyword-state id=after-doctype-name-state:after-doctype-system-keyword-state>after DOCTYPE system keyword state</a>.</p>
+
+    <p>Otherwise, this is a <a href=#parse-error id=after-doctype-name-state:parse-error-2>parse error</a>. Set the DOCTYPE token's <i id=after-doctype-name-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>. Switch to the <a href=#bogus-doctype-state id=after-doctype-name-state:bogus-doctype-state>bogus DOCTYPE state</a>.</p>
+
+   </dl>
+
+
+  <h5 id=after-doctype-public-keyword-state>12.2.4.57 <dfn>After DOCTYPE public keyword state</dfn><a href=#after-doctype-public-keyword-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=after-doctype-public-keyword-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Switch to the <a href=#before-doctype-public-identifier-state id=after-doctype-public-keyword-state:before-doctype-public-identifier-state>before DOCTYPE public identifier state</a>.<dt>U+0022 QUOTATION MARK (")<dd><a href=#parse-error id=after-doctype-public-keyword-state:parse-error>Parse error</a>. Set the DOCTYPE token's public identifier to the empty string (not
+   missing), then switch to the <a href=#doctype-public-identifier-(double-quoted)-state id=after-doctype-public-keyword-state:doctype-public-identifier-(double-quoted)-state>DOCTYPE public identifier (double-quoted) state</a>.<dt>U+0027 APOSTROPHE (')<dd><a href=#parse-error id=after-doctype-public-keyword-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's public identifier to the empty string (not
+   missing), then switch to the <a href=#doctype-public-identifier-(single-quoted)-state id=after-doctype-public-keyword-state:doctype-public-identifier-(single-quoted)-state>DOCTYPE public identifier (single-quoted) state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=after-doctype-public-keyword-state:parse-error-3>Parse error</a>. Set the DOCTYPE token's <i id=after-doctype-public-keyword-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#data-state id=after-doctype-public-keyword-state:data-state>data state</a>. Emit that DOCTYPE token.<dt>EOF<dd><a href=#parse-error id=after-doctype-public-keyword-state:parse-error-4>Parse error</a>. Set the DOCTYPE token's <i id=after-doctype-public-keyword-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd><a href=#parse-error id=after-doctype-public-keyword-state:parse-error-5>Parse error</a>. Set the DOCTYPE token's <i id=after-doctype-public-keyword-state:force-quirks-flag-3><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#bogus-doctype-state id=after-doctype-public-keyword-state:bogus-doctype-state>bogus DOCTYPE state</a>.</dl>
+
+
+  <h5 id=before-doctype-public-identifier-state>12.2.4.58 <dfn>Before DOCTYPE public identifier state</dfn><a href=#before-doctype-public-identifier-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=before-doctype-public-identifier-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Ignore the character.<dt>U+0022 QUOTATION MARK (")<dd>Set the DOCTYPE token's public identifier to the empty string (not missing), then switch to
+   the <a href=#doctype-public-identifier-(double-quoted)-state id=before-doctype-public-identifier-state:doctype-public-identifier-(double-quoted)-state>DOCTYPE public identifier (double-quoted) state</a>.<dt>U+0027 APOSTROPHE (')<dd>Set the DOCTYPE token's public identifier to the empty string (not missing), then switch to
+   the <a href=#doctype-public-identifier-(single-quoted)-state id=before-doctype-public-identifier-state:doctype-public-identifier-(single-quoted)-state>DOCTYPE public identifier (single-quoted) state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=before-doctype-public-identifier-state:parse-error>Parse error</a>. Set the DOCTYPE token's <i id=before-doctype-public-identifier-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#data-state id=before-doctype-public-identifier-state:data-state>data state</a>. Emit that DOCTYPE token.<dt>EOF<dd><a href=#parse-error id=before-doctype-public-identifier-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's <i id=before-doctype-public-identifier-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd><a href=#parse-error id=before-doctype-public-identifier-state:parse-error-3>Parse error</a>. Set the DOCTYPE token's <i id=before-doctype-public-identifier-state:force-quirks-flag-3><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#bogus-doctype-state id=before-doctype-public-identifier-state:bogus-doctype-state>bogus DOCTYPE state</a>.</dl>
+
+
+  <h5 id=doctype-public-identifier-(double-quoted)-state>12.2.4.59 <dfn>DOCTYPE public identifier (double-quoted) state</dfn><a href=#doctype-public-identifier-(double-quoted)-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=doctype-public-identifier-(double-quoted)-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0022 QUOTATION MARK (")<dd>Switch to the <a href=#after-doctype-public-identifier-state id=doctype-public-identifier-(double-quoted)-state:after-doctype-public-identifier-state>after DOCTYPE public identifier state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=doctype-public-identifier-(double-quoted)-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the current
+   DOCTYPE token's public identifier.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=doctype-public-identifier-(double-quoted)-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's <i id=doctype-public-identifier-(double-quoted)-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#data-state id=doctype-public-identifier-(double-quoted)-state:data-state>data state</a>. Emit that DOCTYPE token.<dt>EOF<dd><a href=#parse-error id=doctype-public-identifier-(double-quoted)-state:parse-error-3>Parse error</a>. Set the DOCTYPE token's <i id=doctype-public-identifier-(double-quoted)-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd>Append the <a href=#current-input-character id=doctype-public-identifier-(double-quoted)-state:current-input-character>current input character</a> to the current DOCTYPE token's public
+   identifier.</dl>
+
+
+  <h5 id=doctype-public-identifier-(single-quoted)-state>12.2.4.60 <dfn>DOCTYPE public identifier (single-quoted) state</dfn><a href=#doctype-public-identifier-(single-quoted)-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=doctype-public-identifier-(single-quoted)-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0027 APOSTROPHE (')<dd>Switch to the <a href=#after-doctype-public-identifier-state id=doctype-public-identifier-(single-quoted)-state:after-doctype-public-identifier-state>after DOCTYPE public identifier state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=doctype-public-identifier-(single-quoted)-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the current
+   DOCTYPE token's public identifier.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=doctype-public-identifier-(single-quoted)-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's <i id=doctype-public-identifier-(single-quoted)-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#data-state id=doctype-public-identifier-(single-quoted)-state:data-state>data state</a>. Emit that DOCTYPE token.<dt>EOF<dd><a href=#parse-error id=doctype-public-identifier-(single-quoted)-state:parse-error-3>Parse error</a>. Set the DOCTYPE token's <i id=doctype-public-identifier-(single-quoted)-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd>Append the <a href=#current-input-character id=doctype-public-identifier-(single-quoted)-state:current-input-character>current input character</a> to the current DOCTYPE token's public
+   identifier.</dl>
+
+
+  <h5 id=after-doctype-public-identifier-state>12.2.4.61 <dfn>After DOCTYPE public identifier state</dfn><a href=#after-doctype-public-identifier-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=after-doctype-public-identifier-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Switch to the <a href=#between-doctype-public-and-system-identifiers-state id=after-doctype-public-identifier-state:between-doctype-public-and-system-identifiers-state>between DOCTYPE public and system identifiers state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=after-doctype-public-identifier-state:data-state>data state</a>. Emit the current DOCTYPE token.<dt>U+0022 QUOTATION MARK (")<dd><a href=#parse-error id=after-doctype-public-identifier-state:parse-error>Parse error</a>. Set the DOCTYPE token's system identifier to the empty string (not
+   missing), then switch to the <a href=#doctype-system-identifier-(double-quoted)-state id=after-doctype-public-identifier-state:doctype-system-identifier-(double-quoted)-state>DOCTYPE system identifier (double-quoted) state</a>.<dt>U+0027 APOSTROPHE (')<dd><a href=#parse-error id=after-doctype-public-identifier-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's system identifier to the empty string (not
+   missing), then switch to the <a href=#doctype-system-identifier-(single-quoted)-state id=after-doctype-public-identifier-state:doctype-system-identifier-(single-quoted)-state>DOCTYPE system identifier (single-quoted) state</a>.<dt>EOF<dd><a href=#parse-error id=after-doctype-public-identifier-state:parse-error-3>Parse error</a>. Set the DOCTYPE token's <i id=after-doctype-public-identifier-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd><a href=#parse-error id=after-doctype-public-identifier-state:parse-error-4>Parse error</a>. Set the DOCTYPE token's <i id=after-doctype-public-identifier-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#bogus-doctype-state id=after-doctype-public-identifier-state:bogus-doctype-state>bogus DOCTYPE state</a>.</dl>
+
+
+  <h5 id=between-doctype-public-and-system-identifiers-state>12.2.4.62 <dfn>Between DOCTYPE public and system identifiers state</dfn><a href=#between-doctype-public-and-system-identifiers-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=between-doctype-public-and-system-identifiers-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Ignore the character.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=between-doctype-public-and-system-identifiers-state:data-state>data state</a>. Emit the current DOCTYPE token.<dt>U+0022 QUOTATION MARK (")<dd>Set the DOCTYPE token's system identifier to the empty string (not missing), then switch to
+   the <a href=#doctype-system-identifier-(double-quoted)-state id=between-doctype-public-and-system-identifiers-state:doctype-system-identifier-(double-quoted)-state>DOCTYPE system identifier (double-quoted) state</a>.<dt>U+0027 APOSTROPHE (')<dd>Set the DOCTYPE token's system identifier to the empty string (not missing), then switch to
+   the <a href=#doctype-system-identifier-(single-quoted)-state id=between-doctype-public-and-system-identifiers-state:doctype-system-identifier-(single-quoted)-state>DOCTYPE system identifier (single-quoted) state</a>.<dt>EOF<dd><a href=#parse-error id=between-doctype-public-and-system-identifiers-state:parse-error>Parse error</a>. Set the DOCTYPE token's <i id=between-doctype-public-and-system-identifiers-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd><a href=#parse-error id=between-doctype-public-and-system-identifiers-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's <i id=between-doctype-public-and-system-identifiers-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#bogus-doctype-state id=between-doctype-public-and-system-identifiers-state:bogus-doctype-state>bogus DOCTYPE state</a>.</dl>
+
+
+  <h5 id=after-doctype-system-keyword-state>12.2.4.63 <dfn>After DOCTYPE system keyword state</dfn><a href=#after-doctype-system-keyword-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=after-doctype-system-keyword-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Switch to the <a href=#before-doctype-system-identifier-state id=after-doctype-system-keyword-state:before-doctype-system-identifier-state>before DOCTYPE system identifier state</a>.<dt>U+0022 QUOTATION MARK (")<dd><a href=#parse-error id=after-doctype-system-keyword-state:parse-error>Parse error</a>. Set the DOCTYPE token's system identifier to the empty string (not
+   missing), then switch to the <a href=#doctype-system-identifier-(double-quoted)-state id=after-doctype-system-keyword-state:doctype-system-identifier-(double-quoted)-state>DOCTYPE system identifier (double-quoted) state</a>.<dt>U+0027 APOSTROPHE (')<dd><a href=#parse-error id=after-doctype-system-keyword-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's system identifier to the empty string (not
+   missing), then switch to the <a href=#doctype-system-identifier-(single-quoted)-state id=after-doctype-system-keyword-state:doctype-system-identifier-(single-quoted)-state>DOCTYPE system identifier (single-quoted) state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=after-doctype-system-keyword-state:parse-error-3>Parse error</a>. Set the DOCTYPE token's <i id=after-doctype-system-keyword-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#data-state id=after-doctype-system-keyword-state:data-state>data state</a>. Emit that DOCTYPE token.<dt>EOF<dd><a href=#parse-error id=after-doctype-system-keyword-state:parse-error-4>Parse error</a>. Set the DOCTYPE token's <i id=after-doctype-system-keyword-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd><a href=#parse-error id=after-doctype-system-keyword-state:parse-error-5>Parse error</a>. Set the DOCTYPE token's <i id=after-doctype-system-keyword-state:force-quirks-flag-3><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#bogus-doctype-state id=after-doctype-system-keyword-state:bogus-doctype-state>bogus DOCTYPE state</a>.</dl>
+
+
+  <h5 id=before-doctype-system-identifier-state>12.2.4.64 <dfn>Before DOCTYPE system identifier state</dfn><a href=#before-doctype-system-identifier-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=before-doctype-system-identifier-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Ignore the character.<dt>U+0022 QUOTATION MARK (")<dd>Set the DOCTYPE token's system identifier to the empty string (not missing), then switch to
+   the <a href=#doctype-system-identifier-(double-quoted)-state id=before-doctype-system-identifier-state:doctype-system-identifier-(double-quoted)-state>DOCTYPE system identifier (double-quoted) state</a>.<dt>U+0027 APOSTROPHE (')<dd>Set the DOCTYPE token's system identifier to the empty string (not missing), then switch to
+   the <a href=#doctype-system-identifier-(single-quoted)-state id=before-doctype-system-identifier-state:doctype-system-identifier-(single-quoted)-state>DOCTYPE system identifier (single-quoted) state</a>.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=before-doctype-system-identifier-state:parse-error>Parse error</a>. Set the DOCTYPE token's <i id=before-doctype-system-identifier-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#data-state id=before-doctype-system-identifier-state:data-state>data state</a>. Emit that DOCTYPE token.<dt>EOF<dd><a href=#parse-error id=before-doctype-system-identifier-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's <i id=before-doctype-system-identifier-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd><a href=#parse-error id=before-doctype-system-identifier-state:parse-error-3>Parse error</a>. Set the DOCTYPE token's <i id=before-doctype-system-identifier-state:force-quirks-flag-3><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#bogus-doctype-state id=before-doctype-system-identifier-state:bogus-doctype-state>bogus DOCTYPE state</a>.</dl>
+
+
+  <h5 id=doctype-system-identifier-(double-quoted)-state>12.2.4.65 <dfn>DOCTYPE system identifier (double-quoted) state</dfn><a href=#doctype-system-identifier-(double-quoted)-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=doctype-system-identifier-(double-quoted)-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0022 QUOTATION MARK (")<dd>Switch to the <a href=#after-doctype-system-identifier-state id=doctype-system-identifier-(double-quoted)-state:after-doctype-system-identifier-state>after DOCTYPE system identifier state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=doctype-system-identifier-(double-quoted)-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the current
+   DOCTYPE token's system identifier.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=doctype-system-identifier-(double-quoted)-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's <i id=doctype-system-identifier-(double-quoted)-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#data-state id=doctype-system-identifier-(double-quoted)-state:data-state>data state</a>. Emit that DOCTYPE token.<dt>EOF<dd><a href=#parse-error id=doctype-system-identifier-(double-quoted)-state:parse-error-3>Parse error</a>. Set the DOCTYPE token's <i id=doctype-system-identifier-(double-quoted)-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd>Append the <a href=#current-input-character id=doctype-system-identifier-(double-quoted)-state:current-input-character>current input character</a> to the current DOCTYPE token's system
+   identifier.</dl>
+
+
+  <h5 id=doctype-system-identifier-(single-quoted)-state>12.2.4.66 <dfn>DOCTYPE system identifier (single-quoted) state</dfn><a href=#doctype-system-identifier-(single-quoted)-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=doctype-system-identifier-(single-quoted)-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0027 APOSTROPHE (')<dd>Switch to the <a href=#after-doctype-system-identifier-state id=doctype-system-identifier-(single-quoted)-state:after-doctype-system-identifier-state>after DOCTYPE system identifier state</a>.<dt>U+0000 NULL<dd><a href=#parse-error id=doctype-system-identifier-(single-quoted)-state:parse-error>Parse error</a>. Append a U+FFFD REPLACEMENT CHARACTER character to the current
+   DOCTYPE token's system identifier.<dt>U+003E GREATER-THAN SIGN (>)<dd><a href=#parse-error id=doctype-system-identifier-(single-quoted)-state:parse-error-2>Parse error</a>. Set the DOCTYPE token's <i id=doctype-system-identifier-(single-quoted)-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.
+   Switch to the <a href=#data-state id=doctype-system-identifier-(single-quoted)-state:data-state>data state</a>. Emit that DOCTYPE token.<dt>EOF<dd><a href=#parse-error id=doctype-system-identifier-(single-quoted)-state:parse-error-3>Parse error</a>. Set the DOCTYPE token's <i id=doctype-system-identifier-(single-quoted)-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd>Append the <a href=#current-input-character id=doctype-system-identifier-(single-quoted)-state:current-input-character>current input character</a> to the current DOCTYPE token's system
+   identifier.</dl>
+
+
+  <h5 id=after-doctype-system-identifier-state>12.2.4.67 <dfn>After DOCTYPE system identifier state</dfn><a href=#after-doctype-system-identifier-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=after-doctype-system-identifier-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dd>Ignore the character.<dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=after-doctype-system-identifier-state:data-state>data state</a>. Emit the current DOCTYPE token.<dt>EOF<dd><a href=#parse-error id=after-doctype-system-identifier-state:parse-error>Parse error</a>. Set the DOCTYPE token's <i id=after-doctype-system-identifier-state:force-quirks-flag><a href=#force-quirks-flag>force-quirks
+   flag</a></i> to <i>on</i>. Emit that DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd><a href=#parse-error id=after-doctype-system-identifier-state:parse-error-2>Parse error</a>. Switch to the <a href=#bogus-doctype-state id=after-doctype-system-identifier-state:bogus-doctype-state>bogus DOCTYPE state</a>. (This does
+   <em>not</em> set the DOCTYPE token's <i id=after-doctype-system-identifier-state:force-quirks-flag-2><a href=#force-quirks-flag>force-quirks flag</a></i> to <i>on</i>.)</dl>
+
+
+  <h5 id=bogus-doctype-state>12.2.4.68 <dfn>Bogus DOCTYPE state</dfn><a href=#bogus-doctype-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=bogus-doctype-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+003E GREATER-THAN SIGN (>)<dd>Switch to the <a href=#data-state id=bogus-doctype-state:data-state>data state</a>. Emit the DOCTYPE token.<dt>EOF<dd>Emit the DOCTYPE token. Emit an end-of-file token.<dt>Anything else<dd>Ignore the character.</dl>
+
+
+  <h5 id=cdata-section-state>12.2.4.69 <dfn>CDATA section state</dfn><a href=#cdata-section-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=cdata-section-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+005D RIGHT SQUARE BRACKET (])<dd>Switch to the <a href=#cdata-section-bracket-state id=cdata-section-state:cdata-section-bracket-state>CDATA section bracket state</a>.<dt>EOF<dd><a href=#parse-error id=cdata-section-state:parse-error>Parse error</a>. Emit an end-of-file token.<dt>Anything else<dd>Emit the <a href=#current-input-character id=cdata-section-state:current-input-character>current input character</a> as a character token.</dl>
+
+  <p class=note>U+0000 NULL characters are handled in the tree construction stage, as part of the
+  <a href=#parsing-main-inforeign id=cdata-section-state:parsing-main-inforeign>in foreign content</a> insertion mode, which
+  is the only place where CDATA sections can appear.</p>
+
+  <h5 id=cdata-section-bracket-state>12.2.4.70 <dfn>CDATA section bracket state</dfn><a href=#cdata-section-bracket-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=cdata-section-bracket-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+005D RIGHT SQUARE BRACKET (])<dd>Switch to the <a href=#cdata-section-end-state id=cdata-section-bracket-state:cdata-section-end-state>CDATA section end state</a>.<dt>Anything else<dd>Emit a U+005D RIGHT SQUARE BRACKET character token. <a href=#reconsume id=cdata-section-bracket-state:reconsume>Reconsume</a> in the
+    <a href=#cdata-section-state id=cdata-section-bracket-state:cdata-section-state>CDATA section state</a>.</dl>
+
+
+  <h5 id=cdata-section-end-state>12.2.4.71 <dfn>CDATA section end state</dfn><a href=#cdata-section-end-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=cdata-section-end-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+005D RIGHT SQUARE BRACKET (])<dd>Emit a U+005D RIGHT SQUARE BRACKET character token.<dt>U+003E GREATER-THAN SIGN character<dd>Switch to the <a href=#data-state id=cdata-section-end-state:data-state>data state</a>.<dt>Anything else<dd>Emit two U+005D RIGHT SQUARE BRACKET character tokens. <a href=#reconsume id=cdata-section-end-state:reconsume>Reconsume</a> in the
+    <a href=#cdata-section-state id=cdata-section-end-state:cdata-section-state>CDATA section state</a>.</dl>
+
+
+
+  <h5 id=character-reference-state>12.2.4.72 <dfn>Character reference state</dfn><a href=#character-reference-state class=self-link></a></h5>
+
+  <p>Set the <var id=character-reference-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var> to the empty string. Append a
+  U+0026 AMPERSAND (&amp;) character to the <var id=character-reference-state:temporary-buffer-2><a href=#temporary-buffer>temporary buffer</a></var>.
+
+  <p>Consume the <a href=#next-input-character id=character-reference-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0009 CHARACTER TABULATION (tab)<dt>U+000A LINE FEED (LF)<dt>U+000C FORM FEED (FF)<dt>U+0020 SPACE<dt>U+003C LESS-THAN SIGN<dt>U+0026 AMPERSAND<dt>EOF<dd><a href=#reconsume id=character-reference-state:reconsume>Reconsume</a> in the <a href=#character-reference-end-state id=character-reference-state:character-reference-end-state>character reference end state</a>.<dt>U+0023 NUMBER SIGN (#)<dd>Append the <a href=#current-input-character id=character-reference-state:current-input-character>current input character</a> to the <var id=character-reference-state:temporary-buffer-3><a href=#temporary-buffer>temporary buffer</a></var>. Switch to the <a href=#numeric-character-reference-state id=character-reference-state:numeric-character-reference-state>numeric character reference
+   state</a>.<dt>Anything else<dd>
+
+    <p>Consume the maximum number of characters possible, with the consumed characters matching one
+    of the identifiers in the first column of the <a href=#named-character-references id=character-reference-state:named-character-references>named character references</a> table (in
+    a <a href=#case-sensitive id=character-reference-state:case-sensitive>case-sensitive</a> manner). Append each character to the <var id=character-reference-state:temporary-buffer-4><a href=#temporary-buffer>temporary buffer</a></var> when it's consumed.</p>
+
+    <p>If no match can be made and the <var id=character-reference-state:temporary-buffer-5><a href=#temporary-buffer>temporary buffer</a></var>
+    consists of a U+0026 AMPERSAND character (&amp;) followed by a sequence of one or more
+    <a href=#alphanumeric-ascii-characters id=character-reference-state:alphanumeric-ascii-characters>alphanumeric ASCII characters</a> and a U+003B SEMICOLON character (;), then this is a
+    <a href=#parse-error id=character-reference-state:parse-error>parse error</a>.</p>
+
+    <p>If no match can be made, switch to the <a href=#character-reference-end-state id=character-reference-state:character-reference-end-state-2>character reference end state</a>.</p>
+
+    <p>If the character reference was consumed as part of an attribute (<var id=character-reference-state:return-state><a href=#return-state>return state</a></var> is either <a href=#attribute-value-(double-quoted)-state id=character-reference-state:attribute-value-(double-quoted)-state>attribute value (double-quoted) state</a>,
+    <a href=#attribute-value-(single-quoted)-state id=character-reference-state:attribute-value-(single-quoted)-state>attribute value (single-quoted) state</a> or <a href=#attribute-value-(unquoted)-state id=character-reference-state:attribute-value-(unquoted)-state>attribute value (unquoted)
+    state</a>), and the last character matched is not a U+003B SEMICOLON character (;), and the
+    <a href=#next-input-character id=character-reference-state:next-input-character-2>next input character</a> is either a U+003D EQUALS SIGN character (=) or an
+    <a href=#alphanumeric-ascii-characters id=character-reference-state:alphanumeric-ascii-characters-2>alphanumeric ASCII character</a>, then, for
+    historical reasons, switch to the <a href=#character-reference-end-state id=character-reference-state:character-reference-end-state-3>character reference end state</a>. 
+
+    <p>If the last character matched is not a U+003B SEMICOLON character (;), this is a <a href=#parse-error id=character-reference-state:parse-error-2>parse
+    error</a>.</p>
+
+    <p>Set the <var id=character-reference-state:temporary-buffer-6><a href=#temporary-buffer>temporary buffer</a></var> to the empty string. Append one
+    or two characters corresponding to the character reference name (as given by the second column
+    of the <a href=#named-character-references id=character-reference-state:named-character-references-2>named character references</a> table) to the <var id=character-reference-state:temporary-buffer-7><a href=#temporary-buffer>temporary buffer</a></var>.</p>
+
+    <p>Switch to the <a href=#character-reference-end-state id=character-reference-state:character-reference-end-state-4>character reference end state</a>.</p>
+
+    <div class=example>
+
+     <p>If the markup contains (not in an attribute) the string <code>I'm &amp;notit; I
+     tell you</code>, the character reference is parsed as "not", as in, <code>I'm ¬it;
+     I tell you</code> (and this is a parse error). But if the markup was <code>I'm
+     &amp;notin; I tell you</code>, the character reference would be parsed as "notin;", resulting
+     in <code>I'm ∉ I tell you</code> (and no parse error).</p>
+
+     <p>However, if the markup contains the string <code>I'm &amp;notit; I tell you</code>
+     in an attribute, no character reference is parsed and string remains intact (and there is no
+     parse error).</p>
+
+    </div>
+
+   </dl>
+
+
+  <h5 id=numeric-character-reference-state>12.2.4.73 <dfn>Numeric character reference state</dfn><a href=#numeric-character-reference-state class=self-link></a></h5>
+
+  <p>Set the <dfn id=character-reference-code><var>character reference code</var></dfn> to
+  zero (0).</p>
+
+  <p>Consume the <a href=#next-input-character id=numeric-character-reference-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt>U+0078 LATIN SMALL LETTER X<dt>U+0058 LATIN CAPITAL LETTER X<dd>Append the <a href=#current-input-character id=numeric-character-reference-state:current-input-character>current input character</a> to the <var id=numeric-character-reference-state:temporary-buffer><a href=#temporary-buffer>temporary buffer</a></var>. Switch to the <a href=#hexademical-character-reference-start-state id=numeric-character-reference-state:hexademical-character-reference-start-state>hexademical character reference start
+    state</a>.<dt>Anything else<dd><a href=#reconsume id=numeric-character-reference-state:reconsume>Reconsume</a> in the <a href=#decimal-character-reference-start-state id=numeric-character-reference-state:decimal-character-reference-start-state>decimal character reference start state</a>.</dl>
+
+
+  <h5 id=hexademical-character-reference-start-state>12.2.4.74 <dfn>Hexademical character reference start state</dfn><a href=#hexademical-character-reference-start-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=hexademical-character-reference-start-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt><a href=#ascii-hex-digits id=hexademical-character-reference-start-state:ascii-hex-digits>ASCII hex digit</a><dd><a href=#reconsume id=hexademical-character-reference-start-state:reconsume>Reconsume</a> in the <a href=#hexademical-character-reference-state id=hexademical-character-reference-start-state:hexademical-character-reference-state>hexademical character reference state</a>.<dt>Anything else<dd><a href=#parse-error id=hexademical-character-reference-start-state:parse-error>Parse error</a>. <a href=#reconsume id=hexademical-character-reference-start-state:reconsume-2>Reconsume</a> in the <a href=#character-reference-end-state id=hexademical-character-reference-start-state:character-reference-end-state>character reference
+    end state</a>.</dl>
+
+
+  <h5 id=decimal-character-reference-start-state>12.2.4.75 <dfn>Decimal character reference start state</dfn><a href=#decimal-character-reference-start-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=decimal-character-reference-start-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt><a href=#ascii-digits id=decimal-character-reference-start-state:ascii-digits>ASCII digit</a><dd><a href=#reconsume id=decimal-character-reference-start-state:reconsume>Reconsume</a> in the <a href=#decimal-character-reference-state id=decimal-character-reference-start-state:decimal-character-reference-state>decimal character reference state</a>.<dt>Anything else<dd><a href=#parse-error id=decimal-character-reference-start-state:parse-error>Parse error</a>. <a href=#reconsume id=decimal-character-reference-start-state:reconsume-2>Reconsume</a> in the <a href=#character-reference-end-state id=decimal-character-reference-start-state:character-reference-end-state>character reference
+    end state</a>.</dl>
+
+
+  <h5 id=hexademical-character-reference-state>12.2.4.76 <dfn>Hexademical character reference state</dfn><a href=#hexademical-character-reference-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=hexademical-character-reference-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt><a href=#uppercase-ascii-hex-digits id=hexademical-character-reference-state:uppercase-ascii-hex-digits>Uppercase ASCII hex digit</a><dd>Multiply the <var id=hexademical-character-reference-state:character-reference-code><a href=#character-reference-code>character reference code</a></var> by 16.
+    Add a numeric version of the <a href=#current-input-character id=hexademical-character-reference-state:current-input-character>current input character</a> as a hexademical digit (subtract
+    0x0037 from the character's code point) to the <var id=hexademical-character-reference-state:character-reference-code-2><a href=#character-reference-code>character
+    reference code</a></var>.<dt><a href=#lowercase-ascii-hex-digits id=hexademical-character-reference-state:lowercase-ascii-hex-digits>Lowercase ASCII hex digit</a><dd>Multiply the <var id=hexademical-character-reference-state:character-reference-code-3><a href=#character-reference-code>character reference code</a></var> by 16.
+    Add a numeric version of the <a href=#current-input-character id=hexademical-character-reference-state:current-input-character-2>current input character</a> as a hexademical digit
+    (subtract 0x0057 from the character's code point) to the <var id=hexademical-character-reference-state:character-reference-code-4><a href=#character-reference-code>character reference code</a></var>.<dt><a href=#ascii-digits id=hexademical-character-reference-state:ascii-digits>ASCII digit</a><dd>Multiply the <var id=hexademical-character-reference-state:character-reference-code-5><a href=#character-reference-code>character reference code</a></var> by 16.
+    Add a numeric version of the <a href=#current-input-character id=hexademical-character-reference-state:current-input-character-3>current input character</a> (subtract 0x0030 from the
+    character's code point) to the <var id=hexademical-character-reference-state:character-reference-code-6><a href=#character-reference-code>character reference
+    code</a></var>.<dt>U+003B SEMICOLON<dd>Switch to the <a href=#numeric-character-reference-end-state id=hexademical-character-reference-state:numeric-character-reference-end-state>numeric character reference end state</a>.<dt>Anything else<dd><a href=#parse-error id=hexademical-character-reference-state:parse-error>Parse error</a>. <a href=#reconsume id=hexademical-character-reference-state:reconsume>Reconsume</a> in the <a href=#numeric-character-reference-end-state id=hexademical-character-reference-state:numeric-character-reference-end-state-2>numeric character reference
+    end state</a>.</dl>
+
+
+  <h5 id=decimal-character-reference-state>12.2.4.77 <dfn>Decimal character reference state</dfn><a href=#decimal-character-reference-state class=self-link></a></h5>
+
+  <p>Consume the <a href=#next-input-character id=decimal-character-reference-state:next-input-character>next input character</a>:</p>
+
+  <dl class=switch><dt><a href=#ascii-digits id=decimal-character-reference-state:ascii-digits>ASCII digit</a><dd>Multiply the <var id=decimal-character-reference-state:character-reference-code><a href=#character-reference-code>character reference code</a></var> by 10.
+    Add a numeric version of the <a href=#current-input-character id=decimal-character-reference-state:current-input-character>current input character</a> (subtract 0x0030 from the

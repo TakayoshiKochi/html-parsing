@@ -1,0 +1,850 @@
+  <ol><li>
+
+    <p>Optionally, a token whose first eight characters are an <a id=autofilling-form-controls:-the-autocomplete-attribute:ascii-case-insensitive-3 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a>
+    match for the string "<dfn id=attr-fe-autocomplete-section><code>section-</code></dfn>",
+    meaning that the field belongs to the named group.</p>
+
+    <div class=example>
+
+     <p>For example, if there are two shipping addresses in the form, then they could be marked up
+     as:</p>
+
+     <pre>&lt;fieldset>
+ &lt;legend>Ship the blue gift to...&lt;/legend>
+ &lt;p> &lt;label> Address:     &lt;textarea name=ba autocomplete="section-blue shipping street-address">&lt;/textarea> &lt;/label>
+ &lt;p> &lt;label> City:        &lt;input name=bc autocomplete="section-blue shipping address-level2"> &lt;/label>
+ &lt;p> &lt;label> Postal Code: &lt;input name=bp autocomplete="section-blue shipping postal-code"> &lt;/label>
+&lt;/fieldset>
+&lt;fieldset>
+ &lt;legend>Ship the red gift to...&lt;/legend>
+ &lt;p> &lt;label> Address:     &lt;textarea name=ra autocomplete="section-red shipping street-address">&lt;/textarea> &lt;/label>
+ &lt;p> &lt;label> City:        &lt;input name=rc autocomplete="section-red shipping address-level2"> &lt;/label>
+ &lt;p> &lt;label> Postal Code: &lt;input name=rp autocomplete="section-red shipping postal-code"> &lt;/label>
+&lt;/fieldset></pre>
+
+    </div>
+
+   <li>
+
+    <p>Optionally, a token that is an <a id=autofilling-form-controls:-the-autocomplete-attribute:ascii-case-insensitive-4 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for one of the
+    following strings:</p>
+
+    <ul class=brief><li>"<dfn id=attr-fe-autocomplete-shipping><code>shipping</code></dfn>", meaning the field
+     is part of the shipping address or contact information
+
+     <li>"<dfn id=attr-fe-autocomplete-billing><code>billing</code></dfn>", meaning the field
+     is part of the billing address or contact information
+
+    </ul>
+
+   <li>
+
+    <p>Either of the following two options:</p>
+
+    <ul><li>
+
+      <p>A token that is an <a id=autofilling-form-controls:-the-autocomplete-attribute:ascii-case-insensitive-5 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for one of the following
+      <a href=#autofill-field id=autofilling-form-controls:-the-autocomplete-attribute:autofill-field>autofill field</a> names, excluding those that are <a href=#inappropriate-for-the-control id=autofilling-form-controls:-the-autocomplete-attribute:inappropriate-for-the-control>inappropriate for the
+      control</a>:</p>
+
+      <ul class=brief><li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-name><a href=#attr-fe-autocomplete-name>name</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-honorific-prefix><a href=#attr-fe-autocomplete-honorific-prefix>honorific-prefix</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-given-name><a href=#attr-fe-autocomplete-given-name>given-name</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-additional-name><a href=#attr-fe-autocomplete-additional-name>additional-name</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-family-name><a href=#attr-fe-autocomplete-family-name>family-name</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-honorific-suffix><a href=#attr-fe-autocomplete-honorific-suffix>honorific-suffix</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-nickname><a href=#attr-fe-autocomplete-nickname>nickname</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-username><a href=#attr-fe-autocomplete-username>username</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-new-password><a href=#attr-fe-autocomplete-new-password>new-password</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-current-password><a href=#attr-fe-autocomplete-current-password>current-password</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-organization-title><a href=#attr-fe-autocomplete-organization-title>organization-title</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-organization><a href=#attr-fe-autocomplete-organization>organization</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-street-address><a href=#attr-fe-autocomplete-street-address>street-address</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-line1><a href=#attr-fe-autocomplete-address-line1>address-line1</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-line2><a href=#attr-fe-autocomplete-address-line2>address-line2</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-line3><a href=#attr-fe-autocomplete-address-line3>address-line3</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-level4><a href=#attr-fe-autocomplete-address-level4>address-level4</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-level3><a href=#attr-fe-autocomplete-address-level3>address-level3</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-level2><a href=#attr-fe-autocomplete-address-level2>address-level2</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-level1><a href=#attr-fe-autocomplete-address-level1>address-level1</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-country><a href=#attr-fe-autocomplete-country>country</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-country-name><a href=#attr-fe-autocomplete-country-name>country-name</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-postal-code><a href=#attr-fe-autocomplete-postal-code>postal-code</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-name><a href=#attr-fe-autocomplete-cc-name>cc-name</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-given-name><a href=#attr-fe-autocomplete-cc-given-name>cc-given-name</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-additional-name><a href=#attr-fe-autocomplete-cc-additional-name>cc-additional-name</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-family-name><a href=#attr-fe-autocomplete-cc-family-name>cc-family-name</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-number><a href=#attr-fe-autocomplete-cc-number>cc-number</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-exp><a href=#attr-fe-autocomplete-cc-exp>cc-exp</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-exp-month><a href=#attr-fe-autocomplete-cc-exp-month>cc-exp-month</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-exp-year><a href=#attr-fe-autocomplete-cc-exp-year>cc-exp-year</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-csc><a href=#attr-fe-autocomplete-cc-csc>cc-csc</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-type><a href=#attr-fe-autocomplete-cc-type>cc-type</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-transaction-currency><a href=#attr-fe-autocomplete-transaction-currency>transaction-currency</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-transaction-amount><a href=#attr-fe-autocomplete-transaction-amount>transaction-amount</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-language><a href=#attr-fe-autocomplete-language>language</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-bday><a href=#attr-fe-autocomplete-bday>bday</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-bday-day><a href=#attr-fe-autocomplete-bday-day>bday-day</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-bday-month><a href=#attr-fe-autocomplete-bday-month>bday-month</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-bday-year><a href=#attr-fe-autocomplete-bday-year>bday-year</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-sex><a href=#attr-fe-autocomplete-sex>sex</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-url><a href=#attr-fe-autocomplete-url>url</a></code>"
+       <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-photo><a href=#attr-fe-autocomplete-photo>photo</a></code>"
+      </ul>
+
+      <p>(See the table below for descriptions of these values.)</p>
+
+     <li>
+
+      <p>The following, in the given order:</p>
+
+      <ol><li>
+
+        <p>Optionally, a token that is an <a id=autofilling-form-controls:-the-autocomplete-attribute:ascii-case-insensitive-6 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for one of the
+        following strings:</p>
+
+        <ul class=brief><li>"<dfn id=attr-fe-autocomplete-home><code>home</code></dfn>", meaning the field is
+         for contacting someone at their residence
+
+         <li>"<dfn id=attr-fe-autocomplete-work><code>work</code></dfn>", meaning the field is
+         for contacting someone at their workplace
+
+         <li>"<dfn id=attr-fe-autocomplete-mobile><code>mobile</code></dfn>", meaning the field is for contacting someone regardless of location
+
+         <li>"<dfn id=attr-fe-autocomplete-fax><code>fax</code></dfn>", meaning the field
+         describes a fax machine's contact details
+
+         <li>"<dfn id=attr-fe-autocomplete-pager><code>pager</code></dfn>", meaning the field
+         describes a pager's or beeper's contact details
+
+        </ul>
+
+       <li>
+
+        <p>A token that is an <a id=autofilling-form-controls:-the-autocomplete-attribute:ascii-case-insensitive-7 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for one of the following
+        <a href=#autofill-field id=autofilling-form-controls:-the-autocomplete-attribute:autofill-field-2>autofill field</a> names, excluding those that are <a href=#inappropriate-for-the-control id=autofilling-form-controls:-the-autocomplete-attribute:inappropriate-for-the-control-2>inappropriate for the
+        control</a>:</p>
+
+        <ul class=brief><li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-tel><a href=#attr-fe-autocomplete-tel>tel</a></code>"
+         <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-tel-country-code><a href=#attr-fe-autocomplete-tel-country-code>tel-country-code</a></code>"
+         <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-tel-national><a href=#attr-fe-autocomplete-tel-national>tel-national</a></code>"
+         <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-tel-area-code><a href=#attr-fe-autocomplete-tel-area-code>tel-area-code</a></code>"
+         <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-tel-local><a href=#attr-fe-autocomplete-tel-local>tel-local</a></code>"
+         <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-tel-local-prefix><a href=#attr-fe-autocomplete-tel-local-prefix>tel-local-prefix</a></code>"
+         <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-tel-local-suffix><a href=#attr-fe-autocomplete-tel-local-suffix>tel-local-suffix</a></code>"
+         <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-tel-extension><a href=#attr-fe-autocomplete-tel-extension>tel-extension</a></code>"
+         <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-email><a href=#attr-fe-autocomplete-email>email</a></code>"
+         <li>"<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-impp><a href=#attr-fe-autocomplete-impp>impp</a></code>"
+        </ul>
+
+        <p>(See the table below for descriptions of these values.)</p>
+
+       </ol>
+
+     </ul>
+
+   </ol>
+
+  <p>As noted earlier, the meaning of the attribute and its keywords depends on the mantle that the
+  attribute is wearing.</p>
+
+  <dl class=switch><dt>When wearing the <a href=#autofill-expectation-mantle id=autofilling-form-controls:-the-autocomplete-attribute:autofill-expectation-mantle-3>autofill expectation mantle</a>...
+
+   <dd>
+
+    <p>The "<dfn id=attr-fe-autocomplete-off><code>off</code></dfn>" keyword indicates either
+    that the control's input data is particularly sensitive (for example the activation code for a
+    nuclear weapon); or that it is a value that will never be reused (for example a one-time-key for a
+    bank login) and the user will therefore have to explicitly enter the data each time, instead of
+    being able to rely on the UA to prefill the value for them; or that the document provides its own
+    autocomplete mechanism and does not want the user agent to provide autocompletion values.</p>
+
+    <p>The "<dfn id=attr-fe-autocomplete-on><code>on</code></dfn>" keyword indicates that the
+    user agent is allowed to provide the user with autocompletion values, but does not provide any
+    further information about what kind of data the user might be expected to enter. User agents would
+    have to use heuristics to decide what autocompletion values to suggest.</p>
+
+    <p>The <a href=#autofill-field id=autofilling-form-controls:-the-autocomplete-attribute:autofill-field-3>autofill field</a> listed above indicate that the user agent is allowed to
+    provide the user with autocompletion values, and specifies what kind of value is expected. The
+    meaning of each such keyword is described in the table below.</p>
+
+    <p>If the <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-7><a href=#attr-fe-autocomplete>autocomplete</a></code> attribute is omitted, the default
+    value corresponding to the state of the element's <a href=#form-owner id=autofilling-form-controls:-the-autocomplete-attribute:form-owner>form owner</a>'s <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-form-autocomplete><a href=#attr-form-autocomplete>autocomplete</a></code> attribute is used instead (either "<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-on-3><a href=#attr-fe-autocomplete-on>on</a></code>" or "<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-off-3><a href=#attr-fe-autocomplete-off>off</a></code>"). If there is no <a href=#form-owner id=autofilling-form-controls:-the-autocomplete-attribute:form-owner-2>form owner</a>, then the
+    value "<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-on-4><a href=#attr-fe-autocomplete-on>on</a></code>" is used.</p>
+
+   <dt>When wearing the <a href=#autofill-anchor-mantle id=autofilling-form-controls:-the-autocomplete-attribute:autofill-anchor-mantle-3>autofill anchor mantle</a>...
+
+   <dd>
+
+    <p>The <a href=#autofill-field id=autofilling-form-controls:-the-autocomplete-attribute:autofill-field-4>autofill field</a> listed above indicate that the value of the particular kind
+    of value specified is that value provided for this element. The meaning of each such keyword is
+    described in the table below.</p>
+
+    <div class=example>
+
+     <p>In this example the page has explicitly specified the currency and amount of the
+     transaction. The form requests a credit card and other billing details. The user agent could
+     use this information to suggest a credit card that it knows has sufficient balance and that
+     supports the relevant currency.</p>
+
+     <pre>&lt;form method=post action="step2.cgi">
+ &lt;input type=hidden autocomplete=transaction-currency value="CHF">
+ &lt;input type=hidden autocomplete=transaction-amount value="15.00">
+ &lt;p>&lt;label>Credit card number: &lt;input type=text inputmode=numeric autocomplete=cc-number>&lt;/label>
+ &lt;p>&lt;label>Expiry Date: &lt;input type=month autocomplete=cc-exp>&lt;/label>
+ &lt;p>&lt;input type=submit value="Continue...">
+&lt;/form></pre>
+
+    </div>
+
+   </dl>
+
+  <p>The <dfn id=autofill-field>autofill field</dfn> keywords relate to each other as described in the table below. Each field name
+  listed on a row of this table corresponds to the meaning given in the cell for that row in the
+  column labeled "Meaning". Some fields correspond to subparts of other fields; for example, a
+  credit card expiry date can be expressed as one field giving both the month and year of expiry
+  ("<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-exp-2><a href=#attr-fe-autocomplete-cc-exp>cc-exp</a></code>"), or as two fields, one giving the
+  month ("<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-exp-month-2><a href=#attr-fe-autocomplete-cc-exp-month>cc-exp-month</a></code>") and one the year
+  ("<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-cc-exp-year-2><a href=#attr-fe-autocomplete-cc-exp-year>cc-exp-year</a></code>"). In such cases, the names of
+  the broader fields cover multiple rows, in which the narrower fields are defined.</p>
+
+  <p class=note>Generally, authors are encouraged to use the broader fields rather than the
+  narrower fields, as the narrower fields tend to expose Western biases. For example, while it is
+  common in some Western cultures to have a given name and a family name, in that order (and thus
+  often referred to as a <i>first name</i> and a <i>surname</i>), many cultures put the family name
+  first and the given name second, and many others simply have one name (a <i>mononym</i>). Having a
+  single field is therefore more flexible.</p>
+
+  <p>Some fields are only appropriate for certain form controls. An <a href=#autofill-field id=autofilling-form-controls:-the-autocomplete-attribute:autofill-field-5>autofill field</a> name
+  is <dfn id=inappropriate-for-the-control>inappropriate for a control</dfn> if the control
+  does not belong to the group listed for that <a href=#autofill-field id=autofilling-form-controls:-the-autocomplete-attribute:autofill-field-6>autofill field</a> in the fifth column of
+  the first row describing that <a href=#autofill-field id=autofilling-form-controls:-the-autocomplete-attribute:autofill-field-7>autofill field</a> in the table below. What controls fall
+  into each group is described below the table.</p>
+
+  <table><thead><tr><th colspan=4> Field name
+     <th> Meaning
+     <th> Canonical Format
+     <th> Canonical Format Example
+     <th> Control group
+   <tbody><tr><td colspan=4>"<dfn id=attr-fe-autocomplete-name><code>name</code></dfn>"
+     <td>Full name
+     <td>Free-form text, no newlines
+     <td>Sir Timothy John Berners-Lee, OM, KBE, FRS, FREng, FRSA
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text>Text</a>
+    <tr><td class=non-rectangular-cell-indentation rowspan=5>
+      <td colspan=3>"<dfn id=attr-fe-autocomplete-honorific-prefix><code>honorific-prefix</code></dfn>"
+      <td>Prefix or title (e.g. "Mr.", "Ms.", "Dr.", "<span lang=fr>M<sup>lle</sup></span>")
+      <td>Free-form text, no newlines
+      <td>Sir
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-2>Text</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-given-name><code>given-name</code></dfn>"
+      <td>Given name (in some Western cultures, also known as the <i>first name</i>)
+      <td>Free-form text, no newlines
+      <td>Timothy
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-3>Text</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-additional-name><code>additional-name</code></dfn>"
+      <td>Additional names (in some Western cultures, also known as <i>middle names</i>, forenames other than the first name)
+      <td>Free-form text, no newlines
+      <td>John
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-4>Text</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-family-name><code>family-name</code></dfn>"
+      <td>Family name (in some Western cultures, also known as the <i>last name</i> or <i>surname</i>)
+      <td>Free-form text, no newlines
+      <td>Berners-Lee
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-5>Text</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-honorific-suffix><code>honorific-suffix</code></dfn>"
+      <td>Suffix (e.g. "Jr.", "B.Sc.", "MBASW", "II")
+      <td>Free-form text, no newlines
+      <td>OM, KBE, FRS, FREng, FRSA
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-6>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-nickname><code>nickname</code></dfn>"
+     <td>Nickname, screen name, handle: a typically short name used instead of the full name
+     <td>Free-form text, no newlines
+     <td>Tim
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-7>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-organization-title><code>organization-title</code></dfn>"
+     <td>Job title (e.g. "Software Engineer", "Senior Vice President", "Deputy Managing Director")
+     <td>Free-form text, no newlines
+     <td>Professor
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-8>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-username><code>username</code></dfn>"
+     <td>A username
+     <td>Free-form text, no newlines
+     <td>timbl
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-9>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-new-password><code>new-password</code></dfn>"
+     <td>A new password (e.g. when creating an account or changing a password)
+     <td>Free-form text, no newlines
+     <td>GUMFXbadyrS3
+     <td><a href=#control-group-password id=autofilling-form-controls:-the-autocomplete-attribute:control-group-password>Password</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-current-password><code>current-password</code></dfn>"
+     <td>The current password for the account identified by the <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-username-2><a href=#attr-fe-autocomplete-username>username</a></code> field (e.g. when logging in)
+     <td>Free-form text, no newlines
+     <td>qwerty 
+     <td><a href=#control-group-password id=autofilling-form-controls:-the-autocomplete-attribute:control-group-password-2>Password</a>
+   <tbody><tr><td colspan=4>"<dfn id=attr-fe-autocomplete-organization><code>organization</code></dfn>"
+     <td>Company name corresponding to the person, address, or contact information in the other fields associated with this field
+     <td>Free-form text, no newlines
+     <td>World Wide Web Consortium
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-10>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-street-address><code>street-address</code></dfn>"
+     <td>Street address (multiple lines, newlines preserved)
+     <td>Free-form text
+     <td>32 Vassar Street<br>
+MIT Room 32-G524
+     <td><a href=#control-group-multiline id=autofilling-form-controls:-the-autocomplete-attribute:control-group-multiline>Multiline</a>
+    <tr><td class=non-rectangular-cell-indentation rowspan=3>
+      <td colspan=3>"<dfn id=attr-fe-autocomplete-address-line1><code>address-line1</code></dfn>"
+      <td rowspan=3>Street address (one line per field)
+      <td>Free-form text, no newlines
+      <td>32 Vassar Street
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-11>Text</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-address-line2><code>address-line2</code></dfn>"
+      <td>Free-form text, no newlines
+      <td>MIT Room 32-G524
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-12>Text</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-address-line3><code>address-line3</code></dfn>"
+      <td>Free-form text, no newlines
+      <td>
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-13>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-address-level4><code>address-level4</code></dfn>"
+     <td>The most fine-grained <a href=#more-on-address-levels>administrative level</a>, in
+     addresses with four administrative levels
+     <td>Free-form text, no newlines
+     <td>
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-14>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-address-level3><code>address-level3</code></dfn>"
+     <td>The <a href=#more-on-address-levels>third administrative level</a>, in addresses with
+     three or more administrative levels
+     <td>Free-form text, no newlines
+     <td>
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-15>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-address-level2><code>address-level2</code></dfn>"
+     <td>The <a href=#more-on-address-levels>second administrative level</a>, in addresses with
+     two or more administrative levels; in the countries with two administrative levels, this would
+     typically be the city, town, village, or other locality within which the relevant street
+     address is found
+     <td>Free-form text, no newlines
+     <td>Cambridge
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-16>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-address-level1><code>address-level1</code></dfn>"
+     <td>The broadest <a href=#more-on-address-levels>administrative level</a> in the address,
+     i.e. the province within which the locality is found; for example, in the US, this would be the
+     state; in Switzerland it would be the canton; in the UK, the post town
+     <td>Free-form text, no newlines
+     <td>MA
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-17>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-country><code>country</code></dfn>"
+     <td>Country code
+     <td>Valid <a href=http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm>ISO 3166-1-alpha-2 country code</a> <a href=#refsISO3166>[ISO3166]</a>
+     <td>US
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-18>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-country-name><code>country-name</code></dfn>"
+     <td>Country name
+     <td>Free-form text, no newlines; <a href=#autofill-country>derived from <code>country</code> in some cases</a>
+     <td>US
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-19>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-postal-code><code>postal-code</code></dfn>"
+     <td>Postal code, post code, ZIP code, CEDEX code (if CEDEX, append "CEDEX", and the <i lang=fr>arrondissement</i>, if relevant, to the <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-level2-2><a href=#attr-fe-autocomplete-address-level2>address-level2</a></code> field)
+     <td>Free-form text, no newlines
+     <td>02139
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-20>Text</a>
+   <tbody><tr><td colspan=4>"<dfn id=attr-fe-autocomplete-cc-name><code>cc-name</code></dfn>"
+     <td>Full name as given on the payment instrument
+     <td>Free-form text, no newlines
+     <td>Tim Berners-Lee
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-21>Text</a>
+    <tr><td class=non-rectangular-cell-indentation rowspan=3>
+      <td colspan=3>"<dfn id=attr-fe-autocomplete-cc-given-name><code>cc-given-name</code></dfn>"
+      <td>Given name as given on the payment instrument (in some Western cultures, also known as the <i>first name</i>)
+      <td>Free-form text, no newlines
+      <td>Tim
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-22>Text</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-cc-additional-name><code>cc-additional-name</code></dfn>"
+      <td>Additional names given on the payment instrument (in some Western cultures, also known as <i>middle names</i>, forenames other than the first name)
+      <td>Free-form text, no newlines
+      <td>
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-23>Text</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-cc-family-name><code>cc-family-name</code></dfn>"
+      <td>Family name given on the payment instrument (in some Western cultures, also known as the <i>last name</i> or <i>surname</i>)
+      <td>Free-form text, no newlines
+      <td>Berners-Lee
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-24>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-cc-number><code>cc-number</code></dfn>"
+     <td>Code identifying the payment instrument (e.g. the credit card number)
+     <td><a href=#ascii-digits id=autofilling-form-controls:-the-autocomplete-attribute:ascii-digits>ASCII digits</a>
+     <td>4114360123456785 
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-25>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-cc-exp><code>cc-exp</code></dfn>"
+     <td>Expiration date of the payment instrument
+     <td><a href=#valid-month-string id=autofilling-form-controls:-the-autocomplete-attribute:valid-month-string>Valid month string</a>
+     <td>2014-12
+     <td><a href=#control-group-month id=autofilling-form-controls:-the-autocomplete-attribute:control-group-month>Month</a>
+    <tr><td class=non-rectangular-cell-indentation rowspan=2>
+      <td colspan=3>"<dfn id=attr-fe-autocomplete-cc-exp-month><code>cc-exp-month</code></dfn>"
+      <td>Month component of the expiration date of the payment instrument
+      <td><a href=#valid-integer id=autofilling-form-controls:-the-autocomplete-attribute:valid-integer>Valid integer</a> in the range 1..12
+      <td>12
+      <td><a href=#control-group-numeric id=autofilling-form-controls:-the-autocomplete-attribute:control-group-numeric>Numeric</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-cc-exp-year><code>cc-exp-year</code></dfn>"
+      <td>Year component of the expiration date of the payment instrument
+      <td><a href=#valid-integer id=autofilling-form-controls:-the-autocomplete-attribute:valid-integer-2>Valid integer</a> greater than zero
+      <td>2014
+      <td><a href=#control-group-numeric id=autofilling-form-controls:-the-autocomplete-attribute:control-group-numeric-2>Numeric</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-cc-csc><code>cc-csc</code></dfn>"
+     <td>Security code for the payment instrument (also known as the card security code (CSC), card validation code (CVC), card verification value (CVV), signature panel code (SPC), credit card ID (CCID), etc)
+     <td><a href=#ascii-digits id=autofilling-form-controls:-the-autocomplete-attribute:ascii-digits-2>ASCII digits</a>
+     <td>419
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-26>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-cc-type><code>cc-type</code></dfn>"
+     <td>Type of payment instrument
+     <td>Free-form text, no newlines
+     <td>Visa
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-27>Text</a>
+   <tbody><tr><td colspan=4>"<dfn id=attr-fe-autocomplete-transaction-currency><code>transaction-currency</code></dfn>"
+     <td>The currency that the user would prefer the transaction to use
+     <td>ISO 4217 currency code <a href=#refsISO4217>[ISO4217]</a>
+     <td>GBP
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-28>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-transaction-amount><code>transaction-amount</code></dfn>"
+     <td>The amount that the user would like for the transaction (e.g. when entering a bid or sale price)
+     <td><a href=#valid-floating-point-number id=autofilling-form-controls:-the-autocomplete-attribute:valid-floating-point-number>Valid floating-point number</a>
+     <td>401.00
+     <td><a href=#control-group-numeric id=autofilling-form-controls:-the-autocomplete-attribute:control-group-numeric-3>Numeric</a>
+   <tbody><tr><td colspan=4>"<dfn id=attr-fe-autocomplete-language><code>language</code></dfn>"
+     <td>Preferred language
+     <td>Valid BCP 47 language tag <a href=#refsBCP47>[BCP47]</a>
+     <td>en
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-29>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-bday><code>bday</code></dfn>"
+     <td>Birthday
+     <td><a href=#valid-date-string id=autofilling-form-controls:-the-autocomplete-attribute:valid-date-string>Valid date string</a>
+     <td>1955-06-08
+     <td><a href=#control-group-date id=autofilling-form-controls:-the-autocomplete-attribute:control-group-date>Date</a>
+    <tr><td class=non-rectangular-cell-indentation rowspan=3>
+      <td colspan=3>"<dfn id=attr-fe-autocomplete-bday-day><code>bday-day</code></dfn>"
+      <td>Day component of birthday
+      <td><a href=#valid-integer id=autofilling-form-controls:-the-autocomplete-attribute:valid-integer-3>Valid integer</a> in the range 1..31
+      <td>8
+      <td><a href=#control-group-numeric id=autofilling-form-controls:-the-autocomplete-attribute:control-group-numeric-4>Numeric</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-bday-month><code>bday-month</code></dfn>"
+      <td>Month component of birthday
+      <td><a href=#valid-integer id=autofilling-form-controls:-the-autocomplete-attribute:valid-integer-4>Valid integer</a> in the range 1..12
+      <td>6
+      <td><a href=#control-group-numeric id=autofilling-form-controls:-the-autocomplete-attribute:control-group-numeric-5>Numeric</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-bday-year><code>bday-year</code></dfn>"
+      <td>Year component of birthday
+      <td><a href=#valid-integer id=autofilling-form-controls:-the-autocomplete-attribute:valid-integer-5>Valid integer</a> greater than zero
+      <td>1955
+      <td><a href=#control-group-numeric id=autofilling-form-controls:-the-autocomplete-attribute:control-group-numeric-6>Numeric</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-sex><code>sex</code></dfn>"
+     <td>Gender identity (e.g. Female, Fa'afafine)
+     <td>Free-form text, no newlines
+     <td>Male
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-30>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-url><code>url</code></dfn>"
+     <td>Home page or other Web page corresponding to the company, person, address, or contact information in the other fields associated with this field
+     <td><a href=#valid-url id=autofilling-form-controls:-the-autocomplete-attribute:valid-url>Valid URL</a>
+     <td>https://www.w3.org/People/Berners-Lee/
+     <td><a href=#control-group-url id=autofilling-form-controls:-the-autocomplete-attribute:control-group-url>URL</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-photo><code>photo</code></dfn>"
+     <td>Photograph, icon, or other image corresponding to the company, person, address, or contact information in the other fields associated with this field
+     <td> <a href=#valid-url id=autofilling-form-controls:-the-autocomplete-attribute:valid-url-2>Valid URL</a>
+     <td>https://www.w3.org/Press/Stock/Berners-Lee/2001-europaeum-eighth.jpg
+     <td> <a href=#control-group-url id=autofilling-form-controls:-the-autocomplete-attribute:control-group-url-2>URL</a>
+   <tbody><tr><td colspan=4>"<dfn id=attr-fe-autocomplete-tel><code>tel</code></dfn>"
+     <td>Full telephone number, including country code
+     <td><a href=#ascii-digits id=autofilling-form-controls:-the-autocomplete-attribute:ascii-digits-3>ASCII digits</a> and U+0020 SPACE characters, prefixed by a U+002B PLUS SIGN character (+)
+     <td>+1 617 253 5702
+     <td><a href=#control-group-tel id=autofilling-form-controls:-the-autocomplete-attribute:control-group-tel>Tel</a>
+    <tr><td class=non-rectangular-cell-indentation rowspan=6>
+      <td colspan=3>"<dfn id=attr-fe-autocomplete-tel-country-code><code>tel-country-code</code></dfn>"
+      <td>Country code component of the telephone number
+      <td><a href=#ascii-digits id=autofilling-form-controls:-the-autocomplete-attribute:ascii-digits-4>ASCII digits</a> prefixed by a U+002B PLUS SIGN character (+)
+      <td>+1
+      <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-31>Text</a>
+    <tr><td colspan=3>"<dfn id=attr-fe-autocomplete-tel-national><code>tel-national</code></dfn>"
+      <td>Telephone number without the county code component, with a country-internal prefix applied if applicable
+      <td><a href=#ascii-digits id=autofilling-form-controls:-the-autocomplete-attribute:ascii-digits-5>ASCII digits</a> and U+0020 SPACE characters
+      <td>617 253 5702
+      <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-32>Text</a>
+    <tr><td class=non-rectangular-cell-indentation rowspan=4>
+       <td colspan=2>"<dfn id=attr-fe-autocomplete-tel-area-code><code>tel-area-code</code></dfn>"
+       <td>Area code component of the telephone number, with a country-internal prefix applied if applicable
+       <td><a href=#ascii-digits id=autofilling-form-controls:-the-autocomplete-attribute:ascii-digits-6>ASCII digits</a>
+       <td>617
+       <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-33>Text</a>
+    <tr><td colspan=2>"<dfn id=attr-fe-autocomplete-tel-local><code>tel-local</code></dfn>"
+       <td>Telephone number without the country code and area code components
+       <td><a href=#ascii-digits id=autofilling-form-controls:-the-autocomplete-attribute:ascii-digits-7>ASCII digits</a>
+       <td>2535702
+       <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-34>Text</a>
+    <tr><td class=non-rectangular-cell-indentation rowspan=2>
+        <td>"<dfn id=attr-fe-autocomplete-tel-local-prefix><code>tel-local-prefix</code></dfn>"
+        <td>First part of the component of the telephone number that follows the area code, when that component is split into two components
+        <td><a href=#ascii-digits id=autofilling-form-controls:-the-autocomplete-attribute:ascii-digits-8>ASCII digits</a>
+        <td>253
+        <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-35>Text</a>
+    <tr><td>"<dfn id=attr-fe-autocomplete-tel-local-suffix><code>tel-local-suffix</code></dfn>"
+        <td>Second part of the component of the telephone number that follows the area code, when that component is split into two components
+        <td><a href=#ascii-digits id=autofilling-form-controls:-the-autocomplete-attribute:ascii-digits-9>ASCII digits</a>
+        <td>5702
+        <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-36>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-tel-extension><code>tel-extension</code></dfn>"
+     <td>Telephone number internal extension code
+     <td><a href=#ascii-digits id=autofilling-form-controls:-the-autocomplete-attribute:ascii-digits-10>ASCII digits</a>
+     <td>1000
+     <td><a href=#control-group-text id=autofilling-form-controls:-the-autocomplete-attribute:control-group-text-37>Text</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-email><code>email</code></dfn>"
+     <td>E-mail address
+     <td><a href=#valid-e-mail-address id=autofilling-form-controls:-the-autocomplete-attribute:valid-e-mail-address>Valid e-mail address</a>
+     <td>timbl@w3.org
+     <td><a href=#control-group-e-mail id=autofilling-form-controls:-the-autocomplete-attribute:control-group-e-mail>E-mail</a>
+    <tr><td colspan=4>"<dfn id=attr-fe-autocomplete-impp><code>impp</code></dfn>"
+     <td>URL representing an instant messaging protocol endpoint (for example, "<code>aim:goim?screenname=example</code>" or "<code>xmpp:fred@example.net</code>")
+     <td><a href=#valid-url id=autofilling-form-controls:-the-autocomplete-attribute:valid-url-3>Valid URL</a>
+     <td>irc://example.org/timbl,isuser
+     <td><a href=#control-group-url id=autofilling-form-controls:-the-autocomplete-attribute:control-group-url-3>URL</a>
+  </table>
+
+  <p>The groups correspond to controls as follows:</p>
+
+  <dl><dt><dfn id=control-group-text>Text</dfn>
+
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-2><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-2><a href=#attr-input-type>type</a></code> attribute in the <a href="#hidden-state-(type=hidden)" id="autofilling-form-controls:-the-autocomplete-attribute:hidden-state-(type=hidden)-2">Hidden</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-3><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-3><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)">Text</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-4><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-4><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-2">Search</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-textarea-element><a href=#the-textarea-element>textarea</a></code> elements
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-select-element><a href=#the-select-element>select</a></code> elements
+
+   <dt><dfn id=control-group-multiline>Multiline</dfn>
+
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-5><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-5><a href=#attr-input-type>type</a></code> attribute in the <a href="#hidden-state-(type=hidden)" id="autofilling-form-controls:-the-autocomplete-attribute:hidden-state-(type=hidden)-3">Hidden</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-textarea-element-2><a href=#the-textarea-element>textarea</a></code> elements
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-select-element-2><a href=#the-select-element>select</a></code> elements
+
+   <dt><dfn id=control-group-password>Password</dfn>
+
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-6><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-6><a href=#attr-input-type>type</a></code> attribute in the <a href="#hidden-state-(type=hidden)" id="autofilling-form-controls:-the-autocomplete-attribute:hidden-state-(type=hidden)-4">Hidden</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-7><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-7><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-3">Text</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-8><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-8><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-4">Search</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-9><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-9><a href=#attr-input-type>type</a></code> attribute in the <a href="#password-state-(type=password)" id="autofilling-form-controls:-the-autocomplete-attribute:password-state-(type=password)">Password</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-textarea-element-3><a href=#the-textarea-element>textarea</a></code> elements
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-select-element-3><a href=#the-select-element>select</a></code> elements
+
+   <dt><dfn id=control-group-url>URL</dfn>
+
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-10><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-10><a href=#attr-input-type>type</a></code> attribute in the <a href="#hidden-state-(type=hidden)" id="autofilling-form-controls:-the-autocomplete-attribute:hidden-state-(type=hidden)-5">Hidden</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-11><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-11><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-5">Text</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-12><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-12><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-6">Search</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-13><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-13><a href=#attr-input-type>type</a></code> attribute in the <a href="#url-state-(type=url)" id="autofilling-form-controls:-the-autocomplete-attribute:url-state-(type=url)">URL</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-textarea-element-4><a href=#the-textarea-element>textarea</a></code> elements
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-select-element-4><a href=#the-select-element>select</a></code> elements
+
+   <dt><dfn id=control-group-e-mail>E-mail</dfn>
+
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-14><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-14><a href=#attr-input-type>type</a></code> attribute in the <a href="#hidden-state-(type=hidden)" id="autofilling-form-controls:-the-autocomplete-attribute:hidden-state-(type=hidden)-6">Hidden</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-15><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-15><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-7">Text</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-16><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-16><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-8">Search</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-17><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-17><a href=#attr-input-type>type</a></code> attribute in the <a href="#e-mail-state-(type=email)" id="autofilling-form-controls:-the-autocomplete-attribute:e-mail-state-(type=email)">E-mail</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-textarea-element-5><a href=#the-textarea-element>textarea</a></code> elements
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-select-element-5><a href=#the-select-element>select</a></code> elements
+
+   <dt><dfn id=control-group-tel>Tel</dfn>
+
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-18><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-18><a href=#attr-input-type>type</a></code> attribute in the <a href="#hidden-state-(type=hidden)" id="autofilling-form-controls:-the-autocomplete-attribute:hidden-state-(type=hidden)-7">Hidden</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-19><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-19><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-9">Text</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-20><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-20><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-10">Search</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-21><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-21><a href=#attr-input-type>type</a></code> attribute in the <a href="#telephone-state-(type=tel)" id="autofilling-form-controls:-the-autocomplete-attribute:telephone-state-(type=tel)">Telephone</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-textarea-element-6><a href=#the-textarea-element>textarea</a></code> elements
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-select-element-6><a href=#the-select-element>select</a></code> elements
+
+   <dt><dfn id=control-group-numeric>Numeric</dfn>
+
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-22><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-22><a href=#attr-input-type>type</a></code> attribute in the <a href="#hidden-state-(type=hidden)" id="autofilling-form-controls:-the-autocomplete-attribute:hidden-state-(type=hidden)-8">Hidden</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-23><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-23><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-11">Text</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-24><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-24><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-12">Search</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-25><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-25><a href=#attr-input-type>type</a></code> attribute in the <a href="#number-state-(type=number)" id="autofilling-form-controls:-the-autocomplete-attribute:number-state-(type=number)">Number</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-textarea-element-7><a href=#the-textarea-element>textarea</a></code> elements
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-select-element-7><a href=#the-select-element>select</a></code> elements
+
+   <dt><dfn id=control-group-month>Month</dfn>
+
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-26><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-26><a href=#attr-input-type>type</a></code> attribute in the <a href="#hidden-state-(type=hidden)" id="autofilling-form-controls:-the-autocomplete-attribute:hidden-state-(type=hidden)-9">Hidden</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-27><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-27><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-13">Text</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-28><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-28><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-14">Search</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-29><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-29><a href=#attr-input-type>type</a></code> attribute in the <a href="#month-state-(type=month)" id="autofilling-form-controls:-the-autocomplete-attribute:month-state-(type=month)">Month</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-textarea-element-8><a href=#the-textarea-element>textarea</a></code> elements
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-select-element-8><a href=#the-select-element>select</a></code> elements
+
+   <dt><dfn id=control-group-date>Date</dfn>
+
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-30><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-30><a href=#attr-input-type>type</a></code> attribute in the <a href="#hidden-state-(type=hidden)" id="autofilling-form-controls:-the-autocomplete-attribute:hidden-state-(type=hidden)-10">Hidden</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-31><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-31><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-15">Text</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-32><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-32><a href=#attr-input-type>type</a></code> attribute in the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofilling-form-controls:-the-autocomplete-attribute:text-(type=text)-state-and-search-state-(type=search)-16">Search</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-input-element-33><a href=#the-input-element>input</a></code> elements with a <code id=autofilling-form-controls:-the-autocomplete-attribute:attr-input-type-33><a href=#attr-input-type>type</a></code> attribute in the <a href="#date-state-(type=date)" id="autofilling-form-controls:-the-autocomplete-attribute:date-state-(type=date)">Date</a> state
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-textarea-element-9><a href=#the-textarea-element>textarea</a></code> elements
+   <dd><code id=autofilling-form-controls:-the-autocomplete-attribute:the-select-element-9><a href=#the-select-element>select</a></code> elements
+
+
+
+  </dl>
+
+  <p id=more-on-address-levels><strong>Address levels</strong>: The "<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-level1-2><a href=#attr-fe-autocomplete-address-level1>address-level1</a></code>" – "<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-level4-2><a href=#attr-fe-autocomplete-address-level4>address-level4</a></code>" fields are used to describe
+  the locality of the street address. Different locales have different numbers of levels. For
+  example, the US uses two levels (state and town), the UK uses one or two depending on the address
+  (the post town, and in some cases the locality), and China can use three (province, city,
+  district). The "<code id=autofilling-form-controls:-the-autocomplete-attribute:attr-fe-autocomplete-address-level1-3><a href=#attr-fe-autocomplete-address-level1>address-level1</a></code>" field
+  represents the widest administrative division. Different locales order the fields in different
+  ways; for example, in the US the town (level 2) precedes the state (level 1); while in Japan the
+  prefecture (level 1) precedes the city (level 2) which precedes the district (level 3). Authors
+  are encouraged to provide forms that are presented in a way that matches the country's conventions
+  (hiding, showing, and rearranging fields accordingly as the user changes the country).</p>
+
+
+  
+
+  <h6 id=autofill-processing-model>4.10.18.8.2 <span id=processing-model-3></span>Processing model<a href=#autofill-processing-model class=self-link></a></h6>
+
+  <p>Each <code id=autofill-processing-model:the-input-element><a href=#the-input-element>input</a></code> element to which the <code id=autofill-processing-model:attr-fe-autocomplete><a href=#attr-fe-autocomplete>autocomplete</a></code> attribute <a href=#concept-input-apply id=autofill-processing-model:concept-input-apply>applies</a>, each <code id=autofill-processing-model:the-select-element><a href=#the-select-element>select</a></code> element, and each <code id=autofill-processing-model:the-textarea-element><a href=#the-textarea-element>textarea</a></code> element, has an
+  <dfn id=autofill-hint-set>autofill hint set</dfn>, an <dfn id=autofill-scope>autofill scope</dfn>, an <dfn id=autofill-field-name>autofill field name</dfn>, and
+  an <dfn id=idl-exposed-autofill-value>IDL-exposed autofill value</dfn>.</p>
+
+  <p>The <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name>autofill field name</a> specifies the specific kind of data expected in the field,
+  e.g. "<code id=autofill-processing-model:attr-fe-autocomplete-street-address><a href=#attr-fe-autocomplete-street-address>street-address</a></code>" or "<code id=autofill-processing-model:attr-fe-autocomplete-cc-exp><a href=#attr-fe-autocomplete-cc-exp>cc-exp</a></code>".</p>
+
+  <p>The <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set>autofill hint set</a> identifies what address or contact information type the user
+  agent is to look at, e.g. "<code id=autofill-processing-model:attr-fe-autocomplete-shipping><a href=#attr-fe-autocomplete-shipping>shipping</a></code> <code id=autofill-processing-model:attr-fe-autocomplete-fax><a href=#attr-fe-autocomplete-fax>fax</a></code>" or "<code id=autofill-processing-model:attr-fe-autocomplete-billing><a href=#attr-fe-autocomplete-billing>billing</a></code>".</p>
+
+  <p>The <a href=#autofill-scope id=autofill-processing-model:autofill-scope>autofill scope</a> identifies the group of fields whose information concerns the
+  same subject, and consists of the <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set-2>autofill hint set</a> with, if
+  applicable, the "<code>section-*</code>" prefix, e.g. "<code>billing</code>",
+  "<code>section-parent shipping</code>", or "<code>section-child shipping
+  home</code>".</p>
+
+  <p>These values are defined as the result of running the following algorithm:</p>
+
+  <ol><li><p>If the element has no <code id=autofill-processing-model:attr-fe-autocomplete-2><a href=#attr-fe-autocomplete>autocomplete</a></code> attribute,
+   then jump to the step labeled <i>default</i>.<li><p>Let <var>tokens</var> be the result of <a href=#split-a-string-on-spaces id=autofill-processing-model:split-a-string-on-spaces>splitting the attribute's value on spaces</a>.<li><p>If <var>tokens</var> is empty, then jump to the step labeled
+   <i>default</i>.<li><p>Let <var>index</var> be the index of the last token in <var>tokens</var>.<li>
+
+    <p>If the <var>index</var>th token in <var>tokens</var> is not an <a id=autofill-processing-model:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+    case-insensitive</a> match for one of the tokens given in the first column of the following
+    table, or if the number of tokens in <var>tokens</var> is greater than the maximum
+    number given in the cell in the second column of that token's row, then jump to the step labeled
+    <i>default</i>. Otherwise, let <var>field</var> be the string given in the cell of the
+    first column of the matching row, and let <var>category</var> be the value of the cell
+    in the third column of that same row.</p>
+
+    <table><thead><tr><th>Token
+       <th>Maximum number of tokens
+       <th>Category
+     <tbody><tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-off><a href=#attr-fe-autocomplete-off>off</a></code>"
+       <td>1
+       <td>Off
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-on><a href=#attr-fe-autocomplete-on>on</a></code>"
+       <td>1
+       <td>Automatic
+     <tbody><tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-name><a href=#attr-fe-autocomplete-name>name</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-honorific-prefix><a href=#attr-fe-autocomplete-honorific-prefix>honorific-prefix</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-given-name><a href=#attr-fe-autocomplete-given-name>given-name</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-additional-name><a href=#attr-fe-autocomplete-additional-name>additional-name</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-family-name><a href=#attr-fe-autocomplete-family-name>family-name</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-honorific-suffix><a href=#attr-fe-autocomplete-honorific-suffix>honorific-suffix</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-nickname><a href=#attr-fe-autocomplete-nickname>nickname</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-organization-title><a href=#attr-fe-autocomplete-organization-title>organization-title</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-username><a href=#attr-fe-autocomplete-username>username</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-new-password><a href=#attr-fe-autocomplete-new-password>new-password</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-current-password><a href=#attr-fe-autocomplete-current-password>current-password</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-organization><a href=#attr-fe-autocomplete-organization>organization</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-street-address-2><a href=#attr-fe-autocomplete-street-address>street-address</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-address-line1><a href=#attr-fe-autocomplete-address-line1>address-line1</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-address-line2><a href=#attr-fe-autocomplete-address-line2>address-line2</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-address-line3><a href=#attr-fe-autocomplete-address-line3>address-line3</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-address-level4><a href=#attr-fe-autocomplete-address-level4>address-level4</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-address-level3><a href=#attr-fe-autocomplete-address-level3>address-level3</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-address-level2><a href=#attr-fe-autocomplete-address-level2>address-level2</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-address-level1><a href=#attr-fe-autocomplete-address-level1>address-level1</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-country><a href=#attr-fe-autocomplete-country>country</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-country-name><a href=#attr-fe-autocomplete-country-name>country-name</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-postal-code><a href=#attr-fe-autocomplete-postal-code>postal-code</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-cc-name><a href=#attr-fe-autocomplete-cc-name>cc-name</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-cc-given-name><a href=#attr-fe-autocomplete-cc-given-name>cc-given-name</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-cc-additional-name><a href=#attr-fe-autocomplete-cc-additional-name>cc-additional-name</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-cc-family-name><a href=#attr-fe-autocomplete-cc-family-name>cc-family-name</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-cc-number><a href=#attr-fe-autocomplete-cc-number>cc-number</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-cc-exp-2><a href=#attr-fe-autocomplete-cc-exp>cc-exp</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-cc-exp-month><a href=#attr-fe-autocomplete-cc-exp-month>cc-exp-month</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-cc-exp-year><a href=#attr-fe-autocomplete-cc-exp-year>cc-exp-year</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-cc-csc><a href=#attr-fe-autocomplete-cc-csc>cc-csc</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-cc-type><a href=#attr-fe-autocomplete-cc-type>cc-type</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-transaction-currency><a href=#attr-fe-autocomplete-transaction-currency>transaction-currency</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-transaction-amount><a href=#attr-fe-autocomplete-transaction-amount>transaction-amount</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-language><a href=#attr-fe-autocomplete-language>language</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-bday><a href=#attr-fe-autocomplete-bday>bday</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-bday-day><a href=#attr-fe-autocomplete-bday-day>bday-day</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-bday-month><a href=#attr-fe-autocomplete-bday-month>bday-month</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-bday-year><a href=#attr-fe-autocomplete-bday-year>bday-year</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-sex><a href=#attr-fe-autocomplete-sex>sex</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-url><a href=#attr-fe-autocomplete-url>url</a></code>"
+       <td>3
+       <td>Normal
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-photo><a href=#attr-fe-autocomplete-photo>photo</a></code>"
+       <td>3
+       <td>Normal
+     <tbody><tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-tel><a href=#attr-fe-autocomplete-tel>tel</a></code>"
+       <td>4
+       <td>Contact
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-tel-country-code><a href=#attr-fe-autocomplete-tel-country-code>tel-country-code</a></code>"
+       <td>4
+       <td>Contact
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-tel-national><a href=#attr-fe-autocomplete-tel-national>tel-national</a></code>"
+       <td>4
+       <td>Contact
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-tel-area-code><a href=#attr-fe-autocomplete-tel-area-code>tel-area-code</a></code>"
+       <td>4
+       <td>Contact
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-tel-local><a href=#attr-fe-autocomplete-tel-local>tel-local</a></code>"
+       <td>4
+       <td>Contact
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-tel-local-prefix><a href=#attr-fe-autocomplete-tel-local-prefix>tel-local-prefix</a></code>"
+       <td>4
+       <td>Contact
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-tel-local-suffix><a href=#attr-fe-autocomplete-tel-local-suffix>tel-local-suffix</a></code>"
+       <td>4
+       <td>Contact
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-tel-extension><a href=#attr-fe-autocomplete-tel-extension>tel-extension</a></code>"
+       <td>4
+       <td>Contact
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-email><a href=#attr-fe-autocomplete-email>email</a></code>"
+       <td>4
+       <td>Contact
+      <tr><td>"<code id=autofill-processing-model:attr-fe-autocomplete-impp><a href=#attr-fe-autocomplete-impp>impp</a></code>"
+       <td>4
+       <td>Contact
+    </table>
+
+   <li><p>If <var>category</var> is Off or Automatic but the element's <code id=autofill-processing-model:attr-fe-autocomplete-3><a href=#attr-fe-autocomplete>autocomplete</a></code> attribute is wearing the <a href=#autofill-anchor-mantle id=autofill-processing-model:autofill-anchor-mantle>autofill anchor
+   mantle</a>, then jump to the step labeled <i>default</i>.<li><p>If <var>category</var> is Off, let the element's <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-2>autofill field name</a>
+   be the string "<code>off</code>", let its <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set-3>autofill hint set</a> be empty, and
+   let its <a href=#idl-exposed-autofill-value id=autofill-processing-model:idl-exposed-autofill-value>IDL-exposed autofill value</a> be the string "<code>off</code>". Then,
+   abort these steps.</p>
+
+   <li><p>If <var>category</var> is Automatic, let the element's <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-3>autofill field
+   name</a> be the string "<code>on</code>", let its <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set-4>autofill hint set</a> be
+   empty, and let its <a href=#idl-exposed-autofill-value id=autofill-processing-model:idl-exposed-autofill-value-2>IDL-exposed autofill value</a> be the string "<code>on</code>". Then, abort these steps.</p>
+
+   <li><p>Let <var>scope tokens</var> be an empty list.<li><p>Let <var>hint tokens</var> be an empty set.<li><p>Let <var>IDL value</var> have the same value as <var>field</var>.<li><p>If the <var>index</var>th token in <var>tokens</var> is the first entry,
+   then skip to the step labeled <i>done</i>.<li><p>Decrement <var>index</var> by one.<li>
+
+    <p>If <var>category</var> is Contact and the <var>index</var>th token in <var>tokens</var> is an <a id=autofill-processing-model:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for one of the strings in
+    the following list, then run the substeps that follow:</p>
+
+    <ul class=brief><li>"<code id=autofill-processing-model:attr-fe-autocomplete-home><a href=#attr-fe-autocomplete-home>home</a></code>"
+     <li>"<code id=autofill-processing-model:attr-fe-autocomplete-work><a href=#attr-fe-autocomplete-work>work</a></code>"
+     <li>"<code id=autofill-processing-model:attr-fe-autocomplete-mobile><a href=#attr-fe-autocomplete-mobile>mobile</a></code>"
+     <li>"<code id=autofill-processing-model:attr-fe-autocomplete-fax-2><a href=#attr-fe-autocomplete-fax>fax</a></code>"
+     <li>"<code id=autofill-processing-model:attr-fe-autocomplete-pager><a href=#attr-fe-autocomplete-pager>pager</a></code>"
+    </ul>
+
+    <p>The substeps are:</p>
+
+    <ol><li><p>Let <var>contact</var> be the matching string from the list above.<li><p>Insert <var>contact</var> at the start of <var>scope
+     tokens</var>.<li><p>Add <var>contact</var> to <var>hint tokens</var>.<li><p>Let <var>IDL value</var> be the concatenation of <var>contact</var>, a
+     U+0020 SPACE character, and the previous value of <var>IDL value</var> (which at this
+     point will always be <var>field</var>).<li><p>If the <var>index</var>th entry in <var>tokens</var> is the first
+     entry, then skip to the step labeled <i>done</i>.<li><p>Decrement <var>index</var> by one.</ol>
+
+   <li>
+
+    <p>If the <var>index</var>th token in <var>tokens</var> is an <a id=autofill-processing-model:ascii-case-insensitive-3 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII
+    case-insensitive</a> match for one of the strings in the following list, then run the
+    substeps that follow:</p>
+
+    <ul class=brief><li>"<code id=autofill-processing-model:attr-fe-autocomplete-shipping-2><a href=#attr-fe-autocomplete-shipping>shipping</a></code>"
+     <li>"<code id=autofill-processing-model:attr-fe-autocomplete-billing-2><a href=#attr-fe-autocomplete-billing>billing</a></code>"
+    </ul>
+
+    <p>The substeps are:</p>

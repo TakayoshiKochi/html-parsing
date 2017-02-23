@@ -1,0 +1,850 @@
+     <td>Computer output
+     <td><pre class=example>The computer said <strong>&lt;samp>Unknown error -3&lt;/samp></strong>.</pre>
+
+    <tr><td><code id=usage-summary:the-kbd-element><a href=#the-kbd-element>kbd</a></code>
+     <td>User input
+     <td><pre class=example>Hit <strong>&lt;kbd>F1&lt;/kbd></strong> to continue.</pre>
+
+    <tr><td><code id=usage-summary:the-sub-and-sup-elements><a href=#the-sub-and-sup-elements>sub</a></code>
+     <td>Subscripts
+     <td><pre class=example>Water is H<strong>&lt;sub>2&lt;/sub></strong>O.</pre>
+
+    <tr><td><code id=usage-summary:the-sub-and-sup-elements-2><a href=#the-sub-and-sup-elements>sup</a></code>
+     <td>Superscripts
+     <td><pre class=example>The Hydrogen in heavy water is usually <strong>&lt;sup>2&lt;/sup></strong>H.</pre>
+
+    <tr><td><code id=usage-summary:the-i-element><a href=#the-i-element>i</a></code>
+     <td>Alternative voice
+     <td><pre class=example>Lemonade consists primarily of <strong>&lt;i>Citrus limon&lt;/i></strong>.</pre>
+
+    <tr><td><code id=usage-summary:the-b-element><a href=#the-b-element>b</a></code>
+     <td>Keywords
+     <td><pre class=example>Take a <strong>&lt;b>lemon&lt;/b></strong> and squeeze it with a <strong>&lt;b>juicer&lt;/b></strong>.</pre>
+
+    <tr><td><code id=usage-summary:the-u-element><a href=#the-u-element>u</a></code>
+     <td>Annotations
+     <td><pre class=example>The mixture of apple juice and <strong>&lt;u class="spelling">eldeflower&lt;/u></strong> juice is very pleasant.</pre>
+
+    <tr><td><code id=usage-summary:the-mark-element><a href=#the-mark-element>mark</a></code>
+     <td>Highlight
+     <td><pre class=example>Elderflower cordial, with one <strong>&lt;mark>part&lt;/mark></strong> cordial to ten <strong>&lt;mark>part&lt;/mark></strong>s water, stands a<strong>&lt;mark>part&lt;/mark></strong> from the rest.</pre>
+
+    <tr><td><code id=usage-summary:the-bdi-element><a href=#the-bdi-element>bdi</a></code>
+     <td>Text directionality isolation
+     <td><pre class=example>The recommended restaurant is <strong>&lt;bdi lang="">My Juice Café (At The Beach)&lt;/bdi></strong>.</pre>
+
+    <tr><td><code id=usage-summary:the-bdo-element><a href=#the-bdo-element>bdo</a></code>
+     <td>Text directionality formatting
+     <td><pre class=example>The proposal is to write English, but in reverse order. "Juice" would become "<strong>&lt;bdo dir=rtl>Juice&lt;/bdo></strong>"</pre>
+
+    <tr><td><code id=usage-summary:the-span-element><a href=#the-span-element>span</a></code>
+     <td>Other
+     <td><pre class=example>In French we call it <strong>&lt;span lang="fr">sirop de sureau&lt;/span></strong>.</pre>
+
+    <tr><td><code id=usage-summary:the-br-element><a href=#the-br-element>br</a></code>
+     <td>Line break
+     <td><pre class=example>Simply Orange Juice Company<strong>&lt;br></strong>Apopka, FL 32703<strong>&lt;br></strong>U.S.A.</pre>
+
+    <tr><td><code id=usage-summary:the-wbr-element><a href=#the-wbr-element>wbr</a></code>
+     <td>Line breaking opportunity
+     <td><pre class=example>www.simply<strong>&lt;wbr></strong>orange<strong>&lt;wbr></strong>juice.com</pre>
+
+  </table>
+
+
+
+  <h3 id=links>4.6 Links<a href=#links class=self-link></a></h3>
+
+  <h4 id=introduction-2>4.6.1 Introduction<a href=#introduction-2 class=self-link></a></h4>
+
+  <p>Links are a conceptual construct, created by <code id=introduction-2:the-a-element><a href=#the-a-element>a</a></code>, <code id=introduction-2:the-area-element><a href=#the-area-element>area</a></code>, and
+  <code id=introduction-2:the-link-element><a href=#the-link-element>link</a></code> elements, that <a href=#represents id=introduction-2:represents>represent</a> a connection between
+  two resources, one of which is the current <code id=introduction-2:document><a href=#document>Document</a></code>. There are two kinds of links in
+  HTML:</p>
+
+  <dl><dt><dfn id=external-resource-link data-lt="external resource link" data-export="">Links to
+   external resources</dfn><dd><p>These are links to resources that are to be used to augment the current document,
+   generally automatically processed by the user agent.<dt><dfn id=hyperlink data-lt=hyperlink data-export="">Hyperlinks</dfn><dd><p>These are links to other resources that are generally exposed to the user by the user
+   agent so that the user can cause the user agent to <a href=#navigate id=introduction-2:navigate>navigate</a> to those resources, e.g.
+   to visit them in a browser or download them.</dl>
+
+  <p>For <code id=introduction-2:the-link-element-2><a href=#the-link-element>link</a></code> elements with an <code id=introduction-2:attr-link-href><a href=#attr-link-href>href</a></code> attribute and a
+  <code id=introduction-2:attr-link-rel><a href=#attr-link-rel>rel</a></code> attribute, links must be created for the keywords of the
+  <code id=introduction-2:attr-link-rel-2><a href=#attr-link-rel>rel</a></code> attribute, as defined for those keywords in the <a href=#linkTypes>link types</a> section.</p>
+
+  <p>Similarly, for <code id=introduction-2:the-a-element-2><a href=#the-a-element>a</a></code> and <code id=introduction-2:the-area-element-2><a href=#the-area-element>area</a></code> elements with an <code id=introduction-2:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> attribute and a <code id=introduction-2:attr-hyperlink-rel><a href=#attr-hyperlink-rel>rel</a></code> attribute, links must be created for the keywords of the
+  <code id=introduction-2:attr-hyperlink-rel-2><a href=#attr-hyperlink-rel>rel</a></code> attribute as defined for those keywords in the <a href=#linkTypes>link types</a> section. Unlike <code id=introduction-2:the-link-element-3><a href=#the-link-element>link</a></code> elements, however,
+  <code id=introduction-2:the-a-element-3><a href=#the-a-element>a</a></code> and <code id=introduction-2:the-area-element-3><a href=#the-area-element>area</a></code> elements with an <code id=introduction-2:attr-hyperlink-href-2><a href=#attr-hyperlink-href>href</a></code>
+  attribute that either do not have a <code id=introduction-2:attr-hyperlink-rel-3><a href=#attr-hyperlink-rel>rel</a></code> attribute, or
+  whose <code id=introduction-2:attr-hyperlink-rel-4><a href=#attr-hyperlink-rel>rel</a></code> attribute has no keywords that are defined as
+  specifying <a href=#hyperlink id=introduction-2:hyperlink>hyperlinks</a>, must also create a <a href=#hyperlink id=introduction-2:hyperlink-2>hyperlink</a>.
+  This implied hyperlink has no special meaning (it has no <a href=#linkTypes>link type</a>)
+  beyond linking the element's <a id=introduction-2:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> to the resource given by the element's <code id=introduction-2:attr-hyperlink-href-3><a href=#attr-hyperlink-href>href</a></code> attribute.</p>
+
+  <p>A <a href=#hyperlink id=introduction-2:hyperlink-3>hyperlink</a> can have one or more <dfn id=hyperlink-annotation>hyperlink
+  annotations</dfn> that modify the processing semantics of that hyperlink.</p>
+
+
+  <h4 id=links-created-by-a-and-area-elements>4.6.2 Links created by <code id=links-created-by-a-and-area-elements:the-a-element><a href=#the-a-element>a</a></code> and <code id=links-created-by-a-and-area-elements:the-area-element><a href=#the-area-element>area</a></code> elements<a href=#links-created-by-a-and-area-elements class=self-link></a></h4>
+
+  <p>The <dfn id=attr-hyperlink-href><code>href</code></dfn> attribute on <code id=links-created-by-a-and-area-elements:the-a-element-2><a href=#the-a-element>a</a></code> and
+  <code id=links-created-by-a-and-area-elements:the-area-element-2><a href=#the-area-element>area</a></code> elements must have a value that is a <a href=#valid-url-potentially-surrounded-by-spaces id=links-created-by-a-and-area-elements:valid-url-potentially-surrounded-by-spaces>valid URL potentially surrounded by
+  spaces</a>.</p>
+
+  <p class=note>The <code id=links-created-by-a-and-area-elements:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> attribute on <code id=links-created-by-a-and-area-elements:the-a-element-3><a href=#the-a-element>a</a></code> and
+  <code id=links-created-by-a-and-area-elements:the-area-element-3><a href=#the-area-element>area</a></code> elements is not required; when those elements do not have <code id=links-created-by-a-and-area-elements:attr-hyperlink-href-2><a href=#attr-hyperlink-href>href</a></code> attributes they do not create hyperlinks.</p>
+
+  <p>The <dfn id=attr-hyperlink-target><code>target</code></dfn> attribute, if present, must be
+  a <a href=#valid-browsing-context-name-or-keyword id=links-created-by-a-and-area-elements:valid-browsing-context-name-or-keyword>valid browsing context name or keyword</a>. It gives the name of the <a href=#browsing-context id=links-created-by-a-and-area-elements:browsing-context>browsing
+  context</a> that will be used. User agents use this name when
+  <a href=#following-hyperlinks-2 id=links-created-by-a-and-area-elements:following-hyperlinks-2>following hyperlinks</a>.</p>
+
+  <p>When an <code id=links-created-by-a-and-area-elements:the-a-element-4><a href=#the-a-element>a</a></code> or <code id=links-created-by-a-and-area-elements:the-area-element-4><a href=#the-area-element>area</a></code> element's <a id=links-created-by-a-and-area-elements:activation-behaviour href=https://dom.spec.whatwg.org/#eventtarget-activation-behavior data-x-internal=activation-behaviour>activation behavior</a> is
+  invoked, the user agent may allow the user to indicate a preference regarding whether the
+  hyperlink is to be used for <a href=#navigate id=links-created-by-a-and-area-elements:navigate>navigation</a> or whether the resource it
+  specifies is to be downloaded.</p>
+
+  <p>In the absence of a user preference, the default should be navigation if the element has no
+  <code id=links-created-by-a-and-area-elements:attr-hyperlink-download><a href=#attr-hyperlink-download>download</a></code> attribute, and should be to download the
+  specified resource if it does.</p>
+
+  <p>Whether determined by the user's preferences or via the presence or absence of the attribute,
+  if the decision is to use the hyperlink for <a href=#navigate id=links-created-by-a-and-area-elements:navigate-2>navigation</a> then the user
+  agent must <a href=#following-hyperlinks-2 id=links-created-by-a-and-area-elements:following-hyperlinks-2-2>follow the hyperlink</a>, and if the decision is
+  to use the hyperlink to download a resource, the user agent must <a href=#downloading-hyperlinks id=links-created-by-a-and-area-elements:downloading-hyperlinks>download the hyperlink</a>. These terms are defined in subsequent sections
+  below.</p>
+
+  <p>The <dfn id=attr-hyperlink-download><code>download</code></dfn> attribute, if present,
+  indicates that the author intends the hyperlink to be used for <a href=#downloading-hyperlinks id=links-created-by-a-and-area-elements:downloading-hyperlinks-2>downloading a resource</a>. The attribute may have a value; the value, if any,
+  specifies the default file name that the author recommends for use in labeling the resource in a
+  local file system. There are no restrictions on allowed values, but authors are cautioned that
+  most file systems have limitations with regard to what punctuation is supported in file names,
+  and user agents are likely to adjust file names accordingly.</p>
+
+
+  <p>The <dfn id=ping><code>ping</code></dfn> attribute, if present,
+  gives the URLs of the resources that are interested in being notified if the user follows the
+  hyperlink. The value must be a <a href=#set-of-space-separated-tokens id=links-created-by-a-and-area-elements:set-of-space-separated-tokens>set of space-separated tokens</a>, each of which must be a
+  <a href=#valid-non-empty-url id=links-created-by-a-and-area-elements:valid-non-empty-url>valid non-empty URL</a> whose <a href=https://url.spec.whatwg.org/#concept-url-scheme id=links-created-by-a-and-area-elements:concept-url-scheme data-x-internal=concept-url-scheme>scheme</a> is an
+  <a id=links-created-by-a-and-area-elements:http(s)-scheme href=https://url.spec.whatwg.org/#http-scheme data-x-internal=http(s)-scheme>HTTP(S) scheme</a>. The value is used by the user agent for <a href=#hyperlink-auditing id=links-created-by-a-and-area-elements:hyperlink-auditing>hyperlink
+  auditing</a>.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> ping<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>15+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox no"><span>Firefox</span> <span>None</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>6+</span></span><span class="edge no"><span>Edge</span> <span>None</span></span><span class="opera yes"><span>Opera</span> <span>15+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=ping">caniuse.com</a></div>
+
+  <p>The <dfn id=attr-hyperlink-rel><code>rel</code></dfn> attribute on <code id=links-created-by-a-and-area-elements:the-a-element-5><a href=#the-a-element>a</a></code> and
+  <code id=links-created-by-a-and-area-elements:the-area-element-5><a href=#the-area-element>area</a></code> elements controls what kinds of links the elements create. The attribute's value
+  must be a <a href=#set-of-space-separated-tokens id=links-created-by-a-and-area-elements:set-of-space-separated-tokens-2>set of space-separated tokens</a>. The <a href=#linkTypes>allowed keywords
+  and their meanings</a> are defined below.</p>
+
+  <p><code id=links-created-by-a-and-area-elements:attr-hyperlink-rel><a href=#attr-hyperlink-rel>rel</a></code>'s
+  <a href=https://dom.spec.whatwg.org/#concept-supported-tokens id=links-created-by-a-and-area-elements:concept-supported-tokens data-x-internal=concept-supported-tokens>supported tokens</a> are the keywords defined in
+  <a href=#linkTypes>HTML link types</a> which are allowed on <code id=links-created-by-a-and-area-elements:the-a-element-6><a href=#the-a-element>a</a></code> and
+  <code id=links-created-by-a-and-area-elements:the-area-element-6><a href=#the-area-element>area</a></code> elements, impact the processing model, and are supported by the user agent. The
+  possible <a href=https://dom.spec.whatwg.org/#concept-supported-tokens id=links-created-by-a-and-area-elements:concept-supported-tokens-2 data-x-internal=concept-supported-tokens>supported tokens</a> are
+  <code id=links-created-by-a-and-area-elements:link-type-noreferrer><a href=#link-type-noreferrer>noreferrer</a></code> and
+  <code id=links-created-by-a-and-area-elements:link-type-noopener><a href=#link-type-noopener>noopener</a></code>.
+  <code id=links-created-by-a-and-area-elements:attr-hyperlink-rel-2><a href=#attr-hyperlink-rel>rel</a></code>'s
+  <a href=https://dom.spec.whatwg.org/#concept-supported-tokens id=links-created-by-a-and-area-elements:concept-supported-tokens-3 data-x-internal=concept-supported-tokens>supported tokens</a> must only include the tokens from
+  this list that the user agent implements the processing model for.</p>
+
+  <p>Other specifications may add <a href=#linkTypes>HTML link types</a> as
+  defined in <a href=#other-link-types>Other link types</a>. These specifications may require
+  that their link types be included in <code id=links-created-by-a-and-area-elements:attr-hyperlink-rel-3><a href=#attr-hyperlink-rel>rel</a></code>'s supported
+  tokens.</p>
+
+  <p>The <code id=links-created-by-a-and-area-elements:attr-hyperlink-rel-4><a href=#attr-hyperlink-rel>rel</a></code> attribute has no default value. If the
+  attribute is omitted or if none of the values in the attribute are recognized by the user agent,
+  then the document has no particular relationship with the destination resource other than there
+  being a hyperlink between the two.</p>
+
+  <p>The <dfn id=attr-hyperlink-hreflang><code>hreflang</code></dfn> attribute on
+  <code id=links-created-by-a-and-area-elements:the-a-element-7><a href=#the-a-element>a</a></code> elements that create <a href=#hyperlink id=links-created-by-a-and-area-elements:hyperlink>hyperlinks</a>, if present, gives
+  the language of the linked resource. It is purely advisory. The value must be a valid BCP 47
+  language tag. <a href=#refsBCP47>[BCP47]</a> User agents must not consider this attribute
+  authoritative — upon fetching the resource, user agents must use only language information
+  associated with the resource to determine its language, not metadata included in the link to the
+  resource.</p>
+
+  <p>The <dfn id=attr-hyperlink-type><code>type</code></dfn> attribute, if present, gives the
+  <a id=links-created-by-a-and-area-elements:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> of the linked resource. It is purely advisory. The value must be a
+  <a id=links-created-by-a-and-area-elements:valid-mime-type href=https://mimesniff.spec.whatwg.org/#valid-mime-type data-x-internal=valid-mime-type>valid MIME type</a>. User agents must not consider the <code id=links-created-by-a-and-area-elements:attr-hyperlink-type><a href=#attr-hyperlink-type>type</a></code> attribute authoritative — upon fetching the
+  resource, user agents must not use metadata included in the link to the resource to determine its
+  type.</p>
+
+  <p>The <dfn id=attr-hyperlink-referrerpolicy><code>referrerpolicy</code></dfn> attribute
+  is a <a href=#referrer-policy-attribute id=links-created-by-a-and-area-elements:referrer-policy-attribute>referrer policy attribute</a>. Its purpose is to set the <a id=links-created-by-a-and-area-elements:referrer-policy href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a>
+  used when <a href=#following-hyperlinks-2 id=links-created-by-a-and-area-elements:following-hyperlinks-2-3>following hyperlinks</a>. <a href=#refsREFERRERPOLICY>[REFERRERPOLICY]</a></p>
+
+
+  <h4 id=api-for-a-and-area-elements>4.6.3 API for <code id=api-for-a-and-area-elements:the-a-element><a href=#the-a-element>a</a></code> and <code id=api-for-a-and-area-elements:the-area-element><a href=#the-area-element>area</a></code> elements<a href=#api-for-a-and-area-elements class=self-link></a></h4>
+
+  <pre class=idl>[NoInterfaceObject]
+interface <dfn id=htmlhyperlinkelementutils>HTMLHyperlinkElementUtils</dfn> {
+  [<a href=#cereactions id=api-for-a-and-area-elements:cereactions>CEReactions</a>] stringifier attribute USVString <a href=#dom-hyperlink-href id=api-for-a-and-area-elements:dom-hyperlink-href>href</a>;
+  readonly attribute USVString <a href=#dom-hyperlink-origin id=api-for-a-and-area-elements:dom-hyperlink-origin>origin</a>;
+  [<a href=#cereactions id=api-for-a-and-area-elements:cereactions-2>CEReactions</a>] attribute USVString <a href=#dom-hyperlink-protocol id=api-for-a-and-area-elements:dom-hyperlink-protocol>protocol</a>;
+  [<a href=#cereactions id=api-for-a-and-area-elements:cereactions-3>CEReactions</a>] attribute USVString <a href=#dom-hyperlink-username id=api-for-a-and-area-elements:dom-hyperlink-username>username</a>;
+  [<a href=#cereactions id=api-for-a-and-area-elements:cereactions-4>CEReactions</a>] attribute USVString <a href=#dom-hyperlink-password id=api-for-a-and-area-elements:dom-hyperlink-password>password</a>;
+  [<a href=#cereactions id=api-for-a-and-area-elements:cereactions-5>CEReactions</a>] attribute USVString <a href=#dom-hyperlink-host id=api-for-a-and-area-elements:dom-hyperlink-host>host</a>;
+  [<a href=#cereactions id=api-for-a-and-area-elements:cereactions-6>CEReactions</a>] attribute USVString <a href=#dom-hyperlink-hostname id=api-for-a-and-area-elements:dom-hyperlink-hostname>hostname</a>;
+  [<a href=#cereactions id=api-for-a-and-area-elements:cereactions-7>CEReactions</a>] attribute USVString <a href=#dom-hyperlink-port id=api-for-a-and-area-elements:dom-hyperlink-port>port</a>;
+  [<a href=#cereactions id=api-for-a-and-area-elements:cereactions-8>CEReactions</a>] attribute USVString <a href=#dom-hyperlink-pathname id=api-for-a-and-area-elements:dom-hyperlink-pathname>pathname</a>;
+  [<a href=#cereactions id=api-for-a-and-area-elements:cereactions-9>CEReactions</a>] attribute USVString <a href=#dom-hyperlink-search id=api-for-a-and-area-elements:dom-hyperlink-search>search</a>;
+  [<a href=#cereactions id=api-for-a-and-area-elements:cereactions-10>CEReactions</a>] attribute USVString <a href=#dom-hyperlink-hash id=api-for-a-and-area-elements:dom-hyperlink-hash>hash</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>hyperlink</var> . <code>toString()</code><dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-href-2><a href=#dom-hyperlink-href>href</a></code><dd>
+    <p>Returns the hyperlink's URL.</p>
+    <p>Can be set, to change the URL.</p>
+   <dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-origin-2><a href=#dom-hyperlink-origin>origin</a></code><dd>
+    <p>Returns the hyperlink's URL's origin.</p>
+   <dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-protocol-2><a href=#dom-hyperlink-protocol>protocol</a></code><dd>
+    <p>Returns the hyperlink's URL's scheme.</p>
+    <p>Can be set, to change the URL's scheme.</p>
+   <dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-username-2><a href=#dom-hyperlink-username>username</a></code><dd>
+    <p>Returns the hyperlink's URL's username.</p>
+    <p>Can be set, to change the URL's username.</p>
+   <dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-password-2><a href=#dom-hyperlink-password>password</a></code><dd>
+    <p>Returns the hyperlink's URL's password.</p>
+    <p>Can be set, to change the URL's password.</p>
+   <dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-host-2><a href=#dom-hyperlink-host>host</a></code><dd>
+    <p>Returns the hyperlink's URL's host and port (if different from the default port for the
+    scheme).</p>
+    <p>Can be set, to change the URL's host and port.</p>
+   <dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-hostname-2><a href=#dom-hyperlink-hostname>hostname</a></code><dd>
+    <p>Returns the hyperlink's URL's host.</p>
+    <p>Can be set, to change the URL's host.</p>
+   <dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-port-2><a href=#dom-hyperlink-port>port</a></code><dd>
+    <p>Returns the hyperlink's URL's port.</p>
+    <p>Can be set, to change the URL's port.</p>
+   <dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-pathname-2><a href=#dom-hyperlink-pathname>pathname</a></code><dd>
+    <p>Returns the hyperlink's URL's path.</p>
+    <p>Can be set, to change the URL's path.</p>
+   <dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-search-2><a href=#dom-hyperlink-search>search</a></code><dd>
+    <p>Returns the hyperlink's URL's query (includes leading "<code>?</code>" if
+    non-empty).</p>
+    <p>Can be set, to change the URL's query (ignores leading "<code>?</code>").</p>
+   <dt><var>hyperlink</var> . <code id=api-for-a-and-area-elements:dom-hyperlink-hash-2><a href=#dom-hyperlink-hash>hash</a></code><dd>
+    <p>Returns the hyperlink's URL's fragment (includes leading "<code>#</code>" if
+    non-empty).</p>
+    <p>Can be set, to change the URL's fragment (ignores leading "<code>#</code>").</p>
+   </dl>
+
+  
+
+  <p>An element implementing the <code id=api-for-a-and-area-elements:htmlhyperlinkelementutils><a href=#htmlhyperlinkelementutils>HTMLHyperlinkElementUtils</a></code> mixin has an associated <dfn id=concept-hyperlink-url>url</dfn> (null or a <a id=api-for-a-and-area-elements:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>). It is initially null.
+
+  <p>An element implementing the <code id=api-for-a-and-area-elements:htmlhyperlinkelementutils-2><a href=#htmlhyperlinkelementutils>HTMLHyperlinkElementUtils</a></code> mixin has an associated <dfn id=concept-hyperlink-url-set>set the url</dfn> algorithm, which runs these steps:</p>
+
+  <ol><li><p>If this element's <code id=api-for-a-and-area-elements:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> content attribute is
+    absent, set this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url>url</a> to null.<li><p>Otherwise, parse this element's <code id=api-for-a-and-area-elements:attr-hyperlink-href-2><a href=#attr-hyperlink-href>href</a></code> content
+    attribute value relative to this element's <a id=api-for-a-and-area-elements:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>. If <a href=#parse-a-url id=api-for-a-and-area-elements:parse-a-url>parsing</a> is successful, set this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-2>url</a> to the result; otherwise, set this element's
+    <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-3>url</a> to null.</ol>
+
+  <p>When elements implementing the <code id=api-for-a-and-area-elements:htmlhyperlinkelementutils-3><a href=#htmlhyperlinkelementutils>HTMLHyperlinkElementUtils</a></code> mixin are created, and
+  whenever those elements have their <code id=api-for-a-and-area-elements:attr-hyperlink-href-3><a href=#attr-hyperlink-href>href</a></code> content
+  attribute set, changed, or removed, the user agent must <a href=#concept-hyperlink-url-set id=api-for-a-and-area-elements:concept-hyperlink-url-set>set the url</a>.</p>
+
+  <p class=note>This is only observable for <code id=api-for-a-and-area-elements:blob-protocol><a data-x-internal=blob-protocol href=https://w3c.github.io/FileAPI/#DefinitionOfScheme>blob:</a></code> URLs as
+  <a href=https://url.spec.whatwg.org/#concept-url-parser id=api-for-a-and-area-elements:url-parser data-x-internal=url-parser>parsing</a> them involves the <a href=#structuredclone id=api-for-a-and-area-elements:structuredclone>StructuredClone</a> abstract
+  operation.</p>
+
+  <p>An element implementing the <code id=api-for-a-and-area-elements:htmlhyperlinkelementutils-4><a href=#htmlhyperlinkelementutils>HTMLHyperlinkElementUtils</a></code> mixin has an associated
+  <dfn id=reinitialise-url>reinitialize url</dfn> algorithm, which runs these
+  steps:</p>
+
+  <ol><li><p>If element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-4>url</a> is non-null, its <a href=https://url.spec.whatwg.org/#concept-url-scheme id=api-for-a-and-area-elements:concept-url-scheme data-x-internal=concept-url-scheme>scheme</a> is "<code>blob</code>", and its
+   <a id=api-for-a-and-area-elements:cannot-be-a-base-url-flag href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, terminate these steps.<li><p><a href=#concept-hyperlink-url-set id=api-for-a-and-area-elements:concept-hyperlink-url-set-2>Set the url</a>.</ol>
+
+  <p>To <dfn id=update-href>update <code>href</code></dfn>, set the element's <code id=api-for-a-and-area-elements:attr-hyperlink-href-4><a href=#attr-hyperlink-href>href</a></code> content attribute's value to the element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-5>url</a>, <a href=https://url.spec.whatwg.org/#concept-url-serializer id=api-for-a-and-area-elements:concept-url-serializer data-x-internal=concept-url-serializer>serialized</a>.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-hyperlink-href><code>href</code></dfn> attribute's getter must run these
+  steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-6>url</a>.<li><p>If <var>url</var> is null and this element has no <code id=api-for-a-and-area-elements:attr-hyperlink-href-5><a href=#attr-hyperlink-href>href</a></code> content attribute, return the empty string.
+
+   <li><p>Otherwise, if <var>url</var> is null, return this element's <code id=api-for-a-and-area-elements:attr-hyperlink-href-6><a href=#attr-hyperlink-href>href</a></code> content attribute's value.<li><p>Return <var>url</var>, <a href=https://url.spec.whatwg.org/#concept-url-serializer id=api-for-a-and-area-elements:concept-url-serializer-2 data-x-internal=concept-url-serializer>serialized</a>.</ol>
+
+  <p>The <code id=api-for-a-and-area-elements:dom-hyperlink-href-3><a href=#dom-hyperlink-href>href</a></code> attribute's setter must set this element's
+  <code id=api-for-a-and-area-elements:attr-hyperlink-href-7><a href=#attr-hyperlink-href>href</a></code> content attribute's value to the given value.
+
+  <p>The <dfn id=dom-hyperlink-origin><code>origin</code></dfn> attribute's getter must run
+  these steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-2>Reinitialize url</a>.<li><p>If this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-7>url</a> is null, return the
+   empty string.<li><p>Return the <a href=#unicode-serialisation-of-an-origin id=api-for-a-and-area-elements:unicode-serialisation-of-an-origin>Unicode serialization</a>
+   of this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-8>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-origin id=api-for-a-and-area-elements:concept-url-origin data-x-internal=concept-url-origin>origin</a>.</ol>
+
+  <p class="note no-backref">It returns the Unicode rather than the ASCII serialization for
+  compatibility with <code id=api-for-a-and-area-elements:messageevent><a href=#messageevent>MessageEvent</a></code>.</p>
+
+  <p>The <dfn id=dom-hyperlink-protocol><code>protocol</code></dfn> attribute's getter must
+  run these steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-3>Reinitialize url</a>.<li><p>If this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-9>url</a> is null, return "<code>:</code>".<li><p>Return this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-10>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=api-for-a-and-area-elements:concept-url-scheme-2 data-x-internal=concept-url-scheme>scheme</a>, followed by "<code>:</code>".</ol>
+
+  <p>The <code id=api-for-a-and-area-elements:dom-hyperlink-protocol-3><a href=#dom-hyperlink-protocol>protocol</a></code> attribute's setter must run these
+  steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-4>Reinitialize url</a>.<li><p>If this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-11>url</a> is null, terminate these
+   steps.<li><p><a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=api-for-a-and-area-elements:basic-url-parser data-x-internal=basic-url-parser>Basic URL parse</a> the given value, followed by
+   "<code>:</code>", with this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-12>url</a>
+   as <var>url</var> and <a id=api-for-a-and-area-elements:scheme-start-state href=https://url.spec.whatwg.org/#scheme-start-state data-x-internal=scheme-start-state>scheme start state</a> as <var>state override</var>.<li><p><a href=#update-href id=api-for-a-and-area-elements:update-href>Update <code>href</code></a>.</ol>
+
+  <p>The <dfn id=dom-hyperlink-username><code>username</code></dfn> attribute's getter must
+  run these steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-5>Reinitialize url</a>.<li><p>If this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-13>url</a> is null, return the
+   empty string.<li><p>Return this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-14>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-username id=api-for-a-and-area-elements:concept-url-username data-x-internal=concept-url-username>username</a>.</ol>
+
+  <p>The <code id=api-for-a-and-area-elements:dom-hyperlink-username-3><a href=#dom-hyperlink-username>username</a></code> attribute's setter must run these
+  steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-6>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-15>url</a>.<li><p>If <var>url</var> or <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=api-for-a-and-area-elements:concept-url-host data-x-internal=concept-url-host>host</a> is null,
+   or <var>url</var>'s <a id=api-for-a-and-area-elements:cannot-be-a-base-url-flag-2 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, terminate these
+   steps.<li><p><a id=api-for-a-and-area-elements:set-the-username href=https://url.spec.whatwg.org/#set-the-username data-x-internal=set-the-username>Set the username</a>, given <var>url</var> and the given value.<li><p><a href=#update-href id=api-for-a-and-area-elements:update-href-2>Update <code>href</code></a>.</ol>
+
+  <p>The <dfn id=dom-hyperlink-password><code>password</code></dfn> attribute's getter must
+  run these steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-7>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-16>url</a>.<li><p>If <var>url</var> is null, then return the empty string.<li><p>Return <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-password id=api-for-a-and-area-elements:concept-url-password data-x-internal=concept-url-password>password</a>.</ol>
+
+  <p>The <code id=api-for-a-and-area-elements:dom-hyperlink-password-3><a href=#dom-hyperlink-password>password</a></code> attribute's setter must run these
+  steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-8>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-17>url</a>.<li><p>If <var>url</var> or <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=api-for-a-and-area-elements:concept-url-host-2 data-x-internal=concept-url-host>host</a> is null,
+   or <var>url</var>'s <a id=api-for-a-and-area-elements:cannot-be-a-base-url-flag-3 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, terminate these
+   steps.<li><p><a id=api-for-a-and-area-elements:set-the-password href=https://url.spec.whatwg.org/#set-the-password data-x-internal=set-the-password>Set the password</a>, given <var>url</var> and the given value.<li><p><a href=#update-href id=api-for-a-and-area-elements:update-href-3>Update <code>href</code></a>.</ol>
+
+  <p>The <dfn id=dom-hyperlink-host><code>host</code></dfn> attribute's getter must run these
+  steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-9>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-18>url</a>.<li><p>If <var>url</var> or <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=api-for-a-and-area-elements:concept-url-host-3 data-x-internal=concept-url-host>host</a> is null,
+   return the empty string.<li><p>If <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=api-for-a-and-area-elements:concept-url-port data-x-internal=concept-url-port>port</a> is null, return
+   <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=api-for-a-and-area-elements:concept-url-host-4 data-x-internal=concept-url-host>host</a>, <a href=https://url.spec.whatwg.org/#concept-host-serializer id=api-for-a-and-area-elements:host-serializer data-x-internal=host-serializer>serialized</a>.<li><p>Return <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=api-for-a-and-area-elements:concept-url-host-5 data-x-internal=concept-url-host>host</a>, <a href=https://url.spec.whatwg.org/#concept-host-serializer id=api-for-a-and-area-elements:host-serializer-2 data-x-internal=host-serializer>serialized</a>, followed by "<code>:</code>" and <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=api-for-a-and-area-elements:concept-url-port-2 data-x-internal=concept-url-port>port</a>, <a href=https://url.spec.whatwg.org/#serialize-an-integer id=api-for-a-and-area-elements:serialize-an-integer data-x-internal=serialize-an-integer>serialized</a>.</ol>
+
+  <p>The <code id=api-for-a-and-area-elements:dom-hyperlink-host-3><a href=#dom-hyperlink-host>host</a></code> attribute's setter must run these steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-10>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-19>url</a>.<li><p>If <var>url</var> is null or <var>url</var>'s <a id=api-for-a-and-area-elements:cannot-be-a-base-url-flag-4 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is
+   set, terminate these steps.<li><p><a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=api-for-a-and-area-elements:basic-url-parser-2 data-x-internal=basic-url-parser>Basic URL parse</a> the given value, with
+   <var>url</var> as <var>url</var> and <a id=api-for-a-and-area-elements:host-state href=https://url.spec.whatwg.org/#host-state data-x-internal=host-state>host state</a> as <var>state
+   override</var>.<li><p><a href=#update-href id=api-for-a-and-area-elements:update-href-4>Update <code>href</code></a>.</ol>
+
+  <p>The <dfn id=dom-hyperlink-hostname><code>hostname</code></dfn> attribute's getter must
+  run these steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-11>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-20>url</a>.<li><p>If <var>url</var> or <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=api-for-a-and-area-elements:concept-url-host-6 data-x-internal=concept-url-host>host</a> is null,
+   return the empty string.<li><p>Return <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=api-for-a-and-area-elements:concept-url-host-7 data-x-internal=concept-url-host>host</a>, <a href=https://url.spec.whatwg.org/#concept-host-serializer id=api-for-a-and-area-elements:host-serializer-3 data-x-internal=host-serializer>serialized</a>.</ol>
+
+  <p>The <code id=api-for-a-and-area-elements:dom-hyperlink-hostname-3><a href=#dom-hyperlink-hostname>hostname</a></code> attribute's setter must run these
+  steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-12>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-21>url</a>.<li><p>If <var>url</var> is null or <var>url</var>'s <a id=api-for-a-and-area-elements:cannot-be-a-base-url-flag-5 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is
+   set, terminate these steps.<li><p><a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=api-for-a-and-area-elements:basic-url-parser-3 data-x-internal=basic-url-parser>Basic URL parse</a> the given value, with
+   <var>url</var> as <var>url</var> and <a id=api-for-a-and-area-elements:hostname-state href=https://url.spec.whatwg.org/#hostname-state data-x-internal=hostname-state>hostname state</a> as <var>state
+   override</var>.<li><p><a href=#update-href id=api-for-a-and-area-elements:update-href-5>Update <code>href</code></a>.</ol>
+
+  <p>The <dfn id=dom-hyperlink-port><code>port</code></dfn> attribute's getter must run these
+  steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-13>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-22>url</a>.<li><p>If <var>url</var> or <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=api-for-a-and-area-elements:concept-url-port-3 data-x-internal=concept-url-port>port</a> is null,
+   return the empty string.<li><p>Return <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=api-for-a-and-area-elements:concept-url-port-4 data-x-internal=concept-url-port>port</a>, <a href=https://url.spec.whatwg.org/#serialize-an-integer id=api-for-a-and-area-elements:serialize-an-integer-2 data-x-internal=serialize-an-integer>serialized</a>.</ol>
+
+  <p>The <code id=api-for-a-and-area-elements:dom-hyperlink-port-3><a href=#dom-hyperlink-port>port</a></code> attribute's setter must run these steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-14>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-23>url</a>.<li><p>If <var>url</var> or <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=api-for-a-and-area-elements:concept-url-host-8 data-x-internal=concept-url-host>host</a> is null,
+   <var>url</var>'s <a id=api-for-a-and-area-elements:cannot-be-a-base-url-flag-6 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, or <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=api-for-a-and-area-elements:concept-url-scheme-3 data-x-internal=concept-url-scheme>scheme</a> is "<code>file</code>", terminate these
+   steps.<li><p>If the given value is the empty string, then set <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=api-for-a-and-area-elements:concept-url-port-5 data-x-internal=concept-url-port>port</a> to null.<li><p>Otherwise, <a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=api-for-a-and-area-elements:basic-url-parser-4 data-x-internal=basic-url-parser>basic URL parse</a> the given value, with
+   <var>url</var> as <var>url</var> and <a id=api-for-a-and-area-elements:port-state href=https://url.spec.whatwg.org/#port-state data-x-internal=port-state>port state</a> as <var>state
+   override</var>.<li><p><a href=#update-href id=api-for-a-and-area-elements:update-href-6>Update <code>href</code></a>.</ol>
+
+  <p>The <dfn id=dom-hyperlink-pathname><code>pathname</code></dfn> attribute's getter must
+  run these steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-15>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-24>url</a>.<li><p>If <var>url</var> is null, return the empty string.<li><p>If <var>url</var>'s <a id=api-for-a-and-area-elements:cannot-be-a-base-url-flag-7 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, return the first string
+   in <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-path id=api-for-a-and-area-elements:concept-url-path data-x-internal=concept-url-path>path</a>.<li><p>Return "<code>/</code>", followed by the strings in <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-path id=api-for-a-and-area-elements:concept-url-path-2 data-x-internal=concept-url-path>path</a> (including empty strings), separated from each other by
+   "<code>/</code>".</ol>
+
+  <p>The <code id=api-for-a-and-area-elements:dom-hyperlink-pathname-3><a href=#dom-hyperlink-pathname>pathname</a></code> attribute's setter must run these
+  steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-16>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-25>url</a>.<li><p>If <var>url</var> is null or <var>url</var>'s <a id=api-for-a-and-area-elements:cannot-be-a-base-url-flag-8 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is
+   set, terminate these steps.<li><p>Set <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-path id=api-for-a-and-area-elements:concept-url-path-3 data-x-internal=concept-url-path>path</a> to the empty
+   list.<li><p><a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=api-for-a-and-area-elements:basic-url-parser-5 data-x-internal=basic-url-parser>Basic URL parse</a> the given value, with
+   <var>url</var> as <var>url</var> and <a id=api-for-a-and-area-elements:path-start-state href=https://url.spec.whatwg.org/#path-start-state data-x-internal=path-start-state>path start state</a> as <var>state
+   override</var>.<li><p><a href=#update-href id=api-for-a-and-area-elements:update-href-7>Update <code>href</code></a>.</ol>
+
+  <p>The <dfn id=dom-hyperlink-search><code>search</code></dfn> attribute's getter must run
+  these steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-17>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-26>url</a>.<li><p>If <var>url</var> is null, or <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-query id=api-for-a-and-area-elements:concept-url-query data-x-internal=concept-url-query>query</a> is either null or the empty string, return the empty
+   string.<li><p>Return "<code>?</code>", followed by <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-query id=api-for-a-and-area-elements:concept-url-query-2 data-x-internal=concept-url-query>query</a>.</ol>
+
+  <p>The <code id=api-for-a-and-area-elements:dom-hyperlink-search-3><a href=#dom-hyperlink-search>search</a></code> attribute's setter must run these
+  steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-18>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-27>url</a>.<li><p>If <var>url</var> is null, terminate these steps.<li><p>If the given value is the empty string, set <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-query id=api-for-a-and-area-elements:concept-url-query-3 data-x-internal=concept-url-query>query</a> to null.
+
+   <li>
+    <p>Otherwise, run these substeps:</p>
+
+    <ol><li><p>Let <var>input</var> be the given value with a single leading "<code>?</code>"
+     removed, if any.<li><p>Set <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-query id=api-for-a-and-area-elements:concept-url-query-4 data-x-internal=concept-url-query>query</a> to the empty
+     string.<li><p><a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=api-for-a-and-area-elements:basic-url-parser-6 data-x-internal=basic-url-parser>Basic URL parse</a> <var>input</var>, with
+     <var>url</var> as <var>url</var> and <a id=api-for-a-and-area-elements:query-state href=https://url.spec.whatwg.org/#query-state data-x-internal=query-state>query state</a> as <var>state override</var>, and
+     this element's <a id=api-for-a-and-area-elements:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <a id="api-for-a-and-area-elements:document's-character-encoding" href=https://dom.spec.whatwg.org/#concept-document-encoding data-x-internal="document's-character-encoding">document's character encoding</a> as
+     <var>encoding override</var>.</ol>
+   <li><p><a href=#update-href id=api-for-a-and-area-elements:update-href-8>Update <code>href</code></a>.</ol>
+
+  <p>The <dfn id=dom-hyperlink-hash><code>hash</code></dfn> attribute's getter must run these
+  steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-19>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-28>url</a>.<li><p>If <var>url</var> is null, or <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-fragment id=api-for-a-and-area-elements:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a> is either null or the empty string, return the
+   empty string.<li><p>Return "<code>#</code>", followed by <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-fragment id=api-for-a-and-area-elements:concept-url-fragment-2 data-x-internal=concept-url-fragment>fragment</a>.</ol>
+
+  <p>The <code id=api-for-a-and-area-elements:dom-hyperlink-hash-3><a href=#dom-hyperlink-hash>hash</a></code> attribute's setter must run these steps:</p>
+
+  <ol><li><p><a href=#reinitialise-url id=api-for-a-and-area-elements:reinitialise-url-20>Reinitialize url</a>.<li><p>Let <var>url</var> be this element's <a href=#concept-hyperlink-url id=api-for-a-and-area-elements:concept-hyperlink-url-29>url</a>.<li><p>If <var>url</var> is null or <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=api-for-a-and-area-elements:concept-url-scheme-4 data-x-internal=concept-url-scheme>scheme</a> is "<code>javascript</code>", terminate these
+   steps.<li><p>If the given value is the empty string, set <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-fragment id=api-for-a-and-area-elements:concept-url-fragment-3 data-x-internal=concept-url-fragment>fragment</a> to null.
+
+   <li>
+    <p>Otherwise, run these substeps:</p>
+
+    <ol><li><p>Let <var>input</var> be the given value with a single leading "<code>#</code>"
+     removed, if any.<li><p>Set <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-fragment id=api-for-a-and-area-elements:concept-url-fragment-4 data-x-internal=concept-url-fragment>fragment</a> to the empty
+     string.<li><p><a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=api-for-a-and-area-elements:basic-url-parser-7 data-x-internal=basic-url-parser>Basic URL parse</a> <var>input</var>, with
+     <var>url</var> as <var>url</var> and <a id=api-for-a-and-area-elements:fragment-state href=https://url.spec.whatwg.org/#fragment-state data-x-internal=fragment-state>fragment state</a> as <var>state
+     override</var>.</ol>
+   <li><p><a href=#update-href id=api-for-a-and-area-elements:update-href-9>Update <code>href</code></a>.</ol>
+
+
+  <h4 id=following-hyperlinks>4.6.4 Following hyperlinks<a href=#following-hyperlinks class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=28925" title="Append the hyperlink suffix to the URL before resolving">28925</a></div>
+
+  <p>When a user <dfn id=following-hyperlinks-2>follows a hyperlink</dfn> created by an element
+  <var>subject</var>, optionally with a <var>hyperlink suffix</var>, the user agent must run the
+  following steps:</p>
+
+  <ol><li><p>Let <var>replace</var> be false.<li><p>Let <var>source</var> be <var>subject</var>'s <a id=following-hyperlinks:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <a href=#concept-document-bc id=following-hyperlinks:concept-document-bc>browsing context</a>.<li>
+
+    <p>If the user indicated a specific <a href=#browsing-context id=following-hyperlinks:browsing-context>browsing context</a> when following the hyperlink,
+    or if the user agent is configured to follow hyperlinks by navigating a particular browsing
+    context, then let <var>target</var> be that <a href=#browsing-context id=following-hyperlinks:browsing-context-2>browsing context</a>. If this is a new
+    <a href=#top-level-browsing-context id=following-hyperlinks:top-level-browsing-context>top-level browsing context</a> (e.g. when the user followed the hyperlink using "Open
+    in New Tab"), then <var>source</var> must be set as the new <a href=#browsing-context id=following-hyperlinks:browsing-context-3>browsing context</a>'s
+    <a href=#one-permitted-sandboxed-navigator id=following-hyperlinks:one-permitted-sandboxed-navigator>one permitted sandboxed navigator</a>.</p>
+
+    <p>Otherwise, if <var>subject</var> is an <code id=following-hyperlinks:the-a-element><a href=#the-a-element>a</a></code> or <code id=following-hyperlinks:the-area-element><a href=#the-area-element>area</a></code> element
+    that has a <code id=following-hyperlinks:attr-hyperlink-target><a href=#attr-hyperlink-target>target</a></code> attribute, then let <var>target</var> be the <a href=#browsing-context id=following-hyperlinks:browsing-context-4>browsing context</a> that is chosen by applying <a href=#the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name id=following-hyperlinks:the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name>the
+    rules for choosing a browsing context given a browsing context name</a>, using the value of
+    the <code id=following-hyperlinks:attr-hyperlink-target-2><a href=#attr-hyperlink-target>target</a></code> attribute as the browsing context name. If
+    these rules result in the creation of a new <a href=#browsing-context id=following-hyperlinks:browsing-context-5>browsing context</a>, set <var>replace</var> to true.</p>
+
+    <p>Otherwise, if <var>target</var> is an <code id=following-hyperlinks:the-a-element-2><a href=#the-a-element>a</a></code> or <code id=following-hyperlinks:the-area-element-2><a href=#the-area-element>area</a></code> element
+    with no <code id=following-hyperlinks:attr-hyperlink-target-3><a href=#attr-hyperlink-target>target</a></code> attribute, but the
+    <code id=following-hyperlinks:document><a href=#document>Document</a></code> contains a <code id=following-hyperlinks:the-base-element><a href=#the-base-element>base</a></code> element with a <code id=following-hyperlinks:attr-base-target><a href=#attr-base-target>target</a></code> attribute, then let <var>target</var> be the
+    <a href=#browsing-context id=following-hyperlinks:browsing-context-6>browsing context</a> that is chosen by applying <a href=#the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name id=following-hyperlinks:the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name-2>the rules for choosing a browsing
+    context given a browsing context name</a>, using the value of the <code id=following-hyperlinks:attr-base-target-2><a href=#attr-base-target>target</a></code> attribute of the first such <code id=following-hyperlinks:the-base-element-2><a href=#the-base-element>base</a></code> element as
+    the browsing context name. If these rules result in the creation of a new <a href=#browsing-context id=following-hyperlinks:browsing-context-7>browsing
+    context</a>, set <var>replace</var> to true.</p> 
+
+    <p>Otherwise, let <var>target</var> be <var>source</var>.</p>
+
+   <li><p>If <var>subject</var>'s <a href=#linkTypes>link types</a> include the <code id=following-hyperlinks:link-type-noreferrer><a href=#link-type-noreferrer>noreferrer</a></code> or <code id=following-hyperlinks:link-type-noopener><a href=#link-type-noopener>noopener</a></code> keyword,
+   and <var>replace</var> is true, then <a href=#disowned-its-opener id=following-hyperlinks:disowned-its-opener>disown
+   <var>target</var>'s opener</a>.<li><p><a href=#parse-a-url id=following-hyperlinks:parse-a-url>Parse</a> the <a id=following-hyperlinks:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> given by <var>subject</var>'s
+   <code id=following-hyperlinks:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> attribute, relative to <var>subject</var>'s
+   <a id=following-hyperlinks:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.<li>
+
+    <p>If that is successful, let <var>URL</var> be the <a href=#resulting-url-string id=following-hyperlinks:resulting-url-string>resulting URL string</a>.</p>
+
+    <p>Otherwise, if <a href=#parse-a-url id=following-hyperlinks:parse-a-url-2>parsing</a> the <a id=following-hyperlinks:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> failed, the
+    user agent may report the error to the user in a user-agent-specific manner, may <a href=#queue-a-task id=following-hyperlinks:queue-a-task>queue a
+    task</a> to <a href=#navigate id=following-hyperlinks:navigate>navigate</a> the <var>target</var>
+    <a href=#browsing-context id=following-hyperlinks:browsing-context-8>browsing context</a> to an error page to report the error, or may ignore the error and
+    do nothing. In any case, the user agent must then abort these steps.</p>
+
+   <li><p>If there is a <var>hyperlink suffix</var>, append it to <var>URL</var>.<li><p>Let <var>resource</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id=following-hyperlinks:concept-request data-x-internal=concept-request>request</a> whose <a href=https://fetch.spec.whatwg.org/#concept-request-url id=following-hyperlinks:concept-request-url data-x-internal=concept-request-url>url</a> is <var>URL</var> and whose <a href=https://fetch.spec.whatwg.org/#concept-request-referrer-policy id=following-hyperlinks:concept-request-referrer-policy data-x-internal=concept-request-referrer-policy>referrer policy</a> is the current state of
+   <var>subject</var>'s <code>referrerpolicy</code> content attribute.<li><p><a href=#queue-a-task id=following-hyperlinks:queue-a-task-2>Queue a task</a> to <a href=#navigate id=following-hyperlinks:navigate-2>navigate</a> the
+   <var>target</var> <a href=#browsing-context id=following-hyperlinks:browsing-context-9>browsing context</a> to <var>resource</var>. If <var>replace</var> is
+   true, the navigation must be performed with <a href=#replacement-enabled id=following-hyperlinks:replacement-enabled>replacement enabled</a>. The
+   <a href=#source-browsing-context id=following-hyperlinks:source-browsing-context>source browsing context</a> must be <var>source</var>.</ol>
+
+  <p>The <a href=#task-source id=following-hyperlinks:task-source>task source</a> for the tasks mentioned above is the <a href=#dom-manipulation-task-source id=following-hyperlinks:dom-manipulation-task-source>DOM manipulation task
+  source</a>.</p>
+
+  
+
+
+
+
+  <h4 id=downloading-resources>4.6.5 Downloading resources<a href=#downloading-resources class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> download<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>14+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox yes"><span>Firefox</span> <span>20+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>10.1+</span></span><span class="edge yes"><span>Edge</span> <span>13+</span></span><span class="opera yes"><span>Opera</span> <span>15+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=download">caniuse.com</a></div>
+
+  <p>In some cases, resources are intended for later use rather than immediate viewing. To indicate
+  that a resource is intended to be downloaded for use later, rather than immediately used, the
+  <code id=downloading-resources:attr-hyperlink-download><a href=#attr-hyperlink-download>download</a></code> attribute can be specified on the
+  <code id=downloading-resources:the-a-element><a href=#the-a-element>a</a></code> or <code id=downloading-resources:the-area-element><a href=#the-area-element>area</a></code> element that creates the <a href=#hyperlink id=downloading-resources:hyperlink>hyperlink</a> to that
+  resource.</p>
+
+  <p>The attribute can furthermore be given a value, to specify the file name that user agents are
+  to use when storing the resource in a file system. This value can be overridden by the `<code id=downloading-resources:http-content-disposition><a data-x-internal=http-content-disposition href=https://tools.ietf.org/html/rfc6266>Content-Disposition</a></code>` HTTP header's filename parameters.
+  <a href=#refsRFC6266>[RFC6266]</a></p>
+
+  <p>In cross-origin situations, the <code id=downloading-resources:attr-hyperlink-download-2><a href=#attr-hyperlink-download>download</a></code>
+  attribute has to be combined with the `<code id=downloading-resources:http-content-disposition-2><a data-x-internal=http-content-disposition href=https://tools.ietf.org/html/rfc6266>Content-Disposition</a></code>` HTTP header, specifically with the
+  <code>attachment</code> disposition type, to avoid the user being warned of possibly
+  nefarious activity. (This is to protect users from being made to download sensitive personal or
+  confidential information without their full understanding.)</p>
+
+  
+
+  <hr>
+
+  <p>When a user <dfn id=downloading-hyperlinks>downloads a hyperlink</dfn> created by an
+  element <var>subject</var>, optionally with a <var>hyperlink suffix</var>, the user agent must
+  run the following steps:</p>
+
+  <ol><li><p><a href=#parse-a-url id=downloading-resources:parse-a-url>Parse</a> the <a id=downloading-resources:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> given by
+   <var>subject</var>'s <code id=downloading-resources:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> attribute, relative to
+   <var>subject</var>'s <a id=downloading-resources:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.<li><p>If <a href=#parse-a-url id=downloading-resources:parse-a-url-2>parsing</a> the <a id=downloading-resources:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> fails, the user agent
+   may report the error to the user in a user-agent-specific manner, may
+   <a href=#navigate id=downloading-resources:navigate>navigate</a> to an error page to report the error, or may
+   ignore the error and do nothing. In either case, the user agent must abort these steps.</p>
+
+   <li><p>Otherwise, let <var>URL</var> be the <a href=#resulting-url-string id=downloading-resources:resulting-url-string>resulting URL string</a>.<li><p>If there is a <var>hyperlink suffix</var>, append it to <var>URL</var>.<li><p>Return to whatever algorithm invoked these steps and continue
+   these steps <a href=#in-parallel id=downloading-resources:in-parallel>in parallel</a>.<li><p>Let <var>request</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id=downloading-resources:concept-request data-x-internal=concept-request>request</a> whose
+   <a href=https://fetch.spec.whatwg.org/#concept-request-url id=downloading-resources:concept-request-url data-x-internal=concept-request-url>url</a> is <var>URL</var>,
+   <a href=https://fetch.spec.whatwg.org/#concept-request-client id=downloading-resources:concept-request-client data-x-internal=concept-request-client>client</a> is <a href=#entry-settings-object id=downloading-resources:entry-settings-object>entry settings object</a>,
+   <a href=https://fetch.spec.whatwg.org/#concept-request-initiator id=downloading-resources:concept-request-initiator data-x-internal=concept-request-initiator>initiator</a> is "<code>download</code>",
+   <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=downloading-resources:concept-request-destination data-x-internal=concept-request-destination>destination</a> is the empty string, and whose
+   <a id=downloading-resources:synchronous-flag href=https://fetch.spec.whatwg.org/#synchronous-flag data-x-internal=synchronous-flag>synchronous flag</a> and <a id=downloading-resources:use-url-credentials-flag href=https://fetch.spec.whatwg.org/#concept-request-use-url-credentials-flag data-x-internal=use-url-credentials-flag>use-URL-credentials flag</a> are set.
+
+   <li><p>Handle the result of <a href=https://fetch.spec.whatwg.org/#concept-fetch id=downloading-resources:concept-fetch data-x-internal=concept-fetch>fetching</a>
+   <var>request</var> <a href=#as-a-download id=downloading-resources:as-a-download>as a download</a>.</ol>
+
+  <p>When a user agent is to handle a resource obtained from a fetch <dfn id=as-a-download>as a download</dfn>, it
+  should provide the user with a way to save the resource for later use, if a resource is
+  successfully obtained; or otherwise should report any problems downloading the file to the
+  user.</p>
+
+  <p>If the user agent needs a file name for a resource being handled <a href=#as-a-download id=downloading-resources:as-a-download-2>as a download</a>, it
+  should select one using the following algorithm.</p>
+
+  <p class=warning>This algorithm is intended to mitigate security dangers involved in downloading
+  files from untrusted sites, and user agents are strongly urged to follow it.</p> 
+
+  <ol><li><p>Let <var>filename</var> be the void value.<li><p>If the resource has a `<code id=downloading-resources:http-content-disposition-3><a data-x-internal=http-content-disposition href=https://tools.ietf.org/html/rfc6266>Content-Disposition</a></code>`
+   header, that header specifies the <code>attachment</code> disposition type, and the
+   header includes file name information, then let <var>filename</var> have the value
+   specified by the header, and jump to the step labeled <i>sanitize</i> below. <a href=#refsRFC6266>[RFC6266]</a><li><p>Let <var>interface origin</var> be the <a href=#concept-origin id=downloading-resources:concept-origin>origin</a> of the
+   <code id=downloading-resources:document><a href=#document>Document</a></code> in which the <a href=#downloading-hyperlinks id=downloading-resources:downloading-hyperlinks>download</a> or
+   <a href=#navigate id=downloading-resources:navigate-2>navigate</a> action resulting in the download was initiated, if any.<li><p>Let <var>resource origin</var> be the <a href=#concept-origin id=downloading-resources:concept-origin-2>origin</a> of the URL of the
+   resource being downloaded, unless that URL's <a href=https://url.spec.whatwg.org/#concept-url-scheme id=downloading-resources:concept-url-scheme data-x-internal=concept-url-scheme>scheme</a>
+   component is <code>data</code>, in which case let <var>resource origin</var> be
+   the same as the <var>interface origin</var>, if any.<li><p>If there is no <var>interface origin</var>, then let <var>trusted
+   operation</var> be true. Otherwise, let <var>trusted operation</var> be true if <var>resource origin</var> is the <a href=#same-origin id=downloading-resources:same-origin>same origin</a> as <var>interface
+   origin</var>, and false otherwise.<li><p>If <var>trusted operation</var> is true and the resource has a `<code id=downloading-resources:http-content-disposition-4><a data-x-internal=http-content-disposition href=https://tools.ietf.org/html/rfc6266>Content-Disposition</a></code>` header and that header includes file
+   name information, then let <var>filename</var> have the value specified by the header,
+   and jump to the step labeled <i>sanitize</i> below. <a href=#refsRFC6266>[RFC6266]</a><li><p>If the download was not initiated from a <a href=#hyperlink id=downloading-resources:hyperlink-2>hyperlink</a> created by an
+   <code id=downloading-resources:the-a-element-2><a href=#the-a-element>a</a></code> or <code id=downloading-resources:the-area-element-2><a href=#the-area-element>area</a></code> element, or if the element of the <a href=#hyperlink id=downloading-resources:hyperlink-3>hyperlink</a> from
+   which it was initiated did not have a <code id=downloading-resources:attr-hyperlink-download-3><a href=#attr-hyperlink-download>download</a></code>
+   attribute when the download was initiated, or if there was such an attribute but its value when
+   the download was initiated was the empty string, then jump to the step labeled <i>no proposed
+   file name</i>.<li><p>Let <var>proposed filename</var> have the value of the <code id=downloading-resources:attr-hyperlink-download-4><a href=#attr-hyperlink-download>download</a></code> attribute of the element of the
+   <a href=#hyperlink id=downloading-resources:hyperlink-4>hyperlink</a> that initiated the download at the time the download was
+   initiated.<li><p>If <var>trusted operation</var> is true, let <var>filename</var> have
+   the value of <var>proposed filename</var>, and jump to the step labeled <i>sanitize</i>
+   below.<li><p>If the resource has a `<code id=downloading-resources:http-content-disposition-5><a data-x-internal=http-content-disposition href=https://tools.ietf.org/html/rfc6266>Content-Disposition</a></code>`
+   header and that header specifies the <code>attachment</code> disposition type, let <var>filename</var> have the value of <var>proposed filename</var>, and jump to the
+   step labeled <i>sanitize</i> below. <a href=#refsRFC6266>[RFC6266]</a><li><p><i>No proposed file name</i>: If <var>trusted operation</var> is true, or if the
+   user indicated a preference for having the resource in question downloaded, let <var>filename</var> have a value derived from the <a id=downloading-resources:url-3 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of the resource in a
+   user-agent-defined manner, and jump to the step labeled <i>sanitize</i> below.<li>
+
+    <p>Act in a user-agent-defined manner to safeguard the user from a potentially hostile
+    cross-origin download. If the download is not to be aborted, then let <var>filename</var> be set to the user's preferred file name or to a file name selected by
+    the user agent, and jump to the step labeled <i>sanitize</i> below.</p>
+
+    <div class=warning>
+
+     <p>If the algorithm reaches this step, then a download was begun from a different origin than
+     the resource being downloaded, and the origin did not mark the file as suitable for
+     downloading, and the download was not initiated by the user. This could be because a <code id=downloading-resources:attr-hyperlink-download-5><a href=#attr-hyperlink-download>download</a></code> attribute was used to trigger the download, or
+     because the resource in question is not of a type that the user agent supports.</p>
+
+     <p>This could be dangerous, because, for instance, a hostile server could be trying to get a
+     user to unknowingly download private information and then re-upload it to the hostile server,
+     by tricking the user into thinking the data is from the hostile server.</p>
+
+     <p>Thus, it is in the user's interests that the user be somehow notified that the resource in
+     question comes from quite a different source, and to prevent confusion, any suggested file name
+     from the potentially hostile <var>interface origin</var> should be ignored.</p>
+
+    </div>
+
+   <li><p><i>Sanitize</i>: Optionally, allow the user to influence <var>filename</var>. For
+   example, a user agent could prompt the user for a file name, potentially providing the value of
+   <var>filename</var> as determined above as a default value.<li>
+
+    <p>Adjust <var>filename</var> to be suitable for the local file system.</p>
+
+    <p class=example>For example, this could involve removing characters that are not legal in
+    file names, or trimming leading and trailing whitespace.</p>
+
+   <li><p>If the platform conventions do not in any way use <a href=#concept-extension id=downloading-resources:concept-extension>extensions</a> to determine the types of file on the file system,
+   then return <var>filename</var> as the file name and abort these steps.<li><p>Let <var>claimed type</var> be the type given by the resource's <a href=#content-type id=downloading-resources:content-type>Content-Type metadata</a>, if any is known. Let <var>named
+   type</var> be the type given by <var>filename</var>'s <a href=#concept-extension id=downloading-resources:concept-extension-2>extension</a>, if any is known. For the purposes of this step, a
+   <i>type</i> is a mapping of a <a id=downloading-resources:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> to an <a href=#concept-extension id=downloading-resources:concept-extension-3>extension</a>.<li><p>If <var>named type</var> is consistent with the user's preferences (e.g. because
+   the value of <var>filename</var> was determined by prompting the user), then return <var>filename</var> as the file name and abort these steps.<li><p>If <var>claimed type</var> and <var>named type</var> are the same type
+   (i.e. the type given by the resource's <a href=#content-type id=downloading-resources:content-type-2>Content-Type metadata</a> is
+   consistent with the type given by <var>filename</var>'s <a href=#concept-extension id=downloading-resources:concept-extension-4>extension</a>), then return <var>filename</var> as the file
+   name and abort these steps.<li>
+
+    <p>If the <var>claimed type</var> is known, then alter <var>filename</var> to
+    add an <a href=#concept-extension id=downloading-resources:concept-extension-5>extension</a> corresponding to <var>claimed
+    type</var>.</p>
+
+    <p>Otherwise, if <var>named type</var> is known to be potentially dangerous (e.g. it
+    will be treated by the platform conventions as a native executable, shell script, HTML
+    application, or executable-macro-capable document) then optionally alter <var>filename</var> to add a known-safe <a href=#concept-extension id=downloading-resources:concept-extension-6>extension</a>
+    (e.g. "<code>.txt</code>").</p>
+
+    <p class=note>This last step would make it impossible to download executables, which might not
+    be desirable. As always, implementors are forced to balance security and usability in this
+    matter.</p>
+
+   <li><p>Return <var>filename</var> as the file name.</ol>
+
+  <p>For the purposes of this algorithm, a file <dfn id=concept-extension>extension</dfn>
+  consists of any part of the file name that platform conventions dictate will be used for
+  identifying the type of the file. For example, many operating systems use the part of the file
+  name following the last dot ("<code>.</code>") in the file name to determine the type of
+  the file, and from that the manner in which the file is to be opened or executed.</p>
+
+  <p>User agents should ignore any directory or path information provided by the resource itself,
+  its <a id=downloading-resources:url-4 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>, and any <code id=downloading-resources:attr-hyperlink-download-6><a href=#attr-hyperlink-download>download</a></code> attribute, in
+  deciding where to store the resulting file in the user's file system.</p>
+
+  
+
+
+
+
+  
+
+  <h5 id=hyperlink-auditing>4.6.5.1 <dfn>Hyperlink auditing</dfn><a href=#hyperlink-auditing class=self-link></a></h5><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24137" title="I think the fetching stops working per spec after the document has unloaded, since the document isn't fully active at that point (or maybe the document even gets discarded before all ping URLs have started fetching)">24137</a></div>
+
+  <p>If a <a href=#hyperlink id=hyperlink-auditing:hyperlink>hyperlink</a> created by an <code id=hyperlink-auditing:the-a-element><a href=#the-a-element>a</a></code> or <code id=hyperlink-auditing:the-area-element><a href=#the-area-element>area</a></code> element has a
+  <code id=hyperlink-auditing:ping><a href=#ping>ping</a></code> attribute, and the user follows the hyperlink, and
+  the value of the element's <code id=hyperlink-auditing:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> attribute can be <a href=#parse-a-url id=hyperlink-auditing:parse-a-url>parsed</a>, relative to the element's <a id=hyperlink-auditing:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>, without
+  failure, then the user agent must take the <code id=hyperlink-auditing:ping-2><a href=#ping>ping</a></code>
+  attribute's value, <a href=#split-a-string-on-spaces id=hyperlink-auditing:split-a-string-on-spaces>split that string on spaces</a>,
+  <a href=#parse-a-url id=hyperlink-auditing:parse-a-url-2>parse</a> each resulting token relative to the element's <a id=hyperlink-auditing:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+  document</a>, and then run these substeps for each <a href=#resulting-url-record id=hyperlink-auditing:resulting-url-record>resulting URL record</a> <var>ping
+  URL</var>, ignoring tokens that fail to parse:</p>
+
+  <ol><li><p>If <var>ping URL</var>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=hyperlink-auditing:concept-url-scheme data-x-internal=concept-url-scheme>scheme</a> is not an
+   <a id=hyperlink-auditing:http(s)-scheme href=https://url.spec.whatwg.org/#http-scheme data-x-internal=http(s)-scheme>HTTP(S) scheme</a>, then abort these steps.<li><p>Optionally, abort these steps. (For example, the user agent might wish to ignore any or
+   all ping URLs in accordance with the user's expressed preferences.)<li><p>Let <var>request</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id=hyperlink-auditing:concept-request data-x-internal=concept-request>request</a> whose
+   <a href=https://fetch.spec.whatwg.org/#concept-request-url id=hyperlink-auditing:concept-request-url data-x-internal=concept-request-url>url</a> is <var>ping URL</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-method id=hyperlink-auditing:concept-request-method data-x-internal=concept-request-method>method</a> is `<code>POST</code>`, <a href=https://fetch.spec.whatwg.org/#concept-request-body id=hyperlink-auditing:concept-request-body data-x-internal=concept-request-body>body</a> is `<code>PING</code>`, <a href=https://fetch.spec.whatwg.org/#concept-request-client id=hyperlink-auditing:concept-request-client data-x-internal=concept-request-client>client</a> is the <a href=#environment-settings-object id=hyperlink-auditing:environment-settings-object>environment settings object</a> of
+   the <code id=hyperlink-auditing:document><a href=#document>Document</a></code> containing the <a href=#hyperlink id=hyperlink-auditing:hyperlink-2>hyperlink</a>, <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=hyperlink-auditing:concept-request-destination data-x-internal=concept-request-destination>destination</a> is the empty string,
+   <a href=https://fetch.spec.whatwg.org/#concept-request-credentials-mode id=hyperlink-auditing:concept-request-credentials-mode data-x-internal=concept-request-credentials-mode>credentials mode</a> is "<code>include</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-referrer id=hyperlink-auditing:concept-request-referrer data-x-internal=concept-request-referrer>referrer</a> is "<code>no-referrer</code>", and whose <a id=hyperlink-auditing:use-url-credentials-flag href=https://fetch.spec.whatwg.org/#concept-request-use-url-credentials-flag data-x-internal=use-url-credentials-flag>use-URL-credentials flag</a> is set.<li>
+    <p>Let <var>target URL</var> be the <a href=#resulting-url-string id=hyperlink-auditing:resulting-url-string>resulting URL string</a> obtained from <a href=#parse-a-url id=hyperlink-auditing:parse-a-url-3>parsing</a> the value of the element's <code id=hyperlink-auditing:attr-hyperlink-href-2><a href=#attr-hyperlink-href>href</a></code> attribute and then run these substeps:</p>
+
+    <dl class=switch><dt>If the <a href=https://dom.spec.whatwg.org/#concept-document-url id="hyperlink-auditing:the-document's-address" data-x-internal="the-document's-address">URL</a> of the <code id=hyperlink-auditing:document-2><a href=#document>Document</a></code> object
+     containing the hyperlink being audited and <var>ping URL</var> have the <a href=#same-origin id=hyperlink-auditing:same-origin>same
+     origin</a><dt>If the origins are different, but the <a href=#concept-document-https-state id=hyperlink-auditing:concept-document-https-state>HTTPS
+     state</a> of the <code id=hyperlink-auditing:document-3><a href=#document>Document</a></code> containing the hyperlink being audited is "<code>none</code>"<dd><var>request</var> must include a `<code id=hyperlink-auditing:ping-from><a href=#ping-from>Ping-From</a></code>` header
+     with, as its value, the <a href=https://dom.spec.whatwg.org/#concept-document-url id="hyperlink-auditing:the-document's-address-2" data-x-internal="the-document's-address">URL</a> of the document
+     containing the hyperlink, and a `<code id=hyperlink-auditing:ping-to><a href=#ping-to>Ping-To</a></code>` HTTP header with,
+     as its value, the <var>target URL</var>.<dt>Otherwise<dd><var>request</var> must include a `<code id=hyperlink-auditing:ping-to-2><a href=#ping-to>Ping-To</a></code>` HTTP header
+     with, as its value, <var>target URL</var>.  <span class=note><var>request</var> does not
+     include a `<code id=hyperlink-auditing:ping-from-2><a href=#ping-from>Ping-From</a></code>` header.</span></dl>
+   <li><p><a href=https://fetch.spec.whatwg.org/#concept-fetch id=hyperlink-auditing:concept-fetch data-x-internal=concept-fetch>Fetch</a> <var>request</var>.</ol>
+
+  <p>This may be done <a href=#in-parallel id=hyperlink-auditing:in-parallel>in parallel</a> with the primary fetch, and is independent of the
+  result of that fetch.</p>
+
+  <p>User agents should allow the user to adjust this behavior, for example in conjunction with a
+  setting that disables the sending of HTTP `<code id=hyperlink-auditing:http-referer><a data-x-internal=http-referer href=https://tools.ietf.org/html/rfc7231#section-5.5.2>Referer</a></code>` (sic)
+  headers. Based on the user's preferences, UAs may either <a href=#ignore id=hyperlink-auditing:ignore>ignore</a> the <code id=hyperlink-auditing:ping-3><a href=#ping>ping</a></code> attribute altogether, or selectively ignore URLs in the
+  list (e.g. ignoring any third-party URLs); this is explicitly accounted for in the steps
+  above.</p>
+
+  <p>User agents must ignore any entity bodies returned in the responses. User agents may close the
+  connection prematurely once they start receiving a response body.</p>
+
+  <p>When the <code id=hyperlink-auditing:ping-4><a href=#ping>ping</a></code> attribute is present, user agents
+  should clearly indicate to the user that following the hyperlink will also cause secondary
+  requests to be sent in the background, possibly including listing the actual target URLs.</p>
+
+  <p class=example>For example, a visual user agent could include the hostnames of the target ping
+  URLs along with the hyperlink's actual URL in a status bar or tooltip.</p>
+
+  
+
+  <div class=note>
+
+   <p>The <code id=hyperlink-auditing:ping-5><a href=#ping>ping</a></code> attribute is redundant with pre-existing
+   technologies like HTTP redirects and JavaScript in allowing Web pages to track which off-site
+   links are most popular or allowing advertisers to track click-through rates.</p>
+
+   <p>However, the <code id=hyperlink-auditing:ping-6><a href=#ping>ping</a></code> attribute provides these advantages
+   to the user over those alternatives:</p>
+
+   <ul><li>It allows the user to see the final target URL unobscured.<li>It allows the UA to inform the user about the out-of-band notifications.<li>It allows the user to disable the notifications without losing the underlying link
+    functionality.<li>It allows the UA to optimize the use of available network bandwidth so that the target page
+    loads faster.</ul>
+
+   <p>Thus, while it is possible to track users without this feature, authors are encouraged to use
+   the <code id=hyperlink-auditing:ping-7><a href=#ping>ping</a></code> attribute so that the user agent can make the
+   user experience more transparent.</p>
+
+  </div>
+
+  
+
+
+
+  <h4 id=linkTypes>4.6.6 Link types<a href=#linkTypes class=self-link></a></h4>
+
+  <p>The following table summarizes the link types that are defined by this specification, by their
+  corresponding keywords. This table is non-normative; the actual definitions for the link types are
+  given in the next few sections.</p>
+
+  <p>In this section, the term <i>referenced document</i> refers to the resource identified by the
+  element representing the link, and the term <i>current document</i> refers to the resource within
+  which the element representing the link finds itself.</p>
+
+  
+
+  <p>To determine which link types apply to a <code id=linkTypes:the-link-element><a href=#the-link-element>link</a></code>, <code id=linkTypes:the-a-element><a href=#the-a-element>a</a></code>, or
+  <code id=linkTypes:the-area-element><a href=#the-area-element>area</a></code> element, the element's <code>rel</code> attribute must be <a href=#split-a-string-on-spaces id=linkTypes:split-a-string-on-spaces>split on spaces</a>. The resulting tokens are the keywords
+  for the link types that apply to that element.</p>
+
+  
+
+  <p>Except where otherwise specified, a keyword must not be specified more than once per <code id=linkTypes:attr-hyperlink-rel><a href=#attr-hyperlink-rel>rel</a></code> attribute.</p>
+
+  <p>Some of the sections that follow the table below list synonyms for certain keywords. The
+  indicated synonyms are to be handled as specified by user agents, but must
+  not be used in documents (for example, the keyword "<code>copyright</code>").</p>
+
+  <p>Keywords are always <a id=linkTypes:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a>, and must be
+  compared as such.</p>
+
+  <p class=example>Thus, <code>rel="next"</code> is the same as <code>rel="NEXT"</code>.</p>
+
+  <p>Keywords that are <dfn id=body-ok>body-ok</dfn> affect whether <code id=linkTypes:the-link-element-2><a href=#the-link-element>link</a></code> elements are
+  <a href=#allowed-in-the-body id=linkTypes:allowed-in-the-body>allowed in the body</a>. The <a href=#body-ok id=linkTypes:body-ok>body-ok</a> keywords defined by this specification
+  are
+  <code id=linkTypes:link-type-dns-prefetch><a href=#link-type-dns-prefetch>dns-prefetch</a></code>,
+  <code id=linkTypes:link-type-pingback><a href=#link-type-pingback>pingback</a></code>,
+  <code id=linkTypes:link-type-preconnect><a href=#link-type-preconnect>preconnect</a></code>,
+  <code id=linkTypes:link-type-prefetch><a href=#link-type-prefetch>prefetch</a></code>,
+  <code id=linkTypes:link-type-preload><a href=#link-type-preload>preload</a></code>,
+  <code id=linkTypes:link-type-prerender><a href=#link-type-prerender>prerender</a></code>, and
+  <code id=linkTypes:link-type-stylesheet><a href=#link-type-stylesheet>stylesheet</a></code>.
+  Other specifications can also define <a href=#body-ok id=linkTypes:body-ok-2>body-ok</a> keywords.</p>
+
+  <table class=yesno><thead><tr><th rowspan=2>Link type<th colspan=2>Effect on...<th rowspan=2><a href=#body-ok id=linkTypes:body-ok-3>body-ok</a><th rowspan=2>Brief description<tr><th><code id=linkTypes:the-link-element-3><a href=#the-link-element>link</a></code><th><code id=linkTypes:the-a-element-2><a href=#the-a-element>a</a></code> and <code id=linkTypes:the-area-element-2><a href=#the-area-element>area</a></code><tbody><tr><td><code id=linkTypes:rel-alternate><a href=#rel-alternate>alternate</a></code><td><a href=#hyperlink id=linkTypes:hyperlink>Hyperlink</a><td><a href=#hyperlink id=linkTypes:hyperlink-2>Hyperlink</a><td class=no> · <td>Gives alternate representations of the current document.<tr><td><code id=linkTypes:link-type-author><a href=#link-type-author>author</a></code><td><a href=#hyperlink id=linkTypes:hyperlink-3>Hyperlink</a><td><a href=#hyperlink id=linkTypes:hyperlink-4>Hyperlink</a><td class=no> · <td>Gives a link to the author of the current document or article.<tr><td><code id=linkTypes:link-type-bookmark><a href=#link-type-bookmark>bookmark</a></code><td><em>not allowed</em><td><a href=#hyperlink id=linkTypes:hyperlink-5>Hyperlink</a><td class=no> · <td>Gives the permalink for the nearest ancestor section.<tr><td><code id=linkTypes:link-type-dns-prefetch-2><a href=#link-type-dns-prefetch>dns-prefetch</a></code><td><a href=#external-resource-link id=linkTypes:external-resource-link>External Resource</a><td><em>not allowed</em><td class=yes> Yes <td>Specifies that the user agent should preemptively perform DNS resolution for the target resource's <a href=#concept-origin id=linkTypes:concept-origin>origin</a>.<tr><td><code id=linkTypes:link-type-external><a href=#link-type-external>external</a></code><td><em>not allowed</em><td><a href=#hyperlink-annotation id=linkTypes:hyperlink-annotation>Annotation</a><td class=no> · <td>Indicates that the referenced document is not part of the same site as the current document.<tr><td><code id=linkTypes:link-type-help><a href=#link-type-help>help</a></code><td><a href=#hyperlink id=linkTypes:hyperlink-6>Hyperlink</a><td><a href=#hyperlink id=linkTypes:hyperlink-7>Hyperlink</a><td class=no> · <td>Provides a link to context-sensitive help.<tr><td><code id=linkTypes:rel-icon><a href=#rel-icon>icon</a></code><td><a href=#external-resource-link id=linkTypes:external-resource-link-2>External Resource</a><td><em>not allowed</em><td class=no> · <td>Imports an icon to represent the current document.<tr><td><code id=linkTypes:link-type-license><a href=#link-type-license>license</a></code><td><a href=#hyperlink id=linkTypes:hyperlink-8>Hyperlink</a><td><a href=#hyperlink id=linkTypes:hyperlink-9>Hyperlink</a><td class=no> · <td>Indicates that the main content of the current document is covered by the copyright license described by the referenced document.<tr><td><code id=linkTypes:link-type-next><a href=#link-type-next>next</a></code><td><a href=#hyperlink id=linkTypes:hyperlink-10>Hyperlink</a><td><a href=#hyperlink id=linkTypes:hyperlink-11>Hyperlink</a><td class=no> · <td>Indicates that the current document is a part of a series, and that the next document in the series is the referenced document.<tr><td><code id=linkTypes:link-type-nofollow><a href=#link-type-nofollow>nofollow</a></code><td><em>not allowed</em><td><a href=#hyperlink-annotation id=linkTypes:hyperlink-annotation-2>Annotation</a><td class=no> · <td>Indicates that the current document's original author or publisher does not endorse the referenced document.<tr><td><code id=linkTypes:link-type-noreferrer><a href=#link-type-noreferrer>noreferrer</a></code><td><em>not allowed</em><td><a href=#hyperlink-annotation id=linkTypes:hyperlink-annotation-3>Annotation</a><td class=no> · <td>Requires that the user agent not send an HTTP `<code id=linkTypes:http-referer><a data-x-internal=http-referer href=https://tools.ietf.org/html/rfc7231#section-5.5.2>Referer</a></code>` (sic) header if the user follows the hyperlink.<tr><td><code id=linkTypes:link-type-noopener><a href=#link-type-noopener>noopener</a></code><td><em>not allowed</em><td><a href=#hyperlink-annotation id=linkTypes:hyperlink-annotation-4>Annotation</a><td class=no> · <td>Requires any <a href=#browsing-context id=linkTypes:browsing-context>browsing context</a> created by following the hyperlink to <a href=#disowned-its-opener id=linkTypes:disowned-its-opener>disown its opener</a>.<tr><td><code id=linkTypes:link-type-pingback-2><a href=#link-type-pingback>pingback</a></code><td><a href=#external-resource-link id=linkTypes:external-resource-link-3>External Resource</a><td><em>not allowed</em><td class=yes> Yes <td>Gives the address of the pingback server that handles pingbacks to the current document.<tr><td><code id=linkTypes:link-type-preconnect-2><a href=#link-type-preconnect>preconnect</a></code><td><a href=#external-resource-link id=linkTypes:external-resource-link-4>External Resource</a><td><em>not allowed</em><td class=yes> Yes <td>Specifies that the user agent should preemptively connect to the target resource's <a href=#concept-origin id=linkTypes:concept-origin-2>origin</a>.<tr><td><code id=linkTypes:link-type-prefetch-2><a href=#link-type-prefetch>prefetch</a></code><td><a href=#external-resource-link id=linkTypes:external-resource-link-5>External Resource</a><td><em>not allowed</em><td class=yes> Yes <td>Specifies that the user agent should preemptively <a href=https://fetch.spec.whatwg.org/#concept-fetch id=linkTypes:concept-fetch data-x-internal=concept-fetch>fetch</a> and cache the target resource as it is likely to be required for a followup <a href=#navigate id=linkTypes:navigate>navigation</a>.<tr><td><code id=linkTypes:link-type-preload-2><a href=#link-type-preload>preload</a></code><td><a href=#external-resource-link id=linkTypes:external-resource-link-6>External Resource</a><td><em>not allowed</em><td class=yes> Yes <td>Specifies that the user agent must preemptively <a href=https://fetch.spec.whatwg.org/#concept-fetch id=linkTypes:concept-fetch-2 data-x-internal=concept-fetch>fetch</a> and cache the target resource for current <a href=#navigate id=linkTypes:navigate-2>navigation</a> according to the <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=linkTypes:concept-request-destination data-x-internal=concept-request-destination>destination</a> given by the <code id=linkTypes:attr-link-as><a href=#attr-link-as>as</a></code> attribute (and the <a href=https://fetch.spec.whatwg.org/#concept-request-priority id=linkTypes:concept-request-priority data-x-internal=concept-request-priority>priority</a> associated with that <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=linkTypes:concept-request-destination-2 data-x-internal=concept-request-destination>destination</a>).<tr><td><code id=linkTypes:link-type-prerender-2><a href=#link-type-prerender>prerender</a></code><td><a href=#external-resource-link id=linkTypes:external-resource-link-7>External Resource</a><td><em>not allowed</em><td class=yes> Yes <td>Specifies that the user agent should preemptively <a href=https://fetch.spec.whatwg.org/#concept-fetch id=linkTypes:concept-fetch-3 data-x-internal=concept-fetch>fetch</a> the target resource and process it in a way that helps deliver a faster response in the future.<tr><td><code id=linkTypes:link-type-prev><a href=#link-type-prev>prev</a></code><td><a href=#hyperlink id=linkTypes:hyperlink-12>Hyperlink</a><td><a href=#hyperlink id=linkTypes:hyperlink-13>Hyperlink</a><td class=no> · <td>Indicates that the current document is a part of a series, and that the previous document in the series is the referenced document.<tr><td><code id=linkTypes:link-type-search><a href=#link-type-search>search</a></code><td><a href=#hyperlink id=linkTypes:hyperlink-14>Hyperlink</a><td><a href=#hyperlink id=linkTypes:hyperlink-15>Hyperlink</a><td class=no> · <td>Gives a link to a resource that can be used to search through the current document and its related pages.<tr><td><code id=linkTypes:link-type-stylesheet-2><a href=#link-type-stylesheet>stylesheet</a></code><td><a href=#external-resource-link id=linkTypes:external-resource-link-8>External Resource</a><td><em>not allowed</em><td class=yes> Yes <td>Imports a stylesheet.<tr><td><code id=linkTypes:link-type-tag><a href=#link-type-tag>tag</a></code><td><em>not allowed</em><td><a href=#hyperlink id=linkTypes:hyperlink-16>Hyperlink</a><td class=no> · <td>Gives a tag (identified by the given address) that applies to the current document.</table>
+
+  
+
+
+  <h5 id=rel-alternate>4.6.6.1 Link type "<dfn><code>alternate</code></dfn>"<a href=#rel-alternate class=self-link></a></h5>
+
+  <p>The <code id=rel-alternate:rel-alternate><a href=#rel-alternate>alternate</a></code> keyword may be used with <code id=rel-alternate:the-link-element><a href=#the-link-element>link</a></code>,
+  <code id=rel-alternate:the-a-element><a href=#the-a-element>a</a></code>, and <code id=rel-alternate:the-area-element><a href=#the-area-element>area</a></code> elements.</p>
+
+  <p>The meaning of this keyword depends on the values of the other attributes.</p>
+
+  <dl class=switch><dt>If the element is a <code id=rel-alternate:the-link-element-2><a href=#the-link-element>link</a></code> element and the <code id=rel-alternate:attr-link-rel><a href=#attr-link-rel>rel</a></code>
+   attribute also contains the keyword <code id=rel-alternate:link-type-stylesheet><a href=#link-type-stylesheet>stylesheet</a></code><dd>
+
+    <p>The <code id=rel-alternate:rel-alternate-2><a href=#rel-alternate>alternate</a></code> keyword modifies the meaning of the <code id=rel-alternate:link-type-stylesheet-2><a href=#link-type-stylesheet>stylesheet</a></code> keyword in the way described for that keyword. The
+    <code id=rel-alternate:rel-alternate-3><a href=#rel-alternate>alternate</a></code> keyword does not create a link of its own.</p>
+
+   <dt>If the <code id=rel-alternate:rel-alternate-4><a href=#rel-alternate>alternate</a></code> keyword is used with the <code id=rel-alternate:attr-hyperlink-type><a href=#attr-hyperlink-type>type</a></code> attribute set to the value <code>application/rss+xml</code> or the value <code>application/atom+xml</code><dd>
+
+    <p>The keyword creates a <a href=#hyperlink id=rel-alternate:hyperlink>hyperlink</a> referencing a syndication feed (though not
+    necessarily syndicating exactly the same content as the current page).</p>
+
+    
+
+    <p>For the purposes of feed autodiscovery, user agents should consider all <code id=rel-alternate:the-link-element-3><a href=#the-link-element>link</a></code>
+    elements in the document with the <code id=rel-alternate:rel-alternate-5><a href=#rel-alternate>alternate</a></code> keyword used and
+    with their <code id=rel-alternate:attr-hyperlink-type-2><a href=#attr-hyperlink-type>type</a></code> attribute set to the value <code>application/rss+xml</code> or the value <code>application/atom+xml</code>. If the user agent has the concept of a default
+    syndication feed, the first such element (in <a id=rel-alternate:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>) should be used as the
+    default.</p>
+
+    
+
+    <div class=example>
+     <p>The following <code id=rel-alternate:the-link-element-4><a href=#the-link-element>link</a></code> elements give syndication feeds for a blog:</p>
+
+     <pre>&lt;link rel="alternate" type="application/atom+xml" href="posts.xml" title="Cool Stuff Blog">
+&lt;link rel="alternate" type="application/atom+xml" href="posts.xml?category=robots" title="Cool Stuff Blog: robots category">
+&lt;link rel="alternate" type="application/atom+xml" href="comments.xml" title="Cool Stuff Blog: Comments"></pre>
+
+     <p>Such <code id=rel-alternate:the-link-element-5><a href=#the-link-element>link</a></code> elements would be used by user agents engaged in feed autodiscovery,
+     with the first being the default (where applicable).</p>
+
+     <p>The following example offers various different syndication feeds to the user, using
+     <code id=rel-alternate:the-a-element-2><a href=#the-a-element>a</a></code> elements:</p>
+
+     <pre>&lt;p>You can access the planets database using Atom feeds:&lt;/p>
+&lt;ul>
+ &lt;li>&lt;a href="recently-visited-planets.xml" rel="alternate" type="application/atom+xml">Recently Visited Planets&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="known-bad-planets.xml" rel="alternate" type="application/atom+xml">Known Bad Planets&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="unexplored-planets.xml" rel="alternate" type="application/atom+xml">Unexplored Planets&lt;/a>&lt;/li>
+&lt;/ul></pre>
+
+     <p>These links would not be used in feed autodiscovery.</p>
+    </div>
+
+   <dt>Otherwise<dd>
+
+    <p>The keyword creates a <a href=#hyperlink id=rel-alternate:hyperlink-2>hyperlink</a> referencing an alternate representation of the
+    current document.</p>
+
+    <p>The nature of the referenced document is given by the <code id=rel-alternate:attr-hyperlink-hreflang><a href=#attr-hyperlink-hreflang>hreflang</a></code>, and <code id=rel-alternate:attr-hyperlink-type-3><a href=#attr-hyperlink-type>type</a></code> attributes.</p>
+
+    <p>If the <code id=rel-alternate:rel-alternate-6><a href=#rel-alternate>alternate</a></code> keyword is used with the <code id=rel-alternate:attr-hyperlink-hreflang-2><a href=#attr-hyperlink-hreflang>hreflang</a></code> attribute, and that attribute's value differs
+    from the <a id=rel-alternate:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>'s <a href=#language id=rel-alternate:language>language</a>, it indicates that the referenced
+    document is a translation.</p>
+
+    <p>If the <code id=rel-alternate:rel-alternate-7><a href=#rel-alternate>alternate</a></code> keyword is used with the <code id=rel-alternate:attr-hyperlink-type-4><a href=#attr-hyperlink-type>type</a></code> attribute, it indicates that the referenced document is
+    a reformulation of the current document in the specified format.</p>
+
+    <p>The <code id=rel-alternate:attr-hyperlink-hreflang-3><a href=#attr-hyperlink-hreflang>hreflang</a></code> and <code id=rel-alternate:attr-hyperlink-type-5><a href=#attr-hyperlink-type>type</a></code> attributes can be combined when specified with the <code id=rel-alternate:rel-alternate-8><a href=#rel-alternate>alternate</a></code> keyword.</p>
+
+    <div class=example>
+
+     <p>For example, the following link is a French translation that uses the PDF format:</p>
+
+     <pre>&lt;link rel=alternate type=application/pdf hreflang=fr href=manual-fr></pre>
+
+    </div>
+
+    <p>This relationship is transitive — that is, if a document links to two other documents
+    with the link type "<code id=rel-alternate:rel-alternate-9><a href=#rel-alternate>alternate</a></code>", then, in addition to implying
+    that those documents are alternative representations of the first document, it is also implying
+    that those two documents are alternative representations of each other.</p>
+
+   </dl>
+
+
+
+  <h5 id=link-type-author>4.6.6.2 Link type "<dfn><code>author</code></dfn>"<a href=#link-type-author class=self-link></a></h5>
+
+  <p>The <code id=link-type-author:link-type-author><a href=#link-type-author>author</a></code> keyword may be used with <code id=link-type-author:the-link-element><a href=#the-link-element>link</a></code>,
+  <code id=link-type-author:the-a-element><a href=#the-a-element>a</a></code>, and <code id=link-type-author:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword creates a <a href=#hyperlink id=link-type-author:hyperlink>hyperlink</a>.</p>
+
+  <p>For <code id=link-type-author:the-a-element-2><a href=#the-a-element>a</a></code> and <code id=link-type-author:the-area-element-2><a href=#the-area-element>area</a></code> elements, the <code id=link-type-author:link-type-author-2><a href=#link-type-author>author</a></code>
+  keyword indicates that the referenced document provides further information about the author of
+  the nearest <code id=link-type-author:the-article-element><a href=#the-article-element>article</a></code> element ancestor of the element defining the hyperlink, if there
+  is one, or of the page as a whole, otherwise.</p>
+
+  <p>For <code id=link-type-author:the-link-element-2><a href=#the-link-element>link</a></code> elements, the <code id=link-type-author:link-type-author-3><a href=#link-type-author>author</a></code> keyword indicates
+  that the referenced document provides further information about the author for the page as a
+  whole.</p>
+

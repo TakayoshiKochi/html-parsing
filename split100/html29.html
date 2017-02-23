@@ -1,0 +1,850 @@
+      resource</a> by selecting a cue.</p>
+
+     </dl>
+
+   <dt><dfn id=text-track-list-of-cues>A list of zero or more cues</dfn>
+
+   <dd>
+
+    <p>A list of <a href=#text-track-cue id=text-track-model:text-track-cue>text track cues</a>, along with <dfn id=rules-for-updating-the-text-track-rendering>rules for
+    updating the text track rendering</dfn>. For example, for WebVTT, the <a id=text-track-model:rules-for-updating-the-display-of-webvtt-text-tracks href=https://w3c.github.io/webvtt/#rules-for-updating-the-display-of-webvtt-text-tracks data-x-internal=rules-for-updating-the-display-of-webvtt-text-tracks>rules for updating
+    the display of WebVTT text tracks</a>. <a href=#refsWEBVTT>[WEBVTT]</a> </p>
+
+    <p>The <a href=#text-track-list-of-cues id=text-track-model:text-track-list-of-cues>list of cues of a text track</a> can change
+    dynamically, either because the <a href=#text-track id=text-track-model:text-track-10>text track</a> has <a href=#text-track-not-loaded id=text-track-model:text-track-not-loaded>not yet been loaded</a> or is still <a href=#text-track-loading id=text-track-model:text-track-loading>loading</a>,
+    or due to DOM manipulation.</p>
+
+   </dl>
+
+  <p>Each <a href=#text-track id=text-track-model:text-track-11>text track</a> has a corresponding <code id=text-track-model:texttrack><a href=#texttrack>TextTrack</a></code> object.</p>
+
+  <hr>
+
+  <p>Each <a href=#media-element id=text-track-model:media-element-4>media element</a> has a <dfn id=list-of-pending-text-tracks>list of pending text tracks</dfn>, which must
+  initially be empty, a <dfn id=blocked-on-parser>blocked-on-parser</dfn> flag, which must initially be false, and a
+  <dfn id=did-perform-automatic-track-selection>did-perform-automatic-track-selection</dfn> flag, which must also initially be false.</p>
+
+  <p>When the user agent is required to <dfn id=populate-the-list-of-pending-text-tracks>populate the list of pending text tracks</dfn> of a
+  <a href=#media-element id=text-track-model:media-element-5>media element</a>, the user agent must add to the element's <a href=#list-of-pending-text-tracks id=text-track-model:list-of-pending-text-tracks>list of pending text
+  tracks</a> each <a href=#text-track id=text-track-model:text-track-12>text track</a> in the element's <a href=#list-of-text-tracks id=text-track-model:list-of-text-tracks>list of text tracks</a> whose
+  <a href=#text-track-mode id=text-track-model:text-track-mode>text track mode</a> is not <a href=#text-track-disabled id=text-track-model:text-track-disabled>disabled</a> and whose
+  <a href=#text-track-readiness-state id=text-track-model:text-track-readiness-state-2>text track readiness state</a> is  <a href=#text-track-loading id=text-track-model:text-track-loading-2>loading</a>.</p>
+
+  <p>Whenever a <code id=text-track-model:the-track-element-5><a href=#the-track-element>track</a></code> element's parent node changes, the user agent must remove the
+  corresponding <a href=#text-track id=text-track-model:text-track-13>text track</a> from any <a href=#list-of-pending-text-tracks id=text-track-model:list-of-pending-text-tracks-2>list of pending text tracks</a> that it is
+  in.</p>
+
+  <p>Whenever a <a href=#text-track id=text-track-model:text-track-14>text track</a>'s <a href=#text-track-readiness-state id=text-track-model:text-track-readiness-state-3>text track readiness state</a> changes to either
+  <a href=#text-track-loaded id=text-track-model:text-track-loaded>loaded</a> or <a href=#text-track-failed-to-load id=text-track-model:text-track-failed-to-load>failed to
+  load</a>, the user agent must remove it from any <a href=#list-of-pending-text-tracks id=text-track-model:list-of-pending-text-tracks-3>list of pending text tracks</a> that
+  it is in.</p>
+
+  <p>When a <a href=#media-element id=text-track-model:media-element-6>media element</a> is created by an <a href=#html-parser id=text-track-model:html-parser>HTML parser</a> or <a href=#xml-parser id=text-track-model:xml-parser>XML
+  parser</a>, the user agent must set the element's <a href=#blocked-on-parser id=text-track-model:blocked-on-parser>blocked-on-parser</a> flag to true.
+  When a <a href=#media-element id=text-track-model:media-element-7>media element</a> is popped off the <a href=#stack-of-open-elements id=text-track-model:stack-of-open-elements>stack of open elements</a> of an
+  <a href=#html-parser id=text-track-model:html-parser-2>HTML parser</a> or <a href=#xml-parser id=text-track-model:xml-parser-2>XML parser</a>, the user agent must <a href=#honor-user-preferences-for-automatic-text-track-selection id=text-track-model:honor-user-preferences-for-automatic-text-track-selection>honor user
+  preferences for automatic text track selection</a>, <a href=#populate-the-list-of-pending-text-tracks id=text-track-model:populate-the-list-of-pending-text-tracks>populate the list of pending text
+  tracks</a>, and set the element's <a href=#blocked-on-parser id=text-track-model:blocked-on-parser-2>blocked-on-parser</a> flag to false.</p>
+
+  <p>The <a href=#text-track id=text-track-model:text-track-15>text tracks</a> of a <a href=#media-element id=text-track-model:media-element-8>media element</a> are <dfn id=the-text-tracks-are-ready>ready</dfn> when both the element's <a href=#list-of-pending-text-tracks id=text-track-model:list-of-pending-text-tracks-4>list of pending text
+  tracks</a> is empty and the element's <a href=#blocked-on-parser id=text-track-model:blocked-on-parser-3>blocked-on-parser</a> flag is false.</p>
+
+  <p>Each <a href=#media-element id=text-track-model:media-element-9>media element</a> has a <dfn id=pending-text-track-change-notification-flag>pending text track change notification flag</dfn>,
+  which must initially be unset.</p>
+
+  <p>Whenever a <a href=#text-track id=text-track-model:text-track-16>text track</a> that is in a <a href=#media-element id=text-track-model:media-element-10>media element</a>'s <a href=#list-of-text-tracks id=text-track-model:list-of-text-tracks-2>list of text
+  tracks</a> has its <a href=#text-track-mode id=text-track-model:text-track-mode-2>text track mode</a> change value, the user agent must run the
+  following steps for the <a href=#media-element id=text-track-model:media-element-11>media element</a>:</p>
+
+  <ol><li><p>If the <a href=#media-element id=text-track-model:media-element-12>media element</a>'s <a href=#pending-text-track-change-notification-flag id=text-track-model:pending-text-track-change-notification-flag>pending text track change notification
+   flag</a> is set, abort these steps.<li><p>Set the <a href=#media-element id=text-track-model:media-element-13>media element</a>'s <a href=#pending-text-track-change-notification-flag id=text-track-model:pending-text-track-change-notification-flag-2>pending text track change notification
+   flag</a>.<li>
+
+    <p><a href=#queue-a-task id=text-track-model:queue-a-task>Queue a task</a> that runs the following substeps:</p>
+
+    <ol><li><p>Unset the <a href=#media-element id=text-track-model:media-element-14>media element</a>'s <a href=#pending-text-track-change-notification-flag id=text-track-model:pending-text-track-change-notification-flag-3>pending text track change notification
+     flag</a>.<li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=text-track-model:concept-event-fire data-x-internal=concept-event-fire>Fire an event</a> named <code id=text-track-model:event-media-change><a href=#event-media-change>change</a></code> at the <a href=#media-element id=text-track-model:media-element-15>media element</a>'s <code id=text-track-model:dom-media-texttracks><a href=#dom-media-texttracks>textTracks</a></code> attribute's <code id=text-track-model:texttracklist><a href=#texttracklist>TextTrackList</a></code>
+     object.</ol>
+
+   <li><p>If the <a href=#media-element id=text-track-model:media-element-16>media element</a>'s <a href=#show-poster-flag id=text-track-model:show-poster-flag>show poster flag</a> is not set, run the
+   <i id=text-track-model:time-marches-on><a href=#time-marches-on>time marches on</a></i> steps.</ol>
+
+  <p>The <a href=#task-source id=text-track-model:task-source>task source</a> for the <a href=#concept-task id=text-track-model:concept-task>tasks</a> listed in this
+  section is the <a href=#dom-manipulation-task-source id=text-track-model:dom-manipulation-task-source>DOM manipulation task source</a>.</p>
+
+  <hr>
+
+  <p>A <dfn id=text-track-cue>text track cue</dfn> is the unit of time-sensitive data in a <a href=#text-track id=text-track-model:text-track-17>text track</a>,
+  corresponding for instance for subtitles and captions to the text that appears at a particular
+  time and disappears at another time.</p>
+
+  <p>Each <a href=#text-track-cue id=text-track-model:text-track-cue-2>text track cue</a> consists of:</p>
+
+  <dl><dt><dfn id=text-track-cue-identifier>An identifier</dfn>
+   <dd>
+    <p>An arbitrary string.</p>
+   <dt><dfn id=text-track-cue-start-time>A start time</dfn>
+   <dd>
+    <p>The time, in seconds and fractions of a second, that describes the beginning of the range of
+    the <a href=#media-data id=text-track-model:media-data>media data</a> to which the cue applies.</p>
+   <dt><dfn id=text-track-cue-end-time>An end time</dfn>
+   <dd>
+    <p>The time, in seconds and fractions of a second, that describes the end of the range of the
+    <a href=#media-data id=text-track-model:media-data-2>media data</a> to which the cue applies.</p>
+   <dt><dfn id=text-track-cue-pause-on-exit-flag>A pause-on-exit flag</dfn>
+   <dd>
+    <p>A boolean indicating whether playback of the <a href=#media-resource id=text-track-model:media-resource-5>media resource</a> is to pause when the
+    end of the range to which the cue applies is reached.</p>
+   <dt>Some additional format-specific data<dd>
+    <p>Additional fields, as needed for the format, including the actual data of the cue. For example, WebVTT has a <a id=text-track-model:text-track-cue-writing-direction href=https://w3c.github.io/webvtt/#webvtt-cue-writing-direction data-x-internal=text-track-cue-writing-direction>text track cue
+    writing direction</a> and so forth. <a href=#refsWEBVTT>[WEBVTT]</a></p>
+   <dt><dfn id=text-track-rules-for-extracting-the-chapter-title>Rules for extracting the chapter title</dfn>
+   <dd>
+    <p>An algorithm which, when applied to the cue, returns a string that can be used in user
+    interfaces that use the cue as a chapter title.</p>
+   </dl>
+
+  <p class=note>The <a href=#text-track-cue-start-time id=text-track-model:text-track-cue-start-time>text track cue start time</a> and <a href=#text-track-cue-end-time id=text-track-model:text-track-cue-end-time>text track cue end
+  time</a> can be negative. (The <a href=#current-playback-position id=text-track-model:current-playback-position>current playback position</a> can never be negative,
+  though, so cues entirely before time zero cannot be active.)</p>
+
+  <p>Each <a href=#text-track-cue id=text-track-model:text-track-cue-3>text track cue</a> has a corresponding <code id=text-track-model:texttrackcue><a href=#texttrackcue>TextTrackCue</a></code> object (or more
+  specifically, an object that inherits from <code id=text-track-model:texttrackcue-2><a href=#texttrackcue>TextTrackCue</a></code> — for example, WebVTT
+  cues use the <code id=text-track-model:vttcue><a data-x-internal=vttcue href=https://w3c.github.io/webvtt/#vttcue>VTTCue</a></code> interface). A <a href=#text-track-cue id=text-track-model:text-track-cue-4>text track cue</a>'s in-memory
+  representation can be dynamically changed through this <code id=text-track-model:texttrackcue-3><a href=#texttrackcue>TextTrackCue</a></code> API. <a href=#refsWEBVTT>[WEBVTT]</a></p>
+
+  <p>A <a href=#text-track-cue id=text-track-model:text-track-cue-5>text track cue</a> is associated with <a href=#rules-for-updating-the-text-track-rendering id=text-track-model:rules-for-updating-the-text-track-rendering>rules for updating the text track
+  rendering</a>, as defined by the specification for the specific kind of <a href=#text-track-cue id=text-track-model:text-track-cue-6>text track
+  cue</a>. These rules are used specifically when the object representing the cue is added to a
+  <code id=text-track-model:texttrack-2><a href=#texttrack>TextTrack</a></code> object using the <code id=text-track-model:dom-texttrack-addcue><a href=#dom-texttrack-addcue>addCue()</a></code>
+  method.</p>
+
+  <p>In addition, each <a href=#text-track-cue id=text-track-model:text-track-cue-7>text track cue</a> has two pieces of dynamic information:</p>
+
+  <dl><dt>The <dfn id=text-track-cue-active-flag>active flag</dfn>
+   <dd>
+
+    <p>This flag must be initially unset. The flag is used to ensure events are fired appropriately
+    when the cue becomes active or inactive, and to make sure the right cues are rendered.</p>
+
+    <p>The user agent must synchronously unset this flag whenever the <a href=#text-track-cue id=text-track-model:text-track-cue-8>text track cue</a> is
+    removed from its <a href=#text-track id=text-track-model:text-track-18>text track</a>'s <a href=#text-track-list-of-cues id=text-track-model:text-track-list-of-cues-2>text track list of cues</a>; whenever the
+    <a href=#text-track id=text-track-model:text-track-19>text track</a> itself is removed from its <a href=#media-element id=text-track-model:media-element-17>media element</a>'s <a href=#list-of-text-tracks id=text-track-model:list-of-text-tracks-3>list of
+    text tracks</a> or has its <a href=#text-track-mode id=text-track-model:text-track-mode-3>text track mode</a> changed to <a href=#text-track-disabled id=text-track-model:text-track-disabled-2>disabled</a>; and whenever the <a href=#media-element id=text-track-model:media-element-18>media element</a>'s <code id=text-track-model:dom-media-readystate><a href=#dom-media-readystate>readyState</a></code> is changed back to <code id=text-track-model:dom-media-have_nothing><a href=#dom-media-have_nothing>HAVE_NOTHING</a></code>. When the flag is unset in this way for one
+    or more cues in <a href=#text-track id=text-track-model:text-track-20>text tracks</a> that were <a href=#text-track-showing id=text-track-model:text-track-showing>showing</a> prior to the relevant incident, the user agent must, after having unset
+    the flag for all the affected cues, apply the <a href=#rules-for-updating-the-text-track-rendering id=text-track-model:rules-for-updating-the-text-track-rendering-2>rules for updating the text track
+    rendering</a> of those <a href=#text-track id=text-track-model:text-track-21>text tracks</a>. For example, for <a href=#text-track id=text-track-model:text-track-22>text tracks</a> based on WebVTT, the <a id=text-track-model:rules-for-updating-the-display-of-webvtt-text-tracks-2 href=https://w3c.github.io/webvtt/#rules-for-updating-the-display-of-webvtt-text-tracks data-x-internal=rules-for-updating-the-display-of-webvtt-text-tracks>rules for updating the display
+    of WebVTT text tracks</a>. <a href=#refsWEBVTT>[WEBVTT]</a></p> <dt>The <dfn id=text-track-cue-display-state>display state</dfn>
+   <dd>
+
+    <p>This is used as part of the rendering model, to keep cues in a consistent position. It must
+    initially be empty. Whenever the <a href=#text-track-cue-active-flag id=text-track-model:text-track-cue-active-flag>text track cue active flag</a> is unset, the user
+    agent must empty the <a href=#text-track-cue-display-state id=text-track-model:text-track-cue-display-state>text track cue display state</a>.</p>
+
+   </dl>
+
+  <p>The <a href=#text-track-cue id=text-track-model:text-track-cue-9>text track cues</a> of a <a href=#media-element id=text-track-model:media-element-19>media element</a>'s
+  <a href=#text-track id=text-track-model:text-track-23>text tracks</a> are ordered relative to each other in the <dfn id=text-track-cue-order>text
+  track cue order</dfn>, which is determined as follows: first group the <a href=#text-track-cue id=text-track-model:text-track-cue-10>cues</a> by their <a href=#text-track id=text-track-model:text-track-24>text track</a>, with the groups being sorted in the same order
+  as their <a href=#text-track id=text-track-model:text-track-25>text tracks</a> appear in the <a href=#media-element id=text-track-model:media-element-20>media element</a>'s
+  <a href=#list-of-text-tracks id=text-track-model:list-of-text-tracks-4>list of text tracks</a>; then, within each group, <a href=#text-track-cue id=text-track-model:text-track-cue-11>cues</a> must be sorted by their <a href=#text-track-cue-start-time id=text-track-model:text-track-cue-start-time-2>start
+  time</a>, earliest first; then, any <a href=#text-track-cue id=text-track-model:text-track-cue-12>cues</a> with the same
+  <a href=#text-track-cue-start-time id=text-track-model:text-track-cue-start-time-3>start time</a> must be sorted by their <a href=#text-track-cue-end-time id=text-track-model:text-track-cue-end-time-2>end time</a>, latest first; and finally, any <a href=#text-track-cue id=text-track-model:text-track-cue-13>cues</a> with identical <a href=#text-track-cue-end-time id=text-track-model:text-track-cue-end-time-3>end
+  times</a> must be sorted in the order they were last added to their respective <a href=#text-track-list-of-cues id=text-track-model:text-track-list-of-cues-3>text track
+  list of cues</a>, oldest first (so e.g. for cues from a WebVTT file, that would initially be
+  the order in which the cues were listed in the file). <a href=#refsWEBVTT>[WEBVTT]</a></p>
+
+
+  <h6 id=sourcing-in-band-text-tracks>4.8.12.11.2 Sourcing in-band text tracks<a href=#sourcing-in-band-text-tracks class=self-link></a></h6>
+
+  <p>A <dfn id=media-resource-specific-text-track>media-resource-specific text track</dfn> is a <a href=#text-track id=sourcing-in-band-text-tracks:text-track>text track</a> that corresponds
+  to data found in the <a href=#media-resource id=sourcing-in-band-text-tracks:media-resource>media resource</a>.</p>
+
+
+  
+
+  <p>Rules for processing and rendering such data are defined by the relevant specifications, e.g.
+  the specification of the video format if the <a href=#media-resource id=sourcing-in-band-text-tracks:media-resource-2>media resource</a> is a video. Details for
+  some legacy formats can be found in the <cite>Sourcing In-band Media Resource Tracks from Media
+  Containers into HTML</cite> specification. <a href=#refsINBAND>[INBAND]</a></p>
+
+  <p>When a <a href=#media-resource id=sourcing-in-band-text-tracks:media-resource-3>media resource</a> contains data that the user agent recognizes and supports as
+  being equivalent to a <a href=#text-track id=sourcing-in-band-text-tracks:text-track-2>text track</a>, the user agent <a href=#found-a-media-resource-specific-timed-track>runs</a> the <dfn id=steps-to-expose-a-media-resource-specific-text-track>steps to expose a
+  media-resource-specific text track</dfn> with the relevant data, as follows.</p>
+
+  
+
+  <ol><li><p>Associate the relevant data with a new <a href=#text-track id=sourcing-in-band-text-tracks:text-track-3>text track</a> and its corresponding new
+   <code id=sourcing-in-band-text-tracks:texttrack><a href=#texttrack>TextTrack</a></code> object. The <a href=#text-track id=sourcing-in-band-text-tracks:text-track-4>text track</a> is a <a href=#media-resource-specific-text-track id=sourcing-in-band-text-tracks:media-resource-specific-text-track>media-resource-specific
+   text track</a>.<li><p>Set the new <a href=#text-track id=sourcing-in-band-text-tracks:text-track-5>text track</a>'s <a href=#text-track-kind id=sourcing-in-band-text-tracks:text-track-kind>kind</a>, <a href=#text-track-label id=sourcing-in-band-text-tracks:text-track-label>label</a>, and <a href=#text-track-language id=sourcing-in-band-text-tracks:text-track-language>language</a>
+   based on the semantics of the relevant data, as defined by the relevant specification. If there
+   is no label in that data, then the <a href=#text-track-label id=sourcing-in-band-text-tracks:text-track-label-2>label</a> must be set to the
+   empty string.<li><p>Associate the <a href=#text-track-list-of-cues id=sourcing-in-band-text-tracks:text-track-list-of-cues>text track list of cues</a> with the <a href=#rules-for-updating-the-text-track-rendering id=sourcing-in-band-text-tracks:rules-for-updating-the-text-track-rendering>rules for updating the
+   text track rendering</a> appropriate for the format in question.</p>
+
+   <li>
+
+    <p>If the new <a href=#text-track id=sourcing-in-band-text-tracks:text-track-6>text track</a>'s <a href=#text-track-kind id=sourcing-in-band-text-tracks:text-track-kind-2>kind</a> is <code id=sourcing-in-band-text-tracks:dom-texttrack-kind-metadata><a href=#dom-texttrack-kind-metadata>metadata</a></code>, then set the <a href=#text-track-in-band-metadata-track-dispatch-type id=sourcing-in-band-text-tracks:text-track-in-band-metadata-track-dispatch-type>text track in-band
+    metadata track dispatch type</a> as follows, based on the type of the <a href=#media-resource id=sourcing-in-band-text-tracks:media-resource-4>media
+    resource</a>:</p>
+
+    <dl class=switch><dt>If the <a href=#media-resource id=sourcing-in-band-text-tracks:media-resource-5>media resource</a> is an Ogg file<dd>The <a href=#text-track-in-band-metadata-track-dispatch-type id=sourcing-in-band-text-tracks:text-track-in-band-metadata-track-dispatch-type-2>text track in-band metadata track dispatch type</a> must be set to the value
+     of the Name header field. <a href=#refsOGGSKELETONHEADERS>[OGGSKELETONHEADERS]</a><dt>If the <a href=#media-resource id=sourcing-in-band-text-tracks:media-resource-6>media resource</a> is a WebM file<dd>The <a href=#text-track-in-band-metadata-track-dispatch-type id=sourcing-in-band-text-tracks:text-track-in-band-metadata-track-dispatch-type-3>text track in-band metadata track dispatch type</a> must be set to the value
+     of the <code>CodecID</code> element. <a href=#refsWEBMCG>[WEBMCG]</a><dt>If the <a href=#media-resource id=sourcing-in-band-text-tracks:media-resource-7>media resource</a> is an MPEG-2 file<dd>Let <var>stream type</var> be the value of the "stream_type" field describing the
+     text track's type in the file's program map section, interpreted as an 8-bit unsigned integer.
+     Let <var>length</var> be the value of the "ES_info_length" field for the track in the
+     same part of the program map section, interpreted as an integer as defined by the MPEG-2
+     specification. Let <var>descriptor bytes</var> be the <var>length</var> bytes
+     following the "ES_info_length" field. The <a href=#text-track-in-band-metadata-track-dispatch-type id=sourcing-in-band-text-tracks:text-track-in-band-metadata-track-dispatch-type-4>text track in-band metadata track dispatch
+     type</a> must be set to the concatenation of the <var>stream type</var> byte and
+     the zero or more <var>descriptor bytes</var> bytes, expressed in hexadecimal using
+     <a href=#uppercase-ascii-hex-digits id=sourcing-in-band-text-tracks:uppercase-ascii-hex-digits>uppercase ASCII hex digits</a>. <a href=#refsMPEG2>[MPEG2]</a>
+
+     <dt>If the <a href=#media-resource id=sourcing-in-band-text-tracks:media-resource-8>media resource</a> is an MPEG-4 file<dd>Let the
+     first <code>stsd</code> box of the
+     first <code>stbl</code> box of the
+     first <code>minf</code> box of the
+     first <code>mdia</code> box of the
+     <a href=#text-track id=sourcing-in-band-text-tracks:text-track-7>text track</a>'s <code>trak</code> box in the
+     first <code>moov</code> box
+     of the file be the <i>stsd box</i>, if any.
+
+     If the file has no <i>stsd box</i>, or if the <i>stsd box</i> has neither a <code>mett</code> box nor a <code>metx</code> box, then the <a href=#text-track-in-band-metadata-track-dispatch-type id=sourcing-in-band-text-tracks:text-track-in-band-metadata-track-dispatch-type-5>text track
+     in-band metadata track dispatch type</a> must be set to the empty string.
+
+     Otherwise, if the <i>stsd box</i> has a <code>mett</code> box then the <a href=#text-track-in-band-metadata-track-dispatch-type id=sourcing-in-band-text-tracks:text-track-in-band-metadata-track-dispatch-type-6>text
+     track in-band metadata track dispatch type</a> must be set to the concatenation of the
+     string "<code>mett</code>", a U+0020 SPACE character, and the value of the first <code>mime_format</code> field of the first <code>mett</code> box of the <i>stsd
+     box</i>, or the empty string if that field is absent in that box.
+
+     Otherwise, if the <i>stsd box</i> has no <code>mett</code> box but has a <code>metx</code> box then the <a href=#text-track-in-band-metadata-track-dispatch-type id=sourcing-in-band-text-tracks:text-track-in-band-metadata-track-dispatch-type-7>text track in-band metadata track dispatch type</a>
+     must be set to the concatenation of the string "<code>metx</code>", a U+0020 SPACE
+     character, and the value of the first <code>namespace</code> field of the first <code>metx</code> box of the <i>stsd box</i>, or the empty string if that field is absent in
+     that box.
+
+     <a href=#refsMPEG4>[MPEG4]</a>
+
+     </dl>
+
+   <li><p>Populate the new <a href=#text-track id=sourcing-in-band-text-tracks:text-track-8>text track</a>'s <a href=#text-track-list-of-cues id=sourcing-in-band-text-tracks:text-track-list-of-cues-2>list of
+   cues</a> with the cues parsed so far, following the <a href=#guidelines-for-exposing-cues-in-various-formats-as-text-track-cues id=sourcing-in-band-text-tracks:guidelines-for-exposing-cues-in-various-formats-as-text-track-cues>guidelines for exposing
+   cues</a>, and begin updating it dynamically as necessary.<li><p>Set the new <a href=#text-track id=sourcing-in-band-text-tracks:text-track-9>text track</a>'s <a href=#text-track-readiness-state id=sourcing-in-band-text-tracks:text-track-readiness-state>readiness
+   state</a> to <a href=#text-track-loaded id=sourcing-in-band-text-tracks:text-track-loaded>loaded</a>.<li><p>Set the new <a href=#text-track id=sourcing-in-band-text-tracks:text-track-10>text track</a>'s <a href=#text-track-mode id=sourcing-in-band-text-tracks:text-track-mode>mode</a> to the
+   mode consistent with the user's preferences and the requirements of the relevant specification
+   for the data.</p>
+
+    <p class=note>For instance, if there are no other active subtitles, and this is a forced
+    subtitle track (a subtitle track giving subtitles in the audio track's primary language, but
+    only for audio that is actually in another language), then those subtitles might be activated
+    here.</p>
+
+   <li><p>Add the new <a href=#text-track id=sourcing-in-band-text-tracks:text-track-11>text track</a> to the <a href=#media-element id=sourcing-in-band-text-tracks:media-element>media element</a>'s <a href=#list-of-text-tracks id=sourcing-in-band-text-tracks:list-of-text-tracks>list of text
+   tracks</a>.<li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=sourcing-in-band-text-tracks:concept-event-fire data-x-internal=concept-event-fire>Fire an event</a> named <code id=sourcing-in-band-text-tracks:event-media-addtrack><a href=#event-media-addtrack>addtrack</a></code> at the <a href=#media-element id=sourcing-in-band-text-tracks:media-element-2>media element</a>'s <code id=sourcing-in-band-text-tracks:dom-media-texttracks><a href=#dom-media-texttracks>textTracks</a></code> attribute's <code id=sourcing-in-band-text-tracks:texttracklist><a href=#texttracklist>TextTrackList</a></code> object,
+   using <code id=sourcing-in-band-text-tracks:trackevent><a href=#trackevent>TrackEvent</a></code>, with the <code id=sourcing-in-band-text-tracks:dom-trackevent-track><a href=#dom-trackevent-track>track</a></code>
+   attribute initialized to the <a href=#text-track id=sourcing-in-band-text-tracks:text-track-12>text track</a>'s <code id=sourcing-in-band-text-tracks:texttrack-2><a href=#texttrack>TextTrack</a></code> object.</ol>
+
+  
+
+  
+
+  
+
+
+
+  
+
+  <h6 id=sourcing-out-of-band-text-tracks>4.8.12.11.3 Sourcing out-of-band text tracks<a href=#sourcing-out-of-band-text-tracks class=self-link></a></h6>
+
+  <p>When a <code id=sourcing-out-of-band-text-tracks:the-track-element><a href=#the-track-element>track</a></code> element is created, it must be associated with a new <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track>text
+  track</a> (with its value set as defined below) and its corresponding new
+  <code id=sourcing-out-of-band-text-tracks:texttrack><a href=#texttrack>TextTrack</a></code> object.</p>
+
+  <p>The <a href=#text-track-kind id=sourcing-out-of-band-text-tracks:text-track-kind>text track kind</a> is determined from the state of the element's <code id=sourcing-out-of-band-text-tracks:attr-track-kind><a href=#attr-track-kind>kind</a></code> attribute according to the following table; for a state given
+  in a cell of the first column, the <a href=#text-track-kind id=sourcing-out-of-band-text-tracks:text-track-kind-2>kind</a> is the string given
+  in the second column:</p>
+
+  <table><thead><tr><th>State
+     <th>String
+   <tbody><tr><td><a href=#attr-track-kind-subtitles id=sourcing-out-of-band-text-tracks:attr-track-kind-subtitles>Subtitles</a>
+     <td><code id=sourcing-out-of-band-text-tracks:dom-texttrack-kind-subtitles><a href=#dom-texttrack-kind-subtitles>subtitles</a></code>
+    <tr><td><a href=#attr-track-kind-captions id=sourcing-out-of-band-text-tracks:attr-track-kind-captions>Captions</a>
+     <td><code id=sourcing-out-of-band-text-tracks:dom-texttrack-kind-captions><a href=#dom-texttrack-kind-captions>captions</a></code>
+    <tr><td><a href=#attr-track-kind-descriptions id=sourcing-out-of-band-text-tracks:attr-track-kind-descriptions>Descriptions</a>
+     <td><code id=sourcing-out-of-band-text-tracks:dom-texttrack-kind-descriptions><a href=#dom-texttrack-kind-descriptions>descriptions</a></code>
+    <tr><td><a href=#attr-track-kind-chapters id=sourcing-out-of-band-text-tracks:attr-track-kind-chapters>Chapters</a>
+     <td><code id=sourcing-out-of-band-text-tracks:dom-texttrack-kind-chapters><a href=#dom-texttrack-kind-chapters>chapters</a></code>
+    <tr><td><a href=#attr-track-kind-metadata id=sourcing-out-of-band-text-tracks:attr-track-kind-metadata>Metadata</a>
+     <td><code id=sourcing-out-of-band-text-tracks:dom-texttrack-kind-metadata><a href=#dom-texttrack-kind-metadata>metadata</a></code>
+  </table>
+
+  <p>The <a href=#text-track-label id=sourcing-out-of-band-text-tracks:text-track-label>text track label</a> is the element's <a href=#track-label id=sourcing-out-of-band-text-tracks:track-label>track label</a>.</p>
+
+  <p>The <a href=#text-track-language id=sourcing-out-of-band-text-tracks:text-track-language>text track language</a> is the element's <a href=#track-language id=sourcing-out-of-band-text-tracks:track-language>track language</a>, if any, or
+  the empty string otherwise.</p>
+
+  <p>As the <code id=sourcing-out-of-band-text-tracks:attr-track-kind-2><a href=#attr-track-kind>kind</a></code>, <code id=sourcing-out-of-band-text-tracks:attr-track-label><a href=#attr-track-label>label</a></code>,
+  and <code id=sourcing-out-of-band-text-tracks:attr-track-srclang><a href=#attr-track-srclang>srclang</a></code> attributes are set, changed, or removed, the
+  <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-2>text track</a> must update accordingly, as per the definitions above.</p>
+
+  <p class=note>Changes to the <a href=#track-url id=sourcing-out-of-band-text-tracks:track-url>track URL</a> are handled in the algorithm below.</p>
+
+  <p>The <a href=#text-track-readiness-state id=sourcing-out-of-band-text-tracks:text-track-readiness-state>text track readiness state</a> is initially <a href=#text-track-not-loaded id=sourcing-out-of-band-text-tracks:text-track-not-loaded>not loaded</a>, and the <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode>text track mode</a> is initially <a href=#text-track-disabled id=sourcing-out-of-band-text-tracks:text-track-disabled>disabled</a>.</p>
+
+  <p>The <a href=#text-track-list-of-cues id=sourcing-out-of-band-text-tracks:text-track-list-of-cues>text track list of cues</a> is initially empty. It is dynamically modified when
+  the referenced file is parsed. Associated with the list are the <a href=#rules-for-updating-the-text-track-rendering id=sourcing-out-of-band-text-tracks:rules-for-updating-the-text-track-rendering>rules for updating the text
+  track rendering</a> appropriate for the format in question; for WebVTT, this is the <a id=sourcing-out-of-band-text-tracks:rules-for-updating-the-display-of-webvtt-text-tracks href=https://w3c.github.io/webvtt/#rules-for-updating-the-display-of-webvtt-text-tracks data-x-internal=rules-for-updating-the-display-of-webvtt-text-tracks>rules
+  for updating the display of WebVTT text tracks</a>. <a href=#refsWEBVTT>[WEBVTT]</a></p>
+
+  <p>When a <code id=sourcing-out-of-band-text-tracks:the-track-element-2><a href=#the-track-element>track</a></code> element's parent element changes and the new parent is a <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element>media
+  element</a>, then the user agent must add the <code id=sourcing-out-of-band-text-tracks:the-track-element-3><a href=#the-track-element>track</a></code> element's corresponding
+  <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-3>text track</a> to the <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-2>media element</a>'s <a href=#list-of-text-tracks id=sourcing-out-of-band-text-tracks:list-of-text-tracks>list of text tracks</a>, and
+  then <a href=#queue-a-task id=sourcing-out-of-band-text-tracks:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=sourcing-out-of-band-text-tracks:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named
+  <code id=sourcing-out-of-band-text-tracks:event-media-addtrack><a href=#event-media-addtrack>addtrack</a></code> at the <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-3>media element</a>'s <code id=sourcing-out-of-band-text-tracks:dom-media-texttracks><a href=#dom-media-texttracks>textTracks</a></code> attribute's <code id=sourcing-out-of-band-text-tracks:texttracklist><a href=#texttracklist>TextTrackList</a></code> object,
+  using <code id=sourcing-out-of-band-text-tracks:trackevent><a href=#trackevent>TrackEvent</a></code>, with the <code id=sourcing-out-of-band-text-tracks:dom-trackevent-track><a href=#dom-trackevent-track>track</a></code> attribute
+  initialized to the <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-4>text track</a>'s <code id=sourcing-out-of-band-text-tracks:texttrack-2><a href=#texttrack>TextTrack</a></code> object.</p>
+
+  <p>When a <code id=sourcing-out-of-band-text-tracks:the-track-element-4><a href=#the-track-element>track</a></code> element's parent element changes and the old parent was a <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-4>media
+  element</a>, then the user agent must remove the <code id=sourcing-out-of-band-text-tracks:the-track-element-5><a href=#the-track-element>track</a></code> element's corresponding
+  <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-5>text track</a> from the <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-5>media element</a>'s <a href=#list-of-text-tracks id=sourcing-out-of-band-text-tracks:list-of-text-tracks-2>list of text tracks</a>,
+  and then <a href=#queue-a-task id=sourcing-out-of-band-text-tracks:queue-a-task-2>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=sourcing-out-of-band-text-tracks:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named
+  <code id=sourcing-out-of-band-text-tracks:event-media-removetrack><a href=#event-media-removetrack>removetrack</a></code> at the <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-6>media element</a>'s
+  <code id=sourcing-out-of-band-text-tracks:dom-media-texttracks-2><a href=#dom-media-texttracks>textTracks</a></code> attribute's <code id=sourcing-out-of-band-text-tracks:texttracklist-2><a href=#texttracklist>TextTrackList</a></code>
+  object, using <code id=sourcing-out-of-band-text-tracks:trackevent-2><a href=#trackevent>TrackEvent</a></code>, with the <code id=sourcing-out-of-band-text-tracks:dom-trackevent-track-2><a href=#dom-trackevent-track>track</a></code>
+  attribute initialized to the <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-6>text track</a>'s <code id=sourcing-out-of-band-text-tracks:texttrack-3><a href=#texttrack>TextTrack</a></code> object.</p>
+  
+
+  <hr>
+
+  <p>When a <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-7>text track</a> corresponding to a <code id=sourcing-out-of-band-text-tracks:the-track-element-6><a href=#the-track-element>track</a></code> element is added to a
+  <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-7>media element</a>'s <a href=#list-of-text-tracks id=sourcing-out-of-band-text-tracks:list-of-text-tracks-3>list of text tracks</a>, the user agent must <a href=#queue-a-task id=sourcing-out-of-band-text-tracks:queue-a-task-3>queue a
+  task</a> to run the following steps for the <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-8>media element</a>:</p>
+
+  <ol><li><p>If the element's <a href=#blocked-on-parser id=sourcing-out-of-band-text-tracks:blocked-on-parser>blocked-on-parser</a> flag is true, abort these steps.<li><p>If the element's <a href=#did-perform-automatic-track-selection id=sourcing-out-of-band-text-tracks:did-perform-automatic-track-selection>did-perform-automatic-track-selection</a> flag is true, abort
+   these steps.<li><p><a href=#honor-user-preferences-for-automatic-text-track-selection id=sourcing-out-of-band-text-tracks:honor-user-preferences-for-automatic-text-track-selection>Honor user preferences for automatic text track selection</a> for this
+   element.</ol>
+
+  <p>When the user agent is required to <dfn id=honor-user-preferences-for-automatic-text-track-selection>honor user preferences for automatic text track
+  selection</dfn> for a <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-9>media element</a>, the user agent must run the following steps:</p>
+
+  <ol><li><p><a href=#perform-automatic-text-track-selection id=sourcing-out-of-band-text-tracks:perform-automatic-text-track-selection>Perform automatic text track selection</a> for <code id=sourcing-out-of-band-text-tracks:dom-texttrack-kind-subtitles-2><a href=#dom-texttrack-kind-subtitles>subtitles</a></code> and <code id=sourcing-out-of-band-text-tracks:dom-texttrack-kind-captions-2><a href=#dom-texttrack-kind-captions>captions</a></code>.<li><p><a href=#perform-automatic-text-track-selection id=sourcing-out-of-band-text-tracks:perform-automatic-text-track-selection-2>Perform automatic text track selection</a> for <code id=sourcing-out-of-band-text-tracks:dom-texttrack-kind-descriptions-2><a href=#dom-texttrack-kind-descriptions>descriptions</a></code>.<li><p><a href=#perform-automatic-text-track-selection id=sourcing-out-of-band-text-tracks:perform-automatic-text-track-selection-3>Perform automatic text track selection</a> for <code id=sourcing-out-of-band-text-tracks:dom-texttrack-kind-chapters-2><a href=#dom-texttrack-kind-chapters>chapters</a></code>.<li><p>If there are any <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-8>text tracks</a> in the <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-10>media
+   element</a>'s <a href=#list-of-text-tracks id=sourcing-out-of-band-text-tracks:list-of-text-tracks-4>list of text tracks</a> whose <a href=#text-track-kind id=sourcing-out-of-band-text-tracks:text-track-kind-3>text track kind</a> is <code id=sourcing-out-of-band-text-tracks:dom-texttrack-kind-metadata-2><a href=#dom-texttrack-kind-metadata>metadata</a></code> that correspond to <code id=sourcing-out-of-band-text-tracks:the-track-element-7><a href=#the-track-element>track</a></code>
+   elements with a <code id=sourcing-out-of-band-text-tracks:attr-track-default><a href=#attr-track-default>default</a></code> attribute set whose <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-2>text
+   track mode</a> is set to <a href=#text-track-disabled id=sourcing-out-of-band-text-tracks:text-track-disabled-2>disabled</a>, then set the
+   <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-3>text track mode</a> of all such tracks to <a href=#text-track-hidden id=sourcing-out-of-band-text-tracks:text-track-hidden>hidden</a><li><p>Set the element's <a href=#did-perform-automatic-track-selection id=sourcing-out-of-band-text-tracks:did-perform-automatic-track-selection-2>did-perform-automatic-track-selection</a> flag to
+   true.</ol>
+
+  <p>When the steps above say to <dfn id=perform-automatic-text-track-selection>perform automatic text track selection</dfn> for one or more
+  <a href=#text-track-kind id=sourcing-out-of-band-text-tracks:text-track-kind-4>text track kinds</a>, it means to run the following steps:</p>
+
+  <ol><li><p>Let <var>candidates</var> be a list consisting of the <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-9>text tracks</a> in the <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-11>media element</a>'s <a href=#list-of-text-tracks id=sourcing-out-of-band-text-tracks:list-of-text-tracks-5>list of text tracks</a>
+   whose <a href=#text-track-kind id=sourcing-out-of-band-text-tracks:text-track-kind-5>text track kind</a> is one of the kinds that were passed to the algorithm, if any,
+   in the order given in the <a href=#list-of-text-tracks id=sourcing-out-of-band-text-tracks:list-of-text-tracks-6>list of text tracks</a>.<li><p>If <var>candidates</var> is empty, then abort these steps.<li><p>If any of the <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-10>text tracks</a> in <var>candidates</var> have a <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-4>text track mode</a> set to <a href=#text-track-showing id=sourcing-out-of-band-text-tracks:text-track-showing>showing</a>, abort these steps.<li>
+
+    <p>If the user has expressed an interest in having a track from <var>candidates</var>
+    enabled based on its <a href=#text-track-kind id=sourcing-out-of-band-text-tracks:text-track-kind-6>text track kind</a>, <a href=#text-track-language id=sourcing-out-of-band-text-tracks:text-track-language-2>text track language</a>, and
+    <a href=#text-track-label id=sourcing-out-of-band-text-tracks:text-track-label-2>text track label</a>, then set its <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-5>text track mode</a> to <a href=#text-track-showing id=sourcing-out-of-band-text-tracks:text-track-showing-2>showing</a>.</p> 
+
+    <p class=note>For example, the user could have set a browser preference to the effect of "I
+    want French captions whenever possible", or "If there is a subtitle track with 'Commentary' in
+    the title, enable it", or "If there are audio description tracks available, enable one, ideally
+    in Swiss German, but failing that in Standard Swiss German or Standard German".</p>
+
+    <p>Otherwise, if there are any <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-11>text tracks</a> in <var>candidates</var> that correspond to <code id=sourcing-out-of-band-text-tracks:the-track-element-8><a href=#the-track-element>track</a></code> elements with a <code id=sourcing-out-of-band-text-tracks:attr-track-default-2><a href=#attr-track-default>default</a></code> attribute set whose <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-6>text track mode</a> is
+    set to <a href=#text-track-disabled id=sourcing-out-of-band-text-tracks:text-track-disabled-3>disabled</a>, then set the <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-7>text track
+    mode</a> of the first such track to <a href=#text-track-showing id=sourcing-out-of-band-text-tracks:text-track-showing-3>showing</a>.</p>
+
+   </ol>
+
+  <p>When a <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-12>text track</a> corresponding to a <code id=sourcing-out-of-band-text-tracks:the-track-element-9><a href=#the-track-element>track</a></code> element experiences any of
+  the following circumstances, the user agent must <a href=#start-the-track-processing-model id=sourcing-out-of-band-text-tracks:start-the-track-processing-model>start the <code>track</code> processing
+  model</a> for that <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-13>text track</a> and its <code id=sourcing-out-of-band-text-tracks:the-track-element-10><a href=#the-track-element>track</a></code> element:
+
+  <ul><li>The <code id=sourcing-out-of-band-text-tracks:the-track-element-11><a href=#the-track-element>track</a></code> element is created.<li>The <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-14>text track</a> has its <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-8>text track mode</a> changed.<li>The <code id=sourcing-out-of-band-text-tracks:the-track-element-12><a href=#the-track-element>track</a></code> element's parent element changes and the new parent is a <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-12>media
+   element</a>.</ul>
+
+  <p>When a user agent is to <dfn id=start-the-track-processing-model>start the <code>track</code> processing model</dfn> for a
+  <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-15>text track</a> and its <code id=sourcing-out-of-band-text-tracks:the-track-element-13><a href=#the-track-element>track</a></code> element, it must run the following algorithm.
+  This algorithm interacts closely with the <a href=#event-loop id=sourcing-out-of-band-text-tracks:event-loop>event loop</a> mechanism; in particular, it has
+  a <a href=#synchronous-section id=sourcing-out-of-band-text-tracks:synchronous-section>synchronous section</a> (which is triggered as part of the <a href=#event-loop id=sourcing-out-of-band-text-tracks:event-loop-2>event loop</a>
+  algorithm). The steps in that section are marked with ⌛.</p>
+
+  <ol><li><p>If another occurrence of this algorithm is already running for this <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-16>text
+   track</a> and its <code id=sourcing-out-of-band-text-tracks:the-track-element-14><a href=#the-track-element>track</a></code> element, abort these steps, letting that other algorithm
+   take care of this element.<li><p>If the <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-17>text track</a>'s <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-9>text track mode</a> is not set to one of <a href=#text-track-hidden id=sourcing-out-of-band-text-tracks:text-track-hidden-2>hidden</a> or <a href=#text-track-showing id=sourcing-out-of-band-text-tracks:text-track-showing-4>showing</a>, abort
+   these steps.<li><p>If the <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-18>text track</a>'s <code id=sourcing-out-of-band-text-tracks:the-track-element-15><a href=#the-track-element>track</a></code> element does not have a <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-13>media
+   element</a> as a parent, abort these steps.<li><p>Run the remainder of these steps <a href=#in-parallel id=sourcing-out-of-band-text-tracks:in-parallel>in parallel</a>, allowing whatever caused these steps to
+   run to continue.<li><p><i>Top</i>: <a href=#await-a-stable-state id=sourcing-out-of-band-text-tracks:await-a-stable-state>Await a stable state</a>. The <a href=#synchronous-section id=sourcing-out-of-band-text-tracks:synchronous-section-2>synchronous section</a>
+   consists of the following steps. (The steps in the <a href=#synchronous-section id=sourcing-out-of-band-text-tracks:synchronous-section-3>synchronous section</a> are marked
+   with ⌛.)<li><p>⌛ Set the <a href=#text-track-readiness-state id=sourcing-out-of-band-text-tracks:text-track-readiness-state-2>text track readiness state</a> to <a href=#text-track-loading id=sourcing-out-of-band-text-tracks:text-track-loading>loading</a>.<li><p>⌛ Let <var>URL</var> be the <a href=#track-url id=sourcing-out-of-band-text-tracks:track-url-2>track URL</a> of the
+   <code id=sourcing-out-of-band-text-tracks:the-track-element-16><a href=#the-track-element>track</a></code> element.<li><p>⌛ If the <code id=sourcing-out-of-band-text-tracks:the-track-element-17><a href=#the-track-element>track</a></code> element's parent is a <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-14>media element</a> then
+   let <var>corsAttributeState</var> be the state of the parent <a href=#media-element id=sourcing-out-of-band-text-tracks:media-element-15>media element</a>'s <code id=sourcing-out-of-band-text-tracks:attr-media-crossorigin><a href=#attr-media-crossorigin>crossorigin</a></code> content attribute. Otherwise, let
+   <var>corsAttributeState</var> be <a href=#attr-crossorigin-none id=sourcing-out-of-band-text-tracks:attr-crossorigin-none>No CORS</a>.<li><p>End the <a href=#synchronous-section id=sourcing-out-of-band-text-tracks:synchronous-section-4>synchronous section</a>, continuing the remaining steps
+   <a href=#in-parallel id=sourcing-out-of-band-text-tracks:in-parallel-2>in parallel</a>.<li>
+
+    <p>If <var>URL</var> is not the empty string, run these substeps:
+
+    <ol><li><p>Let <var>request</var> be the result of <a href=#create-a-potential-cors-request id=sourcing-out-of-band-text-tracks:create-a-potential-cors-request>creating a potential-CORS request</a> given
+     <var>URL</var>, "<code>media</code>", and <var>corsAttributeState</var>, and with the
+     <i>same-origin fallback flag</i> set.<li><p>Set <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-client id=sourcing-out-of-band-text-tracks:concept-request-client data-x-internal=concept-request-client>client</a> to the
+     <code id=sourcing-out-of-band-text-tracks:the-track-element-18><a href=#the-track-element>track</a></code> element's <a id=sourcing-out-of-band-text-tracks:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <code id=sourcing-out-of-band-text-tracks:window><a href=#window>Window</a></code> object's
+     <a href=#environment-settings-object id=sourcing-out-of-band-text-tracks:environment-settings-object>environment settings object</a> and <a href=https://fetch.spec.whatwg.org/#concept-request-type id=sourcing-out-of-band-text-tracks:concept-request-type data-x-internal=concept-request-type>type</a> to
+     "<code>track</code>".<li><p><a href=https://fetch.spec.whatwg.org/#concept-fetch id=sourcing-out-of-band-text-tracks:concept-fetch data-x-internal=concept-fetch>Fetch</a> <var>request</var>.</ol>
+
+    <p>The <a href=#concept-task id=sourcing-out-of-band-text-tracks:concept-task>tasks</a> <a href=#queue-a-task id=sourcing-out-of-band-text-tracks:queue-a-task-4>queued</a> by the
+    fetching algorithm on the <a href=#networking-task-source id=sourcing-out-of-band-text-tracks:networking-task-source>networking task source</a> to process the data as it is being
+    fetched must determine the  type of
+    the resource. If the  type of the resource is not a supported text
+    track format, the load will fail, as described below. Otherwise, the resource's data must be
+    passed to the appropriate parser (e.g., the <a id=sourcing-out-of-band-text-tracks:webvtt-parser href=https://w3c.github.io/webvtt/#webvtt-parser data-x-internal=webvtt-parser>WebVTT parser</a>) as it is received, with the <a href=#text-track-list-of-cues id=sourcing-out-of-band-text-tracks:text-track-list-of-cues-2>text
+    track list of cues</a> being used for that parser's output. <a href=#refsWEBVTT>[WEBVTT]</a></p>
+
+    <p class=note>The appropriate parser will incrementally update the <a href=#text-track-list-of-cues id=sourcing-out-of-band-text-tracks:text-track-list-of-cues-3>text track list of
+    cues</a> during these <a href=#networking-task-source id=sourcing-out-of-band-text-tracks:networking-task-source-2>networking task
+    source</a> <a href=#concept-task id=sourcing-out-of-band-text-tracks:concept-task-2>tasks</a>, as each such task is
+    run with whatever data has been received from the network).</p>
+
+    <p class=critical>This specification does not currently say whether or how to check the MIME
+    types of text tracks, or whether or how to perform file type sniffing using the actual file
+    data. Implementors differ in their intentions on this matter and it is therefore unclear what
+    the right solution is. In the absence of any requirement here, the HTTP specification's strict
+    requirement to follow the Content-Type header prevails ("Content-Type specifies the media type
+    of the underlying data." ... "If and only if the media type is not given by a Content-Type
+    field, the recipient MAY attempt to guess the media type via inspection of its content
+    and/or the name extension(s) of the URI used to identify the resource.").</p>
+
+    <p>If fetching fails for any reason (network error, the server returns an error code, CORS
+    fails, etc), or if <var>URL</var> is the empty string, then <a href=#queue-a-task id=sourcing-out-of-band-text-tracks:queue-a-task-5>queue a task</a> to first
+    change the <a href=#text-track-readiness-state id=sourcing-out-of-band-text-tracks:text-track-readiness-state-3>text track readiness state</a> to <a href=#text-track-failed-to-load id=sourcing-out-of-band-text-tracks:text-track-failed-to-load>failed to load</a> and then <a href=https://dom.spec.whatwg.org/#concept-event-fire id=sourcing-out-of-band-text-tracks:concept-event-fire-3 data-x-internal=concept-event-fire>fire an event</a>
+    named <code id=sourcing-out-of-band-text-tracks:event-track-error><a href=#event-track-error>error</a></code> at the <code id=sourcing-out-of-band-text-tracks:the-track-element-19><a href=#the-track-element>track</a></code> element. This
+    <a href=#concept-task id=sourcing-out-of-band-text-tracks:concept-task-3>task</a> must use the <a href=#dom-manipulation-task-source id=sourcing-out-of-band-text-tracks:dom-manipulation-task-source>DOM manipulation task
+    source</a>.</p>
+    
+
+    <p>If fetching does not fail, but the  type of the resource is not a supported
+    text track format, or the file was not successfully processed (e.g., the format in question is
+    an XML format and the file contained a well-formedness error that the XML specification requires
+    be detected and reported to the application), then the <a href=#concept-task id=sourcing-out-of-band-text-tracks:concept-task-4>task</a>
+    that is <a href=#queue-a-task id=sourcing-out-of-band-text-tracks:queue-a-task-6>queued</a> by the <a href=#networking-task-source id=sourcing-out-of-band-text-tracks:networking-task-source-3>networking task source</a> in
+    which the aforementioned problem is found must change the <a href=#text-track-readiness-state id=sourcing-out-of-band-text-tracks:text-track-readiness-state-4>text track readiness
+    state</a> to <a href=#text-track-failed-to-load id=sourcing-out-of-band-text-tracks:text-track-failed-to-load-2>failed to load</a> and <a href=https://dom.spec.whatwg.org/#concept-event-fire id=sourcing-out-of-band-text-tracks:concept-event-fire-4 data-x-internal=concept-event-fire>fire an event</a> named <code id=sourcing-out-of-band-text-tracks:event-track-error-2><a href=#event-track-error>error</a></code> at the <code id=sourcing-out-of-band-text-tracks:the-track-element-20><a href=#the-track-element>track</a></code> element.</p>
+
+    <p>If fetching does not fail, and the file was successfully processed, then the final <a href=#concept-task id=sourcing-out-of-band-text-tracks:concept-task-5>task</a> that is <a href=#queue-a-task id=sourcing-out-of-band-text-tracks:queue-a-task-7>queued</a> by the
+    <a href=#networking-task-source id=sourcing-out-of-band-text-tracks:networking-task-source-4>networking task source</a>, after it has finished parsing the data, must change the
+    <a href=#text-track-readiness-state id=sourcing-out-of-band-text-tracks:text-track-readiness-state-5>text track readiness state</a> to <a href=#text-track-loaded id=sourcing-out-of-band-text-tracks:text-track-loaded>loaded</a>, and
+    <a href=https://dom.spec.whatwg.org/#concept-event-fire id=sourcing-out-of-band-text-tracks:concept-event-fire-5 data-x-internal=concept-event-fire>fire an event</a> named <code id=sourcing-out-of-band-text-tracks:event-track-load><a href=#event-track-load>load</a></code> at the <code id=sourcing-out-of-band-text-tracks:the-track-element-21><a href=#the-track-element>track</a></code> element.</p>
+
+    <p>If, while fetching is ongoing, either:</p>
+
+    <ul><li>the <a href=#track-url id=sourcing-out-of-band-text-tracks:track-url-3>track URL</a> changes so that it is no longer equal to <var>URL</var>, while the <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-10>text track mode</a> is set to <a href=#text-track-hidden id=sourcing-out-of-band-text-tracks:text-track-hidden-3>hidden</a> or <a href=#text-track-showing id=sourcing-out-of-band-text-tracks:text-track-showing-5>showing</a>; or<li>the <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-11>text track mode</a> changes to <a href=#text-track-hidden id=sourcing-out-of-band-text-tracks:text-track-hidden-4>hidden</a>
+     or <a href=#text-track-showing id=sourcing-out-of-band-text-tracks:text-track-showing-6>showing</a>, while the <a href=#track-url id=sourcing-out-of-band-text-tracks:track-url-4>track URL</a> is not
+     equal to <var>URL</var></ul>
+
+    <p>...then the user agent must abort <a href=https://fetch.spec.whatwg.org/#concept-fetch id=sourcing-out-of-band-text-tracks:concept-fetch-2 data-x-internal=concept-fetch>fetching</a>, discarding
+    any pending <a href=#concept-task id=sourcing-out-of-band-text-tracks:concept-task-6>tasks</a> generated by that algorithm (and
+    in particular, not adding any cues to the <a href=#text-track-list-of-cues id=sourcing-out-of-band-text-tracks:text-track-list-of-cues-4>text track list of cues</a> after the moment
+    the URL changed), and then <a href=#queue-a-task id=sourcing-out-of-band-text-tracks:queue-a-task-8>queue a task</a> that first changes the <a href=#text-track-readiness-state id=sourcing-out-of-band-text-tracks:text-track-readiness-state-6>text track
+    readiness state</a> to <a href=#text-track-failed-to-load id=sourcing-out-of-band-text-tracks:text-track-failed-to-load-3>failed to load</a> and
+    then <a href=https://dom.spec.whatwg.org/#concept-event-fire id=sourcing-out-of-band-text-tracks:concept-event-fire-6 data-x-internal=concept-event-fire>fires an event</a> named <code id=sourcing-out-of-band-text-tracks:event-track-error-3><a href=#event-track-error>error</a></code> at the <code id=sourcing-out-of-band-text-tracks:the-track-element-22><a href=#the-track-element>track</a></code> element. This <a href=#concept-task id=sourcing-out-of-band-text-tracks:concept-task-7>task</a> must use the <a href=#dom-manipulation-task-source id=sourcing-out-of-band-text-tracks:dom-manipulation-task-source-2>DOM manipulation task source</a>. </p>
+
+   <li><p>Wait until the <a href=#text-track-readiness-state id=sourcing-out-of-band-text-tracks:text-track-readiness-state-7>text track readiness state</a> is no longer set to <a href=#text-track-loading id=sourcing-out-of-band-text-tracks:text-track-loading-2>loading</a>.<li><p>Wait until the <a href=#track-url id=sourcing-out-of-band-text-tracks:track-url-5>track URL</a> is no longer equal to <var>URL</var>, at
+   the same time as the <a href=#text-track-mode id=sourcing-out-of-band-text-tracks:text-track-mode-12>text track mode</a> is set to <a href=#text-track-hidden id=sourcing-out-of-band-text-tracks:text-track-hidden-5>hidden</a> or <a href=#text-track-showing id=sourcing-out-of-band-text-tracks:text-track-showing-7>showing</a>.<li><p>Jump to the step labeled <i>top</i>.</ol>
+
+  <p>Whenever a <code id=sourcing-out-of-band-text-tracks:the-track-element-23><a href=#the-track-element>track</a></code> element has its <code id=sourcing-out-of-band-text-tracks:attr-track-src><a href=#attr-track-src>src</a></code> attribute
+  set, changed, or removed, the user agent must <a href=#immediately id=sourcing-out-of-band-text-tracks:immediately>immediately</a> empty the element's <a href=#text-track id=sourcing-out-of-band-text-tracks:text-track-19>text
+  track</a>'s <a href=#text-track-list-of-cues id=sourcing-out-of-band-text-tracks:text-track-list-of-cues-5>text track list of cues</a>. (This also causes the algorithm above to stop
+  adding cues from the resource being obtained using the previously given URL, if any.)</p>
+
+  
+
+
+  
+
+  <h6 id=guidelines-for-exposing-cues-in-various-formats-as-text-track-cues>4.8.12.11.4 <dfn>Guidelines for exposing cues</dfn> in various formats as <a href=#text-track-cue id=guidelines-for-exposing-cues-in-various-formats-as-text-track-cues:text-track-cue>text track cues</a><a href=#guidelines-for-exposing-cues-in-various-formats-as-text-track-cues class=self-link></a></h6>
+
+  <p>How a specific format's text track cues are to be interpreted for the purposes of processing by
+  an HTML user agent is defined by that format. In the absence of such a specification, this section
+  provides some constraints within which implementations can attempt to consistently expose such
+  formats.</p>
+
+  <p>To support the <a href=#text-track id=guidelines-for-exposing-cues-in-various-formats-as-text-track-cues:text-track>text track</a> model of HTML, each unit of timed data is converted to a
+  <a href=#text-track-cue id=guidelines-for-exposing-cues-in-various-formats-as-text-track-cues:text-track-cue-2>text track cue</a>. Where the mapping of the format's features to the aspects of a
+  <a href=#text-track-cue id=guidelines-for-exposing-cues-in-various-formats-as-text-track-cues:text-track-cue-3>text track cue</a> as defined in this specification are not defined, implementations must
+  ensure that the mapping is consistent with the definitions of the aspects of a <a href=#text-track-cue id=guidelines-for-exposing-cues-in-various-formats-as-text-track-cues:text-track-cue-4>text track
+  cue</a> as defined above, as well as with the following constraints:</p>
+
+  <dl><dt>The <a href=#text-track-cue-identifier id=guidelines-for-exposing-cues-in-various-formats-as-text-track-cues:text-track-cue-identifier>text track cue identifier</a>
+   <dd>
+    <p>Should be set to the empty string if the format has no obvious analogue to a per-cue
+    identifier.</p>
+   <dt>The <a href=#text-track-cue-pause-on-exit-flag id=guidelines-for-exposing-cues-in-various-formats-as-text-track-cues:text-track-cue-pause-on-exit-flag>text track cue pause-on-exit flag</a>
+   <dd>
+    <p>Should be set to false.</p>
+   </dl>
+
+  
+
+
+  <h6 id=text-track-api>4.8.12.11.5 Text track API<a href=#text-track-api class=self-link></a></h6>
+
+  <pre class=idl>interface <dfn id=texttracklist>TextTrackList</dfn> : <a id=text-track-api:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  readonly attribute unsigned long <a href=#dom-texttracklist-length id=text-track-api:dom-texttracklist-length>length</a>;
+  <a href=#dom-texttracklist-item>getter</a> <a href=#texttrack id=text-track-api:texttrack>TextTrack</a> (unsigned long index);
+  <a href=#texttrack id=text-track-api:texttrack-2>TextTrack</a>? <a href=#dom-texttracklist-gettrackbyid id=text-track-api:dom-texttracklist-gettrackbyid>getTrackById</a>(DOMString id);
+
+  attribute <a href=#eventhandler id=text-track-api:eventhandler>EventHandler</a> <a href=#handler-texttracklist-onchange id=text-track-api:handler-texttracklist-onchange>onchange</a>;
+  attribute <a href=#eventhandler id=text-track-api:eventhandler-2>EventHandler</a> <a href=#handler-texttracklist-onaddtrack id=text-track-api:handler-texttracklist-onaddtrack>onaddtrack</a>;
+  attribute <a href=#eventhandler id=text-track-api:eventhandler-3>EventHandler</a> <a href=#handler-texttracklist-onremovetrack id=text-track-api:handler-texttracklist-onremovetrack>onremovetrack</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>media</var> . <code id=text-track-api:dom-media-texttracks><a href=#dom-media-texttracks>textTracks</a></code> . <code>length</code><dd>
+    <p>Returns the number of <a href=#text-track id=text-track-api:text-track>text tracks</a> associated with the <a href=#media-element id=text-track-api:media-element>media element</a> (e.g. from <code id=text-track-api:the-track-element><a href=#the-track-element>track</a></code> elements). This is the number of <a href=#text-track id=text-track-api:text-track-2>text tracks</a> in the <a href=#media-element id=text-track-api:media-element-2>media element</a>'s <a href=#list-of-text-tracks id=text-track-api:list-of-text-tracks>list of text tracks</a>.</p>
+   <dt><var>media</var> . <code id=text-track-api:dom-media-texttracks-2><a href=#dom-media-texttracks>textTracks[</a></code> <var>n</var> <code>]</code><dd>
+    <p>Returns the <code id=text-track-api:texttrack-3><a href=#texttrack>TextTrack</a></code> object representing the <var>n</var>th <a href=#text-track id=text-track-api:text-track-3>text track</a> in the <a href=#media-element id=text-track-api:media-element-3>media element</a>'s <a href=#list-of-text-tracks id=text-track-api:list-of-text-tracks-2>list of text tracks</a>.</p>
+   <dt><var>textTrack</var> = <var>media</var> . <code id=text-track-api:dom-media-texttracks-3><a href=#dom-media-texttracks>textTracks</a></code> . <code id=text-track-api:dom-texttracklist-gettrackbyid-2><a href=#dom-texttracklist-gettrackbyid>getTrackById</a></code>( <var>id</var> )<dd>
+
+    <p>Returns the <code id=text-track-api:texttrack-4><a href=#texttrack>TextTrack</a></code> object with the given identifier, or null if no track has that identifier.</p>
+
+   </dl>
+
+  
+
+  <p>A <code id=text-track-api:texttracklist><a href=#texttracklist>TextTrackList</a></code> object represents a dynamically updating list of <a href=#text-track id=text-track-api:text-track-4>text tracks</a> in a given order.</p>
+
+  <p>The <dfn id=dom-media-texttracks><code>textTracks</code></dfn> attribute of <a href=#media-element id=text-track-api:media-element-4>media elements</a> must return a <code id=text-track-api:texttracklist-2><a href=#texttracklist>TextTrackList</a></code> object
+  representing the <code id=text-track-api:texttrack-5><a href=#texttrack>TextTrack</a></code> objects of the <a href=#text-track id=text-track-api:text-track-5>text tracks</a>
+  in the <a href=#media-element id=text-track-api:media-element-5>media element</a>'s <a href=#list-of-text-tracks id=text-track-api:list-of-text-tracks-3>list of text tracks</a>, in the same order as in the
+  <a href=#list-of-text-tracks id=text-track-api:list-of-text-tracks-4>list of text tracks</a>.</p>
+
+  <p>The <dfn id=dom-texttracklist-length><code>length</code></dfn> attribute of a
+  <code id=text-track-api:texttracklist-3><a href=#texttracklist>TextTrackList</a></code> object must return the number of <a href=#text-track id=text-track-api:text-track-6>text
+  tracks</a> in the list represented by the <code id=text-track-api:texttracklist-4><a href=#texttracklist>TextTrackList</a></code> object.</p>
+
+  <p>The <a id=text-track-api:supported-property-indices href=https://heycam.github.io/webidl/#dfn-supported-property-indices data-x-internal=supported-property-indices>supported property indices</a> of a <code id=text-track-api:texttracklist-5><a href=#texttracklist>TextTrackList</a></code> object at any
+  instant are the numbers from zero to the number of <a href=#text-track id=text-track-api:text-track-7>text tracks</a> in
+  the list represented by the <code id=text-track-api:texttracklist-6><a href=#texttracklist>TextTrackList</a></code> object minus one, if any. If there are no
+  <a href=#text-track id=text-track-api:text-track-8>text tracks</a> in the list, there are no <a id=text-track-api:supported-property-indices-2 href=https://heycam.github.io/webidl/#dfn-supported-property-indices data-x-internal=supported-property-indices>supported property
+  indices</a>.</p>
+
+  <p id=dom-texttracklist-item>To <a id=text-track-api:determine-the-value-of-an-indexed-property href=https://heycam.github.io/webidl/#dfn-determine-the-value-of-an-indexed-property data-x-internal=determine-the-value-of-an-indexed-property>determine the value of an indexed property</a> of a
+  <code id=text-track-api:texttracklist-7><a href=#texttracklist>TextTrackList</a></code> object for a given index <var>index</var>, the user agent must return
+  the <var>index</var>th <a href=#text-track id=text-track-api:text-track-9>text track</a> in the list represented by the
+  <code id=text-track-api:texttracklist-8><a href=#texttracklist>TextTrackList</a></code> object.</p>
+
+  <p>The <dfn id=dom-texttracklist-gettrackbyid><code>getTrackById(<var>id</var>)</code></dfn> method must return the first <code id=text-track-api:texttrack-6><a href=#texttrack>TextTrack</a></code> in the
+  <code id=text-track-api:texttracklist-9><a href=#texttracklist>TextTrackList</a></code> object whose <code id=text-track-api:dom-texttrack-id><a href=#dom-texttrack-id>id</a></code> IDL attribute
+  would return a value equal to the value of the <var>id</var> argument. When no tracks
+  match the given argument, the method must return null.</p>
+
+  
+
+  <hr>
+
+  <pre class=idl>enum <dfn id=texttrackmode>TextTrackMode</dfn> { "<a href=#dom-texttrack-disabled id=text-track-api:dom-texttrack-disabled>disabled</a>",  "<a href=#dom-texttrack-hidden id=text-track-api:dom-texttrack-hidden>hidden</a>",  "<a href=#dom-texttrack-showing id=text-track-api:dom-texttrack-showing>showing</a>" };
+enum <dfn id=texttrackkind>TextTrackKind</dfn> { "<a href=#dom-texttrack-kind-subtitles id=text-track-api:dom-texttrack-kind-subtitles>subtitles</a>",  "<a href=#dom-texttrack-kind-captions id=text-track-api:dom-texttrack-kind-captions>captions</a>",  "<a href=#dom-texttrack-kind-descriptions id=text-track-api:dom-texttrack-kind-descriptions>descriptions</a>",  "<a href=#dom-texttrack-kind-chapters id=text-track-api:dom-texttrack-kind-chapters>chapters</a>",  "<a href=#dom-texttrack-kind-metadata id=text-track-api:dom-texttrack-kind-metadata>metadata</a>" };
+interface <dfn id=texttrack>TextTrack</dfn> : <a id=text-track-api:eventtarget-2 href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  readonly attribute <a href=#texttrackkind id=text-track-api:texttrackkind>TextTrackKind</a> <a href=#dom-texttrack-kind id=text-track-api:dom-texttrack-kind>kind</a>;
+  readonly attribute DOMString <a href=#dom-texttrack-label id=text-track-api:dom-texttrack-label>label</a>;
+  readonly attribute DOMString <a href=#dom-texttrack-language id=text-track-api:dom-texttrack-language>language</a>;
+
+  readonly attribute DOMString <a href=#dom-texttrack-id id=text-track-api:dom-texttrack-id-2>id</a>;
+  readonly attribute DOMString <a href=#dom-texttrack-inbandmetadatatrackdispatchtype id=text-track-api:dom-texttrack-inbandmetadatatrackdispatchtype>inBandMetadataTrackDispatchType</a>;
+
+  attribute <a href=#texttrackmode id=text-track-api:texttrackmode>TextTrackMode</a> <a href=#dom-texttrack-mode id=text-track-api:dom-texttrack-mode>mode</a>;
+
+  readonly attribute <a href=#texttrackcuelist id=text-track-api:texttrackcuelist>TextTrackCueList</a>? <a href=#dom-texttrack-cues id=text-track-api:dom-texttrack-cues>cues</a>;
+  readonly attribute <a href=#texttrackcuelist id=text-track-api:texttrackcuelist-2>TextTrackCueList</a>? <a href=#dom-texttrack-activecues id=text-track-api:dom-texttrack-activecues>activeCues</a>;
+
+  void <a href=#dom-texttrack-addcue id=text-track-api:dom-texttrack-addcue>addCue</a>(<a href=#texttrackcue id=text-track-api:texttrackcue>TextTrackCue</a> cue);
+  void <a href=#dom-texttrack-removecue id=text-track-api:dom-texttrack-removecue>removeCue</a>(<a href=#texttrackcue id=text-track-api:texttrackcue-2>TextTrackCue</a> cue);
+
+  attribute <a href=#eventhandler id=text-track-api:eventhandler-4>EventHandler</a> <a href=#handler-texttrack-oncuechange id=text-track-api:handler-texttrack-oncuechange>oncuechange</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>textTrack</var> = <var>media</var> . <code id=text-track-api:dom-media-addtexttrack><a href=#dom-media-addtexttrack>addTextTrack</a></code>( <var>kind</var> [, <var>label</var> [, <var>language</var> ] ] )<dd>
+
+    <p>Creates and returns a new <code id=text-track-api:texttrack-7><a href=#texttrack>TextTrack</a></code> object, which is also added to the
+    <a href=#media-element id=text-track-api:media-element-6>media element</a>'s <a href=#list-of-text-tracks id=text-track-api:list-of-text-tracks-5>list of text tracks</a>.</p>
+
+   <dt><var>textTrack</var> . <code id=text-track-api:dom-texttrack-kind-2><a href=#dom-texttrack-kind>kind</a></code><dd>
+
+    <p>Returns the <a href=#text-track-kind id=text-track-api:text-track-kind>text track kind</a> string.</p>
+
+   <dt><var>textTrack</var> . <code id=text-track-api:dom-texttrack-label-2><a href=#dom-texttrack-label>label</a></code><dd>
+
+    <p>Returns the <a href=#text-track-label id=text-track-api:text-track-label>text track label</a>, if there is one, or the empty string otherwise
+    (indicating that a custom label probably needs to be generated from the other attributes of the
+    object if the object is exposed to the user).</p>
+
+   <dt><var>textTrack</var> . <code id=text-track-api:dom-texttrack-language-2><a href=#dom-texttrack-language>language</a></code><dd>
+    <p>Returns the <a href=#text-track-language id=text-track-api:text-track-language>text track language</a> string.</p>
+   <dt><var>textTrack</var> . <code id=text-track-api:dom-texttrack-id-3><a href=#dom-texttrack-id>id</a></code><dd>
+
+    <p>Returns the ID of the given track.</p>
+
+    <p>For in-band tracks, this is the ID that can be used with a <a href=https://url.spec.whatwg.org/#concept-url-fragment id=text-track-api:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a> if the format supports <a id=text-track-api:media-fragment-syntax href=https://www.w3.org/TR/media-frags/#media-fragment-syntax data-x-internal=media-fragment-syntax>media fragment
+    syntax</a>, and that can be used with the <code id=text-track-api:dom-texttracklist-gettrackbyid-3><a href=#dom-texttracklist-gettrackbyid>getTrackById()</a></code> method.</p>
+
+    <p>For <code id=text-track-api:texttrack-8><a href=#texttrack>TextTrack</a></code> objects corresponding to <code id=text-track-api:the-track-element-2><a href=#the-track-element>track</a></code> elements, this is the
+    ID of the <code id=text-track-api:the-track-element-3><a href=#the-track-element>track</a></code> element.</p>
+
+   <dt><var>textTrack</var> . <code id=text-track-api:dom-texttrack-inbandmetadatatrackdispatchtype-2><a href=#dom-texttrack-inbandmetadatatrackdispatchtype>inBandMetadataTrackDispatchType</a></code><dd>
+
+    <p>Returns the <a href=#text-track-in-band-metadata-track-dispatch-type id=text-track-api:text-track-in-band-metadata-track-dispatch-type>text track in-band metadata track dispatch type</a> string.</p>
+
+   <dt><var>textTrack</var> . <code id=text-track-api:dom-texttrack-mode-2><a href=#dom-texttrack-mode>mode</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the <a href=#text-track-mode id=text-track-api:text-track-mode>text track mode</a>, represented by a string from the following
+    list:</p>
+
+    <dl><dt>"<code id=text-track-api:dom-texttrack-disabled-2><a href=#dom-texttrack-disabled>disabled</a></code>"<dd>
+      <p>The <a href=#text-track-disabled id=text-track-api:text-track-disabled>text track disabled</a> mode.</p>
+     <dt>"<code id=text-track-api:dom-texttrack-hidden-2><a href=#dom-texttrack-hidden>hidden</a></code>"<dd>
+      <p>The <a href=#text-track-hidden id=text-track-api:text-track-hidden>text track hidden</a> mode.</p>
+     <dt>"<code id=text-track-api:dom-texttrack-showing-2><a href=#dom-texttrack-showing>showing</a></code>"<dd>
+      <p>The <a href=#text-track-showing id=text-track-api:text-track-showing>text track showing</a> mode.</p>
+     </dl>
+
+    <p>Can be set, to change the mode.</p>
+
+   <dt><var>textTrack</var> . <code id=text-track-api:dom-texttrack-cues-2><a href=#dom-texttrack-cues>cues</a></code><dd>
+    <p>Returns the <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues>text track list of cues</a>, as a <code id=text-track-api:texttrackcuelist-3><a href=#texttrackcuelist>TextTrackCueList</a></code> object.</p>
+   <dt><var>textTrack</var> . <code id=text-track-api:dom-texttrack-activecues-2><a href=#dom-texttrack-activecues>activeCues</a></code><dd>
+
+    <p>Returns the <a href=#text-track-cue id=text-track-api:text-track-cue>text track cues</a> from the <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-2>text track
+    list of cues</a> that are currently active (i.e. that start before the <a href=#current-playback-position id=text-track-api:current-playback-position>current playback
+    position</a> and end after it), as a <code id=text-track-api:texttrackcuelist-4><a href=#texttrackcuelist>TextTrackCueList</a></code> object.</p>
+
+   <dt><var>textTrack</var> . <code id=text-track-api:dom-texttrack-addcue-2><a href=#dom-texttrack-addcue>addCue</a></code>( <var>cue</var> )<dd>
+    <p>Adds the given cue to <var>textTrack</var>'s <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-3>text track list of cues</a>.</p>
+   <dt><var>textTrack</var> . <code id=text-track-api:dom-texttrack-removecue-2><a href=#dom-texttrack-removecue>removeCue</a></code>( <var>cue</var> )<dd>
+    <p>Removes the given cue from <var>textTrack</var>'s <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-4>text track list of cues</a>.</p>
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-media-addtexttrack><code>addTextTrack(<var>kind</var>, <var>label</var>, <var>language</var>)</code></dfn> method of <a href=#media-element id=text-track-api:media-element-7>media elements</a>, when invoked, must run the following steps:</p>
+
+  <ol><li>
+
+    <p>Create a new <code id=text-track-api:texttrack-9><a href=#texttrack>TextTrack</a></code> object.</p>
+
+   <li>
+
+    <p>Create a new <a href=#text-track id=text-track-api:text-track-10>text track</a> corresponding to the new object, and set its <a href=#text-track-kind id=text-track-api:text-track-kind-2>text
+    track kind</a> to <var>kind</var>, its <a href=#text-track-label id=text-track-api:text-track-label-2>text track label</a> to <var>label</var>, its <a href=#text-track-language id=text-track-api:text-track-language-2>text track language</a> to <var>language</var>, its
+    <a href=#text-track-readiness-state id=text-track-api:text-track-readiness-state>text track readiness state</a> to the <a href=#text-track-loaded id=text-track-api:text-track-loaded>text track loaded</a> state, its
+    <a href=#text-track-mode id=text-track-api:text-track-mode-2>text track mode</a> to the <a href=#text-track-hidden id=text-track-api:text-track-hidden-2>text track hidden</a> mode, and its <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-5>text
+    track list of cues</a> to an empty list.</p>
+
+    <p>Initially, the <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-6>text track list of cues</a> is not associated with any <a href=#rules-for-updating-the-text-track-rendering id=text-track-api:rules-for-updating-the-text-track-rendering>rules
+    for updating the text track rendering</a>. When a <a href=#text-track-cue id=text-track-api:text-track-cue-2>text track cue</a> is added to it,
+    the <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-7>text track list of cues</a> has its rules permanently set accordingly.</p>
+
+   <li>
+
+    <p>Add the new <a href=#text-track id=text-track-api:text-track-11>text track</a> to the <a href=#media-element id=text-track-api:media-element-8>media element</a>'s <a href=#list-of-text-tracks id=text-track-api:list-of-text-tracks-6>list of text
+    tracks</a>.</p>
+
+   <li>
+
+    <p><a href=#queue-a-task id=text-track-api:queue-a-task>Queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=text-track-api:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named
+    <code id=text-track-api:event-media-addtrack><a href=#event-media-addtrack>addtrack</a></code> at the <a href=#media-element id=text-track-api:media-element-9>media element</a>'s <code id=text-track-api:dom-media-texttracks-4><a href=#dom-media-texttracks>textTracks</a></code> attribute's <code id=text-track-api:texttracklist-10><a href=#texttracklist>TextTrackList</a></code> object,
+    using <code id=text-track-api:trackevent><a href=#trackevent>TrackEvent</a></code>, with the <code id=text-track-api:dom-trackevent-track><a href=#dom-trackevent-track>track</a></code>
+    attribute initialized to the new <a href=#text-track id=text-track-api:text-track-12>text track</a>'s <code id=text-track-api:texttrack-10><a href=#texttrack>TextTrack</a></code> object.</p>
+
+   <li>
+
+    <p>Return the new <code id=text-track-api:texttrack-11><a href=#texttrack>TextTrack</a></code> object.</p>
+
+   </ol>
+
+  <hr>
+
+  <p>The <dfn id=dom-texttrack-kind><code>kind</code></dfn> attribute must return the
+  <a href=#text-track-kind id=text-track-api:text-track-kind-3>text track kind</a> of the <a href=#text-track id=text-track-api:text-track-13>text track</a> that the <code id=text-track-api:texttrack-12><a href=#texttrack>TextTrack</a></code> object
+  represents.</p>
+
+  <p>The <dfn id=dom-texttrack-label><code>label</code></dfn> attribute must return the
+  <a href=#text-track-label id=text-track-api:text-track-label-3>text track label</a> of the <a href=#text-track id=text-track-api:text-track-14>text track</a> that the <code id=text-track-api:texttrack-13><a href=#texttrack>TextTrack</a></code>
+  object represents.</p>
+
+  <p>The <dfn id=dom-texttrack-language><code>language</code></dfn> attribute must return the
+  <a href=#text-track-language id=text-track-api:text-track-language-3>text track language</a> of the <a href=#text-track id=text-track-api:text-track-15>text track</a> that the <code id=text-track-api:texttrack-14><a href=#texttrack>TextTrack</a></code>
+  object represents.</p>
+
+  <p>The <dfn id=dom-texttrack-id><code>id</code></dfn> attribute returns the track's
+  identifier, if it has one, or the empty string otherwise. For tracks that correspond to
+  <code id=text-track-api:the-track-element-4><a href=#the-track-element>track</a></code> elements, the track's identifier is the value of the element's <code id=text-track-api:the-id-attribute><a href=#the-id-attribute>id</a></code> attribute, if any. For in-band tracks, the track's identifier is
+  specified by the <a href=#media-resource id=text-track-api:media-resource>media resource</a>. If the <a href=#media-resource id=text-track-api:media-resource-2>media resource</a> is in a format
+  that supports <a id=text-track-api:media-fragment-syntax-2 href=https://www.w3.org/TR/media-frags/#media-fragment-syntax data-x-internal=media-fragment-syntax>media fragment syntax</a>, the identifier returned for a particular
+  track must be the same identifier that would enable the track if used as the name of a track in
+  the track dimension of such a <a href=https://url.spec.whatwg.org/#concept-url-fragment id=text-track-api:concept-url-fragment-2 data-x-internal=concept-url-fragment>fragment</a>.</p>
+
+  <p>The <dfn id=dom-texttrack-inbandmetadatatrackdispatchtype><code>inBandMetadataTrackDispatchType</code></dfn>
+  attribute must return the <a href=#text-track-in-band-metadata-track-dispatch-type id=text-track-api:text-track-in-band-metadata-track-dispatch-type-2>text track in-band metadata track dispatch type</a> of the
+  <a href=#text-track id=text-track-api:text-track-16>text track</a> that the <code id=text-track-api:texttrack-15><a href=#texttrack>TextTrack</a></code> object represents.</p>
+
+  <p>The <dfn id=dom-texttrack-mode><code>mode</code></dfn> attribute, on getting, must return
+  the string corresponding to the <a href=#text-track-mode id=text-track-api:text-track-mode-3>text track mode</a> of the <a href=#text-track id=text-track-api:text-track-17>text track</a> that
+  the <code id=text-track-api:texttrack-16><a href=#texttrack>TextTrack</a></code> object represents, as defined by the following list:</p>
+
+  <dl><dt>"<dfn id=dom-texttrack-disabled><code>disabled</code></dfn>"<dd>The <a href=#text-track-disabled id=text-track-api:text-track-disabled-2>text track disabled</a> mode.<dt>"<dfn id=dom-texttrack-hidden><code>hidden</code></dfn>"<dd>The <a href=#text-track-hidden id=text-track-api:text-track-hidden-3>text track hidden</a> mode.<dt>"<dfn id=dom-texttrack-showing><code>showing</code></dfn>"<dd>The <a href=#text-track-showing id=text-track-api:text-track-showing-2>text track showing</a> mode.</dl>
+
+  <p>On setting, if the new value isn't equal to what the attribute would currently return, the new
+  value must be processed as follows:</p>
+
+  <dl class=switch><dt>If the new value is "<code id=text-track-api:dom-texttrack-disabled-3><a href=#dom-texttrack-disabled>disabled</a></code>"<dd>
+
+    <p>Set the <a href=#text-track-mode id=text-track-api:text-track-mode-4>text track mode</a> of the <a href=#text-track id=text-track-api:text-track-18>text track</a> that the
+    <code id=text-track-api:texttrack-17><a href=#texttrack>TextTrack</a></code> object represents to the <a href=#text-track-disabled id=text-track-api:text-track-disabled-3>text track disabled</a> mode.</p>
+
+   <dt>If the new value is "<code id=text-track-api:dom-texttrack-hidden-3><a href=#dom-texttrack-hidden>hidden</a></code>"<dd>
+
+    <p>Set the <a href=#text-track-mode id=text-track-api:text-track-mode-5>text track mode</a> of the <a href=#text-track id=text-track-api:text-track-19>text track</a> that the
+    <code id=text-track-api:texttrack-18><a href=#texttrack>TextTrack</a></code> object represents to the <a href=#text-track-hidden id=text-track-api:text-track-hidden-4>text track hidden</a> mode.</p>
+
+   <dt>If the new value is "<code id=text-track-api:dom-texttrack-showing-3><a href=#dom-texttrack-showing>showing</a></code>"<dd>
+
+    <p>Set the <a href=#text-track-mode id=text-track-api:text-track-mode-6>text track mode</a> of the <a href=#text-track id=text-track-api:text-track-20>text track</a> that the
+    <code id=text-track-api:texttrack-19><a href=#texttrack>TextTrack</a></code> object represents to the <a href=#text-track-showing id=text-track-api:text-track-showing-3>text track showing</a> mode.</p>
+
+   </dl>
+
+  <p>If the <a href=#text-track-mode id=text-track-api:text-track-mode-7>text track mode</a> of the <a href=#text-track id=text-track-api:text-track-21>text track</a> that the
+  <code id=text-track-api:texttrack-20><a href=#texttrack>TextTrack</a></code> object represents is not the <a href=#text-track-disabled id=text-track-api:text-track-disabled-4>text track disabled</a> mode, then
+  the <dfn id=dom-texttrack-cues><code>cues</code></dfn> attribute must return a
+  <a href=#live id=text-track-api:live>live</a> <code id=text-track-api:texttrackcuelist-5><a href=#texttrackcuelist>TextTrackCueList</a></code> object that represents the subset of the
+  <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-8>text track list of cues</a> of the <a href=#text-track id=text-track-api:text-track-22>text track</a> that the
+  <code id=text-track-api:texttrack-21><a href=#texttrack>TextTrack</a></code> object represents whose <a href=#text-track-cue-end-time id=text-track-api:text-track-cue-end-time>end
+  times</a> occur at or after the <a href=#earliest-possible-position-when-the-script-started id=text-track-api:earliest-possible-position-when-the-script-started>earliest possible position when the script
+  started</a>, in <a href=#text-track-cue-order id=text-track-api:text-track-cue-order>text track cue order</a>. Otherwise, it must return null. For each <code id=text-track-api:texttrack-22><a href=#texttrack>TextTrack</a></code> object, when an
+  object is returned, the same <code id=text-track-api:texttrackcuelist-6><a href=#texttrackcuelist>TextTrackCueList</a></code> object must be returned each time.</p>
+
+  <p>The <dfn id=earliest-possible-position-when-the-script-started>earliest possible position when the script started</dfn> is whatever the
+  <a href=#earliest-possible-position id=text-track-api:earliest-possible-position>earliest possible position</a> was the last time the <a href=#event-loop id=text-track-api:event-loop>event loop</a> reached step
+  1.</p>
+
+  <p>If the <a href=#text-track-mode id=text-track-api:text-track-mode-8>text track mode</a> of the <a href=#text-track id=text-track-api:text-track-23>text track</a> that the
+  <code id=text-track-api:texttrack-23><a href=#texttrack>TextTrack</a></code> object represents is not the <a href=#text-track-disabled id=text-track-api:text-track-disabled-5>text track disabled</a> mode, then
+  the <dfn id=dom-texttrack-activecues><code>activeCues</code></dfn> attribute must return a
+  <a href=#live id=text-track-api:live-2>live</a> <code id=text-track-api:texttrackcuelist-7><a href=#texttrackcuelist>TextTrackCueList</a></code> object that represents the subset of the
+  <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-9>text track list of cues</a> of the <a href=#text-track id=text-track-api:text-track-24>text track</a> that the
+  <code id=text-track-api:texttrack-24><a href=#texttrack>TextTrack</a></code> object represents whose <a href=#active-flag-was-set-when-the-script-started id=text-track-api:active-flag-was-set-when-the-script-started>active flag was set when the script
+  started</a>, in <a href=#text-track-cue-order id=text-track-api:text-track-cue-order-2>text track cue order</a>. Otherwise, it must return null. For each <code id=text-track-api:texttrack-25><a href=#texttrack>TextTrack</a></code> object, when an
+  object is returned, the same <code id=text-track-api:texttrackcuelist-8><a href=#texttrackcuelist>TextTrackCueList</a></code> object must be returned each time.</p>
+
+  <p>A <a href=#text-track-cue id=text-track-api:text-track-cue-3>text track cue</a>'s <dfn id=active-flag-was-set-when-the-script-started>active flag was set when the script started</dfn> if its
+  <a href=#text-track-cue-active-flag id=text-track-api:text-track-cue-active-flag>text track cue active flag</a> was set the last time the <a href=#event-loop id=text-track-api:event-loop-2>event loop</a> reached
+  <a href=#step1>step 1</a>.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-texttrack-addcue><code>addCue(<var>cue</var>)</code></dfn> method
+  of <code id=text-track-api:texttrack-26><a href=#texttrack>TextTrack</a></code> objects, when invoked, must run the following steps:</p>
+
+  <ol><li><p>If the <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-10>text track list of cues</a> does not yet have any associated <a href=#rules-for-updating-the-text-track-rendering id=text-track-api:rules-for-updating-the-text-track-rendering-2>rules
+   for updating the text track rendering</a>, then associate the <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-11>text track list of
+   cues</a> with the <a href=#rules-for-updating-the-text-track-rendering id=text-track-api:rules-for-updating-the-text-track-rendering-3>rules for updating the text track rendering</a> appropriate to <var>cue</var>.</p>
+
+   <li><p>If <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-12>text track list of cues</a>' associated <a href=#rules-for-updating-the-text-track-rendering id=text-track-api:rules-for-updating-the-text-track-rendering-4>rules for updating the text
+   track rendering</a> are not the same <a href=#rules-for-updating-the-text-track-rendering id=text-track-api:rules-for-updating-the-text-track-rendering-5>rules for updating the text track rendering</a>
+   as appropriate for <var>cue</var>, then throw an <a id=text-track-api:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+   <code id=text-track-api:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.</p>
+
+   <li><p>If the given <var>cue</var> is in a <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-13>text track list of cues</a>, then
+   remove <var>cue</var> from that <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-14>text track list of cues</a>.<li><p>Add <var>cue</var> to the method's <code id=text-track-api:texttrack-27><a href=#texttrack>TextTrack</a></code> object's <a href=#text-track id=text-track-api:text-track-25>text
+   track</a>'s <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-15>text track list of cues</a>.</ol>
+
+  <p>The <dfn id=dom-texttrack-removecue><code>removeCue(<var>cue</var>)</code></dfn>
+  method of <code id=text-track-api:texttrack-28><a href=#texttrack>TextTrack</a></code> objects, when invoked, must run the following steps:</p>
+
+  <ol><li><p>If the given <var>cue</var> is not currently listed in the method's
+   <code id=text-track-api:texttrack-29><a href=#texttrack>TextTrack</a></code> object's <a href=#text-track id=text-track-api:text-track-26>text track</a>'s <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-16>text track list of cues</a>,
+   then throw a <a id=text-track-api:notfounderror href=https://heycam.github.io/webidl/#notfounderror data-x-internal=notfounderror>"<code>NotFoundError</code>"</a> <code id=text-track-api:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li><p>Remove <var>cue</var> from the method's <code id=text-track-api:texttrack-30><a href=#texttrack>TextTrack</a></code> object's
+   <a href=#text-track id=text-track-api:text-track-27>text track</a>'s <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-17>text track list of cues</a>.</ol>
+
+  
+
+  <div class=example>
+
+   <p>In this example, an <code id=text-track-api:the-audio-element><a href=#the-audio-element>audio</a></code> element is used to play a specific sound-effect from a
+   sound file containing many sound effects. A cue is used to pause the audio, so that it ends
+   exactly at the end of the clip, even if the browser is busy running some script. If the page had
+   relied on script to pause the audio, then the start of the next clip might be heard if the
+   browser was not able to run the script at the exact time specified.</p>
+
+   <pre>var sfx = new Audio('sfx.wav');
+var sounds = sfx.addTextTrack('metadata');
+
+// add sounds we care about
+function addFX(start, end, name) {
+  var cue = new VTTCue(start, end, '');
+  cue.id = name;
+  cue.pauseOnExit = true;
+  sounds.addCue(cue);
+}
+addFX(12.783, 13.612, 'dog bark');
+addFX(13.612, 15.091, 'kitten mew'))
+
+function playSound(id) {
+  sfx.currentTime = sounds.getCueById(id).startTime;
+  sfx.play();
+}
+
+// play a bark as soon as we can
+sfx.oncanplaythrough = function () {
+  playSound('dog bark');
+}
+// meow when the user tries to leave,
+// and have the browser ask them to stay
+window.onbeforeunload = function (e) {
+  playSound('kitten mew');
+  e.preventDefault();
+}</pre>
+
+  </div>
+
+  <hr>
+
+  <pre class=idl>interface <dfn id=texttrackcuelist>TextTrackCueList</dfn> {
+  readonly attribute unsigned long <a href=#dom-texttrackcuelist-length id=text-track-api:dom-texttrackcuelist-length>length</a>;
+  <a href=#dom-texttrackcuelist-item>getter</a> <a href=#texttrackcue id=text-track-api:texttrackcue-3>TextTrackCue</a> (unsigned long index);
+  <a href=#texttrackcue id=text-track-api:texttrackcue-4>TextTrackCue</a>? <a href=#dom-texttrackcuelist-getcuebyid id=text-track-api:dom-texttrackcuelist-getcuebyid>getCueById</a>(DOMString id);
+};</pre>
+
+  <dl class=domintro><dt><var>cuelist</var> . <code id=text-track-api:dom-texttrackcuelist-length-2><a href=#dom-texttrackcuelist-length>length</a></code><dd>
+    <p>Returns the number of <a href=#text-track-cue id=text-track-api:text-track-cue-4>cues</a> in the list.</p>
+   <dt><var>cuelist</var>[<var>index</var>]<dd>
+    <p>Returns the <a href=#text-track-cue id=text-track-api:text-track-cue-5>text track cue</a> with index <var>index</var> in the list. The cues are sorted in <a href=#text-track-cue-order id=text-track-api:text-track-cue-order-3>text track cue order</a>.</p>
+   <dt><var>cuelist</var> . <code id=text-track-api:dom-texttrackcuelist-getcuebyid-2><a href=#dom-texttrackcuelist-getcuebyid>getCueById</a></code>( <var>id</var> )<dd>
+    <p>Returns the first <a href=#text-track-cue id=text-track-api:text-track-cue-6>text track cue</a> (in <a href=#text-track-cue-order id=text-track-api:text-track-cue-order-4>text track cue order</a>) with <a href=#text-track-cue-identifier id=text-track-api:text-track-cue-identifier>text track cue identifier</a> <var>id</var>.</p>
+    <p>Returns null if none of the cues have the given identifier or if the argument is the empty string.</p>
+   </dl>
+
+  
+
+  <p>A <code id=text-track-api:texttrackcuelist-9><a href=#texttrackcuelist>TextTrackCueList</a></code> object represents a dynamically updating list of <a href=#text-track-cue id=text-track-api:text-track-cue-7>text track cues</a> in a given order.</p>
+
+  <p>The <dfn id=dom-texttrackcuelist-length><code>length</code></dfn> attribute must return
+  the number of <a href=#text-track-cue id=text-track-api:text-track-cue-8>cues</a> in the list represented by the
+  <code id=text-track-api:texttrackcuelist-10><a href=#texttrackcuelist>TextTrackCueList</a></code> object.</p>
+
+  <p>The <a id=text-track-api:supported-property-indices-3 href=https://heycam.github.io/webidl/#dfn-supported-property-indices data-x-internal=supported-property-indices>supported property indices</a> of a <code id=text-track-api:texttrackcuelist-11><a href=#texttrackcuelist>TextTrackCueList</a></code> object at any
+  instant are the numbers from zero to the number of <a href=#text-track-cue id=text-track-api:text-track-cue-9>cues</a> in the
+  list represented by the <code id=text-track-api:texttrackcuelist-12><a href=#texttrackcuelist>TextTrackCueList</a></code> object minus one, if any. If there are no
+  <a href=#text-track-cue id=text-track-api:text-track-cue-10>cues</a> in the list, there are no <a id=text-track-api:supported-property-indices-4 href=https://heycam.github.io/webidl/#dfn-supported-property-indices data-x-internal=supported-property-indices>supported property
+  indices</a>.</p>
+
+  <p id=dom-texttrackcuelist-item>To <a id=text-track-api:determine-the-value-of-an-indexed-property-2 href=https://heycam.github.io/webidl/#dfn-determine-the-value-of-an-indexed-property data-x-internal=determine-the-value-of-an-indexed-property>determine the value of an indexed property</a> for a
+  given index <var>index</var>, the user agent must return the <var>index</var>th <a href=#text-track-cue id=text-track-api:text-track-cue-11>text track
+  cue</a> in the list represented by the <code id=text-track-api:texttrackcuelist-13><a href=#texttrackcuelist>TextTrackCueList</a></code> object.</p>
+
+  <p>The <dfn id=dom-texttrackcuelist-getcuebyid><code>getCueById(<var>id</var>)</code></dfn> method, when called with an argument other than the empty string,
+  must return the first <a href=#text-track-cue id=text-track-api:text-track-cue-12>text track cue</a> in the list represented by the
+  <code id=text-track-api:texttrackcuelist-14><a href=#texttrackcuelist>TextTrackCueList</a></code> object whose <a href=#text-track-cue-identifier id=text-track-api:text-track-cue-identifier-2>text track cue identifier</a> is <var>id</var>, if any, or null otherwise. If the argument is the empty string, then the method
+  must return null.</p>
+
+  
+
+  <hr>

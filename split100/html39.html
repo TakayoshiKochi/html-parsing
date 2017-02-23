@@ -1,0 +1,850 @@
+  results in a range control whose initial value is 60.</p>
+
+  
+
+  <div class=example>
+
+   <p>Here is an example of a range control using an autocomplete list with the <code id="range-state-(type=range):attr-input-list"><a href=#attr-input-list>list</a></code> attribute. This could be useful if there are values along
+   the full range of the control that are especially important, such as preconfigured light levels
+   or typical speed limits in a range control used as a speed control. The following markup
+   fragment:</p>
+
+   <pre>&lt;input type="range" min="-100" max="100" value="0" step="10" name="power" list="powers">
+&lt;datalist id="powers">
+&lt;option value="0">
+&lt;option value="-30">
+&lt;option value="30">
+<span class=bad> &lt;option value="++50"></span>
+&lt;/datalist>
+</pre>
+
+   <p>...with the following style sheet applied:</p>
+
+   <pre>input { height: 75px; width: 49px; background: #D5CCBB; color: black; }</pre>
+
+   <p>...might render as:</p>
+
+   <p><img src=/images/sample-range.png width=49 alt="A vertical slider control whose primary color is black and whose background color is beige, with the slider having five tick marks, one long one at each extremity, and three short ones clustered around the midpoint." height=75>
+
+   <p>Note how the UA determined the orientation of the control from the ratio of the
+   style-sheet-specified height and width properties. The colors were similarly derived from the
+   style sheet. The tick marks, however, were derived from the markup. In particular, the <code id="range-state-(type=range):attr-input-step"><a href=#attr-input-step>step</a></code> attribute has not affected the placement of tick marks,
+   the UA deciding to only use the author-specified completion values and then adding longer tick
+   marks at the extremes.</p>
+
+   <p>Note also how the invalid value <code>++50</code> was completely ignored.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>For another example, consider the following markup fragment:</p>
+
+   <pre>&lt;input name=x type=range min=100 max=700 step=9.09090909 value=509.090909></pre>
+
+   <p>A user agent could display in a variety of ways, for instance:</p>
+
+   <p><img src=/images/sample-range-2a.png width=231 alt="As a dial." height=57></p>
+
+   <p>Or, alternatively, for instance:</p>
+
+   <p><img src=/images/sample-range-2b.png width=445 alt="As a long horizontal slider with tick marks." height=56></p>
+
+   <p>The user agent could pick which one to display based on the dimensions given in the style
+   sheet. This would allow it to maintain the same resolution for the tick marks, despite the
+   differences in width.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>Finally, here is an example of a range control with two labeled values:</p>
+
+   <pre>&lt;input type="range" name="a" list="a-values">
+&lt;datalist id="a-values">
+&lt;option value="10" label="Low">
+&lt;option value="90" label="High">
+&lt;/datalist>
+</pre>
+
+   <p>With styles that make the control draw vertically, it might look as follows:</p>
+
+   <p><img src=/images/sample-range-labels.png width=103 alt="A vertical slider control with two tick marks, one near the top labeled 'High', and one near the bottom labeled 'Low'." height=164>
+
+  </div>
+
+  <p class=note>In this state, the range and step constraints are enforced even during user input,
+  and there is no way to set the value to the empty string.</p>
+
+  <p>The <code id="range-state-(type=range):attr-input-min"><a href=#attr-input-min>min</a></code> attribute, if specified, must have a value that is
+  a <a href=#valid-floating-point-number id="range-state-(type=range):valid-floating-point-number-6">valid floating-point number</a>. The <a href=#concept-input-min-default id="range-state-(type=range):concept-input-min-default">default
+  minimum</a> is 0. The <code id="range-state-(type=range):attr-input-max"><a href=#attr-input-max>max</a></code> attribute, if specified, must
+  have a value that is a <a href=#valid-floating-point-number id="range-state-(type=range):valid-floating-point-number-7">valid floating-point number</a>. The <a href=#concept-input-max-default id="range-state-(type=range):concept-input-max-default">default maximum</a> is 100.</p>
+
+  <p>The <a href=#concept-input-step-scale id="range-state-(type=range):concept-input-step-scale">step scale factor</a> is
+  1. The <a href=#concept-input-step-default id="range-state-(type=range):concept-input-step-default">default step</a> is 1 (allowing only
+  integers, unless the <code id="range-state-(type=range):attr-input-min-2"><a href=#attr-input-min>min</a></code> attribute has a non-integer
+  value).</p>
+
+  
+
+  <p><strong>The <a href=#concept-input-value-string-number id="range-state-(type=range):concept-input-value-string-number">algorithm to convert a string to a
+  number</a>, given a string <var>input</var>, is as follows</strong>: If applying the
+  <a href=#rules-for-parsing-floating-point-number-values id="range-state-(type=range):rules-for-parsing-floating-point-number-values-2">rules for parsing floating-point number values</a> to <var>input</var> results
+  in an error, then return an error; otherwise, return the resulting number.</p>
+
+  <p><strong>The <a href=#concept-input-value-number-string id="range-state-(type=range):concept-input-value-number-string">algorithm to convert a number to a
+  string</a>, given a number <var>input</var>, is as follows</strong>: Return the <a href=#best-representation-of-the-number-as-a-floating-point-number id="range-state-(type=range):best-representation-of-the-number-as-a-floating-point-number-4">best representation, as a
+  floating-point number</a>, of <var>input</var>.</p>
+
+  
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="range-state-(type=range):the-input-element-3"><a href=#the-input-element>input</a></code> element content attributes, IDL attributes, and
+   methods <a href=#concept-input-apply id="range-state-(type=range):concept-input-apply">apply</a> to the element:
+   <code id="range-state-(type=range):attr-fe-autocomplete"><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="range-state-(type=range):attr-input-list-2"><a href=#attr-input-list>list</a></code>,
+   <code id="range-state-(type=range):attr-input-max-2"><a href=#attr-input-max>max</a></code>,
+   <code id="range-state-(type=range):attr-input-min-3"><a href=#attr-input-min>min</a></code>, and
+   <code id="range-state-(type=range):attr-input-step-2"><a href=#attr-input-step>step</a></code> content attributes;
+   <code id="range-state-(type=range):dom-input-list"><a href=#dom-input-list>list</a></code>,
+   <code id="range-state-(type=range):dom-input-value"><a href=#dom-input-value>value</a></code>, and
+   <code id="range-state-(type=range):dom-input-valueasnumber"><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="range-state-(type=range):dom-input-stepdown"><a href=#dom-input-stepdown>stepDown()</a></code> and
+   <code id="range-state-(type=range):dom-input-stepup"><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+   <p>The <code id="range-state-(type=range):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is in mode <a href=#dom-input-value-value id="range-state-(type=range):dom-input-value-value">value</a>.</p>
+
+   <p>The <code id="range-state-(type=range):event-input"><a href=#event-input>input</a></code> and <code id="range-state-(type=range):event-change"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="range-state-(type=range):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="range-state-(type=range):do-not-apply">do not apply</a> to the
+   element:
+   <code id="range-state-(type=range):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="range-state-(type=range):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="range-state-(type=range):attr-input-checked" class=no-backref><a href=#attr-input-checked>checked</a></code>,
+   <code id="range-state-(type=range):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="range-state-(type=range):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="range-state-(type=range):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="range-state-(type=range):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="range-state-(type=range):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="range-state-(type=range):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="range-state-(type=range):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="range-state-(type=range):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="range-state-(type=range):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="range-state-(type=range):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="range-state-(type=range):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="range-state-(type=range):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="range-state-(type=range):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="range-state-(type=range):attr-input-readonly" class=no-backref><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="range-state-(type=range):attr-input-required" class=no-backref><a href=#attr-input-required>required</a></code>,
+   <code id="range-state-(type=range):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="range-state-(type=range):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>, and
+   <code id="range-state-(type=range):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="range-state-(type=range):do-not-apply-2">do not apply</a> to the element:
+   <code id="range-state-(type=range):dom-input-checked" class=no-backref><a href=#dom-input-checked>checked</a></code>,
+   <code id="range-state-(type=range):dom-input-files" class=no-backref><a href=#dom-input-files>files</a></code>,
+   <code id="range-state-(type=range):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="range-state-(type=range):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>,
+   <code id="range-state-(type=range):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code>, and
+   <code id="range-state-(type=range):dom-input-valueasdate" class=no-backref><a href=#dom-input-valueasdate>valueAsDate</a></code> IDL attributes;
+   <code id="range-state-(type=range):dom-textarea/input-select" class=no-backref><a href=#dom-textarea/input-select>select()</a></code>,
+   <code id="range-state-(type=range):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>, and
+   <code id="range-state-(type=range):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code> methods.</p>
+
+  </div>
+
+
+
+  <h6 id="color-state-(type=color)">4.10.5.1.14 <dfn>Color</dfn> state (<code>type=color</code>)<a href="#color-state-(type=color)" class=self-link></a></h6><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> input-color<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>20+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc partial"><span>UC Browser for Android (limited)</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>29+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>10.1+</span></span><span class="edge yes"><span>Edge</span> <span>14+</span></span><span class="opera yes"><span>Opera</span> <span>17+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=input-color">caniuse.com</a></div>
+
+  
+
+  <p>When an <code id="color-state-(type=color):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="color-state-(type=color):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#color-state-(type=color)" id="color-state-(type=color):color-state-(type=color)">Color</a> state, the rules in this section apply.</p>
+
+  
+
+  <p>The <code id="color-state-(type=color):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="color-state-(type=color):represents">represents</a> a color well control, for setting the
+  element's <a href=#concept-fe-value id="color-state-(type=color):concept-fe-value">value</a> to a string representing a <a href=#simple-colour id="color-state-(type=color):simple-colour">simple
+  color</a>.</p>
+
+  
+
+  <p class=note>In this state, there is always a color picked, and there is no way to set the
+  value to the empty string.</p>
+
+  <p>If the element is <i id="color-state-(type=color):concept-fe-mutable"><a href=#concept-fe-mutable>mutable</a></i>, the user agent should allow the
+  user to change the color represented by its <a href=#concept-fe-value id="color-state-(type=color):concept-fe-value-2">value</a>, as
+  obtained from applying the <a href=#rules-for-parsing-simple-colour-values id="color-state-(type=color):rules-for-parsing-simple-colour-values">rules for parsing simple color values</a> to it. User agents
+  must not allow the user to set the <a href=#concept-fe-value id="color-state-(type=color):concept-fe-value-3">value</a> to a string that is
+  not a <a href=#valid-lowercase-simple-colour id="color-state-(type=color):valid-lowercase-simple-colour">valid lowercase simple color</a>. If the user agent provides a user interface for
+  selecting a color, then the <a href=#concept-fe-value id="color-state-(type=color):concept-fe-value-4">value</a> must be set to the result
+  of using the <a href=#rules-for-serialising-simple-colour-values id="color-state-(type=color):rules-for-serialising-simple-colour-values">rules for serializing simple color values</a> to the user's selection. User
+  agents must not allow the user to set the <a href=#concept-fe-value id="color-state-(type=color):concept-fe-value-5">value</a> to the empty
+  string.</p>
+
+  <p><strong>Constraint validation</strong>: While the user interface describes input that the user
+  agent cannot convert to a <a href=#valid-lowercase-simple-colour id="color-state-(type=color):valid-lowercase-simple-colour-2">valid lowercase simple color</a>, the control is
+  <a href=#suffering-from-bad-input id="color-state-(type=color):suffering-from-bad-input">suffering from bad input</a>.</p>
+
+  
+
+  <p>The <code id="color-state-(type=color):attr-input-value"><a href=#attr-input-value>value</a></code> attribute, if specified and not empty, must
+  have a value that is a <a href=#valid-simple-colour id="color-state-(type=color):valid-simple-colour">valid simple color</a>.</p>
+
+  
+
+  <p><strong>The <a href=#value-sanitization-algorithm id="color-state-(type=color):value-sanitization-algorithm">value sanitization algorithm</a> is as follows</strong>: If the <a href=#concept-fe-value id="color-state-(type=color):concept-fe-value-6">value</a> of the element is a <a href=#valid-simple-colour id="color-state-(type=color):valid-simple-colour-2">valid simple color</a>, then
+  set it to the <a href=#concept-fe-value id="color-state-(type=color):concept-fe-value-7">value</a> of the element <a id="color-state-(type=color):converted-to-ascii-lowercase" href=https://infra.spec.whatwg.org/#ascii-lowercase data-x-internal=converted-to-ascii-lowercase>converted to ASCII
+  lowercase</a>; otherwise, set it to the string "<code>#000000</code>".</p>
+
+  
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="color-state-(type=color):the-input-element-3"><a href=#the-input-element>input</a></code> element content attributes and IDL attributes <a href=#concept-input-apply id="color-state-(type=color):concept-input-apply">apply</a> to the element:
+   <code id="color-state-(type=color):attr-fe-autocomplete"><a href=#attr-fe-autocomplete>autocomplete</a></code> and
+   <code id="color-state-(type=color):attr-input-list"><a href=#attr-input-list>list</a></code> content attributes;
+   <code id="color-state-(type=color):dom-input-list"><a href=#dom-input-list>list</a></code> and
+   <code id="color-state-(type=color):dom-input-value"><a href=#dom-input-value>value</a></code> IDL attributes;
+   <code id="color-state-(type=color):dom-textarea/input-select"><a href=#dom-textarea/input-select>select()</a></code> method.</p>
+
+   <p>The <code id="color-state-(type=color):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is in mode <a href=#dom-input-value-value id="color-state-(type=color):dom-input-value-value">value</a>.</p>
+
+   <p>The <code id="color-state-(type=color):event-input"><a href=#event-input>input</a></code> and <code id="color-state-(type=color):event-change"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="color-state-(type=color):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="color-state-(type=color):do-not-apply">do not apply</a> to the
+   element:
+   <code id="color-state-(type=color):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="color-state-(type=color):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="color-state-(type=color):attr-input-checked" class=no-backref><a href=#attr-input-checked>checked</a></code>,
+   <code id="color-state-(type=color):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="color-state-(type=color):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="color-state-(type=color):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="color-state-(type=color):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="color-state-(type=color):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="color-state-(type=color):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="color-state-(type=color):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="color-state-(type=color):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="color-state-(type=color):attr-input-max" class=no-backref><a href=#attr-input-max>max</a></code>,
+   <code id="color-state-(type=color):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="color-state-(type=color):attr-input-min" class=no-backref><a href=#attr-input-min>min</a></code>,
+   <code id="color-state-(type=color):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="color-state-(type=color):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="color-state-(type=color):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="color-state-(type=color):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="color-state-(type=color):attr-input-readonly" class=no-backref><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="color-state-(type=color):attr-input-required" class=no-backref><a href=#attr-input-required>required</a></code>,
+   <code id="color-state-(type=color):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="color-state-(type=color):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>,
+   <code id="color-state-(type=color):attr-input-step" class=no-backref><a href=#attr-input-step>step</a></code>, and
+   <code id="color-state-(type=color):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="color-state-(type=color):do-not-apply-2">do not apply</a> to the element:
+   <code id="color-state-(type=color):dom-input-checked" class=no-backref><a href=#dom-input-checked>checked</a></code>,
+   <code id="color-state-(type=color):dom-input-files" class=no-backref><a href=#dom-input-files>files</a></code>,
+   <code id="color-state-(type=color):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="color-state-(type=color):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>,
+   <code id="color-state-(type=color):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code>,
+   <code id="color-state-(type=color):dom-input-valueasdate" class=no-backref><a href=#dom-input-valueasdate>valueAsDate</a></code> and,
+   <code id="color-state-(type=color):dom-input-valueasnumber" class=no-backref><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="color-state-(type=color):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>,
+   <code id="color-state-(type=color):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code>,
+   <code id="color-state-(type=color):dom-input-stepdown" class=no-backref><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="color-state-(type=color):dom-input-stepup" class=no-backref><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+  </div>
+
+
+  <h6 id="checkbox-state-(type=checkbox)">4.10.5.1.15 <dfn>Checkbox</dfn> state (<code>type=checkbox</code>)<a href="#checkbox-state-(type=checkbox)" class=self-link></a></h6>
+
+  
+
+  <p>When an <code id="checkbox-state-(type=checkbox):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="checkbox-state-(type=checkbox):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#checkbox-state-(type=checkbox)" id="checkbox-state-(type=checkbox):checkbox-state-(type=checkbox)">Checkbox</a> state, the rules in this section
+  apply.</p>
+
+  
+
+  <p>The <code id="checkbox-state-(type=checkbox):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="checkbox-state-(type=checkbox):represents">represents</a> a two-state control that represents the
+  element's <a href=#concept-fe-checked id="checkbox-state-(type=checkbox):concept-fe-checked">checkedness</a> state. If the element's <a href=#concept-fe-checked id="checkbox-state-(type=checkbox):concept-fe-checked-2">checkedness</a> state is true, the control represents a positive
+  selection, and if it is false, a negative selection. If the element's <code id="checkbox-state-(type=checkbox):dom-input-indeterminate"><a href=#dom-input-indeterminate>indeterminate</a></code> IDL attribute is set to true, then the
+  control's selection should be obscured as if the control was in a third, indeterminate, state.</p>
+
+  <p class=note>The control is never a true tri-state control, even if the element's <code id="checkbox-state-(type=checkbox):dom-input-indeterminate-2"><a href=#dom-input-indeterminate>indeterminate</a></code> IDL attribute is set to true. The <code id="checkbox-state-(type=checkbox):dom-input-indeterminate-3"><a href=#dom-input-indeterminate>indeterminate</a></code> IDL attribute only gives the appearance of a
+  third state.</p>
+
+  
+
+  <p>The <a href=#input-activation-behavior id="checkbox-state-(type=checkbox):input-activation-behavior">input activation behavior</a> is to <a href=https://dom.spec.whatwg.org/#concept-event-fire id="checkbox-state-(type=checkbox):concept-event-fire" data-x-internal=concept-event-fire>fire an
+  event</a> named <code id="checkbox-state-(type=checkbox):event-input"><a href=#event-input>input</a></code> at the element, with the <code id="checkbox-state-(type=checkbox):dom-event-bubbles"><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true, and then <a href=https://dom.spec.whatwg.org/#concept-event-fire id="checkbox-state-(type=checkbox):concept-event-fire-2" data-x-internal=concept-event-fire>fire an event</a> named <code id="checkbox-state-(type=checkbox):event-change"><a href=#event-change>change</a></code>
+  at the element, with the <code id="checkbox-state-(type=checkbox):dom-event-bubbles-2"><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to
+  true.</p>
+  
+
+  <p><strong>Constraint validation</strong>: If the element is <i id="checkbox-state-(type=checkbox):concept-input-required"><a href=#concept-input-required>required</a></i> and its <a href=#concept-fe-checked id="checkbox-state-(type=checkbox):concept-fe-checked-3">checkedness</a> is false, then the element is <a href=#suffering-from-being-missing id="checkbox-state-(type=checkbox):suffering-from-being-missing">suffering from
+  being missing</a>.</p>
+
+  
+
+
+  <dl class=domintro><dt><var>input</var> . <code id="checkbox-state-(type=checkbox):dom-input-indeterminate-4"><a href=#dom-input-indeterminate>indeterminate</a></code> [ = <var>value</var> ]<dd>
+
+    <p>When set, overrides the rendering of <a href="#checkbox-state-(type=checkbox)" id="checkbox-state-(type=checkbox):checkbox-state-(type=checkbox)-2">checkbox</a>
+    controls so that the current value is not visible.</p>
+
+   </dl>
+
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="checkbox-state-(type=checkbox):the-input-element-3"><a href=#the-input-element>input</a></code> element content attributes and IDL attributes <a href=#concept-input-apply id="checkbox-state-(type=checkbox):concept-input-apply">apply</a> to the element:
+   <code id="checkbox-state-(type=checkbox):attr-input-checked"><a href=#attr-input-checked>checked</a></code>, and
+   <code id="checkbox-state-(type=checkbox):attr-input-required"><a href=#attr-input-required>required</a></code> content attributes;
+   <code id="checkbox-state-(type=checkbox):dom-input-checked"><a href=#dom-input-checked>checked</a></code> and
+   <code id="checkbox-state-(type=checkbox):dom-input-value"><a href=#dom-input-value>value</a></code> IDL attributes.</p>
+
+   <p>The <code id="checkbox-state-(type=checkbox):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is in mode <a href=#dom-input-value-default-on id="checkbox-state-(type=checkbox):dom-input-value-default-on">default/on</a>.</p>
+
+   <p>The <code id="checkbox-state-(type=checkbox):event-input-2"><a href=#event-input>input</a></code> and <code id="checkbox-state-(type=checkbox):event-change-2"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="checkbox-state-(type=checkbox):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="checkbox-state-(type=checkbox):do-not-apply">do not apply</a> to the
+   element:
+   <code id="checkbox-state-(type=checkbox):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-fe-autocomplete" class=no-backref><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-list" class=no-backref><a href=#attr-input-list>list</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-max" class=no-backref><a href=#attr-input-max>max</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-min" class=no-backref><a href=#attr-input-min>min</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-readonly" class=no-backref><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>,
+   <code id="checkbox-state-(type=checkbox):attr-input-step" class=no-backref><a href=#attr-input-step>step</a></code>, and
+   <code id="checkbox-state-(type=checkbox):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="checkbox-state-(type=checkbox):do-not-apply-2">do not apply</a> to the element:
+   <code id="checkbox-state-(type=checkbox):dom-input-files" class=no-backref><a href=#dom-input-files>files</a></code>,
+   <code id="checkbox-state-(type=checkbox):dom-input-list" class=no-backref><a href=#dom-input-list>list</a></code>,
+   <code id="checkbox-state-(type=checkbox):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="checkbox-state-(type=checkbox):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>,
+   <code id="checkbox-state-(type=checkbox):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code>,
+   <code id="checkbox-state-(type=checkbox):dom-input-valueasdate" class=no-backref><a href=#dom-input-valueasdate>valueAsDate</a></code>, and
+   <code id="checkbox-state-(type=checkbox):dom-input-valueasnumber" class=no-backref><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="checkbox-state-(type=checkbox):dom-textarea/input-select" class=no-backref><a href=#dom-textarea/input-select>select()</a></code>,
+   <code id="checkbox-state-(type=checkbox):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>,
+   <code id="checkbox-state-(type=checkbox):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code>,
+   <code id="checkbox-state-(type=checkbox):dom-input-stepdown" class=no-backref><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="checkbox-state-(type=checkbox):dom-input-stepup" class=no-backref><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+  </div>
+
+
+
+  <h6 id="radio-button-state-(type=radio)">4.10.5.1.16 <dfn>Radio Button</dfn> state (<code>type=radio</code>)<a href="#radio-button-state-(type=radio)" class=self-link></a></h6>
+
+  
+
+  <p>When an <code id="radio-button-state-(type=radio):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="radio-button-state-(type=radio):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#radio-button-state-(type=radio)" id="radio-button-state-(type=radio):radio-button-state-(type=radio)">Radio Button</a> state, the rules in this section
+  apply.</p>
+
+  
+
+  <p>The <code id="radio-button-state-(type=radio):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="radio-button-state-(type=radio):represents">represents</a> a control that, when used in conjunction
+  with other <code id="radio-button-state-(type=radio):the-input-element-3"><a href=#the-input-element>input</a></code> elements, forms a <i id="radio-button-state-(type=radio):radio-button-group"><a href=#radio-button-group>radio button group</a></i> in which only one
+  control can have its <a href=#concept-fe-checked id="radio-button-state-(type=radio):concept-fe-checked">checkedness</a> state set to true. If
+  the element's <a href=#concept-fe-checked id="radio-button-state-(type=radio):concept-fe-checked-2">checkedness</a> state is true, the control
+  represents the selected control in the group, and if it is false, it indicates a control in the
+  group that is not selected.</p>
+
+  <p>The <dfn id=radio-button-group><i>radio button group</i></dfn> that contains an <code id="radio-button-state-(type=radio):the-input-element-4"><a href=#the-input-element>input</a></code> element
+  <var>a</var> also contains all the other <code id="radio-button-state-(type=radio):the-input-element-5"><a href=#the-input-element>input</a></code> elements <var>b</var> that fulfill all
+  of the following conditions:</p>
+
+  <ul><li>The <code id="radio-button-state-(type=radio):the-input-element-6"><a href=#the-input-element>input</a></code> element <var>b</var>'s <code id="radio-button-state-(type=radio):attr-input-type-2"><a href=#attr-input-type>type</a></code> attribute is in the <a href="#radio-button-state-(type=radio)" id="radio-button-state-(type=radio):radio-button-state-(type=radio)-2">Radio
+   Button</a> state.<li>Either <var>a</var> and <var>b</var> have the same <a href=#form-owner id="radio-button-state-(type=radio):form-owner">form owner</a>,
+   or they both have no <a href=#form-owner id="radio-button-state-(type=radio):form-owner-2">form owner</a>.<li>Both <var>a</var> and <var>b</var> are in the same <a id="radio-button-state-(type=radio):tree" href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a>.<li>They both have a <code id="radio-button-state-(type=radio):attr-fe-name"><a href=#attr-fe-name>name</a></code> attribute, their <code id="radio-button-state-(type=radio):attr-fe-name-2"><a href=#attr-fe-name>name</a></code> attributes are not empty, and the value of <var>a</var>'s <code id="radio-button-state-(type=radio):attr-fe-name-3"><a href=#attr-fe-name>name</a></code> attribute equals the value of <var>b</var>'s <code id="radio-button-state-(type=radio):attr-fe-name-4"><a href=#attr-fe-name>name</a></code> attribute.</ul>
+
+  <p>A <a id="radio-button-state-(type=radio):tree-2" href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a> must not contain an <code id="radio-button-state-(type=radio):the-input-element-7"><a href=#the-input-element>input</a></code> element whose <i id="radio-button-state-(type=radio):radio-button-group-2"><a href=#radio-button-group>radio button group</a></i> contains only that element.</p>
+
+  
+
+  <p>When any of the following phenomena occur, if the element's <a href=#concept-fe-checked id="radio-button-state-(type=radio):concept-fe-checked-3">checkedness</a> state is true after the occurrence, the <a href=#concept-fe-checked id="radio-button-state-(type=radio):concept-fe-checked-4">checkedness</a> state of all the other elements in the same <i id="radio-button-state-(type=radio):radio-button-group-3"><a href=#radio-button-group>radio
+  button group</a></i> must be set to false:</p>
+
+  <ul><li>The element's <a href=#concept-fe-checked id="radio-button-state-(type=radio):concept-fe-checked-5">checkedness</a> state is set to true (for
+   whatever reason).<li>The element's <code id="radio-button-state-(type=radio):attr-fe-name-5"><a href=#attr-fe-name>name</a></code> attribute is set, changed, or
+   removed.<li>The element's <a href=#form-owner id="radio-button-state-(type=radio):form-owner-3">form owner</a> changes.<li><a href=#signal-a-type-change id="radio-button-state-(type=radio):signal-a-type-change">A type change is signalled</a> for the element.</ul>
+
+  <p>The <a href=#input-activation-behavior id="radio-button-state-(type=radio):input-activation-behavior">input activation behavior</a> is to <a href=https://dom.spec.whatwg.org/#concept-event-fire id="radio-button-state-(type=radio):concept-event-fire" data-x-internal=concept-event-fire>fire an
+  event</a> named <code id="radio-button-state-(type=radio):event-input"><a href=#event-input>input</a></code> at the element, with the <code id="radio-button-state-(type=radio):dom-event-bubbles"><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true, and then <a href=https://dom.spec.whatwg.org/#concept-event-fire id="radio-button-state-(type=radio):concept-event-fire-2" data-x-internal=concept-event-fire>fire an event</a> named <code id="radio-button-state-(type=radio):event-change"><a href=#event-change>change</a></code>
+  at the element, with the <code id="radio-button-state-(type=radio):dom-event-bubbles-2"><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to
+  true.</p>
+  
+
+  <p><strong>Constraint validation</strong>: If an element in the <i id="radio-button-state-(type=radio):radio-button-group-4"><a href=#radio-button-group>radio button group</a></i> is <i id="radio-button-state-(type=radio):concept-input-required"><a href=#concept-input-required>required</a></i>, and all of the
+  <code id="radio-button-state-(type=radio):the-input-element-8"><a href=#the-input-element>input</a></code> elements in the <i id="radio-button-state-(type=radio):radio-button-group-5"><a href=#radio-button-group>radio button group</a></i> have a
+  <a href=#concept-fe-checked id="radio-button-state-(type=radio):concept-fe-checked-6">checkedness</a> that is false, then the element is
+  <a href=#suffering-from-being-missing id="radio-button-state-(type=radio):suffering-from-being-missing">suffering from being missing</a>.</p>
+
+  <div class=example>
+   <p>The following example, for some reason, has specified that puppers are both <a href=#concept-input-required id="radio-button-state-(type=radio):concept-input-required-2">required</a> and <a href=#concept-fe-disabled id="radio-button-state-(type=radio):concept-fe-disabled">disabled</a>:</p>
+
+   <pre>&lt;form>
+ &lt;p>&lt;label>&lt;input type="radio" name="dog-type" value="pupper" required disabled> Pupper&lt;/label>
+ &lt;p>&lt;label>&lt;input type="radio" name="dog-type" value="doggo"> Doggo&lt;/label>
+ &lt;p>&lt;button>Make your choice&lt;/button>
+&lt;/form></pre>
+
+   <p>If the user tries to submit this form without first selecting "Doggo", then <em>both</em>
+   <code id="radio-button-state-(type=radio):the-input-element-9"><a href=#the-input-element>input</a></code> elements will be <a href=#suffering-from-being-missing id="radio-button-state-(type=radio):suffering-from-being-missing-2">suffering from being missing</a>, since an element
+   in the <a href=#radio-button-group id="radio-button-state-(type=radio):radio-button-group-6">radio button group</a> is <a href=#concept-input-required id="radio-button-state-(type=radio):concept-input-required-3">required</a>
+   (viz. the first element), and both of the elements in the radio button group have a false <a href=#concept-fe-checked id="radio-button-state-(type=radio):concept-fe-checked-7">checkedness</a>.</p>
+
+   <p>On the other hand, if the user selects "Doggo" and then submits the form, then neither
+   <code id="radio-button-state-(type=radio):the-input-element-10"><a href=#the-input-element>input</a></code> element will be <a href=#suffering-from-being-missing id="radio-button-state-(type=radio):suffering-from-being-missing-3">suffering from being missing</a>, since while one of
+   them is <a href=#concept-input-required id="radio-button-state-(type=radio):concept-input-required-4">required</a>, not all of them have a false <a href=#concept-fe-checked id="radio-button-state-(type=radio):concept-fe-checked-8">checkedness</a>.</p>
+  </div>
+
+  
+
+  <p class=note>If none of the radio buttons in a <a href=#radio-button-group id="radio-button-state-(type=radio):radio-button-group-7">radio button group</a> are checked,
+  then they will all be initially unchecked in the interface, until such time as one of them is
+  checked (either by the user or by script).</p>
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="radio-button-state-(type=radio):the-input-element-11"><a href=#the-input-element>input</a></code> element content attributes and IDL attributes <a href=#concept-input-apply id="radio-button-state-(type=radio):concept-input-apply">apply</a> to the element:
+   <code id="radio-button-state-(type=radio):attr-input-checked"><a href=#attr-input-checked>checked</a></code> and
+   <code id="radio-button-state-(type=radio):attr-input-required"><a href=#attr-input-required>required</a></code> content attributes;
+   <code id="radio-button-state-(type=radio):dom-input-checked"><a href=#dom-input-checked>checked</a></code> and
+   <code id="radio-button-state-(type=radio):dom-input-value"><a href=#dom-input-value>value</a></code> IDL attributes.</p>
+
+   <p>The <code id="radio-button-state-(type=radio):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is in mode <a href=#dom-input-value-default-on id="radio-button-state-(type=radio):dom-input-value-default-on">default/on</a>.</p>
+
+   <p>The <code id="radio-button-state-(type=radio):event-input-2"><a href=#event-input>input</a></code> and <code id="radio-button-state-(type=radio):event-change-2"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="radio-button-state-(type=radio):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="radio-button-state-(type=radio):do-not-apply">do not apply</a> to the
+   element:
+   <code id="radio-button-state-(type=radio):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="radio-button-state-(type=radio):attr-fe-autocomplete" class=no-backref><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="radio-button-state-(type=radio):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="radio-button-state-(type=radio):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="radio-button-state-(type=radio):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="radio-button-state-(type=radio):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="radio-button-state-(type=radio):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="radio-button-state-(type=radio):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="radio-button-state-(type=radio):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="radio-button-state-(type=radio):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-list" class=no-backref><a href=#attr-input-list>list</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-max" class=no-backref><a href=#attr-input-max>max</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-min" class=no-backref><a href=#attr-input-min>min</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-readonly" class=no-backref><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>,
+   <code id="radio-button-state-(type=radio):attr-input-step" class=no-backref><a href=#attr-input-step>step</a></code>, and
+   <code id="radio-button-state-(type=radio):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="radio-button-state-(type=radio):do-not-apply-2">do not apply</a> to the element:
+   <code id="radio-button-state-(type=radio):dom-input-files" class=no-backref><a href=#dom-input-files>files</a></code>,
+   <code id="radio-button-state-(type=radio):dom-input-list" class=no-backref><a href=#dom-input-list>list</a></code>,
+   <code id="radio-button-state-(type=radio):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="radio-button-state-(type=radio):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>,
+   <code id="radio-button-state-(type=radio):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code>,
+   <code id="radio-button-state-(type=radio):dom-input-valueasdate" class=no-backref><a href=#dom-input-valueasdate>valueAsDate</a></code>, and
+   <code id="radio-button-state-(type=radio):dom-input-valueasnumber" class=no-backref><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="radio-button-state-(type=radio):dom-textarea/input-select" class=no-backref><a href=#dom-textarea/input-select>select()</a></code>,
+   <code id="radio-button-state-(type=radio):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>,
+   <code id="radio-button-state-(type=radio):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code>,
+   <code id="radio-button-state-(type=radio):dom-input-stepdown" class=no-backref><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="radio-button-state-(type=radio):dom-input-stepup" class=no-backref><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+  </div>
+
+
+
+  <h6 id="file-upload-state-(type=file)">4.10.5.1.17 <dfn>File Upload</dfn> state (<code>type=file</code>)<a href="#file-upload-state-(type=file)" class=self-link></a></h6>
+
+  
+
+  
+
+  <p>When an <code id="file-upload-state-(type=file):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="file-upload-state-(type=file):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#file-upload-state-(type=file)" id="file-upload-state-(type=file):file-upload-state-(type=file)">File Upload</a> state, the rules in this section
+  apply.</p>
+
+  
+
+  <p>The <code id="file-upload-state-(type=file):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="file-upload-state-(type=file):represents">represents</a> a list of <dfn id=concept-input-type-file-selected>selected files</dfn>, each file consisting of a file
+  name, a file type, and a file body (the contents of the file).</p>
+
+  
+
+  <p>File names must not contain <a href=#concept-input-file-path id="file-upload-state-(type=file):concept-input-file-path">path components</a>, even
+  in the case that a user has selected an entire directory hierarchy or multiple files with the same
+  name from different directories. <dfn id=concept-input-file-path>Path components</dfn>, for
+  the purposes of the <a href="#file-upload-state-(type=file)" id="file-upload-state-(type=file):file-upload-state-(type=file)-2">File Upload</a> state, are those parts
+  of file names that are separated by U+005C REVERSE SOLIDUS character (\) characters.</p>
+
+  <p>Unless the <code id="file-upload-state-(type=file):attr-input-multiple"><a href=#attr-input-multiple>multiple</a></code> attribute is set, there must be
+  no more than one file in the list of <a href=#concept-input-type-file-selected id="file-upload-state-(type=file):concept-input-type-file-selected">selected
+  files</a>.</p>
+
+  <p>The element's <a href=#input-activation-behavior id="file-upload-state-(type=file):input-activation-behavior">input activation behavior</a> is to run the following steps:</p>
+
+  <ol><li><p>If the algorithm is not <a href=#triggered-by-user-activation id="file-upload-state-(type=file):triggered-by-user-activation">triggered by user activation</a>, then abort these steps
+   without doing anything else.<li><p>Return, but continue running these steps <a href=#in-parallel id="file-upload-state-(type=file):in-parallel">in parallel</a>.<li><p>Optionally, wait until any prior execution of this algorithm has terminated.</p>
+
+   <li><p>Display a prompt to the user requesting that the user specify some files. If the <code id="file-upload-state-(type=file):attr-input-multiple-2"><a href=#attr-input-multiple>multiple</a></code> attribute is not set, there must be no more than one
+   file selected; otherwise, any number may be selected. Files can be from the filesystem or created
+   on the fly, e.g. a picture taken from a camera connected to the user's device.</p>
+
+   <li><p>Wait for the user to have made their selection.<li><p><a href=#queue-a-task id="file-upload-state-(type=file):queue-a-task">Queue a task</a> to first update the element's <a href=#concept-input-type-file-selected id="file-upload-state-(type=file):concept-input-type-file-selected-2">selected files</a> so that it represents the user's
+   selection, then <a href=https://dom.spec.whatwg.org/#concept-event-fire id="file-upload-state-(type=file):concept-event-fire" data-x-internal=concept-event-fire>fire an event</a> named <code id="file-upload-state-(type=file):event-input"><a href=#event-input>input</a></code> at the <code id="file-upload-state-(type=file):the-input-element-3"><a href=#the-input-element>input</a></code> element, with the <code id="file-upload-state-(type=file):dom-event-bubbles"><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true, and finally <a href=https://dom.spec.whatwg.org/#concept-event-fire id="file-upload-state-(type=file):concept-event-fire-2" data-x-internal=concept-event-fire>fire an event</a> named <code id="file-upload-state-(type=file):event-change"><a href=#event-change>change</a></code>
+   at the <code id="file-upload-state-(type=file):the-input-element-4"><a href=#the-input-element>input</a></code> element, with the <code id="file-upload-state-(type=file):dom-event-bubbles-2"><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code>
+   attribute initialized to true.</ol>
+
+  <p>If the element is <i id="file-upload-state-(type=file):concept-fe-mutable"><a href=#concept-fe-mutable>mutable</a></i>, the user agent should allow the
+  user to change the files on the list in other ways also, e.g. adding or removing files by
+  drag-and-drop. When the user does so, the user agent must <a href=#queue-a-task id="file-upload-state-(type=file):queue-a-task-2">queue a task</a> to first
+  update the element's <a href=#concept-input-type-file-selected id="file-upload-state-(type=file):concept-input-type-file-selected-3">selected files</a> so that
+  it represents the user's new selection, then <a href=https://dom.spec.whatwg.org/#concept-event-fire id="file-upload-state-(type=file):concept-event-fire-3" data-x-internal=concept-event-fire>fire an
+  event</a> named <code id="file-upload-state-(type=file):event-input-2"><a href=#event-input>input</a></code> at the <code id="file-upload-state-(type=file):the-input-element-5"><a href=#the-input-element>input</a></code> element, with
+  the <code id="file-upload-state-(type=file):dom-event-bubbles-3"><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true, and finally
+  <a href=https://dom.spec.whatwg.org/#concept-event-fire id="file-upload-state-(type=file):concept-event-fire-4" data-x-internal=concept-event-fire>fire an event</a> named <code id="file-upload-state-(type=file):event-change-2"><a href=#event-change>change</a></code> at the <code id="file-upload-state-(type=file):the-input-element-6"><a href=#the-input-element>input</a></code> element, with the <code id="file-upload-state-(type=file):dom-event-bubbles-4"><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true.</p>
+
+  <p>If the element is not <i id="file-upload-state-(type=file):concept-fe-mutable-2"><a href=#concept-fe-mutable>mutable</a></i>, the user agent must not allow
+  the user to change the element's selection.</p>
+
+  <p><strong>Constraint validation</strong>: If the element is <i id="file-upload-state-(type=file):concept-input-required"><a href=#concept-input-required>required</a></i> and the list of <a href=#concept-input-type-file-selected id="file-upload-state-(type=file):concept-input-type-file-selected-4">selected files</a> is empty, then the element is
+  <a href=#suffering-from-being-missing id="file-upload-state-(type=file):suffering-from-being-missing">suffering from being missing</a>.</p>
+
+  
+
+  <hr>
+
+  <p>The <dfn id=attr-input-accept><code>accept</code></dfn> attribute may be specified to
+  provide user agents with a hint of what file types will be accepted.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> input-file-accept<span class="and_chr partial"><span>Chrome for Android (limited)</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>26+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox yes"><span>Firefox</span> <span>37+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung partial"><span>Samsung Internet (limited)</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android no"><span>Android Browser</span> <span>None</span></span><span class="safari partial"><span>Safari (limited)</span> <span>6+</span></span><span class="edge no"><span>Edge</span> <span>None</span></span><span class="opera yes"><span>Opera</span> <span>15+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=input-file-accept">caniuse.com</a></div>
+
+  <p>If specified, the attribute must consist of a <a href=#set-of-comma-separated-tokens id="file-upload-state-(type=file):set-of-comma-separated-tokens">set of comma-separated tokens</a>, each
+  of which must be an <a id="file-upload-state-(type=file):ascii-case-insensitive" href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for one of the following:</p>
+
+  <dl><dt>The string "<code>audio/*</code>"<dd>Indicates that sound files are accepted.<dt>The string "<code>video/*</code>"<dd>Indicates that video files are accepted.<dt>The string "<code>image/*</code>"<dd>Indicates that image files are accepted.<dt>A <a id="file-upload-state-(type=file):valid-mime-type-with-no-parameters" href=https://mimesniff.spec.whatwg.org/#valid-mime-type-with-no-parameters data-x-internal=valid-mime-type-with-no-parameters>valid MIME type with no parameters</a><dd>Indicates that files of the specified type are accepted.<dt>A string whose first character is a U+002E FULL STOP character (.)<dd>Indicates that files with the specified file extension are accepted.</dl>
+
+  <p>The tokens must not be <a id="file-upload-state-(type=file):ascii-case-insensitive-2" href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> matches for any of the other tokens
+  (i.e. duplicates are not allowed). To obtain the list of tokens from the
+  attribute, the user agent must <a href=#split-a-string-on-commas id="file-upload-state-(type=file):split-a-string-on-commas">split the attribute value on
+  commas</a>.</p>
+
+  <p>User agents may use the value of this attribute to display a more appropriate user interface
+  than a generic file picker. For instance, given the value <code>image/*</code>, a user
+  agent could offer the user the option of using a local camera or selecting a photograph from their
+  photo collection; given the value <code>audio/*</code>, a user agent could offer the user
+  the option of recording a clip using a headset microphone.</p>
+
+  
+
+  <p>User agents should prevent the user from selecting files that are not accepted by one (or more)
+  of these tokens.</p>
+
+  
+
+  <p class=note>Authors are encouraged to specify both any MIME types and any corresponding
+  extensions when looking for data in a specific format.</p>
+
+  <div class=example>
+
+   <p>For example, consider an application that converts Microsoft Word documents to Open Document
+   Format files. Since Microsoft Word documents are described with a wide variety of MIME types and
+   extensions, the site can list several, as follows:</p>
+
+   <pre>&lt;input type="file" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"></pre>
+
+   <p>On platforms that only use file extensions to describe file types, the extensions listed here
+   can be used to filter the allowed documents, while the MIME types can be used with the system's
+   type registration table (mapping MIME types to extensions used by the system), if any, to
+   determine any other extensions to allow. Similarly, on a system that does not have file names or
+   extensions but labels documents with MIME types internally, the MIME types can be used to pick
+   the allowed files, while the extensions can be used if the system has an extension registration
+   table that maps known extensions to MIME types used by the system.</p>
+
+  </div>
+
+  <p class=warning>Extensions tend to be ambiguous (e.g. there are an untold number of formats
+  that use the "<code>.dat</code>" extension, and users can typically quite easily rename
+  their files to have a "<code>.doc</code>" extension even if they are not Microsoft Word
+  documents), and MIME types tend to be unreliable (e.g. many formats have no formally registered
+  types, and many formats are in practice labeled using a number of different MIME types). Authors
+  are reminded that, as usual, data received from a client should be treated with caution, as it may
+  not be in an expected format even if the user is not hostile and the user agent fully obeyed the
+  <code id="file-upload-state-(type=file):attr-input-accept"><a href=#attr-input-accept>accept</a></code> attribute's requirements.</p>
+
+  <div id=fakepath-srsly class=example>
+
+   <p>For historical reasons, the <code id="file-upload-state-(type=file):dom-input-value"><a href=#dom-input-value>value</a></code> IDL attribute prefixes
+   the file name with the string "<code>C:\fakepath\</code>". Some legacy user agents
+   actually included the full path (which was a security vulnerability). As a result of this,
+   obtaining the file name from the <code id="file-upload-state-(type=file):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute in a
+   backwards-compatible way is non-trivial. The following function extracts the file name in a
+   suitably compatible manner:</p>
+
+   <pre>function extractFilename(path) {
+  if (path.substr(0, 12) == "C:\\fakepath\\")
+    return path.substr(12); // modern browser
+  var x;
+  x = path.lastIndexOf('/');
+  if (x >= 0) // Unix-based path
+    return path.substr(x+1);
+  x = path.lastIndexOf('\\');
+  if (x >= 0) // Windows-based path
+    return path.substr(x+1);
+  return path; // just the file name
+}</pre>
+
+   <p>This can be used as follows:</p>
+
+   <pre>&lt;p>&lt;input type=file name=image onchange="updateFilename(this.value)">&lt;/p>
+&lt;p>The name of the file you picked is: &lt;span id="filename">(none)&lt;/span>&lt;/p>
+&lt;script>
+ function updateFilename(path) {
+   var name = extractFilename(path);
+   document.getElementById('filename').textContent = name;
+ }
+&lt;/script></pre>
+
+   
+
+  </div>
+
+  <hr>
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="file-upload-state-(type=file):the-input-element-7"><a href=#the-input-element>input</a></code> element content attributes and IDL attributes <a href=#concept-input-apply id="file-upload-state-(type=file):concept-input-apply">apply</a> to the element:
+   <code id="file-upload-state-(type=file):attr-input-accept-2"><a href=#attr-input-accept>accept</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-multiple-3"><a href=#attr-input-multiple>multiple</a></code>, and
+   <code id="file-upload-state-(type=file):attr-input-required"><a href=#attr-input-required>required</a></code> content attributes;
+   <code id="file-upload-state-(type=file):dom-input-files"><a href=#dom-input-files>files</a></code> and
+   <code id="file-upload-state-(type=file):dom-input-value-3"><a href=#dom-input-value>value</a></code> IDL attributes;
+   <code id="file-upload-state-(type=file):dom-textarea/input-select"><a href=#dom-textarea/input-select>select()</a></code> method.</p>
+
+   <p>The <code id="file-upload-state-(type=file):dom-input-value-4"><a href=#dom-input-value>value</a></code> IDL attribute is in mode <a href=#dom-input-value-filename id="file-upload-state-(type=file):dom-input-value-filename">filename</a>.</p>
+
+   <p>The <code id="file-upload-state-(type=file):event-input-3"><a href=#event-input>input</a></code> and <code id="file-upload-state-(type=file):event-change-3"><a href=#event-change>change</a></code> events <a href=#concept-input-apply id="file-upload-state-(type=file):concept-input-apply-2">apply</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="file-upload-state-(type=file):do-not-apply">do not apply</a> to the
+   element:
+   <code id="file-upload-state-(type=file):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="file-upload-state-(type=file):attr-fe-autocomplete" class=no-backref><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-checked" class=no-backref><a href=#attr-input-checked>checked</a></code>,
+   <code id="file-upload-state-(type=file):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="file-upload-state-(type=file):attr-fs-formaction" class=no-backref><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="file-upload-state-(type=file):attr-fs-formenctype" class=no-backref><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="file-upload-state-(type=file):attr-fs-formmethod" class=no-backref><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="file-upload-state-(type=file):attr-fs-formnovalidate" class=no-backref><a href=#attr-fs-formnovalidate>formnovalidate</a></code>,
+   <code id="file-upload-state-(type=file):attr-fs-formtarget" class=no-backref><a href=#attr-fs-formtarget>formtarget</a></code>,
+   <code id="file-upload-state-(type=file):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="file-upload-state-(type=file):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-list" class=no-backref><a href=#attr-input-list>list</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-max" class=no-backref><a href=#attr-input-max>max</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-min" class=no-backref><a href=#attr-input-min>min</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-readonly" class=no-backref><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>,
+   <code id="file-upload-state-(type=file):attr-input-step" class=no-backref><a href=#attr-input-step>step</a></code>, and
+   <code id="file-upload-state-(type=file):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The element's <code id="file-upload-state-(type=file):attr-input-value"><a href=#attr-input-value>value</a></code> attribute must be omitted.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="file-upload-state-(type=file):do-not-apply-2">do not apply</a> to the element:
+   <code id="file-upload-state-(type=file):dom-input-checked" class=no-backref><a href=#dom-input-checked>checked</a></code>,
+   <code id="file-upload-state-(type=file):dom-input-list" class=no-backref><a href=#dom-input-list>list</a></code>,
+   <code id="file-upload-state-(type=file):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="file-upload-state-(type=file):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>,
+   <code id="file-upload-state-(type=file):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code>,
+   <code id="file-upload-state-(type=file):dom-input-valueasdate" class=no-backref><a href=#dom-input-valueasdate>valueAsDate</a></code>, and
+   <code id="file-upload-state-(type=file):dom-input-valueasnumber" class=no-backref><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="file-upload-state-(type=file):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>,
+   <code id="file-upload-state-(type=file):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code>,
+   <code id="file-upload-state-(type=file):dom-input-stepdown" class=no-backref><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="file-upload-state-(type=file):dom-input-stepup" class=no-backref><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+  </div>
+
+
+
+  <h6 id="submit-button-state-(type=submit)">4.10.5.1.18 <dfn>Submit Button</dfn> state (<code>type=submit</code>)<a href="#submit-button-state-(type=submit)" class=self-link></a></h6>
+
+  
+
+  <p>When an <code id="submit-button-state-(type=submit):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="submit-button-state-(type=submit):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#submit-button-state-(type=submit)" id="submit-button-state-(type=submit):submit-button-state-(type=submit)">Submit Button</a> state, the rules in this section
+  apply.</p>
+
+  
+
+  <p>The <code id="submit-button-state-(type=submit):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="submit-button-state-(type=submit):represents">represents</a> a button that, when activated, submits
+  the form. If the element has a <code id="submit-button-state-(type=submit):attr-input-value"><a href=#attr-input-value>value</a></code>
+  attribute, the button's label must be the value of that attribute; otherwise, it must be an
+  implementation-defined string that means "Submit" or some such. The element is a <a href=#concept-button id="submit-button-state-(type=submit):concept-button">button</a>, specifically a <a href=#concept-submit-button id="submit-button-state-(type=submit):concept-submit-button">submit
+  button</a>.
+  <a href=#fingerprinting-vector id="submit-button-state-(type=submit):fingerprinting-vector" class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a>
+  </p>
+
+  <p class=note>Since the default label is implementation-defined, and the width of the button
+  typically depends on the button's label, the button's width can leak a few bits of fingerprintable
+  information. These bits are likely to be strongly correlated to the identity of the user agent and
+  the user's locale.</p>
+
+  
+
+  <p>The element's <a href=#input-activation-behavior id="submit-button-state-(type=submit):input-activation-behavior">input activation behavior</a> is as follows: if the element has a
+  <a href=#form-owner id="submit-button-state-(type=submit):form-owner">form owner</a>, and the element's <a id="submit-button-state-(type=submit):node-document" href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is <a href=#fully-active id="submit-button-state-(type=submit):fully-active">fully
+  active</a>, <a href=#concept-form-submit id="submit-button-state-(type=submit):concept-form-submit">submit</a> the <a href=#form-owner id="submit-button-state-(type=submit):form-owner-2">form owner</a> from
+  the <code id="submit-button-state-(type=submit):the-input-element-3"><a href=#the-input-element>input</a></code> element; otherwise, do nothing.</p>
+
+  
+
+  <p>The <code id="submit-button-state-(type=submit):attr-fs-formaction"><a href=#attr-fs-formaction>formaction</a></code>, <code id="submit-button-state-(type=submit):attr-fs-formenctype"><a href=#attr-fs-formenctype>formenctype</a></code>, <code id="submit-button-state-(type=submit):attr-fs-formmethod"><a href=#attr-fs-formmethod>formmethod</a></code>, <code id="submit-button-state-(type=submit):attr-fs-formnovalidate"><a href=#attr-fs-formnovalidate>formnovalidate</a></code>, and <code id="submit-button-state-(type=submit):attr-fs-formtarget"><a href=#attr-fs-formtarget>formtarget</a></code> attributes are <a href=#attributes-for-form-submission id="submit-button-state-(type=submit):attributes-for-form-submission">attributes for form
+  submission</a>.</p>
+
+  <p class=note>The <code id="submit-button-state-(type=submit):attr-fs-formnovalidate-2"><a href=#attr-fs-formnovalidate>formnovalidate</a></code> attribute can be
+  used to make submit buttons that do not trigger the constraint validation.</p>
+
+  <div class=bookkeeping>
+
+   <p>The following common <code id="submit-button-state-(type=submit):the-input-element-4"><a href=#the-input-element>input</a></code> element content attributes and IDL attributes <a href=#concept-input-apply id="submit-button-state-(type=submit):concept-input-apply">apply</a> to the element:
+   <code id="submit-button-state-(type=submit):attr-fs-formaction-2"><a href=#attr-fs-formaction>formaction</a></code>,
+   <code id="submit-button-state-(type=submit):attr-fs-formenctype-2"><a href=#attr-fs-formenctype>formenctype</a></code>,
+   <code id="submit-button-state-(type=submit):attr-fs-formmethod-2"><a href=#attr-fs-formmethod>formmethod</a></code>,
+   <code id="submit-button-state-(type=submit):attr-fs-formnovalidate-3"><a href=#attr-fs-formnovalidate>formnovalidate</a></code>, and
+   <code id="submit-button-state-(type=submit):attr-fs-formtarget-2"><a href=#attr-fs-formtarget>formtarget</a></code> content attributes;
+   <code id="submit-button-state-(type=submit):dom-input-value"><a href=#dom-input-value>value</a></code> IDL attribute.</p>
+
+   <p>The <code id="submit-button-state-(type=submit):dom-input-value-2"><a href=#dom-input-value>value</a></code> IDL attribute is in mode <a href=#dom-input-value-default id="submit-button-state-(type=submit):dom-input-value-default">default</a>.</p>
+
+   <p>The following content attributes must not be specified and <a href=#do-not-apply id="submit-button-state-(type=submit):do-not-apply">do not apply</a> to the
+   element:
+   <code id="submit-button-state-(type=submit):attr-input-accept" class=no-backref><a href=#attr-input-accept>accept</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-alt" class=no-backref><a href=#attr-input-alt>alt</a></code>,
+   <code id="submit-button-state-(type=submit):attr-fe-autocomplete" class=no-backref><a href=#attr-fe-autocomplete>autocomplete</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-checked" class=no-backref><a href=#attr-input-checked>checked</a></code>,
+   <code id="submit-button-state-(type=submit):attr-fe-dirname" class=no-backref><a href=#attr-fe-dirname>dirname</a></code>,
+   <code id="submit-button-state-(type=submit):attr-dim-height" class=no-backref><a href=#attr-dim-height>height</a></code>,
+   <code id="submit-button-state-(type=submit):attr-fe-inputmode" class=no-backref><a href=#attr-fe-inputmode>inputmode</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-list" class=no-backref><a href=#attr-input-list>list</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-max" class=no-backref><a href=#attr-input-max>max</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-maxlength" class=no-backref><a href=#attr-input-maxlength>maxlength</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-min" class=no-backref><a href=#attr-input-min>min</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-minlength" class=no-backref><a href=#attr-input-minlength>minlength</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-multiple" class=no-backref><a href=#attr-input-multiple>multiple</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-pattern" class=no-backref><a href=#attr-input-pattern>pattern</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-placeholder" class=no-backref><a href=#attr-input-placeholder>placeholder</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-readonly" class=no-backref><a href=#attr-input-readonly>readonly</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-required" class=no-backref><a href=#attr-input-required>required</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-size" class=no-backref><a href=#attr-input-size>size</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-src" class=no-backref><a href=#attr-input-src>src</a></code>,
+   <code id="submit-button-state-(type=submit):attr-input-step" class=no-backref><a href=#attr-input-step>step</a></code>, and
+   <code id="submit-button-state-(type=submit):attr-dim-width" class=no-backref><a href=#attr-dim-width>width</a></code>.</p>
+
+   <p>The following IDL attributes and methods <a href=#do-not-apply id="submit-button-state-(type=submit):do-not-apply-2">do not apply</a> to the element:
+   <code id="submit-button-state-(type=submit):dom-input-checked" class=no-backref><a href=#dom-input-checked>checked</a></code>,
+   <code id="submit-button-state-(type=submit):dom-input-files" class=no-backref><a href=#dom-input-files>files</a></code>,
+   <code id="submit-button-state-(type=submit):dom-input-list" class=no-backref><a href=#dom-input-list>list</a></code>,
+   <code id="submit-button-state-(type=submit):dom-textarea/input-selectionstart" class=no-backref><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>,
+   <code id="submit-button-state-(type=submit):dom-textarea/input-selectionend" class=no-backref><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>,
+   <code id="submit-button-state-(type=submit):dom-textarea/input-selectiondirection" class=no-backref><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code>,
+   <code id="submit-button-state-(type=submit):dom-input-valueasdate" class=no-backref><a href=#dom-input-valueasdate>valueAsDate</a></code>, and
+   <code id="submit-button-state-(type=submit):dom-input-valueasnumber" class=no-backref><a href=#dom-input-valueasnumber>valueAsNumber</a></code> IDL attributes;
+   <code id="submit-button-state-(type=submit):dom-textarea/input-select" class=no-backref><a href=#dom-textarea/input-select>select()</a></code>,
+   <code id="submit-button-state-(type=submit):dom-textarea/input-setrangetext" class=no-backref><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>,
+   <code id="submit-button-state-(type=submit):dom-textarea/input-setselectionrange" class=no-backref><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code>,
+   <code id="submit-button-state-(type=submit):dom-input-stepdown" class=no-backref><a href=#dom-input-stepdown>stepDown()</a></code>, and
+   <code id="submit-button-state-(type=submit):dom-input-stepup" class=no-backref><a href=#dom-input-stepup>stepUp()</a></code> methods.</p>
+
+   <p>The <code id="submit-button-state-(type=submit):event-input" class=no-backref><a href=#event-input>input</a></code> and <code id="submit-button-state-(type=submit):event-change" class=no-backref><a href=#event-change>change</a></code> events <a href=#do-not-apply id="submit-button-state-(type=submit):do-not-apply-3">do not apply</a>.</p>
+
+  </div>
+
+
+  <h6 id="image-button-state-(type=image)">4.10.5.1.19 <dfn>Image Button</dfn> state (<code>type=image</code>)<a href="#image-button-state-(type=image)" class=self-link></a></h6>
+
+  
+
+  <p>When an <code id="image-button-state-(type=image):the-input-element"><a href=#the-input-element>input</a></code> element's <code id="image-button-state-(type=image):attr-input-type"><a href=#attr-input-type>type</a></code> attribute is in
+  the <a href="#image-button-state-(type=image)" id="image-button-state-(type=image):image-button-state-(type=image)">Image Button</a> state, the rules in this section
+  apply.</p>
+
+  
+
+  <p>The <code id="image-button-state-(type=image):the-input-element-2"><a href=#the-input-element>input</a></code> element <a href=#represents id="image-button-state-(type=image):represents">represents</a> either an image from which a user can
+  select a coordinate and submit the form, or alternatively a button from which the user can submit
+  the form. The element is a <a href=#concept-button id="image-button-state-(type=image):concept-button">button</a>, specifically a <a href=#concept-submit-button id="image-button-state-(type=image):concept-submit-button">submit button</a>.</p>
+
+  <p class=note>The coordinate is sent to the server <a href=#constructing-the-form-data-set id="image-button-state-(type=image):constructing-the-form-data-set">during form submission</a> by sending two entries for the element, derived from the name
+  of the control but with "<code>.x</code>" and "<code>.y</code>" appended to the
+  name with the <var>x</var> and <var>y</var> components of the coordinate
+  respectively.</p>
+
+  <hr>
+
+  <p>The image is given by the <dfn id=attr-input-src><code>src</code></dfn> attribute. The
+  <code id="image-button-state-(type=image):attr-input-src"><a href=#attr-input-src>src</a></code> attribute must be present, and must contain a <a href=#valid-non-empty-url-potentially-surrounded-by-spaces id="image-button-state-(type=image):valid-non-empty-url-potentially-surrounded-by-spaces">valid
+  non-empty URL potentially surrounded by spaces</a> referencing a non-interactive, optionally
+  animated, image resource that is neither paged nor scripted.</p>
+
+  
+
+  <p>When any of the these events occur
+
+  <ul><li>the <code id="image-button-state-(type=image):the-input-element-3"><a href=#the-input-element>input</a></code> element's <code id="image-button-state-(type=image):attr-input-type-2"><a href=#attr-input-type>type</a></code> attribute is
+   first set to the <a href="#image-button-state-(type=image)" id="image-button-state-(type=image):image-button-state-(type=image)-2">Image Button</a> state (possibly when
+   the element is first created), and the <code id="image-button-state-(type=image):attr-input-src-2"><a href=#attr-input-src>src</a></code> attribute is
+   present<li>the <code id="image-button-state-(type=image):the-input-element-4"><a href=#the-input-element>input</a></code> element's <code id="image-button-state-(type=image):attr-input-type-3"><a href=#attr-input-type>type</a></code> attribute is
+   changed back to the <a href="#image-button-state-(type=image)" id="image-button-state-(type=image):image-button-state-(type=image)-3">Image Button</a> state, and the <code id="image-button-state-(type=image):attr-input-src-3"><a href=#attr-input-src>src</a></code> attribute is present, and its value has changed since the last
+   time the <code id="image-button-state-(type=image):attr-input-type-4"><a href=#attr-input-type>type</a></code> attribute was in the <a href="#image-button-state-(type=image)" id="image-button-state-(type=image):image-button-state-(type=image)-4">Image Button</a> state<li>the <code id="image-button-state-(type=image):the-input-element-5"><a href=#the-input-element>input</a></code> element's <code id="image-button-state-(type=image):attr-input-type-5"><a href=#attr-input-type>type</a></code> attribute is in
+   the <a href="#image-button-state-(type=image)" id="image-button-state-(type=image):image-button-state-(type=image)-5">Image Button</a> state, and the <code id="image-button-state-(type=image):attr-input-src-4"><a href=#attr-input-src>src</a></code> attribute is set or changed</ul> 
+
+  <p>then unless the user agent cannot support images, or its support for images has been disabled,
+  or the user agent only fetches images on demand, or the <code id="image-button-state-(type=image):attr-input-src-5"><a href=#attr-input-src>src</a></code>
+  attribute's value is the empty string, the user agent must <a href=#parse-a-url id="image-button-state-(type=image):parse-a-url">parse</a> the value of the <code id="image-button-state-(type=image):attr-input-src-6"><a href=#attr-input-src>src</a></code>
+  attribute value, relative to the element's <a id="image-button-state-(type=image):node-document" href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>, and if that is successful,
+  run these substeps:</p>
+
+  <ol><li><p>Let <var>request</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id="image-button-state-(type=image):concept-request" data-x-internal=concept-request>request</a> whose
+   <a href=https://fetch.spec.whatwg.org/#concept-request-url id="image-button-state-(type=image):concept-request-url" data-x-internal=concept-request-url>url</a> is the <a href=#resulting-url-record id="image-button-state-(type=image):resulting-url-record">resulting URL record</a>,
+   <a href=https://fetch.spec.whatwg.org/#concept-request-client id="image-button-state-(type=image):concept-request-client" data-x-internal=concept-request-client>client</a> is the element's <a id="image-button-state-(type=image):node-document-2" href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s
+   <a href=#relevant-settings-object id="image-button-state-(type=image):relevant-settings-object">relevant settings object</a>, <a href=https://fetch.spec.whatwg.org/#concept-request-type id="image-button-state-(type=image):concept-request-type" data-x-internal=concept-request-type>type</a> is "<code>image</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-destination id="image-button-state-(type=image):concept-request-destination" data-x-internal=concept-request-destination>destination</a> is "<code>image</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-credentials-mode id="image-button-state-(type=image):concept-request-credentials-mode" data-x-internal=concept-request-credentials-mode>credentials mode</a>
+   is "<code>include</code>", and whose <a id="image-button-state-(type=image):use-url-credentials-flag" href=https://fetch.spec.whatwg.org/#concept-request-use-url-credentials-flag data-x-internal=use-url-credentials-flag>use-URL-credentials flag</a> is
+   set.<li><p><a href=https://fetch.spec.whatwg.org/#concept-fetch id="image-button-state-(type=image):concept-fetch" data-x-internal=concept-fetch>Fetch</a> <var>request</var>.</ol>
+
+  
+  <p>Fetching the image must <a href=#delay-the-load-event id="image-button-state-(type=image):delay-the-load-event">delay the load event</a> of the element's <a id="image-button-state-(type=image):node-document-3" href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> until the
+  <a href=#concept-task id="image-button-state-(type=image):concept-task">task</a> that is <a href=#queue-a-task id="image-button-state-(type=image):queue-a-task">queued</a> by the
+  <a href=#networking-task-source id="image-button-state-(type=image):networking-task-source">networking task source</a> once the resource has been fetched (defined below) has been
+  run.</p>

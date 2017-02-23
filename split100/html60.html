@@ -1,0 +1,850 @@
+  </div>
+
+  <div class=example>
+
+   <p>This example shows a site's contact details (using the <code id=examples-2:the-address-element><a href=#the-address-element>address</a></code> element)
+   containing an address with two street components:</p>
+
+   <pre>&lt;address itemscope itemtype="http://microformats.org/profile/hcard">
+ &lt;strong itemprop="fn">&lt;span itemprop="n" itemscope>&lt;span itemprop="given-name">Alfred&lt;/span>
+ &lt;span itemprop="family-name">Person&lt;/span>&lt;/span>&lt;/strong> &lt;br>
+ &lt;span itemprop="adr" itemscope>
+  &lt;span itemprop="street-address">1600 Amphitheatre Parkway&lt;/span> &lt;br>
+  &lt;span itemprop="street-address">Building 43, Second Floor&lt;/span> &lt;br>
+  &lt;span itemprop="locality">Mountain View&lt;/span>,
+   &lt;span itemprop="region">CA&lt;/span> &lt;span itemprop="postal-code">94043&lt;/span>
+ &lt;/span>
+&lt;/address></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>The vCard vocabulary can be used to just mark up people's names:</p>
+
+   <pre>&lt;span itemscope itemtype="http://microformats.org/profile/hcard"
+>&lt;span itemprop=fn>&lt;span itemprop="n" itemscope>&lt;span itemprop="given-name"
+>George&lt;/span> &lt;span itemprop="family-name">Washington&lt;/span>&lt;/span
+>&lt;/span>&lt;/span></pre>
+
+   <p>This creates a single item with a two name-value pairs, one with the name "fn" and the value
+   "George Washington", and the other with the name "n" and a second item as its value, the second
+   item having the two name-value pairs "given-name" and "family-name" with the values "George" and
+   "Washington" respectively. This is defined to map to the following vCard:</p>
+
+   <pre>BEGIN:VCARD
+PROFILE:VCARD
+VERSION:4.0
+SOURCE:<var>document's address</var>
+FN:George Washington
+N:Washington;George;;;
+END:VCARD</pre>
+
+  </div>
+
+
+  <h4 id=vevent>5.3.2 vEvent<a href=#vevent class=self-link></a></h4>
+
+  <p>An item with the <a href=#item-types id=vevent:item-types>item type</a> <dfn id=md-vevent><code>http://microformats.org/profile/hcalendar#vevent</code></dfn> represents
+  an event.</p>
+
+  <p>This vocabulary does not <a href=#support-global-identifiers-for-items id=vevent:support-global-identifiers-for-items>support global identifiers for items</a>.</p>
+
+  <p>The following are the type's <a href=#defined-property-name id=vevent:defined-property-name>defined property names</a>.
+  They are based on the vocabulary defined in the iCalendar specification, where more information on
+  how to interpret the values can be found. <a href=#refsRFC5545>[RFC5545]</a></p>
+
+  <p class=note>Only the parts of the iCalendar vocabulary relating to events are used here; this
+  vocabulary cannot express a complete iCalendar instance.</p>
+
+  <dl><dt><dfn id=md-vevent-attach><code>attach</code></dfn><dd>
+
+    <p>Gives the address of an associated document for the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value>value</a> must be an <a id=vevent:absolute-url href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>Any number of properties with the name <code id=vevent:md-vevent-attach><a href=#md-vevent-attach>attach</a></code> may be
+    present within each <a href=#concept-item id=vevent:concept-item>item</a> with the type <code id=vevent:md-vevent><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-categories><code>categories</code></dfn><dd>
+
+    <p>Gives the name of a category or tag that the event could be classified as.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-2>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vevent:md-vevent-categories><a href=#md-vevent-categories>categories</a></code>
+    may be present within each <a href=#concept-item id=vevent:concept-item-2>item</a> with the type <code id=vevent:md-vevent-2><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-class><code>class</code></dfn><dd>
+
+    <p>Gives the access classification of the information regarding the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-3>value</a> must be text with one of the following
+    values:</p>
+
+    <ul class=brief><li><code>public</code><li><code>private</code><li><code>confidential</code></ul>
+
+    <p class=warning>This is merely advisory and cannot be considered a confidentiality
+    measure.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-class><a href=#md-vevent-class>class</a></code> may be present
+    within each <a href=#concept-item id=vevent:concept-item-3>item</a> with the type <code id=vevent:md-vevent-3><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-comment><code>comment</code></dfn><dd>
+
+    <p>Gives a comment regarding the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-4>value</a> must be text.</p>
+
+    <p>Any number of properties with the name <code id=vevent:md-vevent-comment><a href=#md-vevent-comment>comment</a></code> may be
+    present within each <a href=#concept-item id=vevent:concept-item-4>item</a> with the type <code id=vevent:md-vevent-4><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-description><code>description</code></dfn><dd>
+
+    <p>Gives a detailed description of the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-5>value</a> must be text.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-description><a href=#md-vevent-description>description</a></code> may be
+    present within each <a href=#concept-item id=vevent:concept-item-5>item</a> with the type <code id=vevent:md-vevent-5><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-geo><code>geo</code></dfn><dd>
+
+    <p>Gives the geographical position of the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-6>value</a> must be text and must match the
+    following syntax:</p>
+
+    <ol><li>Optionally, either a U+002B PLUS SIGN character (+) or a U+002D HYPHEN-MINUS character
+     (-).<li>One or more <a href=#ascii-digits id=vevent:ascii-digits>ASCII digits</a>.<li>Optionally*, a U+002E FULL STOP character (.) followed by one or more <a href=#ascii-digits id=vevent:ascii-digits-2>ASCII
+     digits</a>.<li>A U+003B SEMICOLON character (;).<li>Optionally, either a U+002B PLUS SIGN character (+) or a U+002D HYPHEN-MINUS character
+     (-).<li>One or more <a href=#ascii-digits id=vevent:ascii-digits-3>ASCII digits</a>.<li>Optionally*, a U+002E FULL STOP character (.) followed by one or more <a href=#ascii-digits id=vevent:ascii-digits-4>ASCII
+     digits</a>.</ol>
+
+    <p>The optional components marked with an asterisk (*) should be included, and should have six
+    digits each.</p> 
+
+    
+    <p class=note>The value specifies latitude and longitude, in that order (i.e., "LAT LON"
+    ordering), in decimal degrees. The longitude represents the location east and west of the prime
+    meridian as a positive or negative real number, respectively. The latitude represents the
+    location north and south of the equator as a positive or negative real number, respectively.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-geo><a href=#md-vevent-geo>geo</a></code> may be present within
+    each <a href=#concept-item id=vevent:concept-item-6>item</a> with the type <code id=vevent:md-vevent-6><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-location><code>location</code></dfn><dd>
+
+    <p>Gives the location of the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-7>value</a> must be text.</p> 
+
+    <p>A single property with the name <code id=vevent:md-vevent-location><a href=#md-vevent-location>location</a></code> may be
+    present within each <a href=#concept-item id=vevent:concept-item-7>item</a> with the type <code id=vevent:md-vevent-7><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-resources><code>resources</code></dfn><dd>
+
+    <p>Gives a resource that will be needed for the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-8>value</a> must be text.</p> 
+
+    <p>Any number of properties with the name <code id=vevent:md-vevent-resources><a href=#md-vevent-resources>resources</a></code> may
+    be present within each <a href=#concept-item id=vevent:concept-item-8>item</a> with the type <code id=vevent:md-vevent-8><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-status><code>status</code></dfn><dd>
+
+    <p>Gives the confirmation status of the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-9>value</a> must be text with one of the following
+    values:</p>
+
+    <ul class=brief><li><code>tentative</code><li><code>confirmed</code><li><code>cancelled</code></ul>
+
+    <p>A single property with the name <code id=vevent:md-vevent-status><a href=#md-vevent-status>status</a></code> may be present
+    within each <a href=#concept-item id=vevent:concept-item-9>item</a> with the type <code id=vevent:md-vevent-9><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-summary><code>summary</code></dfn><dd>
+
+    <p>Gives a short summary of the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-10>value</a> must be text.</p>
+
+    <p>User agents should replace U+000A LINE FEED (LF) characters in the <a href=#concept-property-value id=vevent:concept-property-value-11>value</a> by U+0020 SPACE characters when using the value.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-summary><a href=#md-vevent-summary>summary</a></code> may be present
+    within each <a href=#concept-item id=vevent:concept-item-10>item</a> with the type <code id=vevent:md-vevent-10><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-dtend><code>dtend</code></dfn><dd>
+
+    <p>Gives the date and time by which the event ends.</p>
+
+    <p>If the property with the name <code id=vevent:md-vevent-dtend><a href=#md-vevent-dtend>dtend</a></code> is present within an
+    <a href=#concept-item id=vevent:concept-item-11>item</a> with the type <code id=vevent:md-vevent-11><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code> that has a property
+    with the name <code id=vevent:md-vevent-dtstart><a href=#md-vevent-dtstart>dtstart</a></code> whose value is a <a href=#valid-date-string id=vevent:valid-date-string>valid date
+    string</a>, then the <a href=#concept-property-value id=vevent:concept-property-value-12>value</a> of the property with
+    the name <code id=vevent:md-vevent-dtend-2><a href=#md-vevent-dtend>dtend</a></code> must be text that is a <a href=#valid-date-string id=vevent:valid-date-string-2>valid date
+    string</a> also. Otherwise, the <a href=#concept-property-value id=vevent:concept-property-value-13>value</a> of the
+    property must be text that is a <a href=#valid-global-date-and-time-string id=vevent:valid-global-date-and-time-string>valid global date and time string</a>.</p>
+
+    <p>In either case, the <a href=#concept-property-value id=vevent:concept-property-value-14>value</a> be later in time than
+    the value of the <code id=vevent:md-vevent-dtstart-2><a href=#md-vevent-dtstart>dtstart</a></code> property of the same <a href=#concept-item id=vevent:concept-item-12>item</a>.</p>
+
+    <p class=note>The time given by the <code id=vevent:md-vevent-dtend-3><a href=#md-vevent-dtend>dtend</a></code> property is not
+    inclusive. For day-long events, therefore, the <code id=vevent:md-vevent-dtend-4><a href=#md-vevent-dtend>dtend</a></code>
+    property's <a href=#concept-property-value id=vevent:concept-property-value-15>value</a> will be the day <em>after</em> the
+    end of the event.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-dtend-5><a href=#md-vevent-dtend>dtend</a></code> may be present
+    within each <a href=#concept-item id=vevent:concept-item-13>item</a> with the type <code id=vevent:md-vevent-12><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>, so long as that <code id=vevent:md-vevent-13><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code> does not have a
+    property with the name <code id=vevent:md-vevent-duration><a href=#md-vevent-duration>duration</a></code>.</p>
+
+   <dt><dfn id=md-vevent-dtstart><code>dtstart</code></dfn><dd>
+
+    <p>Gives the date and time at which the event starts.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-16>value</a> must be text that is either a
+    <a href=#valid-date-string id=vevent:valid-date-string-3>valid date string</a> or a <a href=#valid-global-date-and-time-string id=vevent:valid-global-date-and-time-string-2>valid global date and time string</a>.</p>
+
+    <p>Exactly one property with the name <code id=vevent:md-vevent-dtstart-3><a href=#md-vevent-dtstart>dtstart</a></code> must be
+    present within each <a href=#concept-item id=vevent:concept-item-14>item</a> with the type <code id=vevent:md-vevent-14><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-duration><code>duration</code></dfn><dd>
+
+    <p>Gives the duration of the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-17>value</a> must be text that is a <a href=#valid-vevent-duration-string id=vevent:valid-vevent-duration-string>valid
+    vevent duration string</a>.</p>
+
+    <p>The duration represented is the sum of all the durations represented by integers in the
+    value.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-duration-2><a href=#md-vevent-duration>duration</a></code> may be
+    present within each <a href=#concept-item id=vevent:concept-item-15>item</a> with the type <code id=vevent:md-vevent-15><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>, so long as that <code id=vevent:md-vevent-16><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code> does not have a
+    property with the name <code id=vevent:md-vevent-dtend-6><a href=#md-vevent-dtend>dtend</a></code>.</p>
+
+   <dt><dfn id=md-vevent-transp><code>transp</code></dfn><dd>
+
+    <p>Gives whether the event is to be considered as consuming time on a calendar, for the purpose
+    of free-busy time searches.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-18>value</a> must be text with one of the following
+    values:</p>
+
+    <ul class=brief><li><code>opaque</code><li><code>transparent</code></ul>
+
+    <p>A single property with the name <code id=vevent:md-vevent-transp><a href=#md-vevent-transp>transp</a></code> may be present
+    within each <a href=#concept-item id=vevent:concept-item-16>item</a> with the type <code id=vevent:md-vevent-17><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-contact><code>contact</code></dfn><dd>
+
+    <p>Gives the contact information for the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-19>value</a> must be text.</p> 
+
+    <p>Any number of properties with the name <code id=vevent:md-vevent-contact><a href=#md-vevent-contact>contact</a></code> may be
+    present within each <a href=#concept-item id=vevent:concept-item-17>item</a> with the type <code id=vevent:md-vevent-18><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-url><code>url</code></dfn><dd>
+
+    <p>Gives a <a id=vevent:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> for the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-20>value</a> must be an <a id=vevent:absolute-url-2 href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-url><a href=#md-vevent-url>url</a></code> may be present within
+    each <a href=#concept-item id=vevent:concept-item-18>item</a> with the type <code id=vevent:md-vevent-19><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-uid><code>uid</code></dfn><dd>
+
+    <p>Gives a globally unique identifier corresponding to the event.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-21>value</a> must be text.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-uid><a href=#md-vevent-uid>uid</a></code> may be present within
+    each <a href=#concept-item id=vevent:concept-item-19>item</a> with the type <code id=vevent:md-vevent-20><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-exdate><code>exdate</code></dfn><dd>
+
+    <p>Gives a date and time at which the event does not occur despite the recurrence rules.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-22>value</a> must be text that is either a
+    <a href=#valid-date-string id=vevent:valid-date-string-4>valid date string</a> or a <a href=#valid-global-date-and-time-string id=vevent:valid-global-date-and-time-string-3>valid global date and time string</a>.</p>
+
+    <p>Any number of properties with the name <code id=vevent:md-vevent-exdate><a href=#md-vevent-exdate>exdate</a></code> may be
+    present within each <a href=#concept-item id=vevent:concept-item-20>item</a> with the type <code id=vevent:md-vevent-21><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-rdate><code>rdate</code></dfn><dd>
+
+    <p>Gives a date and time at which the event recurs.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-23>value</a> must be text that is one of the
+    following:
+
+    <ul><li>A <a href=#valid-date-string id=vevent:valid-date-string-5>valid date string</a>.<li>A <a href=#valid-global-date-and-time-string id=vevent:valid-global-date-and-time-string-4>valid global date and time string</a>.<li>A <a href=#valid-global-date-and-time-string id=vevent:valid-global-date-and-time-string-5>valid global date and time string</a> followed by a U+002F SOLIDUS character (/)
+     followed by a second <a href=#valid-global-date-and-time-string id=vevent:valid-global-date-and-time-string-6>valid global date and time string</a> representing a later
+     time.<li>A <a href=#valid-global-date-and-time-string id=vevent:valid-global-date-and-time-string-7>valid global date and time string</a> followed by a U+002F SOLIDUS character (/)
+     followed by a <a href=#valid-vevent-duration-string id=vevent:valid-vevent-duration-string-2>valid vevent duration string</a>.</ul>
+
+    <p>Any number of properties with the name <code id=vevent:md-vevent-rdate><a href=#md-vevent-rdate>rdate</a></code> may be
+    present within each <a href=#concept-item id=vevent:concept-item-21>item</a> with the type <code id=vevent:md-vevent-22><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-rrule><code>rrule</code></dfn><dd>
+
+    <p>Gives a rule for finding dates and times at which the event occurs.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-24>value</a> must be text that matches the RECUR
+    value type defined in the iCalendar specification. <a href=#refsRFC5545>[RFC5545]</a></p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-rrule><a href=#md-vevent-rrule>rrule</a></code> may be
+    present within each <a href=#concept-item id=vevent:concept-item-22>item</a> with the type <code id=vevent:md-vevent-23><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-created><code>created</code></dfn><dd>
+
+    <p>Gives the date and time at which the event information was first created in a calendaring
+    system.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-25>value</a> must be text that is a <a href=#valid-global-date-and-time-string id=vevent:valid-global-date-and-time-string-8>valid
+    global date and time string</a>.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-created><a href=#md-vevent-created>created</a></code> may be present
+    within each <a href=#concept-item id=vevent:concept-item-23>item</a> with the type <code id=vevent:md-vevent-24><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-last-modified><code>last-modified</code></dfn><dd>
+
+    <p>Gives the date and time at which the event information was last modified in a calendaring
+    system.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-26>value</a> must be text that is a <a href=#valid-global-date-and-time-string id=vevent:valid-global-date-and-time-string-9>valid
+    global date and time string</a>.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-last-modified><a href=#md-vevent-last-modified>last-modified</a></code>
+    may be present within each <a href=#concept-item id=vevent:concept-item-24>item</a> with the type <code id=vevent:md-vevent-25><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   <dt><dfn id=md-vevent-sequence><code>sequence</code></dfn><dd>
+
+    <p>Gives a revision number for the event information.</p>
+
+    <p>The <a href=#concept-property-value id=vevent:concept-property-value-27>value</a> must be text that is a <a href=#valid-non-negative-integer id=vevent:valid-non-negative-integer>valid
+    non-negative integer</a>.</p>
+
+    <p>A single property with the name <code id=vevent:md-vevent-sequence><a href=#md-vevent-sequence>sequence</a></code> may be
+    present within each <a href=#concept-item id=vevent:concept-item-25>item</a> with the type <code id=vevent:md-vevent-26><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>.</p>
+
+   </dl>
+
+  <p>A string is a <dfn id=valid-vevent-duration-string>valid vevent duration string</dfn> if it matches the following pattern:</p>
+
+  <ol><li>A U+0050 LATIN CAPITAL LETTER P character (P).<li>One of the following:
+
+    <ul><li> A <a href=#valid-non-negative-integer id=vevent:valid-non-negative-integer-2>valid non-negative integer</a> followed by a U+0057 LATIN CAPITAL LETTER W
+     character (W). The integer represents a duration of that number of weeks. <li> At least one, and possible both in this order, of the following:
+
+      <ol><li> A <a href=#valid-non-negative-integer id=vevent:valid-non-negative-integer-3>valid non-negative integer</a> followed by a U+0044 LATIN CAPITAL LETTER D
+       character (D). The integer represents a duration of that number of days. <li> A U+0054 LATIN CAPITAL LETTER T character (T) followed by any one of the following, or
+       the first and second of the following in that order, or the second and third of the following
+       in that order, or all three of the following in this order:
+
+        <ol><li> A <a href=#valid-non-negative-integer id=vevent:valid-non-negative-integer-4>valid non-negative integer</a> followed by a U+0048 LATIN CAPITAL LETTER H
+         character (H). The integer represents a duration of that number of hours. <li> A <a href=#valid-non-negative-integer id=vevent:valid-non-negative-integer-5>valid non-negative integer</a> followed by a U+004D LATIN CAPITAL LETTER M
+         character (M). The integer represents a duration of that number of minutes. <li> A <a href=#valid-non-negative-integer id=vevent:valid-non-negative-integer-6>valid non-negative integer</a> followed by a U+0053 LATIN CAPITAL LETTER S
+         character (S). The integer represents a duration of that number of seconds. </ol>
+
+      </ol>
+
+     </ul>
+
+   </ol>
+
+
+  <h5 id=conversion-to-icalendar>5.3.2.1 Conversion to iCalendar<a href=#conversion-to-icalendar class=self-link></a></h5>
+
+  <p>Given a list of nodes <var>nodes</var> in a <code id=conversion-to-icalendar:document><a href=#document>Document</a></code>, a user agent must
+  run the following algorithm to <dfn id=extracting-vevent-data>extract any vEvent data
+  represented by those nodes</dfn>:</p>
+
+  <ol><li><p>If none of the nodes in <var>nodes</var> are <a href=#concept-item id=conversion-to-icalendar:concept-item>items</a> with the type <code id=conversion-to-icalendar:md-vevent><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>, then there is no
+   vEvent data. Abort the algorithm, returning nothing.<li><p>Let <var>output</var> be an empty string.<li><p><a href=#add-an-icalendar-line id=conversion-to-icalendar:add-an-icalendar-line>Add an iCalendar line</a> with the type "<code>BEGIN</code>" and the
+   value "<code>VCALENDAR</code>" to <var>output</var>.<li><p><a href=#add-an-icalendar-line id=conversion-to-icalendar:add-an-icalendar-line-2>Add an iCalendar line</a> with the type "<code>PRODID</code>" and the
+   value equal to a user-agent-specific string representing the user agent to <var>output</var>.<li><p><a href=#add-an-icalendar-line id=conversion-to-icalendar:add-an-icalendar-line-3>Add an iCalendar line</a> with the type "<code>VERSION</code>" and the
+   value "<code>2.0</code>" to <var>output</var>.<li>
+
+    <p>For each node <var>node</var> in <var>nodes</var> that is an <a href=#concept-item id=conversion-to-icalendar:concept-item-2>item</a> with the type <code id=conversion-to-icalendar:md-vevent-2><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code>, run the following
+    steps:</p>
+
+    <ol><li><p><a href=#add-an-icalendar-line id=conversion-to-icalendar:add-an-icalendar-line-4>Add an iCalendar line</a> with the type "<code>BEGIN</code>" and the
+     value "<code>VEVENT</code>" to <var>output</var>.<li><p><a href=#add-an-icalendar-line id=conversion-to-icalendar:add-an-icalendar-line-5>Add an iCalendar line</a> with the type "<code>DTSTAMP</code>" and a
+     value consisting of an iCalendar DATE-TIME string representing the current date and time, with
+     the annotation "<code>VALUE=DATE-TIME</code>", to <var>output</var>. <a href=#refsRFC5545>[RFC5545]</a><li>
+
+      <p>For each element <var>element</var> that is <a href=#the-properties-of-an-item id=conversion-to-icalendar:the-properties-of-an-item>a property of the item</a> <var>node</var>: for each name <var>name</var> in <var>element</var>'s <a href=#property-names id=conversion-to-icalendar:property-names>property names</a>, run the
+      appropriate set of substeps from the following list:</p>
+
+      <dl><dt>If the property's <a href=#concept-property-value id=conversion-to-icalendar:concept-property-value>value</a> is an <a href=#concept-item id=conversion-to-icalendar:concept-item-3>item</a><dd>
+
+        <p>Skip the property.</p>
+
+       <dt>If the property is <code id=conversion-to-icalendar:md-vevent-dtend><a href=#md-vevent-dtend>dtend</a></code><dt>If the property is <code id=conversion-to-icalendar:md-vevent-dtstart><a href=#md-vevent-dtstart>dtstart</a></code><dt>If the property is <code id=conversion-to-icalendar:md-vevent-exdate><a href=#md-vevent-exdate>exdate</a></code><dt>If the property is <code id=conversion-to-icalendar:md-vevent-rdate><a href=#md-vevent-rdate>rdate</a></code><dt>If the property is <code id=conversion-to-icalendar:md-vevent-created><a href=#md-vevent-created>created</a></code><dt>If the property is <code id=conversion-to-icalendar:md-vevent-last-modified><a href=#md-vevent-last-modified>last-modified</a></code><dd>
+
+        <p>Let <var>value</var> be the result of stripping all U+002D HYPHEN-MINUS (-) and
+        U+003A COLON (:) characters from the property's <a href=#concept-property-value id=conversion-to-icalendar:concept-property-value-2>value</a>.</p>
+
+        <p>If the property's <a href=#concept-property-value id=conversion-to-icalendar:concept-property-value-3>value</a> is a <a href=#valid-date-string id=conversion-to-icalendar:valid-date-string>valid date
+        string</a> then <a href=#add-an-icalendar-line id=conversion-to-icalendar:add-an-icalendar-line-6>add an iCalendar line</a> with the type <var>name</var>
+        and the value <var>value</var> to <var>output</var>, with the annotation
+        "<code>VALUE=DATE</code>".</p>
+
+        <p>Otherwise, if the property's <a href=#concept-property-value id=conversion-to-icalendar:concept-property-value-4>value</a> is a
+        <a href=#valid-global-date-and-time-string id=conversion-to-icalendar:valid-global-date-and-time-string>valid global date and time string</a> then <a href=#add-an-icalendar-line id=conversion-to-icalendar:add-an-icalendar-line-7>add an iCalendar line</a> with
+        the type <var>name</var> and the value <var>value</var> to <var>output</var>, with the annotation "<code>VALUE=DATE-TIME</code>".</p>
+
+        <p>Otherwise skip the property.</p>
+
+       <dt>Otherwise<dd>
+
+        <p><a href=#add-an-icalendar-line id=conversion-to-icalendar:add-an-icalendar-line-8>Add an iCalendar line</a> with the type <var>name</var> and the
+        property's <a href=#concept-property-value id=conversion-to-icalendar:concept-property-value-5>value</a> to <var>output</var>.</p>
+
+       </dl>
+
+     <li><p><a href=#add-an-icalendar-line id=conversion-to-icalendar:add-an-icalendar-line-9>Add an iCalendar line</a> with the type "<code>END</code>" and the
+     value "<code>VEVENT</code>" to <var>output</var>.</ol>
+
+   <li><p><a href=#add-an-icalendar-line id=conversion-to-icalendar:add-an-icalendar-line-10>Add an iCalendar line</a> with the type "<code>END</code>" and the value
+   "<code>VCALENDAR</code>" to <var>output</var>.</ol>
+
+  <p>When the above algorithm says that the user agent is to <dfn id=add-an-icalendar-line>add an iCalendar line</dfn>
+  consisting of a type <var>type</var>, a value <var>value</var>, and optionally
+  an annotation, to a string <var>output</var>, it must run the following steps:</p>
+
+  <ol><li><p>Let <var>line</var> be an empty string.<li><p>Append <var>type</var>, <a id=conversion-to-icalendar:converted-to-ascii-uppercase href=https://infra.spec.whatwg.org/#ascii-uppercase data-x-internal=converted-to-ascii-uppercase>converted to ASCII uppercase</a>, to <var>line</var>.<li>
+
+    <p>If there is an annotation:</p>
+
+    <ol><li><p>Append a U+003B SEMICOLON character (;) to <var>line</var>.<li><p>Append the annotation to <var>line</var>.</ol>
+
+   <li><p>Append a U+003A COLON character (:) to <var>line</var>.<li><p>Prefix every U+005C REVERSE SOLIDUS character (\) in <var>value</var> with
+   another U+005C REVERSE SOLIDUS character (\).<li><p>Prefix every U+002C COMMA character (,) in <var>value</var> with a U+005C REVERSE
+   SOLIDUS character (\).<li><p>Prefix every U+003B SEMICOLON character (;) in <var>value</var> with a U+005C
+   REVERSE SOLIDUS character (\).<li><p>Replace every U+000D CARRIAGE RETURN U+000A LINE FEED character pair (CRLF) in <var>value</var> with a U+005C REVERSE SOLIDUS character (\) followed by a U+006E LATIN SMALL
+   LETTER N character (n).<li><p>Replace every remaining U+000D CARRIAGE RETURN (CR) or U+000A LINE FEED (LF) character in
+   <var>value</var> with a U+005C REVERSE SOLIDUS character (\) followed by a U+006E LATIN
+   SMALL LETTER N character (n).<li><p>Append <var>value</var> to <var>line</var>.<li><p>Let <var>maximum length</var> be 75.<li>
+
+    <p>If and while <var>line</var> is longer than <var>maximum length</var>
+    Unicode code points long, run the following substeps:</p>
+
+    <ol><li><p>Append the first <var>maximum length</var> Unicode code points of <var>line</var> to <var>output</var>.<li><p>Remove the first <var>maximum length</var> Unicode code points from <var>line</var>.<li><p>Append a U+000D CARRIAGE RETURN character (CR) to <var>output</var>.<li><p>Append a U+000A LINE FEED character (LF) to <var>output</var>.<li><p>Append a U+0020 SPACE character to <var>output</var>.<li><p>Let <var>maximum length</var> be 74.</ol>
+
+   <li><p>Append (what remains of) <var>line</var> to <var>output</var>.<li><p>Append a U+000D CARRIAGE RETURN character (CR) to <var>output</var>.<li><p>Append a U+000A LINE FEED character (LF) to <var>output</var>.</ol>
+
+  <p class=note>This algorithm can generate invalid iCalendar output, if the input does not
+  conform to the rules described for the <code id=conversion-to-icalendar:md-vevent-3><a href=#md-vevent>http://microformats.org/profile/hcalendar#vevent</a></code> <a href=#item-types id=conversion-to-icalendar:item-types>item type</a> and <a href=#defined-property-name id=conversion-to-icalendar:defined-property-name>defined property names</a>.</p>
+  
+
+
+
+  <h5 id=examples-3>5.3.2.2 Examples<a href=#examples-3 class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+
+
+  <div class=example>
+
+   <p>Here is an example of a page that uses the vEvent vocabulary to mark up an event:</p>
+
+   <pre>&lt;body itemscope itemtype="http://microformats.org/profile/hcalendar#vevent">
+ ...
+ &lt;h1 itemprop="summary">Bluesday Tuesday: Money Road&lt;/h1>
+ ...
+ &lt;time itemprop="dtstart" datetime="2009-05-05T19:00:00Z">May 5th @ 7pm&lt;/time>
+ (until &lt;time itemprop="dtend" datetime="2009-05-05T21:00:00Z">9pm&lt;/time>)
+ ...
+ &lt;a href="http://livebrum.co.uk/2009/05/05/bluesday-tuesday-money-road"
+    rel="bookmark" itemprop="url">Link to this page&lt;/a>
+ ...
+ &lt;p>Location: &lt;span itemprop="location">The RoadHouse&lt;/span>&lt;/p>
+ ...
+ &lt;p>&lt;input type=button value="Add to Calendar"
+           onclick="location = getCalendar(this)">&lt;/p>
+ ...
+ &lt;meta itemprop="description" content="via livebrum.co.uk">
+&lt;/body></pre>
+
+   <p>The <code>getCalendar()</code> function is left as an exercise for the reader.</p>
+
+   <p>The same page could offer some markup, such as the following,
+   for copy-and-pasting into blogs:</p>
+
+   <pre>&lt;div itemscope itemtype="http://microformats.org/profile/hcalendar#vevent">
+ &lt;p>I'm going to
+ &lt;strong itemprop="summary">Bluesday Tuesday: Money Road&lt;/strong>,
+ &lt;time itemprop="dtstart" datetime="2009-05-05T19:00:00Z">May 5th at 7pm&lt;/time>
+ to &lt;time itemprop="dtend" datetime="2009-05-05T21:00:00Z">9pm&lt;/time>,
+ at &lt;span itemprop="location">The RoadHouse&lt;/span>!&lt;/p>
+ &lt;p>&lt;a href="http://livebrum.co.uk/2009/05/05/bluesday-tuesday-money-road"
+       itemprop="url">See this event on livebrum.co.uk&lt;/a>.&lt;/p>
+ &lt;meta itemprop="description" content="via livebrum.co.uk">
+&lt;/div></pre>
+
+  </div>
+
+
+  <h4 id=licensing-works>5.3.3 Licensing works<a href=#licensing-works class=self-link></a></h4>
+
+  <p>An item with the <a href=#item-types id=licensing-works:item-types>item type</a> <dfn id=md-work><code>http://n.whatwg.org/work</code></dfn> represents a work (e.g. an article, an
+  image, a video, a song, etc). This type is primarily intended to allow authors to include
+  licensing information for works.</p>
+
+  <p>The following are the type's <a href=#defined-property-name id=licensing-works:defined-property-name>defined property
+  names</a>.</p>
+
+  <dl><dt><dfn id=md-work-work><code>work</code></dfn><dd>
+
+    <p>Identifies the work being described.</p>
+
+    <p>The <a href=#concept-property-value id=licensing-works:concept-property-value>value</a> must be an <a id=licensing-works:absolute-url href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>Exactly one property with the name <code id=licensing-works:md-work-work><a href=#md-work-work>work</a></code> must be present
+    within each <a href=#concept-item id=licensing-works:concept-item>item</a> with the type <code id=licensing-works:md-work><a href=#md-work>http://n.whatwg.org/work</a></code>.</p>
+
+   <dt><dfn id=md-work-title><code>title</code></dfn><dd>
+
+    <p>Gives the name of the work.</p>
+
+    <p>A single property with the name <code id=licensing-works:md-work-title><a href=#md-work-title>title</a></code> may be present
+    within each <a href=#concept-item id=licensing-works:concept-item-2>item</a> with the type <code id=licensing-works:md-work-2><a href=#md-work>http://n.whatwg.org/work</a></code>.</p>
+
+   <dt><dfn id=md-work-author><code>author</code></dfn><dd>
+
+    <p>Gives the name or contact information of one of the authors or creators of the work.</p>
+
+    <p>The <a href=#concept-property-value id=licensing-works:concept-property-value-2>value</a> must be either an <a href=#concept-item id=licensing-works:concept-item-3>item</a> with the type <code id=licensing-works:md-vcard><a href=#md-vcard>http://microformats.org/profile/hcard</a></code>, or text.</p>
+
+    <p>Any number of properties with the name <code id=licensing-works:md-work-author><a href=#md-work-author>author</a></code> may be
+    present within each <a href=#concept-item id=licensing-works:concept-item-4>item</a> with the type <code id=licensing-works:md-work-3><a href=#md-work>http://n.whatwg.org/work</a></code>.</p>
+
+   <dt><dfn id=md-work-license><code>license</code></dfn><dd>
+
+    <p>Identifies one of the licenses under which the work is available.</p>
+
+    <p>The <a href=#concept-property-value id=licensing-works:concept-property-value-3>value</a> must be an <a id=licensing-works:absolute-url-2 href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+    <p>Any number of properties with the name <code id=licensing-works:md-work-license><a href=#md-work-license>license</a></code> may be
+    present within each <a href=#concept-item id=licensing-works:concept-item-5>item</a> with the type <code id=licensing-works:md-work-4><a href=#md-work>http://n.whatwg.org/work</a></code>.</p>
+
+   </dl>
+
+
+
+
+  <h5 id=examples-4>5.3.3.1 Examples<a href=#examples-4 class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <div class=example>
+
+   <p>This example shows an embedded image entitled <cite>My Pond</cite>, licensed under the
+   Creative Commons Attribution-Share Alike 4.0 International License and the MIT license
+   simultaneously.</p>
+
+   <pre>&lt;figure <strong>itemscope itemtype="http://n.whatwg.org/work"</strong>>
+ &lt;img <strong>itemprop="work"</strong> src="mypond.jpeg">
+ &lt;figcaption>
+  &lt;p>&lt;cite <strong>itemprop="title"</strong>>My Pond&lt;/cite>&lt;/p>
+  &lt;p>&lt;small>Licensed under the &lt;a <strong>itemprop="license"</strong>
+  href="https://creativecommons.org/licenses/by-sa/4.0/">Creative
+  Commons Attribution-Share Alike 4.0 International License&lt;/a>
+  and the &lt;a <strong>itemprop="license"</strong>
+  href="http://www.opensource.org/licenses/mit-license.php">MIT
+  license&lt;/a>.&lt;/small>
+ &lt;/figcaption>
+&lt;/figure></pre>
+
+  </div>
+
+
+  
+
+  <h3 id=converting-html-to-other-formats>5.4 Converting HTML to other formats<a href=#converting-html-to-other-formats class=self-link></a></h3>
+
+  <h4 id=json>5.4.1 JSON<a href=#json class=self-link></a></h4>
+
+  <p>Given a list of nodes <var>nodes</var> in a <code id=json:document><a href=#document>Document</a></code>, a user agent must
+  run the following algorithm to <dfn id=extracting-json>extract the microdata from those nodes
+  into a JSON form</dfn>:</p>
+
+  <ol><li><p>Let <var>result</var> be an empty object.<li><p>Let <var>items</var> be an empty array.<li><p>For each <var>node</var> in <var>nodes</var>, check if the element is a
+   <a href=#top-level-microdata-items id=json:top-level-microdata-items>top-level microdata item</a>, and if it is then
+   <a href=#get-the-object id=json:get-the-object>get the object</a> for that element and add it to <var>items</var>.<li><p>Add an entry to <var>result</var> called "<code>items</code>" whose
+   value is the array <var>items</var>.<li><p>Return the result of serializing <var>result</var> to JSON in the shortest
+   possible way (meaning no whitespace between tokens, no unnecessary zero digits in numbers, and
+   only using Unicode escapes in strings for characters that do not have a dedicated escape
+   sequence), and with a lowercase "<code>e</code>" used, when appropriate, in the
+   representation of any numbers. <a href=#refsJSON>[JSON]</a></ol>
+
+  <p class=note>This algorithm returns an object with a single property that is an array, instead
+  of just returning an array, so that it is possible to extend the algorithm in the future if
+  necessary.</p>
+
+  <p>When the user agent is to <dfn id=get-the-object>get the object</dfn> for an item <var>item</var>,
+  optionally with a list of elements <var>memory</var>, it must run the following
+  substeps:</p>
+
+  <ol><li><p>Let <var>result</var> be an empty object.<li><p>If no <var>memory</var> was passed to the algorithm, let <var>memory</var> be an empty list.<li><p>Add <var>item</var> to <var>memory</var>.<li><p>If the <var>item</var> has any <a href=#item-types id=json:item-types>item types</a>, add an entry to <var>result</var> called "<code>type</code>" whose value is an array listing the
+   <a href=#item-types id=json:item-types-2>item types</a> of <var>item</var>, in the order they were specified on the
+   <code id=json:attr-itemtype><a href=#attr-itemtype>itemtype</a></code> attribute.</p>
+
+   <li><p>If the <var>item</var> has a <a href=#global-identifier id=json:global-identifier>global identifier</a>, add an entry to <var>result</var> called "<code>id</code>" whose value is the <a href=#global-identifier id=json:global-identifier-2>global
+   identifier</a> of <var>item</var>.<li><p>Let <var>properties</var> be an empty object.<li>
+
+    <p>For each element <var>element</var> that has one or more <a href=#property-names id=json:property-names>property names</a>
+    and is one of <a href=#the-properties-of-an-item id=json:the-properties-of-an-item>the properties of the item</a> <var>item</var>, in the order those elements are given by the algorithm that returns
+    <a href=#the-properties-of-an-item id=json:the-properties-of-an-item-2>the properties of an item</a>, run the following substeps:</p>
+
+    <ol><li><p>Let <var>value</var> be the <a href=#concept-property-value id=json:concept-property-value>property
+     value</a> of <var>element</var>.<li><p>If <var>value</var> is an <a href=#concept-item id=json:concept-item>item</a>, then: If <var>value</var> is in <var>memory</var>, then let <var>value</var> be
+     the string "<code>ERROR</code>". Otherwise, <a href=#get-the-object id=json:get-the-object-2>get the object</a> for <var>value</var>, passing a copy of <var>memory</var>, and then replace <var>value</var> with the object returned from those steps.<li>
+
+      <p>For each name <var>name</var> in <var>element</var>'s <a href=#property-names id=json:property-names-2>property
+      names</a>, run the following substeps:</p>
+
+      <ol><li><p>If there is no entry named <var>name</var> in <var>properties</var>,
+       then add an entry named <var>name</var> to <var>properties</var> whose
+       value is an empty array.<li><p>Append <var>value</var> to the entry named <var>name</var> in <var>properties</var>.</ol>
+
+     </ol>
+
+   <li><p>Add an entry to <var>result</var> called "<code>properties</code>" whose
+   value is the object <var>properties</var>.<li><p>Return <var>result</var>.</ol>
+
+  <div class=example>
+
+   <p>For example, take this markup:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+&lt;title>My Blog&lt;/title>
+&lt;article itemscope itemtype="http://schema.org/BlogPosting">
+ &lt;header>
+  &lt;h1 itemprop="headline">Progress report&lt;/h1>
+  &lt;p>&lt;time itemprop="datePublished" datetime="2013-08-29">today&lt;/time>&lt;/p>
+  &lt;link itemprop="url" href="?comments=0">
+ &lt;/header>
+ &lt;p>All in all, he's doing well with his swim lessons. The biggest thing was he had trouble
+ putting his head in, but we got it down.&lt;/p>
+ &lt;section>
+  &lt;h1>Comments&lt;/h1>
+  &lt;article itemprop="comment" itemscope itemtype="http://schema.org/UserComments" id="c1">
+   &lt;link itemprop="url" href="#c1">
+   &lt;footer>
+    &lt;p>Posted by: &lt;span itemprop="creator" itemscope itemtype="http://schema.org/Person">
+     &lt;span itemprop="name">Greg&lt;/span>
+    &lt;/span>&lt;/p>
+    &lt;p>&lt;time itemprop="commentTime" datetime="2013-08-29">15 minutes ago&lt;/time>&lt;/p>
+   &lt;/footer>
+   &lt;p>Ha!&lt;/p>
+  &lt;/article>
+  &lt;article itemprop="comment" itemscope itemtype="http://schema.org/UserComments" id="c2">
+   &lt;link itemprop="url" href="#c2">
+   &lt;footer>
+    &lt;p>Posted by: &lt;span itemprop="creator" itemscope itemtype="http://schema.org/Person">
+     &lt;span itemprop="name">Charlotte&lt;/span>
+    &lt;/span>&lt;/p>
+    &lt;p>&lt;time itemprop="commentTime" datetime="2013-08-29">5 minutes ago&lt;/time>&lt;/p>
+   &lt;/footer>
+   &lt;p>When you say "we got it down"...&lt;/p>
+  &lt;/article>
+ &lt;/section>
+&lt;/article></pre>
+
+   <p>It would be turned into the following JSON by the algorithm above (supposing that the page's
+   URL was <code>https://blog.example.com/progress-report</code>):</p>
+
+   <pre>{
+  "items": [
+    {
+      "type": [ "http://schema.org/BlogPosting" ],
+      "properties": {
+        "headline": [ "Progress report" ],
+        "datePublished": [ "2013-08-29" ],
+        "url": [ "https://blog.example.com/progress-report?comments=0" ],
+        "comment": [
+          {
+            "type": [ "http://schema.org/UserComments" ],
+            "properties": {
+              "url": [ "https://blog.example.com/progress-report#c1" ],
+              "creator": [
+                {
+                  "type": [ "http://schema.org/Person" ],
+                  "properties": {
+                    "name": [ "Greg" ]
+                  }
+                }
+              ],
+              "commentTime": [ "2013-08-29" ]
+            }
+          },
+          {
+            "type": [ "http://schema.org/UserComments" ],
+            "properties": {
+              "url": [ "https://blog.example.com/progress-report#c2" ],
+              "creator": [
+                {
+                  "type": [ "http://schema.org/Person" ],
+                  "properties": {
+                    "name": [ "Charlotte" ]
+                  }
+                }
+              ],
+              "commentTime": [ "2013-08-29" ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}</pre>
+
+  </div>
+
+  
+
+
+
+
+
+  <h2 id=editing>6 <dfn>User interaction</dfn><a href=#editing class=self-link></a></h2>
+
+
+  <h3 id=the-hidden-attribute>6.1 The <dfn><code>hidden</code></dfn> attribute<a href=#the-hidden-attribute class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> hidden<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>6+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>4+</span></span><span class="ie yes"><span>IE</span> <span>11+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>4+</span></span><span class="safari yes"><span>Safari</span> <span>5.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>11.1+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=hidden">caniuse.com</a></div>
+
+  <p>All <a href=#html-elements id=the-hidden-attribute:html-elements>HTML elements</a> may have the <code id=the-hidden-attribute:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> content
+  attribute set. The <code id=the-hidden-attribute:the-hidden-attribute-2><a href=#the-hidden-attribute>hidden</a></code> attribute is a <a href=#boolean-attribute id=the-hidden-attribute:boolean-attribute>boolean
+  attribute</a>. When specified on an element, it indicates that the element is not yet, or is no
+  longer, directly relevant to the page's current state, or that it is being used to declare content
+  to be reused by other parts of the page as opposed to being directly accessed by the user. User agents should not render elements that have the <code id=the-hidden-attribute:the-hidden-attribute-3><a href=#the-hidden-attribute>hidden</a></code> attribute specified. This requirement may be implemented
+  indirectly through the style layer. For example, an HTML+CSS user agent could implement these
+  requirements <a href=#hiddenCSS>using the rules suggested in the Rendering
+  section</a>.</p>
+
+  <p class=note>Because this attribute is typically implemented using CSS, it's also possible to
+  override it using CSS. For instance, a rule that applies 'display: block' to all elements will
+  cancel the effects of the <code id=the-hidden-attribute:the-hidden-attribute-4><a href=#the-hidden-attribute>hidden</a></code> attribute. Authors therefore
+  have to take care when writing their style sheets to make sure that the attribute is still styled
+  as expected.</p>
+
+  <div class=example>
+
+   <p>In the following skeletal example, the attribute is used to hide the Web game's main screen
+   until the user logs in:</p>
+
+   <pre>  &lt;h1>The Example Game&lt;/h1>
+  &lt;section id="login">
+   &lt;h2>Login&lt;/h2>
+   &lt;form>
+    ...
+    &lt;!-- calls login() once the user's credentials have been checked -->
+   &lt;/form>
+   &lt;script>
+    function login() {
+      // switch screens
+      document.getElementById('login').hidden = true;
+      document.getElementById('game').hidden = false;
+    }
+   &lt;/script>
+  &lt;/section>
+  &lt;section id="game" hidden>
+   ...
+  &lt;/section></pre>
+
+  </div>
+
+  <p>The <code id=the-hidden-attribute:the-hidden-attribute-5><a href=#the-hidden-attribute>hidden</a></code> attribute must not be used to hide content that
+  could legitimately be shown in another presentation. For example, it is incorrect to use <code id=the-hidden-attribute:the-hidden-attribute-6><a href=#the-hidden-attribute>hidden</a></code> to hide panels in a tabbed dialog, because the tabbed interface
+  is merely a kind of overflow presentation — one could equally well just show all the form
+  controls in one big page with a scrollbar. It is similarly incorrect to use this attribute to hide
+  content just from one presentation — if something is marked <code id=the-hidden-attribute:the-hidden-attribute-7><a href=#the-hidden-attribute>hidden</a></code>, it is hidden from all presentations, including, for instance,
+  screen readers.</p>
+
+  
+  
+
+  <p>Elements that are not themselves <code id=the-hidden-attribute:the-hidden-attribute-8><a href=#the-hidden-attribute>hidden</a></code> must not
+  <a href=#hyperlink id=the-hidden-attribute:hyperlink>hyperlink</a> to elements that are <code id=the-hidden-attribute:the-hidden-attribute-9><a href=#the-hidden-attribute>hidden</a></code>. The <code>for</code> attributes of <code id=the-hidden-attribute:the-label-element><a href=#the-label-element>label</a></code> and <code id=the-hidden-attribute:the-output-element><a href=#the-output-element>output</a></code> elements that are not
+  themselves <code id=the-hidden-attribute:the-hidden-attribute-10><a href=#the-hidden-attribute>hidden</a></code> must similarly not refer to elements that are
+  <code id=the-hidden-attribute:the-hidden-attribute-11><a href=#the-hidden-attribute>hidden</a></code>. In both cases, such references would cause user
+  confusion.</p>
+
+  <p>Elements and scripts may, however, refer to elements that are <code id=the-hidden-attribute:the-hidden-attribute-12><a href=#the-hidden-attribute>hidden</a></code> in other contexts.</p>
+
+  <div class=example>
+
+   <p>For example, it would be incorrect to use the <code id=the-hidden-attribute:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code>
+   attribute to link to a section marked with the <code id=the-hidden-attribute:the-hidden-attribute-13><a href=#the-hidden-attribute>hidden</a></code> attribute.
+   If the content is not applicable or relevant, then there is no reason to link to it.</p>
+
+   <p>It would be fine, however, to use the ARIA <code id=the-hidden-attribute:attr-aria-describedby><a data-x-internal=attr-aria-describedby href=https://w3c.github.io/aria/aria/aria.html#aria-describedby>aria-describedby</a></code> attribute to refer to descriptions that are
+   themselves <code id=the-hidden-attribute:the-hidden-attribute-14><a href=#the-hidden-attribute>hidden</a></code>. While hiding the descriptions implies that
+   they are not useful alone, they could be written in such a way that they are useful in the
+   specific context of being referenced from the images that they describe.</p>
+
+   <p>Similarly, a <code id=the-hidden-attribute:the-canvas-element><a href=#the-canvas-element>canvas</a></code> element with the <code id=the-hidden-attribute:the-hidden-attribute-15><a href=#the-hidden-attribute>hidden</a></code>
+   attribute could be used by a scripted graphics engine as an off-screen buffer, and a form control
+   could refer to a hidden <code id=the-hidden-attribute:the-form-element><a href=#the-form-element>form</a></code> element using its <code id=the-hidden-attribute:attr-fae-form><a href=#attr-fae-form>form</a></code> attribute.</p>
+
+  </div>
+
+  <p>Elements in a section hidden by the <code id=the-hidden-attribute:the-hidden-attribute-16><a href=#the-hidden-attribute>hidden</a></code> attribute are still
+  active, e.g. scripts and form controls in such sections still execute and submit respectively.
+  Only their presentation to the user changes.</p>
+
+  
+
+  <p>The <dfn id=dom-hidden><code>hidden</code></dfn> IDL attribute must <a href=#reflect id=the-hidden-attribute:reflect>reflect</a>
+  the content attribute of the same name.</p>
+
+  
+
+
+
+  <h3 id=inert-subtrees>6.2 Inert subtrees<a href=#inert-subtrees class=self-link></a></h3>
+
+  <p class=note>This section <strong>does not</strong> define or create any content attribute
+  named "inert". This section merely defines an abstract <em>concept</em> of
+  <a href=#inert id=inert-subtrees:inert>inertness</a>.</p>
+
+  <p>A node (in particular elements and text nodes) can be marked as <dfn id=inert>inert</dfn>. When a node
+  is <a href=#inert id=inert-subtrees:inert-2>inert</a>, then the user agent must act as if the node was absent for the purposes of
+  targeting user interaction events, may ignore the node for the purposes of text search user
+  interfaces (commonly known as "find in page"), and may prevent the user from selecting text in
+  that node. User agents should allow the user to override the restrictions on search and text
+  selection, however.</p>
+
+  <p class=example>For example, consider a page that consists of just a single <a href=#inert id=inert-subtrees:inert-3>inert</a>
+  paragraph positioned in the middle of a <code id=inert-subtrees:the-body-element><a href=#the-body-element>body</a></code>. If a user moves their pointing device
+  from the <code id=inert-subtrees:the-body-element-2><a href=#the-body-element>body</a></code> over to the <a href=#inert id=inert-subtrees:inert-4>inert</a> paragraph and clicks on the paragraph,
+  no <code id=inert-subtrees:event-mouseover><a data-x-internal=event-mouseover href=https://w3c.github.io/uievents/#event-type-mouseover>mouseover</a></code> event would be fired, and the <code id=inert-subtrees:event-mousemove><a data-x-internal=event-mousemove href=https://w3c.github.io/uievents/#event-type-mousemove>mousemove</a></code> and <code id=inert-subtrees:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> events would
+  be fired on the <code id=inert-subtrees:the-body-element-3><a href=#the-body-element>body</a></code> element rather than the paragraph.</p>
+
+  <p class=note>When a node is inert, it generally cannot be focused. Inert nodes that are <a href=#concept-command id=inert-subtrees:concept-command>commands</a> will also get disabled.</p>
+
+  <p>While a <a href=#browsing-context-container id=inert-subtrees:browsing-context-container>browsing context container</a> is marked as <a href=#inert id=inert-subtrees:inert-5>inert</a>, its
+  <a href=#nested-browsing-context id=inert-subtrees:nested-browsing-context>nested browsing context</a>'s <a href=#active-document id=inert-subtrees:active-document>active document</a>, and all nodes in that
+  <code id=inert-subtrees:document><a href=#document>Document</a></code>, must be marked as <a href=#inert id=inert-subtrees:inert-6>inert</a>.</p>
+
+  <p>An entire <code id=inert-subtrees:document-2><a href=#document>Document</a></code> can be marked as <dfn id=blocked-by-a-modal-dialog>blocked by a modal dialog</dfn>
+  <var>subject</var>. While a <code id=inert-subtrees:document-3><a href=#document>Document</a></code> is so marked, every node that is <a href=https://dom.spec.whatwg.org/#in-a-document id=inert-subtrees:in-a-document data-x-internal=in-a-document>in the <code>Document</code></a>, with the exception of the
+  <var>subject</var> element and its descendants, must be marked <a href=#inert id=inert-subtrees:inert-7>inert</a>. (The elements
+  excepted by this paragraph can additionally be marked <a href=#inert id=inert-subtrees:inert-8>inert</a> through other means;
+  being part of a modal dialog does not "protect" a node from being marked <a href=#inert id=inert-subtrees:inert-9>inert</a>.)</p>
+
+  <p>Only one element at a time can mark a <code id=inert-subtrees:document-4><a href=#document>Document</a></code> as being <a href=#blocked-by-a-modal-dialog id=inert-subtrees:blocked-by-a-modal-dialog>blocked by a modal
+  dialog</a>. When a new <code id=inert-subtrees:the-dialog-element><a href=#the-dialog-element>dialog</a></code> is made to <a href=#blocked-by-a-modal-dialog id=inert-subtrees:blocked-by-a-modal-dialog-2>block</a> a <code id=inert-subtrees:document-5><a href=#document>Document</a></code>, the previous element, if any, stops blocking the
+  <code id=inert-subtrees:document-6><a href=#document>Document</a></code>.</p>
+
+  <p class=note>The <code id=inert-subtrees:the-dialog-element-2><a href=#the-dialog-element>dialog</a></code> element's <code id=inert-subtrees:dom-dialog-showmodal><a href=#dom-dialog-showmodal>showModal()</a></code> method makes use of this mechanism.</p>
+

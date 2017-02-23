@@ -1,0 +1,850 @@
+  with a width and a height. However, it is possible for this data to be corrupted. If an
+  <code id=images-2:imagebitmap-8><a href=#imagebitmap>ImageBitmap</a></code> object's media data can be decoded without errors, it is said to be <dfn id=concept-imagebitmap-good>fully decodable</dfn>.</p>
+
+  <p>An <code id=images-2:imagebitmap-9><a href=#imagebitmap>ImageBitmap</a></code> object's bitmap has an <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean>origin-clean</a> flag, which indicates whether the
+  bitmap is tainted by content from a different <a href=#concept-origin id=images-2:concept-origin-2>origin</a>. The flag is initially set to
+  true and may be changed to false by the steps of <code id=images-2:dom-createimagebitmap-3><a href=#dom-createimagebitmap>createImageBitmap()</a></code>.</p>
+
+  <p><code id=images-2:imagebitmap-10><a href=#imagebitmap>ImageBitmap</a></code> objects are <a href=#cloneable-objects id=images-2:cloneable-objects>cloneable objects</a> and <a href=#transferable-objects id=images-2:transferable-objects>transferable
+  objects</a>.</p>
+
+  <p>Each <code id=images-2:imagebitmap-11><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#clone-() id=images-2:clone-()>[[Clone]](<var>targetRealm</var>, <var>memory</var>)</a> internal method
+  must run these steps:</p>
+
+  <ol><li><p>If <b>this</b>'s <a href=#detached id=images-2:detached-4>[[Detached]]</a> internal slot is true, then throw a
+   <a id=images-2:datacloneerror href=https://heycam.github.io/webidl/#datacloneerror data-x-internal=datacloneerror>"<code>DataCloneError</code>"</a> <code id=images-2:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Return a new <code id=images-2:imagebitmap-12><a href=#imagebitmap>ImageBitmap</a></code> object in <var>targetRealm</var> whose <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-3>bitmap data</a> is a copy of <b>this</b>'s <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-4>bitmap data</a>, and whose <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean-2>origin-clean</a> flag is set to the same value as
+   <b>this</b>'s <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean-3>origin-clean</a> flag.</ol>
+
+  <p>Each <code id=images-2:imagebitmap-13><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#transfer-() id=images-2:transfer-()>[[Transfer]](<var>targetRealm</var>)</a> internal method must run these
+  steps:</p>
+
+  <ol><li><p>Let <var>new</var> be a new <code id=images-2:imagebitmap-14><a href=#imagebitmap>ImageBitmap</a></code> object in <var>targetRealm</var>,
+   pointing at the same underlying <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-5>bitmap data</a>
+   as <b>this</b>.<li><p>Set <var>new</var>'s bitmap's <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean-4>origin-clean</a> flag to the same values as
+   <b>this</b>'s bitmap's <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean-5>origin-clean</a>
+   flag.<li><p>Set <b>this</b>'s <a href=#detached id=images-2:detached-5>[[Detached]]</a> internal slot value to true.<li><p>Unset <b>this</b>'s <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-6>bitmap
+   data</a>.<li><p>Return <var>new</var>.</ol>
+
+  <p>An <code id=images-2:imagebitmap-15><a href=#imagebitmap>ImageBitmap</a></code> object can be obtained from a variety of different objects, using
+  the <dfn id=dom-createimagebitmap><code>createImageBitmap()</code></dfn> method. When
+  invoked, the method must act as follows:</p>
+  
+
+  <dl><dt>If <var>image</var> is an <code id=images-2:the-img-element-3><a href=#the-img-element>img</a></code> element
+   <dt>If <var>image</var> is an <a id=images-2:svg-image-2 href=https://www.w3.org/TR/SVG11/struct.html#ImageElement data-x-internal=svg-image>SVG <code>image</code></a> element
+
+   <dd>
+
+    <ol><li><p>If either the <var>sw</var> or <var>sh</var> arguments are specified
+     but zero, return a promise rejected with an <a id=images-2:indexsizeerror href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a>
+     <code id=images-2:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If <var>image</var> is not <a href=#img-all id=images-2:img-all>completely available</a>, then
+     return a promise rejected with an <a id=images-2:invalidstateerror-2 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+     <code id=images-2:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If <var>image</var>'s media data has no <a id=images-2:intrinsic-dimensions href=https://drafts.csswg.org/css2/conform.html#intrinsic data-x-internal=intrinsic-dimensions>intrinsic dimensions</a> (e.g. it's a
+     vector graphic with no specified content size), and both or either of the <dfn id=dom-imagebitmapoptions-resizewidth><code>resizeWidth</code></dfn> and <dfn id=dom-imagebitmapoptions-resizeheight><code>resizeHeight</code></dfn> options are not specified,
+     then return a promise rejected with an <a id=images-2:invalidstateerror-3 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+     <code id=images-2:domexception-6><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If <var>image</var>'s media data has no <a id=images-2:intrinsic-dimensions-2 href=https://drafts.csswg.org/css2/conform.html#intrinsic data-x-internal=intrinsic-dimensions>intrinsic dimensions</a> (e.g. it's a vector
+     graphics with no specified content size), it should be rendered to a bitmap of the size
+     specified by the <code id=images-2:dom-imagebitmapoptions-resizewidth-2><a href=#dom-imagebitmapoptions-resizewidth>resizeWidth</a></code> and the
+     <code id=images-2:dom-imagebitmapoptions-resizeheight-2><a href=#dom-imagebitmapoptions-resizeheight>resizeHeight</a></code> options.<li><p>If the <var>sw</var> and <var>sh</var> arguments are not specified and
+     <var>image</var>'s media data has both or either of its <a href=#intrinsic-width id=images-2:intrinsic-width-2>intrinsic width</a> and
+     <a href=#intrinsic-height id=images-2:intrinsic-height-2>intrinsic height</a> values equal to 0, then return a promise rejected with an
+     <a id=images-2:invalidstateerror-4 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=images-2:domexception-7><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+     steps.<li><p>If the <var>sh</var> argument is not specified and <var>image</var>'s media data has
+     an <a href=#intrinsic-height id=images-2:intrinsic-height-3>intrinsic height</a> of 0, then return a promise rejected with an
+     <a id=images-2:invalidstateerror-5 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=images-2:domexception-8><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+     steps.<li><p>Create a new <code id=images-2:imagebitmap-16><a href=#imagebitmap>ImageBitmap</a></code> object.<li><p>Let the <code id=images-2:imagebitmap-17><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-7>bitmap data</a> be a copy of <var>image</var>'s
+     media data, <a href=#cropped-to-the-source-rectangle-with-formatting id=images-2:cropped-to-the-source-rectangle-with-formatting>cropped to the source rectangle with formatting</a>. If this is an
+     animated image, the <code id=images-2:imagebitmap-18><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-8>bitmap data</a> must only be taken from the
+     default image of the animation (the one that the format defines is to be used when animation
+     is not supported or is disabled), or, if there is no such image, the first frame of the
+     animation.<li><p>If the <a href=#concept-origin id=images-2:concept-origin-3>origin</a> of <var>image</var>'s image is not the <a href=#same-origin id=images-2:same-origin>same
+     origin</a> as the <a href=#concept-settings-object-origin id=images-2:concept-settings-object-origin>origin</a> specified by
+     the <a href=#entry-settings-object id=images-2:entry-settings-object>entry settings object</a>, then set the <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean-6>origin-clean</a> flag of the <code id=images-2:imagebitmap-19><a href=#imagebitmap>ImageBitmap</a></code>
+     object's bitmap to false.<li><p>Return a new promise, but continue running these steps
+     <a href=#in-parallel id=images-2:in-parallel>in parallel</a>.<li><p>Resolve the promise with the new <code id=images-2:imagebitmap-20><a href=#imagebitmap>ImageBitmap</a></code> object as the value.</ol>
+
+   <dt>If <var>image</var> is a <code id=images-2:the-video-element-3><a href=#the-video-element>video</a></code> element
+
+   <dd>
+
+    <ol><li><p>If either the <var>sw</var> or <var>sh</var> arguments are specified
+     but zero, return a promise rejected with an <a id=images-2:indexsizeerror-2 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a>
+     <code id=images-2:domexception-9><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If the <code id=images-2:the-video-element-4><a href=#the-video-element>video</a></code> element's <code id=images-2:dom-media-networkstate><a href=#dom-media-networkstate>networkState</a></code> attribute is <code id=images-2:dom-media-network_empty><a href=#dom-media-network_empty>NETWORK_EMPTY</a></code>, then return a promise rejected with an
+     <a id=images-2:invalidstateerror-6 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=images-2:domexception-10><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+     steps.<li><p>If the <code id=images-2:the-video-element-5><a href=#the-video-element>video</a></code> element's <code id=images-2:dom-media-readystate><a href=#dom-media-readystate>readyState</a></code> attribute is either <code id=images-2:dom-media-have_nothing><a href=#dom-media-have_nothing>HAVE_NOTHING</a></code> or <code id=images-2:dom-media-have_metadata><a href=#dom-media-have_metadata>HAVE_METADATA</a></code>, then return a promise rejected with an
+     <a id=images-2:invalidstateerror-7 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=images-2:domexception-11><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+     steps.<li><p>Create a new <code id=images-2:imagebitmap-21><a href=#imagebitmap>ImageBitmap</a></code> object.<li><p>Let the <code id=images-2:imagebitmap-22><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-9>bitmap data</a> be a copy of the frame at the
+     <a href=#current-playback-position id=images-2:current-playback-position>current playback position</a>, at the <a href=#media-resource id=images-2:media-resource>media resource</a>'s <a href=#concept-video-intrinsic-width id=images-2:concept-video-intrinsic-width>intrinsic width</a> and <a href=#concept-video-intrinsic-height id=images-2:concept-video-intrinsic-height>intrinsic height</a> (i.e. after any aspect-ratio
+     correction has been applied), <a href=#cropped-to-the-source-rectangle-with-formatting id=images-2:cropped-to-the-source-rectangle-with-formatting-2>cropped to the source rectangle with formatting</a>.</p>
+
+     <li><p>If the <a href=#concept-origin id=images-2:concept-origin-4>origin</a> of the <code id=images-2:the-video-element-6><a href=#the-video-element>video</a></code> element is not the <a href=#same-origin id=images-2:same-origin-2>same
+     origin</a> as the <a href=#concept-settings-object-origin id=images-2:concept-settings-object-origin-2>origin</a> specified by
+     the <a href=#entry-settings-object id=images-2:entry-settings-object-2>entry settings object</a>, then set the <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean-7>origin-clean</a> flag of the <code id=images-2:imagebitmap-23><a href=#imagebitmap>ImageBitmap</a></code>
+     object's bitmap to false.<li><p>Return a new promise, but continue running these steps
+     <a href=#in-parallel id=images-2:in-parallel-2>in parallel</a>.<li><p>Resolve the promise with the new <code id=images-2:imagebitmap-24><a href=#imagebitmap>ImageBitmap</a></code> object as the value.</ol>
+
+   <dt>If <var>image</var> is a <code id=images-2:the-canvas-element-3><a href=#the-canvas-element>canvas</a></code> element
+
+   <dd>
+
+    <ol><li><p>If either the <var>sw</var> or <var>sh</var> arguments are specified
+     but zero, return a promise rejected with an <a id=images-2:indexsizeerror-3 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a>
+     <code id=images-2:domexception-12><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If the <code id=images-2:the-canvas-element-4><a href=#the-canvas-element>canvas</a></code> element's bitmap has either a horizontal dimension or a
+     vertical dimension equal to zero, then return a promise rejected with an
+     <a id=images-2:invalidstateerror-8 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=images-2:domexception-13><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+     steps.<li><p>Create a new <code id=images-2:imagebitmap-25><a href=#imagebitmap>ImageBitmap</a></code> object.<li><p>Let the <code id=images-2:imagebitmap-26><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-10>bitmap data</a> be a copy of the
+     <code id=images-2:the-canvas-element-5><a href=#the-canvas-element>canvas</a></code> element's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-11>bitmap data</a>, <a href=#cropped-to-the-source-rectangle-with-formatting id=images-2:cropped-to-the-source-rectangle-with-formatting-3>cropped to the source
+     rectangle with formatting</a>.<li><p>Set the <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean-8>origin-clean</a> flag of the
+     <code id=images-2:imagebitmap-27><a href=#imagebitmap>ImageBitmap</a></code> object's bitmap to the same value as the <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean-9>origin-clean</a> flag of the <code id=images-2:the-canvas-element-6><a href=#the-canvas-element>canvas</a></code>
+     element's bitmap.<li><p>Return a new promise, but continue running these steps
+     <a href=#in-parallel id=images-2:in-parallel-3>in parallel</a>.<li><p>Resolve the promise with the new <code id=images-2:imagebitmap-28><a href=#imagebitmap>ImageBitmap</a></code> object as the value.</ol>
+
+   <dt>If <var>image</var> is a <code id=images-2:blob-4><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object
+
+   <dd>
+
+    <ol><li><p>If either the <var>sw</var> or <var>sh</var> arguments are specified
+     but zero, return a promise rejected with an <a id=images-2:indexsizeerror-4 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a>
+     <code id=images-2:domexception-14><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If <var>image</var> is <a href=https://w3c.github.io/FileAPI/#closed id=images-2:concept-blob-closed data-x-internal=concept-blob-closed>closed</a>, then return a
+     promise rejected with an <a id=images-2:invalidstateerror-9 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+     <code id=images-2:domexception-15><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>Return a new promise, but continue running these steps
+     <a href=#in-parallel id=images-2:in-parallel-4>in parallel</a>.<li><p>Read the <code id=images-2:blob-5><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object's data. If an <a href=#file-error-read id=images-2:file-error-read>error
+     occurs during reading of the object</a>, then reject the promise with an
+     <a id=images-2:invalidstateerror-10 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=images-2:domexception-16><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>, and abort these
+     steps.<li><p>Apply the <a href=https://mimesniff.spec.whatwg.org/#rules-for-sniffing-images-specifically id=images-2:content-type-sniffing:-image data-x-internal=content-type-sniffing:-image>image sniffing rules</a> to
+     determine the file format of the image data, with MIME type of the <code id=images-2:blob-6><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> (as given
+     by the <code id=images-2:blob-7><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object's <code id=images-2:dom-blob-type><a data-x-internal=dom-blob-type href=https://w3c.github.io/FileAPI/#dfn-type>type</a></code> attribute) giving
+     the official type.<li><p>If the image data is not in a supported image file format (e.g. it's not an image at
+     all), or if the image data is corrupted in some fatal way such that the image dimensions
+     cannot be obtained (e.g. a vector graphic with no intrinsic size), then reject the promise
+     with an <a id=images-2:invalidstateerror-11 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=images-2:domexception-17><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>, and abort
+     these steps.<li><p>Create a new <code id=images-2:imagebitmap-29><a href=#imagebitmap>ImageBitmap</a></code> object.<li><p>Let the <code id=images-2:imagebitmap-30><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-12>bitmap data</a> be the image data read from the
+     <code id=images-2:blob-8><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object, <a href=#cropped-to-the-source-rectangle-with-formatting id=images-2:cropped-to-the-source-rectangle-with-formatting-4>cropped to the source rectangle with formatting</a>.
+     If this is an animated image, the <code id=images-2:imagebitmap-31><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-13>bitmap data</a> must only be taken from the
+     default image of the animation (the one that the format defines is to be used when animation
+     is not supported or is disabled), or, if there is no such image, the first frame of the
+     animation.<li><p>Resolve the promise with the new <code id=images-2:imagebitmap-32><a href=#imagebitmap>ImageBitmap</a></code> object as the value.</ol>
+
+   <dt>If <var>image</var> is an <code id=images-2:imagedata-4><a href=#imagedata>ImageData</a></code> object
+
+   <dd>
+
+    <ol><li><p>If either the <var>sw</var> or <var>sh</var> arguments are specified
+     but zero, return a promise rejected with an <a id=images-2:indexsizeerror-5 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a>
+     <code id=images-2:domexception-18><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If the <var>image</var> object's <code id=images-2:dom-imagedata-data-2><a href=#dom-imagedata-data>data</a></code> attribute
+     value's <a href=#detached id=images-2:detached-6>[[Detached]]</a> internal slot value is true, return a promise rejected with
+     an <a id=images-2:invalidstateerror-12 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=images-2:domexception-19><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+     steps.<li><p>Create a new <code id=images-2:imagebitmap-33><a href=#imagebitmap>ImageBitmap</a></code> object.<li><p>Let the <code id=images-2:imagebitmap-34><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-14>bitmap data</a> be the image data given by the
+     <code id=images-2:imagedata-5><a href=#imagedata>ImageData</a></code> object, <a href=#cropped-to-the-source-rectangle-with-formatting id=images-2:cropped-to-the-source-rectangle-with-formatting-5>cropped to the source rectangle with formatting</a>.<li><p>Return a new promise, but continue running these steps
+     <a href=#in-parallel id=images-2:in-parallel-5>in parallel</a>.<li><p>Resolve the promise with the new <code id=images-2:imagebitmap-35><a href=#imagebitmap>ImageBitmap</a></code> object as the value.</ol>
+
+   <dt>If <var>image</var> is an <code id=images-2:imagebitmap-36><a href=#imagebitmap>ImageBitmap</a></code> object
+
+   <dd>
+
+    <ol><li><p>If either the <var>sw</var> or <var>sh</var> arguments are specified
+     but zero, return a promise rejected with an <a id=images-2:indexsizeerror-6 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a>
+     <code id=images-2:domexception-20><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If <var>image</var>'s <a href=#detached id=images-2:detached-7>[[Detached]]</a> internal slot value is true, return a
+     promise rejected with an <a id=images-2:invalidstateerror-13 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+     <code id=images-2:domexception-21><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>Create a new <code id=images-2:imagebitmap-37><a href=#imagebitmap>ImageBitmap</a></code> object.<li><p>Let the <code id=images-2:imagebitmap-38><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-15>bitmap data</a> be a copy of the <var>image</var>
+     argument's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-16>bitmap data</a>, <a href=#cropped-to-the-source-rectangle-with-formatting id=images-2:cropped-to-the-source-rectangle-with-formatting-6>cropped
+     to the source rectangle with formatting</a>.<li><p>Set the <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean-10>origin-clean</a> flag of the
+     <code id=images-2:imagebitmap-39><a href=#imagebitmap>ImageBitmap</a></code> object's bitmap to the same value as the <a href=#concept-canvas-origin-clean id=images-2:concept-canvas-origin-clean-11>origin-clean</a> flag of the bitmap of the
+     <var>image</var> argument.<li><p>Return a new promise, but continue running these steps
+     <a href=#in-parallel id=images-2:in-parallel-6>in parallel</a>.<li><p>Resolve the promise with the new <code id=images-2:imagebitmap-40><a href=#imagebitmap>ImageBitmap</a></code> object as the value.</ol>
+
+   </dl>
+
+  <p>When the steps above require that the user agent <dfn id=cropped-to-the-source-rectangle-with-formatting>crop bitmap data to the source rectangle with formatting</dfn>,
+  the user agent must run the following steps:</p>
+
+  <ol><li><p>Let <var>input</var> be the <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-17>bitmap
+   data</a> being transformed.<li><p>If either or both of <code id=images-2:dom-imagebitmapoptions-resizewidth-3><a href=#dom-imagebitmapoptions-resizewidth>resizeWidth</a></code>
+   and <code id=images-2:dom-imagebitmapoptions-resizeheight-3><a href=#dom-imagebitmapoptions-resizeheight>resizeHeight</a></code> members of
+   <var>options</var> are less than or equal to 0, then return a promise rejected with
+   <a id=images-2:invalidstateerror-14 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=images-2:domexception-22><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li>
+
+    <p>If <var>sx</var>, <var>sy</var>, <var>sw</var> and <var>sh</var> are specified, let
+    <var>sourceRectangle</var> be a rectangle whose corners are the four points (<var>sx</var>,
+    <var>sy</var>), (<var>sx</var>+<var>sw</var>, <var>sy</var>),(<var>sx</var>+<var>sw</var>,
+    <var>sy</var>+<var>sh</var>), (<var>sx</var>,<var>sy</var>+<var>sh</var>). Otherwise let
+    <var>sourceRectangle</var> be a rectangle whose corners are the four points (0,0), (width of
+    <var>input</var>, 0), (width of <var>input</var>, height of <var>input</var>), (0, height of
+    <var>input</var>).</p>
+
+    <p class=note>If either <var>sw</var> or <var>sh</var> are negative, then
+    the top-left corner of this rectangle will be to the left or above the (<var>sx</var>,
+    <var>sy</var>) point.</p>
+
+   <li><p>Clip <var>sourceRectangle</var> to the dimensions of <var>input</var>.<li>
+    <p>Let <var>outputWidth</var> be determined as follows:</p>
+
+    <dl class=switch><dt>If the <code id=images-2:dom-imagebitmapoptions-resizewidth-4><a href=#dom-imagebitmapoptions-resizewidth>resizeWidth</a></code> member of
+     <var>options</var> is specified<dd>the value of the <code id=images-2:dom-imagebitmapoptions-resizewidth-5><a href=#dom-imagebitmapoptions-resizewidth>resizeWidth</a></code>
+     member of <var>options</var><dt>If the <code id=images-2:dom-imagebitmapoptions-resizewidth-6><a href=#dom-imagebitmapoptions-resizewidth>resizeWidth</a></code> member of
+     <var>options</var> is not specified, but the <code id=images-2:dom-imagebitmapoptions-resizeheight-4><a href=#dom-imagebitmapoptions-resizeheight>resizeHeight</a></code> member is specified<dd>the width of <var>sourceRectangle</var>, times the value of the <code id=images-2:dom-imagebitmapoptions-resizeheight-5><a href=#dom-imagebitmapoptions-resizeheight>resizeHeight</a></code> member of <var>options</var>,
+     divided by the height of <var>sourceRectangle</var>, rounded up to the nearest integer<dt>If neither <code id=images-2:dom-imagebitmapoptions-resizewidth-7><a href=#dom-imagebitmapoptions-resizewidth>resizeWidth</a></code> nor <code id=images-2:dom-imagebitmapoptions-resizeheight-6><a href=#dom-imagebitmapoptions-resizeheight>resizeHeight</a></code> are specified<dd>the width of <var>sourceRectangle</var></dl>
+   <li>
+    <p>Let <var>outputHeight</var> be determined as follows:</p>
+
+    <dl class=switch><dt>If the <code id=images-2:dom-imagebitmapoptions-resizeheight-7><a href=#dom-imagebitmapoptions-resizeheight>resizeHeight</a></code> member of
+     <var>options</var> is specified<dd>the value of the <code id=images-2:dom-imagebitmapoptions-resizeheight-8><a href=#dom-imagebitmapoptions-resizeheight>resizeHeight</a></code>
+     member of <var>options</var><dt>If the <code id=images-2:dom-imagebitmapoptions-resizeheight-9><a href=#dom-imagebitmapoptions-resizeheight>resizeHeight</a></code> member of
+     <var>options</var> is not specified, but the <code id=images-2:dom-imagebitmapoptions-resizewidth-8><a href=#dom-imagebitmapoptions-resizewidth>resizeWidth</a></code> member is specified<dd>the height of <var>sourceRectangle</var>, times the value of the <code id=images-2:dom-imagebitmapoptions-resizewidth-9><a href=#dom-imagebitmapoptions-resizewidth>resizeWidth</a></code> member of <var>options</var>,
+     divided by the width of <var>sourceRectangle</var>, rounded up to the nearest integer<dt>If neither <code id=images-2:dom-imagebitmapoptions-resizewidth-10><a href=#dom-imagebitmapoptions-resizewidth>resizeWidth</a></code> nor <code id=images-2:dom-imagebitmapoptions-resizeheight-10><a href=#dom-imagebitmapoptions-resizeheight>resizeHeight</a></code> are specified<dd>the height of <var>sourceRectangle</var></dl>
+   <li><p>Place <var>input</var> on an infinite transparent black grid plane, positioned so that
+   its top left corner is at the origin of the plane, with the <var>x</var>-coordinate increasing
+   to the right, and the <var>y</var>-coordinate increasing down, and with each pixel in the
+   <var>input</var> image data occupying a cell on the plane's grid.<li><p>Let <var>output</var> be the rectangle on the plane denoted by
+   <var>sourceRectangle</var>.<li><p>Scale <var>output</var> to the size specified by <var>outputWidth</var> and
+   <var>outputHeight</var>. The user agent should use the value of the <dfn id=dom-imagebitmapoptions-resizequality><code>resizeQuality</code></dfn> option to guide the
+   choice of scaling algorithm.<li>
+
+    <p>If the value of the <dfn id=dom-imagebitmapoptions-imageorientation><code>imageOrientation</code></dfn> member of
+    <var>options</var> is "<dfn id=dom-imageorientation-flipy><code>flipY</code></dfn>",
+    <var>output</var> must be flipped vertically, disregarding any image orientation metadata of
+    the source (such as EXIF metadata), if any. <a href=#refsEXIF>[EXIF]</a></p>
+
+    <p class=note>If the value is "<dfn id=dom-imageorientation-none><code>none</code></dfn>", no extra step is required.</p>
+
+   <li>
+
+    <p>If <var>image</var> is an <code id=images-2:the-img-element-4><a href=#the-img-element>img</a></code> element or a <code id=images-2:blob-9><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object, let
+    <var>val</var> be the value of the <dfn id=dom-imagebitmapoptions-colorspaceconversion><code>colorSpaceConversion</code></dfn> member
+    of <var>options</var>, and then run these substeps:</p>
+
+    <ol><li><p>If <var>val</var> is "<dfn id=dom-colorspaceconversion-default><code>default</code></dfn>",
+     the color space conversion behavior is implementation-specific, and should be chosen according
+     to the color space that the implementation uses for drawing images onto the canvas.<li><p>If <var>val</var> is "<dfn id=dom-colorspaceconversion-none><code>none</code></dfn>", <var>output</var> must be decoded
+     without performing any color space conversions. This means that the image decoding algorithm
+     must ignore color profile metadata embedded in the source data as well as the display device
+     color profile.</ol>
+
+    <p class=note>The native color space of canvas is currently unspecified, but this is expected
+    to change in the future.</p>
+
+   <li>
+
+    <p>Let <var>val</var> be the value of <dfn id=dom-imagebitmapoptions-premultiplyalpha><code>premultiplyAlpha</code></dfn> member of
+    <var>options</var>, and then run these substeps:</p>
+
+    <ol><li><p>If <var>val</var> is "<dfn id=dom-premultiplyalpha-default><code>default</code></dfn>", the alpha premultiplication
+     behavior is implementation-specific, and should be chosen according to implementation deems
+     optimal for drawing images onto the canvas.<li><p>If <var>val</var> is "<dfn id=dom-premultiplyalpha-premultiply><code>premultiply</code></dfn>", the <var>output</var>
+     that is not premultiplied by alpha must have its color components multiplied by alpha and
+     that is premultiplied by alpha must be left untouched.<li><p>If <var>val</var> is "<dfn id=dom-premultiplyalpha-none><code>none</code></dfn>", the <var>output</var> that is not
+     premultiplied by alpha must be left untouched and that is premultiplied by alpha must have
+     its color components divided by alpha.</ol>
+
+   <li><p>Return <var>output</var>.</ol>
+
+  <p>When the <dfn id=dom-imagebitmap-close><code>close()</code></dfn> method is called, the
+  user agent must run these steps:</p>
+
+  <ol><li><p>Set this <code id=images-2:imagebitmap-41><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#detached id=images-2:detached-8>[[Detached]]</a> internal slot value
+   to true.<li><p>Unset this <code id=images-2:imagebitmap-42><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#concept-imagebitmap-bitmap-data id=images-2:concept-imagebitmap-bitmap-data-18>bitmap data</a>.</ol>
+
+  <p>The <dfn id=dom-imagebitmap-width><code>width</code></dfn> attribute's getter must run
+  these steps:</p>
+
+  <ol><li><p>If this <code id=images-2:imagebitmap-43><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#detached id=images-2:detached-9>[[Detached]]</a> internal slot's
+   value is true, then return 0.<li><p>Return this <code id=images-2:imagebitmap-44><a href=#imagebitmap>ImageBitmap</a></code> object's width, in <a href=https://drafts.csswg.org/css-values/#px id="images-2:'px'-4" data-x-internal="'px'">CSS
+   pixels</a>.</ol>
+
+  <p>The <dfn id=dom-imagebitmap-height><code>height</code></dfn> attribute's getter must run
+  these steps:</p>
+
+  <ol><li><p>If this <code id=images-2:imagebitmap-45><a href=#imagebitmap>ImageBitmap</a></code> object's <a href=#detached id=images-2:detached-10>[[Detached]]</a> internal slot's
+   value is true, then return 0.<li><p>Return this <code id=images-2:imagebitmap-46><a href=#imagebitmap>ImageBitmap</a></code> object's height, in <a href=https://drafts.csswg.org/css-values/#px id="images-2:'px'-5" data-x-internal="'px'">CSS
+   pixels</a>.</ol>
+
+  <p>The <a href=#resizequality id=images-2:resizequality-2>ResizeQuality</a> enumeration is used to express a preference for the
+  interpolation quality to use when scaling images.</p>
+
+  <p>The "<dfn id=dom-resizequality-pixelated><code>pixelated</code></dfn>" value indicates
+  a preference to scale the image that maximizes the appearance. Scaling algorithms that "smooth"
+  colors are acceptable, such as bilinear interpolation.</p>
+
+  <p>The "<dfn id=dom-resizequality-low><code>low</code></dfn>" value
+  indicates a preference for a low level of image interpolation quality. Low-quality image
+  interpolation may be more computationally efficient than higher settings.</p>
+
+  <p>The "<dfn id=dom-resizequality-medium><code>medium</code></dfn>" value indicates
+  a preference for a medium level of image interpolation quality.</p>
+
+  <p>The "<dfn id=dom-resizequality-high><code>high</code></dfn>" value indicates a
+  preference for a high level of image interpolation quality. High-quality image
+  interpolation may be more computationally expensive than lower settings.</p>
+
+  <p class=note>Bilinear scaling is an example of a relatively fast, lower-quality image-smoothing
+  algorithm. Bicubic or Lanczos scaling are examples of image-scaling algorithms that produce
+  higher-quality output. This specification does not mandate that specific interpolation algorithms
+  be used unless the value is "<a href=#dom-resizequality-pixelated id=images-2:dom-resizequality-pixelated-2>pixelated</a>".</p>
+
+  
+
+  <div class=example>
+
+   <p>Using this API, a sprite sheet can be precut and prepared:</p>
+
+   <pre>var sprites = {};
+function loadMySprites() {
+  var image = new Image();
+  image.src = 'mysprites.png';
+  var resolver;
+  var promise = new Promise(function (arg) { resolver = arg });
+  image.onload = function () {
+    resolver(Promise.all(
+      createImageBitmap(image,  0,  0, 40, 40).then(function (image) { sprites.woman = image }),
+      createImageBitmap(image, 40,  0, 40, 40).then(function (image) { sprites.man   = image }),
+      createImageBitmap(image, 80,  0, 40, 40).then(function (image) { sprites.tree  = image }),
+      createImageBitmap(image,  0, 40, 40, 40).then(function (image) { sprites.hut   = image }),
+      createImageBitmap(image, 40, 40, 40, 40).then(function (image) { sprites.apple = image }),
+      createImageBitmap(image, 80, 40, 40, 40).then(function (image) { sprites.snake = image }),
+    ));
+  };
+  return promise;
+}
+
+function runDemo() {
+  var canvas = document.querySelector('canvas#demo');
+  var context = canvas.getContext('2d');
+  context.drawImage(sprites.tree, 30, 10);
+  context.drawImage(sprites.snake, 70, 10);
+}
+
+loadMySprites().then(runDemo);</pre>
+
+  </div>
+
+
+
+
+  <h3 id=animation-frames>8.9 Animation Frames<a href=#animation-frames class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> requestanimationframe<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>24+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>7.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>23+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>6.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>15+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=requestanimationframe">caniuse.com</a></div>
+
+  <p>Each <code id=animation-frames:document><a href=#document>Document</a></code> has a <dfn id=list-of-animation-frame-callbacks>list of animation frame callbacks</dfn>, which must be
+  initially empty, and an <dfn id=animation-frame-callback-identifier>animation frame callback identifier</dfn>, which is a number which
+  must initially be zero.</p>
+
+  <p>When the <dfn id=dom-window-requestanimationframe><code>requestAnimationFrame()</code></dfn> method is called,
+  the user agent must run the following steps:</p>
+
+  <ol><li><p>Let <var>document</var> be this <code id=animation-frames:window><a href=#window>Window</a></code> object's <a href=#concept-document-window id=animation-frames:concept-document-window>associated <code>Document</code></a>.<li><p>Increment <var>document</var>'s <a href=#animation-frame-callback-identifier id=animation-frames:animation-frame-callback-identifier>animation frame callback identifier</a> by
+   one.<li><p>Append the method's argument to <var>document</var>'s <a href=#list-of-animation-frame-callbacks id=animation-frames:list-of-animation-frame-callbacks>list of animation frame
+   callbacks</a>, associated with <var>document</var>'s <a href=#animation-frame-callback-identifier id=animation-frames:animation-frame-callback-identifier-2>animation frame callback
+   identifier</a>'s current value.<li><p>Return <var>document</var>'s <a href=#animation-frame-callback-identifier id=animation-frames:animation-frame-callback-identifier-3>animation frame callback identifier</a>'s current
+   value.</ol>
+
+  <p>When the <dfn id=dom-window-cancelanimationframe><code>cancelAnimationFrame()</code></dfn> method is called,
+  the user agent must run the following steps:</p>
+
+  <ol><li><p>Let <var>document</var> be this <code id=animation-frames:window-2><a href=#window>Window</a></code> object's <a href=#concept-document-window id=animation-frames:concept-document-window-2>associated <code>Document</code></a>.<li><p>Find the entry in <var>document</var>'s <a href=#list-of-animation-frame-callbacks id=animation-frames:list-of-animation-frame-callbacks-2>list of animation frame callbacks</a>
+   that is associated with the value given by the method's argument.<li><p>If there is such an entry, remove it from <var>document</var>'s <a href=#list-of-animation-frame-callbacks id=animation-frames:list-of-animation-frame-callbacks-3>list of animation
+   frame callbacks</a>.</ol>
+
+  <p>When the user agent is to <dfn id=run-the-animation-frame-callbacks>run the animation frame callbacks</dfn> for a
+  <code id=animation-frames:document-2><a href=#document>Document</a></code> <var>doc</var> with a timestamp <var>now</var>, it must run the following
+  steps:</p>
+
+  <ol><li><p>Let <var>callbacks</var> be a list of the entries in <var>doc</var>'s <a href=#list-of-animation-frame-callbacks id=animation-frames:list-of-animation-frame-callbacks-4>list of
+   animation frame callbacks</a>, in the order in which they were added to the list.<li><p>Set <var>doc</var>'s <a href=#list-of-animation-frame-callbacks id=animation-frames:list-of-animation-frame-callbacks-5>list of animation frame callbacks</a> to the empty
+   list.<li><p>For each entry in <var>callbacks</var>, in order: <a href=https://heycam.github.io/webidl/#es-invoking-callback-functions id=animation-frames:es-invoking-callback-functions data-x-internal=es-invoking-callback-functions>invoke the callback</a>, passing
+   <var>now</var> as the only argument, and if an exception is thrown, <a href=#report-the-exception id=animation-frames:report-the-exception>report the
+   exception</a>. <a href=#refsWEBIDL>[WEBIDL]</a></ol>
+
+
+
+  <h2 id=comms>9 Communication<a href=#comms class=self-link></a></h2>
+
+  <h3 id=the-messageevent-interfaces>9.1 The <code id=the-messageevent-interfaces:messageevent><a href=#messageevent>MessageEvent</a></code> interfaces<a href=#the-messageevent-interfaces class=self-link></a></h3>
+
+  <p>Messages in <a href=#server-sent-events id=the-messageevent-interfaces:server-sent-events>server-sent events</a>, <a href=#network id=the-messageevent-interfaces:network>Web sockets</a>, <a href=#web-messaging id=the-messageevent-interfaces:web-messaging>cross-document
+  messaging</a>, <a href=#channel-messaging id=the-messageevent-interfaces:channel-messaging>channel messaging</a>, and <a href=#broadcasting-to-other-browsing-contexts id=the-messageevent-interfaces:broadcasting-to-other-browsing-contexts>broadcast channels</a> use the
+  <code id=the-messageevent-interfaces:messageevent-2><a href=#messageevent>MessageEvent</a></code> interface for their <code id=the-messageevent-interfaces:event-message><a href=#event-message>message</a></code>
+  events:</p>
+
+  <pre class=idl>[Constructor(DOMString type, optional <a href=#messageeventinit id=the-messageevent-interfaces:messageeventinit>MessageEventInit</a> eventInitDict), Exposed=(Window,Worker)]
+interface <dfn id=messageevent>MessageEvent</dfn> : <a id=the-messageevent-interfaces:event href=https://dom.spec.whatwg.org/#interface-event data-x-internal=event>Event</a> {
+  readonly attribute any <a href=#dom-messageevent-data id=the-messageevent-interfaces:dom-messageevent-data>data</a>;
+  readonly attribute USVString <a href=#dom-messageevent-origin id=the-messageevent-interfaces:dom-messageevent-origin>origin</a>;
+  readonly attribute DOMString <a href=#dom-messageevent-lasteventid id=the-messageevent-interfaces:dom-messageevent-lasteventid>lastEventId</a>;
+  readonly attribute <a href=#messageeventsource id=the-messageevent-interfaces:messageeventsource>MessageEventSource</a>? <a href=#dom-messageevent-source id=the-messageevent-interfaces:dom-messageevent-source>source</a>;
+  readonly attribute FrozenArray&lt;<a href=#messageport id=the-messageevent-interfaces:messageport>MessagePort</a>> <a href=#dom-messageevent-ports id=the-messageevent-interfaces:dom-messageevent-ports>ports</a>;
+
+  void <a href=#dom-messageevent-initmessageevent id=the-messageevent-interfaces:dom-messageevent-initmessageevent>initMessageEvent</a>(DOMString type, boolean bubbles, boolean cancelable, any data, USVString origin, DOMString lastEventId, <a href=#messageeventsource id=the-messageevent-interfaces:messageeventsource-2>MessageEventSource</a>? source, sequence&lt;<a href=#messageport id=the-messageevent-interfaces:messageport-2>MessagePort</a>> ports);
+};
+
+dictionary <dfn id=messageeventinit>MessageEventInit</dfn> : <a id=the-messageevent-interfaces:eventinit href=https://dom.spec.whatwg.org/#dictdef-eventinit data-x-internal=eventinit>EventInit</a> {
+  any data = null;
+  USVString origin = "";
+  DOMString lastEventId = "";
+  <a href=#messageeventsource id=the-messageevent-interfaces:messageeventsource-3>MessageEventSource</a>? source = null;
+  sequence&lt;<a href=#messageport id=the-messageevent-interfaces:messageport-3>MessagePort</a>> ports = [];
+};
+
+typedef (<a href=#windowproxy id=the-messageevent-interfaces:windowproxy>WindowProxy</a> or <a href=#messageport id=the-messageevent-interfaces:messageport-4>MessagePort</a> or <a id=the-messageevent-interfaces:serviceworker href=https://w3c.github.io/ServiceWorker/#serviceworker data-x-internal=serviceworker>ServiceWorker</a>) <dfn id=messageeventsource>MessageEventSource</dfn>;</pre>
+
+  <dl class=domintro><dt><var>event</var> . <code id=the-messageevent-interfaces:dom-messageevent-data-2><a href=#dom-messageevent-data>data</a></code><dd>
+
+    <p>Returns the data of the message.</p>
+
+   <dt><var>event</var> . <code id=the-messageevent-interfaces:dom-messageevent-origin-2><a href=#dom-messageevent-origin>origin</a></code><dd>
+
+    <p>Returns the origin of the message, for <a href=#server-sent-events id=the-messageevent-interfaces:server-sent-events-2>server-sent events</a> and
+    <a href=#web-messaging id=the-messageevent-interfaces:web-messaging-2>cross-document messaging</a>.</p>
+
+   <dt><var>event</var> . <code id=the-messageevent-interfaces:dom-messageevent-lasteventid-2><a href=#dom-messageevent-lasteventid>lastEventId</a></code><dd>
+
+    <p>Returns the <a href=#concept-event-stream-last-event-id id=the-messageevent-interfaces:concept-event-stream-last-event-id>last event ID string</a>, for
+    <a href=#server-sent-events id=the-messageevent-interfaces:server-sent-events-3>server-sent events</a>.</p>
+
+   <dt><var>event</var> . <code id=the-messageevent-interfaces:dom-messageevent-source-2><a href=#dom-messageevent-source>source</a></code><dd>
+
+    <p>Returns the <code id=the-messageevent-interfaces:windowproxy-2><a href=#windowproxy>WindowProxy</a></code> of the source window, for <a href=#web-messaging id=the-messageevent-interfaces:web-messaging-3>cross-document
+    messaging</a>, and the <code id=the-messageevent-interfaces:messageport-5><a href=#messageport>MessagePort</a></code> being attached, in the <code id=the-messageevent-interfaces:event-workerglobalscope-connect><a href=#event-workerglobalscope-connect>connect</a></code> event fired at
+    <code id=the-messageevent-interfaces:sharedworkerglobalscope><a href=#sharedworkerglobalscope>SharedWorkerGlobalScope</a></code> objects.</p>
+
+   <dt><var>event</var> . <code id=the-messageevent-interfaces:dom-messageevent-ports-2><a href=#dom-messageevent-ports>ports</a></code><dd>
+
+    <p>Returns the <code id=the-messageevent-interfaces:messageport-6><a href=#messageport>MessagePort</a></code> array sent with the message, for <a href=#web-messaging id=the-messageevent-interfaces:web-messaging-4>cross-document
+    messaging</a> and <a href=#channel-messaging id=the-messageevent-interfaces:channel-messaging-2>channel messaging</a>.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-messageevent-data><code>data</code></dfn> attribute must return the value
+  it was initialized to. It represents the message being sent.</p>
+
+  <p>The <dfn id=dom-messageevent-origin><code>origin</code></dfn> attribute must return the
+  value it was initialized to. It represents, in <a href=#server-sent-events id=the-messageevent-interfaces:server-sent-events-4>server-sent events</a> and
+  <a href=#web-messaging id=the-messageevent-interfaces:web-messaging-5>cross-document messaging</a>, the <a href=#concept-origin id=the-messageevent-interfaces:concept-origin>origin</a> of the document that sent the
+  message (typically the scheme, hostname, and port of the document, but not its path or <a href=https://url.spec.whatwg.org/#concept-url-fragment id=the-messageevent-interfaces:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a>).</p>
+
+  <p>The <dfn id=dom-messageevent-lasteventid><code>lastEventId</code></dfn> attribute must
+  return the value it was initialized to. It represents, in <a href=#server-sent-events id=the-messageevent-interfaces:server-sent-events-5>server-sent events</a>, the
+  <a href=#concept-event-stream-last-event-id id=the-messageevent-interfaces:concept-event-stream-last-event-id-2>last event ID string</a> of the event
+  source.</p>
+
+  <p>The <dfn id=dom-messageevent-source><code>source</code></dfn> attribute must return the
+  value it was initialized to. It represents, in <a href=#web-messaging id=the-messageevent-interfaces:web-messaging-6>cross-document messaging</a>, the
+  <code id=the-messageevent-interfaces:windowproxy-3><a href=#windowproxy>WindowProxy</a></code> of the <a href=#browsing-context id=the-messageevent-interfaces:browsing-context>browsing context</a> of the <code id=the-messageevent-interfaces:window><a href=#window>Window</a></code> object
+  from which the message came; and in the <code id=the-messageevent-interfaces:event-workerglobalscope-connect-2><a href=#event-workerglobalscope-connect>connect</a></code> events used by <a href=#sharedworkerglobalscope id=the-messageevent-interfaces:sharedworkerglobalscope-2>shared workers</a>, the newly connecting
+  <code id=the-messageevent-interfaces:messageport-7><a href=#messageport>MessagePort</a></code>.</p>
+
+  <p>The <dfn id=dom-messageevent-ports><code>ports</code></dfn> attribute must return the
+  value it was initialized to. It represents, in <a href=#web-messaging id=the-messageevent-interfaces:web-messaging-7>cross-document messaging</a> and
+  <a href=#channel-messaging id=the-messageevent-interfaces:channel-messaging-3>channel messaging</a>, the <code id=the-messageevent-interfaces:messageport-8><a href=#messageport>MessagePort</a></code> array being sent.</p>
+
+  
+  <p>The <dfn id=dom-messageevent-initmessageevent><code>initMessageEvent()</code></dfn>
+  method must initialize the event in a manner analogous to the similarly-named <code id=the-messageevent-interfaces:dom-event-initevent><a data-x-internal=dom-event-initevent href=https://dom.spec.whatwg.org/#dom-event-initevent>initEvent()</a></code> method. <a href=#refsDOM>[DOM]</a></p>
+
+  
+
+  <p class=note>Various APIs (e.g., <code id=the-messageevent-interfaces:websocket><a href=#websocket>WebSocket</a></code>, <code id=the-messageevent-interfaces:eventsource><a href=#eventsource>EventSource</a></code>) use the
+  <code id=the-messageevent-interfaces:messageevent-3><a href=#messageevent>MessageEvent</a></code> interface for their <code id=the-messageevent-interfaces:event-message-2><a href=#event-message>message</a></code> event
+  without using the <code id=the-messageevent-interfaces:messageport-9><a href=#messageport>MessagePort</a></code> API.</p>
+
+
+  <h3 id=server-sent-events>9.2 <dfn>Server-sent events</dfn><a href=#server-sent-events class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> eventsource<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>6+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>4.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>6+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>5+</span></span><span class="edge no"><span>Edge</span> <span>None</span></span><span class="opera yes"><span>Opera</span> <span>11+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=eventsource">caniuse.com</a></div>
+
+  <h4 id=server-sent-events-intro>9.2.1 Introduction<a href=#server-sent-events-intro class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>To enable servers to push data to Web pages over HTTP or using dedicated server-push protocols,
+  this specification introduces the <code id=server-sent-events-intro:eventsource><a href=#eventsource>EventSource</a></code> interface.</p>
+
+  <p>Using this API consists of creating an <code id=server-sent-events-intro:eventsource-2><a href=#eventsource>EventSource</a></code> object and registering an event
+  listener.</p>
+
+  <pre>var source = new EventSource('updates.cgi');
+source.onmessage = function (event) {
+  alert(event.data);
+};</pre>
+
+  <p>On the server-side, the script ("<code>updates.cgi</code>" in this case) sends
+  messages in the following form, with the <code id=server-sent-events-intro:text/event-stream><a href=#text/event-stream>text/event-stream</a></code> MIME type:</p>
+
+  <pre>data: This is the first message.
+
+data: This is the second message, it
+data: has two lines.
+
+data: This is the third message.</pre>
+
+  <hr>
+
+  <p>Authors can separate events by using different event types. Here is a stream that has two event
+  types, "add" and "remove":</p>
+
+  <pre>event: add
+data: 73857293
+
+event: remove
+data: 2153
+
+event: add
+data: 113411</pre>
+
+  <p>The script to handle such a stream would look like this (where <code>addHandler</code>
+  and <code>removeHandler</code> are functions that take one argument, the event):</p>
+
+  <pre>var source = new EventSource('updates.cgi');
+source.addEventListener('add', addHandler, false);
+source.addEventListener('remove', removeHandler, false);</pre>
+
+  <p>The default event type is "message".</p>
+
+  <p>Event streams are always decoded as UTF-8. There is no way to specify another character
+  encoding.</p>
+
+  <hr>
+
+  <p>Event stream requests can be redirected using HTTP 301 and 307 redirects as with normal HTTP
+  requests. Clients will reconnect if the connection is closed; a client can be told to stop
+  reconnecting using the HTTP 204 No Content response code.</p>
+
+  <p>Using this API rather than emulating it using <code id=server-sent-events-intro:xmlhttprequest><a data-x-internal=xmlhttprequest href=https://xhr.spec.whatwg.org/#xmlhttprequest>XMLHttpRequest</a></code> or an
+  <code id=server-sent-events-intro:the-iframe-element><a href=#the-iframe-element>iframe</a></code> allows the user agent to make better use of network resources in cases where
+  the user agent implementor and the network operator are able to coordinate in advance. Amongst
+  other benefits, this can result in significant savings in battery life on portable devices. This
+  is discussed further in the section below on <a href=#eventsource-push>connectionless
+  push</a>.</p>
+
+
+  <h4 id=the-eventsource-interface>9.2.2 The <code id=the-eventsource-interface:eventsource><a href=#eventsource>EventSource</a></code> interface<a href=#the-eventsource-interface class=self-link></a></h4>
+
+  <pre class=idl>[<a href=#dom-eventsource id=the-eventsource-interface:dom-eventsource>Constructor</a>(USVString url, optional <a href=#eventsourceinit id=the-eventsource-interface:eventsourceinit>EventSourceInit</a> eventSourceInitDict), Exposed=(Window,Worker)]
+interface <dfn id=eventsource>EventSource</dfn> : <a id=the-eventsource-interface:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  readonly attribute USVString <a href=#dom-eventsource-url id=the-eventsource-interface:dom-eventsource-url>url</a>;
+  readonly attribute boolean <a href=#dom-eventsource-withcredentials id=the-eventsource-interface:dom-eventsource-withcredentials>withCredentials</a>;
+
+  // ready state
+  const unsigned short <a href=#dom-eventsource-connecting id=the-eventsource-interface:dom-eventsource-connecting>CONNECTING</a> = 0;
+  const unsigned short <a href=#dom-eventsource-open id=the-eventsource-interface:dom-eventsource-open>OPEN</a> = 1;
+  const unsigned short <a href=#dom-eventsource-closed id=the-eventsource-interface:dom-eventsource-closed>CLOSED</a> = 2;
+  readonly attribute unsigned short <a href=#dom-eventsource-readystate id=the-eventsource-interface:dom-eventsource-readystate>readyState</a>;
+
+  // networking
+  attribute <a href=#eventhandler id=the-eventsource-interface:eventhandler>EventHandler</a> <a href=#handler-eventsource-onopen id=the-eventsource-interface:handler-eventsource-onopen>onopen</a>;
+  attribute <a href=#eventhandler id=the-eventsource-interface:eventhandler-2>EventHandler</a> <a href=#handler-eventsource-onmessage id=the-eventsource-interface:handler-eventsource-onmessage>onmessage</a>;
+  attribute <a href=#eventhandler id=the-eventsource-interface:eventhandler-3>EventHandler</a> <a href=#handler-eventsource-onerror id=the-eventsource-interface:handler-eventsource-onerror>onerror</a>;
+  void <a href=#dom-eventsource-close id=the-eventsource-interface:dom-eventsource-close>close</a>();
+};
+
+dictionary <dfn id=eventsourceinit>EventSourceInit</dfn> {
+  boolean <dfn id=dom-eventsourceinit-withcredentials>withCredentials</dfn> = false;
+};</pre>
+
+  <p>Each <code id=the-eventsource-interface:eventsource-2><a href=#eventsource>EventSource</a></code> object has the following associated with it:</p>
+
+  <ul><li><p>A <dfn id=concept-eventsource-url data-for=EventSource>url</dfn> (a <a id=the-eventsource-interface:url-record href=https://url.spec.whatwg.org/#concept-url data-x-internal=url-record>URL
+   record</a>). Set during construction.<li><p>A <dfn id=concept-event-stream-request>request</dfn>. This must initially be
+   null.<li><p>A <dfn id=concept-event-stream-reconnection-time>reconnection time</dfn>, in
+   milliseconds. This must initially be a user-agent-defined value, probably in the region of a few
+   seconds.<li><p>A <dfn id=concept-event-stream-last-event-id>last event ID string</dfn>. This must
+   initially be the empty string.</ul>
+
+  <p>Apart from <a href=#concept-eventsource-url id=the-eventsource-interface:concept-eventsource-url>url</a> these are not currently exposed on
+  the <code id=the-eventsource-interface:eventsource-3><a href=#eventsource>EventSource</a></code> object.</p>
+
+  <p>The <dfn id=dom-eventsource><code>EventSource(<var>url</var>,
+  <var>eventSourceInitDict</var>)</code></dfn> constructor, when invoked, must run these steps:</p>
+
+  <ol><li><p>Let <var>ev</var> be a new <code id=the-eventsource-interface:eventsource-4><a href=#eventsource>EventSource</a></code> object.<li><p>Let <var>settings</var> be <var>ev</var>'s <a href=#relevant-settings-object id=the-eventsource-interface:relevant-settings-object>relevant settings object</a>.
+
+   <li><p>Let <var>urlRecord</var> be the result of <a href=https://url.spec.whatwg.org/#concept-url-parser id=the-eventsource-interface:url-parser data-x-internal=url-parser>parsing</a>
+   <var>url</var> with <var>settings</var>'s <a href=#api-base-url id=the-eventsource-interface:api-base-url>API base URL</a> and <var>settings</var>'s
+   <a href=#api-url-character-encoding id=the-eventsource-interface:api-url-character-encoding>API URL character encoding</a>.<li><p>If <var>urlRecord</var> is failure, then throw a <a id=the-eventsource-interface:syntaxerror href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a>
+   <code id=the-eventsource-interface:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Set <var>ev</var>'s <a href=#concept-eventsource-url id=the-eventsource-interface:concept-eventsource-url-2>url</a> to
+   <var>urlRecord</var>.</p>
+
+   <li><p>Let <var>corsAttributeState</var> be <a href=#attr-crossorigin-anonymous id=the-eventsource-interface:attr-crossorigin-anonymous>Anonymous</a>.<li><p>If the value of <var>eventSourceInitDict</var>'s <code id=the-eventsource-interface:dom-eventsourceinit-withcredentials><a href=#dom-eventsourceinit-withcredentials>withCredentials</a></code> member is true, then set
+   <var>corsAttributeState</var> to <a href=#attr-crossorigin-use-credentials id=the-eventsource-interface:attr-crossorigin-use-credentials>Use
+   Credentials</a> and set <var>ev</var>'s <code id=the-eventsource-interface:dom-eventsource-withcredentials-2><a href=#dom-eventsource-withcredentials>withCredentials</a></code> attribute to true.<li><p>Let <var>request</var> be the result of <a href=#create-a-potential-cors-request id=the-eventsource-interface:create-a-potential-cors-request>creating a potential-CORS request</a> given
+   <var>urlRecord</var>, the empty string, and <var>corsAttributeState</var>, and with the
+   <i>same-origin fallback flag</i> set.<li><p>Set <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-client id=the-eventsource-interface:concept-request-client data-x-internal=concept-request-client>client</a> to
+   <var>settings</var>.<li><p>User agents may <a href=https://fetch.spec.whatwg.org/#concept-header-list-set id=the-eventsource-interface:concept-header-list-set data-x-internal=concept-header-list-set>set</a> `<code id=the-eventsource-interface:http-accept><a data-x-internal=http-accept href=https://tools.ietf.org/html/rfc7231#section-5.3.2>Accept</a></code>`/`<code id=the-eventsource-interface:text/event-stream><a href=#text/event-stream>text/event-stream</a></code>` in <var>request</var>'s
+   <a href=https://fetch.spec.whatwg.org/#concept-request-header-list id=the-eventsource-interface:concept-request-header-list data-x-internal=concept-request-header-list>header list</a>.<li><p>Set <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-cache-mode id=the-eventsource-interface:concept-request-cache-mode data-x-internal=concept-request-cache-mode>cache mode</a> to
+   "<code>no-store</code>".<li><p>Set <var>ev</var>'s <a href=#concept-event-stream-request id=the-eventsource-interface:concept-event-stream-request>request</a> to
+   <var>request</var>.<li><p>Return <var>ev</var>, but continue these steps <a href=#in-parallel id=the-eventsource-interface:in-parallel>in parallel</a>.<li><p><a href=https://fetch.spec.whatwg.org/#concept-fetch id=the-eventsource-interface:concept-fetch data-x-internal=concept-fetch>Fetch</a> <var>request</var>.</ol>
+
+  <hr>
+
+  <p>The <dfn id=dom-eventsource-url><code>url</code></dfn> attribute's getter must return the
+  <a href=https://url.spec.whatwg.org/#concept-url-serializer id=the-eventsource-interface:concept-url-serializer data-x-internal=concept-url-serializer>serialization</a> of this <code id=the-eventsource-interface:eventsource-5><a href=#eventsource>EventSource</a></code>
+  object's <a href=#concept-eventsource-url id=the-eventsource-interface:concept-eventsource-url-3>url</a>.</p>
+
+  <p>The <dfn id=dom-eventsource-withcredentials><code>withCredentials</code></dfn> attribute
+  must return the value to which it was last initialized. When the object is created, it must be
+  initialized to false.</p>
+
+  <p>The <dfn id=dom-eventsource-readystate><code>readyState</code></dfn> attribute represents
+  the state of the connection. It can have the following values:</p>
+
+  <dl><dt><dfn id=dom-eventsource-connecting><code>CONNECTING</code></dfn> (numeric value 0)<dd>The connection has not yet been established, or it was closed and the user agent is
+   reconnecting.<dt><dfn id=dom-eventsource-open><code>OPEN</code></dfn> (numeric value 1)<dd>The user agent has an open connection and is dispatching events as it receives them.<dt><dfn id=dom-eventsource-closed><code>CLOSED</code></dfn> (numeric value 2)<dd>The connection is not open, and the user agent is not trying to reconnect. Either there was a
+   fatal error or the <code id=the-eventsource-interface:dom-eventsource-close-2><a href=#dom-eventsource-close>close()</a></code> method was invoked.</dl>
+
+  <p>When the object is created its <code id=the-eventsource-interface:dom-eventsource-readystate-2><a href=#dom-eventsource-readystate>readyState</a></code> must
+  be set to <code id=the-eventsource-interface:dom-eventsource-connecting-2><a href=#dom-eventsource-connecting>CONNECTING</a></code> (0). The rules given below
+  for handling the connection define when the value changes.</p>
+
+  <p>The <dfn id=dom-eventsource-close><code>close()</code></dfn> method must abort any
+  instances of the <a href=https://fetch.spec.whatwg.org/#concept-fetch id=the-eventsource-interface:concept-fetch-2 data-x-internal=concept-fetch>fetch</a> algorithm started for this
+  <code id=the-eventsource-interface:eventsource-6><a href=#eventsource>EventSource</a></code> object, and must set the <code id=the-eventsource-interface:dom-eventsource-readystate-3><a href=#dom-eventsource-readystate>readyState</a></code> attribute to <code id=the-eventsource-interface:dom-eventsource-closed-2><a href=#dom-eventsource-closed>CLOSED</a></code>.</p> 
+
+  <p>The following are the <a href=#event-handlers id=the-eventsource-interface:event-handlers>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=the-eventsource-interface:event-handler-event-type>event handler event types</a>) that must be supported, as <a href=#event-handler-idl-attributes id=the-eventsource-interface:event-handler-idl-attributes>event
+  handler IDL attributes</a>, by all objects implementing the <code id=the-eventsource-interface:eventsource-7><a href=#eventsource>EventSource</a></code>
+  interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=the-eventsource-interface:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=the-eventsource-interface:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-eventsource-onopen><code>onopen</code></dfn> <td> <code id=the-eventsource-interface:event-open><a href=#event-open>open</a></code>
+    <tr><td><dfn id=handler-eventsource-onmessage><code>onmessage</code></dfn> <td> <code id=the-eventsource-interface:event-message><a href=#event-message>message</a></code>
+    <tr><td><dfn id=handler-eventsource-onerror><code>onerror</code></dfn> <td> <code id=the-eventsource-interface:event-error><a href=#event-error>error</a></code>
+  </table>
+
+  <hr>
+
+
+  <h4 id=sse-processing-model>9.2.3 <span id=processing-model-9></span>Processing model<a href=#sse-processing-model class=self-link></a></h4>
+
+  <p>The resource indicated in the argument to the <code id=sse-processing-model:dom-eventsource><a href=#dom-eventsource>EventSource</a></code>
+  constructor is fetched when the constructor is run.</p>
+
+  <p>As data is received, the <a href=#concept-task id=sse-processing-model:concept-task>tasks</a> queued by the <a href=#networking-task-source id=sse-processing-model:networking-task-source>networking
+  task source</a> to handle the data must act as follows.</p>
+
+  <p>HTTP 200 OK responses with a `<a href=#content-type id=sse-processing-model:content-type>Content-Type</a>` header specifying the type
+  `<code id=sse-processing-model:text/event-stream><a href=#text/event-stream>text/event-stream</a></code>`, ignoring any <a id=sse-processing-model:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> parameters, must be
+  processed line by line <a href=#event-stream-interpretation>as described below</a>.</p>
+
+  <p>When a successful response with a supported <a id=sse-processing-model:mime-type-2 href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> is received, such that the
+  user agent begins parsing the contents of the stream, the user agent must <a href=#announce-the-connection id=sse-processing-model:announce-the-connection>announce the
+  connection</a>.</p>
+
+  <p>The <a href=#concept-task id=sse-processing-model:concept-task-2>task</a> that the <a href=#networking-task-source id=sse-processing-model:networking-task-source-2>networking task source</a> places
+  on the <a href=#task-queue id=sse-processing-model:task-queue>task queue</a> once fetching for such a resource (with the correct <a id=sse-processing-model:mime-type-3 href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME
+  type</a>) has completed must cause the user agent to <a href=#reestablish-the-connection id=sse-processing-model:reestablish-the-connection>reestablish the connection</a>
+  <a href=#in-parallel id=sse-processing-model:in-parallel>in parallel</a>. This applies whether the connection is closed gracefully or unexpectedly
+  (but does not apply when fetching is canceled by the user agent, e.g., in response to <code id=sse-processing-model:dom-window-stop><a href=#dom-window-stop>window.stop()</a></code>, since in those cases the final <a href=#concept-task id=sse-processing-model:concept-task-3>task</a> is actually discarded). It doesn't apply for the error
+  conditions listed below except where explicitly specified.</p>
+
+  <p>HTTP 200 OK responses that have a <a href=#content-type id=sse-processing-model:content-type-2>Content-Type</a> specifying an unsupported type, or
+  that have no <a href=#content-type id=sse-processing-model:content-type-3>Content-Type</a> at all, must cause the user agent to <a href=#fail-the-connection id=sse-processing-model:fail-the-connection>fail the
+  connection</a>.</p> 
+
+  <p id=event-source-network-errors-reconnect>Network errors that prevents the connection from
+  being established in the first place (e.g. DNS errors), should cause the user agent to
+  <a href=#reestablish-the-connection id=sse-processing-model:reestablish-the-connection-2>reestablish the connection</a> <a href=#in-parallel id=sse-processing-model:in-parallel-2>in parallel</a>, unless the user agent knows that
+  to be futile, in which case the user agent may <a href=#fail-the-connection id=sse-processing-model:fail-the-connection-2>fail the connection</a>.</p>
+
+  <p id=event-source-fail-reasons>Any other HTTP response code not listed here, as well as the
+  cancelation of the fetch algorithm by the user agent (e.g. in response to <code id=sse-processing-model:dom-window-stop-2><a href=#dom-window-stop>window.stop()</a></code> or the user canceling the network connection
+  manually) must cause the user agent to <a href=#fail-the-connection id=sse-processing-model:fail-the-connection-3>fail the connection</a>.</p>  
+
+  <hr>
+
+  <p>When a user agent is to <dfn id=announce-the-connection>announce the connection</dfn>, the user agent must <a href=#queue-a-task id=sse-processing-model:queue-a-task>queue a
+  task</a> which, if the <code id=sse-processing-model:dom-eventsource-readystate><a href=#dom-eventsource-readystate>readyState</a></code> attribute is
+  set to a value other than <code id=sse-processing-model:dom-eventsource-closed><a href=#dom-eventsource-closed>CLOSED</a></code>, sets the <code id=sse-processing-model:dom-eventsource-readystate-2><a href=#dom-eventsource-readystate>readyState</a></code> attribute to <code id=sse-processing-model:dom-eventsource-open><a href=#dom-eventsource-open>OPEN</a></code> and <a href=https://dom.spec.whatwg.org/#concept-event-fire id=sse-processing-model:concept-event-fire data-x-internal=concept-event-fire>fires an
+  event</a> named <code id=sse-processing-model:event-open><a href=#event-open>open</a></code> at the <code id=sse-processing-model:eventsource><a href=#eventsource>EventSource</a></code>
+  object.</p>
+
+  <p>When a user agent is to <dfn id=reestablish-the-connection>reestablish the connection</dfn>, the user agent must run the
+  following steps. These steps are run <a href=#in-parallel id=sse-processing-model:in-parallel-3>in parallel</a>, not as part of a <a href=#concept-task id=sse-processing-model:concept-task-4>task</a>. (The tasks that it queues, of course, are run like normal tasks
+  and not themselves <a href=#in-parallel id=sse-processing-model:in-parallel-4>in parallel</a>.)</p>
+
+  <ol><li>
+
+    <p><a href=#queue-a-task id=sse-processing-model:queue-a-task-2>Queue a task</a> to run the following steps:</p>
+
+    <ol><li><p>If the <code id=sse-processing-model:dom-eventsource-readystate-3><a href=#dom-eventsource-readystate>readyState</a></code> attribute is set to
+     <code id=sse-processing-model:dom-eventsource-closed-2><a href=#dom-eventsource-closed>CLOSED</a></code>, abort the task.<li><p>Set the <code id=sse-processing-model:dom-eventsource-readystate-4><a href=#dom-eventsource-readystate>readyState</a></code> attribute to <code id=sse-processing-model:dom-eventsource-connecting><a href=#dom-eventsource-connecting>CONNECTING</a></code>.<li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=sse-processing-model:concept-event-fire-2 data-x-internal=concept-event-fire>Fire an event</a> named <code id=sse-processing-model:event-error><a href=#event-error>error</a></code> at the <code id=sse-processing-model:eventsource-2><a href=#eventsource>EventSource</a></code> object.</ol>
+
+   <li><p>Wait a delay equal to the reconnection time of the event source.<li><p>Optionally, wait some more. In particular, if the previous attempt failed, then user
+   agents might introduce an exponential backoff delay to avoid overloading a potentially already
+   overloaded server. Alternatively, if the operating system has reported that there is no network
+   connectivity, user agents might wait for the operating system to announce that the network
+   connection has returned before retrying.<li><p>Wait until the aforementioned task has run, if it has not yet run.<li>
+
+    <p><a href=#queue-a-task id=sse-processing-model:queue-a-task-3>Queue a task</a> to run the following steps:</p>
+
+    <ol><li><p>If the <code id=sse-processing-model:eventsource-3><a href=#eventsource>EventSource</a></code> object's <code id=sse-processing-model:dom-eventsource-readystate-5><a href=#dom-eventsource-readystate>readyState</a></code> attribute is not set to <code id=sse-processing-model:dom-eventsource-connecting-2><a href=#dom-eventsource-connecting>CONNECTING</a></code>, abort these steps.<li><p>Let <var>request</var> be the <code id=sse-processing-model:eventsource-4><a href=#eventsource>EventSource</a></code> object's <a href=#concept-event-stream-request id=sse-processing-model:concept-event-stream-request>request</a>.
+
+     <li><p>If the <code id=sse-processing-model:eventsource-5><a href=#eventsource>EventSource</a></code> object's <a href=#concept-event-stream-last-event-id id=sse-processing-model:concept-event-stream-last-event-id>last event ID string</a> is not the empty
+     string, <a href=https://fetch.spec.whatwg.org/#concept-header-list-set id=sse-processing-model:concept-header-list-set data-x-internal=concept-header-list-set>set</a> `<code id=sse-processing-model:last-event-id><a href=#last-event-id>Last-Event-ID</a></code>`/<a href=#concept-event-stream-last-event-id id=sse-processing-model:concept-event-stream-last-event-id-2>last event ID string</a>, encoded as UTF-8, in
+     <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-header-list id=sse-processing-model:concept-request-header-list data-x-internal=concept-request-header-list>header list</a>.<li><p><a href=https://fetch.spec.whatwg.org/#concept-fetch id=sse-processing-model:concept-fetch data-x-internal=concept-fetch>Fetch</a> <var>request</var> and process the
+     response obtained in this fashion, if any, as described earlier in this section.</ol>
+
+   </ol>
+
+  <p>When a user agent is to <dfn id=fail-the-connection>fail the connection</dfn>, the user agent must <a href=#queue-a-task id=sse-processing-model:queue-a-task-4>queue a
+  task</a> which, if the <code id=sse-processing-model:dom-eventsource-readystate-6><a href=#dom-eventsource-readystate>readyState</a></code> attribute is
+  set to a value other than <code id=sse-processing-model:dom-eventsource-closed-3><a href=#dom-eventsource-closed>CLOSED</a></code>, sets the <code id=sse-processing-model:dom-eventsource-readystate-7><a href=#dom-eventsource-readystate>readyState</a></code> attribute to <code id=sse-processing-model:dom-eventsource-closed-4><a href=#dom-eventsource-closed>CLOSED</a></code> and <a href=https://dom.spec.whatwg.org/#concept-event-fire id=sse-processing-model:concept-event-fire-3 data-x-internal=concept-event-fire>fires an
+  event</a> named <code id=sse-processing-model:event-error-2><a href=#event-error>error</a></code> at the <code id=sse-processing-model:eventsource-6><a href=#eventsource>EventSource</a></code> object.
+  <strong>Once the user agent has <a href=#fail-the-connection id=sse-processing-model:fail-the-connection-4>failed the connection</a>,
+  it does <em>not</em> attempt to reconnect!</strong></p>
+
+  <hr>
+
+  <p>The <a href=#task-source id=sse-processing-model:task-source>task source</a> for any <a href=#concept-task id=sse-processing-model:concept-task-5>tasks</a> that are <a href=#queue-a-task id=sse-processing-model:queue-a-task-5>queued</a> by <code id=sse-processing-model:eventsource-7><a href=#eventsource>EventSource</a></code> objects is the <dfn id=remote-event-task-source>remote event
+  task source</dfn>.</p>
+
+
+  <h4 id=parsing-an-event-stream>9.2.4 Parsing an event stream<a href=#parsing-an-event-stream class=self-link></a></h4>
+
+  <p>This event stream format's <a id=parsing-an-event-stream:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> is <code id=parsing-an-event-stream:text/event-stream><a href=#text/event-stream>text/event-stream</a></code>.</p>
+
+  <p>The event stream format is as described by the <code>stream</code> production of the
+  following ABNF, the character set for which is Unicode. <a href=#refsABNF>[ABNF]</a></p>
+
+  <pre>stream        = [ bom ] *event
+event         = *( comment / field ) end-of-line
+comment       = colon *any-char end-of-line
+field         = 1*name-char [ colon [ space ] *any-char ] end-of-line
+end-of-line   = ( cr lf / cr / lf )
+
+; characters
+lf            = %x000A ; U+000A LINE FEED (LF)
+cr            = %x000D ; U+000D CARRIAGE RETURN (CR)
+space         = %x0020 ; U+0020 SPACE
+colon         = %x003A ; U+003A COLON (:)
+bom           = %xFEFF ; U+FEFF BYTE ORDER MARK
+name-char     = %x0000-0009 / %x000B-000C / %x000E-0039 / %x003B-10FFFF
+                ; a <a href=#unicode-character id=parsing-an-event-stream:unicode-character>Unicode character</a> other than U+000A LINE FEED (LF), U+000D CARRIAGE RETURN (CR), or U+003A COLON (:)
+any-char      = %x0000-0009 / %x000B-000C / %x000E-10FFFF
+                ; a <a href=#unicode-character id=parsing-an-event-stream:unicode-character-2>Unicode character</a> other than U+000A LINE FEED (LF) or U+000D CARRIAGE RETURN (CR)</pre>
+
+  <p>Event streams in this format must always be encoded as UTF-8. <a href=#refsENCODING>[ENCODING]</a></p>
+
+  <p>Lines must be separated by either a U+000D CARRIAGE RETURN U+000A LINE FEED (CRLF) character
+  pair, a single U+000A LINE FEED (LF) character, or a single U+000D CARRIAGE RETURN (CR)
+  character.</p>
+
+  <p>Since connections established to remote servers for such resources are expected to be
+  long-lived, UAs should ensure that appropriate buffering is used. In particular, while line
+  buffering with lines are defined to end with a single U+000A LINE FEED (LF) character is safe,
+  block buffering or line buffering with different expected line endings can cause delays in event
+  dispatch.</p>
+
+
+  <h4 id=event-stream-interpretation>9.2.5 Interpreting an event stream<a href=#event-stream-interpretation class=self-link></a></h4>
+
+  <p>Streams must be decoded using the <a id=event-stream-interpretation:utf-8-decode href=https://encoding.spec.whatwg.org/#utf-8-decode data-x-internal=utf-8-decode>UTF-8 decode</a> algorithm.</p>
+
+  <p class=note>The <a id=event-stream-interpretation:utf-8-decode-2 href=https://encoding.spec.whatwg.org/#utf-8-decode data-x-internal=utf-8-decode>UTF-8 decode</a> algorithm strips one leading UTF-8 Byte Order Mark
+  (BOM), if any.</p>
+
+  <p>The stream must then be parsed by reading everything line by line, with a U+000D CARRIAGE
+  RETURN U+000A LINE FEED (CRLF) character pair, a single U+000A LINE FEED (LF) character not
+  preceded by a U+000D CARRIAGE RETURN (CR) character, and a single U+000D CARRIAGE RETURN (CR)
+  character not followed by a U+000A LINE FEED (LF) character being the ways in which a line can
+  end.</p>
+
+  <p>When a stream is parsed, a <var>data</var> buffer, an <var>event type</var>
+  buffer, and a <var>last event ID</var> buffer must be associated with it. They must be
+  initialized to the empty string</p>
+
+  <p>Lines must be processed, in the order they are received, as follows:</p>
+
+  <dl class=switch><dt>If the line is empty (a blank line)<dd><p><a href=#dispatchMessage id=event-stream-interpretation:dispatchMessage>Dispatch the event</a>, as defined below.<dt>If the line starts with a U+003A COLON character (:)<dd><p>Ignore the line.<dt>If the line contains a U+003A COLON character (:)<dd>
+
+    <p>Collect the characters on the line before the first U+003A COLON character (:), and let <var>field</var> be that string.</p>
+
+    <p>Collect the characters on the line after the first U+003A COLON character (:), and let <var>value</var> be that string. If <var>value</var> starts with a U+0020 SPACE
+    character, remove it from <var>value</var>.</p>
+
+    <p><a href=#processField>Process the field</a> using the steps described below, using <var>field</var> as the field name and <var>value</var> as the field value.</p>
+
+   <dt>Otherwise, the string is not empty but does not contain a U+003A COLON character (:)<dd>
+
+    <p><a href=#processField>Process the field</a> using the steps described below, using the
+    whole line as the field name, and the empty string as the field value.</p>
+
+   </dl>
+
+  <p>Once the end of the file is reached, any pending data must be discarded. (If the file ends in
+  the middle of an event, before the final empty line, the incomplete event is not dispatched.)</p>
+
+  <hr>
+
+  <p id=processField>The steps to <dfn>process the field</dfn> given a field name and a
+  field value depend on the field name, as given in the following list. Field names must be compared
+  literally, with no case folding performed.</p>
+
+  <dl class=switch><dt>If the field name is "event"<dd><p>Set the <var>event type</var> buffer to field value.<dt>If the field name is "data"<dd><p>Append the field value to the <var>data</var> buffer, then append a single U+000A
+   LINE FEED (LF) character to the <var>data</var> buffer.<dt>If the field name is "id"<dd><p>Set the <var>last event ID</var> buffer to the field value.<dt>If the field name is "retry"<dd><p>If the field value consists of only <a href=#ascii-digits id=event-stream-interpretation:ascii-digits>ASCII digits</a>, then interpret the field
+   value as an integer in base ten, and set the event stream's <a href=#concept-event-stream-reconnection-time id=event-stream-interpretation:concept-event-stream-reconnection-time>reconnection time</a> to that integer.
+   Otherwise, ignore the field.<dt>Otherwise<dd><p>The field is ignored.</dl>
+
+
+  <p>When the user agent is required to <dfn id=dispatchMessage>dispatch the
+  event</dfn>, the user agent must process the <var>data</var> buffer, the <var>event type</var> buffer, and the <var>last event ID</var> buffer using steps
+  appropriate for the user agent.</p>
+
+  <p>For Web browsers, the appropriate steps to <a href=#dispatchMessage id=event-stream-interpretation:dispatchMessage-2>dispatch the event</a> are as follows:</p>
+
+  <ol><li><p>Set the <a href=#concept-event-stream-last-event-id id=event-stream-interpretation:concept-event-stream-last-event-id>last event ID string</a> of
+   the event source to the value of the <var>last event ID</var> buffer. The buffer does
+   not get reset, so the <a href=#concept-event-stream-last-event-id id=event-stream-interpretation:concept-event-stream-last-event-id-2>last event ID
+   string</a> of the event source remains set to this value until the next time it is set by the
+   server.<li><p>If the <var>data</var> buffer is an empty string, set the <var>data</var> buffer and the <var>event type</var> buffer to the empty string and
+   abort these steps.<li><p>If the <var>data</var> buffer's last character is a U+000A LINE FEED (LF)
+   character, then remove the last character from the <var>data</var> buffer.<li><p>Let <var>event</var> be the result of <a id=event-stream-interpretation:creating-an-event href=https://dom.spec.whatwg.org/#concept-event-create data-x-internal=creating-an-event>creating an event</a> using
+   <code id=event-stream-interpretation:messageevent><a href=#messageevent>MessageEvent</a></code>, in the <a href=#concept-relevant-realm id=event-stream-interpretation:concept-relevant-realm>relevant Realm</a> of
+   the <code id=event-stream-interpretation:eventsource><a href=#eventsource>EventSource</a></code> object.<li><p>Initialize <var>event</var>'s <code id=event-stream-interpretation:dom-event-type><a data-x-internal=dom-event-type href=https://dom.spec.whatwg.org/#dom-event-type>type</a></code> attribute to <code id=event-stream-interpretation:event-message><a href=#event-message>message</a></code>, its <code id=event-stream-interpretation:dom-messageevent-data><a href=#dom-messageevent-data>data</a></code>
+   attribute to <var>data</var>, its <code id=event-stream-interpretation:dom-messageevent-origin><a href=#dom-messageevent-origin>origin</a></code> attribute
+   to the <a href=#unicode-serialisation-of-an-origin id=event-stream-interpretation:unicode-serialisation-of-an-origin>Unicode serialization</a>
+   of the <a href=#concept-origin id=event-stream-interpretation:concept-origin>origin</a> of the event stream's final URL (i.e. the URL after redirects), and
+   its <code id=event-stream-interpretation:dom-messageevent-lasteventid><a href=#dom-messageevent-lasteventid>lastEventId</a></code> attribute to the <a href=#concept-event-stream-last-event-id id=event-stream-interpretation:concept-event-stream-last-event-id-3>last event ID string</a> of the event
+   source.<li><p>If the <var>event type</var> buffer has a value other than the empty string, change the
+   <a href=https://dom.spec.whatwg.org/#dom-event-type id=event-stream-interpretation:concept-event-type data-x-internal=concept-event-type>type</a> of the newly created event to equal the value of
+   the <var>event type</var> buffer.<li><p>Set the <var>data</var> buffer and the <var>event type</var> buffer to
+   the empty string.<li><p><a href=#queue-a-task id=event-stream-interpretation:queue-a-task>Queue a task</a> which, if the <code id=event-stream-interpretation:dom-eventsource-readystate><a href=#dom-eventsource-readystate>readyState</a></code> attribute is set to a value other than <code id=event-stream-interpretation:dom-eventsource-closed><a href=#dom-eventsource-closed>CLOSED</a></code>, <a href=https://dom.spec.whatwg.org/#concept-event-dispatch id=event-stream-interpretation:concept-event-dispatch data-x-internal=concept-event-dispatch>dispatches</a> the newly created event at the
+   <code id=event-stream-interpretation:eventsource-2><a href=#eventsource>EventSource</a></code> object.</ol>
+
+  <p class=note>If an event doesn't have an "id" field, but an earlier event did set the event
+  source's <a href=#concept-event-stream-last-event-id id=event-stream-interpretation:concept-event-stream-last-event-id-4>last event ID string</a>, then the
+  event's <code id=event-stream-interpretation:dom-messageevent-lasteventid-2><a href=#dom-messageevent-lasteventid>lastEventId</a></code> field will be set to the
+  value of whatever the last seen "id" field was.</p>
+
+  <p>For other user agents, the appropriate steps to <a href=#dispatchMessage id=event-stream-interpretation:dispatchMessage-3>dispatch the event</a> are
+  implementation dependent, but at a minimum they must set the <var>data</var> and <var>event type</var> buffers to the empty string before returning.</p>
+
+  <div class=example>
+
+   <p>The following event stream, once followed by a blank line:</p>
+   <pre>data: YHOO
+data: +2
+data: 10</pre>
+
+   <p>...would cause an event <code id=event-stream-interpretation:event-message-2><a href=#event-message>message</a></code> with the interface
+   <code id=event-stream-interpretation:messageevent-2><a href=#messageevent>MessageEvent</a></code> to be dispatched on the <code id=event-stream-interpretation:eventsource-3><a href=#eventsource>EventSource</a></code> object. The event's
+   <code id=event-stream-interpretation:dom-messageevent-data-2><a href=#dom-messageevent-data>data</a></code> attribute would contain the string "<code>YHOO\n+2\n10</code>" (where "<code>\n</code>" represents a newline).</p>
+
+   <p>This could be used as follows:
+   <pre>var stocks = new EventSource("https://stocks.example.com/ticker.php");
+stocks.onmessage = function (event) {
+  var data = event.data.split('\n');
+  updateStocks(data[0], data[1], data[2]);
+};</pre>
+
+   <p>...where <code>updateStocks()</code> is a function defined as:</p>
+
+   <pre>function updateStocks(symbol, delta, value) { ... }</pre>
+
+   <p>...or some such.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following stream contains four blocks. The first block has just a comment, and will fire
+   nothing. The second block has two fields with names "data" and "id" respectively; an event will
+   be fired for this block, with the data "first event", and will then set the last event ID to "1"
+   so that if the connection died between this block and the next, the server would be sent a `<code id=event-stream-interpretation:last-event-id><a href=#last-event-id>Last-Event-ID</a></code>` header with the value "1". The third block
+   fires an event with data "second event", and also has an "id" field, this time with no value,
+   which resets the last event ID to the empty string (meaning no `<code id=event-stream-interpretation:last-event-id-2><a href=#last-event-id>Last-Event-ID</a></code>` header will now be sent in the event of a

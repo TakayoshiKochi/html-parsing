@@ -1,0 +1,850 @@
+   U+000D CARRIAGE RETURN U+000A LINE FEED (CRLF) character pair.<li><p>If the element's <code id=the-textarea-element:attr-textarea-wrap-4><a href=#attr-textarea-wrap>wrap</a></code> attribute is in the <a href=#attr-textarea-wrap-hard-state id=the-textarea-element:attr-textarea-wrap-hard-state-3>Hard</a> state, insert U+000D CARRIAGE RETURN U+000A
+   LINE FEED (CRLF) character pairs into the string using a UA-defined algorithm so that each line
+   has no more than <a href=#attr-textarea-cols-value id=the-textarea-element:attr-textarea-cols-value-2>character width</a> characters. For
+   the purposes of this requirement, lines are delimited by the start of the string, the end of the
+   string, and U+000D CARRIAGE RETURN U+000A LINE FEED (CRLF) character pairs.</ol>
+
+  
+
+  <p>The <dfn id=attr-textarea-maxlength><code>maxlength</code></dfn> attribute is a <a href=#attr-fe-maxlength id=the-textarea-element:attr-fe-maxlength-2>form control <code>maxlength</code> attribute</a> controlled
+  by the <code id=the-textarea-element:the-textarea-element-16><a href=#the-textarea-element>textarea</a></code> element's <a href=#concept-textarea-dirty id=the-textarea-element:concept-textarea-dirty-4>dirty value
+  flag</a>.</p>
+
+  <p>If the <code id=the-textarea-element:the-textarea-element-17><a href=#the-textarea-element>textarea</a></code> element has a <a href=#maximum-allowed-value-length id=the-textarea-element:maximum-allowed-value-length>maximum allowed value length</a>, then the
+  element's children must be such that the <a href=#code-unit-length id=the-textarea-element:code-unit-length>code-unit length</a> of the value of the
+  element's <code id=the-textarea-element:textcontent-4><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute with the <a href=#textarea-line-break-normalisation-transformation id=the-textarea-element:textarea-line-break-normalisation-transformation-2>textarea line break normalization
+  transformation</a> applied is equal to or less than the element's <a href=#maximum-allowed-value-length id=the-textarea-element:maximum-allowed-value-length-2>maximum allowed value
+  length</a>.</p>
+
+  <p>The <dfn id=attr-textarea-minlength><code>minlength</code></dfn> attribute is a <a href=#attr-fe-minlength id=the-textarea-element:attr-fe-minlength-2>form control <code>minlength</code> attribute</a>
+  controlled by the <code id=the-textarea-element:the-textarea-element-18><a href=#the-textarea-element>textarea</a></code> element's <a href=#concept-textarea-dirty id=the-textarea-element:concept-textarea-dirty-5>dirty
+  value flag</a>.</p>
+
+  
+
+  <p>The <dfn id=attr-textarea-required><code>required</code></dfn> attribute is a
+  <a href=#boolean-attribute id=the-textarea-element:boolean-attribute-2>boolean attribute</a>. When specified, the user will be required to enter a value before
+  submitting the form.</p>
+
+  
+
+  <p><strong>Constraint validation</strong>: If the element has its <code id=the-textarea-element:attr-textarea-required-2><a href=#attr-textarea-required>required</a></code> attribute specified, and the element is <a href=#concept-fe-mutable id=the-textarea-element:concept-fe-mutable-4>mutable</a>, and the element's <a href=#concept-fe-value id=the-textarea-element:concept-fe-value-3>value</a> is the empty string, then the element is <a href=#suffering-from-being-missing id=the-textarea-element:suffering-from-being-missing>suffering
+  from being missing</a>.</p>
+
+  
+
+
+  
+
+  <p>The <dfn id=attr-textarea-placeholder><code>placeholder</code></dfn> attribute represents
+  a <em>short</em> hint (a word or short phrase) intended to aid the user with data entry when the
+  control has no value. A hint could be a sample value or a brief description of the expected
+  format.</p>
+
+  <p>The <code id=the-textarea-element:attr-textarea-placeholder-2><a href=#attr-textarea-placeholder>placeholder</a></code> attribute should not be used as
+  an alternative to a <code id=the-textarea-element:the-label-element><a href=#the-label-element>label</a></code>. For a longer hint or other advisory text, the <code id=the-textarea-element:attr-title><a href=#attr-title>title</a></code> attribute is more appropriate.</p>
+
+  <p class=note>These mechanisms are very similar but subtly different: the hint given by the
+  control's <code id=the-textarea-element:the-label-element-2><a href=#the-label-element>label</a></code> is shown at all times; the short hint given in the <code id=the-textarea-element:attr-textarea-placeholder-3><a href=#attr-textarea-placeholder>placeholder</a></code> attribute is shown before the user enters a
+  value; and the hint in the <code id=the-textarea-element:attr-title-2><a href=#attr-title>title</a></code> attribute is shown when the user
+  requests further help.</p>
+
+  
+
+  <p>User agents should present this hint to the user when the element's <a href=#concept-fe-value id=the-textarea-element:concept-fe-value-4>value</a> is the empty string and the control is not
+  <a href=#focused id=the-textarea-element:focused>focused</a> (e.g. by displaying it inside a blank unfocused control). All U+000D CARRIAGE
+  RETURN U+000A LINE FEED character pairs (CRLF) in the hint, as well as all other U+000D CARRIAGE
+  RETURN (CR) and U+000A LINE FEED (LF) characters in the hint, must be treated as line breaks when
+  rendering the hint.
+
+  </p>
+
+  
+
+  <p>
+  The <code id=the-textarea-element:attr-fe-name-2><a href=#attr-fe-name>name</a></code> attribute represents the element's name.
+  The <code id=the-textarea-element:attr-fe-dirname-2><a href=#attr-fe-dirname>dirname</a></code> attribute controls how the element's <a href=#the-directionality id=the-textarea-element:the-directionality-2>directionality</a> is submitted.
+  The <code id=the-textarea-element:attr-fe-disabled-2><a href=#attr-fe-disabled>disabled</a></code> attribute is used to make the control
+  non-interactive and to prevent its value from being submitted.
+  The <code id=the-textarea-element:attr-fae-form-2><a href=#attr-fae-form>form</a></code> attribute is used to explicitly associate the
+  <code id=the-textarea-element:the-textarea-element-19><a href=#the-textarea-element>textarea</a></code> element with its <a href=#form-owner id=the-textarea-element:form-owner>form owner</a>.
+  The <code id=the-textarea-element:attr-fe-autofocus-2><a href=#attr-fe-autofocus>autofocus</a></code> attribute controls focus.
+  The <code id=the-textarea-element:attr-fe-inputmode-2><a href=#attr-fe-inputmode>inputmode</a></code> attribute controls the user interface's input
+  modality for the control.
+  The <code id=the-textarea-element:attr-fe-autocomplete-2><a href=#attr-fe-autocomplete>autocomplete</a></code> attribute controls how the user agent
+  provides autofill behavior.
+  </p>
+
+
+  <dl class=domintro><dt><var>textarea</var> . <code id=the-textarea-element:dom-textarea-type-2><a href=#dom-textarea-type>type</a></code><dd>
+
+    <p>Returns the string "<code>textarea</code>".</p>
+
+   <dt><var>textarea</var> . <code id=the-textarea-element:dom-textarea-value-3><a href=#dom-textarea-value>value</a></code><dd>
+
+    <p>Returns the current value of the element.</p>
+
+    <p>Can be set, to change the value.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-textarea-cols><code>cols</code></dfn>, <dfn id=dom-textarea-placeholder><code>placeholder</code></dfn>, <dfn id=dom-textarea-required><code>required</code></dfn>, <dfn id=dom-textarea-rows><code>rows</code></dfn>, and <dfn id=dom-textarea-wrap><code>wrap</code></dfn> IDL attributes must <a href=#reflect id=the-textarea-element:reflect>reflect</a> the
+  respective content attributes of the same name. The <code id=the-textarea-element:dom-textarea-cols-2><a href=#dom-textarea-cols>cols</a></code>
+  and <code id=the-textarea-element:dom-textarea-rows-2><a href=#dom-textarea-rows>rows</a></code> attributes are <a href=#limited-to-only-non-negative-numbers-greater-than-zero-with-fallback id=the-textarea-element:limited-to-only-non-negative-numbers-greater-than-zero-with-fallback>limited to only non-negative
+  numbers greater than zero with fallback</a>. The <code id=the-textarea-element:dom-textarea-cols-3><a href=#dom-textarea-cols>cols</a></code>
+  IDL attribute's default value is 20. The <code id=the-textarea-element:dom-textarea-rows-3><a href=#dom-textarea-rows>rows</a></code> IDL
+  attribute's default value is 2. The <dfn id=dom-textarea-dirname><code>dirName</code></dfn>
+  IDL attribute must <a href=#reflect id=the-textarea-element:reflect-2>reflect</a> the <code id=the-textarea-element:attr-fe-dirname-3><a href=#attr-fe-dirname>dirname</a></code> content
+  attribute. The <dfn id=dom-textarea-inputmode><code>inputMode</code></dfn> IDL attribute
+  must <a href=#reflect id=the-textarea-element:reflect-3>reflect</a> the <code id=the-textarea-element:attr-fe-inputmode-3><a href=#attr-fe-inputmode>inputmode</a></code> content attribute,
+  <a href=#limited-to-only-known-values id=the-textarea-element:limited-to-only-known-values>limited to only known values</a>. The <dfn id=dom-textarea-maxlength><code>maxLength</code></dfn> IDL attribute must <a href=#reflect id=the-textarea-element:reflect-4>reflect</a> the
+  <code id=the-textarea-element:attr-textarea-maxlength-2><a href=#attr-textarea-maxlength>maxlength</a></code> content attribute, <a href=#limited-to-only-non-negative-numbers id=the-textarea-element:limited-to-only-non-negative-numbers>limited to only
+  non-negative numbers</a>. The <dfn id=dom-textarea-minlength><code>minLength</code></dfn>
+  IDL attribute must <a href=#reflect id=the-textarea-element:reflect-5>reflect</a> the <code id=the-textarea-element:attr-textarea-minlength-2><a href=#attr-textarea-minlength>minlength</a></code> content attribute, <a href=#limited-to-only-non-negative-numbers id=the-textarea-element:limited-to-only-non-negative-numbers-2>limited to only
+  non-negative numbers</a>. The <dfn id=dom-textarea-readonly><code>readOnly</code></dfn>
+  IDL attribute must <a href=#reflect id=the-textarea-element:reflect-6>reflect</a> the <code id=the-textarea-element:attr-textarea-readonly-4><a href=#attr-textarea-readonly>readonly</a></code>
+  content attribute.</p>
+
+  <p>The <dfn id=dom-textarea-type><code>type</code></dfn> IDL attribute must return the value
+  "<code>textarea</code>".</p>
+
+  <p>The <dfn id=dom-textarea-defaultvalue><code>defaultValue</code></dfn> IDL attribute must
+  act like the element's <code id=the-textarea-element:textcontent-5><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute.</p>
+
+  <p>The <dfn id=dom-textarea-value><code>value</code></dfn> IDL attribute must, on getting,
+  return the element's <a href=#concept-fe-api-value id=the-textarea-element:concept-fe-api-value-3>API value</a>; on setting, it must set
+  the element's <a href=#concept-textarea-raw-value id=the-textarea-element:concept-textarea-raw-value-11>raw value</a> to the new value, set the
+  element's <a href=#concept-textarea-dirty id=the-textarea-element:concept-textarea-dirty-6>dirty value flag</a> to true,
+  and should then move the text entry cursor position to the end of the text control, unselecting
+  any selected text and resetting the selection direction to <i>none</i>.</p>
+
+  <p>The <dfn id=dom-textarea-textlength><code>textLength</code></dfn> IDL attribute must
+  return the <a href=#code-unit-length id=the-textarea-element:code-unit-length-2>code-unit length</a> of the element's <a href=#concept-fe-api-value id=the-textarea-element:concept-fe-api-value-4>API
+  value</a>.</p>
+
+  <p>The <code id=the-textarea-element:dom-cva-willvalidate-2><a href=#dom-cva-willvalidate>willValidate</a></code>, <code id=the-textarea-element:dom-cva-validity-2><a href=#dom-cva-validity>validity</a></code>, and <code id=the-textarea-element:dom-cva-validationmessage-2><a href=#dom-cva-validationmessage>validationMessage</a></code> IDL attributes, and the <code id=the-textarea-element:dom-cva-checkvalidity-2><a href=#dom-cva-checkvalidity>checkValidity()</a></code>, <code id=the-textarea-element:dom-cva-reportvalidity-2><a href=#dom-cva-reportvalidity>reportValidity()</a></code>, and <code id=the-textarea-element:dom-cva-setcustomvalidity-2><a href=#dom-cva-setcustomvalidity>setCustomValidity()</a></code> methods, are part of the
+  <a href=#the-constraint-validation-api id=the-textarea-element:the-constraint-validation-api>constraint validation API</a>. The <code id=the-textarea-element:dom-lfe-labels-2><a href=#dom-lfe-labels>labels</a></code> IDL
+  attribute provides a list of the element's <code id=the-textarea-element:the-label-element-3><a href=#the-label-element>label</a></code>s. The <code id=the-textarea-element:dom-textarea/input-select-2><a href=#dom-textarea/input-select>select()</a></code>, <code id=the-textarea-element:dom-textarea/input-selectionstart-2><a href=#dom-textarea/input-selectionstart>selectionStart</a></code>, <code id=the-textarea-element:dom-textarea/input-selectionend-2><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>, <code id=the-textarea-element:dom-textarea/input-selectiondirection-2><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code>, <code id=the-textarea-element:dom-textarea/input-setrangetext-3><a href=#dom-textarea/input-setrangetext>setRangeText()</a></code>, and <code id=the-textarea-element:dom-textarea/input-setselectionrange-2><a href=#dom-textarea/input-setselectionrange>setSelectionRange()</a></code> methods and IDL attributes
+  expose the element's text selection. The <code id=the-textarea-element:dom-fe-autofocus-2><a href=#dom-fe-autofocus>autofocus</a></code>, <code id=the-textarea-element:dom-fe-disabled-2><a href=#dom-fe-disabled>disabled</a></code>, <code id=the-textarea-element:dom-fae-form-2><a href=#dom-fae-form>form</a></code>, and <code id=the-textarea-element:dom-fe-name-2><a href=#dom-fe-name>name</a></code> IDL attributes are part of the element's forms API.</p>
+
+  
+
+
+  <div class=example>
+
+   <p>Here is an example of a <code id=the-textarea-element:the-textarea-element-20><a href=#the-textarea-element>textarea</a></code> being used for unrestricted free-form text input
+   in a form:</p>
+
+   <pre>&lt;p>If you have any comments, please let us know: &lt;textarea cols=80 name=comments>&lt;/textarea>&lt;/p></pre>
+
+   <p>To specify a maximum length for the comments, one can use the <code id=the-textarea-element:attr-textarea-maxlength-3><a href=#attr-textarea-maxlength>maxlength</a></code> attribute:</p>
+
+   <pre>&lt;p>If you have any short comments, please let us know: &lt;textarea cols=80 name=comments maxlength=200>&lt;/textarea>&lt;/p></pre>
+
+   <p>To give a default value, text can be included inside the element:</p>
+
+   <pre>&lt;p>If you have any comments, please let us know: &lt;textarea cols=80 name=comments>You rock!&lt;/textarea>&lt;/p></pre>
+
+   <p>You can also give a minimum length. Here, a letter needs to be filled out by the user; a
+   template (which is shorter than the minimum length) is provided, but is insufficient to submit
+   the form:</p>
+
+   <pre>&lt;textarea required minlength="500">Dear Madam Speaker,
+
+Regarding your letter dated ...
+
+...
+
+Yours Sincerely,
+
+...&lt;/textarea></pre>
+
+   <p>A placeholder can be given as well, to suggest the basic form to the user, without providing
+   an explicit template:</p>
+
+   <pre>&lt;textarea placeholder="Dear Francine,
+
+They closed the parks this week, so we won't be able to
+meet your there. Should we just have dinner?
+
+Love,
+Daddy">&lt;/textarea></pre>
+
+   <p>To have the browser submit <a href=#the-directionality id=the-textarea-element:the-directionality-3>the directionality</a> of the element along with the
+   value, the <code id=the-textarea-element:attr-fe-dirname-4><a href=#attr-fe-dirname>dirname</a></code> attribute can be specified:</p>
+
+   <pre>&lt;p>If you have any comments, please let us know (you may use either English or Hebrew for your comments):
+&lt;textarea cols=80 name=comments dirname=comments.dir>&lt;/textarea>&lt;/p></pre>
+
+  </div>
+
+
+
+  <h4 id=the-output-element>4.10.12 The <dfn><code>output</code></dfn> element<a href=#the-output-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-output-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-output-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-output-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#category-listed id=the-output-element:category-listed>Listed</a>, <a href=#category-label id=the-output-element:category-label>labelable</a>, and <a href=#category-reset id=the-output-element:category-reset>resettable</a> <a href=#form-associated-element id=the-output-element:form-associated-element>form-associated element</a>.<dd><a href=#palpable-content-2 id=the-output-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-output-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-output-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-output-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-output-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-output-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-output-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-output-element:global-attributes>Global attributes</a><dd><code id=the-output-element:attr-output-for><a href=#attr-output-for>for</a></code> — Specifies controls from which the output was calculated<dd><code id=the-output-element:attr-fae-form><a href=#attr-fae-form>form</a></code> — Associates the control with a <code id=the-output-element:the-form-element><a href=#the-form-element>form</a></code> element<dd><code id=the-output-element:attr-fe-name><a href=#attr-fe-name>name</a></code>   — Name of form control to use in the <code id=the-output-element:dom-form-elements><a href=#dom-form-elements>form.elements</a></code> API <dt><a href=#concept-element-dom id=the-output-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-output-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmloutputelement>HTMLOutputElement</dfn> : <a href=#htmlelement id=the-output-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-output-element:cereactions>CEReactions</a>, SameObject, PutForwards=<a href=https://dom.spec.whatwg.org/#dom-domtokenlist-value id=the-output-element:dom-domtokenlist-value data-x-internal=dom-domtokenlist-value>value</a>] readonly attribute <a id=the-output-element:domtokenlist href=https://dom.spec.whatwg.org/#interface-domtokenlist data-x-internal=domtokenlist>DOMTokenList</a> <a href=#dom-output-htmlfor id=the-output-element:dom-output-htmlfor>htmlFor</a>;
+  readonly attribute <a href=#htmlformelement id=the-output-element:htmlformelement>HTMLFormElement</a>? <a href=#dom-fae-form id=the-output-element:dom-fae-form>form</a>;
+  [<a href=#cereactions id=the-output-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-fe-name id=the-output-element:dom-fe-name>name</a>;
+
+  readonly attribute DOMString <a href=#dom-output-type id=the-output-element:dom-output-type>type</a>;
+  [<a href=#cereactions id=the-output-element:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-output-defaultvalue id=the-output-element:dom-output-defaultvalue>defaultValue</a>;
+  [<a href=#cereactions id=the-output-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-output-value id=the-output-element:dom-output-value>value</a>;
+
+  readonly attribute boolean <a href=#dom-cva-willvalidate id=the-output-element:dom-cva-willvalidate>willValidate</a>;
+  readonly attribute <a href=#validitystate id=the-output-element:validitystate>ValidityState</a> <a href=#dom-cva-validity id=the-output-element:dom-cva-validity>validity</a>;
+  readonly attribute DOMString <a href=#dom-cva-validationmessage id=the-output-element:dom-cva-validationmessage>validationMessage</a>;
+  boolean <a href=#dom-cva-checkvalidity id=the-output-element:dom-cva-checkvalidity>checkValidity</a>();
+  boolean <a href=#dom-cva-reportvalidity id=the-output-element:dom-cva-reportvalidity>reportValidity</a>();
+  void <a href=#dom-cva-setcustomvalidity id=the-output-element:dom-cva-setcustomvalidity>setCustomValidity</a>(DOMString error);
+
+  [SameObject] readonly attribute <a id=the-output-element:nodelist href=https://dom.spec.whatwg.org/#interface-nodelist data-x-internal=nodelist>NodeList</a> <a href=#dom-lfe-labels id=the-output-element:dom-lfe-labels>labels</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-output-element:the-output-element><a href=#the-output-element>output</a></code> element <a href=#represents id=the-output-element:represents>represents</a> the result of a calculation performed
+  by the application, or the result of a user action.</p>
+
+  <p class=note>This element can be contrasted with the <code id=the-output-element:the-samp-element><a href=#the-samp-element>samp</a></code> element, which is the
+  appropriate element for quoting the output of other programs run previously.</p>
+
+  <p>The <dfn id=attr-output-for><code>for</code></dfn> content attribute allows an explicit
+  relationship to be made between the result of a calculation and the elements that represent the
+  values that went into the calculation or that otherwise influenced the calculation. The <code id=the-output-element:attr-output-for-2><a href=#attr-output-for>for</a></code> attribute, if specified, must contain a string consisting of
+  an <a href=#unordered-set-of-unique-space-separated-tokens id=the-output-element:unordered-set-of-unique-space-separated-tokens>unordered set of unique space-separated tokens</a> that are
+  <a href=#case-sensitive id=the-output-element:case-sensitive>case-sensitive</a>, each of which must have the value of an <a href=https://dom.spec.whatwg.org/#concept-id id=the-output-element:concept-id data-x-internal=concept-id>ID</a> of an element in the same <a id=the-output-element:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a>.</p>
+
+  <p>The <code id=the-output-element:attr-fae-form-2><a href=#attr-fae-form>form</a></code> attribute is used to explicitly associate the
+  <code id=the-output-element:the-output-element-2><a href=#the-output-element>output</a></code> element with its <a href=#form-owner id=the-output-element:form-owner>form owner</a>. The <code id=the-output-element:attr-fe-name-2><a href=#attr-fe-name>name</a></code> attribute represents the element's name. The <code id=the-output-element:the-output-element-3><a href=#the-output-element>output</a></code>
+  element is associated with a form so that it can be easily referenced from the event handlers of
+  form controls; the element's value itself is not submitted when the form is submitted.</p>
+
+  
+
+  <p>The element has a <dfn id=concept-output-mode>value mode flag</dfn> which is either <i id=the-output-element:concept-output-mode-value><a href=#concept-output-mode-value>value</a></i> or <i id=the-output-element:concept-output-mode-default><a href=#concept-output-mode-default>default</a></i>. Initially, the <a href=#concept-output-mode id=the-output-element:concept-output-mode>value mode flag</a> must be set to <i id=the-output-element:concept-output-mode-default-2><a href=#concept-output-mode-default>default</a></i>.</p>
+
+  <p>The element also has a <dfn id=concept-output-defaultvalue>default value</dfn>.
+  Initially, the <a href=#concept-output-defaultvalue id=the-output-element:concept-output-defaultvalue>default value</a> must be the empty
+  string.</p>
+
+  <p>When the <a href=#concept-output-mode id=the-output-element:concept-output-mode-2>value mode flag</a> is in mode <dfn id=concept-output-mode-default><i>default</i></dfn>, the contents of the element represent both
+  the value of the element and its <a href=#concept-output-defaultvalue id=the-output-element:concept-output-defaultvalue-2>default value</a>.
+  When the <a href=#concept-output-mode id=the-output-element:concept-output-mode-3>value mode flag</a> is in mode <dfn id=concept-output-mode-value><i>value</i></dfn>, the contents of the element represent the
+  value of the element only, and the <a href=#concept-output-defaultvalue id=the-output-element:concept-output-defaultvalue-3>default value</a>
+  is only accessible using the <code id=the-output-element:dom-output-defaultvalue-2><a href=#dom-output-defaultvalue>defaultValue</a></code> IDL
+  attribute.</p>
+
+  <p>Whenever the element's descendants are changed in any way, if the <a href=#concept-output-mode id=the-output-element:concept-output-mode-4>value mode flag</a> is in mode <i id=the-output-element:concept-output-mode-default-3><a href=#concept-output-mode-default>default</a></i>, the element's <a href=#concept-output-defaultvalue id=the-output-element:concept-output-defaultvalue-4>default value</a> must be set to the value of the
+  element's <code id=the-output-element:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute.</p>
+
+  <p>The <a href=#concept-form-reset-control id=the-output-element:concept-form-reset-control>reset algorithm</a> for <code id=the-output-element:the-output-element-4><a href=#the-output-element>output</a></code>
+  elements is to set the element's <a href=#concept-output-mode id=the-output-element:concept-output-mode-5>value mode flag</a> to <i id=the-output-element:concept-output-mode-default-4><a href=#concept-output-mode-default>default</a></i> and then to set the element's
+  <code id=the-output-element:textcontent-2><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute to the value of the element's <a href=#concept-output-defaultvalue id=the-output-element:concept-output-defaultvalue-5>default value</a> (thus replacing the element's child
+  nodes).</p>
+
+  
+
+
+  <dl class=domintro><dt><var>output</var> . <code id=the-output-element:dom-output-value-2><a href=#dom-output-value>value</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the element's current value.</p>
+
+    <p>Can be set, to change the value.</p>
+
+   <dt><var>output</var> . <code id=the-output-element:dom-output-defaultvalue-3><a href=#dom-output-defaultvalue>defaultValue</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the element's current default value.</p>
+
+    <p>Can be set, to change the default value.</p>
+
+   <dt><var>output</var> . <code id=the-output-element:dom-output-type-2><a href=#dom-output-type>type</a></code><dd>
+
+    <p>Returns the string "<code>output</code>".</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-output-value><code>value</code></dfn> IDL attribute must act like the
+  element's <code id=the-output-element:textcontent-3><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute, except that on setting, in addition, before the
+  child nodes are changed, the element's <a href=#concept-output-mode id=the-output-element:concept-output-mode-6>value mode flag</a>
+  must be set to <i id=the-output-element:concept-output-mode-value-2><a href=#concept-output-mode-value>value</a></i>.</p>
+
+  <p>The <dfn id=dom-output-defaultvalue><code>defaultValue</code></dfn> IDL attribute, on
+  getting, must return the element's <a href=#concept-output-defaultvalue id=the-output-element:concept-output-defaultvalue-6>default
+  value</a>. On setting, the attribute must set the element's <a href=#concept-output-defaultvalue id=the-output-element:concept-output-defaultvalue-7>default value</a>, and, if the element's <a href=#concept-output-mode id=the-output-element:concept-output-mode-7>value mode flag</a> is in the mode <i id=the-output-element:concept-output-mode-default-5><a href=#concept-output-mode-default>default</a></i>, set the element's <code id=the-output-element:textcontent-4><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL
+  attribute as well.</p>
+
+  <p>The <dfn id=dom-output-type><code>type</code></dfn> attribute must return the string
+  "<code>output</code>".</p>
+
+  <p>The <dfn id=dom-output-htmlfor><code>htmlFor</code></dfn> IDL attribute must
+  <a href=#reflect id=the-output-element:reflect>reflect</a> the <code id=the-output-element:attr-output-for-3><a href=#attr-output-for>for</a></code> content attribute.</p>
+
+  <p>The <code id=the-output-element:dom-cva-willvalidate-2><a href=#dom-cva-willvalidate>willValidate</a></code>, <code id=the-output-element:dom-cva-validity-2><a href=#dom-cva-validity>validity</a></code>, and <code id=the-output-element:dom-cva-validationmessage-2><a href=#dom-cva-validationmessage>validationMessage</a></code> IDL attributes, and the <code id=the-output-element:dom-cva-checkvalidity-2><a href=#dom-cva-checkvalidity>checkValidity()</a></code>, <code id=the-output-element:dom-cva-reportvalidity-2><a href=#dom-cva-reportvalidity>reportValidity()</a></code>, and <code id=the-output-element:dom-cva-setcustomvalidity-2><a href=#dom-cva-setcustomvalidity>setCustomValidity()</a></code> methods, are part of the
+  <a href=#the-constraint-validation-api id=the-output-element:the-constraint-validation-api>constraint validation API</a>. The <code id=the-output-element:dom-lfe-labels-2><a href=#dom-lfe-labels>labels</a></code> IDL
+  attribute provides a list of the element's <code id=the-output-element:the-label-element><a href=#the-label-element>label</a></code>s. The <code id=the-output-element:dom-fae-form-2><a href=#dom-fae-form>form</a></code> and <code id=the-output-element:dom-fe-name-2><a href=#dom-fe-name>name</a></code> IDL attributes are
+  part of the element's forms API.</p>
+
+   
+
+  <div class=example>
+
+   <p>A simple calculator could use <code id=the-output-element:the-output-element-5><a href=#the-output-element>output</a></code> for its display of calculated results:</p>
+
+   <pre>&lt;form onsubmit="return false" oninput="o.value = a.valueAsNumber + b.valueAsNumber">
+ &lt;input name=a type=number step=any> +
+ &lt;input name=b type=number step=any> =
+ &lt;output name=o for="a b">&lt;/output>
+&lt;/form></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this example, an <code id=the-output-element:the-output-element-6><a href=#the-output-element>output</a></code> element is used to report the results of a calculation performed by a remote
+   server, as they come in:</p>
+
+   <pre>&lt;output id="result">&lt;/output>
+&lt;script>
+ var primeSource = new WebSocket('ws://primes.example.net/');
+ primeSource.onmessage = function (event) {
+   document.getElementById('result').value = event.data;
+ }
+&lt;/script></pre>
+
+  </div>
+
+
+
+  <h4 id=the-progress-element>4.10.13 The <dfn><code>progress</code></dfn> element<a href=#the-progress-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> progress<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>8+</span></span><span class="ios_saf partial"><span>iOS Safari (limited)</span> <span>7.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>6+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>6+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>11+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=progress">caniuse.com</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-progress-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-progress-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-progress-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#category-label id=the-progress-element:category-label>Labelable element</a>.<dd><a href=#palpable-content-2 id=the-progress-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-progress-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-progress-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-progress-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-progress-element:phrasing-content-2-3>Phrasing content</a>, but there must be no <code id=the-progress-element:the-progress-element><a href=#the-progress-element>progress</a></code> element descendants.<dt><a href=#concept-element-tag-omission id=the-progress-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-progress-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-progress-element:global-attributes>Global attributes</a><dd><code id=the-progress-element:attr-progress-value><a href=#attr-progress-value>value</a></code> — Current value of the element<dd><code id=the-progress-element:attr-progress-max><a href=#attr-progress-max>max</a></code> — Upper bound of range<dt><a href=#concept-element-dom id=the-progress-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-progress-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlprogresselement>HTMLProgressElement</dfn> : <a href=#htmlelement id=the-progress-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-progress-element:cereactions>CEReactions</a>] attribute double <a href=#dom-progress-value id=the-progress-element:dom-progress-value>value</a>;
+  [<a href=#cereactions id=the-progress-element:cereactions-2>CEReactions</a>] attribute double <a href=#dom-progress-max id=the-progress-element:dom-progress-max>max</a>;
+  readonly attribute double <a href=#dom-progress-position id=the-progress-element:dom-progress-position>position</a>;
+  [SameObject] readonly attribute <a id=the-progress-element:nodelist href=https://dom.spec.whatwg.org/#interface-nodelist data-x-internal=nodelist>NodeList</a> <a href=#dom-lfe-labels id=the-progress-element:dom-lfe-labels>labels</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-progress-element:the-progress-element-2><a href=#the-progress-element>progress</a></code> element <a href=#represents id=the-progress-element:represents>represents</a> the completion progress of a task.
+  The progress is either indeterminate, indicating that progress is being made but that it is not
+  clear how much more work remains to be done before the task is complete (e.g. because the task is
+  waiting for a remote host to respond), or the progress is a number in the range zero to a maximum,
+  giving the fraction of work that has so far been completed.</p>
+
+  <p>There are two attributes that determine the current task completion represented by the element.
+  The <dfn id=attr-progress-value><code>value</code></dfn> attribute specifies how much of the
+  task has been completed, and the <dfn id=attr-progress-max><code>max</code></dfn> attribute
+  specifies how much work the task requires in total. The units are arbitrary and not specified.</p>
+
+  <p class=note>To make a determinate progress bar, add a <code id=the-progress-element:attr-progress-value-2><a href=#attr-progress-value>value</a></code> attribute with the current progress (either a number from
+  0.0 to 1.0, or, if the <code id=the-progress-element:attr-progress-max-2><a href=#attr-progress-max>max</a></code> attribute is specified, a number
+  from 0 to the value of the <code id=the-progress-element:attr-progress-max-3><a href=#attr-progress-max>max</a></code> attribute). To make an
+  indeterminate progress bar, remove the <code id=the-progress-element:attr-progress-value-3><a href=#attr-progress-value>value</a></code>
+  attribute.</p>
+
+  <p>Authors are encouraged to also include the current value and the maximum value inline as text
+  inside the element, so that the progress is made available to users of legacy user agents.</p>
+
+  <div class=example>
+
+   <p>Here is a snippet of a Web application that shows the progress of some automated task:</p>
+
+   <pre>&lt;section>
+ &lt;h2>Task Progress&lt;/h2>
+ &lt;p>Progress: &lt;progress id="p" max=100>&lt;span>0&lt;/span>%&lt;/progress>&lt;/p>
+ &lt;script>
+  var progressBar = document.getElementById('p');
+  function updateProgress(newValue) {
+    progressBar.value = newValue;
+    progressBar.getElementsByTagName('span')[0].textContent = newValue;
+  }
+ &lt;/script>
+&lt;/section></pre>
+
+   <p>(The <code>updateProgress()</code> method in this example would be called by some
+   other code on the page to update the actual progress bar as the task progressed.)</p>
+
+  </div>
+
+  <p>The <code id=the-progress-element:attr-progress-value-4><a href=#attr-progress-value>value</a></code> and <code id=the-progress-element:attr-progress-max-4><a href=#attr-progress-max>max</a></code> attributes, when present, must have values that are <a href=#valid-floating-point-number id=the-progress-element:valid-floating-point-number>valid floating-point numbers</a>. The <code id=the-progress-element:attr-progress-value-5><a href=#attr-progress-value>value</a></code> attribute, if present, must have a value equal to or
+  greater than zero, and less than or equal to the value of the <code id=the-progress-element:attr-progress-max-5><a href=#attr-progress-max>max</a></code> attribute, if present, or 1.0, otherwise. The <code id=the-progress-element:attr-progress-max-6><a href=#attr-progress-max>max</a></code> attribute, if present, must have a value greater than
+  zero.</p>
+
+  <p class=note>The <code id=the-progress-element:the-progress-element-3><a href=#the-progress-element>progress</a></code> element is the wrong element to use for something that
+  is just a gauge, as opposed to task progress. For instance, indicating disk space usage using
+  <code id=the-progress-element:the-progress-element-4><a href=#the-progress-element>progress</a></code> would be inappropriate. Instead, the <code id=the-progress-element:the-meter-element><a href=#the-meter-element>meter</a></code> element is available
+  for such use cases.</p>
+
+  
+
+  <p><strong>User agent requirements</strong>: If the <code id=the-progress-element:attr-progress-value-6><a href=#attr-progress-value>value</a></code>
+  attribute is omitted, then the progress bar is an indeterminate progress bar. Otherwise, it is a
+  determinate progress bar.</p>
+
+  <p>If the progress bar is a determinate progress bar and the element has a <code id=the-progress-element:attr-progress-max-7><a href=#attr-progress-max>max</a></code> attribute, the user agent must parse the <code id=the-progress-element:attr-progress-max-8><a href=#attr-progress-max>max</a></code> attribute's value according to the <a href=#rules-for-parsing-floating-point-number-values id=the-progress-element:rules-for-parsing-floating-point-number-values>rules for parsing
+  floating-point number values</a>. If this does not result in an error, and if the parsed value
+  is greater than zero, then the <dfn id=concept-progress-maximum>maximum value</dfn> of the
+  progress bar is that value. Otherwise, if the element has no <code id=the-progress-element:attr-progress-max-9><a href=#attr-progress-max>max</a></code> attribute, or if it has one but parsing it resulted in an
+  error, or if the parsed value was less than or equal to zero, then the <a href=#concept-progress-maximum id=the-progress-element:concept-progress-maximum>maximum value</a> of the progress bar is 1.0.</p>
+
+  <p>If the progress bar is a determinate progress bar, user agents must parse the <code id=the-progress-element:attr-progress-value-7><a href=#attr-progress-value>value</a></code> attribute's value according to the <a href=#rules-for-parsing-floating-point-number-values id=the-progress-element:rules-for-parsing-floating-point-number-values-2>rules for
+  parsing floating-point number values</a>. If this does not result in an error, and if the
+  parsed value is less than the <a href=#concept-progress-maximum id=the-progress-element:concept-progress-maximum-2>maximum value</a> and
+  greater than zero, then the <dfn id=concept-progress-value>current value</dfn> of the
+  progress bar is that parsed value. Otherwise, if the parsed value was greater than or equal to the
+  <a href=#concept-progress-maximum id=the-progress-element:concept-progress-maximum-3>maximum value</a>, then the <a href=#concept-progress-value id=the-progress-element:concept-progress-value>current value</a> of the progress bar is the <a href=#concept-progress-maximum id=the-progress-element:concept-progress-maximum-4>maximum value</a> of the progress bar. Otherwise, if parsing
+  the <code id=the-progress-element:attr-progress-value-8><a href=#attr-progress-value>value</a></code> attribute's value resulted in an error, or a
+  number less than or equal to zero, then the <a href=#concept-progress-value id=the-progress-element:concept-progress-value-2>current
+  value</a> of the progress bar is zero.</p>
+
+  <p><strong>UA requirements for showing the progress bar</strong>: When representing a
+  <code id=the-progress-element:the-progress-element-5><a href=#the-progress-element>progress</a></code> element to the user, the UA should indicate whether it is a determinate or
+  indeterminate progress bar, and in the former case, should indicate the relative position of the
+  <a href=#concept-progress-value id=the-progress-element:concept-progress-value-3>current value</a> relative to the <a href=#concept-progress-maximum id=the-progress-element:concept-progress-maximum-5>maximum value</a>.</p>
+
+  
+
+
+  <dl class=domintro><dt><var>progress</var> . <code id=the-progress-element:dom-progress-position-2><a href=#dom-progress-position>position</a></code><dd>
+
+    <p>For a determinate progress bar (one with known current and maximum values), returns the
+    result of dividing the current value by the maximum value.</p>
+
+    <p>For an indeterminate progress bar, returns −1.</p>
+
+   </dl>
+
+  
+
+  <p>If the progress bar is an indeterminate progress bar, then the <dfn id=dom-progress-position><code>position</code></dfn> IDL attribute must return −1.
+  Otherwise, it must return the result of dividing the <a href=#concept-progress-value id=the-progress-element:concept-progress-value-4>current
+  value</a> by the <a href=#concept-progress-maximum id=the-progress-element:concept-progress-maximum-6>maximum value</a>.</p>
+
+  <p>If the progress bar is an indeterminate progress bar, then the <dfn id=dom-progress-value><code>value</code></dfn> IDL attribute, on getting, must return 0.
+  Otherwise, it must return the <a href=#concept-progress-value id=the-progress-element:concept-progress-value-5>current value</a>. On
+  setting, the given value must be converted to the <a href=#best-representation-of-the-number-as-a-floating-point-number id=the-progress-element:best-representation-of-the-number-as-a-floating-point-number>best representation of the number as a
+  floating-point number</a> and then the <code id=the-progress-element:dom-progress-value-2><a href=#dom-progress-value>value</a></code> content
+  attribute must be set to that string.</p>
+
+  <p class=note>Setting the <code id=the-progress-element:dom-progress-value-3><a href=#dom-progress-value>value</a></code> IDL attribute to itself
+  when the corresponding content attribute is absent would change the progress bar from an
+  indeterminate progress bar to a determinate progress bar with no progress.</p>
+
+  <p>The <dfn id=dom-progress-max><code>max</code></dfn> IDL attribute must
+  <a href=#reflect id=the-progress-element:reflect>reflect</a> the content attribute of the same name, <a href=#limited-to-numbers-greater-than-zero id=the-progress-element:limited-to-numbers-greater-than-zero>limited to numbers greater than
+  zero</a>. The default value for <code id=the-progress-element:dom-progress-max-2><a href=#dom-progress-max>max</a></code> is 1.0.</p>
+
+  <p>The <code id=the-progress-element:dom-lfe-labels-2><a href=#dom-lfe-labels>labels</a></code> IDL attribute provides a list of the element's
+  <code id=the-progress-element:the-label-element><a href=#the-label-element>label</a></code>s.</p>
+
+  
+
+
+
+
+  <h4 id=the-meter-element>4.10.14 The <dfn><code>meter</code></dfn> element<a href=#the-meter-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> meter<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>8+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>16+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>6+</span></span><span class="edge yes"><span>Edge</span> <span>13+</span></span><span class="opera yes"><span>Opera</span> <span>11+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=meter">caniuse.com</a></div>
+  
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-meter-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-meter-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-meter-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#category-label id=the-meter-element:category-label>Labelable element</a>.<dd><a href=#palpable-content-2 id=the-meter-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-meter-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-meter-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-meter-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-meter-element:phrasing-content-2-3>Phrasing content</a>, but there must be no <code id=the-meter-element:the-meter-element><a href=#the-meter-element>meter</a></code> element descendants.<dt><a href=#concept-element-tag-omission id=the-meter-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-meter-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-meter-element:global-attributes>Global attributes</a><dd><code id=the-meter-element:attr-meter-value><a href=#attr-meter-value>value</a></code> — Current value of the element<dd><code id=the-meter-element:attr-meter-min><a href=#attr-meter-min>min</a></code> — Lower bound of range<dd><code id=the-meter-element:attr-meter-max><a href=#attr-meter-max>max</a></code> — Upper bound of range<dd><code id=the-meter-element:attr-meter-low><a href=#attr-meter-low>low</a></code> — High limit of low range<dd><code id=the-meter-element:attr-meter-high><a href=#attr-meter-high>high</a></code> — Low limit of high range<dd><code id=the-meter-element:attr-meter-optimum><a href=#attr-meter-optimum>optimum</a></code> — Optimum value in gauge<dt><a href=#concept-element-dom id=the-meter-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-meter-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlmeterelement>HTMLMeterElement</dfn> : <a href=#htmlelement id=the-meter-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-meter-element:cereactions>CEReactions</a>] attribute double <a href=#dom-meter-value id=the-meter-element:dom-meter-value>value</a>;
+  [<a href=#cereactions id=the-meter-element:cereactions-2>CEReactions</a>] attribute double <a href=#dom-meter-min id=the-meter-element:dom-meter-min>min</a>;
+  [<a href=#cereactions id=the-meter-element:cereactions-3>CEReactions</a>] attribute double <a href=#dom-meter-max id=the-meter-element:dom-meter-max>max</a>;
+  [<a href=#cereactions id=the-meter-element:cereactions-4>CEReactions</a>] attribute double <a href=#dom-meter-low id=the-meter-element:dom-meter-low>low</a>;
+  [<a href=#cereactions id=the-meter-element:cereactions-5>CEReactions</a>] attribute double <a href=#dom-meter-high id=the-meter-element:dom-meter-high>high</a>;
+  [<a href=#cereactions id=the-meter-element:cereactions-6>CEReactions</a>] attribute double <a href=#dom-meter-optimum id=the-meter-element:dom-meter-optimum>optimum</a>;
+  [SameObject] readonly attribute <a id=the-meter-element:nodelist href=https://dom.spec.whatwg.org/#interface-nodelist data-x-internal=nodelist>NodeList</a> <a href=#dom-lfe-labels id=the-meter-element:dom-lfe-labels>labels</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-meter-element:the-meter-element-2><a href=#the-meter-element>meter</a></code> element <a href=#represents id=the-meter-element:represents>represents</a> a scalar measurement within a known
+  range, or a fractional value; for example disk usage, the relevance of a query result, or the
+  fraction of a voting population to have selected a particular candidate.</p>
+
+  <p>This is also known as a gauge.</p>
+
+  <p class=note>The <code id=the-meter-element:the-meter-element-3><a href=#the-meter-element>meter</a></code> element should not be used to indicate progress (as in a
+  progress bar). For that role, HTML provides a separate <code id=the-meter-element:the-progress-element><a href=#the-progress-element>progress</a></code> element.</p>
+
+  <p class=note>The <code id=the-meter-element:the-meter-element-4><a href=#the-meter-element>meter</a></code> element also does not represent a scalar value of arbitrary
+  range — for example, it would be wrong to use this to report a weight, or height, unless
+  there is a known maximum value.</p>
+
+  <p>There are six attributes that determine the semantics of the gauge represented by the
+  element.</p>
+
+  <p>The <dfn id=attr-meter-min><code>min</code></dfn> attribute specifies the lower bound of
+  the range, and the <dfn id=attr-meter-max><code>max</code></dfn> attribute specifies the
+  upper bound. The <dfn id=attr-meter-value><code>value</code></dfn> attribute specifies the
+  value to have the gauge indicate as the "measured" value.</p>
+
+  <p>The other three attributes can be used to segment the gauge's range into "low", "medium", and
+  "high" parts, and to indicate which part of the gauge is the "optimum" part. The <dfn id=attr-meter-low><code>low</code></dfn> attribute specifies the range that is considered to
+  be the "low" part, and the <dfn id=attr-meter-high><code>high</code></dfn> attribute
+  specifies the range that is considered to be the "high" part. The <dfn id=attr-meter-optimum><code>optimum</code></dfn> attribute gives the position that is
+  "optimum"; if that is higher than the "high" value then this indicates that the higher the value,
+  the better; if it's lower than the "low" mark then it indicates that lower values are better, and
+  naturally if it is in between then it indicates that neither high nor low values are good.</p>
+
+  <p><strong>Authoring requirements</strong>: The <code id=the-meter-element:attr-meter-value-2><a href=#attr-meter-value>value</a></code> attribute must be specified. The <code id=the-meter-element:attr-meter-value-3><a href=#attr-meter-value>value</a></code>, <code id=the-meter-element:attr-meter-min-2><a href=#attr-meter-min>min</a></code>, <code id=the-meter-element:attr-meter-low-2><a href=#attr-meter-low>low</a></code>, <code id=the-meter-element:attr-meter-high-2><a href=#attr-meter-high>high</a></code>, <code id=the-meter-element:attr-meter-max-2><a href=#attr-meter-max>max</a></code>, and <code id=the-meter-element:attr-meter-optimum-2><a href=#attr-meter-optimum>optimum</a></code> attributes,
+  when present, must have values that are <a href=#valid-floating-point-number id=the-meter-element:valid-floating-point-number>valid
+  floating-point numbers</a>.</p>
+
+  <p>In addition, the attributes' values are further constrained:</p>
+
+  <p>Let <var>value</var> be the <code id=the-meter-element:attr-meter-value-4><a href=#attr-meter-value>value</a></code> attribute's
+  number.</p>
+
+  <p>If the <code id=the-meter-element:attr-meter-min-3><a href=#attr-meter-min>min</a></code> attribute is specified, then let <var>minimum</var> be that attribute's value; otherwise, let it be zero.</p>
+
+  <p>If the <code id=the-meter-element:attr-meter-max-3><a href=#attr-meter-max>max</a></code> attribute is specified, then let <var>maximum</var> be that attribute's value; otherwise, let it be 1.0.</p>
+
+  <p>The following inequalities must hold, as applicable:</p>
+
+  <ul class=brief><li><var>minimum</var> ≤ <var>value</var> ≤ <var>maximum</var><li><var>minimum</var> ≤ <code id=the-meter-element:attr-meter-low-3><a href=#attr-meter-low>low</a></code> ≤ <var>maximum</var> (if <code id=the-meter-element:attr-meter-low-4><a href=#attr-meter-low>low</a></code> is specified)<li><var>minimum</var> ≤ <code id=the-meter-element:attr-meter-high-3><a href=#attr-meter-high>high</a></code> ≤ <var>maximum</var> (if <code id=the-meter-element:attr-meter-high-4><a href=#attr-meter-high>high</a></code> is specified)<li><var>minimum</var> ≤ <code id=the-meter-element:attr-meter-optimum-3><a href=#attr-meter-optimum>optimum</a></code> ≤ <var>maximum</var> (if <code id=the-meter-element:attr-meter-optimum-4><a href=#attr-meter-optimum>optimum</a></code> is specified)<li><code id=the-meter-element:attr-meter-low-5><a href=#attr-meter-low>low</a></code> ≤ <code id=the-meter-element:attr-meter-high-5><a href=#attr-meter-high>high</a></code> (if
+   both <code id=the-meter-element:attr-meter-low-6><a href=#attr-meter-low>low</a></code> and <code id=the-meter-element:attr-meter-high-6><a href=#attr-meter-high>high</a></code> are
+   specified)</ul>
+
+  <p class=note>If no minimum or maximum is specified, then the range is assumed to be 0..1, and
+  the value thus has to be within that range.</p>
+
+  <p>Authors are encouraged to include a textual representation of the gauge's state in the
+  element's contents, for users of user agents that do not support the <code id=the-meter-element:the-meter-element-5><a href=#the-meter-element>meter</a></code>
+  element.</p>
+
+  <p>When used with <a href=#microdata id=the-meter-element:microdata>microdata</a>, the <code id=the-meter-element:the-meter-element-6><a href=#the-meter-element>meter</a></code> element's <code id=the-meter-element:attr-meter-value-5><a href=#attr-meter-value>value</a></code> attribute provides the element's machine-readable value.</p>
+
+  <div class=example>
+
+   <p>The following examples show three gauges that would all be three-quarters full:</p>
+
+   <pre>Storage space usage: &lt;meter value=6 max=8>6 blocks used (out of 8 total)&lt;/meter>
+Voter turnout: &lt;meter value=0.75>&lt;img alt="75%" src="graph75.png">&lt;/meter>
+Tickets sold: &lt;meter min="0" max="100" value="75">&lt;/meter></pre>
+
+   <p>The following example is incorrect use of the element, because it doesn't give a range (and
+   since the default maximum is 1, both of the gauges would end up looking maxed out):</p>
+
+   <pre class=bad>&lt;p>The grapefruit pie had a radius of &lt;meter value=12>12cm&lt;/meter>
+and a height of &lt;meter value=2>2cm&lt;/meter>.&lt;/p> &lt;!-- <strong>BAD!</strong> --></pre>
+
+   <p>Instead, one would either not include the meter element, or use the meter element with a
+   defined range to give the dimensions in context compared to other pies:</p>
+
+   <pre>&lt;p>The grapefruit pie had a radius of 12cm and a height of
+2cm.&lt;/p>
+&lt;dl>
+ &lt;dt>Radius: &lt;dd> &lt;meter min=0 max=20 value=12>12cm&lt;/meter>
+ &lt;dt>Height: &lt;dd> &lt;meter min=0 max=10 value=2>2cm&lt;/meter>
+&lt;/dl></pre>
+
+  </div>
+
+  <p>There is no explicit way to specify units in the <code id=the-meter-element:the-meter-element-7><a href=#the-meter-element>meter</a></code> element, but the units may
+  be specified in the <code id=the-meter-element:attr-title><a href=#attr-title>title</a></code> attribute in free-form text.</p>
+
+  <div class=example>
+
+   <p>The example above could be extended to mention the units:</p>
+
+   <pre>&lt;dl>
+ &lt;dt>Radius: &lt;dd> &lt;meter min=0 max=20 value=12 title="centimeters">12cm&lt;/meter>
+ &lt;dt>Height: &lt;dd> &lt;meter min=0 max=10 value=2 title="centimeters">2cm&lt;/meter>
+&lt;/dl></pre>
+
+  </div>
+
+  
+
+  <p><strong>User agent requirements</strong>: User agents must parse the <code id=the-meter-element:attr-meter-min-4><a href=#attr-meter-min>min</a></code>, <code id=the-meter-element:attr-meter-max-4><a href=#attr-meter-max>max</a></code>, <code id=the-meter-element:attr-meter-value-6><a href=#attr-meter-value>value</a></code>, <code id=the-meter-element:attr-meter-low-7><a href=#attr-meter-low>low</a></code>, <code id=the-meter-element:attr-meter-high-7><a href=#attr-meter-high>high</a></code>, and <code id=the-meter-element:attr-meter-optimum-5><a href=#attr-meter-optimum>optimum</a></code>
+  attributes using the <a href=#rules-for-parsing-floating-point-number-values id=the-meter-element:rules-for-parsing-floating-point-number-values>rules for parsing floating-point number values</a>.</p>
+
+  <p>User agents must then use all these numbers to obtain values for six points on the gauge, as
+  follows. (The order in which these are evaluated is important, as some of the values refer to
+  earlier ones.)</p>
+
+  <dl><dt>The <dfn id=concept-meter-minimum>minimum value</dfn><dd>
+
+    <p>If the <code id=the-meter-element:attr-meter-min-5><a href=#attr-meter-min>min</a></code> attribute is specified and a value could be
+    parsed out of it, then the minimum value is that value. Otherwise, the minimum value is
+    zero.</p>
+
+   <dt>The <dfn id=concept-meter-maximum>maximum value</dfn><dd>
+
+    <p>If the <code id=the-meter-element:attr-meter-max-5><a href=#attr-meter-max>max</a></code> attribute is specified and a value could be
+    parsed out of it, then the candidate maximum value is that value. Otherwise, the candidate
+    maximum value is 1.0.</p>
+
+    <p>If the candidate maximum value is greater than or equal to the minimum value, then the
+    maximum value is the candidate maximum value. Otherwise, the maximum value is the same as the
+    minimum value.</p>
+
+   <dt>The <dfn id=concept-meter-actual>actual value</dfn><dd>
+
+    <p>If the <code id=the-meter-element:attr-meter-value-7><a href=#attr-meter-value>value</a></code> attribute is specified and a value could
+    be parsed out of it, then that value is the candidate actual value. Otherwise, the candidate
+    actual value is zero.</p>
+
+    <p>If the candidate actual value is less than the minimum value, then the actual value is the
+    minimum value.</p>
+
+    <p>Otherwise, if the candidate actual value is greater than the maximum value, then the actual
+    value is the maximum value.</p>
+
+    <p>Otherwise, the actual value is the candidate actual value.</p>
+
+   <dt>The <dfn id=concept-meter-low>low boundary</dfn><dd>
+
+    <p>If the <code id=the-meter-element:attr-meter-low-8><a href=#attr-meter-low>low</a></code> attribute is specified and a value could be
+    parsed out of it, then the candidate low boundary is that value. Otherwise, the candidate low
+    boundary is the same as the minimum value.</p>
+
+    <p>If the candidate low boundary is less than the minimum value, then the low boundary is the
+    minimum value.</p>
+
+    <p>Otherwise, if the candidate low boundary is greater than the maximum value, then the low
+    boundary is the maximum value.</p>
+
+    <p>Otherwise, the low boundary is the candidate low boundary.</p>
+
+   <dt>The <dfn id=concept-meter-high>high boundary</dfn><dd>
+
+    <p>If the <code id=the-meter-element:attr-meter-high-8><a href=#attr-meter-high>high</a></code> attribute is specified and a value could be
+    parsed out of it, then the candidate high boundary is that value. Otherwise, the candidate high
+    boundary is the same as the maximum value.</p>
+
+    <p>If the candidate high boundary is less than the low boundary, then the high boundary is the
+    low boundary.</p>
+
+    <p>Otherwise, if the candidate high boundary is greater than the maximum value, then the high
+    boundary is the maximum value.</p>
+
+    <p>Otherwise, the high boundary is the candidate high boundary.</p>
+
+   <dt>The <dfn id=concept-meter-optimum>optimum point</dfn><dd>
+
+    <p>If the <code id=the-meter-element:attr-meter-optimum-6><a href=#attr-meter-optimum>optimum</a></code> attribute is specified and a value
+    could be parsed out of it, then the candidate optimum point is that value. Otherwise, the
+    candidate optimum point is the midpoint between the minimum value and the maximum value.</p>
+
+    <p>If the candidate optimum point is less than the minimum value, then the optimum point is the
+    minimum value.</p>
+
+    <p>Otherwise, if the candidate optimum point is greater than the maximum value, then the optimum
+    point is the maximum value.</p>
+
+    <p>Otherwise, the optimum point is the candidate optimum point.</p>
+
+   </dl>
+
+  <p>All of which will result in the following inequalities all being true:</p>
+
+  <ul class=brief><li>minimum value ≤ actual value ≤ maximum value<li>minimum value ≤ low boundary ≤ high boundary ≤ maximum value<li>minimum value ≤ optimum point ≤ maximum value</ul>
+
+  <p><strong>UA requirements for regions of the gauge</strong>: If the optimum point is equal to the
+  low boundary or the high boundary, or anywhere in between them, then the region between the low
+  and high boundaries of the gauge must be treated as the optimum region, and the low and high
+  parts, if any, must be treated as suboptimal. Otherwise, if the optimum point is less than the low
+  boundary, then the region between the minimum value and the low boundary must be treated as the
+  optimum region, the region from the low boundary up to the high boundary must be treated as a
+  suboptimal region, and the remaining region must be treated as an even less good region. Finally,
+  if the optimum point is higher than the high boundary, then the situation is reversed; the region
+  between the high boundary and the maximum value must be treated as the optimum region, the region
+  from the high boundary down to the low boundary must be treated as a suboptimal region, and the
+  remaining region must be treated as an even less good region.</p>
+
+  <p><strong>UA requirements for showing the gauge</strong>: When representing a <code id=the-meter-element:the-meter-element-8><a href=#the-meter-element>meter</a></code>
+  element to the user, the UA should indicate the relative position of the actual value to the
+  minimum and maximum values, and the relationship between the actual value and the three regions of
+  the gauge.</p>
+
+  
+
+  <div class=example>
+   <p>The following markup:</p>
+   <pre>&lt;h3>Suggested groups&lt;/h3>
+&lt;menu type="toolbar">
+ &lt;a href="?cmd=hsg" onclick="hideSuggestedGroups()">Hide suggested groups&lt;/a>
+&lt;/menu>
+&lt;ul>
+ &lt;li>
+  &lt;p>&lt;a href="/group/comp.infosystems.www.authoring.stylesheets/view">comp.infosystems.www.authoring.stylesheets&lt;/a> -
+     &lt;a href="/group/comp.infosystems.www.authoring.stylesheets/subscribe">join&lt;/a>&lt;/p>
+  &lt;p>Group description: &lt;strong>Layout/presentation on the WWW.&lt;/strong>&lt;/p>
+  &lt;p><strong>&lt;meter value="0.5">Moderate activity,&lt;/meter></strong> Usenet, 618 subscribers&lt;/p>
+ &lt;/li>
+ &lt;li>
+  &lt;p>&lt;a href="/group/netscape.public.mozilla.xpinstall/view">netscape.public.mozilla.xpinstall&lt;/a> -
+     &lt;a href="/group/netscape.public.mozilla.xpinstall/subscribe">join&lt;/a>&lt;/p>
+  &lt;p>Group description: &lt;strong>Mozilla XPInstall discussion.&lt;/strong>&lt;/p>
+  &lt;p><strong>&lt;meter value="0.25">Low activity,&lt;/meter></strong> Usenet, 22 subscribers&lt;/p>
+ &lt;/li>
+ &lt;li>
+  &lt;p>&lt;a href="/group/mozilla.dev.general/view">mozilla.dev.general&lt;/a> -
+     &lt;a href="/group/mozilla.dev.general/subscribe">join&lt;/a>&lt;/p>
+  &lt;p><strong>&lt;meter value="0.25">Low activity,&lt;/meter></strong> Usenet, 66 subscribers&lt;/p>
+ &lt;/li>
+&lt;/ul></pre>
+   <p>Might be rendered as follows:</p>
+   <p><img src=/images/sample-meter.png width=332 alt="With the <meter> elements rendered as inline green bars of varying lengths." height=178></p>
+  </div>
+
+  <p>User agents may combine the value of the <code id=the-meter-element:attr-title-2><a href=#attr-title>title</a></code> attribute and the other attributes to provide context-sensitive
+  help or inline text detailing the actual values.</p>
+
+  <div class=example>
+   <p>For example, the following snippet:</p>
+   <pre>&lt;meter min=0 max=60 value=23.2 title=seconds>&lt;/meter></pre>
+   <p>...might cause the user agent to display a gauge with a tooltip
+   saying "Value: 23.2 out of 60." on one line and "seconds" on a
+   second line.</p>
+  </div>
+
+  
+
+  <p>The <dfn id=dom-meter-value><code>value</code></dfn> IDL attribute, on getting, must
+  return the <a href=#concept-meter-actual id=the-meter-element:concept-meter-actual>actual value</a>. On setting, the given value
+  must be converted to the <a href=#best-representation-of-the-number-as-a-floating-point-number id=the-meter-element:best-representation-of-the-number-as-a-floating-point-number>best representation of the number as a floating-point number</a>
+  and then the <code id=the-meter-element:dom-meter-value-2><a href=#dom-meter-value>value</a></code> content attribute must be set to that
+  string.</p>
+
+  <p>The <dfn id=dom-meter-min><code>min</code></dfn> IDL attribute, on getting, must return
+  the <a href=#concept-meter-minimum id=the-meter-element:concept-meter-minimum>minimum value</a>. On setting, the given value must be
+  converted to the <a href=#best-representation-of-the-number-as-a-floating-point-number id=the-meter-element:best-representation-of-the-number-as-a-floating-point-number-2>best representation of the number as a floating-point number</a> and
+  then the <code id=the-meter-element:dom-meter-min-2><a href=#dom-meter-min>min</a></code> content attribute must be set to that string.</p>
+
+  <p>The <dfn id=dom-meter-max><code>max</code></dfn> IDL attribute, on getting, must return
+  the <a href=#concept-meter-maximum id=the-meter-element:concept-meter-maximum>maximum value</a>. On setting, the given value must be
+  converted to the <a href=#best-representation-of-the-number-as-a-floating-point-number id=the-meter-element:best-representation-of-the-number-as-a-floating-point-number-3>best representation of the number as a floating-point number</a> and
+  then the <code id=the-meter-element:dom-meter-max-2><a href=#dom-meter-max>max</a></code> content attribute must be set to that string.</p>
+
+  <p>The <dfn id=dom-meter-low><code>low</code></dfn> IDL attribute, on getting, must return
+  the <a href=#concept-meter-low id=the-meter-element:concept-meter-low>low boundary</a>. On setting, the given value must be
+  converted to the <a href=#best-representation-of-the-number-as-a-floating-point-number id=the-meter-element:best-representation-of-the-number-as-a-floating-point-number-4>best representation of the number as a floating-point number</a> and
+  then the <code id=the-meter-element:dom-meter-low-2><a href=#dom-meter-low>low</a></code> content attribute must be set to that string.</p>
+
+  <p>The <dfn id=dom-meter-high><code>high</code></dfn> IDL attribute, on getting, must return
+  the <a href=#concept-meter-high id=the-meter-element:concept-meter-high>high boundary</a>. On setting, the given value must be
+  converted to the <a href=#best-representation-of-the-number-as-a-floating-point-number id=the-meter-element:best-representation-of-the-number-as-a-floating-point-number-5>best representation of the number as a floating-point number</a> and
+  then the <code id=the-meter-element:dom-meter-high-2><a href=#dom-meter-high>high</a></code> content attribute must be set to that
+  string.</p>
+
+  <p>The <dfn id=dom-meter-optimum><code>optimum</code></dfn> IDL attribute, on getting, must
+  return the <a href=#concept-meter-optimum id=the-meter-element:concept-meter-optimum>optimum value</a>. On setting, the given value
+  must be converted to the <a href=#best-representation-of-the-number-as-a-floating-point-number id=the-meter-element:best-representation-of-the-number-as-a-floating-point-number-6>best representation of the number as a floating-point number</a>
+  and then the <code id=the-meter-element:dom-meter-optimum-2><a href=#dom-meter-optimum>optimum</a></code> content attribute must be set to that
+  string.</p>
+
+  <p>The <code id=the-meter-element:dom-lfe-labels-2><a href=#dom-lfe-labels>labels</a></code> IDL attribute provides a list of the element's
+  <code id=the-meter-element:the-label-element><a href=#the-label-element>label</a></code>s.</p>
+
+  
+
+  <div class=example>
+
+   <p>The following example shows how a gauge could fall back to localized or pretty-printed
+   text.</p>
+
+   <pre>&lt;p>Disk usage: &lt;meter min=0 value=170261928 max=233257824>170 261 928 bytes used
+out of 233 257 824 bytes available&lt;/meter>&lt;/p></pre>
+
+  </div>
+
+
+
+
+  <h4 id=the-fieldset-element>4.10.15 The <dfn><code>fieldset</code></dfn> element<a href=#the-fieldset-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=25551" title="Shouldn't <fieldset> also allow intermixed script-supporting elements (before the <legend>)?">25551</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-fieldset-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-fieldset-element:flow-content-2>Flow content</a>.<dd><a href=#sectioning-root id=the-fieldset-element:sectioning-root>Sectioning root</a>.<dd><a href=#category-listed id=the-fieldset-element:category-listed>Listed</a> <a href=#form-associated-element id=the-fieldset-element:form-associated-element>form-associated element</a>.<dd><a href=#palpable-content-2 id=the-fieldset-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-fieldset-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-fieldset-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-fieldset-element:concept-element-content-model>Content model</a>:<dd>Optionally a <code id=the-fieldset-element:the-legend-element><a href=#the-legend-element>legend</a></code> element, followed by <a href=#flow-content-2 id=the-fieldset-element:flow-content-2-3>flow content</a>.<dt><a href=#concept-element-tag-omission id=the-fieldset-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-fieldset-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-fieldset-element:global-attributes>Global attributes</a><dd><code id=the-fieldset-element:attr-fieldset-disabled><a href=#attr-fieldset-disabled>disabled</a></code> — Whether the form control is disabled<dd><code id=the-fieldset-element:attr-fae-form><a href=#attr-fae-form>form</a></code> — Associates the control with a <code id=the-fieldset-element:the-form-element><a href=#the-form-element>form</a></code> element<dd><code id=the-fieldset-element:attr-fe-name><a href=#attr-fe-name>name</a></code>   — Name of form control to use in the <code id=the-fieldset-element:dom-form-elements><a href=#dom-form-elements>form.elements</a></code> API <dt><a href=#concept-element-dom id=the-fieldset-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-fieldset-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlfieldsetelement>HTMLFieldSetElement</dfn> : <a href=#htmlelement id=the-fieldset-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-fieldset-element:cereactions>CEReactions</a>] attribute boolean <a href=#dom-fieldset-disabled id=the-fieldset-element:dom-fieldset-disabled>disabled</a>;
+  readonly attribute <a href=#htmlformelement id=the-fieldset-element:htmlformelement>HTMLFormElement</a>? <a href=#dom-fae-form id=the-fieldset-element:dom-fae-form>form</a>;
+  [<a href=#cereactions id=the-fieldset-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-fe-name id=the-fieldset-element:dom-fe-name>name</a>;
+
+  readonly attribute DOMString <a href=#dom-fieldset-type id=the-fieldset-element:dom-fieldset-type>type</a>;
+
+  [SameObject] readonly attribute <a id=the-fieldset-element:htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-fieldset-elements id=the-fieldset-element:dom-fieldset-elements>elements</a>;
+
+  readonly attribute boolean <a href=#dom-cva-willvalidate id=the-fieldset-element:dom-cva-willvalidate>willValidate</a>;
+  [SameObject] readonly attribute <a href=#validitystate id=the-fieldset-element:validitystate>ValidityState</a> <a href=#dom-cva-validity id=the-fieldset-element:dom-cva-validity>validity</a>;
+  readonly attribute DOMString <a href=#dom-cva-validationmessage id=the-fieldset-element:dom-cva-validationmessage>validationMessage</a>;
+  boolean <a href=#dom-cva-checkvalidity id=the-fieldset-element:dom-cva-checkvalidity>checkValidity</a>();
+  boolean <a href=#dom-cva-reportvalidity id=the-fieldset-element:dom-cva-reportvalidity>reportValidity</a>();
+  void <a href=#dom-cva-setcustomvalidity id=the-fieldset-element:dom-cva-setcustomvalidity>setCustomValidity</a>(DOMString error);
+};</pre>
+   </dl>
+
+  <p>The <code id=the-fieldset-element:the-fieldset-element><a href=#the-fieldset-element>fieldset</a></code> element <a href=#represents id=the-fieldset-element:represents>represents</a> a set of form controls optionally
+  grouped under a common name.</p>
+
+  <p>The name of the group is given by the first <code id=the-fieldset-element:the-legend-element-2><a href=#the-legend-element>legend</a></code> element that is a child of the
+  <code id=the-fieldset-element:the-fieldset-element-2><a href=#the-fieldset-element>fieldset</a></code> element, if any. The remainder of the descendants form the group.</p>
+
+  <p>The <dfn id=attr-fieldset-disabled><code>disabled</code></dfn> attribute, when specified,
+  causes all the form control descendants of the <code id=the-fieldset-element:the-fieldset-element-3><a href=#the-fieldset-element>fieldset</a></code> element, excluding those that
+  are descendants of the <code id=the-fieldset-element:the-fieldset-element-4><a href=#the-fieldset-element>fieldset</a></code> element's first <code id=the-fieldset-element:the-legend-element-3><a href=#the-legend-element>legend</a></code> element child, if
+  any, to be <a href=#concept-fe-disabled id=the-fieldset-element:concept-fe-disabled>disabled</a>.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> fieldset-disabled<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>20+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>6.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>4+</span></span><span class="ie partial"><span>IE (limited)</span> <span>6+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini partial"><span>Opera Mini (limited)</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>6+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>10.0+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=fieldset-disabled">caniuse.com</a></div>
+
+  <p>A <code id=the-fieldset-element:the-fieldset-element-5><a href=#the-fieldset-element>fieldset</a></code> element is a <dfn id=concept-fieldset-disabled>disabled
+  fieldset</dfn> if it matches any of the following conditions:</p>
+
+  <ul><li>Its <code id=the-fieldset-element:attr-fieldset-disabled-2><a href=#attr-fieldset-disabled>disabled</a></code> attribute is specified
+
+   <li>It is a descendant of another <code id=the-fieldset-element:the-fieldset-element-6><a href=#the-fieldset-element>fieldset</a></code> element whose <code id=the-fieldset-element:attr-fieldset-disabled-3><a href=#attr-fieldset-disabled>disabled</a></code> attribute is specified, and is <em>not</em> a
+   descendant of that <code id=the-fieldset-element:the-fieldset-element-7><a href=#the-fieldset-element>fieldset</a></code> element's first <code id=the-fieldset-element:the-legend-element-4><a href=#the-legend-element>legend</a></code> element child, if
+   any.</ul>
+
+  <p>The <code id=the-fieldset-element:attr-fae-form-2><a href=#attr-fae-form>form</a></code> attribute is used to explicitly associate the
+  <code id=the-fieldset-element:the-fieldset-element-8><a href=#the-fieldset-element>fieldset</a></code> element with its <a href=#form-owner id=the-fieldset-element:form-owner>form owner</a>. The <code id=the-fieldset-element:attr-fe-name-2><a href=#attr-fe-name>name</a></code> attribute represents the element's name.</p>
+
+
+  <dl class=domintro><dt><var>fieldset</var> . <code id=the-fieldset-element:dom-fieldset-type-2><a href=#dom-fieldset-type>type</a></code><dd>
+
+    <p>Returns the string "fieldset".</p>
+
+   <dt><var>fieldset</var> . <code id=the-fieldset-element:dom-fieldset-elements-2><a href=#dom-fieldset-elements>elements</a></code><dd>
+
+    <p>Returns an <code id=the-fieldset-element:htmlcollection-2><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> of the form controls in the element.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-fieldset-disabled><code>disabled</code></dfn> IDL attribute must
+  <a href=#reflect id=the-fieldset-element:reflect>reflect</a> the content attribute of the same name.</p>
+
+  <p>The <dfn id=dom-fieldset-type><code>type</code></dfn> IDL attribute must return the string
+  "<code>fieldset</code>".</p>
+
+  <p>The <dfn id=dom-fieldset-elements><code>elements</code></dfn> IDL attribute must return an
+  <code id=the-fieldset-element:htmlcollection-3><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> rooted at the <code id=the-fieldset-element:the-fieldset-element-9><a href=#the-fieldset-element>fieldset</a></code> element, whose filter
+  matches <a href=#category-listed id=the-fieldset-element:category-listed-2>listed elements</a>.</p>
+
+  <p>The <code id=the-fieldset-element:dom-cva-willvalidate-2><a href=#dom-cva-willvalidate>willValidate</a></code>, <code id=the-fieldset-element:dom-cva-validity-2><a href=#dom-cva-validity>validity</a></code>, and <code id=the-fieldset-element:dom-cva-validationmessage-2><a href=#dom-cva-validationmessage>validationMessage</a></code> attributes, and the <code id=the-fieldset-element:dom-cva-checkvalidity-2><a href=#dom-cva-checkvalidity>checkValidity()</a></code>, <code id=the-fieldset-element:dom-cva-reportvalidity-2><a href=#dom-cva-reportvalidity>reportValidity()</a></code>, and <code id=the-fieldset-element:dom-cva-setcustomvalidity-2><a href=#dom-cva-setcustomvalidity>setCustomValidity()</a></code> methods, are part of the
+  <a href=#the-constraint-validation-api id=the-fieldset-element:the-constraint-validation-api>constraint validation API</a>. The <code id=the-fieldset-element:dom-fae-form-2><a href=#dom-fae-form>form</a></code> and <code id=the-fieldset-element:dom-fe-name-2><a href=#dom-fe-name>name</a></code> IDL attributes are part of the element's forms API.</p>
+
+  
+
+
+  <div class=example>
+
+   <p>This example shows a <code id=the-fieldset-element:the-fieldset-element-10><a href=#the-fieldset-element>fieldset</a></code> element being used to group a set of related
+   controls:</p>
+
+   <pre>&lt;fieldset>
+ &lt;legend>Display&lt;/legend>
+ &lt;p>&lt;label>&lt;input type=radio name=c value=0 checked> Black on White&lt;/label>
+ &lt;p>&lt;label>&lt;input type=radio name=c value=1> White on Black&lt;/label>
+ &lt;p>&lt;label>&lt;input type=checkbox name=g> Use grayscale&lt;/label>
+ &lt;p>&lt;label>Enhance contrast &lt;input type=range name=e list=contrast min=0 max=100 value=0 step=1>&lt;/label>
+ &lt;datalist id=contrast>

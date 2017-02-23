@@ -1,0 +1,850 @@
+  <p>The <code id=the-figure-element:the-figure-element><a href=#the-figure-element>figure</a></code> element <a href=#represents id=the-figure-element:represents>represents</a> some <a href=#flow-content-2 id=the-figure-element:flow-content-2-6>flow content</a>,
+  optionally with a caption, that is self-contained (like a complete sentence) and is typically
+  referenced as a single unit from the main flow of the document.</p>
+
+  <p class=note>Self-contained in this context does not necessarily mean independent. For example,
+  each sentence in a paragraph is self-contained; an image that is part of a sentence would be
+  inappropriate for <code id=the-figure-element:the-figure-element-2><a href=#the-figure-element>figure</a></code>, but an entire sentence made of images would be fitting.</p>
+
+  <p>The element can thus be used to annotate illustrations, diagrams, photos, code listings, etc.</p>
+
+  <div class=note>
+
+   <p>When a <code id=the-figure-element:the-figure-element-3><a href=#the-figure-element>figure</a></code> is referred to from the main content of the document by identifying
+   it by its caption (e.g. by figure number), it enables such content to be easily moved away from
+   that primary content, e.g. to the side of the page, to dedicated pages, or to an appendix, without
+   affecting the flow of the document.</p>
+
+   <p>If a <code id=the-figure-element:the-figure-element-4><a href=#the-figure-element>figure</a></code> element is referenced by its relative position, e.g. "in the
+   photograph above" or "as the next figure shows", then moving the figure would disrupt the page's
+   meaning. Authors are encouraged to consider using labels to refer to figures, rather than using
+   such relative references, so that the page can easily be restyled without affecting the page's
+   meaning.</p>
+
+  </div>
+
+  <p>The first <code id=the-figure-element:the-figcaption-element-3><a href=#the-figcaption-element>figcaption</a></code> element child of the element, if
+  any, represents the caption of the <code id=the-figure-element:the-figure-element-5><a href=#the-figure-element>figure</a></code> element's contents. If there is no child
+  <code id=the-figure-element:the-figcaption-element-4><a href=#the-figcaption-element>figcaption</a></code> element, then there is no caption.</p>
+
+  <p>A <code id=the-figure-element:the-figure-element-6><a href=#the-figure-element>figure</a></code> element's contents are part of the surrounding flow. If the purpose of
+  the page is to display the figure, for example a photograph on an image sharing site, the
+  <code id=the-figure-element:the-figure-element-7><a href=#the-figure-element>figure</a></code> and <code id=the-figure-element:the-figcaption-element-5><a href=#the-figcaption-element>figcaption</a></code> elements can be used to explicitly provide a
+  caption for that figure. For content that is only tangentially related, or that serves a separate
+  purpose than the surrounding flow, the <code id=the-figure-element:the-aside-element><a href=#the-aside-element>aside</a></code> element should be used (and can itself
+  wrap a <code id=the-figure-element:the-figure-element-8><a href=#the-figure-element>figure</a></code>). For example, a pull quote that repeats content from an
+  <code id=the-figure-element:the-article-element><a href=#the-article-element>article</a></code> would be more appropriate in an <code id=the-figure-element:the-aside-element-2><a href=#the-aside-element>aside</a></code> than in a
+  <code id=the-figure-element:the-figure-element-9><a href=#the-figure-element>figure</a></code>, because it isn't part of the content, it's a repetition of the content for
+  the purposes of enticing readers or highlighting key topics.</p>
+
+  <div class=example>
+
+   <p>This example shows the <code id=the-figure-element:the-figure-element-10><a href=#the-figure-element>figure</a></code> element to mark up a code listing.</p>
+
+   <pre>&lt;p>In &lt;a href="#l4">listing 4&lt;/a> we see the primary core interface
+API declaration.&lt;/p>
+&lt;figure id="l4">
+ &lt;figcaption>Listing 4. The primary core interface API declaration.&lt;/figcaption>
+ &lt;pre>&lt;code>interface PrimaryCore {
+ boolean verifyDataLine();
+ void sendData(in sequence&amp;lt;byte> data);
+ void initSelfDestruct();
+}&lt;/code>&lt;/pre>
+&lt;/figure>
+&lt;p>The API is designed to use UTF-8.&lt;/p></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here we see a <code id=the-figure-element:the-figure-element-11><a href=#the-figure-element>figure</a></code> element to mark up a photo that is the main content of the
+   page (as in a gallery).</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+&lt;title>Bubbles at work — My Gallery™&lt;/title>
+&lt;figure>
+ &lt;img src="bubbles-work.jpeg"
+      alt="Bubbles, sitting in his office chair, works on his
+           latest project intently.">
+ &lt;figcaption>Bubbles at work&lt;/figcaption>
+&lt;/figure>
+&lt;nav>&lt;a href="19414.html">Prev&lt;/a> — &lt;a href="19416.html">Next&lt;/a>&lt;/nav></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this example, we see an image that is <em>not</em> a figure, as well as an image and a
+   video that are. The first image is literally part of the example's second sentence, so it's not a
+   self-contained unit, and thus <code id=the-figure-element:the-figure-element-12><a href=#the-figure-element>figure</a></code> would be inappropriate.</p>
+
+   <pre>&lt;h2>Malinko's comics&lt;/h2>
+
+&lt;p>This case centered on some sort of "intellectual property"
+infringement related to a comic (see Exhibit A). The suit started
+after a trailer ending with these words:
+
+&lt;blockquote>
+ &lt;img src="promblem-packed-action.png" alt="ROUGH COPY! Promblem-Packed Action!">
+&lt;/blockquote>
+
+&lt;p>...was aired. A lawyer, armed with a Bigger Notebook, launched a
+preemptive strike using snowballs. A complete copy of the trailer is
+included with Exhibit B.
+
+&lt;figure>
+ &lt;img src="ex-a.png" alt="Two squiggles on a dirty piece of paper.">
+ &lt;figcaption>Exhibit A. The alleged &lt;cite>rough copy&lt;/cite> comic.&lt;/figcaption>
+&lt;/figure>
+
+&lt;figure>
+ &lt;video src="ex-b.mov">&lt;/video>
+ &lt;figcaption>Exhibit B. The &lt;cite>Rough Copy&lt;/cite> trailer.&lt;/figcaption>
+&lt;/figure>
+
+&lt;p>The case was resolved out of court.</pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here, a part of a poem is marked up using <code id=the-figure-element:the-figure-element-13><a href=#the-figure-element>figure</a></code>.</p>
+
+   <pre>&lt;figure>
+ &lt;p>'Twas brillig, and the slithy toves&lt;br>
+ Did gyre and gimble in the wabe;&lt;br>
+ All mimsy were the borogoves,&lt;br>
+ And the mome raths outgrabe.&lt;/p>
+ &lt;figcaption>&lt;cite>Jabberwocky&lt;/cite> (first verse). Lewis Carroll, 1832-98&lt;/figcaption>
+&lt;/figure></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this example, which could be part of a much larger work discussing a castle, nested
+   <code id=the-figure-element:the-figure-element-14><a href=#the-figure-element>figure</a></code> elements are used to provide both a group caption and individual captions for
+   each figure in the group:</p>
+
+   <pre>&lt;figure>
+ &lt;figcaption>The castle through the ages: 1423, 1858, and 1999 respectively.&lt;/figcaption>
+ &lt;figure>
+  &lt;figcaption>Etching. Anonymous, ca. 1423.&lt;/figcaption>
+  &lt;img src="castle1423.jpeg" alt="The castle has one tower, and a tall wall around it.">
+ &lt;/figure>
+ &lt;figure>
+  &lt;figcaption>Oil-based paint on canvas. Maria Towle, 1858.&lt;/figcaption>
+  &lt;img src="castle1858.jpeg" alt="The castle now has two towers and two walls.">
+ &lt;/figure>
+ &lt;figure>
+  &lt;figcaption>Film photograph. Peter Jankle, 1999.&lt;/figcaption>
+  &lt;img src="castle1999.jpeg" alt="The castle lies in ruins, the original tower all that remains in one piece.">
+ &lt;/figure>
+&lt;/figure></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>The previous example could also be more succinctly written as follows (using <code id=the-figure-element:attr-title><a href=#attr-title>title</a></code> attributes in place of the nested
+   <code id=the-figure-element:the-figure-element-15><a href=#the-figure-element>figure</a></code>/<code id=the-figure-element:the-figcaption-element-6><a href=#the-figcaption-element>figcaption</a></code> pairs):</p>
+
+   <pre>&lt;figure>
+ &lt;img src="castle1423.jpeg" title="Etching. Anonymous, ca. 1423."
+      alt="The castle has one tower, and a tall wall around it.">
+ &lt;img src="castle1858.jpeg" title="Oil-based paint on canvas. Maria Towle, 1858."
+      alt="The castle now has two towers and two walls.">
+ &lt;img src="castle1999.jpeg" title="Film photograph. Peter Jankle, 1999."
+      alt="The castle lies in ruins, the original tower all that remains in one piece.">
+ &lt;figcaption>The castle through the ages: 1423, 1858, and 1999 respectively.&lt;/figcaption>
+&lt;/figure></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>The figure is sometimes referenced only implicitly from the content:</p>
+
+   
+
+   <pre>&lt;article>
+ &lt;h1>Fiscal negotiations stumble in Congress as deadline nears&lt;/h1>
+ &lt;figure>
+  &lt;img src="obama-reid.jpeg" alt="Obama and Reid sit together smiling in the Oval Office.">
+  &lt;figcaption>Barack Obama and Harry Reid. White House press photograph.&lt;/figcaption>
+ &lt;/figure>
+ &lt;p>Negotiations in Congress to end the fiscal impasse sputtered on Tuesday, leaving both chambers
+ grasping for a way to reopen the government and raise the country's borrowing authority with a
+ Thursday deadline drawing near.&lt;/p>
+ ...
+&lt;/article></pre>
+
+  </div>
+
+
+  <h4 id=the-figcaption-element>4.4.12 The <dfn><code>figcaption</code></dfn> element<a href=#the-figcaption-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-figcaption-element:concept-element-categories>Categories</a>:<dd>None.<dt><a href=#concept-element-contexts id=the-figcaption-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>As the first or last child of a <code id=the-figcaption-element:the-figure-element><a href=#the-figure-element>figure</a></code> element.<dt><a href=#concept-element-content-model id=the-figcaption-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-figcaption-element:flow-content-2>Flow content</a>.<dt><a href=#concept-element-tag-omission id=the-figcaption-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-figcaption-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-figcaption-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-figcaption-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-figcaption-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-figcaption-element:the-figcaption-element><a href=#the-figcaption-element>figcaption</a></code> element <a href=#represents id=the-figcaption-element:represents>represents</a> a caption or legend for the rest of
+  the contents of the <code id=the-figcaption-element:the-figcaption-element-2><a href=#the-figcaption-element>figcaption</a></code> element's parent <code id=the-figcaption-element:the-figure-element-2><a href=#the-figure-element>figure</a></code> element, if any.</p>
+
+
+
+  <h4 id=the-main-element>4.4.13 The <dfn><code>main</code></dfn> element<a href=#the-main-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-main-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-main-element:flow-content-2>Flow content</a>.<dd><a href=#palpable-content-2 id=the-main-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-main-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-main-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-main-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-main-element:flow-content-2-3>Flow content</a>.<dt><a href=#concept-element-tag-omission id=the-main-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-main-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-main-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-main-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-main-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-main-element:the-main-element><a href=#the-main-element>main</a></code> element can be used as a container for the dominant contents of another
+  element. It <a href=#represents id=the-main-element:represents>represents</a> its children.</p>
+
+  <p class=note>The <code id=the-main-element:the-main-element-2><a href=#the-main-element>main</a></code> element is distinct from the <code id=the-main-element:the-section-element><a href=#the-section-element>section</a></code> and
+  <code id=the-main-element:the-article-element><a href=#the-article-element>article</a></code> elements in that the <code id=the-main-element:the-main-element-3><a href=#the-main-element>main</a></code> element does not contribute to the
+  document <a href=#outline id=the-main-element:outline>outline</a>.</p>
+
+  <p class=note>There is no restriction as to the number of <code id=the-main-element:the-main-element-4><a href=#the-main-element>main</a></code> elements in a
+  document. Indeed, there are many cases where it would make sense to have multiple
+  <code id=the-main-element:the-main-element-5><a href=#the-main-element>main</a></code> elements. For example, a page with multiple <code id=the-main-element:the-article-element-2><a href=#the-article-element>article</a></code> elements might
+  need to indicate the dominant contents of each such element.</p>
+
+  <div class=example>
+
+   <p>In this example, the author has used a presentation where each component of the page is
+   rendered in a box. To wrap the main content of the page (as opposed to the header, the footer,
+   the navigation bar, and a sidebar), the <code id=the-main-element:the-main-element-6><a href=#the-main-element>main</a></code> element is used.</p>
+
+   <pre>&lt;!DOCTYPE html>
+&lt;html lang="en">
+&lt;title>RPG System 17&lt;/title>
+&lt;style>
+ header, nav, aside, main, footer {
+   margin: 0.5em; border: thin solid; padding: 0.5em;
+   background: #EFF; color: black; box-shadow: 0 0 0.25em #033;
+ }
+ h1, h2, p { margin: 0; }
+ nav, main { float: left; }
+ aside { float: right; }
+ footer { clear: both; }
+&lt;/style>
+&lt;header>
+ &lt;h1>System Eighteen&lt;/h1>
+&lt;/header>
+&lt;nav>
+ &lt;a href="../16/">← System 17&lt;/a>
+ &lt;a href="../18/">RPXIX →&lt;/a>
+&lt;/nav>
+&lt;aside>
+ &lt;p>This system has no HP mechanic, so there's no healing.
+&lt;/aside>
+&lt;main>
+ &lt;h2>Character creation&lt;/h2>
+ &lt;p>Attributes (magic, strength, agility) are purchased at the cost of one point per level.&lt;/p>
+ &lt;h2>Rolls&lt;/h2>
+ &lt;p>Each encounter, roll the dice for all your skills. If you roll more than the opponent, you win.&lt;/p>
+&lt;/main>
+&lt;footer>
+ &lt;p>Copyright © 2013
+&lt;/footer>
+&lt;/html></pre>
+
+  </div>
+
+
+
+  <h4 id=the-div-element>4.4.14 The <dfn><code>div</code></dfn> element<a href=#the-div-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-div-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-div-element:flow-content-2>Flow content</a>.<dd><a href=#palpable-content-2 id=the-div-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-div-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-div-element:flow-content-2-2>flow content</a> is expected.<dd>As a child of a <code id=the-div-element:the-dl-element><a href=#the-dl-element>dl</a></code> element.<dt><a href=#concept-element-content-model id=the-div-element:concept-element-content-model>Content model</a>:<dd>If the element is a child of a <code id=the-div-element:the-dl-element-2><a href=#the-dl-element>dl</a></code> element: one or more <code id=the-div-element:the-dt-element><a href=#the-dt-element>dt</a></code> elements followed by one or more <code id=the-div-element:the-dd-element><a href=#the-dd-element>dd</a></code> elements, optionally intermixed with <a href=#script-supporting-elements-2 id=the-div-element:script-supporting-elements-2>script-supporting elements</a>.<dd>If the element is not a child of a <code id=the-div-element:the-dl-element-3><a href=#the-dl-element>dl</a></code> element: <a href=#flow-content-2 id=the-div-element:flow-content-2-3>Flow content</a>.<dt><a href=#concept-element-tag-omission id=the-div-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-div-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-div-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-div-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-div-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmldivelement>HTMLDivElement</dfn> : <a href=#htmlelement id=the-div-element:htmlelement>HTMLElement</a> {
+  // <a href="#HTMLDivElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-div-element:the-div-element><a href=#the-div-element>div</a></code> element has no special meaning at all. It <a href=#represents id=the-div-element:represents>represents</a> its
+  children. It can be used with the <code id=the-div-element:classes><a href=#classes>class</a></code>, <code id=the-div-element:attr-lang><a href=#attr-lang>lang</a></code>, and <code id=the-div-element:attr-title><a href=#attr-title>title</a></code> attributes to mark up
+  semantics common to a group of consecutive elements. It can also be used in a <code id=the-div-element:the-dl-element-4><a href=#the-dl-element>dl</a></code>
+  element, wrapping groups of <code id=the-div-element:the-dt-element-2><a href=#the-dt-element>dt</a></code> and <code id=the-div-element:the-dd-element-2><a href=#the-dd-element>dd</a></code> elements.</p>
+
+  <p class=note>Authors are strongly encouraged to view the <code id=the-div-element:the-div-element-2><a href=#the-div-element>div</a></code> element as an element
+  of last resort, for when no other element is suitable. Use of more appropriate elements instead of
+  the <code id=the-div-element:the-div-element-3><a href=#the-div-element>div</a></code> element leads to better accessibility for readers and easier maintainability
+  for authors.</p>
+
+  <div class=example>
+
+   <p>For example, a blog post would be marked up using <code id=the-div-element:the-article-element><a href=#the-article-element>article</a></code>, a chapter using
+   <code id=the-div-element:the-section-element><a href=#the-section-element>section</a></code>, a page's navigation aids using <code id=the-div-element:the-nav-element><a href=#the-nav-element>nav</a></code>, and a group of form
+   controls using <code id=the-div-element:the-fieldset-element><a href=#the-fieldset-element>fieldset</a></code>.</p>
+
+   <p>On the other hand, <code id=the-div-element:the-div-element-4><a href=#the-div-element>div</a></code> elements can be useful for stylistic purposes or to wrap
+   multiple paragraphs within a section that are all to be annotated in a similar way. In the
+   following example, we see <code id=the-div-element:the-div-element-5><a href=#the-div-element>div</a></code> elements used as a way to set the language of two
+   paragraphs at once, instead of setting the language on the two paragraph elements separately:</p>
+
+   <pre>&lt;article lang="en-US">
+ &lt;h1>My use of language and my cats&lt;/h1>
+ &lt;p>My cat's behavior hasn't changed much since her absence, except
+ that she plays her new physique to the neighbors regularly, in an
+ attempt to get pets.&lt;/p>
+ &lt;div lang="en-GB">
+  &lt;p>My other cat, coloured black and white, is a sweetie. He followed
+  us to the pool today, walking down the pavement with us. Yesterday
+  he apparently visited our neighbours. I wonder if he recognises that
+  their flat is a mirror image of ours.&lt;/p>
+  &lt;p>Hm, I just noticed that in the last paragraph I used British
+  English. But I'm supposed to write in American English. So I
+  shouldn't say "pavement" or "flat" or "colour"...&lt;/p>
+ &lt;/div>
+ &lt;p>I should say "sidewalk" and "apartment" and "color"!&lt;/p>
+&lt;/article></pre>
+
+  </div>
+
+
+  <h3 id=text-level-semantics>4.5 Text-level semantics<a href=#text-level-semantics class=self-link></a></h3>
+
+  <h4 id=the-a-element data-dfn-type=element data-lt=a>4.5.1 The <dfn><code>a</code></dfn> element<a href=#the-a-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-a-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-a-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-a-element:phrasing-content-2>Phrasing content</a>.<dd>If the element has an <code id=the-a-element:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> attribute: <a href=#interactive-content-2 id=the-a-element:interactive-content-2>Interactive content</a>.<dd><a href=#palpable-content-2 id=the-a-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-a-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-a-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-a-element:concept-element-content-model>Content model</a>:<dd><a href=#transparent id=the-a-element:transparent>Transparent</a>, but there must be no <a href=#interactive-content-2 id=the-a-element:interactive-content-2-2>interactive content</a> or <code id=the-a-element:the-a-element><a href=#the-a-element>a</a></code> element descendants.<dt><a href=#concept-element-tag-omission id=the-a-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-a-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-a-element:global-attributes>Global attributes</a><dd><code id=the-a-element:attr-hyperlink-href-2><a href=#attr-hyperlink-href>href</a></code> — Address of the <a href=#hyperlink id=the-a-element:hyperlink>hyperlink</a><dd><code id=the-a-element:attr-hyperlink-target><a href=#attr-hyperlink-target>target</a></code> — <a href=#browsing-context id=the-a-element:browsing-context>Browsing context</a> for <a href=#hyperlink id=the-a-element:hyperlink-2>hyperlink</a> <a href=#navigate id=the-a-element:navigate>navigation</a><dd><code id=the-a-element:attr-hyperlink-download><a href=#attr-hyperlink-download>download</a></code> — Whether to download the resource instead of navigating to it, and its file name if so<dd><code id=the-a-element:ping><a href=#ping>ping</a></code> — <a href=https://url.spec.whatwg.org/#concept-url id=the-a-element:url data-x-internal=url>URLs</a> to ping<dd><code id=the-a-element:attr-hyperlink-rel><a href=#attr-hyperlink-rel>rel</a></code> — Relationship between the location in the document containing the hyperlink and the destination resource<dd><code id=the-a-element:attr-hyperlink-hreflang><a href=#attr-hyperlink-hreflang>hreflang</a></code> — Language of the linked resource<dd><code id=the-a-element:attr-hyperlink-type><a href=#attr-hyperlink-type>type</a></code> — Hint for the type of the referenced resource<dd><code id=the-a-element:attr-hyperlink-referrerpolicy><a href=#attr-hyperlink-referrerpolicy>referrerpolicy</a></code> — Determines the <a id=the-a-element:referrer-policy href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a> for <a href=https://fetch.spec.whatwg.org/#concept-fetch id=the-a-element:concept-fetch data-x-internal=concept-fetch>fetches</a> initiated by the element<dt><a href=#concept-element-dom id=the-a-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-a-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlanchorelement>HTMLAnchorElement</dfn> : <a href=#htmlelement id=the-a-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-a-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-a-target id=the-a-element:dom-a-target>target</a>;
+  [<a href=#cereactions id=the-a-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-a-download id=the-a-element:dom-a-download>download</a>;
+  [<a href=#cereactions id=the-a-element:cereactions-3>CEReactions</a>] attribute USVString <a href=#dom-a-ping id=the-a-element:dom-a-ping>ping</a>;
+  [<a href=#cereactions id=the-a-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-a-rel id=the-a-element:dom-a-rel>rel</a>;
+  [<a href=#cereactions id=the-a-element:cereactions-5>CEReactions</a>, SameObject, PutForwards=<a href=https://dom.spec.whatwg.org/#dom-domtokenlist-value id=the-a-element:dom-domtokenlist-value data-x-internal=dom-domtokenlist-value>value</a>] readonly attribute <a id=the-a-element:domtokenlist href=https://dom.spec.whatwg.org/#interface-domtokenlist data-x-internal=domtokenlist>DOMTokenList</a> <a href=#dom-a-rellist id=the-a-element:dom-a-rellist>relList</a>;
+  [<a href=#cereactions id=the-a-element:cereactions-6>CEReactions</a>] attribute DOMString <a href=#dom-a-hreflang id=the-a-element:dom-a-hreflang>hreflang</a>;
+  [<a href=#cereactions id=the-a-element:cereactions-7>CEReactions</a>] attribute DOMString <a href=#dom-a-type id=the-a-element:dom-a-type>type</a>;
+
+  [<a href=#cereactions id=the-a-element:cereactions-8>CEReactions</a>] attribute DOMString <a href=#dom-a-text id=the-a-element:dom-a-text>text</a>;
+
+  [<a href=#cereactions id=the-a-element:cereactions-9>CEReactions</a>] attribute DOMString <a href=#dom-a-referrerpolicy id=the-a-element:dom-a-referrerpolicy>referrerPolicy</a>;
+
+  // <a href="#HTMLAnchorElement-partial">also has obsolete members</a>
+};
+<a href=#htmlanchorelement id=the-a-element:htmlanchorelement>HTMLAnchorElement</a> implements <a href=#htmlhyperlinkelementutils id=the-a-element:htmlhyperlinkelementutils>HTMLHyperlinkElementUtils</a>;</pre>
+   </dl>
+
+  <p>If the <code id=the-a-element:the-a-element-2><a href=#the-a-element>a</a></code> element has an <code id=the-a-element:attr-hyperlink-href-3><a href=#attr-hyperlink-href>href</a></code> attribute,
+  then it <a href=#represents id=the-a-element:represents>represents</a> a <a href=#hyperlink id=the-a-element:hyperlink-3>hyperlink</a> (a hypertext anchor) labeled by its
+  contents.</p>
+
+  
+
+  <p>If the <code id=the-a-element:the-a-element-3><a href=#the-a-element>a</a></code> element has no <code id=the-a-element:attr-hyperlink-href-4><a href=#attr-hyperlink-href>href</a></code> attribute,
+  then the element <a href=#represents id=the-a-element:represents-2>represents</a> a placeholder for where a link might otherwise have been
+  placed, if it had been relevant, consisting of just the element's contents.</p>
+
+  <p>The <code id=the-a-element:attr-hyperlink-target-2><a href=#attr-hyperlink-target>target</a></code>, <code id=the-a-element:attr-hyperlink-download-2><a href=#attr-hyperlink-download>download</a></code>, <code id=the-a-element:ping-2><a href=#ping>ping</a></code>,
+  <code id=the-a-element:attr-hyperlink-rel-2><a href=#attr-hyperlink-rel>rel</a></code>, <code id=the-a-element:attr-hyperlink-hreflang-2><a href=#attr-hyperlink-hreflang>hreflang</a></code>, <code id=the-a-element:attr-hyperlink-type-2><a href=#attr-hyperlink-type>type</a></code>,
+  and <code id=the-a-element:attr-hyperlink-referrerpolicy-2><a href=#attr-hyperlink-referrerpolicy>referrerpolicy</a></code> attributes must be omitted
+  if the <code id=the-a-element:attr-hyperlink-href-5><a href=#attr-hyperlink-href>href</a></code> attribute is not present.</p>
+
+  <p>If the <code id=the-a-element:names:-the-itemprop-attribute><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute is specified on an <code id=the-a-element:the-a-element-4><a href=#the-a-element>a</a></code> element,
+  then the <code id=the-a-element:attr-hyperlink-href-6><a href=#attr-hyperlink-href>href</a></code> attribute must also be specified.</p>
+
+  <div class=example>
+
+   <p>If a site uses a consistent navigation toolbar on every page, then the link that would
+   normally link to the page itself could be marked up using an <code id=the-a-element:the-a-element-5><a href=#the-a-element>a</a></code> element:</p>
+
+   <pre>&lt;nav>
+ &lt;ul>
+  &lt;li> &lt;a href="/">Home&lt;/a> &lt;/li>
+  &lt;li> &lt;a href="/news">News&lt;/a> &lt;/li>
+  &lt;li> &lt;a>Examples&lt;/a> &lt;/li>
+  &lt;li> &lt;a href="/legal">Legal&lt;/a> &lt;/li>
+ &lt;/ul>
+&lt;/nav></pre>
+
+  </div>
+
+  
+
+  <p>The <code id=the-a-element:attr-hyperlink-href-7><a href=#attr-hyperlink-href>href</a></code>, <code id=the-a-element:attr-hyperlink-target-3><a href=#attr-hyperlink-target>target</a></code>, <code id=the-a-element:attr-hyperlink-download-3><a href=#attr-hyperlink-download>download</a></code>, <code id=the-a-element:ping-3><a href=#ping>ping</a></code>,
+  and <code id=the-a-element:attr-hyperlink-referrerpolicy-3><a href=#attr-hyperlink-referrerpolicy>referrerpolicy</a></code> attributes affect what
+  happens when users <a href=#following-hyperlinks-2 id=the-a-element:following-hyperlinks-2>follow hyperlinks</a> or <a href=#downloading-hyperlinks id=the-a-element:downloading-hyperlinks>download hyperlinks</a> created using the <code id=the-a-element:the-a-element-6><a href=#the-a-element>a</a></code>
+  element. The <code id=the-a-element:attr-hyperlink-rel-3><a href=#attr-hyperlink-rel>rel</a></code>, <code id=the-a-element:attr-hyperlink-hreflang-3><a href=#attr-hyperlink-hreflang>hreflang</a></code>, and <code id=the-a-element:attr-hyperlink-type-3><a href=#attr-hyperlink-type>type</a></code>
+  attributes may be used to indicate to the user the likely nature of the target resource before the
+  user follows the link.</p>
+
+  <p>The <a id=the-a-element:activation-behaviour href=https://dom.spec.whatwg.org/#eventtarget-activation-behavior data-x-internal=activation-behaviour>activation behavior</a> of <code id=the-a-element:the-a-element-7><a href=#the-a-element>a</a></code> elements that create <a href=#hyperlink id=the-a-element:hyperlink-4>hyperlinks</a> is to run the following steps:</p>
+
+  <ol><li><p>If the <code id=the-a-element:the-a-element-8><a href=#the-a-element>a</a></code> element's <a id=the-a-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is not <a href=#fully-active id=the-a-element:fully-active>fully active</a>, then abort these steps.<li>
+
+    <p>If the user has not indicated a specific <a href=#browsing-context id=the-a-element:browsing-context-2>browsing context</a> for following the
+    link, and the element's <code id=the-a-element:attr-hyperlink-target-4><a href=#attr-hyperlink-target>target</a></code> attribute is present,
+    and applying <a href=#the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name id=the-a-element:the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name>the rules for choosing a browsing context given a browsing context
+    name</a>, using the value of the <code id=the-a-element:attr-hyperlink-target-5><a href=#attr-hyperlink-target>target</a></code> attribute
+    as the browsing context name, would result in there not being a chosen browsing context, then
+    run these substeps:</p>
+
+    <ol><li><p>If there is an <a href=#entry-settings-object id=the-a-element:entry-settings-object>entry settings object</a>, throw an
+     <a id=the-a-element:invalidaccesserror href=https://heycam.github.io/webidl/#invalidaccesserror data-x-internal=invalidaccesserror>"<code>InvalidAccessError</code>"</a> <code id=the-a-element:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Abort these steps without following the hyperlink.</ol>
+
+   <li><p>If the target of the <code id=the-a-element:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event is an <code id=the-a-element:the-img-element><a href=#the-img-element>img</a></code>
+   element with an <code id=the-a-element:attr-img-ismap><a href=#attr-img-ismap>ismap</a></code> attribute specified, then server-side
+   image map processing must be performed, as follows:</p>
+
+    <ol><li>Let <var>x</var> and <var>y</var> be zero.<li>If the <code id=the-a-element:event-click-2><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event was a real pointing-device-triggered
+     <code id=the-a-element:event-click-3><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event on the <code id=the-a-element:the-img-element-2><a href=#the-img-element>img</a></code> element, then set
+     <var>x</var> to the distance in <a href=https://drafts.csswg.org/css-values/#px id="the-a-element:'px'" data-x-internal="'px'">CSS pixels</a> from the left edge of the
+     image to the location of the click, and set <var>y</var> to the distance in <a href=https://drafts.csswg.org/css-values/#px id="the-a-element:'px'-2" data-x-internal="'px'">CSS pixels</a> from the top edge of the image to the location of the
+     click.<li>If <var>x</var> is negative, set <var>x</var> to zero.<li>If <var>y</var> is negative, set <var>y</var> to zero.<li>Let <var>hyperlink suffix</var> be a U+003F QUESTION MARK character, the value of
+     <var>x</var> expressed as a base-ten integer using <a href=#ascii-digits id=the-a-element:ascii-digits>ASCII digits</a>, a U+002C COMMA
+     character (,), and the value of <var>y</var> expressed as a base-ten integer using <a href=#ascii-digits id=the-a-element:ascii-digits-2>ASCII
+     digits</a>.</ol>
+
+   <li><p>Finally, the user agent must <a href=#following-hyperlinks-2 id=the-a-element:following-hyperlinks-2-2>follow the
+   hyperlink</a> or <a href=#downloading-hyperlinks id=the-a-element:downloading-hyperlinks-2>download the hyperlink</a> created
+   by the <code id=the-a-element:the-a-element-9><a href=#the-a-element>a</a></code> element, as determined by the <code id=the-a-element:attr-hyperlink-download-4><a href=#attr-hyperlink-download>download</a></code> attribute and any expressed user preference,
+   passing <var>hyperlink suffix</var>, if the steps above defined it.</ol>
+
+  
+
+
+  <dl class=domintro><dt><var>a</var> . <code id=the-a-element:dom-a-text-2><a href=#dom-a-text>text</a></code><dd>
+
+    <p>Same as <code id=the-a-element:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code>.</p>
+
+   </dl>
+
+  
+
+  <p>The IDL attributes <dfn id=dom-a-download><code>download</code></dfn>, <dfn data-dfn-for=a id=dom-a-ping data-dfn-type=element-attr data-export=""><code>ping</code></dfn>, <dfn id=dom-a-target><code>target</code></dfn>,
+  <dfn id=dom-a-rel><code>rel</code></dfn>, <dfn id=dom-a-hreflang><code>hreflang</code></dfn>, and <dfn id=dom-a-type><code>type</code></dfn>, must <a href=#reflect id=the-a-element:reflect>reflect</a> the respective content attributes
+  of the same name.</p>
+
+  <p>The IDL attribute <dfn id=dom-a-rellist><code>relList</code></dfn> must
+  <a href=#reflect id=the-a-element:reflect-2>reflect</a> the <code id=the-a-element:attr-hyperlink-rel-4><a href=#attr-hyperlink-rel>rel</a></code> content attribute.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> rellist<span class="and_chr no"><span>Chrome for Android</span> <span>None</span></span><span class="chrome partial"><span>Chrome (limited)</span> <span>50+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>9.0+</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox yes"><span>Firefox</span> <span>30+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung no"><span>Samsung Internet</span> <span>None</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android partial"><span>Android Browser (limited)</span> <span>53+</span></span><span class="safari yes"><span>Safari</span> <span>9+</span></span><span class="edge no"><span>Edge</span> <span>None</span></span><span class="opera partial"><span>Opera (limited)</span> <span>37+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=rellist">caniuse.com</a></div>
+
+  <p>The IDL attribute <dfn id=dom-a-referrerpolicy><code>referrerPolicy</code></dfn> must
+  <a href=#reflect id=the-a-element:reflect-3>reflect</a> the <code id=the-a-element:attr-hyperlink-referrerpolicy-4><a href=#attr-hyperlink-referrerpolicy>referrerpolicy</a></code>
+  content attribute, <a href=#limited-to-only-known-values id=the-a-element:limited-to-only-known-values>limited to only known values</a>.</p>
+
+  <p>The <dfn id=dom-a-text><code>text</code></dfn> IDL attribute, on getting, must return the
+  same value as the <code id=the-a-element:textcontent-2><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute on the element, and on setting, must act
+  as if the <code id=the-a-element:textcontent-3><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute on the element had been set to the new value.</p>
+
+  
+
+
+  <div class=example>
+
+   <p>The <code id=the-a-element:the-a-element-10><a href=#the-a-element>a</a></code> element may be wrapped around entire paragraphs, lists, tables, and so
+   forth, even entire sections, so long as there is no interactive content within (e.g. buttons or
+   other links). This example shows how this can be used to make an entire advertising block into a
+   link:</p>
+
+   <pre>&lt;aside class="advertising">
+ &lt;h1>Advertising&lt;/h1>
+ &lt;a href="https://ad.example.com/?adid=1929&amp;amp;pubid=1422">
+  &lt;section>
+   &lt;h1>Mellblomatic 9000!&lt;/h1>
+   &lt;p>Turn all your widgets into mellbloms!&lt;/p>
+   &lt;p>Only $9.99 plus shipping and handling.&lt;/p>
+  &lt;/section>
+ &lt;/a>
+ &lt;a href="https://ad.example.com/?adid=375&amp;amp;pubid=1422">
+  &lt;section>
+   &lt;h1>The Mellblom Browser&lt;/h1>
+   &lt;p>Web browsing at the speed of light.&lt;/p>
+   &lt;p>No other browser goes faster!&lt;/p>
+  &lt;/section>
+ &lt;/a>
+&lt;/aside></pre>
+
+  </div>
+
+
+  <h4 id=the-em-element>4.5.2 The <dfn><code>em</code></dfn> element<a href=#the-em-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-em-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-em-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-em-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-em-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-em-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-em-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-em-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-em-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-em-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-em-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-em-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-em-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-em-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-em-element:the-em-element><a href=#the-em-element>em</a></code> element <a href=#represents id=the-em-element:represents>represents</a> stress emphasis of its contents.</p>
+
+  <p>The level of stress that a particular piece of content has is given by its number of ancestor
+  <code id=the-em-element:the-em-element-2><a href=#the-em-element>em</a></code> elements.</p>
+
+  <p>The placement of stress emphasis changes the meaning of the sentence. The element thus forms an
+  integral part of the content. The precise way in which stress is used in this way depends on the
+  language.</p>
+
+  <div class=example>
+
+   <p>These examples show how changing the stress emphasis changes the meaning. First, a general
+   statement of fact, with no stress:</p>
+
+   <pre>&lt;p>Cats are cute animals.&lt;/p></pre>
+
+   <p>By emphasizing the first word, the statement implies that the kind of animal under discussion
+   is in question (maybe someone is asserting that dogs are cute):</p>
+
+   <pre>&lt;p>&lt;em>Cats&lt;/em> are cute animals.&lt;/p></pre>
+
+   <p>Moving the stress to the verb, one highlights that the truth of the entire sentence is in
+   question (maybe someone is saying cats are not cute):</p>
+
+   <pre>&lt;p>Cats &lt;em>are&lt;/em> cute animals.&lt;/p></pre>
+
+   <p>By moving it to the adjective, the exact nature of the cats is reasserted (maybe someone
+   suggested cats were <em>mean</em> animals):</p>
+
+   <pre>&lt;p>Cats are &lt;em>cute&lt;/em> animals.&lt;/p></pre>
+
+   <p>Similarly, if someone asserted that cats were vegetables, someone correcting this might
+   emphasize the last word:</p>
+
+   <pre>&lt;p>Cats are cute &lt;em>animals&lt;/em>.&lt;/p></pre>
+
+   <p>By emphasizing the entire sentence, it becomes clear that the speaker is fighting hard to get
+   the point across. This kind of stress emphasis also typically affects the punctuation, hence the
+   exclamation mark here.</p>
+
+   <pre>&lt;p>&lt;em>Cats are cute animals!&lt;/em>&lt;/p></pre>
+
+   <p>Anger mixed with emphasizing the cuteness could lead to markup such as:</p>
+
+   <pre>&lt;p>&lt;em>Cats are &lt;em>cute&lt;/em> animals!&lt;/em>&lt;/p></pre>
+
+  </div>
+
+  <div class=note>
+
+   <p>The <code id=the-em-element:the-em-element-3><a href=#the-em-element>em</a></code> element isn't a generic "italics" element. Sometimes, text is intended to
+   stand out from the rest of the paragraph, as if it was in a different mood or voice. For this,
+   the <code id=the-em-element:the-i-element><a href=#the-i-element>i</a></code> element is more appropriate.</p>
+
+   <p>The <code id=the-em-element:the-em-element-4><a href=#the-em-element>em</a></code> element also isn't intended to convey importance; for that purpose, the
+   <code id=the-em-element:the-strong-element><a href=#the-strong-element>strong</a></code> element is more appropriate.</p>
+
+   
+
+  </div>
+
+
+
+  <h4 id=the-strong-element>4.5.3 The <dfn><code>strong</code></dfn> element<a href=#the-strong-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-strong-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-strong-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-strong-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-strong-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-strong-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-strong-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-strong-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-strong-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-strong-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-strong-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-strong-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-strong-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-strong-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-strong-element:the-strong-element><a href=#the-strong-element>strong</a></code> element <a href=#represents id=the-strong-element:represents>represents</a> strong importance, seriousness, or
+  urgency for its contents.</p>
+
+  <p><strong>Importance</strong>: The <code id=the-strong-element:the-strong-element-2><a href=#the-strong-element>strong</a></code> element can be used in a heading, caption,
+  or paragraph to distinguish the part that really matters from other parts that might be more
+  detailed, more jovial, or merely boilerplate. (This is distinct from marking up subheadings, for
+  which the <code id=the-strong-element:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code> element is appropriate.)</p>
+
+  <p class=example>For example, the first word of the previous paragraph is marked up with
+  <code id=the-strong-element:the-strong-element-3><a href=#the-strong-element>strong</a></code> to distinguish it from the more detailed text in the rest of the
+  paragraph.</p>
+
+  <p><strong>Seriousness</strong>: The <code id=the-strong-element:the-strong-element-4><a href=#the-strong-element>strong</a></code> element can be used to mark up a warning
+  or caution notice.</p>
+
+  <p><strong>Urgency</strong>: The <code id=the-strong-element:the-strong-element-5><a href=#the-strong-element>strong</a></code> element can be used to denote contents that
+  the user needs to see sooner than other parts of the document.</p>
+
+  <p>The relative level of importance of a piece of content is given by its number of ancestor
+  <code id=the-strong-element:the-strong-element-6><a href=#the-strong-element>strong</a></code> elements; each <code id=the-strong-element:the-strong-element-7><a href=#the-strong-element>strong</a></code> element increases the importance of its
+  contents.</p>
+
+  <p>Changing the importance of a piece of text with the <code id=the-strong-element:the-strong-element-8><a href=#the-strong-element>strong</a></code> element does not change
+  the meaning of the sentence.</p>
+
+  <div class=example>
+
+   <p>Here, the word "chapter" and the actual chapter number are mere boilerplate, and the actual
+   name of the chapter is marked up with <code id=the-strong-element:the-strong-element-9><a href=#the-strong-element>strong</a></code>:</p>
+
+   <pre>&lt;h1>Chapter 1: &lt;strong>The Praxis&lt;/strong>&lt;/h1></pre>
+
+   <p>In the following example, the name of the diagram in the caption is marked up with
+   <code id=the-strong-element:the-strong-element-10><a href=#the-strong-element>strong</a></code>, to distinguish it from boilerplate text (before) and the description
+   (after):</p>
+
+   <pre>&lt;figcaption>Figure 1. &lt;strong>Ant colony dynamics&lt;/strong>. The ants in this colony are
+affected by the heat source (upper left) and the food source (lower right).&lt;/figcaption></pre>
+
+   <p>In this example, the heading is really "Flowers, Bees, and Honey", but the author has added a
+   light-hearted addition to the heading. The <code id=the-strong-element:the-strong-element-11><a href=#the-strong-element>strong</a></code> element is thus used to mark up
+   the first part to distinguish it from the latter part.</p>
+
+   <pre>&lt;h1>&lt;strong>Flowers, Bees, and Honey&lt;/strong> and other things I don't understand&lt;/h1></pre>
+
+  </div>
+
+  <div class=example>
+   <p>Here is an example of a warning notice in a game, with the
+   various parts marked up according to how important they are:</p>
+   
+   <pre>&lt;p>&lt;strong>Warning.&lt;/strong> This dungeon is dangerous.
+&lt;strong>Avoid the ducks.&lt;/strong> Take any gold you find.
+&lt;strong>&lt;strong>Do not take any of the diamonds&lt;/strong>,
+they are explosive and &lt;strong>will destroy anything within
+ten meters.&lt;/strong>&lt;/strong> You have been warned.&lt;/p></pre>
+  </div>
+
+  <div class=example>
+
+   <p>In this example, the <code id=the-strong-element:the-strong-element-12><a href=#the-strong-element>strong</a></code> element is used to denote the part of the text that
+   the user is intended to read first.</p>
+
+   <pre>&lt;p>Welcome to Remy, the reminder system.&lt;/p>
+&lt;p>Your tasks for today:&lt;/p>
+&lt;ul>
+ &lt;li>&lt;p>&lt;strong>Turn off the oven.&lt;/strong>&lt;/p>&lt;/li>
+ &lt;li>&lt;p>Put out the trash.&lt;/p>&lt;/li>
+ &lt;li>&lt;p>Do the laundry.&lt;/p>&lt;/li>
+&lt;/ul></pre>
+
+  </div>
+
+
+  <h4 id=the-small-element>4.5.4 The <dfn><code>small</code></dfn> element<a href=#the-small-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-small-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-small-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-small-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-small-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-small-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-small-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-small-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-small-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-small-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-small-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-small-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-small-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-small-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-small-element:the-small-element><a href=#the-small-element>small</a></code> element <a href=#represents id=the-small-element:represents>represents</a> side comments such as small print.</p>
+
+  <p class=note>Small print typically features disclaimers, caveats, legal restrictions, or
+  copyrights. Small print is also sometimes used for attribution, or for satisfying licensing
+  requirements.</p>
+
+  <p class=note>The <code id=the-small-element:the-small-element-2><a href=#the-small-element>small</a></code> element does not "de-emphasize" or lower the importance of
+  text emphasized by the <code id=the-small-element:the-em-element><a href=#the-em-element>em</a></code> element or marked as important with the <code id=the-small-element:the-strong-element><a href=#the-strong-element>strong</a></code>
+  element. To mark text as not emphasized or important, simply do not mark it up with the
+  <code id=the-small-element:the-em-element-2><a href=#the-em-element>em</a></code> or <code id=the-small-element:the-strong-element-2><a href=#the-strong-element>strong</a></code> elements respectively.</p>
+
+  <p>The <code id=the-small-element:the-small-element-3><a href=#the-small-element>small</a></code> element should not be used for extended spans of text, such as multiple
+  paragraphs, lists, or sections of text. It is only intended for short runs of text. The text of a
+  page listing terms of use, for instance, would not be a suitable candidate for the
+  <code id=the-small-element:the-small-element-4><a href=#the-small-element>small</a></code> element: in such a case, the text is not a side comment, it is the main content
+  of the page.</p>
+
+  <p>The <code id=the-small-element:the-small-element-5><a href=#the-small-element>small</a></code> element must not be used for subheadings; for that purpose, use the
+  <code id=the-small-element:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code> element.</p>
+
+  <div class=example>
+
+   <p>In this example, the <code id=the-small-element:the-small-element-6><a href=#the-small-element>small</a></code> element is used to indicate that value-added tax is
+   not included in a price of a hotel room:</p>
+
+   <pre class=example>&lt;dl>
+ &lt;dt>Single room
+ &lt;dd>199 € &lt;small>breakfast included, VAT not included&lt;/small>
+ &lt;dt>Double room
+ &lt;dd>239 € &lt;small>breakfast included, VAT not included&lt;/small>
+&lt;/dl></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this second example, the <code id=the-small-element:the-small-element-7><a href=#the-small-element>small</a></code> element is used for a side comment in an
+   article.</p>
+
+   <pre>&lt;p>Example Corp today announced record profits for the
+second quarter &lt;small>(Full Disclosure: Foo News is a subsidiary of
+Example Corp)&lt;/small>, leading to speculation about a third quarter
+merger with Demo Group.&lt;/p></pre>
+
+   <p>This is distinct from a sidebar, which might be multiple paragraphs long and is removed from
+   the main flow of text. In the following example, we see a sidebar from the same article. This
+   sidebar also has small print, indicating the source of the information in the sidebar.</p>
+
+   <pre>&lt;aside>
+ &lt;h1>Example Corp&lt;/h1>
+ &lt;p>This company mostly creates small software and Web
+ sites.&lt;/p>
+ &lt;p>The Example Corp company mission is "To provide entertainment
+ and news on a sample basis".&lt;/p>
+ &lt;p>&lt;small>Information obtained from &lt;a
+ href="https://example.com/about.html">example.com&lt;/a> home
+ page.&lt;/small>&lt;/p>
+&lt;/aside></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this last example, the <code id=the-small-element:the-small-element-8><a href=#the-small-element>small</a></code> element is marked as being <em>important</em>
+   small print.</p>
+
+   <pre>&lt;p>&lt;strong>&lt;small>Continued use of this service will result in a kiss.&lt;/small>&lt;/strong>&lt;/p></pre>
+
+  </div>
+
+
+  <h4 id=the-s-element>4.5.5 The <dfn><code>s</code></dfn> element<a href=#the-s-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-s-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-s-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-s-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-s-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-s-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-s-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-s-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-s-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-s-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-s-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-s-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-s-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-s-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-s-element:the-s-element><a href=#the-s-element>s</a></code> element <a href=#represents id=the-s-element:represents>represents</a> contents that are no longer accurate or no
+  longer relevant.</p>
+
+  <p class=note>The <code id=the-s-element:the-s-element-2><a href=#the-s-element>s</a></code> element is not appropriate when indicating document edits; to
+  mark a span of text as having been removed from a document, use the <code id=the-s-element:the-del-element><a href=#the-del-element>del</a></code> element.</p>
+
+  <div class=example>
+
+   <p>In this example a recommended retail price has been marked as no longer relevant as the
+   product in question has a new sale price.</p>
+
+   <pre>&lt;p>Buy our Iced Tea and Lemonade!&lt;/p>
+&lt;p>&lt;s>Recommended retail price: $3.99 per bottle&lt;/s>&lt;/p>
+&lt;p>&lt;strong>Now selling for just $2.99 a bottle!&lt;/strong>&lt;/p></pre>
+
+  </div>
+
+
+  <h4 id=the-cite-element>4.5.6 The <dfn><code>cite</code></dfn> element<a href=#the-cite-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-cite-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-cite-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-cite-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-cite-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-cite-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-cite-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-cite-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-cite-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-cite-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-cite-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-cite-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-cite-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-cite-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-cite-element:the-cite-element><a href=#the-cite-element>cite</a></code> element <a href=#represents id=the-cite-element:represents>represents</a> the title of a work (e.g.
+    a book,
+    a paper,
+    an essay,
+    a poem,
+    a score,
+    a song,
+    a script,
+    a film,
+    a TV show,
+    a game,
+    a sculpture,
+    a painting,
+    a theatre production,
+    a play,
+    an opera,
+    a musical,
+    an exhibition,
+    a legal case report,
+    a computer program, 
+  etc). This can be a work that is being quoted or referenced in detail (i.e. a citation), or it can
+  just be a work that is mentioned in passing.</p>
+
+  <p>A person's name is not the title of a work — even if people call that person a piece of
+  work — and the element must therefore not be used to mark up people's names. (In some cases,
+  the <code id=the-cite-element:the-b-element><a href=#the-b-element>b</a></code> element might be appropriate for names; e.g. in a gossip article where the
+  names of famous people are keywords rendered with a different style to draw attention to them. In
+  other cases, if an element is <em>really</em> needed, the <code id=the-cite-element:the-span-element><a href=#the-span-element>span</a></code> element can be
+  used.)</p>
+
+
+
+  <div class=example>
+
+   <p>This next example shows a typical use of the <code id=the-cite-element:the-cite-element-2><a href=#the-cite-element>cite</a></code> element:</p>
+
+   <pre>&lt;p>My favorite book is &lt;cite>The Reality Dysfunction&lt;/cite> by
+Peter F. Hamilton. My favorite comic is &lt;cite>Pearls Before
+Swine&lt;/cite> by Stephan Pastis. My favorite track is &lt;cite>Jive
+Samba&lt;/cite> by the Cannonball Adderley Sextet.&lt;/p></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>This is correct usage:</p>
+
+   <pre>&lt;p>According to the Wikipedia article &lt;cite>HTML&lt;/cite>, as it
+stood in mid-February 2008, leaving attribute values unquoted is
+unsafe. This is obviously an over-simplification.&lt;/p></pre>
+
+   <p>The following, however, is incorrect usage, as the <code id=the-cite-element:the-cite-element-3><a href=#the-cite-element>cite</a></code> element here is
+   containing far more than the title of the work:</p>
+
+   <pre class=bad>&lt;!-- do not copy this example, it is an example of bad usage! -->
+&lt;p>According to &lt;cite>the Wikipedia article on HTML&lt;/cite>, as it
+stood in mid-February 2008, leaving attribute values unquoted is
+unsafe. This is obviously an over-simplification.&lt;/p></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>The <code id=the-cite-element:the-cite-element-4><a href=#the-cite-element>cite</a></code> element is obviously a key part of any citation in a bibliography, but
+   it is only used to mark the title:</p>
+
+   <pre>&lt;p>&lt;cite>Universal Declaration of Human Rights&lt;/cite>, United Nations,
+December 1948. Adopted by General Assembly resolution 217 A (III).&lt;/p></pre>
+
+  </div>
+
+  <p class=note>A <em>citation</em> is not a <em>quote</em> (for which the <code id=the-cite-element:the-q-element><a href=#the-q-element>q</a></code> element
+  is appropriate).</p>
+
+  <div class=example>
+
+   <p>This is incorrect usage, because <code id=the-cite-element:the-cite-element-5><a href=#the-cite-element>cite</a></code> is not for quotes:</p>
+
+   <pre class=bad>&lt;p>&lt;cite>This is wrong!&lt;/cite>, said Ian.&lt;/p></pre>
+
+   <p>This is also incorrect usage, because a person is not a work:</p>
+
+   <pre class=bad>&lt;p>&lt;q>This is still wrong!&lt;/q>, said &lt;cite>Ian&lt;/cite>.&lt;/p></pre>
+
+   <p>The correct usage does not use a <code id=the-cite-element:the-cite-element-6><a href=#the-cite-element>cite</a></code> element:</p>
+
+   <pre>&lt;p>&lt;q>This is correct&lt;/q>, said Ian.&lt;/p></pre>
+
+   <p>As mentioned above, the <code id=the-cite-element:the-b-element-2><a href=#the-b-element>b</a></code> element might be relevant for marking names as being
+   keywords in certain kinds of documents:</p>
+
+   <pre>&lt;p>And then &lt;b>Ian&lt;/b> said &lt;q>this might be right, in a
+gossip column, maybe!&lt;/q>.&lt;/p></pre>
+
+  </div>
+
+
+
+  <h4 id=the-q-element>4.5.7 The <dfn><code>q</code></dfn> element<a href=#the-q-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-q-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-q-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-q-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-q-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-q-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-q-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-q-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-q-element:phrasing-content-2-3>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-q-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-q-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-q-element:global-attributes>Global attributes</a><dd><code id=the-q-element:attr-q-cite><a href=#attr-q-cite>cite</a></code> — Link to the source of the quotation or more information about the edit<dt><a href=#concept-element-dom id=the-q-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-q-element:htmlquoteelement><a href=#htmlquoteelement>HTMLQuoteElement</a></code>.</dl>
+
+  <p>The <code id=the-q-element:the-q-element><a href=#the-q-element>q</a></code> element <a href=#represents id=the-q-element:represents>represents</a> some <a href=#phrasing-content-2 id=the-q-element:phrasing-content-2-4>phrasing
+  content</a> quoted from another source.</p>
+
+  <p>Quotation punctuation (such as quotation marks) that is quoting the contents of the element
+  must not appear immediately before, after, or inside <code id=the-q-element:the-q-element-2><a href=#the-q-element>q</a></code> elements; they will be
+  inserted into the rendering by the user agent.</p>
+
+  <p>Content inside a <code id=the-q-element:the-q-element-3><a href=#the-q-element>q</a></code> element must be quoted from another source, whose address, if
+  it has one, may be cited in the <dfn id=attr-q-cite><code>cite</code></dfn> attribute. The
+  source may be fictional, as when quoting characters in a novel or screenplay.</p>
+
+  <p>If the <code id=the-q-element:attr-q-cite-2><a href=#attr-q-cite>cite</a></code> attribute is present, it must be a <a href=#valid-url-potentially-surrounded-by-spaces id=the-q-element:valid-url-potentially-surrounded-by-spaces>valid
+  URL potentially surrounded by spaces</a>. To obtain the corresponding citation
+  link, the value of the attribute must be <a href=#parse-a-url id=the-q-element:parse-a-url>parsed</a> relative to the
+  element's <a id=the-q-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>. User agents may allow users to follow such citation
+  links, but they are primarily intended for private use (e.g., by server-side scripts collecting
+  statistics about a site's use of quotations), not for readers.</p>
+
+  <p>The <code id=the-q-element:the-q-element-4><a href=#the-q-element>q</a></code> element must not be used in place of quotation marks that do not represent
+  quotes; for example, it is inappropriate to use the <code id=the-q-element:the-q-element-5><a href=#the-q-element>q</a></code> element for marking up
+  sarcastic statements.</p>
+
+  <p>The use of <code id=the-q-element:the-q-element-6><a href=#the-q-element>q</a></code> elements to mark up quotations is entirely optional; using explicit
+  quotation punctuation without <code id=the-q-element:the-q-element-7><a href=#the-q-element>q</a></code> elements is just as correct.</p>
+
+  <div class=example>
+
+   <p>Here is a simple example of the use of the <code id=the-q-element:the-q-element-8><a href=#the-q-element>q</a></code> element:</p>
+
+   <pre>&lt;p>The man said &lt;q>Things that are impossible just take
+longer&lt;/q>. I disagreed with him.&lt;/p></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here is an example with both an explicit citation link in the <code id=the-q-element:the-q-element-9><a href=#the-q-element>q</a></code> element, and an
+   explicit citation outside:</p>
+
+   <pre>&lt;p>The W3C page &lt;cite>About W3C&lt;/cite> says the W3C's
+mission is &lt;q cite="https://www.w3.org/Consortium/">To lead the
+World Wide Web to its full potential by developing protocols and

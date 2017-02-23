@@ -1,0 +1,850 @@
+   reconnection being attempted). Finally, the last block just fires an event with the data
+   " third event" (with a single leading space character). Note that the last still has to
+   end with a blank line, the end of the stream is not enough to trigger the dispatch of the last
+   event.</p>
+
+   <pre>: test stream
+
+data: first event
+id: 1
+
+data:second event
+id
+
+data:  third event
+</pre>
+  </div>
+
+  <div class=example>
+
+   <p>The following stream fires two events:</p>
+
+   <pre>data
+
+data
+data
+
+data:</pre>
+
+   <p>The first block fires events with the data set to the empty string, as would the last block if
+   it was followed by a blank line. The middle block fires an event with the data set to a single
+   newline character. The last block is discarded because it is not followed by a blank line.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following stream fires two identical events:</p>
+
+   <pre>data:test
+
+data: test
+</pre>
+
+   <p>This is because the space after the colon is ignored if present.</p>
+
+  </div>
+
+
+  <h4 id=authoring-notes>9.2.6 Authoring notes<a href=#authoring-notes class=self-link></a></h4>
+
+  <p>Legacy proxy servers are known to, in certain cases, drop HTTP connections after a short
+  timeout. To protect against such proxy servers, authors can include a comment line (one starting
+  with a ':' character) every 15 seconds or so.</p>
+
+  <p>Authors wishing to relate event source connections to each other or to specific documents
+  previously served might find that relying on IP addresses doesn't work, as individual clients can
+  have multiple IP addresses (due to having multiple proxy servers) and individual IP addresses can
+  have multiple clients (due to sharing a proxy server). It is better to include a unique identifier
+  in the document when it is served and then pass that identifier as part of the URL when the
+  connection is established.</p>
+
+  <p>Authors are also cautioned that HTTP chunking can have unexpected negative effects on the
+  reliability of this protocol, in particular if the chunking is done by a different layer unaware
+  of the timing requirements. If this is a problem, chunking can be disabled for serving event
+  streams.</p> 
+
+  <p>Clients that support HTTP's per-server connection limitation might run into trouble when
+  opening multiple pages from a site if each page has an <code id=authoring-notes:eventsource><a href=#eventsource>EventSource</a></code> to the same
+  domain. Authors can avoid this using the relatively complex mechanism of using unique domain names
+  per connection, or by allowing the user to enable or disable the <code id=authoring-notes:eventsource-2><a href=#eventsource>EventSource</a></code>
+  functionality on a per-page basis, or by sharing a single <code id=authoring-notes:eventsource-3><a href=#eventsource>EventSource</a></code> object using a
+  <a href=#sharedworkerglobalscope id=authoring-notes:sharedworkerglobalscope>shared worker</a>.</p>
+
+
+  <h4 id=eventsource-push>9.2.7 Connectionless push and other features<a href=#eventsource-push class=self-link></a></h4>
+
+  <p>User agents running in controlled environments, e.g. browsers on mobile handsets tied to
+  specific carriers, may offload the management of the connection to a proxy on the network. In such
+  a situation, the user agent for the purposes of conformance is considered to include both the
+  handset software and the network proxy.</p>
+
+  <div class=example>
+
+   <p>For example, a browser on a mobile device, after having established a connection, might detect
+   that it is on a supporting network and request that a proxy server on the network take over the
+   management of the connection. The timeline for such a situation might be as follows:</p>
+
+   <ol><li>Browser connects to a remote HTTP server and requests the resource specified by the author
+    in the <code id=eventsource-push:dom-eventsource><a href=#dom-eventsource>EventSource</a></code> constructor.<li>The server sends occasional messages.<li>In between two messages, the browser detects that it is idle except for the network activity
+    involved in keeping the TCP connection alive, and decides to switch to sleep mode to save
+    power.<li>The browser disconnects from the server.<li>The browser contacts a service on the network, and requests that the service, a "push
+    proxy", maintain the connection instead.<li>The "push proxy" service contacts the remote HTTP server and requests the resource specified
+    by the author in the <code id=eventsource-push:dom-eventsource-2><a href=#dom-eventsource>EventSource</a></code> constructor (possibly
+    including a `<code id=eventsource-push:last-event-id><a href=#last-event-id>Last-Event-ID</a></code>` HTTP header, etc).<li>The browser allows the mobile device to go to sleep.<li>The server sends another message.<li>The "push proxy" service uses a technology such as OMA push to convey the event to the
+    mobile device, which wakes only enough to process the event and then returns to sleep.</ol>
+
+  </div>
+
+  <p>This can reduce the total data usage, and can therefore result in considerable power
+  savings.</p>
+
+  <p>As well as implementing the existing API and <code id=eventsource-push:text/event-stream><a href=#text/event-stream>text/event-stream</a></code> wire format as
+  defined by this specification and in more distributed ways as described above, formats of event
+  framing defined by <a href=#other-applicable-specifications id=eventsource-push:other-applicable-specifications>other applicable specifications</a> may be supported. This
+  specification does not define how they are to be parsed or processed.</p>
+
+
+  <h4 id=garbage-collection-2>9.2.8 Garbage collection<a href=#garbage-collection-2 class=self-link></a></h4>
+
+  <p>While an <code id=garbage-collection-2:eventsource><a href=#eventsource>EventSource</a></code> object's <code id=garbage-collection-2:dom-eventsource-readystate><a href=#dom-eventsource-readystate>readyState</a></code> is <code id=garbage-collection-2:dom-eventsource-connecting><a href=#dom-eventsource-connecting>CONNECTING</a></code>, and the object has one or more event
+  listeners registered for <code id=garbage-collection-2:event-open><a href=#event-open>open</a></code>, <code id=garbage-collection-2:event-message><a href=#event-message>message</a></code> or <code id=garbage-collection-2:event-error><a href=#event-error>error</a></code> events, there must
+  be a strong reference from the <code id=garbage-collection-2:window><a href=#window>Window</a></code> or <code id=garbage-collection-2:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> object that
+  the <code id=garbage-collection-2:eventsource-2><a href=#eventsource>EventSource</a></code> object's constructor was invoked from to the <code id=garbage-collection-2:eventsource-3><a href=#eventsource>EventSource</a></code>
+  object itself.</p>
+
+  <p>While an <code id=garbage-collection-2:eventsource-4><a href=#eventsource>EventSource</a></code> object's <code id=garbage-collection-2:dom-eventsource-readystate-2><a href=#dom-eventsource-readystate>readyState</a></code> is <code id=garbage-collection-2:dom-eventsource-open><a href=#dom-eventsource-open>OPEN</a></code>, and the object has one or more event listeners
+  registered for <code id=garbage-collection-2:event-message-2><a href=#event-message>message</a></code> or <code id=garbage-collection-2:event-error-2><a href=#event-error>error</a></code> events, there must be a strong reference from the
+  <code id=garbage-collection-2:window-2><a href=#window>Window</a></code> or <code id=garbage-collection-2:workerglobalscope-2><a href=#workerglobalscope>WorkerGlobalScope</a></code> object that the <code id=garbage-collection-2:eventsource-5><a href=#eventsource>EventSource</a></code>
+  object's constructor was invoked from to the <code id=garbage-collection-2:eventsource-6><a href=#eventsource>EventSource</a></code> object itself.</p>
+
+  <p>While there is a task queued by an <code id=garbage-collection-2:eventsource-7><a href=#eventsource>EventSource</a></code> object on the <a href=#remote-event-task-source id=garbage-collection-2:remote-event-task-source>remote event
+  task source</a>, there must be a strong reference from the <code id=garbage-collection-2:window-3><a href=#window>Window</a></code> or
+  <code id=garbage-collection-2:workerglobalscope-3><a href=#workerglobalscope>WorkerGlobalScope</a></code> object that the <code id=garbage-collection-2:eventsource-8><a href=#eventsource>EventSource</a></code> object's constructor was
+  invoked from to that <code id=garbage-collection-2:eventsource-9><a href=#eventsource>EventSource</a></code> object.</p>
+
+  <p>If a user agent is to <dfn id=concept-eventsource-forcibly-close>forcibly close</dfn> an
+  <code id=garbage-collection-2:eventsource-10><a href=#eventsource>EventSource</a></code> object (this happens when a <code id=garbage-collection-2:document><a href=#document>Document</a></code> object goes away
+  permanently), the user agent must abort any instances of the <a href=https://fetch.spec.whatwg.org/#concept-fetch id=garbage-collection-2:concept-fetch data-x-internal=concept-fetch>fetch</a> algorithm started for this <code id=garbage-collection-2:eventsource-11><a href=#eventsource>EventSource</a></code> object,
+  and must set the <code id=garbage-collection-2:dom-eventsource-readystate-3><a href=#dom-eventsource-readystate>readyState</a></code> attribute to <code id=garbage-collection-2:dom-eventsource-closed><a href=#dom-eventsource-closed>CLOSED</a></code>.</p> 
+
+  <p>If an <code id=garbage-collection-2:eventsource-12><a href=#eventsource>EventSource</a></code> object is garbage collected while its connection is still open,
+  the user agent must abort any instance of the <a href=https://fetch.spec.whatwg.org/#concept-fetch id=garbage-collection-2:concept-fetch-2 data-x-internal=concept-fetch>fetch</a> algorithm
+  opened by this <code id=garbage-collection-2:eventsource-13><a href=#eventsource>EventSource</a></code>.</p> 
+
+
+  <h4 id=implementation-advice>9.2.9 Implementation advice<a href=#implementation-advice class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>User agents are strongly urged to provide detailed diagnostic information about
+  <code id=implementation-advice:eventsource><a href=#eventsource>EventSource</a></code> objects and their related network connections in their development
+  consoles, to aid authors in debugging code using this API.</p>
+
+  <p>For example, a user agent could have a panel displaying all the <code id=implementation-advice:eventsource-2><a href=#eventsource>EventSource</a></code>
+  objects a page has created, each listing the constructor's arguments, whether there was a network
+  error, what the CORS status of the connection is and what headers were sent by the client and
+  received from the server to lead to that status, the messages that were received and how they were
+  parsed, and so forth.</p>
+
+  <p>Implementations are especially encouraged to report detailed information to their development
+  consoles whenever an <code id=implementation-advice:event-error><a href=#event-error>error</a></code> event is fired, since little to no
+  information can be made available in the events themselves.</p>
+
+
+  <h3 id=network>9.3 <dfn>Web sockets</dfn><a href=#network class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> websockets<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>16+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>6.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>11+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>7+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>12.1+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=websockets">caniuse.com</a></div>
+
+  <h4 id=network-intro>9.3.1 Introduction<a href=#network-intro class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>To enable Web applications to maintain bidirectional communications with server-side processes,
+  this specification introduces the <code id=network-intro:websocket><a href=#websocket>WebSocket</a></code> interface.</p>
+
+  <p class=note>This interface does not allow for raw access to the underlying network. For
+  example, this interface could not be used to implement an IRC client without proxying messages
+  through a custom server.</p>
+
+
+  <h4 id=the-websocket-interface>9.3.2 The <code id=the-websocket-interface:websocket><a href=#websocket>WebSocket</a></code> interface<a href=#the-websocket-interface class=self-link></a></h4>
+
+  <pre class=idl>enum <dfn id=binarytype>BinaryType</dfn> { "<a href=#dom-binarytype-blob id=the-websocket-interface:dom-binarytype-blob>blob</a>", "<a href=#dom-binarytype-arraybuffer id=the-websocket-interface:dom-binarytype-arraybuffer>arraybuffer</a>" };
+[<a href=#dom-websocket id=the-websocket-interface:dom-websocket>Constructor</a>(USVString url, optional (DOMString or sequence&lt;DOMString>) protocols = []), Exposed=(Window,Worker)]
+interface <dfn id=websocket>WebSocket</dfn> : <a id=the-websocket-interface:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  readonly attribute USVString <a href=#dom-websocket-url id=the-websocket-interface:dom-websocket-url>url</a>;
+
+  // ready state
+  const unsigned short <a href=#dom-websocket-connecting id=the-websocket-interface:dom-websocket-connecting>CONNECTING</a> = 0;
+  const unsigned short <a href=#dom-websocket-open id=the-websocket-interface:dom-websocket-open>OPEN</a> = 1;
+  const unsigned short <a href=#dom-websocket-closing id=the-websocket-interface:dom-websocket-closing>CLOSING</a> = 2;
+  const unsigned short <a href=#dom-websocket-closed id=the-websocket-interface:dom-websocket-closed>CLOSED</a> = 3;
+  readonly attribute unsigned short <a href=#dom-websocket-readystate id=the-websocket-interface:dom-websocket-readystate>readyState</a>;
+  readonly attribute unsigned long long <a href=#dom-websocket-bufferedamount id=the-websocket-interface:dom-websocket-bufferedamount>bufferedAmount</a>;
+
+  // networking
+  attribute <a href=#eventhandler id=the-websocket-interface:eventhandler>EventHandler</a> <a href=#handler-websocket-onopen id=the-websocket-interface:handler-websocket-onopen>onopen</a>;
+  attribute <a href=#eventhandler id=the-websocket-interface:eventhandler-2>EventHandler</a> <a href=#handler-websocket-onerror id=the-websocket-interface:handler-websocket-onerror>onerror</a>;
+  attribute <a href=#eventhandler id=the-websocket-interface:eventhandler-3>EventHandler</a> <a href=#handler-websocket-onclose id=the-websocket-interface:handler-websocket-onclose>onclose</a>;
+  readonly attribute DOMString <a href=#dom-websocket-extensions id=the-websocket-interface:dom-websocket-extensions>extensions</a>;
+  readonly attribute DOMString <a href=#dom-websocket-protocol id=the-websocket-interface:dom-websocket-protocol>protocol</a>;
+  void <a href=#dom-websocket-close id=the-websocket-interface:dom-websocket-close>close</a>([Clamp] optional unsigned short code, optional <a href=https://heycam.github.io/webidl/#idl-USVString id=the-websocket-interface:idl-usvstring data-x-internal=idl-usvstring>USVString</a> reason);
+
+  // messaging
+  attribute <a href=#eventhandler id=the-websocket-interface:eventhandler-4>EventHandler</a> <a href=#handler-websocket-onmessage id=the-websocket-interface:handler-websocket-onmessage>onmessage</a>;
+  attribute <a href=#binarytype id=the-websocket-interface:binarytype>BinaryType</a> <a href=#dom-websocket-binarytype id=the-websocket-interface:dom-websocket-binarytype>binaryType</a>;
+  void <a href=#dom-websocket-send id=the-websocket-interface:dom-websocket-send>send</a>(<a href=https://heycam.github.io/webidl/#idl-USVString id=the-websocket-interface:idl-usvstring-2 data-x-internal=idl-usvstring>USVString</a> data);
+  void <a href=#dom-websocket-send id=the-websocket-interface:dom-websocket-send-2>send</a>(<a id=the-websocket-interface:blob href=https://w3c.github.io/FileAPI/#blob data-x-internal=blob>Blob</a> data);
+  void <a href=#dom-websocket-send id=the-websocket-interface:dom-websocket-send-3>send</a>(<a href=https://heycam.github.io/webidl/#idl-ArrayBuffer id=the-websocket-interface:idl-arraybuffer data-x-internal=idl-arraybuffer>ArrayBuffer</a> data);
+  void <a href=#dom-websocket-send id=the-websocket-interface:dom-websocket-send-4>send</a>(<a href=https://heycam.github.io/webidl/#common-ArrayBufferView id=the-websocket-interface:idl-arraybufferview data-x-internal=idl-arraybufferview>ArrayBufferView</a> data);
+};</pre>
+
+  <p>Each <code id=the-websocket-interface:websocket-2><a href=#websocket>WebSocket</a></code> object has an associated <dfn id=concept-websocket-url>url</dfn> (a <a id=the-websocket-interface:url-record href=https://url.spec.whatwg.org/#concept-url data-x-internal=url-record>URL record</a>).
+
+  <p>The <dfn id=dom-websocket><code>WebSocket(<var>url</var>,
+  <var>protocols</var>)</code></dfn> constructor takes one or two arguments. The first argument,
+  <var>url</var>, specifies the <a id=the-websocket-interface:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> to which to connect. The second,
+  <var>protocols</var>, if present, is either a string or an array of strings. If it is a string, it
+  is equivalent to an array consisting of just that string; if it is omitted, it is equivalent to
+  the empty array. Each string in the array is a subprotocol name. The connection will only be
+  established if the server reports that it has selected one of these subprotocols. The subprotocol
+  names must all be strings that match the requirements for elements that comprise the value of
+  <code id=the-websocket-interface:http-sec-websocket-protocol><a href=#http-sec-websocket-protocol>Sec-WebSocket-Protocol</a></code> fields as defined by the
+  WebSocket protocol specification. <a href=#refsWSP>[WSP]</a></p>
+
+  <p>The <code id=the-websocket-interface:dom-websocket-2><a href=#dom-websocket>WebSocket(<var>url</var>, <var>protocols</var>)</a></code>
+  constructor, when invoked, must run these steps:</p>
+
+  <ol><li><p>Let <var>urlRecord</var> be the result of applying the <a id=the-websocket-interface:url-parser href=https://url.spec.whatwg.org/#concept-url-parser data-x-internal=url-parser>URL parser</a> to
+   <var>url</var>.<li><p>If <var>urlRecord</var> is failure, then throw a <a id=the-websocket-interface:syntaxerror href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a>
+   <code id=the-websocket-interface:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>If <var>urlRecord</var>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=the-websocket-interface:concept-url-scheme data-x-internal=concept-url-scheme>scheme</a> is not "<code>ws</code>" or "<code>wss</code>", then throw a
+   <a id=the-websocket-interface:syntaxerror-2 href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=the-websocket-interface:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>If <var>urlRecord</var>'s <a href=https://url.spec.whatwg.org/#concept-url-fragment id=the-websocket-interface:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a> is non-null,
+   then throw a <a id=the-websocket-interface:syntaxerror-3 href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=the-websocket-interface:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>If <var>protocols</var> is a string, set <var>protocols</var> to a sequence consisting of
+   just that string.<li><p>If any of the values in <var>protocols</var> occur more than once or otherwise fail to
+   match the requirements for elements that comprise the value of <code id=the-websocket-interface:http-sec-websocket-protocol-2><a href=#http-sec-websocket-protocol>Sec-WebSocket-Protocol</a></code> fields as defined by the
+   WebSocket protocol specification, then throw a <a id=the-websocket-interface:syntaxerror-4 href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a>
+   <code id=the-websocket-interface:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps. <a href=#refsWSP>[WSP]</a><li><p>Return a new <code id=the-websocket-interface:websocket-3><a href=#websocket>WebSocket</a></code> object whose <a href=#concept-websocket-url id=the-websocket-interface:concept-websocket-url>url</a> is <var>urlRecord</var>, but continue these steps
+   <a href=#in-parallel id=the-websocket-interface:in-parallel>in parallel</a>.<li>
+    <p><a href=https://fetch.spec.whatwg.org/#concept-websocket-establish id=the-websocket-interface:concept-websocket-establish data-x-internal=concept-websocket-establish>Establish a WebSocket connection</a> given
+    <var>urlRecord</var>, <var>protocols</var>, and the <a href=#entry-settings-object id=the-websocket-interface:entry-settings-object>entry settings object</a>. <a href=#refsFETCH>[FETCH]</a></p>
+
+    <p class=note>If the <a href=https://fetch.spec.whatwg.org/#concept-websocket-establish id=the-websocket-interface:concept-websocket-establish-2 data-x-internal=concept-websocket-establish>establish a WebSocket
+    connection</a> algorithm fails, it triggers the <i id=the-websocket-interface:concept-websocket-fail><a href=#concept-websocket-fail>fail the
+    WebSocket connection</a></i> algorithm, which then invokes the <i id=the-websocket-interface:concept-websocket-close><a href=#concept-websocket-close>close the WebSocket connection</a></i> algorithm, which then
+    establishes that <i id=the-websocket-interface:concept-websocket-closed><a href=#concept-websocket-closed>the WebSocket connection is closed</a></i>,
+    which fires the <code id=the-websocket-interface:event-close><a href=#event-close>close</a></code> event <a href=#closeWebSocket>as
+    described below</a>.</p>
+   </ol>
+
+  <hr>
+
+  <p>The <dfn id=dom-websocket-url><code>url</code></dfn> attribute's getter must return this
+  <code id=the-websocket-interface:websocket-4><a href=#websocket>WebSocket</a></code> object's <a href=#concept-websocket-url id=the-websocket-interface:concept-websocket-url-2>url</a>, <a href=https://url.spec.whatwg.org/#concept-url-serializer id=the-websocket-interface:concept-url-serializer data-x-internal=concept-url-serializer>serialized</a>.</p>
+
+  <p>The <dfn id=dom-websocket-readystate><code>readyState</code></dfn> attribute represents
+  the state of the connection. It can have the following values:</p>
+
+  <dl><dt><dfn id=dom-websocket-connecting><code>CONNECTING</code></dfn> (numeric value 0)<dd>The connection has not yet been established.<dt><dfn id=dom-websocket-open><code>OPEN</code></dfn> (numeric value 1)<dd><i id=the-websocket-interface:concept-websocket-established><a href=#concept-websocket-established>The WebSocket connection is established</a></i> and
+   communication is possible.<dt><dfn id=dom-websocket-closing><code>CLOSING</code></dfn> (numeric value 2)<dd>The connection is going through the closing handshake, or the <code id=the-websocket-interface:dom-websocket-close-2><a href=#dom-websocket-close>close()</a></code> method has been invoked.<dt><dfn id=dom-websocket-closed><code>CLOSED</code></dfn> (numeric value 3)<dd>The connection has been closed or could not be opened.</dl>
+
+  <p>When the object is created its <code id=the-websocket-interface:dom-websocket-readystate-2><a href=#dom-websocket-readystate>readyState</a></code> must be
+  set to <code id=the-websocket-interface:dom-websocket-connecting-2><a href=#dom-websocket-connecting>CONNECTING</a></code> (0).</p>
+
+  <p>The <dfn id=dom-websocket-extensions><code>extensions</code></dfn> attribute must
+  initially return the empty string. After <i id=the-websocket-interface:concept-websocket-established-2><a href=#concept-websocket-established>the WebSocket
+  connection is established</a></i>, its value might change, as defined below.</p>
+
+  <p class=note>The <code id=the-websocket-interface:dom-websocket-extensions-2><a href=#dom-websocket-extensions>extensions</a></code> attribute returns
+  the extensions selected by the server, if any.</p>
+
+  <p>The <dfn id=dom-websocket-protocol><code>protocol</code></dfn> attribute must initially
+  return the empty string. After <i id=the-websocket-interface:concept-websocket-established-3><a href=#concept-websocket-established>the WebSocket connection
+  is established</a></i>, its value might change, as defined below.</p>
+
+  <p class=note>The <code id=the-websocket-interface:dom-websocket-protocol-2><a href=#dom-websocket-protocol>protocol</a></code> attribute returns the
+  subprotocol selected by the server, if any. It can be used in conjunction with the array form of
+  the constructor's second argument to perform subprotocol negotiation.</p>
+
+  <p>The <dfn id=dom-websocket-close><code>close(<var>code</var>,
+  <var>reason</var>)</code></dfn> method, when invoked, must run these steps:</p>
+
+  <ol><li><p>If <var>code</var> is present, but is neither an integer equal to 1000 nor an integer in
+   the range 3000 to 4999, inclusive, throw an <a id=the-websocket-interface:invalidaccesserror href=https://heycam.github.io/webidl/#invalidaccesserror data-x-internal=invalidaccesserror>"<code>InvalidAccessError</code>"</a>
+   <code id=the-websocket-interface:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li>
+    <p>If <var>reason</var> is present, then run these substeps:</p>
+
+    <ol><li><p>Let <var>reasonBytes</var> be the result of <a href=https://encoding.spec.whatwg.org/#utf-8-encode id=the-websocket-interface:utf-8-encode data-x-internal=utf-8-encode>encoding</a>
+     <var>reason</var>.<li><p>If <var>reasonBytes</var> is longer than 123 bytes, then throw a
+     <a id=the-websocket-interface:syntaxerror-5 href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=the-websocket-interface:domexception-6><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</ol>
+   <li><p>Run the first matching steps from the following list:</p>
+
+    <dl class=switch><dt>If the <code id=the-websocket-interface:dom-websocket-readystate-3><a href=#dom-websocket-readystate>readyState</a></code> attribute is in the <code id=the-websocket-interface:dom-websocket-closing-2><a href=#dom-websocket-closing>CLOSING</a></code> (2) or <code id=the-websocket-interface:dom-websocket-closed-2><a href=#dom-websocket-closed>CLOSED</a></code> (3) state<dd>
+
+      <p>Do nothing.</p>
+
+      <p class=note>The connection is already closing or is already closed. If it has not already,
+      a <code id=the-websocket-interface:event-close-2><a href=#event-close>close</a></code> event will eventually fire <a href=#closeWebSocket>as described below</a>.</p>
+
+     <dt>If the WebSocket connection is not yet <i id=the-websocket-interface:concept-websocket-established-4><a href=#concept-websocket-established>established</a></i> <a href=#refsWSP>[WSP]</a><dd>
+
+      <p><i id=the-websocket-interface:concept-websocket-fail-2><a href=#concept-websocket-fail>Fail the WebSocket connection</a></i> and set the <code id=the-websocket-interface:dom-websocket-readystate-4><a href=#dom-websocket-readystate>readyState</a></code> attribute's value to <code id=the-websocket-interface:dom-websocket-closing-3><a href=#dom-websocket-closing>CLOSING</a></code> (2). <a href=#refsWSP>[WSP]</a></p>
+
+      <p class=note>The <i id=the-websocket-interface:concept-websocket-fail-3><a href=#concept-websocket-fail>fail the WebSocket connection</a></i>
+      algorithm invokes the <i id=the-websocket-interface:concept-websocket-close-2><a href=#concept-websocket-close>close the WebSocket connection</a></i>
+      algorithm, which then establishes that <i id=the-websocket-interface:concept-websocket-closed-2><a href=#concept-websocket-closed>the WebSocket
+      connection is closed</a></i>, which fires the <code id=the-websocket-interface:event-close-3><a href=#event-close>close</a></code> event <a href=#closeWebSocket>as described below</a>.</p>
+
+     <dt>If the WebSocket closing handshake has not yet been <i id=the-websocket-interface:concept-websocket-closing-handshake><a href=#concept-websocket-closing-handshake>started</a></i> <a href=#refsWSP>[WSP]</a><dd>
+
+      <p><i id=the-websocket-interface:concept-websocket-start-closing-handshake><a href=#concept-websocket-start-closing-handshake>Start the WebSocket closing
+      handshake</a></i> and set the <code id=the-websocket-interface:dom-websocket-readystate-5><a href=#dom-websocket-readystate>readyState</a></code>
+      attribute's value to <code id=the-websocket-interface:dom-websocket-closing-4><a href=#dom-websocket-closing>CLOSING</a></code> (2). <a href=#refsWSP>[WSP]</a></p>
+
+      <p>If neither <var>code</var> nor <var>reason</var> is present, the WebSocket Close message
+      must not have a body.</p>
+
+      <p class=note>The WebSocket Protocol specification erroneously states that the status code
+      is required for the <i id=the-websocket-interface:concept-websocket-start-closing-handshake-2><a href=#concept-websocket-start-closing-handshake>start the WebSocket
+      closing handshake</a></i> algorithm.</p>
+
+      <p>If <var>code</var> is present, then the status code to use in the
+      WebSocket Close message must be the integer given by <var>close</var>. <a href=#refsWSP>[WSP]</a></p>
+
+      <p>If <var>reason</var> is also present, then <var>reasonBytes</var> must be provided in the
+      Close message after the status code. <a href=#refsWSP>[WSP]</a></p>
+
+      <p class=note>The <i id=the-websocket-interface:concept-websocket-start-closing-handshake-3><a href=#concept-websocket-start-closing-handshake>start the WebSocket
+      closing handshake</a></i> algorithm eventually invokes the <i id=the-websocket-interface:concept-websocket-close-3><a href=#concept-websocket-close>close the WebSocket connection</a></i> algorithm, which then
+      establishes that <i id=the-websocket-interface:concept-websocket-closed-3><a href=#concept-websocket-closed>the WebSocket connection is closed</a></i>,
+      which fires the <code id=the-websocket-interface:event-close-4><a href=#event-close>close</a></code> event <a href=#closeWebSocket>as
+      described below</a>.</p>
+
+     <dt>Otherwise<dd>
+
+      <p>Set the <code id=the-websocket-interface:dom-websocket-readystate-6><a href=#dom-websocket-readystate>readyState</a></code> attribute's value to <code id=the-websocket-interface:dom-websocket-closing-5><a href=#dom-websocket-closing>CLOSING</a></code> (2).</p>
+
+      <p class=note><i id=the-websocket-interface:concept-websocket-closing-handshake-2><a href=#concept-websocket-closing-handshake>The WebSocket closing
+      handshake is started</a></i>, and will eventually invoke the <i id=the-websocket-interface:concept-websocket-close-4><a href=#concept-websocket-close>close the WebSocket connection</a></i> algorithm, which will
+      establish that <i id=the-websocket-interface:concept-websocket-closed-4><a href=#concept-websocket-closed>the WebSocket connection is closed</a></i>,
+      and thus the <code id=the-websocket-interface:event-close-5><a href=#event-close>close</a></code> event will fire, <a href=#closeWebSocket>as described below</a>.</p>
+
+     </dl>
+
+   </ol>
+
+  <p class=note>The <code id=the-websocket-interface:dom-websocket-close-3><a href=#dom-websocket-close>close()</a></code> method does not discard
+  previously sent messages before starting the WebSocket closing handshake — even if, in
+  practice, the user agent is still busy sending those messages, the handshake will only start after
+  the messages are sent.</p> 
+
+  <hr>
+
+  <p>The <dfn id=dom-websocket-bufferedamount><code>bufferedAmount</code></dfn> attribute must
+  return the number of bytes of application data (UTF-8 text and binary data) that have been queued
+  using <code id=the-websocket-interface:dom-websocket-send-5><a href=#dom-websocket-send>send()</a></code> but that, as of the last time the
+  <a href=#event-loop id=the-websocket-interface:event-loop>event loop</a> reached <a href=#step1>step 1</a>, had not yet been transmitted to the network. (This thus
+  includes any text sent during the execution of the current task, regardless of whether the user
+  agent is able to transmit text in the background <a href=#in-parallel id=the-websocket-interface:in-parallel-2>in parallel</a> with script execution.) This does not include
+  framing overhead incurred by the protocol, or buffering done by the operating system or network
+  hardware. If the connection is closed, this attribute's value will only increase with each call to
+  the <code id=the-websocket-interface:dom-websocket-send-6><a href=#dom-websocket-send>send()</a></code> method (the number does not reset to zero once
+  the connection closes).</p>
+
+  <div class=example>
+
+   <p>In this simple example, the <code id=the-websocket-interface:dom-websocket-bufferedamount-2><a href=#dom-websocket-bufferedamount>bufferedAmount</a></code>
+   attribute is used to ensure that updates are sent either at the rate of one update every 50ms, if
+   the network can handle that rate, or at whatever rate the network <em>can</em> handle, if that is
+   too fast.</p>
+
+   <pre>var socket = new WebSocket('ws://game.example.com:12010/updates');
+socket.onopen = function () {
+  setInterval(function() {
+    if (socket.bufferedAmount == 0)
+      socket.send(getUpdateData());
+  }, 50);
+};</pre>
+
+   <p>The <code id=the-websocket-interface:dom-websocket-bufferedamount-3><a href=#dom-websocket-bufferedamount>bufferedAmount</a></code> attribute can also be
+   used to saturate the network without sending the data at a higher rate than the network can
+   handle, though this requires more careful monitoring of the value of the attribute over time.</p>
+
+  </div>
+
+  <hr>
+
+  <p>When a <code id=the-websocket-interface:websocket-5><a href=#websocket>WebSocket</a></code> object is created, its <dfn id=dom-websocket-binarytype><code>binaryType</code></dfn> IDL attribute must be set to the string
+  "<code id=the-websocket-interface:dom-binarytype-blob-2><a href=#dom-binarytype-blob>blob</a></code>". On getting, it must return the last value it was
+  set to. On setting, the user agent must set the IDL attribute to the new value.</p>
+
+  <p class=note>This attribute allows authors to control how binary data is exposed to scripts. By
+  setting the attribute to "<dfn id=dom-binarytype-blob><code>blob</code></dfn>", binary data
+  is returned in <code id=the-websocket-interface:blob-2><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> form; by setting it to "<dfn id=dom-binarytype-arraybuffer><code>arraybuffer</code></dfn>", it is returned in
+  <code id=the-websocket-interface:idl-arraybuffer-2><a data-x-internal=idl-arraybuffer href=https://heycam.github.io/webidl/#idl-ArrayBuffer>ArrayBuffer</a></code> form. User agents can use this as a hint for
+  how to handle incoming binary data: if the attribute is set to "<code id=the-websocket-interface:dom-binarytype-blob-3><a href=#dom-binarytype-blob>blob</a></code>", it is safe to spool it to disk, and if it is set to
+  "<code id=the-websocket-interface:dom-binarytype-arraybuffer-2><a href=#dom-binarytype-arraybuffer>arraybuffer</a></code>", it is likely more efficient to
+  keep the data in memory. Naturally, user agents are encouraged to use more subtle heuristics to
+  decide whether to keep incoming data in memory or not, e.g. based on how big the data is or how
+  common it is for a script to change the attribute at the last minute. This latter aspect is
+  important in particular because it is quite possible for the attribute to be changed after the
+  user agent has received the data but before the user agent has fired the event for it.</p>
+
+  <p>The <dfn id=dom-websocket-send><code>send(<var>data</var>)</code></dfn> method transmits
+  data using the connection. If the <code id=the-websocket-interface:dom-websocket-readystate-7><a href=#dom-websocket-readystate>readyState</a></code>
+  attribute is <code id=the-websocket-interface:dom-websocket-connecting-3><a href=#dom-websocket-connecting>CONNECTING</a></code>, it must throw an
+  <a id=the-websocket-interface:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-websocket-interface:domexception-7><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>. Otherwise, the user agent
+  must run the appropriate set of steps from the following list:</p>
+
+  <dl><dt>If the argument is a string<dd>
+
+    <p>If <i id=the-websocket-interface:concept-websocket-established-5><a href=#concept-websocket-established>the WebSocket connection is
+    established</a></i> and <i id=the-websocket-interface:concept-websocket-closing-handshake-3><a href=#concept-websocket-closing-handshake>the WebSocket closing
+    handshake has not yet started</a></i>, then the user agent must <i id=the-websocket-interface:concept-websocket-send><a href=#concept-websocket-send>send a WebSocket Message</a></i> comprised of the <var>data</var> argument using
+    a text frame opcode; if the data cannot be sent, e.g. because it would need to be buffered but
+    the buffer is full, the user agent must <a href=#concept-websocket-close-fail id=the-websocket-interface:concept-websocket-close-fail>flag the
+    WebSocket as full</a> and then <i id=the-websocket-interface:concept-websocket-close-5><a href=#concept-websocket-close>close the WebSocket
+    connection</a></i>. Any invocation of this method with a string argument that does not throw an
+    exception must increase the <code id=the-websocket-interface:dom-websocket-bufferedamount-4><a href=#dom-websocket-bufferedamount>bufferedAmount</a></code>
+    attribute by the number of bytes needed to express the argument as UTF-8. <a href=#refsUNICODE>[UNICODE]</a>
+    <a href=#refsENCODING>[ENCODING]</a> <a href=#refsWSP>[WSP]</a></p>
+
+   <dt>If the argument is a <code id=the-websocket-interface:blob-3><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object<dd>
+
+    <p>If <i id=the-websocket-interface:concept-websocket-established-6><a href=#concept-websocket-established>the WebSocket connection is established</a></i>, and
+    <i id=the-websocket-interface:concept-websocket-closing-handshake-4><a href=#concept-websocket-closing-handshake>the WebSocket closing handshake has not yet
+    started</a></i>, then the user agent must <i id=the-websocket-interface:concept-websocket-send-2><a href=#concept-websocket-send>send a WebSocket
+    Message</a></i> comprised of <var>data</var> using a binary frame opcode; if the data cannot be
+    sent, e.g. because it would need to be buffered but the buffer is full, the user agent must
+    <a href=#concept-websocket-close-fail id=the-websocket-interface:concept-websocket-close-fail-2>flag the WebSocket as full</a> and then <i id=the-websocket-interface:concept-websocket-close-6><a href=#concept-websocket-close>close the WebSocket connection</a></i>. The data to be sent is the
+    raw data represented by the <code id=the-websocket-interface:blob-4><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object.  Any invocation of this method with a
+    <code id=the-websocket-interface:blob-5><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> argument that does not throw an exception must increase the <code id=the-websocket-interface:dom-websocket-bufferedamount-5><a href=#dom-websocket-bufferedamount>bufferedAmount</a></code> attribute by the size of the
+    <code id=the-websocket-interface:blob-6><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object's raw data, in bytes.  <a href=#refsWSP>[WSP]</a> <a href=#refsFILEAPI>[FILEAPI]</a></p>
+
+   <dt>If the argument is an <code id=the-websocket-interface:idl-arraybuffer-3><a data-x-internal=idl-arraybuffer href=https://heycam.github.io/webidl/#idl-ArrayBuffer>ArrayBuffer</a></code> object<dd>
+
+    <p>If <i id=the-websocket-interface:concept-websocket-established-7><a href=#concept-websocket-established>the WebSocket connection is established</a></i>, and
+    <i id=the-websocket-interface:concept-websocket-closing-handshake-5><a href=#concept-websocket-closing-handshake>the WebSocket closing handshake has not yet
+    started</a></i>, then the user agent must <i id=the-websocket-interface:concept-websocket-send-3><a href=#concept-websocket-send>send a WebSocket
+    Message</a></i> comprised of <var>data</var> using a binary frame opcode; if the data cannot be
+    sent, e.g. because it would need to be buffered but the buffer is full, the user agent must
+    <a href=#concept-websocket-close-fail id=the-websocket-interface:concept-websocket-close-fail-3>flag the WebSocket as full</a> and then <i id=the-websocket-interface:concept-websocket-close-7><a href=#concept-websocket-close>close the WebSocket connection</a></i>. The data to be sent is the
+    data stored in the buffer described by the <code id=the-websocket-interface:idl-arraybuffer-4><a data-x-internal=idl-arraybuffer href=https://heycam.github.io/webidl/#idl-ArrayBuffer>ArrayBuffer</a></code>
+    object. Any invocation of this method with an <code id=the-websocket-interface:idl-arraybuffer-5><a data-x-internal=idl-arraybuffer href=https://heycam.github.io/webidl/#idl-ArrayBuffer>ArrayBuffer</a></code>
+    argument that does not throw an exception must increase the <code id=the-websocket-interface:dom-websocket-bufferedamount-6><a href=#dom-websocket-bufferedamount>bufferedAmount</a></code> attribute by the length of the
+    <code id=the-websocket-interface:idl-arraybuffer-6><a data-x-internal=idl-arraybuffer href=https://heycam.github.io/webidl/#idl-ArrayBuffer>ArrayBuffer</a></code> in bytes. <a href=#refsWSP>[WSP]</a></p>
+
+   <dt>If the argument is an object that matches the <code id=the-websocket-interface:idl-arraybufferview-2><a data-x-internal=idl-arraybufferview href=https://heycam.github.io/webidl/#common-ArrayBufferView>ArrayBufferView</a></code> type definition<dd>
+
+    <p>If <i id=the-websocket-interface:concept-websocket-established-8><a href=#concept-websocket-established>the WebSocket connection is established</a></i>, and
+    <i id=the-websocket-interface:concept-websocket-closing-handshake-6><a href=#concept-websocket-closing-handshake>the WebSocket closing handshake has not yet
+    started</a></i>, then the user agent must <i id=the-websocket-interface:concept-websocket-send-4><a href=#concept-websocket-send>send a WebSocket
+    Message</a></i> comprised of <var>data</var> using a binary frame opcode; if the data cannot be
+    sent, e.g. because it would need to be buffered but the buffer is full, the user agent must
+    <a href=#concept-websocket-close-fail id=the-websocket-interface:concept-websocket-close-fail-4>flag the WebSocket as full</a> and then <i id=the-websocket-interface:concept-websocket-close-8><a href=#concept-websocket-close>close the WebSocket connection</a></i>. The data to be sent is the
+    data stored in the section of the buffer described by the <code id=the-websocket-interface:idl-arraybuffer-7><a data-x-internal=idl-arraybuffer href=https://heycam.github.io/webidl/#idl-ArrayBuffer>ArrayBuffer</a></code> object that <var>data</var> references. Any
+    invocation of this method with this kind of argument that does not throw an exception must
+    increase the <code id=the-websocket-interface:dom-websocket-bufferedamount-7><a href=#dom-websocket-bufferedamount>bufferedAmount</a></code> attribute by the
+    length of <var>data</var>'s buffer in bytes. <a href=#refsWSP>[WSP]</a></p>
+
+   </dl>
+
+  <hr>
+
+  <p>The following are the <a href=#event-handlers id=the-websocket-interface:event-handlers>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=the-websocket-interface:event-handler-event-type>event handler event types</a>) that must be supported, as <a href=#event-handler-idl-attributes id=the-websocket-interface:event-handler-idl-attributes>event
+  handler IDL attributes</a>, by all objects implementing the <code id=the-websocket-interface:websocket-6><a href=#websocket>WebSocket</a></code>
+  interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=the-websocket-interface:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=the-websocket-interface:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-websocket-onopen><code>onopen</code></dfn> <td> <code id=the-websocket-interface:event-open><a href=#event-open>open</a></code>
+    <tr><td><dfn id=handler-websocket-onmessage><code>onmessage</code></dfn> <td> <code id=the-websocket-interface:event-message><a href=#event-message>message</a></code>
+    <tr><td><dfn id=handler-websocket-onerror><code>onerror</code></dfn> <td> <code id=the-websocket-interface:event-error><a href=#event-error>error</a></code>
+    <tr><td><dfn id=handler-websocket-onclose><code>onclose</code></dfn> <td> <code id=the-websocket-interface:event-close-6><a href=#event-close>close</a></code>
+  </table>
+
+
+
+  <h4 id=feedback-from-the-protocol>9.3.3 Feedback from the protocol<a href=#feedback-from-the-protocol class=self-link></a></h4>
+
+  <p>When <i id=feedback-from-the-protocol:concept-websocket-established><a href=#concept-websocket-established>the WebSocket connection is established</a></i>, the
+  user agent must <a href=#queue-a-task id=feedback-from-the-protocol:queue-a-task>queue a task</a> to run these steps:</p>
+
+  <ol><li><p>Change the <code id=feedback-from-the-protocol:dom-websocket-readystate><a href=#dom-websocket-readystate>readyState</a></code> attribute's value to
+   <code id=feedback-from-the-protocol:dom-websocket-open><a href=#dom-websocket-open>OPEN</a></code> (1).<li><p>Change the <code id=feedback-from-the-protocol:dom-websocket-extensions><a href=#dom-websocket-extensions>extensions</a></code> attribute's value to
+   the <i id=feedback-from-the-protocol:concept-websockets-active-extensions><a href=#concept-websockets-active-extensions>extensions in use</a></i>, if is not the null
+   value. <a href=#refsWSP>[WSP]</a><li><p>Change the <code id=feedback-from-the-protocol:dom-websocket-protocol><a href=#dom-websocket-protocol>protocol</a></code> attribute's value to the
+   <i id=feedback-from-the-protocol:concept-websocket-subprotocol><a href=#concept-websocket-subprotocol>subprotocol in use</a></i>, if is not the null value. <a href=#refsWSP>[WSP]</a><li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=feedback-from-the-protocol:concept-event-fire data-x-internal=concept-event-fire>Fire an event</a> named <code id=feedback-from-the-protocol:event-open><a href=#event-open>open</a></code> at the <code id=feedback-from-the-protocol:websocket><a href=#websocket>WebSocket</a></code> object.</p>
+
+  </ol>
+
+  <p class=note>Since the algorithm above is <a href=#queue-a-task id=feedback-from-the-protocol:queue-a-task-2>queued as a task</a>,
+  there is no race condition between <i id=feedback-from-the-protocol:concept-websocket-established-2><a href=#concept-websocket-established>the WebSocket
+  connection being established</a></i> and the script setting up an event listener for the <code id=feedback-from-the-protocol:event-open-2><a href=#event-open>open</a></code> event.</p>
+
+  <hr>
+
+  <p>When <i id=feedback-from-the-protocol:concept-websocket-message-received><a href=#concept-websocket-message-received>a WebSocket message has been received</a></i>
+  with type <var>type</var> and data <var>data</var>, the user agent must <a href=#queue-a-task id=feedback-from-the-protocol:queue-a-task-3>queue a task</a>
+  to follow these steps: <a href=#refsWSP>[WSP]</a></p>
+
+  <ol><li>
+
+    <p>If the <code id=feedback-from-the-protocol:dom-websocket-readystate-2><a href=#dom-websocket-readystate>readyState</a></code> attribute's value is not
+    <code id=feedback-from-the-protocol:dom-websocket-open-2><a href=#dom-websocket-open>OPEN</a></code> (1), then abort these steps.</p>
+
+   <li>
+    <p>Let <var>dataForEvent</var> be determined by switching on <var>type</var> and <code id=feedback-from-the-protocol:dom-websocket-binarytype><a href=#dom-websocket-binarytype>binaryType</a></code>:</p>
+
+    <dl class=switch><dt><var>type</var> indicates that the data is Text<dd>a new <code id=feedback-from-the-protocol:idl-domstring><a data-x-internal=idl-domstring href=https://heycam.github.io/webidl/#idl-DOMString>DOMString</a></code> containing <var>data</var><dt><var>type</var> indicates that the data is Binary and <code id=feedback-from-the-protocol:dom-websocket-binarytype-2><a href=#dom-websocket-binarytype>binaryType</a></code> is "<code id=feedback-from-the-protocol:dom-binarytype-blob><a href=#dom-binarytype-blob>blob</a></code>"<dd>a new <code id=feedback-from-the-protocol:blob><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code> object, created in the <a href=#concept-relevant-realm id=feedback-from-the-protocol:concept-relevant-realm>relevant Realm</a> of the <code id=feedback-from-the-protocol:websocket-2><a href=#websocket>WebSocket</a></code> object,
+     that represents <var>data</var> as its raw data <a href=#refsFILEAPI>[FILEAPI]</a><dt><var>type</var> indicates that the data is Binary and <code id=feedback-from-the-protocol:dom-websocket-binarytype-3><a href=#dom-websocket-binarytype>binaryType</a></code> is "<code id=feedback-from-the-protocol:dom-binarytype-arraybuffer><a href=#dom-binarytype-arraybuffer>arraybuffer</a></code>"<dd>a new <code id=feedback-from-the-protocol:idl-arraybuffer><a data-x-internal=idl-arraybuffer href=https://heycam.github.io/webidl/#idl-ArrayBuffer>ArrayBuffer</a></code> object, created in the <a href=#concept-relevant-realm id=feedback-from-the-protocol:concept-relevant-realm-2>relevant Realm</a> of the <code id=feedback-from-the-protocol:websocket-3><a href=#websocket>WebSocket</a></code> object,
+     whose contents are <var>data</var></dl>
+   <li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=feedback-from-the-protocol:concept-event-fire-2 data-x-internal=concept-event-fire>Fire an event</a> named <code id=feedback-from-the-protocol:event-message><a href=#event-message>message</a></code> at the <code id=feedback-from-the-protocol:websocket-4><a href=#websocket>WebSocket</a></code> object, using
+   <code id=feedback-from-the-protocol:messageevent><a href=#messageevent>MessageEvent</a></code>, with the <code id=feedback-from-the-protocol:dom-messageevent-origin><a href=#dom-messageevent-origin>origin</a></code>
+   attribute initialized to the <a href=#unicode-serialisation-of-an-origin id=feedback-from-the-protocol:unicode-serialisation-of-an-origin>Unicode
+   serialization</a> of the <code id=feedback-from-the-protocol:websocket-5><a href=#websocket>WebSocket</a></code> object's <a href=#concept-websocket-url id=feedback-from-the-protocol:concept-websocket-url>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-origin id=feedback-from-the-protocol:concept-url-origin data-x-internal=concept-url-origin>origin</a>, and
+   the <code id=feedback-from-the-protocol:dom-messageevent-data><a href=#dom-messageevent-data>data</a></code> attribute initialized to
+   <var>dataForEvent</var>.</ol>
+
+  <p class=note>User agents are encouraged to check if they can perform the above steps
+  efficiently before they run the task, picking tasks from other <a href=#task-queue id=feedback-from-the-protocol:task-queue>task
+  queues</a> while they prepare the buffers if not. For example, if the <code id=feedback-from-the-protocol:dom-websocket-binarytype-4><a href=#dom-websocket-binarytype>binaryType</a></code> attribute was set to "<code id=feedback-from-the-protocol:dom-binarytype-blob-2><a href=#dom-binarytype-blob>blob</a></code>" when the data arrived, and the user agent spooled all
+  the data to disk, but just before running the above <a href=#concept-task id=feedback-from-the-protocol:concept-task>task</a> for
+  this particular message the script switched <code id=feedback-from-the-protocol:dom-websocket-binarytype-5><a href=#dom-websocket-binarytype>binaryType</a></code> to "<code id=feedback-from-the-protocol:dom-binarytype-arraybuffer-2><a href=#dom-binarytype-arraybuffer>arraybuffer</a></code>", the user agent would want to page the
+  data back to RAM before running this <a href=#concept-task id=feedback-from-the-protocol:concept-task-2>task</a> so as to avoid
+  stalling the main thread while it created the <code id=feedback-from-the-protocol:idl-arraybuffer-2><a data-x-internal=idl-arraybuffer href=https://heycam.github.io/webidl/#idl-ArrayBuffer>ArrayBuffer</a></code>
+  object.</p>
+
+  <div class=example>
+
+   <p>Here is an example of how to define a handler for the <code id=feedback-from-the-protocol:event-message-2><a href=#event-message>message</a></code> event in the case of text frames:</p>
+
+   <pre>mysocket.onmessage = function (event) {
+  if (event.data == 'on') {
+    turnLampOn();
+  } else if (event.data == 'off') {
+    turnLampOff();
+  }
+};</pre>
+
+   <p>The protocol here is a trivial one, with the server just sending "on" or "off" messages.</p>
+
+  </div>
+
+  <hr>
+
+  <p>When <i id=feedback-from-the-protocol:concept-websocket-closing-handshake><a href=#concept-websocket-closing-handshake>the WebSocket closing handshake is
+  started</a></i>, the user agent must <a href=#queue-a-task id=feedback-from-the-protocol:queue-a-task-4>queue a task</a> to change the <code id=feedback-from-the-protocol:dom-websocket-readystate-3><a href=#dom-websocket-readystate>readyState</a></code> attribute's value to <code id=feedback-from-the-protocol:dom-websocket-closing><a href=#dom-websocket-closing>CLOSING</a></code> (2). (If the <code id=feedback-from-the-protocol:dom-websocket-close><a href=#dom-websocket-close>close()</a></code> method was called, the <code id=feedback-from-the-protocol:dom-websocket-readystate-4><a href=#dom-websocket-readystate>readyState</a></code> attribute's value will already be set to <code id=feedback-from-the-protocol:dom-websocket-closing-2><a href=#dom-websocket-closing>CLOSING</a></code> (2) when this task runs.) <a href=#refsWSP>[WSP]</a></p>
+
+  <hr>
+
+  <p id=closeWebSocket>When <i id=feedback-from-the-protocol:concept-websocket-closed><a href=#concept-websocket-closed>the WebSocket connection is
+  closed</a></i>, possibly <i>cleanly</i>, the user agent must <a href=#queue-a-task id=feedback-from-the-protocol:queue-a-task-5>queue a task</a> to run the
+  following substeps:</p>
+
+  <ol><li><p>Change the <code id=feedback-from-the-protocol:dom-websocket-readystate-5><a href=#dom-websocket-readystate>readyState</a></code> attribute's value to
+   <code id=feedback-from-the-protocol:dom-websocket-closed><a href=#dom-websocket-closed>CLOSED</a></code> (3).<li><p>If the user agent was required to <i id=feedback-from-the-protocol:concept-websocket-fail><a href=#concept-websocket-fail>fail the WebSocket
+   connection</a></i>, or if the <i id=feedback-from-the-protocol:concept-websocket-closed-2><a href=#concept-websocket-closed>the WebSocket connection was
+   closed</a></i> after being <dfn id=concept-websocket-close-fail>flagged as full</dfn>, <a href=https://dom.spec.whatwg.org/#concept-event-fire id=feedback-from-the-protocol:concept-event-fire-3 data-x-internal=concept-event-fire>fire an event</a> named <code>error</code> at the
+   <code id=feedback-from-the-protocol:websocket-6><a href=#websocket>WebSocket</a></code> object. <a href=#refsWSP>[WSP]</a><li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=feedback-from-the-protocol:concept-event-fire-4 data-x-internal=concept-event-fire>Fire an event</a> named <code id=feedback-from-the-protocol:event-close><a href=#event-close>close</a></code> at the <code id=feedback-from-the-protocol:websocket-7><a href=#websocket>WebSocket</a></code> object, using
+   <code id=feedback-from-the-protocol:closeevent><a href=#closeevent>CloseEvent</a></code>, with the <code id=feedback-from-the-protocol:dom-closeevent-wasclean><a href=#dom-closeevent-wasclean>wasClean</a></code>
+   attribute initialized to true if the connection closed <i>cleanly</i> and false otherwise, the
+   <code id=feedback-from-the-protocol:dom-closeevent-code><a href=#dom-closeevent-code>code</a></code> attribute initialized to <i id=feedback-from-the-protocol:concept-websocket-close-code><a href=#concept-websocket-close-code>the WebSocket connection close code</a></i>, and the <code id=feedback-from-the-protocol:dom-closeevent-reason><a href=#dom-closeevent-reason>reason</a></code> attribute initialized to the result of applying
+   <a id=feedback-from-the-protocol:utf-8-decode-without-bom href=https://encoding.spec.whatwg.org/#utf-8-decode-without-bom data-x-internal=utf-8-decode-without-bom>UTF-8 decode without BOM</a> to <i id=feedback-from-the-protocol:concept-websocket-close-reason><a href=#concept-websocket-close-reason>the WebSocket
+   connection close reason</a></i>. <a href=#refsWSP>[WSP]</a></ol>
+
+  <div class=warning>
+
+   <p>User agents must not convey any failure information to scripts in a way that would allow a
+   script to distinguish the following situations:</p>
+
+   <ul><li>A server whose host name could not be resolved.
+
+    <li>A server to which packets could not successfully be routed.
+
+    <li>A server that refused the connection on the specified port.
+
+    <li>A server that failed to correctly perform a TLS handshake (e.g., the server certificate
+    can't be verified).
+
+    <li>A server that did not complete the opening handshake (e.g. because it was not a WebSocket
+    server).
+
+    <li>A WebSocket server that sent a correct opening handshake, but that specified options that
+    caused the client to drop the connection (e.g. the server specified a subprotocol that the
+    client did not offer).
+
+    <li>A WebSocket server that abruptly closed the connection after successfully completing the
+    opening handshake.
+
+   </ul>
+
+   <p>In all of these cases, the <i id=feedback-from-the-protocol:concept-websocket-close-code-2><a href=#concept-websocket-close-code>the WebSocket connection close code</a></i> would be 1006, as
+   required by the WebSocket Protocol specification. <a href=#refsWSP>[WSP]</a></p>
+
+   <p>Allowing a script to distinguish these cases would allow a script to probe the user's local
+   network in preparation for an attack.</p>
+
+   <p class=note>In particular, this means the code 1015 is not used by the user agent (unless the
+   server erroneously uses it in its close frame, of course).</p>
+
+  </div>
+
+  <hr>
+
+  <p>The <a href=#task-source id=feedback-from-the-protocol:task-source>task source</a> for all <a href=#concept-task id=feedback-from-the-protocol:concept-task-3>tasks</a> <a href=#queue-a-task id=feedback-from-the-protocol:queue-a-task-6>queued</a> in this section is the <dfn id=websocket-task-source>WebSocket task source</dfn>.</p>
+
+
+  <h4 id=ping-and-pong-frames>9.3.4 Ping and Pong frames<a href=#ping-and-pong-frames class=self-link></a></h4>
+
+  <p>The WebSocket protocol specification defines Ping and Pong frames that can be used for
+  keep-alive, heart-beats, network status probing, latency instrumentation, and so forth. These are
+  not currently exposed in the API.</p>
+
+  <p>User agents may send ping and unsolicited pong frames as desired, for example in an attempt to
+  maintain local network NAT mappings, to detect failed connections, or to display latency metrics
+  to the user. User agents must not use pings or unsolicited pongs to aid the server; it is assumed
+  that servers will solicit pongs whenever appropriate for the server's needs.</p>
+
+  
+
+
+  <h4 id=the-closeevent-interfaces>9.3.5 The <code id=the-closeevent-interfaces:closeevent><a href=#closeevent>CloseEvent</a></code> interfaces<a href=#the-closeevent-interfaces class=self-link></a></h4>
+
+  <pre class=idl>[Constructor(DOMString type, optional <a href=#closeeventinit id=the-closeevent-interfaces:closeeventinit>CloseEventInit</a> eventInitDict), Exposed=(Window,Worker)]
+interface <dfn id=closeevent>CloseEvent</dfn> : <a id=the-closeevent-interfaces:event href=https://dom.spec.whatwg.org/#interface-event data-x-internal=event>Event</a> {
+  readonly attribute boolean <a href=#dom-closeevent-wasclean id=the-closeevent-interfaces:dom-closeevent-wasclean>wasClean</a>;
+  readonly attribute unsigned short <a href=#dom-closeevent-code id=the-closeevent-interfaces:dom-closeevent-code>code</a>;
+  readonly attribute USVString <a href=#dom-closeevent-reason id=the-closeevent-interfaces:dom-closeevent-reason>reason</a>;
+};
+
+dictionary <dfn id=closeeventinit>CloseEventInit</dfn> : <a id=the-closeevent-interfaces:eventinit href=https://dom.spec.whatwg.org/#dictdef-eventinit data-x-internal=eventinit>EventInit</a> {
+  boolean wasClean = false;
+  unsigned short code = 0;
+  USVString reason = "";
+};</pre>
+
+  <p>The <dfn id=dom-closeevent-wasclean><code>wasClean</code></dfn> attribute must return the
+  value it was initialized to. It represents whether the connection closed cleanly or not.</p>
+
+  <p>The <dfn id=dom-closeevent-code><code>code</code></dfn> attribute must return the value
+  it was initialized to. It represents the WebSocket connection close code provided by the
+  server.</p>
+
+  <p>The <dfn id=dom-closeevent-reason><code>reason</code></dfn> attribute must return the
+  value it was initialized to. It represents the WebSocket connection close reason provided by the
+  server.</p>
+
+
+
+  <h4 id=garbage-collection-3>9.3.6 Garbage collection<a href=#garbage-collection-3 class=self-link></a></h4>
+
+  <p>A <code id=garbage-collection-3:websocket><a href=#websocket>WebSocket</a></code> object whose <code id=garbage-collection-3:dom-websocket-readystate><a href=#dom-websocket-readystate>readyState</a></code>
+  attribute's value was set to <code id=garbage-collection-3:dom-websocket-connecting><a href=#dom-websocket-connecting>CONNECTING</a></code> (0) as of
+  the last time the <a href=#event-loop id=garbage-collection-3:event-loop>event loop</a> reached <a href=#step1>step 1</a> must not be garbage collected if there
+  are any event listeners registered for <code id=garbage-collection-3:event-open><a href=#event-open>open</a></code> events, <code id=garbage-collection-3:event-message><a href=#event-message>message</a></code> events, <code id=garbage-collection-3:event-error><a href=#event-error>error</a></code> events, or
+  <code id=garbage-collection-3:event-close><a href=#event-close>close</a></code> events.</p>
+
+  <p>A <code id=garbage-collection-3:websocket-2><a href=#websocket>WebSocket</a></code> object whose <code id=garbage-collection-3:dom-websocket-readystate-2><a href=#dom-websocket-readystate>readyState</a></code>
+  attribute's value was set to <code id=garbage-collection-3:dom-websocket-open><a href=#dom-websocket-open>OPEN</a></code> (1) as of the last time
+  the <a href=#event-loop id=garbage-collection-3:event-loop-2>event loop</a> reached <a href=#step1>step 1</a> must not be garbage collected if there are any event
+  listeners registered for <code id=garbage-collection-3:event-message-2><a href=#event-message>message</a></code> events, <code id=garbage-collection-3:event-error-2><a href=#event-error>error</a></code>, or <code id=garbage-collection-3:event-close-2><a href=#event-close>close</a></code> events.</p>
+
+  <p>A <code id=garbage-collection-3:websocket-3><a href=#websocket>WebSocket</a></code> object whose <code id=garbage-collection-3:dom-websocket-readystate-3><a href=#dom-websocket-readystate>readyState</a></code>
+  attribute's value was set to <code id=garbage-collection-3:dom-websocket-closing><a href=#dom-websocket-closing>CLOSING</a></code> (2) as of the
+  last time the <a href=#event-loop id=garbage-collection-3:event-loop-3>event loop</a> reached <a href=#step1>step 1</a> must not be garbage collected if there are
+  any event listeners registered for <code id=garbage-collection-3:event-error-3><a href=#event-error>error</a></code> or <code id=garbage-collection-3:event-close-3><a href=#event-close>close</a></code> events.</p>
+
+  <p>A <code id=garbage-collection-3:websocket-4><a href=#websocket>WebSocket</a></code> object with <i id=garbage-collection-3:concept-websocket-established><a href=#concept-websocket-established>an
+  established connection</a></i> that has data queued to be transmitted to the network must not be
+  garbage collected. <a href=#refsWSP>[WSP]</a></p>
+
+  <p>If a <code id=garbage-collection-3:websocket-5><a href=#websocket>WebSocket</a></code> object is garbage collected while its connection is still open, the
+  user agent must <i id=garbage-collection-3:concept-websocket-start-closing-handshake><a href=#concept-websocket-start-closing-handshake>start the WebSocket closing
+  handshake</a></i>, with no status code for the Close message. <a href=#refsWSP>[WSP]</a></p>
+
+  <hr>
+
+  <p>If a user agent is to <dfn id=make-disappear>make disappear</dfn> a <code id=garbage-collection-3:websocket-6><a href=#websocket>WebSocket</a></code> object (this happens
+  when a <code id=garbage-collection-3:document><a href=#document>Document</a></code> object goes away), the user agent must follow the first appropriate
+  set of steps from the following list:</p>
+
+  <dl class=switch><dt>If the WebSocket connection is not yet <i id=garbage-collection-3:concept-websocket-established-2><a href=#concept-websocket-established>established</a></i> <a href=#refsWSP>[WSP]</a><dd>
+
+    <p><i id=garbage-collection-3:concept-websocket-fail><a href=#concept-websocket-fail>Fail the WebSocket connection</a></i>. <a href=#refsWSP>[WSP]</a></p>
+
+   <dt>If the WebSocket closing handshake has not yet been <i id=garbage-collection-3:concept-websocket-closing-handshake><a href=#concept-websocket-closing-handshake>started</a></i> <a href=#refsWSP>[WSP]</a><dd>
+
+    <p><i id=garbage-collection-3:concept-websocket-start-closing-handshake-2><a href=#concept-websocket-start-closing-handshake>Start the WebSocket closing
+    handshake</a></i>, with the status code to use in the WebSocket Close message being
+    1001. <a href=#refsWSP>[WSP]</a></p>
+
+   <dt>Otherwise<dd>
+
+    <p>Do nothing.</p>
+
+   </dl>
+
+
+  <h3 id=web-messaging>9.4 <dfn id=crossDocumentMessages>Cross-document messaging</dfn><a href=#web-messaging class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> x-doc-messaging<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>3.2+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>3+</span></span><span class="ie partial"><span>IE (limited)</span> <span>8+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>2.1+</span></span><span class="safari yes"><span>Safari</span> <span>4+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>9.5+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=x-doc-messaging">caniuse.com</a></div>
+
+  <p>Web browsers, for security and privacy reasons, prevent documents in different domains from
+  affecting each other; that is, cross-site scripting is disallowed.</p>
+
+  <p>While this is an important security feature, it prevents pages from different domains from
+  communicating even when those pages are not hostile. This section introduces a messaging system
+  that allows documents to communicate with each other regardless of their source domain, in a way
+  designed to not enable cross-site scripting attacks.</p>
+
+  <p class=note>This API <a href=#fingerprint-postMessage>has some privacy implications</a> that
+  may not be immediately obvious.</p>
+
+  
+
+  <p>The <a href=#task-source id=web-messaging:task-source>task source</a> for the <a href=#concept-task id=web-messaging:concept-task>tasks</a> in
+  <a href=#web-messaging id=web-messaging:web-messaging>cross-document messaging</a> is the <dfn id=posted-message-task-source>posted message task source</dfn>.</p>
+
+  
+
+
+  <h4 id=introduction-12>9.4.1 Introduction<a href=#introduction-12 class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <div class=example>
+
+   <p>For example, if document A contains an <code id=introduction-12:the-iframe-element><a href=#the-iframe-element>iframe</a></code> element that contains document B,
+   and script in document A calls <code id=introduction-12:dom-window-postmessage><a href=#dom-window-postmessage>postMessage()</a></code> on the
+   <code id=introduction-12:window><a href=#window>Window</a></code> object of document B, then a message event will be fired on that object,
+   marked as originating from the <code id=introduction-12:window-2><a href=#window>Window</a></code> of document A. The script in document A might
+   look like:</p>
+
+   <pre>var o = document.getElementsByTagName('iframe')[0];
+o.contentWindow.postMessage('Hello world', 'https://b.example.org/');</pre>
+
+   <p>To register an event handler for incoming events, the script would use <code>addEventListener()</code> (or similar mechanisms). For example, the script in document B
+   might look like:</p>
+
+   <pre>window.addEventListener('message', receiver, false);
+function receiver(e) {
+  if (e.origin == 'https://example.com') {
+    if (e.data == 'Hello world') {
+      e.source.postMessage('Hello', e.origin);
+    } else {
+      alert(e.data);
+    }
+  }
+}</pre>
+
+   <p>This script first checks the domain is the expected domain, and then looks at the message,
+   which it either displays to the user, or responds to by sending a message back to the document
+   which sent the message in the first place.</p>
+
+  </div>
+
+
+
+  <h4 id=security-postmsg>9.4.2 Security<a href=#security-postmsg class=self-link></a></h4>
+
+  
+
+  <h5 id=authors>9.4.2.1 Authors<a href=#authors class=self-link></a></h5>
+
+  
+
+  <p id=security-4 class=warning>Use of this API requires extra care to protect users from
+  hostile entities abusing a site for their own purposes.</p>
+
+  <p>Authors should check the <code id=authors:dom-messageevent-origin><a href=#dom-messageevent-origin>origin</a></code> attribute to
+  ensure that messages are only accepted from domains that they expect to receive messages from.
+  Otherwise, bugs in the author's message handling code could be exploited by hostile sites.</p>
+
+  <p>Furthermore, even after checking the <code id=authors:dom-messageevent-origin-2><a href=#dom-messageevent-origin>origin</a></code>
+  attribute, authors should also check that the data in question is of the expected format.
+  Otherwise, if the source of the event has been attacked using a cross-site scripting flaw, further
+  unchecked processing of information sent using the <code id=authors:dom-window-postmessage><a href=#dom-window-postmessage>postMessage()</a></code> method could result in the attack being
+  propagated into the receiver.</p>
+
+  <p>Authors should not use the wildcard keyword (*) in the <var>targetOrigin</var>
+  argument in messages that contain any confidential information, as otherwise there is no way to
+  guarantee that the message is only delivered to the recipient to which it was intended.</p>
+
+  <hr>
+
+  <p>Authors who accept messages from any origin are encouraged to consider the risks of a
+  denial-of-service attack. An attacker could send a high volume of messages; if the receiving page
+  performs expensive computation or causes network traffic to be sent for each such message, the
+  attacker's message could be multiplied into a denial-of-service attack. Authors are encouraged to
+  employ rate limiting (only accepting a certain number of messages per minute) to make such attacks
+  impractical.</p>
+
+
+  
+
+  <h5 id=user-agents>9.4.2.2 User agents<a href=#user-agents class=self-link></a></h5>
+
+  <p>The integrity of this API is based on the inability for scripts of one <a href=#concept-origin id=user-agents:concept-origin>origin</a> to
+  post arbitrary events (using <code>dispatchEvent()</code> or otherwise) to objects in
+  other origins (those that are not the <a href=#same-origin id=user-agents:same-origin>same</a>).</p>
+
+  <p class=note>Implementors are urged to take extra care in the implementation of this feature.
+  It allows authors to transmit information from one domain to another domain, which is normally
+  disallowed for security reasons. It also requires that UAs be careful to allow access to certain
+  properties but not others.</p>
+
+  <hr>
+
+  <p>User agents are also encouraged to consider rate-limiting message traffic between different
+  <a href=#concept-origin id=user-agents:concept-origin-2>origins</a>, to protect naïve sites from denial-of-service
+  attacks.</p>
+
+  
+
+
+
+
+  <h4 id=posting-messages>9.4.3 Posting messages<a href=#posting-messages class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>window</var> . <code id=posting-messages:dom-window-postmessage><a href=#dom-window-postmessage>postMessage</a></code>(<var>message</var>, <var>targetOrigin</var> [, <var>transfer</var> ] )<dd>
+
+    <p>Posts a message to the given window. Messages can be structured objects, e.g. nested objects
+    and arrays, can contain JavaScript values (strings, numbers, <code id=posting-messages:date><a data-x-internal=date href=https://tc39.github.io/ecma262/#sec-date-objects>Date</a></code>
+    objects, etc), and can contain certain data objects such as <code id=posting-messages:file><a data-x-internal=file href=https://w3c.github.io/FileAPI/#file>File</a></code> <code id=posting-messages:blob><a data-x-internal=blob href=https://w3c.github.io/FileAPI/#blob>Blob</a></code>,
+    <code id=posting-messages:filelist><a data-x-internal=filelist href=https://w3c.github.io/FileAPI/#filelist-section>FileList</a></code>, and <code id=posting-messages:idl-arraybuffer><a data-x-internal=idl-arraybuffer href=https://heycam.github.io/webidl/#idl-ArrayBuffer>ArrayBuffer</a></code> objects.</p>
+
+    <p>Objects listed in <var>transfer</var> are transferred, not just cloned, meaning that
+    they are no longer usable on the sending side.</p>
+
+    <p>If the origin of the target window doesn't match the given origin, the message is discarded,
+    to avoid information leakage. To send the message to the target regardless of origin, set the
+    target origin to "<code>*</code>". To restrict the message to same-origin targets only,
+    without needing to explicitly state the origin, set the target origin to "<code>/</code>".</p>
+
+    <p>Throws a <a id=posting-messages:datacloneerror href=https://heycam.github.io/webidl/#datacloneerror data-x-internal=datacloneerror>"<code>DataCloneError</code>"</a> <code id=posting-messages:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if
+    <var>transfer</var> array contains duplicate objects or if <var>message</var> could not be
+    cloned.</p>
+
+   </dl>
+
+  <p class=note>When posting a message to a <code id=posting-messages:window><a href=#window>Window</a></code> of a <a href=#browsing-context id=posting-messages:browsing-context>browsing context</a>
+  that has just been navigated to a new <code id=posting-messages:document><a href=#document>Document</a></code> is likely to result in the message not
+  receiving its intended recipient: the scripts in the target <a href=#browsing-context id=posting-messages:browsing-context-2>browsing context</a> have to
+  have had time to set up listeners for the messages. Thus, for instance, in situations where a
+  message is to be sent to the <code id=posting-messages:window-2><a href=#window>Window</a></code> of newly created child <code id=posting-messages:the-iframe-element><a href=#the-iframe-element>iframe</a></code>,
+  authors are advised to have the child <code id=posting-messages:document-2><a href=#document>Document</a></code> post a message to their parent
+  announcing their readiness to receive messages, and for the parent to wait for this message before
+  beginning posting messages.</p>
+
+  
+
+  <p>The <dfn id=dom-window-postmessage><code>postMessage(<var>message</var>,
+  <var>targetOrigin</var>, <var>transfer</var>)</code></dfn> method, when invoked on a
+  <code id=posting-messages:window-3><a href=#window>Window</a></code> object must run the following steps:</p>
+
+  <ol><li><p>Let <var>targetWindow</var> be this <code id=posting-messages:window-4><a href=#window>Window</a></code> object.</p>
+
+   <li><p>Let <var>targetRealm</var> be <var>targetWindow</var>'s <a href=#concept-global-object-realm id=posting-messages:concept-global-object-realm>Realm</a>.<li><p>Let <var>incumbentSettings</var> be the <a href=#incumbent-settings-object id=posting-messages:incumbent-settings-object>incumbent settings object</a>.<li><p>If <var>targetOrigin</var> is a single U+002F SOLIDUS character (/), then set
+   <var>targetOrigin</var> to <var>incumbentSettings</var>'s <a href=#concept-settings-object-origin id=posting-messages:concept-settings-object-origin>origin</a>.</p>
+
+   <li>
+    <p>Otherwise, if <var>targetOrigin</var> is not a single U+002A ASTERISK character (*),
+    then:</p>
+
+    <ol><li><p>Let <var>parsedURL</var> be the result of running the <a id=posting-messages:url-parser href=https://url.spec.whatwg.org/#concept-url-parser data-x-internal=url-parser>URL parser</a> on

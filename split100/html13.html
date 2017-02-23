@@ -1,0 +1,850 @@
+
+      <p class=note>Recall that <code id=outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-7><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> has the <em>highest</em> rank, and <code id=outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-8><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code>
+      has the lowest rank.</p>
+
+     <dt>Otherwise<dd><p>Do nothing.</dl>
+
+    <p id=associatedSection>In addition, whenever the walk exits a node, after doing the steps
+    above, if the node is not associated with a <a href=#concept-section id=outlines:concept-section-10>section</a> yet,
+    associate the node with the <a href=#concept-section id=outlines:concept-section-11>section</a> <var>current
+    section</var>.</p>
+
+   <li><p>Associate all non-element nodes that are in the subtree for which an outline is being
+   created with the <a href=#concept-section id=outlines:concept-section-12>section</a> with which their parent element is
+   associated.<li><p>Associate all nodes in the subtree with the heading of the <a href=#concept-section id=outlines:concept-section-13>section</a> with which they are associated, if any.</ol>
+
+  <p>The tree of sections created by the algorithm above, or a proper subset thereof, must be used
+  when generating document outlines, for example when generating tables of contents.</p>
+
+  <p>The outline created for <a href=#the-body-element-2 id=outlines:the-body-element-2-2>the body element</a> of a <code id=outlines:document><a href=#document>Document</a></code> is the
+  <a href=#outline id=outlines:outline-13>outline</a> of the entire document.</p>
+
+  <p>When creating an interactive table of contents, entries should jump the user to the relevant
+  <a href=#sectioning-content-2 id=outlines:sectioning-content-2-10>sectioning content</a> element, if the <a href=#concept-section id=outlines:concept-section-14>section</a> was
+  created for a real element in the original document, or to the relevant <a href=#heading-content-2 id=outlines:heading-content-2-4>heading
+  content</a> element, if the <a href=#concept-section id=outlines:concept-section-15>section</a> in the tree was
+  generated for a heading in the above process.</p>
+
+  <p class=note>Selecting the first <a href=#concept-section id=outlines:concept-section-16>section</a> of the document
+  therefore always takes the user to the top of the document, regardless of where the first heading
+  in the <code id=outlines:the-body-element-3><a href=#the-body-element>body</a></code> is to be found.</p>
+
+  <p>The <dfn id=outline-depth>outline depth</dfn> of a <a href=#heading-content-2 id=outlines:heading-content-2-5>heading content</a> element associated with a <a href=#concept-section id=outlines:concept-section-17>section</a> <var>section</var> is the number of <a href=#concept-section id=outlines:concept-section-18>sections</a> that are ancestors of <var>section</var> in the
+  outermost <a href=#outline id=outlines:outline-14>outline</a> that <var>section</var> finds itself in when the <a href=#outline id=outlines:outline-15>outlines</a> of its <code id=outlines:document-2><a href=#document>Document</a></code>'s elements are created, plus 1. The
+  <a href=#outline-depth id=outlines:outline-depth>outline depth</a> of a <a href=#heading-content-2 id=outlines:heading-content-2-6>heading content</a> element not associated with a <a href=#concept-section id=outlines:concept-section-19>section</a> is 1.</p>
+
+  <p>User agents should provide default headings for sections that do not have explicit section
+  headings.</p>
+
+  <div class=example>
+
+   <p>Consider the following snippet:</p>
+
+   <pre>&lt;body>
+ &lt;nav>
+  &lt;p>&lt;a href="/">Home&lt;/a>&lt;/p>
+ &lt;/nav>
+ &lt;p>Hello world.&lt;/p>
+ &lt;aside>
+  &lt;p>My cat is cute.&lt;/p>
+ &lt;/aside>
+&lt;/body></pre>
+
+   <p>Although it contains no headings, this snippet has three sections: a document (the
+   <code id=outlines:the-body-element-4><a href=#the-body-element>body</a></code>) with two subsections (a <code id=outlines:the-nav-element><a href=#the-nav-element>nav</a></code> and an <code id=outlines:the-aside-element><a href=#the-aside-element>aside</a></code>). A user
+   agent could present the outline as follows:</p>
+
+   <ol class=brief><li>Untitled document
+     <ol><li>Navigation<li>Sidebar</ol>
+    </ol>
+
+   <p>These default headings ("Untitled document", "Navigation", "Sidebar") are not specified by
+   this specification, and might vary with the user's language, the page's language, the user's
+   preferences, the user agent implementor's preferences, etc.</p>
+
+  </div>
+
+  <div class=note>
+
+   <p>The following JavaScript function shows how the tree walk could be implemented. The <var>root</var> argument is the root of the tree to walk (either a <a href=#sectioning-content-2 id=outlines:sectioning-content-2-11>sectioning
+   content</a> element or a <a href=#sectioning-root id=outlines:sectioning-root-9>sectioning root</a> element), and the <var>enter</var> and <var>exit</var> arguments are callbacks that are called with
+   the nodes as they are entered and exited. <a href=#refsJAVASCRIPT>[JAVASCRIPT]</a></p>
+
+   <pre>function (root, enter, exit) {
+  var node = root;
+  start: while (node) {
+    enter(node);
+    if (node.firstChild) {
+      node = node.firstChild;
+      continue start;
+    }
+    while (node) {
+      exit(node);
+      if (node == root) {
+        node = null;
+      } else if (node.nextSibling) {
+        node = node.nextSibling;
+        continue start;
+      } else {
+        node = node.parentNode;
+      }
+    }
+  }
+}</pre>
+
+  </div>
+
+  
+
+
+  <h5 id=sample-outlines>4.3.11.2 Sample outlines<a href=#sample-outlines class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <div class=example>
+
+   <p>The following document shows a straight-forward application of the <a href=#outline id=sample-outlines:outline>outline</a>
+   algorithm. First, here is the document, which is a book with very short chapters and
+   subsections:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang=en>
+&lt;title>The Tax Book (all in one page)&lt;/title>
+&lt;h1>The Tax Book&lt;/h1>
+&lt;h2>Earning money&lt;/h2>
+&lt;p>Earning money is good.&lt;/p>
+&lt;h3>Getting a job&lt;/h3>
+&lt;p>To earn money you typically need a job.&lt;/p>
+&lt;h2>Spending money&lt;/h2>
+&lt;p>Spending is what money is mainly used for.&lt;/p>
+&lt;h3>Cheap things&lt;/h3>
+&lt;p>Buying cheap things often not cost-effective.&lt;/p>
+&lt;h3>Expensive things&lt;/h3>
+&lt;p>The most expensive thing is often not the most cost-effective either.&lt;/p>
+&lt;h2>Investing money&lt;/h2>
+&lt;p>You can lend your money to other people.&lt;/p>
+&lt;h2>Losing money&lt;/h2>
+&lt;p>If you spend money or invest money, sooner or later you will lose money.
+&lt;h3>Poor judgement&lt;/h3>
+&lt;p>Usually if you lose money it's because you made a mistake.&lt;/p></pre>
+
+   <p>This book would form the following outline:</p>
+
+   <ol class=brief><li> The Tax Book
+     <ol class=brief><li> Earning money
+       <ol class=brief><li> Getting a job
+       </ol>
+      <li> Spending money
+       <ol class=brief><li> Cheap things
+        <li> Expensive things
+       </ol>
+      <li> Investing money
+      <li> Losing money
+       <ol class=brief><li> Poor judgement
+       </ol>
+     </ol>
+   </ol>
+
+   <p>Notice that the <code id=sample-outlines:the-title-element><a href=#the-title-element>title</a></code> element does not participate in the outline.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here is a similar document, but this time using <code id=sample-outlines:the-section-element><a href=#the-section-element>section</a></code> elements to get the same
+   effect:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang=en>
+&lt;title>The Tax Book (all in one page)&lt;/title>
+&lt;h1>The Tax Book&lt;/h1>
+&lt;section>
+ &lt;h1>Earning money&lt;/h1>
+ &lt;p>Earning money is good.&lt;/p>
+ &lt;section>
+  &lt;h1>Getting a job&lt;/h1>
+  &lt;p>To earn money you typically need a job.&lt;/p>
+ &lt;/section>
+&lt;/section>
+&lt;section>
+ &lt;h1>Spending money&lt;/h1>
+ &lt;p>Spending is what money is mainly used for.&lt;/p>
+ &lt;section>
+  &lt;h1>Cheap things&lt;/h1>
+  &lt;p>Buying cheap things often not cost-effective.&lt;/p>
+ &lt;/section>
+ &lt;section>
+  &lt;h1>Expensive things&lt;/h1>
+  &lt;p>The most expensive thing is often not the most cost-effective either.&lt;/p>
+ &lt;/section>
+&lt;/section>
+&lt;section>
+ &lt;h1>Investing money&lt;/h1>
+ &lt;p>You can lend your money to other people.&lt;/p>
+&lt;/section>
+&lt;section>
+ &lt;h1>Losing money&lt;/h1>
+ &lt;p>If you spend money or invest money, sooner or later you will lose money.
+ &lt;section>
+  &lt;h1>Poor judgement&lt;/h1>
+  &lt;p>Usually if you lose money it's because you made a mistake.&lt;/p>
+ &lt;/section>
+&lt;/section></pre>
+
+   <p>This book would form the same outline:</p>
+
+   <ol class=brief><li> The Tax Book
+     <ol class=brief><li> Earning money
+       <ol class=brief><li> Getting a job
+       </ol>
+      <li> Spending money
+       <ol class=brief><li> Cheap things
+        <li> Expensive things
+       </ol>
+      <li> Investing money
+      <li> Losing money
+       <ol class=brief><li> Poor judgement
+       </ol>
+     </ol>
+   </ol>
+
+  </div>
+
+  <div class=example>
+
+   <p>A document can contain multiple top-level headings:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang=en>
+&lt;title>Alphabetic Fruit&lt;/title>
+&lt;h1>Apples&lt;/h1>
+&lt;p>Pomaceous.&lt;/p>
+&lt;h1>Bananas&lt;/h1>
+&lt;p>Edible.&lt;/p>
+&lt;h1>Carambola&lt;/h1>
+&lt;p>Star.&lt;/p></pre>
+
+   <p>This would form the following simple outline consisting of three top-level sections:</p>
+
+   <ol class=brief><li> Apples
+    <li> Bananas
+    <li> Carambola
+   </ol>
+
+   <p>Effectively, the <code id=sample-outlines:the-body-element><a href=#the-body-element>body</a></code> element is split into three.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>Mixing both the <code id=sample-outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=sample-outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> model and the
+   <code id=sample-outlines:the-section-element-2><a href=#the-section-element>section</a></code>/<code id=sample-outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-3><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> model can lead to some unintuitive results.</p>
+
+   <p>Consider for example the following, which is just the previous example but with the contents
+   of the (implied) <code id=sample-outlines:the-body-element-2><a href=#the-body-element>body</a></code> wrapped in a <code id=sample-outlines:the-section-element-3><a href=#the-section-element>section</a></code>:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang=en>
+&lt;title>Alphabetic Fruit&lt;/title>
+&lt;section>
+ &lt;h1>Apples&lt;/h1>
+ &lt;p>Pomaceous.&lt;/p>
+ &lt;h1>Bananas&lt;/h1>
+ &lt;p>Edible.&lt;/p>
+ &lt;h1>Carambola&lt;/h1>
+ &lt;p>Star.&lt;/p>
+&lt;/section></pre>
+
+   <p>The resulting outline would be:</p>
+
+   <ol class=brief><li> <i>(untitled page)</i>
+     <ol class=brief><li> Apples
+      <li> Bananas
+      <li> Carambola
+     </ol>
+   </ol>
+
+   <p>This result is described as <i>unintuitive</i> because it results in three subsections even
+   though there's only one <code id=sample-outlines:the-section-element-4><a href=#the-section-element>section</a></code> element. Effectively, the <code id=sample-outlines:the-section-element-5><a href=#the-section-element>section</a></code> is
+   split into three, just like the implied <code id=sample-outlines:the-body-element-3><a href=#the-body-element>body</a></code> element in the previous example.</p>
+
+   <p>(In this example, "<i>(untitled page)</i>" is the implied heading for the <code id=sample-outlines:the-body-element-4><a href=#the-body-element>body</a></code>
+   element, since it has no explicit heading.)</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>Headings never rise above other sections. Thus, in the following example, the first
+   <code id=sample-outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-4><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> does not actually describe the page header; it describes the header for the
+   second half of the page:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang=en>
+&lt;title>Feathers on The Site of Encyclopedic Knowledge&lt;/title>
+&lt;section>
+ &lt;h1>A plea from our caretakers&lt;/h1>
+ &lt;p>Please, we beg of you, send help! We're stuck in the server room!&lt;/p>
+&lt;/section>
+&lt;h1>Feathers&lt;/h1>
+&lt;p>Epidermal growths.&lt;/p>
+</pre>
+
+   <p>The resulting outline would be:</p>
+
+   <ol class=brief><li> <i>(untitled page)</i>
+     <ol class=brief><li> A plea from our caretakers
+     </ol>
+    <li> Feathers
+   </ol>
+
+  </div>
+
+  <div class=example>
+
+   <p>Thus, when an <code id=sample-outlines:the-article-element><a href=#the-article-element>article</a></code> element starts with a <code id=sample-outlines:the-nav-element><a href=#the-nav-element>nav</a></code> block and only later
+   has its heading, the result is that the <code id=sample-outlines:the-nav-element-2><a href=#the-nav-element>nav</a></code> block is not part of the same section as
+   the rest of the <code id=sample-outlines:the-article-element-2><a href=#the-article-element>article</a></code> in the outline. For instance, take this document:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+&lt;title>We're adopting a child! — Ray's blog&lt;/title>
+&lt;h1>Ray's blog&lt;/h1>
+&lt;article>
+ &lt;header>
+  &lt;nav>
+   &lt;a href="?t=-1d">Yesterday&lt;/a>;
+   &lt;a href="?t=-7d">Last week&lt;/a>;
+   &lt;a href="?t=-1m">Last month&lt;/a>
+  &lt;/nav>
+  &lt;h1>We're adopting a child!&lt;/h1>
+ &lt;/header>
+ &lt;main>
+  &lt;p>As of today, Janine and I have signed the papers to become
+  the proud parents of baby Diane! We've been looking forward to
+  this day for weeks.&lt;/p>
+ &lt;/main>
+&lt;/article>
+&lt;/html></pre>
+
+   <p>The resulting outline would be:</p>
+
+   <ol class=brief><li> Ray's blog
+     <ol class=brief><li> <i>Untitled article</i>
+       <ol class=brief><li> <i>Untitled navigation section</i>
+       </ol>
+      <li> We're adopting a child!
+     </ol>
+   </ol>
+
+   <p>Also worthy of note in this example is that the <code id=sample-outlines:the-header-element><a href=#the-header-element>header</a></code> and <code id=sample-outlines:the-main-element><a href=#the-main-element>main</a></code>
+   elements have no effect whatsoever on the document outline.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>The <code id=sample-outlines:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code> element can be used for subheadings. For example:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+&lt;title>Chronotype: CS Student&lt;/title>
+&lt;hgroup>
+ &lt;h1> The morning &lt;/h1>
+ &lt;h2> 06:00 to 12:00 &lt;/h2>
+&lt;/hgroup>
+&lt;p>We sleep.&lt;/p>
+&lt;hgroup>
+ &lt;h1> The afternoon &lt;/h1>
+ &lt;h2> 12:00 to 18:00 &lt;/h2>
+&lt;/hgroup>
+&lt;p>We study.&lt;/p>
+&lt;hgroup>
+ &lt;h2>Additional Commentary&lt;/h2>
+ &lt;h3>Because not all this is necessarily true&lt;/h3>
+ &lt;h6>Ok it's almost certainly not true&lt;/h6>
+&lt;/hgroup>
+&lt;p>Yeah we probably play, rather than study.&lt;/p>
+&lt;hgroup>
+ &lt;h1> The evening &lt;/h1>
+ &lt;h2> 18:00 to 00:00 &lt;/h2>
+&lt;/hgroup>
+&lt;p>We play.&lt;/p>
+&lt;hgroup>
+ &lt;h1> The night &lt;/h1>
+ &lt;h2> 00:00 to 06:00 &lt;/h2>
+&lt;/hgroup>
+&lt;p>We play some more.&lt;/p>
+&lt;/html></pre>
+
+   <p>The resulting outline would be:</p>
+
+   <ol class=brief><li> The morning <small>06:00 to 12:00</small>
+    <li> The afternoon <small>12:00 to 18:00</small>
+     <ol class=brief><li> Additional Commentary <small>Because not all this is necessarily true <small>Ok it's almost certainly not true</small></small>
+     </ol>
+    <li> The evening <small>18:00 to 00:00</small>
+    <li> The night <small>00:00 to 06:00</small>
+   </ol>
+
+   <p>Exactly how this is represented by user agents, as most interface issues, is left as a matter
+   of implementation preference, but the key part is that the <code id=sample-outlines:the-hgroup-element-2><a href=#the-hgroup-element>hgroup</a></code>'s descendant
+   <code id=sample-outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-5><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=sample-outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-6><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> elements are what form the element's heading. Thus, the
+   following would be equally valid:</p>
+
+   <ol class=brief><li> The morning — 06:00 to 12:00
+    <li> The afternoon — 12:00 to 18:00
+     <ol class=brief><li> Additional Commentary — Because not all this is necessarily true — Ok it's almost certainly not true
+     </ol>
+    <li> The evening — 18:00 to 00:00
+    <li> The night — 00:00 to 06:00
+   </ol>
+
+   <p>But so would the following:</p>
+
+   <ol class=brief><li> The morning
+    <li> The afternoon
+     <ol class=brief><li> Additional Commentary
+     </ol>
+    <li> The evening
+    <li> The night
+   </ol>
+
+   <p>The following would also be valid, though maybe less practical in most contexts:</p>
+
+   <ol class=brief><li> <p>The morning
+         <p> 06:00 to 12:00
+    <li> <p>The afternoon
+         <p> 12:00 to 18:00
+     <ol class=brief><li> <p> Additional Commentary
+           <p> Because not all this is necessarily true
+           <p> Ok it's almost certainly not true
+     </ol>
+    <li> <p>The evening
+         <p> 18:00 to 00:00
+    <li> <p>The night
+         <p> 00:00 to 06:00
+   </ol>
+
+  </div>
+
+
+  <h5 id=exposing-outlines-to-users>4.3.11.3 Exposing outlines to users<a href=#exposing-outlines-to-users class=self-link></a></h5>
+
+  <p>User agents are encouraged to expose page outlines to users to aid in navigation. This is
+  especially true for non-visual media, e.g. screen readers.</p>
+
+  <p>However, to mitigate the difficulties that arise from authors misusing <a href=#sectioning-content-2 id=exposing-outlines-to-users:sectioning-content-2>sectioning
+  content</a>, user agents are also encouraged to offer a mode that navigates the page using
+  <a href=#heading-content-2 id=exposing-outlines-to-users:heading-content-2>heading content</a> alone.</p>
+
+  <div class=example>
+
+   <p>For instance, a user agent could map the arrow keys as follows:</p>
+
+   <dl><dt><kbd><kbd>Shift</kbd>+<kbd>← Left</kbd></kbd>
+    <dd>Go to previous section, including subsections of previous sections
+
+    <dt><kbd><kbd>Shift</kbd>+<kbd>→ Right</kbd></kbd>
+    <dd>Go to next section, including subsections of the current section
+
+    <dt><kbd><kbd>Shift</kbd>+<kbd>↑ Up</kbd></kbd>
+    <dd>Go to parent section of the current section
+
+    <dt><kbd><kbd>Shift</kbd>+<kbd>↓ Down</kbd></kbd>
+    <dd>Go to next section, skipping subsections of the current section
+
+   </dl>
+
+   <p>Plus in addition, the user agent could map the <kbd><kbd>j</kbd></kbd> and
+   <kbd><kbd>k</kbd></kbd> keys to navigating to the previous or next element of <a href=#heading-content-2 id=exposing-outlines-to-users:heading-content-2-2>heading
+   content</a>, regardless of the section's outline depth and ignoring sections with no
+   headings.</p>
+
+  </div>
+
+
+
+  <h4 id=usage-summary-2>4.3.12 Usage summary<a href=#usage-summary-2 class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <table class=vertical-summary-table><thead><tr><th rowspan=2>Element
+     <th>Purpose
+    <tr><th>Example
+   <tbody><tr><td rowspan=2><code id=usage-summary-2:the-body-element><a href=#the-body-element>body</a></code>
+     <td>The main content of the document.
+    <tr><td><pre class=example>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+ &lt;head> &lt;title>Steve Hill's Home Page&lt;/title> &lt;/head>
+ <strong>&lt;body></strong> &lt;p>Hard Trance is My Life.&lt;/p> <strong>&lt;/body></strong>
+&lt;/html></pre>
+
+    <tr><td rowspan=2><code id=usage-summary-2:the-article-element><a href=#the-article-element>article</a></code>
+     <td>A complete, or self-contained, composition in a document, page, application, or site and that is, in principle, independently distributable or reusable, e.g. in syndication. This could be a forum post, a magazine or newspaper article, a blog entry, a user-submitted comment, an interactive widget or gadget, or any other independent item of content.
+    <tr><td><pre class=example><strong>&lt;article></strong>
+ &lt;img src="/tumblr_masqy2s5yn1rzfqbpo1_500.jpg" alt="Yellow smiley face with the caption 'masif'">
+ &lt;p>My fave Masif tee so far!&lt;/p>
+ &lt;footer>Posted 2 days ago&lt;/footer>
+<strong>&lt;/article></strong>
+<strong>&lt;article></strong>
+ &lt;img src="/tumblr_m9tf6wSr6W1rzfqbpo1_500.jpg" alt="">
+ &lt;p>Happy 2nd birthday Masif Saturdays!!!&lt;/p>
+ &lt;footer>Posted 3 weeks ago&lt;/footer>
+<strong>&lt;/article></strong></pre>
+
+    <tr><td rowspan=2><code id=usage-summary-2:the-section-element><a href=#the-section-element>section</a></code>
+     <td>A generic section of a document or application. A section, in this context, is a thematic grouping of content, typically with a heading.
+    <tr><td><pre class=example>&lt;h1>Biography&lt;/h1>
+<strong>&lt;section></strong>
+ &lt;h1>The facts&lt;/h1>
+ &lt;p>1500+ shows, 14+ countries&lt;/p>
+<strong>&lt;/section></strong>
+<strong>&lt;section></strong>
+ &lt;h1>2010/2011 figures per year&lt;/h1>
+ &lt;p>100+ shows, 8+ countries&lt;/p>
+<strong>&lt;/section></strong></pre>
+
+    <tr><td rowspan=2><code id=usage-summary-2:the-nav-element><a href=#the-nav-element>nav</a></code>
+     <td>A section of a page that links to other pages or to parts within the page: a section with navigation links.
+    <tr><td><pre class=example><strong>&lt;nav></strong>
+ &lt;p>&lt;a href="/">Home&lt;/a>
+ &lt;p>&lt;a href="/biog.html">Bio&lt;/a>
+ &lt;p>&lt;a href="/discog.html">Discog&lt;/a>
+<strong>&lt;/nav></strong></pre>
+
+    <tr><td rowspan=2><code id=usage-summary-2:the-aside-element><a href=#the-aside-element>aside</a></code>
+     <td>A section of a page that consists of content that is tangentially related to the content around the <code id=usage-summary-2:the-aside-element-2><a href=#the-aside-element>aside</a></code> element, and which could be considered separate from that content. Such sections are often represented as sidebars in printed typography.
+    <tr><td><pre class=example>&lt;h1>Music&lt;/h1>
+&lt;p>As any burner can tell you, the event has a lot of trance.&lt;/p>
+<strong>&lt;aside></strong>You can buy the music we played at our &lt;a href="buy.html">playlist page&lt;/a>.<strong>&lt;/aside></strong>
+&lt;p>This year we played a kind of trance that originated in Belgium, Germany, and the Netherlands in the mid 90s.&lt;/p></pre>
+
+    <tr><td rowspan=2><code id=usage-summary-2:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=usage-summary-2:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code>
+     <td>A section heading
+    <tr><td><pre class=example><strong>&lt;h1></strong>The Guide To Music On The Playa<strong>&lt;/h1></strong>
+<strong>&lt;h2></strong>The Main Stage<strong>&lt;/h2></strong>
+&lt;p>If you want to play on a stage, you should bring one.&lt;/p>
+<strong>&lt;h2></strong>Amplified Music<strong>&lt;/h2></strong>
+&lt;p>Amplifiers up to 300W or 90dB are welcome.&lt;/p></pre>
+
+    <tr><td rowspan=2><code id=usage-summary-2:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code>
+     <td>The heading of a section, which consists of all the <code id=usage-summary-2:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-3><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=usage-summary-2:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-4><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> element children of the <code id=usage-summary-2:the-hgroup-element-2><a href=#the-hgroup-element>hgroup</a></code> element. The element is used to group a set of <code id=usage-summary-2:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-5><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=usage-summary-2:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-6><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> elements when the heading has multiple levels, such as subheadings, alternative titles, or taglines.
+    <tr><td><pre class=example><strong>&lt;hgroup></strong>
+ &lt;h1>Burning Music&lt;/h1>
+ &lt;h2>The Guide To Music On The Playa&lt;/h2>
+<strong>&lt;/hgroup></strong>
+&lt;section>
+ <strong>&lt;hgroup></strong>
+  &lt;h1>Main Stage&lt;/h1>
+  &lt;h2>The Fiction Of A Music Festival&lt;/h2>
+ <strong>&lt;/hgroup></strong>
+ &lt;p>If you want to play on a stage, you should bring one.&lt;/p>
+&lt;/section>
+&lt;section>
+ <strong>&lt;hgroup></strong>
+  &lt;h1>Loudness!&lt;/h1>
+  &lt;h2>Questions About Amplified Music&lt;/h2>
+ <strong>&lt;/hgroup></strong>
+ &lt;p>Amplifiers up to 300W or 90dB are welcome.&lt;/p>
+&lt;/section></pre>
+
+    <tr><td rowspan=2><code id=usage-summary-2:the-header-element><a href=#the-header-element>header</a></code>
+     <td>A group of introductory or navigational aids.
+    <tr><td><pre class=example>&lt;article>
+ <strong>&lt;header></strong>
+  &lt;h1>Hard Trance is My Life&lt;/h1>
+  &lt;p>By DJ Steve Hill and Technikal&lt;/p>
+ <strong>&lt;/header></strong>
+ &lt;p>The album with the amusing punctuation has red artwork.&lt;/p>
+&lt;/article></pre>
+
+    <tr><td rowspan=2><code id=usage-summary-2:the-footer-element><a href=#the-footer-element>footer</a></code>
+     <td>A footer for its nearest ancestor <a href=#sectioning-content-2 id=usage-summary-2:sectioning-content-2>sectioning content</a> or <a href=#sectioning-root id=usage-summary-2:sectioning-root>sectioning root</a> element. A footer typically contains information about its section such as who wrote it, links to related documents, copyright data, and the like.
+    <tr><td><pre class=example>&lt;article>
+ &lt;h1>Hard Trance is My Life&lt;/h1>
+ &lt;p>The album with the amusing punctuation has red artwork.&lt;/p>
+ <strong>&lt;footer></strong>
+  &lt;p>Artists: DJ Steve Hill and Technikal&lt;/p>
+ <strong>&lt;/footer></strong>
+&lt;/article></pre>
+
+  </table>
+
+
+  <h5 id=article-or-section>4.3.12.1 Article or section?<a href=#article-or-section class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>A <code id=article-or-section:the-section-element><a href=#the-section-element>section</a></code> forms part of something else. An <code id=article-or-section:the-article-element><a href=#the-article-element>article</a></code> is its own thing.
+  But how does one know which is which? Mostly the real answer is "it depends on author intent".</p>
+
+  <p>For example, one could imagine a book with a "Granny Smith" chapter that just said "These
+  juicy, green apples make a great filling for apple pies."; that would be a <code id=article-or-section:the-section-element-2><a href=#the-section-element>section</a></code>
+  because there'd be lots of other chapters on (maybe) other kinds of apples.</p>
+
+  <p>On the other hand, one could imagine a tweet or reddit comment or tumblr post or newspaper
+  classified ad that just said "Granny Smith. These juicy, green apples make a great filling for
+  apple pies."; it would then be <code id=article-or-section:the-article-element-2><a href=#the-article-element>article</a></code>s because that was the whole thing.</p>
+
+  <p>A comment on an article is not part of the <code id=article-or-section:the-article-element-3><a href=#the-article-element>article</a></code> on which it is commenting,
+  therefore it is its own <code id=article-or-section:the-article-element-4><a href=#the-article-element>article</a></code>.</p>
+
+
+
+  <h3 id=grouping-content>4.4 Grouping content<a href=#grouping-content class=self-link></a></h3>
+
+  <h4 id=the-p-element>4.4.1 The <dfn><code>p</code></dfn> element<a href=#the-p-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-p-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-p-element:flow-content-2>Flow content</a>.<dd><a href=#palpable-content-2 id=the-p-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-p-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-p-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-p-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-p-element:phrasing-content-2>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-p-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>A <code id=the-p-element:the-p-element><a href=#the-p-element>p</a></code> element's <a href=#syntax-end-tag id=the-p-element:syntax-end-tag>end tag</a> can be omitted if the
+   <code id=the-p-element:the-p-element-2><a href=#the-p-element>p</a></code> element is immediately followed by an <code id=the-p-element:the-address-element><a href=#the-address-element>address</a></code>, <code id=the-p-element:the-article-element><a href=#the-article-element>article</a></code>,
+   <code id=the-p-element:the-aside-element><a href=#the-aside-element>aside</a></code>, <code id=the-p-element:the-blockquote-element><a href=#the-blockquote-element>blockquote</a></code>, <code id=the-p-element:the-details-element><a href=#the-details-element>details</a></code>, <code id=the-p-element:the-div-element><a href=#the-div-element>div</a></code>, <code id=the-p-element:the-dl-element><a href=#the-dl-element>dl</a></code>,
+   <code id=the-p-element:the-fieldset-element><a href=#the-fieldset-element>fieldset</a></code>, <code id=the-p-element:the-figcaption-element><a href=#the-figcaption-element>figcaption</a></code>, <code id=the-p-element:the-figure-element><a href=#the-figure-element>figure</a></code>, <code id=the-p-element:the-footer-element><a href=#the-footer-element>footer</a></code>, <code id=the-p-element:the-form-element><a href=#the-form-element>form</a></code>, <code id=the-p-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>, <code id=the-p-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h2</a></code>,
+   <code id=the-p-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-3><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h3</a></code>, <code id=the-p-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-4><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h4</a></code>, <code id=the-p-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-5><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h5</a></code>, <code id=the-p-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-6><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code>, <code id=the-p-element:the-header-element><a href=#the-header-element>header</a></code>,
+   <code id=the-p-element:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code>, <code id=the-p-element:the-hr-element><a href=#the-hr-element>hr</a></code>, <code id=the-p-element:the-main-element><a href=#the-main-element>main</a></code>, <code id=the-p-element:the-menu-element><a href=#the-menu-element>menu</a></code>, <code id=the-p-element:the-nav-element><a href=#the-nav-element>nav</a></code>,
+   <code id=the-p-element:the-ol-element><a href=#the-ol-element>ol</a></code>, <code id=the-p-element:the-p-element-3><a href=#the-p-element>p</a></code>, <code id=the-p-element:the-pre-element><a href=#the-pre-element>pre</a></code>, <code id=the-p-element:the-section-element><a href=#the-section-element>section</a></code>, <code id=the-p-element:the-table-element><a href=#the-table-element>table</a></code>, or
+   <code id=the-p-element:the-ul-element><a href=#the-ul-element>ul</a></code> element, or if there is no more content in the parent element and the parent
+   element is an <a href=#html-elements id=the-p-element:html-elements>HTML element</a> that is not an <code id=the-p-element:the-a-element><a href=#the-a-element>a</a></code>,
+   <code id=the-p-element:the-audio-element><a href=#the-audio-element>audio</a></code>, <code id=the-p-element:the-del-element><a href=#the-del-element>del</a></code>, <code id=the-p-element:the-ins-element><a href=#the-ins-element>ins</a></code>, <code id=the-p-element:the-map-element><a href=#the-map-element>map</a></code>, <code id=the-p-element:the-noscript-element><a href=#the-noscript-element>noscript</a></code>,
+   or <code id=the-p-element:the-video-element><a href=#the-video-element>video</a></code> element, or an <a href=#autonomous-custom-element id=the-p-element:autonomous-custom-element>autonomous custom element</a>.<dt><a href=#concept-element-attributes id=the-p-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-p-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-p-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-p-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlparagraphelement>HTMLParagraphElement</dfn> : <a href=#htmlelement id=the-p-element:htmlelement>HTMLElement</a> {
+  // <a href="#HTMLParagraphElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-p-element:the-p-element-4><a href=#the-p-element>p</a></code> element <a href=#represents id=the-p-element:represents>represents</a> a <a href=#paragraph id=the-p-element:paragraph>paragraph</a>.</p>
+
+  <p class=note>While paragraphs are usually represented in visual media by blocks of text that
+  are physically separated from adjacent blocks through blank lines, a style sheet or user agent
+  would be equally justified in presenting paragraph breaks in a different manner, for instance
+  using inline pilcrows (¶).</p>
+
+  <div class=example>
+   <p>The following examples are conforming HTML fragments:</p>
+   <pre>&lt;p>The little kitten gently seated herself on a piece of
+carpet. Later in her life, this would be referred to as the time the
+cat sat on the mat.&lt;/p></pre>
+   <pre>&lt;fieldset>
+ &lt;legend>Personal information&lt;/legend>
+ &lt;p>
+   &lt;label>Name: &lt;input name="n">&lt;/label>
+   &lt;label>&lt;input name="anon" type="checkbox"> Hide from other users&lt;/label>
+ &lt;/p>
+ &lt;p>&lt;label>Address: &lt;textarea name="a">&lt;/textarea>&lt;/label>&lt;/p>
+&lt;/fieldset></pre>
+   <pre>&lt;p>There was once an example from Femley,&lt;br>
+Whose markup was of dubious quality.&lt;br>
+The validator complained,&lt;br>
+So the author was pained,&lt;br>
+To move the error from the markup to the rhyming.&lt;/p></pre>
+  </div>
+
+  <p>The <code id=the-p-element:the-p-element-5><a href=#the-p-element>p</a></code> element should not be used when a more specific element is more
+  appropriate.</p>
+
+  <div class=example>
+
+   <p>The following example is technically correct:</p>
+
+<pre>&lt;section>
+ &lt;!-- ... -->
+ &lt;p>Last modified: 2001-04-23&lt;/p>
+ &lt;p>Author: fred@example.com&lt;/p>
+&lt;/section></pre>
+
+   <p>However, it would be better marked-up as:</p>
+
+<pre>&lt;section>
+ &lt;!-- ... -->
+ &lt;footer>Last modified: 2001-04-23&lt;/footer>
+ &lt;address>Author: fred@example.com&lt;/address>
+&lt;/section></pre>
+
+   <p>Or:</p>
+
+<pre>&lt;section>
+ &lt;!-- ... -->
+ &lt;footer>
+  &lt;p>Last modified: 2001-04-23&lt;/p>
+  &lt;address>Author: fred@example.com&lt;/address>
+ &lt;/footer>
+&lt;/section></pre>
+
+  </div>
+
+  <div class=note>
+
+   <p>List elements (in particular, <code id=the-p-element:the-ol-element-2><a href=#the-ol-element>ol</a></code> and <code id=the-p-element:the-ul-element-2><a href=#the-ul-element>ul</a></code> elements) cannot be children
+   of <code id=the-p-element:the-p-element-6><a href=#the-p-element>p</a></code> elements. When a sentence contains a bulleted list, therefore, one might wonder
+   how it should be marked up.</p>
+
+   <div class=example>
+    <p>For instance, this fantastic sentence has bullets relating to</p>
+    <ul><li>wizards,
+     <li>faster-than-light travel, and
+     <li>telepathy,
+    </ul>
+    <p>and is further discussed below.</p>
+   </div>
+
+   <p>The solution is to realize that a <i id=the-p-element:paragraph-2><a href=#paragraph>paragraph</a></i>, in HTML terms, is not a
+   logical concept, but a structural one. In the fantastic example above, there are actually
+   <em>five</em> <a href=#paragraph id=the-p-element:paragraph-3>paragraphs</a> as defined by this specification: one
+   before the list, one for each bullet, and one after the list.</p>
+
+   <div class=example>
+
+    <p>The markup for the above example could therefore be:</p>
+
+    <pre>&lt;p>For instance, this fantastic sentence has bullets relating to&lt;/p>
+&lt;ul>
+ &lt;li>wizards,
+ &lt;li>faster-than-light travel, and
+ &lt;li>telepathy,
+&lt;/ul>
+&lt;p>and is further discussed below.&lt;/p></pre>
+
+   </div>
+
+   <p>Authors wishing to conveniently style such "logical" paragraphs consisting of multiple
+   "structural" paragraphs can use the <code id=the-p-element:the-div-element-2><a href=#the-div-element>div</a></code> element instead of the <code id=the-p-element:the-p-element-7><a href=#the-p-element>p</a></code>
+   element.</p>
+
+   <div class=example>
+
+    <p>Thus for instance the above example could become the following:</p>
+
+    <pre>&lt;div>For instance, this fantastic sentence has bullets relating to
+&lt;ul>
+ &lt;li>wizards,
+ &lt;li>faster-than-light travel, and
+ &lt;li>telepathy,
+&lt;/ul>
+and is further discussed below.&lt;/div></pre>
+
+    <p>This example still has five structural paragraphs, but now the author can style just the
+    <code id=the-p-element:the-div-element-3><a href=#the-div-element>div</a></code> instead of having to consider each part of the example separately.</p>
+
+   </div>
+
+  </div>
+
+
+
+  <h4 id=the-hr-element>4.4.2 The <dfn><code>hr</code></dfn> element<a href=#the-hr-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-hr-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-hr-element:flow-content-2>Flow content</a>.<dt><a href=#concept-element-contexts id=the-hr-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-hr-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-hr-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-hr-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-hr-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-hr-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-hr-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-hr-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-hr-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-hr-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlhrelement>HTMLHRElement</dfn> : <a href=#htmlelement id=the-hr-element:htmlelement>HTMLElement</a> {
+  // <a href="#HTMLHRElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-hr-element:the-hr-element><a href=#the-hr-element>hr</a></code> element <a href=#represents id=the-hr-element:represents>represents</a> a <a href=#paragraph id=the-hr-element:paragraph>paragraph</a>-level thematic
+  break, e.g. a scene change in a story, or a transition to another topic within a section of a
+  reference book.</p>
+
+  <div class=example>
+
+   <p>The following fictional extract from a project manual shows two sections that use the
+   <code id=the-hr-element:the-hr-element-2><a href=#the-hr-element>hr</a></code> element to separate topics within the section.</p>
+
+   <pre>&lt;section>
+ &lt;h1>Communication&lt;/h1>
+ &lt;p>There are various methods of communication. This section
+ covers a few of the important ones used by the project.&lt;/p>
+ <strong>&lt;hr></strong>
+ &lt;p>Communication stones seem to come in pairs and have mysterious
+ properties:&lt;/p>
+ &lt;ul>
+  &lt;li>They can transfer thoughts in two directions once activated
+  if used alone.&lt;/li>
+  &lt;li>If used with another device, they can transfer one's
+  consciousness to another body.&lt;/li>
+  &lt;li>If both stones are used with another device, the
+  consciousnesses switch bodies.&lt;/li>
+ &lt;/ul>
+ <strong>&lt;hr></strong>
+ &lt;p>Radios use the electromagnetic spectrum in the meter range and
+ longer.&lt;/p>
+ <strong>&lt;hr></strong>
+ &lt;p>Signal flares use the electromagnetic spectrum in the
+ nanometer range.&lt;/p>
+&lt;/section>
+&lt;section>
+ &lt;h1>Food&lt;/h1>
+ &lt;p>All food at the project is rationed:&lt;/p>
+ &lt;dl>
+  &lt;dt>Potatoes&lt;/dt>
+  &lt;dd>Two per day&lt;/dd>
+  &lt;dt>Soup&lt;/dt>
+  &lt;dd>One bowl per day&lt;/dd>
+ &lt;/dl>
+ <strong>&lt;hr></strong>
+ &lt;p>Cooking is done by the chefs on a set rotation.&lt;/p>
+&lt;/section></pre>
+
+   <p>There is no need for an <code id=the-hr-element:the-hr-element-3><a href=#the-hr-element>hr</a></code> element between the sections themselves, since the
+   <code id=the-hr-element:the-section-element><a href=#the-section-element>section</a></code> elements and the <code id=the-hr-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> elements imply thematic changes
+   themselves.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following extract from <cite>Pandora's Star</cite> by Peter F. Hamilton shows two
+   paragraphs that precede a scene change and the paragraph that follows it. The scene change,
+   represented in the printed book by a gap containing a solitary centered star between the second
+   and third paragraphs, is here represented using the <code id=the-hr-element:the-hr-element-4><a href=#the-hr-element>hr</a></code> element.</p>
+
+   
+
+   <pre lang=en-GB>&lt;p>Dudley was ninety-two, in his second life, and fast approaching
+time for another rejuvenation. Despite his body having the physical
+age of a standard fifty-year-old, the prospect of a long degrading
+campaign within academia was one he regarded with dread. For a
+supposedly advanced civilization, the Intersolar Commonwealth could be
+appallingly backward at times, not to mention cruel.&lt;/p>
+&lt;p>&lt;i>Maybe it won't be that bad&lt;/i>, he told himself. The lie was
+comforting enough to get him through the rest of the night's
+shift.&lt;/p>
+<strong>&lt;hr></strong>
+&lt;p>The Carlton AllLander drove Dudley home just after dawn. Like the
+astronomer, the vehicle was old and worn, but perfectly capable of
+doing its job. It had a cheap diesel engine, common enough on a
+semi-frontier world like Gralmond, although its drive array was a
+thoroughly modern photoneural processor. With its high suspension and
+deep-tread tyres it could plough along the dirt track to the
+observatory in all weather and seasons, including the metre-deep snow
+of Gralmond's winters.&lt;/p></pre>
+
+  </div>
+
+  <p class=note>The <code id=the-hr-element:the-hr-element-5><a href=#the-hr-element>hr</a></code> element does not affect the document's
+  <a href=#outline id=the-hr-element:outline>outline</a>.</p>
+
+
+  <h4 id=the-pre-element>4.4.3 The <dfn><code>pre</code></dfn> element<a href=#the-pre-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-pre-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-pre-element:flow-content-2>Flow content</a>.<dd><a href=#palpable-content-2 id=the-pre-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-pre-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-pre-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-pre-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-pre-element:phrasing-content-2>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-pre-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-pre-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-pre-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-pre-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-pre-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlpreelement>HTMLPreElement</dfn> : <a href=#htmlelement id=the-pre-element:htmlelement>HTMLElement</a> {
+  // <a href="#HTMLPreElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-pre-element:the-pre-element><a href=#the-pre-element>pre</a></code> element <a href=#represents id=the-pre-element:represents>represents</a> a block of preformatted text, in which
+  structure is represented by typographic conventions rather than by elements.</p>
+
+  <p class=note>In <a href=#syntax id=the-pre-element:syntax>the HTML syntax</a>, a leading newline character immediately following
+  the <code id=the-pre-element:the-pre-element-2><a href=#the-pre-element>pre</a></code> element start tag is stripped.</p>
+
+  <p>Some examples of cases where the <code id=the-pre-element:the-pre-element-3><a href=#the-pre-element>pre</a></code> element could be used:</p>
+
+  <ul><li>Including an e-mail, with paragraphs indicated by blank lines, lists indicated by lines
+   prefixed with a bullet, and so on.<li>Including fragments of computer code, with structure indicated according to the conventions
+   of that language.<li>Displaying ASCII art.</ul>
+
+  <p class=note>Authors are encouraged to consider how preformatted text will be experienced when
+  the formatting is lost, as will be the case for users of speech synthesizers, braille displays,

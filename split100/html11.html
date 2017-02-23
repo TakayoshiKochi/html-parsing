@@ -1,0 +1,850 @@
+  styles apply to. The value must be a <a href=#valid-media-query-list id=the-style-element:valid-media-query-list>valid media query list</a>. The user
+  agent must apply the styles when the <code id=the-style-element:attr-style-media-2><a href=#attr-style-media>media</a></code> attribute's
+  value <a href=#matches-the-environment id=the-style-element:matches-the-environment>matches the environment</a> and the other relevant conditions apply, and must not
+  apply them otherwise.</p>
+
+  
+
+  <p class=note>The styles might be further limited in scope, e.g. in CSS with the use of <code>@media</code> blocks. This specification does not override such further restrictions or
+  requirements.</p>
+
+  
+
+  <p id=style-default-media>The default, if the <code id=the-style-element:attr-style-media-3><a href=#attr-style-media>media</a></code>
+  attribute is omitted, is "<code>all</code>", meaning that by default styles apply to all
+  media.</p>
+
+  <p>The <dfn id=attr-style-nonce><code>nonce</code></dfn> attribute represents a
+  cryptographic nonce ("number used once") which can be used by <cite>Content Security Policy</cite>
+  to determine whether or not the style specified by an element will be applied to the document. The
+  value is text. <a href=#refsCSP>[CSP]</a></p>
+
+  <p id=title-on-style>The <dfn id=attr-style-title><code>title</code></dfn> attribute on
+  <code id=the-style-element:the-style-element-3><a href=#the-style-element>style</a></code> elements defines <a href=https://drafts.csswg.org/cssom/#css-style-sheet-set id=the-style-element:css-style-sheet-set data-x-internal=css-style-sheet-set>CSS style sheet
+  sets</a>. If the <code id=the-style-element:the-style-element-4><a href=#the-style-element>style</a></code> element has no <code id=the-style-element:attr-style-title-3><a href=#attr-style-title>title</a></code>
+  attribute, then it has no title; the <code id=the-style-element:attr-title><a href=#attr-title>title</a></code> attribute of ancestors
+  does not apply to the <code id=the-style-element:the-style-element-5><a href=#the-style-element>style</a></code> element. If the <code id=the-style-element:the-style-element-6><a href=#the-style-element>style</a></code> element is not
+  <a id=the-style-element:in-a-document-tree href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a>, then the <code id=the-style-element:attr-style-title-4><a href=#attr-style-title>title</a></code> attribute
+  is ignored. <a href=#refsCSSOM>[CSSOM]</a></p>
+
+  <p class=note>The <code id=the-style-element:attr-style-title-5><a href=#attr-style-title>title</a></code> attribute on <code id=the-style-element:the-style-element-7><a href=#the-style-element>style</a></code>
+  elements, like the <code id=the-style-element:attr-link-title><a href=#attr-link-title>title</a></code> attribute on <code id=the-style-element:the-link-element><a href=#the-link-element>link</a></code>
+  elements, differs from the global <code id=the-style-element:attr-title-2><a href=#attr-title>title</a></code> attribute in that a
+  <code id=the-style-element:the-style-element-8><a href=#the-style-element>style</a></code> block without a title does not inherit the title of the parent element: it
+  merely has no title.</p>
+
+  <p>The <code id=the-style-element:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> of a <code id=the-style-element:the-style-element-9><a href=#the-style-element>style</a></code> element must match the <code>style</code> production in the following ABNF, the character set for which is Unicode. <a href=#refsABNF>[ABNF]</a></p>
+
+  <pre>style         = no-c-start *( c-start no-c-end c-end no-c-start )
+no-c-start    = &lt; any string that doesn't contain a substring that matches c-start >
+c-start       = "&lt;!--"
+no-c-end      = &lt; any string that doesn't contain a substring that matches c-end >
+c-end         = "-->"</pre>
+
+  
+
+  <hr>
+
+  
+
+  <p>The user agent must run the <dfn id=update-a-style-block data-export="">update a <code>style</code> block</dfn>
+  algorithm that applies for the style sheet language specified by the <code id=the-style-element:the-style-element-10><a href=#the-style-element>style</a></code>
+  element's <code id=the-style-element:attr-style-type-4><a href=#attr-style-type>type</a></code> attribute, passing it the element's
+  <dfn id=style-data>style data</dfn>, whenever one of the following conditions occur:</p>
+  
+
+  <ul><li>The element is popped off the <a href=#stack-of-open-elements id=the-style-element:stack-of-open-elements>stack of open elements</a> of an <a href=#html-parser id=the-style-element:html-parser>HTML
+   parser</a> or <a href=#xml-parser id=the-style-element:xml-parser>XML parser</a>.
+
+   <li>The element is not on the <a href=#stack-of-open-elements id=the-style-element:stack-of-open-elements-2>stack of open elements</a> of an <a href=#html-parser id=the-style-element:html-parser-2>HTML parser</a>
+   or <a href=#xml-parser id=the-style-element:xml-parser-2>XML parser</a>, and it <a href=#becomes-connected id=the-style-element:becomes-connected>becomes connected</a> or <a href=#becomes-disconnected id=the-style-element:becomes-disconnected>disconnected</a>.
+
+   <li>The element is not on the <a href=#stack-of-open-elements id=the-style-element:stack-of-open-elements-3>stack of open elements</a> of an <a href=#html-parser id=the-style-element:html-parser-3>HTML parser</a>
+   or <a href=#xml-parser id=the-style-element:xml-parser-3>XML parser</a>, and one of its child nodes is modified by a script.
+  </ul>
+
+  <p>For styling languages that consist of pure text (as opposed to XML), a <code id=the-style-element:the-style-element-11><a href=#the-style-element>style</a></code>
+  element's <a href=#style-data id=the-style-element:style-data>style data</a> is the <a href=#child-text-content id=the-style-element:child-text-content>child text content</a> of the <code id=the-style-element:the-style-element-12><a href=#the-style-element>style</a></code>
+  element. For XML-based styling languages, the <a href=#style-data id=the-style-element:style-data-2>style data</a> consists of all the child
+  nodes of the <code id=the-style-element:the-style-element-13><a href=#the-style-element>style</a></code> element.</p>
+
+  <p>The <a href=#update-a-style-block id=the-style-element:update-a-style-block>update a <code>style</code> block</a> algorithm for CSS (<code id=the-style-element:text/css><a href=#text/css>text/css</a></code>) is
+  as follows:</p>
+
+  <ol><li><p>Let <var>element</var> be the <code id=the-style-element:the-style-element-14><a href=#the-style-element>style</a></code> element.<li><p>If <var>element</var> has an <a id=the-style-element:associated-css-style-sheet href=https://drafts.csswg.org/cssom/#associated-css-style-sheet data-x-internal=associated-css-style-sheet>associated CSS style sheet</a>, <a href=https://drafts.csswg.org/cssom/#remove-a-css-style-sheet id=the-style-element:remove-a-css-style-sheet data-x-internal=remove-a-css-style-sheet>remove the CSS style sheet</a> in question.<li><p>If <var>element</var>'s <a id=the-style-element:root href=https://dom.spec.whatwg.org/#concept-tree-root data-x-internal=root>root</a> is neither a <a id=the-style-element:shadow-root href=https://dom.spec.whatwg.org/#concept-shadow-root data-x-internal=shadow-root>shadow root</a> nor a
+   <a href=#document id=the-style-element:document>document</a>, then abort these steps.<li><p>If the <a id="the-style-element:should-element's-inline-behavior-be-blocked-by-content-security-policy" href=https://w3c.github.io/webappsec-csp/#should-block-inline data-x-internal="should-element's-inline-behavior-be-blocked-by-content-security-policy">Should element's inline behavior be blocked by Content Security
+   Policy?</a> algorithm returns "<code>Blocked</code>" when executed upon the
+   <code id=the-style-element:the-style-element-15><a href=#the-style-element>style</a></code> element, "<code>style</code>", and the <code id=the-style-element:the-style-element-16><a href=#the-style-element>style</a></code>
+   element's <code id=the-style-element:style-data-3><a href=#style-data>style data</a></code>, then abort these steps. <a href=#refsCSP>[CSP]</a><li>
+
+    <p><a id=the-style-element:create-a-css-style-sheet href=https://drafts.csswg.org/cssom/#create-a-css-style-sheet data-x-internal=create-a-css-style-sheet>Create a CSS style sheet</a> with the following properties:</p>
+
+    <dl><dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-type id=the-style-element:concept-css-style-sheet-type data-x-internal=concept-css-style-sheet-type>type</a><dd><p><code>text/css</code><dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-owner-node id=the-style-element:concept-css-style-sheet-owner-node data-x-internal=concept-css-style-sheet-owner-node>owner node</a><dd><p><var>element</var><dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-media id=the-style-element:concept-css-style-sheet-media data-x-internal=concept-css-style-sheet-media>media</a><dd>
+
+      <p>The <code id=the-style-element:attr-style-media-4><a href=#attr-style-media>media</a></code> attribute of <var>element</var>.</p>
+
+      <p class=note>This is a reference to the (possibly absent at this time) attribute, rather
+      than a copy of the attribute's current value. The CSSOM specification defines what happens
+      when the attribute is dynamically set, changed, or removed.</p>
+
+     <dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-title id=the-style-element:concept-css-style-sheet-title data-x-internal=concept-css-style-sheet-title>title</a><dd>
+
+      <p>The <code id=the-style-element:attr-style-title-6><a href=#attr-style-title>title</a></code> attribute of <var>element</var>, if
+      <var>element</var> is <a id=the-style-element:in-a-document-tree-2 href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a>, or the empty string otherwise.</p>
+
+      <p class=note>Again, this is a <em>reference</em> to the attribute.</p>
+
+     <dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-alternate-flag id=the-style-element:concept-css-style-sheet-alternate-flag data-x-internal=concept-css-style-sheet-alternate-flag>alternate flag</a><dd><p>Unset.<dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-origin-clean-flag id=the-style-element:concept-css-style-sheet-origin-clean-flag data-x-internal=concept-css-style-sheet-origin-clean-flag>origin-clean flag</a><dd><p>Set.<dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-location id=the-style-element:concept-css-style-sheet-location data-x-internal=concept-css-style-sheet-location>location</a><dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-parent-css-style-sheet id=the-style-element:concept-css-style-sheet-parent-css-style-sheet data-x-internal=concept-css-style-sheet-parent-css-style-sheet>parent CSS style sheet</a><dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-owner-css-rule id=the-style-element:concept-css-style-sheet-owner-css-rule data-x-internal=concept-css-style-sheet-owner-css-rule>owner CSS rule</a><dd><p>null<dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-disabled-flag id=the-style-element:concept-css-style-sheet-disabeld-flag data-x-internal=concept-css-style-sheet-disabeld-flag>disabled flag</a><dd><p>Left at its default value.<dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-css-rules id=the-style-element:concept-css-style-sheet-css-rules data-x-internal=concept-css-style-sheet-css-rules>CSS rules</a><dd><p>Left uninitialized.</dl>
+
+    
+
+   </ol>
+
+  <p>This specification does not define any other styling language's <i id=the-style-element:update-a-style-block-2><a href=#update-a-style-block>update a <code>style</code> block</a></i> algorithm.</p>
+
+  
+  <p>Once the attempts to obtain the style sheet's <a href=#critical-subresources id=the-style-element:critical-subresources>critical subresources</a>, if any, are
+  complete, or, if the style sheet has no <a href=#critical-subresources id=the-style-element:critical-subresources-2>critical subresources</a>, once the style sheet
+  has been parsed and processed, the user agent must, if the loads were successful or there were
+  none, <a href=#queue-a-task id=the-style-element:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-style-element:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named
+  <code id=the-style-element:event-load><a href=#event-load>load</a></code> at the <code id=the-style-element:the-style-element-17><a href=#the-style-element>style</a></code> element, or, if one of the style
+  sheet's <a href=#critical-subresources id=the-style-element:critical-subresources-3>critical subresources</a> failed to completely load for any reason (e.g. DNS
+  error, HTTP 404 response, a connection being prematurely closed, unsupported Content-Type),
+  <a href=#queue-a-task id=the-style-element:queue-a-task-2>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-style-element:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=the-style-element:event-error><a href=#event-error>error</a></code> at the <code id=the-style-element:the-style-element-18><a href=#the-style-element>style</a></code> element. Non-network errors in
+  processing the style sheet or its subresources (e.g. CSS parse errors, PNG decoding errors) are
+  not failures for the purposes of this paragraph.</p>
+
+  <p>The <a href=#task-source id=the-style-element:task-source>task source</a> for these <a href=#concept-task id=the-style-element:concept-task>tasks</a> is the <a href=#dom-manipulation-task-source id=the-style-element:dom-manipulation-task-source>DOM
+  manipulation task source</a>.</p>
+
+  <p>The element must <a href=#delay-the-load-event id=the-style-element:delay-the-load-event>delay the load event</a> of the element's <a id=the-style-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> until all the
+  attempts to obtain the style sheet's <a href=#critical-subresources id=the-style-element:critical-subresources-4>critical subresources</a>, if any, are complete.</p>
+
+  
+
+  <p class=note>This specification does not specify a style system, but CSS is expected to be
+  supported by most Web browsers. <a href=#refsCSS>[CSS]</a></p>
+
+  
+
+  <p>The <dfn id=dom-style-media><code>media</code></dfn>, <dfn id=dom-style-nonce><code>nonce</code></dfn>, and <dfn id=dom-style-type><code>type</code></dfn> IDL attributes must <a href=#reflect id=the-style-element:reflect>reflect</a> the respective
+  content attributes of the same name.</p>
+
+  
+
+  <p>The <code id=the-style-element:linkstyle-2><a data-x-internal=linkstyle href=https://drafts.csswg.org/cssom/#the-linkstyle-interface>LinkStyle</a></code> interface is also implemented by this element. <a href=#refsCSSOM>[CSSOM]</a></p>
+
+  <div class=example>
+
+   <p>The following document has its stress emphasis styled as bright red text rather than italics
+   text, while leaving titles of works and Latin words in their default italics. It shows how using
+   appropriate elements enables easier restyling of documents.</p>
+
+   <pre>&lt;!DOCTYPE html>
+&lt;html lang="en-US">
+ &lt;head>
+  &lt;title>My favorite book&lt;/title>
+  &lt;style>
+   body { color: black; background: white; }
+   em { font-style: normal; color: red; }
+  &lt;/style>
+ &lt;/head>
+ &lt;body>
+  &lt;p>My &lt;em>favorite&lt;/em> book of all time has &lt;em>got&lt;/em> to be
+  &lt;cite>A Cat's Life&lt;/cite>. It is a book by P. Rahmel that talks
+  about the &lt;i lang="la">Felis Catus&lt;/i> in modern human society.&lt;/p>
+ &lt;/body>
+&lt;/html></pre>
+
+  </div>
+
+
+
+  
+
+  <h4 id=interactions-of-styling-and-scripting>4.2.7 Interactions of styling and scripting<a href=#interactions-of-styling-and-scripting class=self-link></a></h4>
+
+  <p>Style sheets, whether added by a <code id=interactions-of-styling-and-scripting:the-link-element><a href=#the-link-element>link</a></code> element, a <code id=interactions-of-styling-and-scripting:the-style-element><a href=#the-style-element>style</a></code> element, an
+  <code id=interactions-of-styling-and-scripting:xml-stylesheet><a data-x-internal=xml-stylesheet href=https://www.w3.org/TR/xml-stylesheet/#the-xml-stylesheet-processing-instruction>&lt;?xml-stylesheet?></a></code> PI, an HTTP `<code id=interactions-of-styling-and-scripting:http-link><a data-x-internal=http-link href=https://tools.ietf.org/html/rfc5988#section-5>Link</a></code>` header, or
+  some other mechanism, have a <dfn id=style-sheet-ready>style sheet ready</dfn> flag, which is initially unset.</p>
+
+  <p>When a style sheet is ready to be applied, its <a href=#style-sheet-ready id=interactions-of-styling-and-scripting:style-sheet-ready>style sheet ready</a> flag must be set.
+  If the style sheet referenced no other resources (e.g. it was an internal style sheet given by a
+  <code id=interactions-of-styling-and-scripting:the-style-element-2><a href=#the-style-element>style</a></code> element with no <code>@import</code> rules), then the style rules must
+  be <a href=#immediately id=interactions-of-styling-and-scripting:immediately>immediately</a> made available to script; otherwise, the style rules must only be made available
+  to script once the <a href=#event-loop id=interactions-of-styling-and-scripting:event-loop>event loop</a> reaches its <i>update the rendering</i> step.</p>
+
+  <p>A style sheet in the context of the <code id=interactions-of-styling-and-scripting:document><a href=#document>Document</a></code> of an <a href=#html-parser id=interactions-of-styling-and-scripting:html-parser>HTML parser</a> or
+  <a href=#xml-parser id=interactions-of-styling-and-scripting:xml-parser>XML parser</a> is said to be <dfn id=a-style-sheet-that-is-blocking-scripts>a style sheet that is blocking scripts</dfn> if the
+  element was created by that <code id=interactions-of-styling-and-scripting:document-2><a href=#document>Document</a></code>'s parser, and the element is either a
+  <code id=interactions-of-styling-and-scripting:the-style-element-3><a href=#the-style-element>style</a></code> element or a <code id=interactions-of-styling-and-scripting:the-link-element-2><a href=#the-link-element>link</a></code> element that was an <a href=#link-type-stylesheet id=interactions-of-styling-and-scripting:link-type-stylesheet>external resource link that contributes to the styling processing
+  model</a> when the element was created by the parser, and the element's style sheet was enabled
+  when the element was created by the parser, and the element's <a href=#style-sheet-ready id=interactions-of-styling-and-scripting:style-sheet-ready-2>style sheet ready</a> flag
+  is not yet set, and, the last time the <a href=#event-loop id=interactions-of-styling-and-scripting:event-loop-2>event loop</a> reached <a href=#step1>step 1</a>,
+  the element's <a id=interactions-of-styling-and-scripting:root href=https://dom.spec.whatwg.org/#concept-tree-root data-x-internal=root>root</a> was that <code id=interactions-of-styling-and-scripting:document-3><a href=#document>Document</a></code>, and the user agent hasn't given up
+  on that particular style sheet yet. A user agent may give up on a style sheet at any time.</p>
+
+  <p class=note>Giving up on a style sheet before the style sheet loads, if the style sheet
+  eventually does still load, means that the script might end up operating with incorrect
+  information. For example, if a style sheet sets the color of an element to green, but a script
+  that inspects the resulting style is executed before the sheet is loaded, the script will find
+  that the element is black (or whatever the default color is), and might thus make poor choices
+  (e.g. deciding to use black as the color elsewhere on the page, instead of green). Implementors
+  have to balance the likelihood of a script using incorrect information with the performance impact
+  of doing nothing while waiting for a slow network request to finish.</p>
+
+  <p>A <code id=interactions-of-styling-and-scripting:document-4><a href=#document>Document</a></code> <dfn id=has-a-style-sheet-that-is-blocking-scripts>has a style sheet that is blocking scripts</dfn> if there is
+  either <a href=#a-style-sheet-that-is-blocking-scripts id=interactions-of-styling-and-scripting:a-style-sheet-that-is-blocking-scripts>a style sheet that is blocking scripts</a> in the context of that
+  <code id=interactions-of-styling-and-scripting:document-5><a href=#document>Document</a></code>, or if that <code id=interactions-of-styling-and-scripting:document-6><a href=#document>Document</a></code> has a <a href=#concept-document-bc id=interactions-of-styling-and-scripting:concept-document-bc>browsing context</a> that has a <a href=#parent-browsing-context id=interactions-of-styling-and-scripting:parent-browsing-context>parent browsing
+  context</a>, and the <a href=#active-document id=interactions-of-styling-and-scripting:active-document>active document</a> of that <a href=#parent-browsing-context id=interactions-of-styling-and-scripting:parent-browsing-context-2>parent browsing context</a>
+  itself <a href=#has-a-style-sheet-that-is-blocking-scripts id=interactions-of-styling-and-scripting:has-a-style-sheet-that-is-blocking-scripts>has a style sheet that is blocking scripts</a>.</p>
+
+  <p>A <code id=interactions-of-styling-and-scripting:document-7><a href=#document>Document</a></code> <dfn id=has-no-style-sheet-that-is-blocking-scripts>has no style sheet that is blocking scripts</dfn> if it does not
+  <a href=#has-a-style-sheet-that-is-blocking-scripts id=interactions-of-styling-and-scripting:has-a-style-sheet-that-is-blocking-scripts-2>have a style sheet that is blocking
+  scripts</a> as defined in the previous paragraph.</p>
+
+  
+
+
+
+
+  <h3 id=sections>4.3 Sections<a href=#sections class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> html5semantic<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>26+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>7.0+</span></span><span class="and_uc partial"><span>UC Browser for Android (limited)</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>21+</span></span><span class="ie partial"><span>IE (limited)</span> <span>9+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini partial"><span>Opera Mini (limited)</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>6.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>15+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=html5semantic">caniuse.com</a></div>
+
+  <h4 id=the-body-element>4.3.1 The <dfn><code>body</code></dfn> element<a href=#the-body-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-body-element:concept-element-categories>Categories</a>:<dd><a href=#sectioning-root id=the-body-element:sectioning-root>Sectioning root</a>.<dt><a href=#concept-element-contexts id=the-body-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>As the second element in an <code id=the-body-element:the-html-element><a href=#the-html-element>html</a></code> element.<dt><a href=#concept-element-content-model id=the-body-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-body-element:flow-content-2>Flow content</a>.<dt><a href=#concept-element-tag-omission id=the-body-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>A <code id=the-body-element:the-body-element><a href=#the-body-element>body</a></code> element's <a href=#syntax-start-tag id=the-body-element:syntax-start-tag>start tag</a> can be omitted
+   if the element is empty, or if the first thing inside the <code id=the-body-element:the-body-element-2><a href=#the-body-element>body</a></code> element is not a
+   <a href=#space-character id=the-body-element:space-character>space character</a> or a <a href=#syntax-comments id=the-body-element:syntax-comments>comment</a>, except if the
+   first thing inside the <code id=the-body-element:the-body-element-3><a href=#the-body-element>body</a></code> element is a <code id=the-body-element:the-meta-element><a href=#the-meta-element>meta</a></code>, <code id=the-body-element:the-link-element><a href=#the-link-element>link</a></code>,
+   <code id=the-body-element:the-script-element><a href=#the-script-element>script</a></code>, <code id=the-body-element:the-style-element><a href=#the-style-element>style</a></code>, or <code id=the-body-element:the-template-element><a href=#the-template-element>template</a></code> element. <dd>A <code id=the-body-element:the-body-element-4><a href=#the-body-element>body</a></code> element's <a href=#syntax-end-tag id=the-body-element:syntax-end-tag>end tag</a> can be omitted if the
+   <code id=the-body-element:the-body-element-5><a href=#the-body-element>body</a></code> element is not immediately followed by a <a href=#syntax-comments id=the-body-element:syntax-comments-2>comment</a>.<dt><a href=#concept-element-attributes id=the-body-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-body-element:global-attributes>Global attributes</a><dd><code id=the-body-element:handler-window-onafterprint><a href=#handler-window-onafterprint>onafterprint</a></code><dd><code id=the-body-element:handler-window-onbeforeprint><a href=#handler-window-onbeforeprint>onbeforeprint</a></code><dd><code id=the-body-element:handler-window-onbeforeunload><a href=#handler-window-onbeforeunload>onbeforeunload</a></code><dd><code id=the-body-element:handler-window-onhashchange><a href=#handler-window-onhashchange>onhashchange</a></code><dd><code id=the-body-element:handler-window-onlanguagechange><a href=#handler-window-onlanguagechange>onlanguagechange</a></code><dd><code id=the-body-element:handler-window-onmessage><a href=#handler-window-onmessage>onmessage</a></code><dd><code id=the-body-element:handler-window-onoffline><a href=#handler-window-onoffline>onoffline</a></code><dd><code id=the-body-element:handler-window-ononline><a href=#handler-window-ononline>ononline</a></code><dd><code id=the-body-element:handler-window-onpagehide><a href=#handler-window-onpagehide>onpagehide</a></code><dd><code id=the-body-element:handler-window-onpageshow><a href=#handler-window-onpageshow>onpageshow</a></code><dd><code id=the-body-element:handler-window-onpopstate><a href=#handler-window-onpopstate>onpopstate</a></code><dd><code id=the-body-element:handler-window-onrejectionhandled><a href=#handler-window-onrejectionhandled>onrejectionhandled</a></code><dd><code id=the-body-element:handler-window-onstorage><a href=#handler-window-onstorage>onstorage</a></code><dd><code id=the-body-element:handler-window-onunhandledrejection><a href=#handler-window-onunhandledrejection>onunhandledrejection</a></code><dd><code id=the-body-element:handler-window-onunload><a href=#handler-window-onunload>onunload</a></code><dt><a href=#concept-element-dom id=the-body-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-body-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlbodyelement>HTMLBodyElement</dfn> : <a href=#htmlelement id=the-body-element:htmlelement>HTMLElement</a> {
+  // <a href="#HTMLBodyElement-partial">also has obsolete members</a>
+};
+
+<a href=#htmlbodyelement id=the-body-element:htmlbodyelement>HTMLBodyElement</a> implements <a href=#windoweventhandlers id=the-body-element:windoweventhandlers>WindowEventHandlers</a>;</pre>
+</dl>
+
+  <p>The <code id=the-body-element:the-body-element-6><a href=#the-body-element>body</a></code> element <a href=#represents id=the-body-element:represents>represents</a> the main content of the document.</p>
+
+  <p>In conforming documents, there is only one <code id=the-body-element:the-body-element-7><a href=#the-body-element>body</a></code> element. The <code id=the-body-element:dom-document-body><a href=#dom-document-body>document.body</a></code> IDL attribute provides scripts with easy access to
+  a document's <code id=the-body-element:the-body-element-8><a href=#the-body-element>body</a></code> element.</p>
+
+  
+
+  <p class=note>Some DOM operations (for example, parts of the <a href=#dnd id=the-body-element:dnd>drag and drop</a> model)
+  are defined in terms of "<a href=#the-body-element-2 id=the-body-element:the-body-element-2-2>the body element</a>". This refers to a particular element in
+  the DOM, as per the definition of the term, and not any arbitrary <code id=the-body-element:the-body-element-9><a href=#the-body-element>body</a></code> element.</p>
+
+  
+
+  <p>The <code id=the-body-element:the-body-element-10><a href=#the-body-element>body</a></code> element exposes as <a href=#event-handler-content-attributes id=the-body-element:event-handler-content-attributes>event handler content attributes</a> a number
+  of the <a href=#event-handlers id=the-body-element:event-handlers>event handlers</a> of the <code id=the-body-element:window><a href=#window>Window</a></code> object. It also mirrors their
+  <a href=#event-handler-idl-attributes id=the-body-element:event-handler-idl-attributes>event handler IDL attributes</a>.</p>
+
+  <p>The <code id=the-body-element:handler-onblur><a href=#handler-onblur>onblur</a></code>, <code id=the-body-element:handler-onerror><a href=#handler-onerror>onerror</a></code>,
+  <code id=the-body-element:handler-onfocus><a href=#handler-onfocus>onfocus</a></code>, <code id=the-body-element:handler-onload><a href=#handler-onload>onload</a></code>, <code id=the-body-element:handler-onresize><a href=#handler-onresize>onresize</a></code>, and <code id=the-body-element:handler-onscroll><a href=#handler-onscroll>onscroll</a></code>
+  <a href=#event-handlers id=the-body-element:event-handlers-2>event handlers</a> of the <code id=the-body-element:window-2><a href=#window>Window</a></code> object, exposed on the <code id=the-body-element:the-body-element-11><a href=#the-body-element>body</a></code>
+  element, replace the generic <a href=#event-handlers id=the-body-element:event-handlers-3>event handlers</a> with the same names normally supported by
+  <a href=#html-elements id=the-body-element:html-elements>HTML elements</a>.</p>
+
+  <p class=example>Thus, for example, a bubbling <code id=the-body-element:event-error><a href=#event-error>error</a></code> event
+  dispatched on a child of <a href=#the-body-element-2 id=the-body-element:the-body-element-2-3>the body element</a> of a <code id=the-body-element:document><a href=#document>Document</a></code> would first
+  trigger the <code id=the-body-element:handler-onerror-2><a href=#handler-onerror>onerror</a></code> <a href=#event-handler-content-attributes id=the-body-element:event-handler-content-attributes-2>event handler content
+  attributes</a> of that element, then that of the root <code id=the-body-element:the-html-element-2><a href=#the-html-element>html</a></code> element, and only
+  <em>then</em> would it trigger the <code id=the-body-element:handler-onerror-3><a href=#handler-onerror>onerror</a></code> <a href=#event-handler-content-attributes id=the-body-element:event-handler-content-attributes-3>event handler content attribute</a> on the
+  <code id=the-body-element:the-body-element-12><a href=#the-body-element>body</a></code> element. This is because the event would bubble from the target, to the
+  <code id=the-body-element:the-body-element-13><a href=#the-body-element>body</a></code>, to the <code id=the-body-element:the-html-element-3><a href=#the-html-element>html</a></code>, to the <code id=the-body-element:document-2><a href=#document>Document</a></code>, to the
+  <code id=the-body-element:window-3><a href=#window>Window</a></code>, and the <a href=#event-handlers id=the-body-element:event-handlers-4>event handler</a> on the
+  <code id=the-body-element:the-body-element-14><a href=#the-body-element>body</a></code> is watching the <code id=the-body-element:window-4><a href=#window>Window</a></code> not the <code id=the-body-element:the-body-element-15><a href=#the-body-element>body</a></code>. A regular event
+  listener attached to the <code id=the-body-element:the-body-element-16><a href=#the-body-element>body</a></code> using <code>addEventListener()</code>,
+  however, would be run when the event bubbled through the <code id=the-body-element:the-body-element-17><a href=#the-body-element>body</a></code> and not when it reaches
+  the <code id=the-body-element:window-5><a href=#window>Window</a></code> object.</p>
+
+  <div class=example>
+
+   <p>This page updates an indicator to show whether or not the user is online:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>Online or offline?&lt;/title>
+  &lt;script>
+   function update(online) {
+     document.getElementById('status').textContent =
+       online ? 'Online' : 'Offline';
+   }
+  &lt;/script>
+ &lt;/head>
+ &lt;body ononline="update(true)"
+       onoffline="update(false)"
+       onload="update(navigator.onLine)">
+  &lt;p>You are: &lt;span id="status">(Unknown)&lt;/span>&lt;/p>
+ &lt;/body>
+&lt;/html></pre>
+
+  </div>
+
+
+
+  <h4 id=the-article-element>4.3.2 The <dfn><code>article</code></dfn> element<a href=#the-article-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-article-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-article-element:flow-content-2>Flow content</a>.<dd><a href=#sectioning-content-2 id=the-article-element:sectioning-content-2>Sectioning content</a>.<dd><a href=#palpable-content-2 id=the-article-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-article-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-article-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-article-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-article-element:flow-content-2-3>Flow content</a>.<dt><a href=#concept-element-tag-omission id=the-article-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-article-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-article-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-article-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-article-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-article-element:the-article-element><a href=#the-article-element>article</a></code> element <a href=#represents id=the-article-element:represents>represents</a> a complete, or self-contained,
+  composition in a document, page, application, or site and that is, in principle, independently
+  distributable or reusable, e.g. in syndication. This could be a forum post, a magazine or
+  newspaper article, a blog entry, a user-submitted comment, an interactive widget or gadget, or any
+  other independent item of content.</p>
+
+  
+
+  <p>When <code id=the-article-element:the-article-element-2><a href=#the-article-element>article</a></code> elements are nested, the inner <code id=the-article-element:the-article-element-3><a href=#the-article-element>article</a></code> elements
+  represent articles that are in principle related to the contents of the outer article. For
+  instance, a blog entry on a site that accepts user-submitted comments could represent the comments
+  as <code id=the-article-element:the-article-element-4><a href=#the-article-element>article</a></code> elements nested within the <code id=the-article-element:the-article-element-5><a href=#the-article-element>article</a></code> element for the blog
+  entry.</p>
+
+  <p>Author information associated with an <code id=the-article-element:the-article-element-6><a href=#the-article-element>article</a></code> element (q.v. the
+  <code id=the-article-element:the-address-element><a href=#the-address-element>address</a></code> element) does not apply to nested <code id=the-article-element:the-article-element-7><a href=#the-article-element>article</a></code> elements.</p>
+
+  <p class=note>When used specifically with content to be redistributed in syndication, the
+  <code id=the-article-element:the-article-element-8><a href=#the-article-element>article</a></code> element is similar in purpose to the <code>entry</code> element in
+  Atom. <a href=#refsATOM>[ATOM]</a>
+
+  <p class=note>The schema.org microdata vocabulary can be used to provide the publication date
+  for an <code id=the-article-element:the-article-element-9><a href=#the-article-element>article</a></code> element, using one of the CreativeWork subtypes.</p>
+
+  <p>When the main content of the page (i.e. excluding footers, headers, navigation blocks, and
+  sidebars) is all one single self-contained composition, that content may be marked with an
+  <code id=the-article-element:the-article-element-10><a href=#the-article-element>article</a></code>, but it is technically redundant in that case (since it's self-evident that
+  the page is a single composition, as it is a single document).</p>
+
+  <div id=article-example class=example>
+
+   <p>This example shows a blog post using the <code id=the-article-element:the-article-element-11><a href=#the-article-element>article</a></code> element, with some schema.org
+   annotations:</p>
+
+   <pre>&lt;article itemscope itemtype="http://schema.org/BlogPosting">
+ &lt;header>
+  &lt;h1 itemprop="headline">The Very First Rule of Life&lt;/h1>
+  &lt;p>&lt;time itemprop="datePublished" datetime="2009-10-09">3 days ago&lt;/time>&lt;/p>
+  &lt;link itemprop="url" href="?comments=0">
+ &lt;/header>
+ &lt;p>If there's a microphone anywhere near you, assume it's hot and
+ sending whatever you're saying to the world. Seriously.&lt;/p>
+ &lt;p><em>...</em>&lt;/p>
+ &lt;footer>
+  &lt;a itemprop="discussionUrl" href="?comments=1">Show comments...&lt;/a>
+ &lt;/footer>
+&lt;/article></pre>
+
+   <p>Here is that same blog post, but showing some of the comments:</p>
+
+   <pre>&lt;article itemscope itemtype="http://schema.org/BlogPosting">
+ &lt;header>
+  &lt;h1 itemprop="headline">The Very First Rule of Life&lt;/h1>
+  &lt;p>&lt;time itemprop="datePublished" datetime="2009-10-09">3 days ago&lt;/time>&lt;/p>
+  &lt;link itemprop="url" href="?comments=0">
+ &lt;/header>
+ &lt;p>If there's a microphone anywhere near you, assume it's hot and
+ sending whatever you're saying to the world. Seriously.&lt;/p>
+ &lt;p><em>...</em>&lt;/p>
+ &lt;section>
+  &lt;h1>Comments&lt;/h1>
+  &lt;article itemprop="comment" itemscope itemtype="http://schema.org/UserComments" id="c1">
+   &lt;link itemprop="url" href="#c1">
+   &lt;footer>
+    &lt;p>Posted by: &lt;span itemprop="creator" itemscope itemtype="http://schema.org/Person">
+     &lt;span itemprop="name">George Washington&lt;/span>
+    &lt;/span>&lt;/p>
+    &lt;p>&lt;time itemprop="commentTime" datetime="2009-10-10">15 minutes ago&lt;/time>&lt;/p>
+   &lt;/footer>
+   &lt;p>Yeah! Especially when talking about your lobbyist friends!&lt;/p>
+  &lt;/article>
+  &lt;article itemprop="comment" itemscope itemtype="http://schema.org/UserComments" id="c2">
+   &lt;link itemprop="url" href="#c2">
+   &lt;footer>
+    &lt;p>Posted by: &lt;span itemprop="creator" itemscope itemtype="http://schema.org/Person">
+     &lt;span itemprop="name">George Hammond&lt;/span>
+    &lt;/span>&lt;/p>
+    &lt;p>&lt;time itemprop="commentTime" datetime="2009-10-10">5 minutes ago&lt;/time>&lt;/p>
+   &lt;/footer>
+   &lt;p>Hey, you have the same first name as me.&lt;/p>
+  &lt;/article>
+ &lt;/section>
+&lt;/article></pre>
+
+   <p>Notice the use of <code id=the-article-element:the-footer-element><a href=#the-footer-element>footer</a></code> to give the information for each comment (such as who
+   wrote it and when): the <code id=the-article-element:the-footer-element-2><a href=#the-footer-element>footer</a></code> element <em>can</em> appear at the start of its
+   section when appropriate, such as in this case. (Using <code id=the-article-element:the-header-element><a href=#the-header-element>header</a></code> in this case wouldn't
+   be wrong either; it's mostly a matter of authoring preference.)</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this example, <code id=the-article-element:the-article-element-12><a href=#the-article-element>article</a></code> elements are used to host widgets on a portal page. The
+   widgets are implemented as <a href=#customized-built-in-element id=the-article-element:customized-built-in-element>customized built-in
+   elements</a> in order to get specific styling and scripted behavior.</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang=en>
+&lt;title>eHome Portal&lt;/title>
+&lt;script src="/scripts/widgets.css">
+&lt;link rel=stylesheet href="/styles/main.css">
+&lt;article is="stock-widget">
+ &lt;h1>Stocks&lt;/h1>
+ &lt;table>
+  &lt;thead> &lt;tr> &lt;th> Stock &lt;th> Value &lt;th> Delta
+  &lt;tbody> &lt;template> &lt;tr> &lt;td> &lt;td> &lt;td> &lt;/template>
+ &lt;/table>
+ &lt;p> &lt;input type=button value="Refresh" onclick="this.parentElement.refresh()">
+&lt;/article>
+&lt;article is="news-widget">
+ &lt;h1>News&lt;/h1>
+ &lt;ul>
+  &lt;template>
+   &lt;li>
+    &lt;p>&lt;img> &lt;strong>&lt;/strong>
+    &lt;p>
+  &lt;/template>
+ &lt;/ul>
+ &lt;p> &lt;input type=button value="Refresh" onclick="this.parentElement.refresh()">
+&lt;/article></pre>
+
+  </div>
+
+
+
+  <h4 id=the-section-element>4.3.3 The <dfn><code>section</code></dfn> element<a href=#the-section-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-section-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-section-element:flow-content-2>Flow content</a>.<dd><a href=#sectioning-content-2 id=the-section-element:sectioning-content-2>Sectioning content</a>.<dd><a href=#palpable-content-2 id=the-section-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-section-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-section-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-section-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-section-element:flow-content-2-3>Flow content</a>.<dt><a href=#concept-element-tag-omission id=the-section-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-section-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-section-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-section-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-section-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-section-element:the-section-element><a href=#the-section-element>section</a></code> element <a href=#represents id=the-section-element:represents>represents</a> a generic section of a document or
+  application. A section, in this context, is a thematic grouping of content, typically with a
+  heading.</p>
+
+  <p class=example>Examples of sections would be chapters, the various tabbed pages in a tabbed
+  dialog box, or the numbered sections of a thesis. A Web site's home page could be split into
+  sections for an introduction, news items, and contact information.</p>
+
+  <p class=note>Authors are encouraged to use the <code id=the-section-element:the-article-element><a href=#the-article-element>article</a></code> element instead of the
+  <code id=the-section-element:the-section-element-2><a href=#the-section-element>section</a></code> element when it would make sense to syndicate the contents of the
+  element.</p>
+
+  <p id=use-div-for-wrappers class=note>The <code id=the-section-element:the-section-element-3><a href=#the-section-element>section</a></code> element is not a generic
+  container element. When an element is needed only for styling purposes or as a convenience for
+  scripting, authors are encouraged to use the <code id=the-section-element:the-div-element><a href=#the-div-element>div</a></code> element instead. A general rule is
+  that the <code id=the-section-element:the-section-element-4><a href=#the-section-element>section</a></code> element is appropriate only if the element's contents would be
+  listed explicitly in the document's <a href=#outline id=the-section-element:outline>outline</a>.</p>
+
+  <div class=example>
+
+   <p>In the following example, we see an article (part of a larger Web page) about apples,
+   containing two short sections.</p>
+
+   <pre>&lt;article>
+ &lt;hgroup>
+  &lt;h1>Apples&lt;/h1>
+  &lt;h2>Tasty, delicious fruit!&lt;/h2>
+ &lt;/hgroup>
+ &lt;p>The apple is the pomaceous fruit of the apple tree.&lt;/p>
+ &lt;section>
+  &lt;h1>Red Delicious&lt;/h1>
+  &lt;p>These bright red apples are the most common found in many
+  supermarkets.&lt;/p>
+ &lt;/section>
+ &lt;section>
+  &lt;h1>Granny Smith&lt;/h1>
+  &lt;p>These juicy, green apples make a great filling for
+  apple pies.&lt;/p>
+ &lt;/section>
+&lt;/article></pre>
+
+   <p>Notice how the use of <code id=the-section-element:the-section-element-5><a href=#the-section-element>section</a></code> means that the author can use <code id=the-section-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>
+   elements throughout, without having to worry about whether a particular section is at the top
+   level, the second level, the third level, and so on.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here is a graduation programme with two sections, one for the list of people graduating, and
+   one for the description of the ceremony. (The markup in this example features an uncommon style
+   sometimes used to minimize the amount of <a href=#inter-element-whitespace id=the-section-element:inter-element-whitespace>inter-element whitespace</a>.)</p>
+
+   <pre>&lt;!DOCTYPE Html>
+&lt;Html Lang=En
+ >&lt;Head
+   >&lt;Title
+     >Graduation Ceremony Summer 2022&lt;/Title
+   >&lt;/Head
+ >&lt;Body
+   >&lt;H1
+     >Graduation&lt;/H1
+   >&lt;Section
+     >&lt;H1
+       >Ceremony&lt;/H1
+     >&lt;P
+       >Opening Procession&lt;/P
+     >&lt;P
+       >Speech by Validactorian&lt;/P
+     >&lt;P
+       >Speech by Class President&lt;/P
+     >&lt;P
+       >Presentation of Diplomas&lt;/P
+     >&lt;P
+       >Closing Speech by Headmaster&lt;/P
+   >&lt;/Section
+   >&lt;Section
+     >&lt;H1
+       >Graduates&lt;/H1
+     >&lt;Ul
+       >&lt;Li
+         >Molly Carpenter&lt;/Li
+       >&lt;Li
+         >Anastasia Luccio&lt;/Li
+       >&lt;Li
+         >Ebenezar McCoy&lt;/Li
+       >&lt;Li
+         >Karrin Murphy&lt;/Li
+       >&lt;Li
+         >Thomas Raith&lt;/Li
+       >&lt;Li
+         >Susan Rodriguez&lt;/Li
+     >&lt;/Ul
+   >&lt;/Section
+ >&lt;/Body
+>&lt;/Html></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this example, a book author has marked up some sections as chapters and some as appendices,
+   and uses CSS to style the headers in these two classes of section differently.</p>
+
+   <pre>&lt;style>
+ section { border: double medium; margin: 2em; }
+ section.chapter h1 { font: 2em Roboto, Helvetica Neue, sans-serif; }
+ section.appendix h1 { font: small-caps 2em Roboto, Helvetica Neue, sans-serif; }
+&lt;/style>
+&lt;header>
+ &lt;hgroup>
+  &lt;h1>My Book&lt;/h1>
+  &lt;h2>A sample with not much content&lt;/h2>
+ &lt;/hgroup>
+ &lt;p>&lt;small>Published by Dummy Publicorp Ltd.&lt;/small>&lt;/p>
+&lt;/header>
+&lt;section class="chapter">
+ &lt;h1>My First Chapter&lt;/h1>
+ &lt;p>This is the first of my chapters. It doesn't say much.&lt;/p>
+ &lt;p>But it has two paragraphs!&lt;/p>
+&lt;/section>
+&lt;section class="chapter">
+ &lt;h1>It Continues: The Second Chapter&lt;/h1>
+ &lt;p>Bla dee bla, dee bla dee bla. Boom.&lt;/p>
+&lt;/section>
+&lt;section class="chapter">
+ &lt;h1>Chapter Three: A Further Example&lt;/h1>
+ &lt;p>It's not like a battle between brightness and earthtones would go
+ unnoticed.&lt;/p>
+ &lt;p>But it might ruin my story.&lt;/p>
+&lt;/section>
+&lt;section class="appendix">
+ &lt;h1>Appendix A: Overview of Examples&lt;/h1>
+ &lt;p>These are demonstrations.&lt;/p>
+&lt;/section>
+&lt;section class="appendix">
+ &lt;h1>Appendix B: Some Closing Remarks&lt;/h1>
+ &lt;p>Hopefully this long example shows that you &lt;em>can&lt;/em> style
+ sections, so long as they are used to indicate actual sections.&lt;/p>
+&lt;/section></pre>
+
+  </div>
+
+
+
+  <h4 id=the-nav-element>4.3.4 The <dfn><code>nav</code></dfn> element<a href=#the-nav-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-nav-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-nav-element:flow-content-2>Flow content</a>.<dd><a href=#sectioning-content-2 id=the-nav-element:sectioning-content-2>Sectioning content</a>.<dd><a href=#palpable-content-2 id=the-nav-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-nav-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-nav-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-nav-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-nav-element:flow-content-2-3>Flow content</a>, but with no <code id=the-nav-element:the-main-element><a href=#the-main-element>main</a></code> element descendants.<dt><a href=#concept-element-tag-omission id=the-nav-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-nav-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-nav-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-nav-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-nav-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-nav-element:the-nav-element><a href=#the-nav-element>nav</a></code> element <a href=#represents id=the-nav-element:represents>represents</a> a section of a page that links to other
+  pages or to parts within the page: a section with navigation links.</p>
+
+  <p class=note>Not all groups of links on a page need to be in a <code id=the-nav-element:the-nav-element-2><a href=#the-nav-element>nav</a></code> element —
+  the element is primarily intended for sections that consist of major navigation blocks. In
+  particular, it is common for footers to have a short list of links to various pages of a site,
+  such as the terms of service, the home page, and a copyright page. The <code id=the-nav-element:the-footer-element><a href=#the-footer-element>footer</a></code> element
+  alone is sufficient for such cases; while a <code id=the-nav-element:the-nav-element-3><a href=#the-nav-element>nav</a></code> element can be used in such cases, it
+  is usually unnecessary.</p>
+
+  <p class=note>User agents (such as screen readers) that are targeted at users who can benefit
+  from navigation information being omitted in the initial rendering, or who can benefit from
+  navigation information being immediately available, can use this element as a way to determine
+  what content on the page to initially skip or provide on request (or both).</p>
+
+  <div class=example>
+
+   <p>In the following example, there are two <code id=the-nav-element:the-nav-element-4><a href=#the-nav-element>nav</a></code> elements, one for primary navigation
+   around the site, and one for secondary navigation around the page itself.</p>
+
+   <pre>&lt;body>
+ &lt;h1>The Wiki Center Of Exampland&lt;/h1>
+ &lt;nav>
+  &lt;ul>
+   &lt;li>&lt;a href="/">Home&lt;/a>&lt;/li>
+   &lt;li>&lt;a href="/events">Current Events&lt;/a>&lt;/li>
+   <em>...more...</em>
+  &lt;/ul>
+ &lt;/nav>
+ &lt;article>
+  &lt;header>
+   &lt;h1>Demos in Exampland&lt;/h1>
+   &lt;p>Written by A. N. Other.&lt;/p>
+  &lt;/header>
+  &lt;nav>
+   &lt;ul>
+    &lt;li>&lt;a href="#public">Public demonstrations&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="#destroy">Demolitions&lt;/a>&lt;/li>
+    <em>...more...</em>
+   &lt;/ul>
+  &lt;/nav>
+  &lt;div>
+   &lt;section id="public">
+    &lt;h1>Public demonstrations&lt;/h1>
+    &lt;p><em>...more...</em>&lt;/p>
+   &lt;/section>
+   &lt;section id="destroy">
+    &lt;h1>Demolitions&lt;/h1>
+    &lt;p><em>...more...</em>&lt;/p>
+   &lt;/section>
+   <em>...more...</em>
+  &lt;/div>
+  &lt;footer>
+   &lt;p>&lt;a href="?edit">Edit&lt;/a> | &lt;a href="?delete">Delete&lt;/a> | &lt;a href="?Rename">Rename&lt;/a>&lt;/p>
+  &lt;/footer>
+ &lt;/article>
+ &lt;footer>
+  &lt;p>&lt;small>© copyright 1998 Exampland Emperor&lt;/small>&lt;/p>
+ &lt;/footer>
+&lt;/body></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In the following example, the page has several places where links are present, but only one of
+   those places is considered a navigation section.</p>
+
+   <pre>&lt;body itemscope itemtype="http://schema.org/Blog">
+ &lt;header>
+  &lt;h1>Wake up sheeple!&lt;/h1>
+  &lt;p>&lt;a href="news.html">News&lt;/a> -
+     &lt;a href="blog.html">Blog&lt;/a> -
+     &lt;a href="forums.html">Forums&lt;/a>&lt;/p>
+  &lt;p>Last Modified: &lt;span itemprop="dateModified">2009-04-01&lt;/span>&lt;/p>
+  &lt;nav>
+   &lt;h1>Navigation&lt;/h1>
+   &lt;ul>
+    &lt;li>&lt;a href="articles.html">Index of all articles&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="today.html">Things sheeple need to wake up for today&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="successes.html">Sheeple we have managed to wake&lt;/a>&lt;/li>
+   &lt;/ul>
+  &lt;/nav>
+ &lt;/header>
+ &lt;main>
+  &lt;article itemprop="blogPosts" itemscope itemtype="http://schema.org/BlogPosting">
+   &lt;header>
+    &lt;h1 itemprop="headline">My Day at the Beach&lt;/h1>
+   &lt;/header>
+   &lt;main itemprop="articleBody">
+    &lt;p>Today I went to the beach and had a lot of fun.&lt;/p>
+    <em>...more content...</em>
+   &lt;/main>
+   &lt;footer>
+    &lt;p>Posted &lt;time itemprop="datePublished" datetime="2009-10-10">Thursday&lt;/time>.&lt;/p>
+   &lt;/footer>
+  &lt;/article>
+  <em>...more blog posts...</em>
+ &lt;/main>
+ &lt;footer>
+  &lt;p>Copyright ©
+   &lt;span itemprop="copyrightYear">2010&lt;/span>
+   &lt;span itemprop="copyrightHolder">The Example Company&lt;/span>
+  &lt;/p>
+  &lt;p>&lt;a href="about.html">About&lt;/a> -
+     &lt;a href="policy.html">Privacy Policy&lt;/a> -
+     &lt;a href="contact.html">Contact Us&lt;/a>&lt;/p>
+ &lt;/footer>
+&lt;/body></pre>
+
+   <p>Notice the <code id=the-nav-element:the-main-element-2><a href=#the-main-element>main</a></code> elements being used to wrap all the contents of the page other
+   than the header and footer, and all the contents of the blog entry other than its header and
+   footer.</p>
+
+   <p>You can also see microdata annotations in the above example that use the schema.org vocabulary
+   to provide the publication date and other metadata about the blog post.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>A <code id=the-nav-element:the-nav-element-5><a href=#the-nav-element>nav</a></code> element doesn't have to contain a list, it can contain other kinds of
+   content as well. In this navigation block, links are provided in prose:</p>
+
+   <pre>&lt;nav>
+ &lt;h1>Navigation&lt;/h1>
+ &lt;p>You are on my home page. To the north lies &lt;a href="/blog">my
+ blog&lt;/a>, from whence the sounds of battle can be heard. To the east
+ you can see a large mountain, upon which many &lt;a
+ href="/school">school papers&lt;/a> are littered. Far up thus mountain
+ you can spy a little figure who appears to be me, desperately
+ scribbling a &lt;a href="/school/thesis">thesis&lt;/a>.&lt;/p>
+ &lt;p>To the west are several exits. One fun-looking exit is labeled &lt;a
+ href="https://games.example.com/">"games"&lt;/a>. Another more
+ boring-looking exit is labeled &lt;a
+ href="https://isp.example.net/">ISP™&lt;/a>.&lt;/p>
+ &lt;p>To the south lies a dark and dank &lt;a href="/about">contacts
+ page&lt;/a>. Cobwebs cover its disused entrance, and at one point you
+ see a rat run quickly out of the page.&lt;/p>
+&lt;/nav></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In this example, <code id=the-nav-element:the-nav-element-6><a href=#the-nav-element>nav</a></code> is used in an e-mail application, to let the user switch
+   folders:</p>
+
+   <pre>&lt;p>&lt;input type=button value="Compose" onclick="compose()">&lt;/p>
+&lt;nav>
+ &lt;h1>Folders&lt;/h1>
+ &lt;ul>
+  &lt;li> &lt;a href="/inbox" onclick="return openFolder(this.href)">Inbox&lt;/a> &lt;span class=count>&lt;/span>
+  &lt;li> &lt;a href="/sent" onclick="return openFolder(this.href)">Sent&lt;/a>
+  &lt;li> &lt;a href="/drafts" onclick="return openFolder(this.href)">Drafts&lt;/a>
+  &lt;li> &lt;a href="/trash" onclick="return openFolder(this.href)">Trash&lt;/a>
+  &lt;li> &lt;a href="/customers" onclick="return openFolder(this.href)">Customers&lt;/a>
+ &lt;/ul>
+&lt;/nav></pre>
+
+  </div>
+
+
+
+  <h4 id=the-aside-element>4.3.5 The <dfn><code>aside</code></dfn> element<a href=#the-aside-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-aside-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-aside-element:flow-content-2>Flow content</a>.<dd><a href=#sectioning-content-2 id=the-aside-element:sectioning-content-2>Sectioning content</a>.<dd><a href=#palpable-content-2 id=the-aside-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-aside-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-aside-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-aside-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-aside-element:flow-content-2-3>Flow content</a>, but with no <code id=the-aside-element:the-main-element><a href=#the-main-element>main</a></code> element descendants.<dt><a href=#concept-element-tag-omission id=the-aside-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-aside-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-aside-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-aside-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-aside-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-aside-element:the-aside-element><a href=#the-aside-element>aside</a></code> element <a href=#represents id=the-aside-element:represents>represents</a> a section of a page that consists of
+  content that is tangentially related to the content around the <code id=the-aside-element:the-aside-element-2><a href=#the-aside-element>aside</a></code> element, and
+  which could be considered separate from that content. Such sections are often represented as
+  sidebars in printed typography.</p>
+
+  <p>The element can be used for typographical effects like pull quotes or sidebars, for
+  advertising, for groups of <code id=the-aside-element:the-nav-element><a href=#the-nav-element>nav</a></code> elements, and for other content that is considered
+  separate from the main content of the page.</p>
+
+  <p class=note>It's not appropriate to use the <code id=the-aside-element:the-aside-element-3><a href=#the-aside-element>aside</a></code> element just for
+  parentheticals, since those are part of the main flow of the document.</p>
+
+  <div class=example>
+
+   <p>The following example shows how an aside is used to mark up background material on Switzerland
+   in a much longer news story on Europe.</p>
+
+   <pre>&lt;aside>
+ &lt;h1>Switzerland&lt;/h1>
+ &lt;p>Switzerland, a land-locked country in the middle of geographic
+ Europe, has not joined the geopolitical European Union, though it is
+ a signatory to a number of European treaties.&lt;/p>
+&lt;/aside></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following example shows how an aside is used to mark up a pull quote in a longer
+   article.</p>
+
+   <pre>...
+
+&lt;p>He later joined a large company, continuing on the same work.
+&lt;q>I love my job. People ask me what I do for fun when I'm not at
+work. But I'm paid to do my hobby, so I never know what to
+answer. Some people wonder what they would do if they didn't have to
+work... but I know what I would do, because I was unemployed for a
+year, and I filled that time doing exactly what I do now.&lt;/q>&lt;/p>
+
+&lt;aside>
+ &lt;q> People ask me what I do for fun when I'm not at work. But I'm
+ paid to do my hobby, so I never know what to answer. &lt;/q>
+&lt;/aside>
+
+&lt;p>Of course his work — or should that be hobby? —
+isn't his only passion. He also enjoys other pleasures.&lt;/p>
+
+...</pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>The following extract shows how <code id=the-aside-element:the-aside-element-4><a href=#the-aside-element>aside</a></code> can be used for blogrolls and other side
+   content on a blog:</p>
+
+   <pre>&lt;body>
+ &lt;header>
+  &lt;h1>My wonderful blog&lt;/h1>
+  &lt;p>My tagline&lt;/p>
+ &lt;/header>
+ &lt;aside>
+  &lt;!-- <em>this aside contains two sections that are tangentially related
+  to the page, namely, links to other blogs, and links to blog posts
+  from this blog</em> -->
+  &lt;nav>
+   &lt;h1>My blogroll&lt;/h1>
+   &lt;ul>
+    &lt;li>&lt;a href="https://blog.example.com/">Example Blog&lt;/a>
+   &lt;/ul>
+  &lt;/nav>
+  &lt;nav>
+   &lt;h1>Archives&lt;/h1>
+   &lt;ol reversed>
+    &lt;li>&lt;a href="/last-post">My last post&lt;/a>
+    &lt;li>&lt;a href="/first-post">My first post&lt;/a>
+   &lt;/ol>
+  &lt;/nav>
+ &lt;/aside>
+ &lt;aside>
+  &lt;!-- <em>this aside is tangentially related to the page also, it
+  contains twitter messages from the blog author</em> -->
+  &lt;h1>Twitter Feed&lt;/h1>
+  &lt;blockquote cite="https://twitter.example.net/t31351234">
+   I'm on vacation, writing my blog.
+  &lt;/blockquote>
+  &lt;blockquote cite="https://twitter.example.net/t31219752">
+   I'm going to go on vacation soon.
+  &lt;/blockquote>
+ &lt;/aside>
+ &lt;article>
+  &lt;!-- <em>this is a blog post</em> -->
+  &lt;h1>My last post&lt;/h1>
+  &lt;p>This is my last post.&lt;/p>
+  &lt;footer>
+   &lt;p>&lt;a href="/last-post" rel=bookmark>Permalink&lt;/a>
+  &lt;/footer>
+ &lt;/article>
+ &lt;article>
+  &lt;!-- <em>this is also a blog post</em> -->
+  &lt;h1>My first post&lt;/h1>
+  &lt;p>This is my first post.&lt;/p>
+  &lt;aside>
+   &lt;!-- <em>this aside is about the blog post, since it's inside the
+   &lt;article> element; it would be wrong, for instance, to put the
+   blogroll here, since the blogroll isn't really related to this post
+   specifically, only to the page as a whole</em> -->
+   &lt;h1>Posting&lt;/h1>

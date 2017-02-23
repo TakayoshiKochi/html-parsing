@@ -1,0 +1,850 @@
+
+    <ol><li><p>Let <var>mode</var> be the matching string from the list above.<li><p>Insert <var>mode</var> at the start of <var>scope
+     tokens</var>.<li><p>Add <var>mode</var> to <var>hint tokens</var>.<li><p>Let <var>IDL value</var> be the concatenation of <var>mode</var>, a
+     U+0020 SPACE character, and the previous value of <var>IDL value</var> (which at this
+     point will either be <var>field</var> or the concatenation of <var>contact</var>, a space, and <var>field</var>).<li><p>If the <var>index</var>th entry in <var>tokens</var> is the first
+     entry, then skip to the step labeled <i>done</i>.<li><p>Decrement <var>index</var> by one.</ol>
+
+   <li><p>If the <var>index</var>th entry in <var>tokens</var> is not the first entry, then jump to
+   the step labeled <i>default</i>.<li><p>If the first eight characters of the <var>index</var>th token in <var>tokens</var> are not
+   an <a id=autofill-processing-model:ascii-case-insensitive-4 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code id=autofill-processing-model:attr-fe-autocomplete-section><a href=#attr-fe-autocomplete-section>section-</a></code>", then jump to the step labeled
+   <i>default</i>.<li><p>Let <var>section</var> be the <var>index</var>th token in <var>tokens</var>,
+   <a id=autofill-processing-model:converted-to-ascii-lowercase href=https://infra.spec.whatwg.org/#ascii-lowercase data-x-internal=converted-to-ascii-lowercase>converted to ASCII lowercase</a>.<li><p>Insert <var>section</var> at the start of <var>scope tokens</var>.<li><p>Let <var>IDL value</var> be the concatenation of <var>section</var>, a U+0020 SPACE
+   character, and the previous value of <var>IDL value</var>.<li><p><i>Done</i>: Let the element's <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set-5>autofill hint set</a> be <var>hint
+   tokens</var>.</p>
+
+   <li><p>Let the element's <a href=#autofill-scope id=autofill-processing-model:autofill-scope-2>autofill scope</a> be <var>scope tokens</var>.</p>
+
+   <li><p>Let the element's <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-4>autofill field name</a> be <var>field</var>.</p>
+
+   <li><p>Let the element's <a href=#idl-exposed-autofill-value id=autofill-processing-model:idl-exposed-autofill-value-3>IDL-exposed autofill value</a> be <var>IDL value</var>.</p>
+
+   <li><p>Abort these steps.<li><p><i>Default</i>: Let the element's <a href=#idl-exposed-autofill-value id=autofill-processing-model:idl-exposed-autofill-value-4>IDL-exposed autofill value</a> be the empty
+   string, and its <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set-6>autofill hint set</a> and <a href=#autofill-scope id=autofill-processing-model:autofill-scope-3>autofill scope</a> be empty.<li><p>If the element's <code id=autofill-processing-model:attr-fe-autocomplete-4><a href=#attr-fe-autocomplete>autocomplete</a></code> attribute is
+   wearing the <a href=#autofill-anchor-mantle id=autofill-processing-model:autofill-anchor-mantle-2>autofill anchor mantle</a>, then let the element's <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-5>autofill field
+   name</a> be the empty string and abort these steps.<li><p>Let <var>form</var> be the element's <a href=#form-owner id=autofill-processing-model:form-owner>form owner</a>, if any, or null
+   otherwise.<li>
+
+    <p>If <var>form</var> is not null and <var>form</var>'s <code id=autofill-processing-model:attr-form-autocomplete><a href=#attr-form-autocomplete>autocomplete</a></code> attribute is in the <a href=#attr-form-autocomplete-off-state id=autofill-processing-model:attr-form-autocomplete-off-state>off</a> state, then let the element's
+    <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-6>autofill field name</a> be "<code id=autofill-processing-model:attr-fe-autocomplete-off-2><a href=#attr-fe-autocomplete-off>off</a></code>".</p>
+
+    <p>Otherwise, let the element's <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-7>autofill field name</a> be "<code id=autofill-processing-model:attr-fe-autocomplete-on-2><a href=#attr-fe-autocomplete-on>on</a></code>".</p>
+
+   </ol>
+
+  <hr>
+
+  <p>For the purposes of autofill, a <dfn id="control's-data">control's data</dfn> depends on the kind of control:</p>
+
+  <dl><dt>An <code id=autofill-processing-model:the-input-element-2><a href=#the-input-element>input</a></code> element with its <code id=autofill-processing-model:attr-input-type><a href=#attr-input-type>type</a></code> attribute
+   in the <a href="#e-mail-state-(type=email)" id="autofill-processing-model:e-mail-state-(type=email)">E-mail</a> state and with the <code id=autofill-processing-model:attr-input-multiple><a href=#attr-input-multiple>multiple</a></code> attribute specified<dd>The element's <a href=#concept-fe-values id=autofill-processing-model:concept-fe-values>value<em>s</em></a>.<dt>Any other <code id=autofill-processing-model:the-input-element-3><a href=#the-input-element>input</a></code> element<dt>A <code id=autofill-processing-model:the-textarea-element-2><a href=#the-textarea-element>textarea</a></code> element<dd>The element's <a href=#concept-fe-value id=autofill-processing-model:concept-fe-value>value</a>.<dt>A <code id=autofill-processing-model:the-select-element-2><a href=#the-select-element>select</a></code> element with its <code id=autofill-processing-model:attr-select-multiple><a href=#attr-select-multiple>multiple</a></code>
+   attribute specified<dd>The <code id=autofill-processing-model:the-option-element><a href=#the-option-element>option</a></code> elements in the <code id=autofill-processing-model:the-select-element-3><a href=#the-select-element>select</a></code> element's <a href=#concept-select-option-list id=autofill-processing-model:concept-select-option-list>list of options</a> that have their <a href=#concept-option-selectedness id=autofill-processing-model:concept-option-selectedness>selectedness</a> set to true.<dt>Any other <code id=autofill-processing-model:the-select-element-4><a href=#the-select-element>select</a></code> element<dd>The <code id=autofill-processing-model:the-option-element-2><a href=#the-option-element>option</a></code> element in the <code id=autofill-processing-model:the-select-element-5><a href=#the-select-element>select</a></code> element's <a href=#concept-select-option-list id=autofill-processing-model:concept-select-option-list-2>list of options</a> that has its <a href=#concept-option-selectedness id=autofill-processing-model:concept-option-selectedness-2>selectedness</a> set to true.</dl>
+
+  <hr>
+
+  <p>How to process the <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set-7>autofill hint set</a>, <a href=#autofill-scope id=autofill-processing-model:autofill-scope-4>autofill scope</a>, and
+  <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-8>autofill field name</a> depends on the mantle that the <code id=autofill-processing-model:attr-fe-autocomplete-5><a href=#attr-fe-autocomplete>autocomplete</a></code> attribute is wearing.</p>
+
+  <dl class=switch><dt>When wearing the <a href=#autofill-expectation-mantle id=autofill-processing-model:autofill-expectation-mantle>autofill expectation mantle</a>...
+
+   <dd>
+
+    <p>When an element's <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-9>autofill field name</a> is "<code id=autofill-processing-model:attr-fe-autocomplete-off-3><a href=#attr-fe-autocomplete-off>off</a></code>", the user agent should not remember the <a href="#control's-data" id="autofill-processing-model:control's-data">control's
+    data</a>, and should not offer past values to the user.</p>
+
+    <p class=note>In addition, when an element's <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-10>autofill field name</a> is "<code id=autofill-processing-model:attr-fe-autocomplete-off-4><a href=#attr-fe-autocomplete-off>off</a></code>", <a href=#history-autocomplete>values are reset</a>
+    when <a href=#traverse-the-history id=autofill-processing-model:traverse-the-history>traversing the history</a>.</p>
+
+    <div class=example>
+
+     <p>Banks frequently do not want UAs to prefill login information:</p>
+
+     <pre>&lt;p>&lt;label>Account: &lt;input type="text" name="ac" autocomplete="off">&lt;/label>&lt;/p>
+&lt;p>&lt;label>PIN: &lt;input type="password" name="pin" autocomplete="off">&lt;/label>&lt;/p></pre>
+
+    </div>
+
+    <p>When an element's <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-11>autofill field name</a> is <em>not</em> "<code id=autofill-processing-model:attr-fe-autocomplete-off-5><a href=#attr-fe-autocomplete-off>off</a></code>", the user agent may store the <a href="#control's-data" id="autofill-processing-model:control's-data-2">control's
+    data</a>, and may offer previously stored values to the user.</p>
+
+    <div class=example>
+
+     <p>For example, suppose a user visits a page with this control:</p>
+
+     <pre>&lt;select name="country">
+ &lt;option>Afghanistan
+ &lt;option>Albania
+ &lt;option>Algeria
+ &lt;option>Andorra
+ &lt;option>Angola
+ &lt;option>Antigua and Barbuda
+ &lt;option>Argentina
+ &lt;option>Armenia
+ &lt;!-- <em>...</em> -->
+ &lt;option>Yemen
+ &lt;option>Zambia
+ &lt;option>Zimbabwe
+&lt;/select></pre>
+
+     <p>This might render as follows:</p>
+
+     <p><img src=/images/select-country-1.png alt="A drop-down control with a long alphabetical list of countries."></p>
+
+     <p>Suppose that on the first visit to this page, the user selects "Zambia". On the second visit,
+     the user agent could duplicate the entry for Zambia at the top of the list, so that the interface
+     instead looks like this:</p>
+
+     <p><img src=/images/select-country-2.png alt="The same drop-down control with the alphabetical list of countries, but with Zambia as an entry at the top."></p>
+
+    </div>
+
+    <p>When the <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-12>autofill field name</a> is "<code id=autofill-processing-model:attr-fe-autocomplete-on-3><a href=#attr-fe-autocomplete-on>on</a></code>", the user agent should attempt to use heuristics to
+    determine the most appropriate values to offer the user, e.g. based on the element's <code id=autofill-processing-model:attr-fe-name><a href=#attr-fe-name>name</a></code> value, the position of the element in its <a id=autofill-processing-model:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a>,
+    what other fields exist in the form, and so forth.</p>
+
+    <p>When the <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-13>autofill field name</a> is one of the names of the <a href=#autofill-field id=autofill-processing-model:autofill-field>autofill fields</a> described above, the user agent should provide suggestions that
+    match the meaning of the field name as given in the table earlier in this section. The
+    <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set-8>autofill hint set</a> should be used to select amongst multiple possible suggestions.</p>
+
+    <p class=example>For example, if a user once entered one address into fields that used the
+    "<code id=autofill-processing-model:attr-fe-autocomplete-shipping-3><a href=#attr-fe-autocomplete-shipping>shipping</a></code>" keyword, and another address into
+    fields that used the "<code id=autofill-processing-model:attr-fe-autocomplete-billing-3><a href=#attr-fe-autocomplete-billing>billing</a></code>" keyword, then in
+    subsequent forms only the first address would be suggested for form controls whose <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set-9>autofill
+    hint set</a> contains the keyword "<code id=autofill-processing-model:attr-fe-autocomplete-shipping-4><a href=#attr-fe-autocomplete-shipping>shipping</a></code>". Both addresses might be suggested,
+    however, for address-related form controls whose <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set-10>autofill hint set</a> does not contain
+    either keyword.</p>
+
+   <dt>When wearing the <a href=#autofill-anchor-mantle id=autofill-processing-model:autofill-anchor-mantle-3>autofill anchor mantle</a>...
+
+   <dd>
+
+    <p>When the <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-14>autofill field name</a> is not the empty string, then the user agent must
+    act as if the user had specified the <a href="#control's-data" id="autofill-processing-model:control's-data-3">control's data</a> for the given <a href=#autofill-hint-set id=autofill-processing-model:autofill-hint-set-11>autofill
+    hint set</a>, <a href=#autofill-scope id=autofill-processing-model:autofill-scope-5>autofill scope</a>, and <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-15>autofill field name</a>
+    combination.</p>
+
+   </dl>
+
+  <p>When the user agent <dfn id=concept-fe-autofill>autofills form controls</dfn>, elements
+  with the same <a href=#form-owner id=autofill-processing-model:form-owner-2>form owner</a> and the same <a href=#autofill-scope id=autofill-processing-model:autofill-scope-6>autofill scope</a> must use data
+  relating to the same person, address, payment instrument, and contact details. <span id=autofill-country>When a user agent autofills "<code id=autofill-processing-model:attr-fe-autocomplete-country-2><a href=#attr-fe-autocomplete-country>country</a></code>" and "<code id=autofill-processing-model:attr-fe-autocomplete-country-name-2><a href=#attr-fe-autocomplete-country-name>country-name</a></code>" fields with the same <a href=#form-owner id=autofill-processing-model:form-owner-3>form
+  owner</a> and <a href=#autofill-scope id=autofill-processing-model:autofill-scope-7>autofill scope</a>, and the user agent has a value for the <code id=autofill-processing-model:attr-fe-autocomplete-country-3><a href=#attr-fe-autocomplete-country>country</a></code>" field(s), then the "<code id=autofill-processing-model:attr-fe-autocomplete-country-name-3><a href=#attr-fe-autocomplete-country-name>country-name</a></code>" field(s) must be filled using a
+  human-readable name for the same country.</span> When a user agent fills in multiple fields at
+  once, all fields with the same <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-16>autofill field name</a>, <a href=#form-owner id=autofill-processing-model:form-owner-4>form owner</a> and
+  <a href=#autofill-scope id=autofill-processing-model:autofill-scope-8>autofill scope</a> must be filled with the same value.</p>
+
+  <p class=example>Suppose a user agent knows of two phone numbers, +1 555 123 1234 and +1 555 666
+  7777. It would not be conforming for the user agent to fill a field with <code>autocomplete="shipping tel-local-prefix"</code> with the value "123" and another field
+  in the same form with <code>autocomplete="shipping tel-local-suffix"</code> with the
+  value "7777". The only valid prefilled values given the aforementioned information would be "123"
+  and "1234", or "666" and "7777", respectively.</p>
+
+  <p class=example>Similarly, if a form for some reason contained both a "<code id=autofill-processing-model:attr-fe-autocomplete-cc-exp-3><a href=#attr-fe-autocomplete-cc-exp>cc-exp</a></code>" field and a "<code id=autofill-processing-model:attr-fe-autocomplete-cc-exp-month-2><a href=#attr-fe-autocomplete-cc-exp-month>cc-exp-month</a></code>" field, and the user agent
+  prefilled the form, then the month component of the former would have to match the latter.</p>
+
+  <div class=example>
+
+   <p>This requirement interacts with the <a href=#autofill-anchor-mantle id=autofill-processing-model:autofill-anchor-mantle-4>autofill anchor mantle</a> also. Consider the
+   following markup snippet:</p>
+
+   <pre>&lt;form>
+ &lt;input type=hidden autocomplete="nickname" value="TreePlate">
+ &lt;input type=text autocomplete="nickname">
+&lt;/form></pre>
+
+   <p>The only value that a conforming user agent could suggest in the text control is "TreePlate",
+   the value given by the hidden <code id=autofill-processing-model:the-input-element-4><a href=#the-input-element>input</a></code> element.</p>
+
+  </div>
+
+  <p>The "<code>section-*</code>" tokens in the <a href=#autofill-scope id=autofill-processing-model:autofill-scope-9>autofill scope</a> are opaque;
+  user agents must not attempt to derive meaning from the precise values of these tokens.</p>
+
+  <p class=example>For example, it would not be conforming if the user agent decided that it
+  should offer the address it knows to be the user's daughter's address for "<code>section-child</code>" and the addresses it knows to be the user's spouses' addresses for
+  "<code>section-spouse</code>".</p>
+
+  <p>The autocompletion mechanism must be implemented by the user agent acting as if the user had
+  modified the <a href="#control's-data" id="autofill-processing-model:control's-data-4">control's data</a>, and must be done at a time where the element is <i id=autofill-processing-model:concept-fe-mutable><a href=#concept-fe-mutable>mutable</a></i> (e.g. just after the element has been inserted into the
+  document, or when the user agent <a href=#stop-parsing id=autofill-processing-model:stop-parsing>stops parsing</a>). User agents
+  must only prefill controls using values that the user could have entered.</p>
+
+  <p class=example>For example, if a <code id=autofill-processing-model:the-select-element-6><a href=#the-select-element>select</a></code> element only has <code id=autofill-processing-model:the-option-element-3><a href=#the-option-element>option</a></code>
+  elements with values "Steve" and "Rebecca", "Jay", and "Bob", and has an <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-17>autofill field
+  name</a> "<code id=autofill-processing-model:attr-fe-autocomplete-given-name-2><a href=#attr-fe-autocomplete-given-name>given-name</a></code>", but the user
+  agent's only idea for what to prefill the field with is "Evan", then the user agent cannot prefill
+  the field. It would not be conforming to somehow set the <code id=autofill-processing-model:the-select-element-7><a href=#the-select-element>select</a></code> element to the value
+  "Evan", since the user could not have done so themselves.</p>
+
+  <p>A user agent prefilling a form control must not discriminate between form controls that are
+  <a id=autofill-processing-model:in-a-document-tree href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a> and those that are <a id=autofill-processing-model:connected href=https://dom.spec.whatwg.org/#connected data-x-internal=connected>connected</a>; that is, it is not
+  conforming to make the decision on whether or not to autofill based on whether the element's
+  <a id=autofill-processing-model:root href=https://dom.spec.whatwg.org/#concept-tree-root data-x-internal=root>root</a> is a <a id=autofill-processing-model:shadow-root href=https://dom.spec.whatwg.org/#concept-shadow-root data-x-internal=shadow-root>shadow root</a> versus a <code id=autofill-processing-model:document><a href=#document>Document</a></code>.</p>
+
+  <p>A user agent prefilling a form control's <a href=#concept-fe-value id=autofill-processing-model:concept-fe-value-2>value</a> must not
+  cause that control to <a href=#suffering-from-a-type-mismatch id=autofill-processing-model:suffering-from-a-type-mismatch>suffer from a type
+  mismatch</a>, <a href=#suffering-from-being-too-long id=autofill-processing-model:suffering-from-being-too-long>suffer from being too long</a>,
+  <a href=#suffering-from-being-too-short id=autofill-processing-model:suffering-from-being-too-short>suffer from being too short</a>, <a href=#suffering-from-an-underflow id=autofill-processing-model:suffering-from-an-underflow>suffer from an underflow</a>, <a href=#suffering-from-an-overflow id=autofill-processing-model:suffering-from-an-overflow>suffer from an overflow</a>, or <a href=#suffering-from-a-step-mismatch id=autofill-processing-model:suffering-from-a-step-mismatch>suffer from a step mismatch</a>. A user agent prefilling a form control's <a href=#concept-fe-value id=autofill-processing-model:concept-fe-value-3>value</a> must not cause that control to <a href=#suffering-from-a-pattern-mismatch id=autofill-processing-model:suffering-from-a-pattern-mismatch>suffer from a pattern mismatch</a> either. Where possible given the
+  control's constraints, user agents must use the format given as canonical in the aforementioned
+  table. Where it's not possible for the canonical format to be used, user agents should use
+  heuristics to attempt to convert values so that they can be used.</p>
+
+  <div class=example>
+
+   <p>For example, if the user agent knows that the user's middle name is "Ines", and attempts to
+   prefill a form control that looks like this:</p>
+
+   <pre>&lt;input name=middle-initial maxlength=1 autocomplete="additional-name"></pre>
+
+   <p>...then the user agent could convert "Ines" to "I" and prefill it that way.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>A more elaborate example would be with month values. If the user agent knows that the user's
+   birthday is the 27th of July 2012, then it might try to prefill all of the following controls
+   with slightly different values, all driven from this information:</p>
+
+   <table><tr><td>
+      <pre>&lt;input name=b type=month autocomplete="bday"></pre>
+     <td>
+      2012-07
+     <td>
+      The day is dropped since the <a href="#month-state-(type=month)" id="autofill-processing-model:month-state-(type=month)">Month</a> state only accepts a
+      month/year combination. (Note that this example is non-conforming, because the <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-18>autofill
+      field name</a> <code id=autofill-processing-model:attr-fe-autocomplete-bday-2><a href=#attr-fe-autocomplete-bday>bday</a></code> is not allowed with the
+      <a href="#month-state-(type=month)" id="autofill-processing-model:month-state-(type=month)-2">Month</a> state.)
+    <tr><td>
+      <pre>&lt;select name=c autocomplete="bday">
+ &lt;option>Jan
+ &lt;option>Feb
+ <em>...</em>
+ &lt;option>Jul
+ &lt;option>Aug
+ <em>...</em>
+&lt;/select></pre>
+     <td>
+      July
+     <td>
+      The user agent picks the month from the listed options, either by noticing there are twelve
+      options and picking the 7th, or by recognizing that one of the strings (three characters "Jul"
+      followed by a newline and a space) is a close match for the name of the month (July) in one of
+      the user agent's supported languages, or through some other similar mechanism.
+    <tr><td>
+      <pre>&lt;input name=a type=number min=1 max=12 autocomplete="bday-month"></pre>
+     <td>
+      7
+     <td>
+      User agent converts "July" to a month number in the range 1..12, like the field.
+    <tr><td>
+      <pre>&lt;input name=a type=number min=0 max=11 autocomplete="bday-month"></pre>
+     <td>
+      6
+     <td>
+      User agent converts "July" to a month number in the range 0..11, like the field.
+    <tr><td>
+      <pre>&lt;input name=a type=number min=1 max=11 autocomplete="bday-month"></pre>
+     <td>
+     <td>
+      User agent doesn't fill in the field, since it can't make a good guess as to what the form expects.
+   </table>
+
+  </div>
+
+  <p>A user agent may allow the user to override an element's <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-19>autofill field name</a>, e.g.
+  to change it from "<code id=autofill-processing-model:attr-fe-autocomplete-off-6><a href=#attr-fe-autocomplete-off>off</a></code>" to "<code id=autofill-processing-model:attr-fe-autocomplete-on-4><a href=#attr-fe-autocomplete-on>on</a></code>" to allow values to be remembered and prefilled despite
+  the page author's objections, or to always "<code id=autofill-processing-model:attr-fe-autocomplete-off-7><a href=#attr-fe-autocomplete-off>off</a></code>",
+  never remembering values.</p>
+
+  <p>More specifically, user agents may in particular consider replacing the <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-20>autofill field
+  name</a> of form controls that match the description given in the first column of the following
+  table, when their <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-21>autofill field name</a> is either "<code id=autofill-processing-model:attr-fe-autocomplete-on-5><a href=#attr-fe-autocomplete-on>on</a></code>" or "<code id=autofill-processing-model:attr-fe-autocomplete-off-8><a href=#attr-fe-autocomplete-off>off</a></code>", with the value given in the second cell of that
+  row. If this table is used, the replacements must be done in <a id=autofill-processing-model:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>, since all
+  but the first row references the <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-22>autofill field name</a> of earlier elements. When the
+  descriptions below refer to form controls being preceded or followed by others, they mean in the
+  list of <a href=#category-listed id=autofill-processing-model:category-listed>listed elements</a> that share the same <a href=#form-owner id=autofill-processing-model:form-owner-5>form
+  owner</a>.</p>
+
+  <table><thead><tr><th>Form control
+     <th>New <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-23>autofill field name</a>
+
+   <tbody><tr><td>
+
+      an <code id=autofill-processing-model:the-input-element-5><a href=#the-input-element>input</a></code> element whose <code id=autofill-processing-model:attr-input-type-2><a href=#attr-input-type>type</a></code> attribute is in
+      the <a href="#text-(type=text)-state-and-search-state-(type=search)" id="autofill-processing-model:text-(type=text)-state-and-search-state-(type=search)">Text</a> state that is followed by an
+      <code id=autofill-processing-model:the-input-element-6><a href=#the-input-element>input</a></code> element whose <code id=autofill-processing-model:attr-input-type-3><a href=#attr-input-type>type</a></code> attribute is in
+      the <a href="#password-state-(type=password)" id="autofill-processing-model:password-state-(type=password)">Password</a> state
+
+     <td>
+
+      "<code id=autofill-processing-model:attr-fe-autocomplete-username-2><a href=#attr-fe-autocomplete-username>username</a></code>"
+
+
+    <tr><td>
+
+      an <code id=autofill-processing-model:the-input-element-7><a href=#the-input-element>input</a></code> element whose <code id=autofill-processing-model:attr-input-type-4><a href=#attr-input-type>type</a></code> attribute is in
+      the <a href="#password-state-(type=password)" id="autofill-processing-model:password-state-(type=password)-2">Password</a> state that is preceded by an
+      <code id=autofill-processing-model:the-input-element-8><a href=#the-input-element>input</a></code> element whose <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-24>autofill field name</a> is "<code id=autofill-processing-model:attr-fe-autocomplete-username-3><a href=#attr-fe-autocomplete-username>username</a></code>"
+
+     <td>
+
+      "<code id=autofill-processing-model:attr-fe-autocomplete-current-password-2><a href=#attr-fe-autocomplete-current-password>current-password</a></code>"
+
+
+    <tr><td>
+
+      an <code id=autofill-processing-model:the-input-element-9><a href=#the-input-element>input</a></code> element whose <code id=autofill-processing-model:attr-input-type-5><a href=#attr-input-type>type</a></code> attribute is in
+      the <a href="#password-state-(type=password)" id="autofill-processing-model:password-state-(type=password)-3">Password</a> state that is preceded by an
+      <code id=autofill-processing-model:the-input-element-10><a href=#the-input-element>input</a></code> element whose <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-25>autofill field name</a> is "<code id=autofill-processing-model:attr-fe-autocomplete-current-password-3><a href=#attr-fe-autocomplete-current-password>current-password</a></code>"
+
+     <td>
+
+      "<code id=autofill-processing-model:attr-fe-autocomplete-new-password-2><a href=#attr-fe-autocomplete-new-password>new-password</a></code>"
+
+
+    <tr><td>
+
+      an <code id=autofill-processing-model:the-input-element-11><a href=#the-input-element>input</a></code> element whose <code id=autofill-processing-model:attr-input-type-6><a href=#attr-input-type>type</a></code> attribute is in
+      the <a href="#password-state-(type=password)" id="autofill-processing-model:password-state-(type=password)-4">Password</a> state that is preceded by an
+      <code id=autofill-processing-model:the-input-element-12><a href=#the-input-element>input</a></code> element whose <a href=#autofill-field-name id=autofill-processing-model:autofill-field-name-26>autofill field name</a> is "<code id=autofill-processing-model:attr-fe-autocomplete-new-password-3><a href=#attr-fe-autocomplete-new-password>new-password</a></code>"
+
+     <td>
+
+      "<code id=autofill-processing-model:attr-fe-autocomplete-new-password-4><a href=#attr-fe-autocomplete-new-password>new-password</a></code>"
+
+
+  </table>
+
+  <p>The <dfn id=dom-fe-autocomplete><code>autocomplete</code></dfn> IDL attribute, on getting,
+  must return the element's <a href=#idl-exposed-autofill-value id=autofill-processing-model:idl-exposed-autofill-value-5>IDL-exposed autofill value</a>, and on setting, must
+  <a href=#reflect id=autofill-processing-model:reflect>reflect</a> the content attribute of the same name.</p>
+
+  
+
+
+
+  <h4 id=textFieldSelection>4.10.19 APIs for the text control selections<a href=#textFieldSelection class=self-link></a></h4>
+
+  
+
+  <p>The <code id=textFieldSelection:the-input-element><a href=#the-input-element>input</a></code> and <code id=textFieldSelection:the-textarea-element><a href=#the-textarea-element>textarea</a></code> elements define several attributes and methods
+  for handling their selection. Their shared algorithms are defined here.</p>
+
+  
+
+  <dl class=domintro><dt><var>element</var> . <code id=textFieldSelection:dom-textarea/input-select><a href=#dom-textarea/input-select>select</a></code>()<dd>
+
+    <p>Selects everything in the text control.</p>
+
+   <dt><var>element</var> . <code id=textFieldSelection:dom-textarea/input-selectionstart><a href=#dom-textarea/input-selectionstart>selectionStart</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the offset to the start of the selection.</p>
+
+    <p>Can be set, to change the start of the selection.</p>
+
+   <dt><var>element</var> . <code id=textFieldSelection:dom-textarea/input-selectionend><a href=#dom-textarea/input-selectionend>selectionEnd</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the offset to the end of the selection.</p>
+
+    <p>Can be set, to change the end of the selection.</p>
+
+   <dt><var>element</var> . <code id=textFieldSelection:dom-textarea/input-selectiondirection><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current direction of the selection.</p>
+
+    <p>Can be set, to change the direction of the selection.</p>
+
+    <p>The possible values are "<code>forward</code>", "<code>backward</code>", and "<code>none</code>".</p>
+
+   <dt><var>element</var> . <code id=textFieldSelection:dom-textarea/input-setselectionrange><a href=#dom-textarea/input-setselectionrange>setSelectionRange</a></code>(<var>start</var>, <var>end</var> [, <var>direction</var>] )<dd>
+
+    <p>Changes the selection to cover the given substring in the given direction. If the direction
+    is omitted, it will be reset to be the platform default (none or forward).</p>
+
+   <dt><var>element</var> . <code id=textFieldSelection:dom-textarea/input-setrangetext><a href=#dom-textarea/input-setrangetext>setRangeText</a></code>(<var>replacement</var> [, <var>start</var>, <var>end</var> [, <var>selectionMode</var> ] ] )<dd>
+
+    <p>Replaces a range of text with the new text. If the <var>start</var> and <var>end</var> arguments are not provided, the range is assumed to be the selection.</p>
+
+    <p>The final argument determines how the selection should be set after the text has been
+    replaced. The possible values are:</p>
+
+    <dl><dt>"<code id=textFieldSelection:dom-selectionmode-select><a href=#dom-selectionmode-select>select</a></code>"<dd>Selects the newly inserted text.<dt>"<code id=textFieldSelection:dom-selectionmode-start><a href=#dom-selectionmode-start>start</a></code>"<dd>Moves the selection to just before the inserted text.<dt>"<code id=textFieldSelection:dom-selectionmode-end><a href=#dom-selectionmode-end>end</a></code>"<dd>Moves the selection to just after the selected text.<dt>"<code id=textFieldSelection:dom-selectionmode-preserve><a href=#dom-selectionmode-preserve>preserve</a></code>"<dd>Attempts to preserve the selection. This is the default.</dl>
+
+   </dl>
+
+  
+
+  <p>For <code id=textFieldSelection:the-input-element-2><a href=#the-input-element>input</a></code> elements, calling these methods while they <a href=#do-not-apply id=textFieldSelection:do-not-apply>don't apply</a>, and setting these attributes while they <a href=#do-not-apply id=textFieldSelection:do-not-apply-2>don't apply</a>, must throw an <a id=textFieldSelection:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+  <code id=textFieldSelection:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>; and getting these attributes while they <a href=#do-not-apply id=textFieldSelection:do-not-apply-3>don't apply</a> must return null. Otherwise, they must act as described below.</p>
+
+  <p>For <code id=textFieldSelection:the-input-element-3><a href=#the-input-element>input</a></code> elements, these methods and attributes must operate on the element's
+  <a href=#concept-fe-value id=textFieldSelection:concept-fe-value>value</a>. For <code id=textFieldSelection:the-textarea-element-2><a href=#the-textarea-element>textarea</a></code> elements, these methods and
+  attributes must operate on the element's <a href=#concept-textarea-raw-value id=textFieldSelection:concept-textarea-raw-value>raw
+  value</a>.</p>
+
+  <p>Where possible, user interface features for changing the text selection in <code id=textFieldSelection:the-input-element-4><a href=#the-input-element>input</a></code>
+  and <code id=textFieldSelection:the-textarea-element-3><a href=#the-textarea-element>textarea</a></code> elements must be implemented in terms of the DOM API described in this
+  section, so that, e.g., all the same events fire.</p>
+
+
+  <p>The selections of <code id=textFieldSelection:the-input-element-5><a href=#the-input-element>input</a></code> and <code id=textFieldSelection:the-textarea-element-4><a href=#the-textarea-element>textarea</a></code> elements have a
+  <i>direction</i>, which is either <i>forward</i>, <i>backward</i>, or <i>none</i>. This direction
+  is set when the user manipulates the selection. The exact meaning of the selection direction
+  depends on the platform.</p>
+
+  <p class=note>On Windows, the direction indicates the position of the caret relative to the
+  selection: a <i>forward</i> selection has the caret at the end of the selection and a
+  <i>backward</i> selection has the caret at the start of the selection. Windows has no <i>none</i>
+  direction. On Mac, the direction indicates which end of the selection is affected when the user
+  adjusts the size of the selection using the arrow keys with the Shift modifier: the forward
+  direction means the end of the selection is modified, and the backwards direction means the start
+  of the selection is modified. The none direction is the default on Mac, it indicates that no
+  particular direction has yet been selected. The user sets the direction implicitly when first
+  adjusting the selection, based on which directional arrow key was used.</p>
+
+
+  <p>The <dfn id=dom-textarea/input-select><code>select()</code></dfn> method must cause the
+  contents of the text control to be fully selected, with the selection direction being none, if the
+  platform support selections with the direction <i>none</i>, or otherwise <i>forward</i>. The user
+  agent must then <a href=#queue-a-task id=textFieldSelection:queue-a-task>queue a task</a>, using the <a href=#user-interaction-task-source id=textFieldSelection:user-interaction-task-source>user interaction task source</a>, to
+  <a href=https://dom.spec.whatwg.org/#concept-event-fire id=textFieldSelection:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=textFieldSelection:event-select><a href=#event-select>select</a></code> at the element, with the <code id=textFieldSelection:dom-event-bubbles><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true.</p>
+
+  <p>In the case of <code id=textFieldSelection:the-input-element-6><a href=#the-input-element>input</a></code> elements, if the control has no selectable text, then the
+  method must do nothing.</p>
+
+  <p class=example>For instance, in a user agent where <code id="textFieldSelection:color-state-(type=color)"><a href="#color-state-(type=color)">&lt;input type=color></a></code> is rendered as a color well with a
+  picker, as opposed to a text control accepting a hexadecimal color code, there would be no
+  selectable text, and thus calls to the method are ignored.</p>
+
+
+  <p>The <dfn id=dom-textarea/input-selectionstart><code>selectionStart</code></dfn> attribute
+  must, on getting, return the offset (in logical order) to the character that immediately follows
+  the start of the selection. If there is no selection, then it must return the offset (in logical
+  order) to the character that immediately follows the text entry cursor.</p>
+
+  <p>On setting, it must <a href=#set-the-selection-range id=textFieldSelection:set-the-selection-range>set the selection range</a> with the new value as the first
+  argument; the current value of the <code id=textFieldSelection:dom-textarea/input-selectionend-2><a href=#dom-textarea/input-selectionend>selectionEnd</a></code> attribute as the second argument,
+  unless the current value of the <code id=textFieldSelection:dom-textarea/input-selectionend-3><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>
+  is less than the new value, in which case the second argument must also be the new value; and the
+  current value of the <code id=textFieldSelection:dom-textarea/input-selectiondirection-2><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code> as the third argument.</p>
+
+
+  <p>The <dfn id=dom-textarea/input-selectionend><code>selectionEnd</code></dfn> attribute
+  must, on getting, return the offset (in logical order) to the character that immediately follows
+  the end of the selection. If there is no selection, then it must return the offset (in logical
+  order) to the character that immediately follows the text entry cursor.</p>
+
+  <p>On setting, it must <a href=#set-the-selection-range id=textFieldSelection:set-the-selection-range-2>set the selection range</a> with the current value of the <code id=textFieldSelection:dom-textarea/input-selectionstart-2><a href=#dom-textarea/input-selectionstart>selectionStart</a></code> attribute as the first argument,
+  the new value as the second argument, and the current value of the <code id=textFieldSelection:dom-textarea/input-selectiondirection-3><a href=#dom-textarea/input-selectiondirection>selectionDirection</a></code> as the third argument.</p>
+
+
+  <p>The <dfn id=dom-textarea/input-selectiondirection><code>selectionDirection</code></dfn>
+  attribute must, on getting, return the string corresponding to the current selection direction: if
+  the direction is <i>forward</i>, "<code>forward</code>"; if the direction is
+  <i>backward</i>, "<code>backward</code>"; and otherwise, "<code>none</code>".</p>
+
+  <p>On setting, it must <a href=#set-the-selection-range id=textFieldSelection:set-the-selection-range-3>set the selection range</a> with the current value of the <code id=textFieldSelection:dom-textarea/input-selectionstart-3><a href=#dom-textarea/input-selectionstart>selectionStart</a></code> attribute as the first argument,
+  the current value of the <code id=textFieldSelection:dom-textarea/input-selectionend-4><a href=#dom-textarea/input-selectionend>selectionEnd</a></code>
+  attribute as the second argument, and the new value as the third argument.</p>
+
+
+  <p>The <dfn id=dom-textarea/input-setselectionrange><code>setSelectionRange(<var>start</var>, <var>end</var>,
+  <var>direction</var>)</code></dfn> method must <a href=#set-the-selection-range id=textFieldSelection:set-the-selection-range-4>set the selection range</a> with the same
+  arguments.</p>
+
+  <p>To <dfn id=set-the-selection-range>set the selection range</dfn> with an integer or null <var>start</var>, an integer or
+  null <var>end</var>, and optionally a string <var>direction</var>, means to run these steps:</p>
+
+  <ol><li><p>If <var>start</var> is null, let <var>start</var> be zero.<li><p>If <var>end</var> is null, let <var>end</var> be zero.<li><p>Set the selection of the text control to the sequence of characters starting with the
+   character at the <var>start</var>th position (in logical order) and ending with the character at
+   the <span>(<var>end</var>-1)</span>th position. Arguments greater than the length of
+   the value of the text control must be treated as pointing at the end of the text control. If
+   <var>end</var> is less than or equal to <var>start</var> then the start of the selection and the
+   end of the selection must both be placed immediately before the character with offset
+   <var>end</var>. In UAs where there is no concept of an empty selection, this must set the cursor
+   to be just before the character with offset <var>end</var>. The direction of the selection must
+   be set to <i>backward</i> if <var>direction</var> is a <a href=#case-sensitive id=textFieldSelection:case-sensitive>case-sensitive</a> match for the
+   string "<code>backward</code>", <i>forward</i> if <var>direction</var> is a
+   <a href=#case-sensitive id=textFieldSelection:case-sensitive-2>case-sensitive</a> match for the string "<code>forward</code>" or if the
+   platform does not support selections with the direction <i>none</i>, and <i>none</i> otherwise
+   (including if the argument is omitted).<li><p><a href=#queue-a-task id=textFieldSelection:queue-a-task-2>Queue a task</a>, using the <a href=#user-interaction-task-source id=textFieldSelection:user-interaction-task-source-2>user interaction task source</a>, to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=textFieldSelection:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=textFieldSelection:event-select-2><a href=#event-select>select</a></code>
+   at the element, with the <code id=textFieldSelection:dom-event-bubbles-2><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to
+   true.</ol>
+
+
+  <p>The <dfn id=dom-textarea/input-setrangetext><code>setRangeText(<var>replacement</var>, <var>start</var>, <var>end</var>, <var>selectMode</var>)</code></dfn> method must run the following steps:</p>
+
+  <ol><li>
+
+    <p>If the method has only one argument, then let <var>start</var> and <var>end</var> have the values of the <code id=textFieldSelection:dom-textarea/input-selectionstart-4><a href=#dom-textarea/input-selectionstart>selectionStart</a></code> attribute and the <code id=textFieldSelection:dom-textarea/input-selectionend-5><a href=#dom-textarea/input-selectionend>selectionEnd</a></code> attribute respectively.</p>
+
+    <p>Otherwise, let <var>start</var>, <var>end</var> have the values of the
+    second and third arguments respectively.</p>
+
+   <li><p>If <var>start</var> is greater than <var>end</var>, then throw an
+   <a id=textFieldSelection:indexsizeerror href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=textFieldSelection:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li><p>If <var>start</var> is greater than the length of the value of the text control, then set
+   it to the length of the value of the text control.<li><p>If <var>end</var> is greater than the length of the value of the text control, then set it
+   to the length of the value of the text control.<li><p>Let <var>selection start</var> be the current value of the <code id=textFieldSelection:dom-textarea/input-selectionstart-5><a href=#dom-textarea/input-selectionstart>selectionStart</a></code> attribute.<li><p>Let <var>selection end</var> be the current value of the <code id=textFieldSelection:dom-textarea/input-selectionend-6><a href=#dom-textarea/input-selectionend>selectionEnd</a></code> attribute.<li><p>If <var>start</var> is less than <var>end</var>, delete the sequence of
+   characters starting with the character at the <var>start</var>th position (in logical
+   order) and ending with the character at the <span>(<var>end</var>-1)</span>th
+   position.<li><p>Insert the value of the first argument into the text of the value of the text control,
+   immediately before the <var>start</var>th character.<li><p>Let <var>new length</var> be the length of the value of the first argument.<li><p>Let <var>new end</var> be the sum of <var>start</var> and <var>new length</var>.<li>
+
+    <p>Run the appropriate set of substeps from the following list:</p>
+
+    <dl class=switch><dt>If the fourth argument's value is "<dfn id=dom-selectionmode-select><code>select</code></dfn>"<dd>
+
+      <p>Let <var>selection start</var> be <var>start</var>.</p>
+
+      <p>Let <var>selection end</var> be <var>new end</var>.</p>
+
+     <dt>If the fourth argument's value is "<dfn id=dom-selectionmode-start><code>start</code></dfn>"<dd>
+
+      <p>Let <var>selection start</var> and <var>selection end</var> be <var>start</var>.</p>
+
+     <dt>If the fourth argument's value is "<dfn id=dom-selectionmode-end><code>end</code></dfn>"<dd>
+
+      <p>Let <var>selection start</var> and <var>selection end</var> be <var>new end</var>.</p>
+
+     <dt>If the fourth argument's value is "<dfn id=dom-selectionmode-preserve><code>preserve</code></dfn>" (the default)<dd>
+
+      <ol><li><p>Let <var>old length</var> be <var>end</var> minus <var>start</var>.</p>
+
+       <li><p>Let <var>delta</var> be <var>new length</var> minus <var>old length</var>.</p>
+
+       <li>
+
+        <p>If <var>selection start</var> is greater than <var>end</var>, then
+        increment it by <var>delta</var>. (If <var>delta</var> is negative, i.e.
+        the new text is shorter than the old text, then this will <em>decrease</em> the value of
+        <var>selection start</var>.)</p>
+
+        <p>Otherwise: if <var>selection start</var> is greater than <var>start</var>, then set it to <var>start</var>. (This snaps the start of the
+        selection to the start of the new text if it was in the middle of the text that it
+        replaced.)</p>
+
+       <li>
+
+        <p>If <var>selection end</var> is greater than <var>end</var>, then
+        increment it by <var>delta</var> in the same way.</p>
+
+        <p>Otherwise: if <var>selection end</var> is greater than <var>start</var>, then set it to <var>new end</var>. (This snaps the end of the
+        selection to the end of the new text if it was in the middle of the text that it
+        replaced.)</p>
+
+       </ol>
+
+     </dl>
+
+   <li>
+
+    <p>Set the selection of the text control to the sequence of characters starting with the
+    character at the <var>selection start</var>th position (in logical order) and ending with the
+    character at the <span>(<var>selection end</var>-1)</span>th position. In UAs
+    where there is no concept of an empty selection, this must set the cursor to be just before the
+    character with offset <var>end</var>. The direction of the selection must be set to
+    <i>forward</i> if the platform does not support selections with the direction <i>none</i>, and
+    <i>none</i> otherwise.</p>
+
+   <li><p><a href=#queue-a-task id=textFieldSelection:queue-a-task-3>Queue a task</a>, using the <a href=#user-interaction-task-source id=textFieldSelection:user-interaction-task-source-3>user interaction task source</a>, to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=textFieldSelection:concept-event-fire-3 data-x-internal=concept-event-fire>fire an event</a> named <code id=textFieldSelection:event-select-3><a href=#event-select>select</a></code>
+   at the element, with the <code id=textFieldSelection:dom-event-bubbles-3><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to
+   true.</ol>
+
+  <p>The <code id=textFieldSelection:dom-textarea/input-setrangetext-2><a href=#dom-textarea/input-setrangetext>setRangeText</a></code> method uses the
+  following enumeration:</p>
+
+  <pre class=idl>enum <dfn id=selectionmode>SelectionMode</dfn> {
+  "<a href=#dom-selectionmode-select id=textFieldSelection:dom-selectionmode-select-2>select</a>",
+  "<a href=#dom-selectionmode-start id=textFieldSelection:dom-selectionmode-start-2>start</a>",
+  "<a href=#dom-selectionmode-end id=textFieldSelection:dom-selectionmode-end-2>end</a>",
+  "<a href=#dom-selectionmode-preserve id=textFieldSelection:dom-selectionmode-preserve-2>preserve</a>" // default
+};</pre>
+
+  <p>All elements to which this API <a href=#concept-input-apply id=textFieldSelection:concept-input-apply>applies</a> have either a
+  selection or a text entry cursor position at all times (even for elements that are not <a href=#being-rendered id=textFieldSelection:being-rendered>being
+  rendered</a>). User agents should follow platform conventions to determine their initial
+  state.</p>
+
+  
+
+
+  <p>Characters with no visible rendering, such as U+200D ZERO WIDTH JOINER, still count as
+  characters. Thus, for instance, the selection can include just an invisible character, and the
+  text insertion cursor can be placed to one side or another of such a character.</p>
+
+  <hr>
+
+  <div class=example>
+
+   <p>To obtain the currently selected text, the following JavaScript suffices:</p>
+
+   <pre>var selectionText = control.value.substring(control.selectionStart, control.selectionEnd);</pre>
+
+   <p>...where <var>control</var> is the <code id=textFieldSelection:the-input-element-7><a href=#the-input-element>input</a></code> or <code id=textFieldSelection:the-textarea-element-5><a href=#the-textarea-element>textarea</a></code>
+   element.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>To add some text at the start of a text control, while maintaining the text selection, the
+   three attributes must be preserved:</p>
+
+   <pre>var oldStart = control.selectionStart;
+var oldEnd = control.selectionEnd;
+var oldDirection = control.selectionDirection;
+var prefix = "http://";
+control.value = prefix + control.value;
+control.setSelectionRange(oldStart + prefix.length, oldEnd + prefix.length, oldDirection);</pre>
+
+   <p>...where <var>control</var> is the <code id=textFieldSelection:the-input-element-8><a href=#the-input-element>input</a></code> or <code id=textFieldSelection:the-textarea-element-6><a href=#the-textarea-element>textarea</a></code>
+   element.</p>
+
+  </div>
+
+
+
+
+  <h4 id=constraints>4.10.20 Constraints<a href=#constraints class=self-link></a></h4>
+
+  <h5 id=definitions>4.10.20.1 Definitions<a href=#definitions class=self-link></a></h5>
+
+  
+
+  <p>A <a href=#category-submit id=definitions:category-submit>submittable element</a> is a <dfn id=candidate-for-constraint-validation>candidate for constraint
+  validation</dfn> except when a condition has <dfn id=barred-from-constraint-validation>barred
+  the element from constraint validation</dfn>. (For example, an element is <a href=#barred-from-constraint-validation id=definitions:barred-from-constraint-validation>barred from
+  constraint validation</a> if it is an <code id=definitions:the-object-element><a href=#the-object-element>object</a></code> element.)</p>
+
+  <p>An element can have a <dfn id=custom-validity-error-message>custom validity error message</dfn> defined. Initially, an element
+  must have its <a href=#custom-validity-error-message id=definitions:custom-validity-error-message>custom validity error message</a> set to the empty string. When its value
+  is not the empty string, the element is <a href=#suffering-from-a-custom-error id=definitions:suffering-from-a-custom-error>suffering from a custom error</a>. It can be set
+  using the <code id=definitions:dom-cva-setcustomvalidity><a href=#dom-cva-setcustomvalidity>setCustomValidity()</a></code> method. The user
+  agent should use the <a href=#custom-validity-error-message id=definitions:custom-validity-error-message-2>custom validity error message</a> when alerting the user to the
+  problem with the control.</p>
+
+  <p>An element can be constrained in various ways. The following is the list of <dfn id=validity-states>validity
+  states</dfn> that a form control can be in, making the control invalid for the purposes of
+  constraint validation. (The definitions below are non-normative; other parts of this specification
+  define more precisely when each state applies or does not.)</p>
+
+  <dl><dt> <dfn id=suffering-from-being-missing>Suffering from being missing</dfn> <dd> <p>When a control has no <a href=#concept-fe-value id=definitions:concept-fe-value>value</a> but has a <code>required</code> attribute (<code id=definitions:the-input-element><a href=#the-input-element>input</a></code> <code id=definitions:attr-input-required><a href=#attr-input-required>required</a></code>, <code id=definitions:the-textarea-element><a href=#the-textarea-element>textarea</a></code> <code id=definitions:attr-textarea-required><a href=#attr-textarea-required>required</a></code>); or, more complicated rules for
+   <code id=definitions:the-select-element><a href=#the-select-element>select</a></code> elements and controls in <a href=#radio-button-group id=definitions:radio-button-group>radio button
+   groups</a>, as specified in their sections.<dt> <dfn id=suffering-from-a-type-mismatch>Suffering from a type mismatch</dfn> <dd> <p>When a control that allows arbitrary user input has a <a href=#concept-fe-value id=definitions:concept-fe-value-2>value</a> that is not in the correct syntax (<a href="#e-mail-state-(type=email)" id="definitions:e-mail-state-(type=email)">E-mail</a>, <a href="#url-state-(type=url)" id="definitions:url-state-(type=url)">URL</a>).
+   <dt> <dfn id=suffering-from-a-pattern-mismatch>Suffering from a pattern mismatch</dfn> <dd> <p>When a control has a <a href=#concept-fe-value id=definitions:concept-fe-value-3>value</a> that doesn't satisfy the
+   <code id=definitions:attr-input-pattern><a href=#attr-input-pattern>pattern</a></code> attribute.<dt> <dfn id=suffering-from-being-too-long>Suffering from being too long</dfn> <dd> <p>When a control has a <a href=#concept-fe-value id=definitions:concept-fe-value-4>value</a> that is too long for the
+   <a href=#attr-fe-maxlength id=definitions:attr-fe-maxlength>form control <code>maxlength</code> attribute</a>
+   (<code id=definitions:the-input-element-2><a href=#the-input-element>input</a></code> <code id=definitions:attr-input-maxlength><a href=#attr-input-maxlength>maxlength</a></code>, <code id=definitions:the-textarea-element-2><a href=#the-textarea-element>textarea</a></code>
+   <code id=definitions:attr-textarea-maxlength><a href=#attr-textarea-maxlength>maxlength</a></code>). <dt> <dfn id=suffering-from-being-too-short>Suffering from being too short</dfn> <dd> <p>When a control has a <a href=#concept-fe-value id=definitions:concept-fe-value-5>value</a> that is too short for the
+   <a href=#attr-fe-minlength id=definitions:attr-fe-minlength>form control <code>minlength</code> attribute</a>
+   (<code id=definitions:the-input-element-3><a href=#the-input-element>input</a></code> <code id=definitions:attr-input-minlength><a href=#attr-input-minlength>minlength</a></code>, <code id=definitions:the-textarea-element-3><a href=#the-textarea-element>textarea</a></code>
+   <code id=definitions:attr-textarea-minlength><a href=#attr-textarea-minlength>minlength</a></code>). <dt> <dfn id=suffering-from-an-underflow>Suffering from an underflow</dfn> <dd> <p>When a control has a <a href=#concept-fe-value id=definitions:concept-fe-value-6>value</a> that is not the empty
+   string and is too low for the <code id=definitions:attr-input-min><a href=#attr-input-min>min</a></code> attribute.<dt> <dfn id=suffering-from-an-overflow>Suffering from an overflow</dfn> <dd> <p>When a control has a <a href=#concept-fe-value id=definitions:concept-fe-value-7>value</a> that is not the empty
+   string and is too high for the <code id=definitions:attr-input-max><a href=#attr-input-max>max</a></code> attribute.<dt> <dfn id=suffering-from-a-step-mismatch>Suffering from a step mismatch</dfn> <dd> <p>When a control has a <a href=#concept-fe-value id=definitions:concept-fe-value-8>value</a> that doesn't fit the
+   rules given by the <code id=definitions:attr-input-step><a href=#attr-input-step>step</a></code> attribute.<dt> <dfn id=suffering-from-bad-input>Suffering from bad input</dfn> <dd> <p>When a control has incomplete input and the user agent does not think the user ought to
+   be able to submit the form in its current state.<dt> <dfn id=suffering-from-a-custom-error>Suffering from a custom error</dfn> <dd> <p>When a control's <a href=#custom-validity-error-message id=definitions:custom-validity-error-message-3>custom validity error message</a> (as set by the element's
+   <code id=definitions:dom-cva-setcustomvalidity-2><a href=#dom-cva-setcustomvalidity>setCustomValidity()</a></code> method) is not the empty
+   string.</p> </dl>
+
+  <p class=note>An element can still suffer from these states even when the element is <a href=#concept-fe-disabled id=definitions:concept-fe-disabled>disabled</a>; thus these states can be represented in the DOM even
+  if validating the form during submission wouldn't indicate a problem to the user.</p>
+
+  <p>An element <dfn id=concept-fv-valid>satisfies its constraints</dfn> if it is not suffering
+  from any of the above <a href=#validity-states id=definitions:validity-states>validity states</a>.</p>
+
+  
+
+
+
+  
+
+  <h5 id=constraint-validation>4.10.20.2 Constraint validation<a href=#constraint-validation class=self-link></a></h5>
+
+  <p>When the user agent is required to <dfn id=statically-validate-the-constraints>statically validate the constraints</dfn> of
+  <code id=constraint-validation:the-form-element><a href=#the-form-element>form</a></code> element <var>form</var>, it must run the following steps, which return
+  either a <i>positive</i> result (all the controls in the form are valid) or a <i>negative</i>
+  result (there are invalid controls) along with a (possibly empty) list of elements that are
+  invalid and for which no script has claimed responsibility:</p>
+
+  <ol><li><p>Let <var>controls</var> be a list of all the <a href=#category-submit id=constraint-validation:category-submit>submittable elements</a> whose <a href=#form-owner id=constraint-validation:form-owner>form owner</a> is <var>form</var>, in <a id=constraint-validation:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>.<li><p>Let <var>invalid controls</var> be an initially empty list of elements.<li>
+
+    <p>For each element <var>field</var> in <var>controls</var>, in <a id=constraint-validation:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree
+    order</a>, run the following substeps:</p>
+
+    <ol><li><p>If <var>field</var> is not a <a href=#candidate-for-constraint-validation id=constraint-validation:candidate-for-constraint-validation>candidate for constraint validation</a>,
+     then move on to the next element.<li><p>Otherwise, if <var>field</var> <a href=#concept-fv-valid id=constraint-validation:concept-fv-valid>satisfies its
+     constraints</a>, then move on to the next element.<li><p>Otherwise, add <var>field</var> to <var>invalid
+     controls</var>.</ol>
+
+   <li><p>If <var>invalid controls</var> is empty, then return a <i>positive</i> result and
+   abort these steps.<li><p>Let <var>unhandled invalid controls</var> be an initially empty list of
+   elements.<li>
+
+    <p>For each element <var>field</var> in <var>invalid controls</var>, if any,
+    in <a id=constraint-validation:tree-order-3 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>, run the following substeps:</p>
+
+    <ol><li><p>Let <var>notCanceled</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-event-fire id=constraint-validation:concept-event-fire data-x-internal=concept-event-fire>firing an
+     event</a> named <code id=constraint-validation:event-invalid><a href=#event-invalid>invalid</a></code> at <var>field</var>, with the
+     <code id=constraint-validation:dom-event-cancelable><a data-x-internal=dom-event-cancelable href=https://dom.spec.whatwg.org/#dom-event-cancelable>cancelable</a></code> attribute initialized to true.<li><p>If <var>notCanceled</var> is true, then add <var>field</var> to <var>unhandled invalid
+     controls</var>.</ol>
+
+   <li><p>Return a <i>negative</i> result with the list of elements in the <var>unhandled
+   invalid controls</var> list.</ol>
+
+  <p>If a user agent is to <dfn id=interactively-validate-the-constraints>interactively validate the constraints</dfn> of <code id=constraint-validation:the-form-element-2><a href=#the-form-element>form</a></code>
+  element <var>form</var>, then the user agent must run the following steps:</p>
+
+  <ol><li><p><a href=#statically-validate-the-constraints id=constraint-validation:statically-validate-the-constraints>Statically validate the constraints</a> of <var>form</var>, and let
+   <var>unhandled invalid controls</var> be the list of elements returned if the result was
+   <i>negative</i>.<li><p>If the result was <i>positive</i>, then return that result and abort these steps.<li><p>Report the problems with the constraints of at least one of the elements given in
+   <var>unhandled invalid controls</var> to the user. User agents may focus one of those elements in
+   the process, by running the <a href=#focusing-steps id=constraint-validation:focusing-steps>focusing steps</a> for that element, and may change the
+   scrolling position of the document, or perform some other action that brings the element to the
+   user's attention. User agents may report more than one constraint violation. User agents may
+   coalesce related constraint violation reports if appropriate (e.g. if multiple radio buttons in a
+   <a href=#radio-button-group id=constraint-validation:radio-button-group>group</a> are marked as required, only one error need be
+   reported). If one of the controls is not <a href=#being-rendered id=constraint-validation:being-rendered>being rendered</a> (e.g. it has the <code id=constraint-validation:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> attribute set) then user agents may report a script
+   error.<li><p>Return a <i>negative</i> result.</ol>
+
+  
+
+
+
+
+  <h5 id=the-constraint-validation-api>4.10.20.3 The <dfn>constraint validation API</dfn><a href=#the-constraint-validation-api class=self-link></a></h5>
+
+  <dl class=domintro><dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-willvalidate><a href=#dom-cva-willvalidate>willValidate</a></code><dd>
+
+    <p>Returns true if the element will be validated when the form is submitted; false
+    otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-setcustomvalidity><a href=#dom-cva-setcustomvalidity>setCustomValidity</a></code>(<var>message</var>)<dd>
+
+    <p>Sets a custom error, so that the element would fail to validate. The given message is the
+    message to be shown to the user when reporting the problem to the user.</p>
+
+    <p>If the argument is the empty string, clears the custom error.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-valuemissing><a href=#dom-validitystate-valuemissing>valueMissing</a></code><dd>
+
+    <p>Returns true if the element has no value but is a required field; false otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity-2><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-typemismatch><a href=#dom-validitystate-typemismatch>typeMismatch</a></code><dd>
+
+    <p>Returns true if the element's value is not in the correct syntax; false otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity-3><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-patternmismatch><a href=#dom-validitystate-patternmismatch>patternMismatch</a></code><dd>
+
+    <p>Returns true if the element's value doesn't match the provided pattern; false otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity-4><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-toolong><a href=#dom-validitystate-toolong>tooLong</a></code><dd>
+
+    <p>Returns true if the element's value is longer than the provided maximum length; false otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity-5><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-tooshort><a href=#dom-validitystate-tooshort>tooShort</a></code><dd>
+
+    <p>Returns true if the element's value, if it is not the empty string, is shorter than the
+    provided minimum length; false otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity-6><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-rangeunderflow><a href=#dom-validitystate-rangeunderflow>rangeUnderflow</a></code><dd>
+
+    <p>Returns true if the element's value is lower than the provided minimum; false otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity-7><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-rangeoverflow><a href=#dom-validitystate-rangeoverflow>rangeOverflow</a></code><dd>
+
+    <p>Returns true if the element's value is higher than the provided maximum; false otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity-8><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-stepmismatch><a href=#dom-validitystate-stepmismatch>stepMismatch</a></code><dd>
+
+    <p>Returns true if the element's value doesn't fit the rules given by the <code id=the-constraint-validation-api:attr-input-step><a href=#attr-input-step>step</a></code> attribute; false otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity-9><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-badinput><a href=#dom-validitystate-badinput>badInput</a></code><dd>
+
+    <p>Returns true if the user has provided input in the user interface that the user agent is
+    unable to convert to a value; false otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity-10><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-customerror><a href=#dom-validitystate-customerror>customError</a></code><dd>
+
+    <p>Returns true if the element has a custom error; false otherwise.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validity-11><a href=#dom-cva-validity>validity</a></code> . <code id=the-constraint-validation-api:dom-validitystate-valid><a href=#dom-validitystate-valid>valid</a></code><dd>
+
+    <p>Returns true if the element's value has no validity problems; false otherwise.</p>
+
+   <dt><var>valid</var> = <var>element</var> . <code id=the-constraint-validation-api:dom-cva-checkvalidity><a href=#dom-cva-checkvalidity>checkValidity</a></code>()<dd>
+
+    <p>Returns true if the element's value has no validity problems; false otherwise. Fires an <code id=the-constraint-validation-api:event-invalid><a href=#event-invalid>invalid</a></code> event at the element in the latter case.</p>
+
+   <dt><var>valid</var> = <var>element</var> . <code id=the-constraint-validation-api:dom-cva-reportvalidity><a href=#dom-cva-reportvalidity>reportValidity</a></code>()<dd>
+
+    <p>Returns true if the element's value has no validity problems; otherwise, returns false, fires
+    an <code id=the-constraint-validation-api:event-invalid-2><a href=#event-invalid>invalid</a></code> event at the element, and (if the event isn't
+    canceled) reports the problem to the user.</p>
+
+   <dt><var>element</var> . <code id=the-constraint-validation-api:dom-cva-validationmessage><a href=#dom-cva-validationmessage>validationMessage</a></code><dd>
+
+    <p>Returns the error message that would be shown to the user if the element was to be checked
+    for validity.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-cva-willvalidate><code>willValidate</code></dfn> attribute's getter must
+  return true, if this element is a <a href=#candidate-for-constraint-validation id=the-constraint-validation-api:candidate-for-constraint-validation>candidate for constraint validation</a>, and false
+  otherwise (i.e., false if any conditions are <a href=#barred-from-constraint-validation id=the-constraint-validation-api:barred-from-constraint-validation>barring it from constraint validation</a>).</p>
+
+  <p>The <dfn id=dom-cva-setcustomvalidity><code>setCustomValidity(<var>message</var>)</code></dfn> method, when
+  invoked, must set the <a href=#custom-validity-error-message id=the-constraint-validation-api:custom-validity-error-message>custom validity error message</a> to <var>message</var>.</p>
+
+  
+
+  <div class=example>
+
+   <p>In the following example, a script checks the value of a form control each time it is edited,
+   and whenever it is not a valid value, uses the <code id=the-constraint-validation-api:dom-cva-setcustomvalidity-2><a href=#dom-cva-setcustomvalidity>setCustomValidity()</a></code> method to set an appropriate
+   message.</p>
+
+   <pre>&lt;label>Feeling: &lt;input name=f type="text" oninput="check(this)">&lt;/label>
+&lt;script>
+ function check(input) {
+   if (input.value == "good" ||
+       input.value == "fine" ||
+       input.value == "tired") {
+     input.setCustomValidity('"' + input.value + '" is not a feeling.');
+   } else {
+     // input is fine -- reset the error message
+     input.setCustomValidity('');
+   }
+ }
+&lt;/script></pre>
+
+  </div>
+
+  
+
+  <p>The <dfn id=dom-cva-validity><code>validity</code></dfn> attribute's getter must return a
+  <code id=the-constraint-validation-api:validitystate><a href=#validitystate>ValidityState</a></code> object that represents the <a href=#validity-states id=the-constraint-validation-api:validity-states>validity states</a> of this
+  element. This object is <a href=#live id=the-constraint-validation-api:live>live</a>.</p>
+
+<pre class=idl>interface <dfn id=validitystate>ValidityState</dfn> {
+  readonly attribute boolean <a href=#dom-validitystate-valuemissing id=the-constraint-validation-api:dom-validitystate-valuemissing-2>valueMissing</a>;
+  readonly attribute boolean <a href=#dom-validitystate-typemismatch id=the-constraint-validation-api:dom-validitystate-typemismatch-2>typeMismatch</a>;
+  readonly attribute boolean <a href=#dom-validitystate-patternmismatch id=the-constraint-validation-api:dom-validitystate-patternmismatch-2>patternMismatch</a>;
+  readonly attribute boolean <a href=#dom-validitystate-toolong id=the-constraint-validation-api:dom-validitystate-toolong-2>tooLong</a>;
+  readonly attribute boolean <a href=#dom-validitystate-tooshort id=the-constraint-validation-api:dom-validitystate-tooshort-2>tooShort</a>;
+  readonly attribute boolean <a href=#dom-validitystate-rangeunderflow id=the-constraint-validation-api:dom-validitystate-rangeunderflow-2>rangeUnderflow</a>;
+  readonly attribute boolean <a href=#dom-validitystate-rangeoverflow id=the-constraint-validation-api:dom-validitystate-rangeoverflow-2>rangeOverflow</a>;
+  readonly attribute boolean <a href=#dom-validitystate-stepmismatch id=the-constraint-validation-api:dom-validitystate-stepmismatch-2>stepMismatch</a>;
+  readonly attribute boolean <a href=#dom-validitystate-badinput id=the-constraint-validation-api:dom-validitystate-badinput-2>badInput</a>;
+  readonly attribute boolean <a href=#dom-validitystate-customerror id=the-constraint-validation-api:dom-validitystate-customerror-2>customError</a>;
+  readonly attribute boolean <a href=#dom-validitystate-valid id=the-constraint-validation-api:dom-validitystate-valid-2>valid</a>;
+};</pre>
+
+  <p>A <code id=the-constraint-validation-api:validitystate-2><a href=#validitystate>ValidityState</a></code> object has the following attributes. On getting, they must return
+  true if the corresponding condition given in the following list is true, and false otherwise.</p>
+
+  <dl><dt><dfn id=dom-validitystate-valuemissing><code>valueMissing</code></dfn><dd> <p>The control is <a href=#suffering-from-being-missing id=the-constraint-validation-api:suffering-from-being-missing>suffering from being missing</a>.</p> <dt><dfn id=dom-validitystate-typemismatch><code>typeMismatch</code></dfn><dd> <p>The control is <a href=#suffering-from-a-type-mismatch id=the-constraint-validation-api:suffering-from-a-type-mismatch>suffering from a type mismatch</a>.</p> <dt><dfn id=dom-validitystate-patternmismatch><code>patternMismatch</code></dfn><dd> <p>The control is <a href=#suffering-from-a-pattern-mismatch id=the-constraint-validation-api:suffering-from-a-pattern-mismatch>suffering from a pattern mismatch</a>.</p> <dt><dfn id=dom-validitystate-toolong><code>tooLong</code></dfn><dd> <p>The control is <a href=#suffering-from-being-too-long id=the-constraint-validation-api:suffering-from-being-too-long>suffering from being too long</a>.</p> <dt><dfn id=dom-validitystate-tooshort><code>tooShort</code></dfn><dd> <p>The control is <a href=#suffering-from-being-too-short id=the-constraint-validation-api:suffering-from-being-too-short>suffering from being too short</a>.</p> <dt><dfn id=dom-validitystate-rangeunderflow><code>rangeUnderflow</code></dfn><dd> <p>The control is <a href=#suffering-from-an-underflow id=the-constraint-validation-api:suffering-from-an-underflow>suffering from an underflow</a>.</p> <dt><dfn id=dom-validitystate-rangeoverflow><code>rangeOverflow</code></dfn><dd> <p>The control is <a href=#suffering-from-an-overflow id=the-constraint-validation-api:suffering-from-an-overflow>suffering from an overflow</a>.</p> <dt><dfn id=dom-validitystate-stepmismatch><code>stepMismatch</code></dfn><dd> <p>The control is <a href=#suffering-from-a-step-mismatch id=the-constraint-validation-api:suffering-from-a-step-mismatch>suffering from a step mismatch</a>.</p> <dt><dfn id=dom-validitystate-badinput><code>badInput</code></dfn><dd> <p>The control is <a href=#suffering-from-bad-input id=the-constraint-validation-api:suffering-from-bad-input>suffering from bad input</a>.</p> <dt><dfn id=dom-validitystate-customerror><code>customError</code></dfn><dd> <p>The control is <a href=#suffering-from-a-custom-error id=the-constraint-validation-api:suffering-from-a-custom-error>suffering from a custom error</a>.</p> <dt><dfn id=dom-validitystate-valid><code>valid</code></dfn><dd> <p>None of the other conditions are true.</p> </dl>
+

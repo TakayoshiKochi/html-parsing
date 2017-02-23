@@ -1,0 +1,850 @@
+   menu construct</a> algorithm when passed the <var>source</var> element.</p>
+
+   <li>
+
+    <p>Display <var>pop-up menu</var> to the user, and let the algorithm that invoked this one continue.</p>
+
+    <p>If the user selects a <a href=#menu-item-construct id=the-menu-element:menu-item-construct>menu item construct</a> that corresponds to an element that still represents a <a href=#concept-command id=the-menu-element:concept-command-2>command</a> when the user selects it, then the UA must invoke that
+    command's <a href=#command-facet-action id=the-menu-element:command-facet-action>Action</a>. If the command's <a href=#command-facet-action id=the-menu-element:command-facet-action-2>Action</a> is defined as <a href=#fire-a-click-event id=the-menu-element:fire-a-click-event>firing a <code>click</code> event</a>, then the <code id=the-menu-element:dom-mouseevent-relatedtarget><a data-x-internal=dom-mouseevent-relatedtarget href=https://w3c.github.io/uievents/#widl-MouseEvent-relatedTarget>relatedTarget</a></code> attribute of that <code id=the-menu-element:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event must be initialized to <var>subject</var>.</p>
+
+    <p>Pop-up menus must not, while being shown, reflect changes in the DOM. The menu is constructed
+    from the DOM before being shown, and is then immutable.</p>
+
+   </ol>
+
+  <p>To <dfn id=build-a-menu-construct>build a menu construct</dfn> for an element <var>source</var>, the user agent must run
+  the following steps, which return a <a href=#menu-construct id=the-menu-element:menu-construct-3>menu construct</a>:</p>
+
+  <ol><li><p>Let <var>generated menu</var> be an empty <a href=#menu-construct id=the-menu-element:menu-construct-4>menu construct</a>.<li>
+
+    <p>Run the <a href=#menu-item-generator id=the-menu-element:menu-item-generator>menu item generator</a> steps for the <code id=the-menu-element:the-menu-element-12><a href=#the-menu-element>menu</a></code> element using <var>generated menu</var>
+    as the output.</p>
+
+    <p>The <dfn id=menu-item-generator>menu item generator</dfn> steps for a <code id=the-menu-element:the-menu-element-13><a href=#the-menu-element>menu</a></code> element using a specific <a href=#menu-construct id=the-menu-element:menu-construct-5>menu construct</a> <var>output</var> as
+    output are as follows: For each child node of the <code id=the-menu-element:the-menu-element-14><a href=#the-menu-element>menu</a></code> in <a id=the-menu-element:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>,
+    run the appropriate steps from the following list:</p>
+
+    <dl class=switch><dt>If the child is a <code id=the-menu-element:the-menuitem-element-3><a href=#the-menuitem-element>menuitem</a></code> element that <a href=#concept-command id=the-menu-element:concept-command-3>defines
+     a command</a><dd>Append the <a href=#concept-command id=the-menu-element:concept-command-4>command</a> to <var>output</var>, respecting the command's <a href=#concept-facet id=the-menu-element:concept-facet>facets</a>. If the <code id=the-menu-element:the-menuitem-element-4><a href=#the-menuitem-element>menuitem</a></code> element has a <code id=the-menu-element:attr-menuitem-default><a href=#attr-menuitem-default>default</a></code> attribute, mark the <a href=#concept-command id=the-menu-element:concept-command-5>command</a> as being a <a href=#default-command id=the-menu-element:default-command>default command</a>.<dt>If the child is an <code id=the-menu-element:the-hr-element-3><a href=#the-hr-element>hr</a></code> element<dd>Append a <a href=#concept-separator id=the-menu-element:concept-separator>separator</a> to <var>output</var>.<dt>If the child is a <code id=the-menu-element:the-menu-element-15><a href=#the-menu-element>menu</a></code> element with no <code id=the-menu-element:attr-menu-label-4><a href=#attr-menu-label>label</a></code> attribute<dd>Append a <a href=#concept-separator id=the-menu-element:concept-separator-2>separator</a> to <var>output</var>, then run
+     the <a href=#menu-item-generator id=the-menu-element:menu-item-generator-2>menu item generator</a> steps for this child <code id=the-menu-element:the-menu-element-16><a href=#the-menu-element>menu</a></code> element, using
+     <var>output</var> as the output, then append another <a href=#concept-separator id=the-menu-element:concept-separator-3>separator</a> to <var>output</var>.<dt>If the child is a <code id=the-menu-element:the-menu-element-17><a href=#the-menu-element>menu</a></code> element with a <code id=the-menu-element:attr-menu-label-5><a href=#attr-menu-label>label</a></code> attribute<dd>Let <var>submenu</var> be the result of running the <a href=#build-a-menu-construct id=the-menu-element:build-a-menu-construct-2>build a menu construct</a> steps for the child <code id=the-menu-element:the-menu-element-18><a href=#the-menu-element>menu</a></code> element. Then, append <var>submenu</var> to <var>output</var>, using the value of the child
+     <code id=the-menu-element:the-menu-element-19><a href=#the-menu-element>menu</a></code> element's <code id=the-menu-element:attr-menu-label-6><a href=#attr-menu-label>label</a></code> attribute as the <a href=#submenu-label id=the-menu-element:submenu-label>submenu label</a>.<dt>Otherwise<dd><a href=#ignore id=the-menu-element:ignore>Ignore</a> the child node.</dl>
+
+   <li><p>Remove from <var>output</var> any <a href=#menu-construct id=the-menu-element:menu-construct-6>menu construct</a> whose <a href=#submenu-label id=the-menu-element:submenu-label-2>submenu
+   label</a> is the empty string.<li><p>Remove from <var>output</var> any <a href=#menu-item-construct id=the-menu-element:menu-item-construct-2>menu item construct</a> representing a <a href=#concept-command id=the-menu-element:concept-command-6>command</a> whose <a href=#command-facet-label id=the-menu-element:command-facet-label>Label</a> is
+   the empty string.<li><p>Collapse all sequences of two or more adjacent <a href=#concept-separator id=the-menu-element:concept-separator-4>separators</a> in <var>output</var> to a single <a href=#concept-separator id=the-menu-element:concept-separator-5>separator</a>.<li><p>If the first <a href=#menu-item-construct id=the-menu-element:menu-item-construct-3>menu item construct</a> in <var>output</var> is a <a href=#concept-separator id=the-menu-element:concept-separator-6>separator</a>, then remove it.<li><p>If the last <a href=#menu-item-construct id=the-menu-element:menu-item-construct-4>menu item construct</a> in <var>output</var> is a <a href=#concept-separator id=the-menu-element:concept-separator-7>separator</a>, then remove it.<li><p>Return <var>output</var>.</ol>
+
+  <hr>
+
+  <p>The <dfn id=dom-menu-type><code>type</code></dfn> IDL attribute must <a href=#reflect id=the-menu-element:reflect>reflect</a>
+  the content attribute of the same name, <a href=#limited-to-only-known-values id=the-menu-element:limited-to-only-known-values>limited to only known values</a>.</p>
+
+  <p>The <dfn id=dom-menu-label><code>label</code></dfn> IDL attribute must
+  <a href=#reflect id=the-menu-element:reflect-2>reflect</a> the content attribute of the same name.</p>
+
+  
+
+  <div class=example>
+
+   <p>In this example, the <code id=the-menu-element:the-menu-element-20><a href=#the-menu-element>menu</a></code> element is used to describe a toolbar with three menu
+   buttons on it, each of which has a drop down menu with a series of options:</p>
+
+  <pre>&lt;menu> 
+ &lt;li>
+  &lt;button type=menu value="File" menu="filemenu">
+  &lt;menu id="filemenu" type="context">
+   &lt;menuitem onclick="fnew()" label="New...">
+   &lt;menuitem onclick="fopen()" label="Open...">
+   &lt;menuitem onclick="fsave()" label="Save">
+   &lt;menuitem onclick="fsaveas()" label="Save as...">
+  &lt;/menu>
+ &lt;/li>
+ &lt;li>
+  &lt;button type=menu value="Edit" menu="editmenu">
+  &lt;menu id="editmenu" type="context">
+   &lt;menuitem onclick="ecopy()" label="Copy">
+   &lt;menuitem onclick="ecut()" label="Cut">
+   &lt;menuitem onclick="epaste()" label="Paste">
+  &lt;/menu>
+ &lt;/li>
+ &lt;li>
+  &lt;button type=menu value="Help" menu="helpmenu">
+  &lt;menu id="helpmenu" type="context">
+   &lt;menuitem onclick="location='help.html'" label="Help">
+   &lt;menuitem onclick="location='about.html'" label="About">
+  &lt;/menu>
+ &lt;/li>
+&lt;/menu></pre>
+
+   <p>In a supporting user agent, this might look like this (assuming the user has just activated the
+   second button):</p>
+
+   <p><img src=/images/sample-toolbar-1.png width=303 alt="A toolbar with three buttons, labeled 'File', 'Edit', and 'Help'; where if you select the 'Edit' button you get a drop-down menu with three more options, 'Copy', 'Cut', and 'Paste'." height=101></p>
+
+  </div>
+
+
+
+  <h4 id=the-menuitem-element>4.11.4 The <dfn><code>menuitem</code></dfn> element<a href=#the-menuitem-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-menuitem-element:concept-element-categories>Categories</a>:<dd>None.<dt><a href=#concept-element-contexts id=the-menuitem-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>As a child of a <code id=the-menuitem-element:the-menu-element><a href=#the-menu-element>menu</a></code> element whose <code id=the-menuitem-element:attr-menu-type><a href=#attr-menu-type>type</a></code> attribute is in the <a href=#popup-menu-state id=the-menuitem-element:popup-menu-state>popup menu</a> state.<dt><a href=#concept-element-content-model id=the-menuitem-element:concept-element-content-model>Content model</a>:<dd><a href=#text-content id=the-menuitem-element:text-content>Text</a>.<dt><a href=#concept-element-tag-omission id=the-menuitem-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>A <code id=the-menuitem-element:the-menuitem-element><a href=#the-menuitem-element>menuitem</a></code> element's <a href=#syntax-end-tag id=the-menuitem-element:syntax-end-tag>end tag</a> can be omitted
+   if the <code id=the-menuitem-element:the-menuitem-element-2><a href=#the-menuitem-element>menuitem</a></code> element is immediately followed by a <code id=the-menuitem-element:the-menuitem-element-3><a href=#the-menuitem-element>menuitem</a></code>,
+   <code id=the-menuitem-element:the-hr-element><a href=#the-hr-element>hr</a></code>, or <code id=the-menuitem-element:the-menu-element-2><a href=#the-menu-element>menu</a></code> element, or if there is no more content in the parent
+   element.<dt><a href=#concept-element-attributes id=the-menuitem-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-menuitem-element:global-attributes>Global attributes</a><dd><code id=the-menuitem-element:attr-menuitem-type><a href=#attr-menuitem-type>type</a></code> — Type of command<dd><code id=the-menuitem-element:attr-menuitem-label><a href=#attr-menuitem-label>label</a></code> — User-visible label<dd><code id=the-menuitem-element:attr-menuitem-icon><a href=#attr-menuitem-icon>icon</a></code> — Icon for the command<dd><code id=the-menuitem-element:attr-menuitem-disabled><a href=#attr-menuitem-disabled>disabled</a></code> — Whether the form control is disabled<dd><code id=the-menuitem-element:attr-menuitem-checked><a href=#attr-menuitem-checked>checked</a></code> — Whether the command or control is checked<dd><code id=the-menuitem-element:attr-menuitem-radiogroup><a href=#attr-menuitem-radiogroup>radiogroup</a></code> — Name of group of commands to treat as a radio button group<dd><code id=the-menuitem-element:attr-menuitem-default><a href=#attr-menuitem-default>default</a></code> — Mark the command as being a default command<dd>Also, the <code id=the-menuitem-element:attr-menuitem-title><a href=#attr-menuitem-title>title</a></code> attribute <a href=#attr-menuitem-title id=the-menuitem-element:attr-menuitem-title-2>has special semantics</a> on this element: Hint describing the command.<dt><a href=#concept-element-dom id=the-menuitem-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-menuitem-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlmenuitemelement>HTMLMenuItemElement</dfn> : <a href=#htmlelement id=the-menuitem-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-menuitem-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-menuitem-type id=the-menuitem-element:dom-menuitem-type>type</a>;
+  [<a href=#cereactions id=the-menuitem-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-menuitem-label id=the-menuitem-element:dom-menuitem-label>label</a>;
+  [<a href=#cereactions id=the-menuitem-element:cereactions-3>CEReactions</a>] attribute USVString <a href=#dom-menuitem-icon id=the-menuitem-element:dom-menuitem-icon>icon</a>;
+  [<a href=#cereactions id=the-menuitem-element:cereactions-4>CEReactions</a>] attribute boolean <a href=#dom-menuitem-disabled id=the-menuitem-element:dom-menuitem-disabled>disabled</a>;
+  [<a href=#cereactions id=the-menuitem-element:cereactions-5>CEReactions</a>] attribute boolean <a href=#dom-menuitem-checked id=the-menuitem-element:dom-menuitem-checked>checked</a>;
+  [<a href=#cereactions id=the-menuitem-element:cereactions-6>CEReactions</a>] attribute DOMString <a href=#dom-menuitem-radiogroup id=the-menuitem-element:dom-menuitem-radiogroup>radiogroup</a>;
+  [<a href=#cereactions id=the-menuitem-element:cereactions-7>CEReactions</a>] attribute boolean <a href=#dom-menuitem-default id=the-menuitem-element:dom-menuitem-default>default</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-menuitem-element:the-menuitem-element-4><a href=#the-menuitem-element>menuitem</a></code> element represents a command that the user can invoke from a popup
+  menu (either a <a href=#attr-contextmenu id=the-menuitem-element:attr-contextmenu>context menu</a> or the menu of a <a href=#attr-button-type-menu-state id=the-menuitem-element:attr-button-type-menu-state>menu button</a>).</p>
+
+  <p>A <code id=the-menuitem-element:the-menuitem-element-5><a href=#the-menuitem-element>menuitem</a></code> element that uses one or more of the
+   <code id=the-menuitem-element:attr-menuitem-type-2><a href=#attr-menuitem-type>type</a></code>,
+   <code id=the-menuitem-element:attr-menuitem-icon-2><a href=#attr-menuitem-icon>icon</a></code>,
+   <code id=the-menuitem-element:attr-menuitem-disabled-2><a href=#attr-menuitem-disabled>disabled</a></code>,
+   <code id=the-menuitem-element:attr-menuitem-checked-2><a href=#attr-menuitem-checked>checked</a></code>, and
+   <code id=the-menuitem-element:attr-menuitem-radiogroup-2><a href=#attr-menuitem-radiogroup>radiogroup</a></code>
+  attributes, or has a non-empty <a href=#concept-menuitem-label id=the-menuitem-element:concept-menuitem-label>label</a>, defines a new
+  command.</p>
+
+  <hr>
+
+  <p>The <dfn id=attr-menuitem-type><code>type</code></dfn> attribute indicates the kind of
+  command: either a normal command with an associated action, or a state or option that can be
+  toggled, or a selection of one item from a list of items.</p>
+
+  <p>The attribute is an <a href=#enumerated-attribute id=the-menuitem-element:enumerated-attribute>enumerated attribute</a> with three keywords and states. The
+  "<dfn id=attr-menuitem-type-keyword-command><code>command</code></dfn>" keyword maps to the
+  <a href=#attr-menuitem-type-state-command id=the-menuitem-element:attr-menuitem-type-state-command>Command</a> state, the "<dfn id=attr-menuitem-type-keyword-checkbox><code>checkbox</code></dfn>" keyword maps to the <a href=#attr-menuitem-type-state-checkbox id=the-menuitem-element:attr-menuitem-type-state-checkbox>Checkbox</a> state, and the "<dfn id=attr-menuitem-type-keyword-radio><code>radio</code></dfn>" keyword maps to the <a href=#attr-menuitem-type-state-radio id=the-menuitem-element:attr-menuitem-type-state-radio>Radio</a> state. The <i id=the-menuitem-element:missing-value-default><a href=#missing-value-default>missing value default</a></i> is the <a href=#attr-menuitem-type-state-command id=the-menuitem-element:attr-menuitem-type-state-command-2>Command</a> state.</p>
+
+  <dl><dt>The <dfn id=attr-menuitem-type-state-command>Command</dfn> state<dd><p>The element <a href=#represents id=the-menuitem-element:represents>represents</a> a normal command with an associated action.<dt>The <dfn id=attr-menuitem-type-state-checkbox>Checkbox</dfn> state<dd><p>The element <a href=#represents id=the-menuitem-element:represents-2>represents</a> a state or option that can be toggled.<dt>The <dfn id=attr-menuitem-type-state-radio>Radio</dfn> state<dd><p>The element <a href=#represents id=the-menuitem-element:represents-3>represents</a> a selection of one item from a list of items.</dl>
+
+  <p>The <dfn id=attr-menuitem-label><code>label</code></dfn> attribute gives the name of the
+  command, as shown to the user. If the <code id=the-menuitem-element:attr-menuitem-label-2><a href=#attr-menuitem-label>label</a></code> attribute is
+  specified, it must have a value that is not the empty string.</p>
+
+  <p>The <dfn id=concept-menuitem-label>label</dfn> of a <code id=the-menuitem-element:the-menuitem-element-6><a href=#the-menuitem-element>menuitem</a></code> element is the
+  value of the <code id=the-menuitem-element:attr-menuitem-label-3><a href=#attr-menuitem-label>label</a></code> content attribute, if there is one
+  and its value is not the empty string, or, otherwise, the result of <a href=#strip-and-collapse-whitespace id=the-menuitem-element:strip-and-collapse-whitespace>stripping and collapsing whitespace</a> from the
+  <a href=#child-text-content id=the-menuitem-element:child-text-content>child text content</a> of the <code id=the-menuitem-element:the-menuitem-element-7><a href=#the-menuitem-element>menuitem</a></code> element. The <a href=#concept-menuitem-label id=the-menuitem-element:concept-menuitem-label-2>label</a> must not be the empty string if the element's <code id=the-menuitem-element:attr-menuitem-type-3><a href=#attr-menuitem-type>type</a></code> attribute value is in the <a href=#attr-menuitem-type-state-command id=the-menuitem-element:attr-menuitem-type-state-command-3>Command</a> state.</p>
+
+  <p>The <dfn id=attr-menuitem-icon><code>icon</code></dfn> attribute gives a picture that
+  represents the command. If the attribute is specified, the attribute's value must contain a
+  <a href=#valid-non-empty-url-potentially-surrounded-by-spaces id=the-menuitem-element:valid-non-empty-url-potentially-surrounded-by-spaces>valid non-empty URL potentially surrounded by spaces</a>. To obtain
+  the <a id=the-menuitem-element:absolute-url href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute URL</a> of the icon when the attribute's value is not the empty string, the
+  attribute's value must be <a href=#parse-a-url id=the-menuitem-element:parse-a-url>parsed</a> relative to the element's
+  <a id=the-menuitem-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>. When the attribute is absent, or its value is the empty string, or
+  <a href=#parse-a-url id=the-menuitem-element:parse-a-url-2>parsing</a> its value fails, there is no icon.</p> 
+
+  <p>The <dfn id=attr-menuitem-disabled><code>disabled</code></dfn> attribute is a
+  <a href=#boolean-attribute id=the-menuitem-element:boolean-attribute>boolean attribute</a> that, if present, indicates that the command is not available in
+  the current state.</p>
+
+  <p class=note>The distinction between <code id=the-menuitem-element:attr-menuitem-disabled-3><a href=#attr-menuitem-disabled>disabled</a></code> and
+  <code id=the-menuitem-element:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> is subtle. A command would be disabled if, in the same
+  context, it could be enabled if only certain aspects of the situation were changed. A command
+  would be marked as hidden if, in that situation, the command will never be enabled. For example,
+  in the context menu for a water faucet, the command "open" might be disabled if the faucet is
+  already open, but the command "eat" would be marked hidden since the faucet could never be
+  eaten.</p>
+
+  <p>The <dfn id=attr-menuitem-checked><code>checked</code></dfn> attribute is a <a href=#boolean-attribute id=the-menuitem-element:boolean-attribute-2>boolean
+  attribute</a> that, if present, indicates that the command is selected. The attribute must be
+  omitted unless the <code id=the-menuitem-element:attr-menuitem-type-4><a href=#attr-menuitem-type>type</a></code> attribute is in either the <a href=#attr-menuitem-type-state-checkbox id=the-menuitem-element:attr-menuitem-type-state-checkbox-2>Checkbox</a> state or the <a href=#attr-menuitem-type-state-radio id=the-menuitem-element:attr-menuitem-type-state-radio-2>Radio</a> state.</p>
+
+  <p>The <dfn id=attr-menuitem-radiogroup><code>radiogroup</code></dfn> attribute gives the
+  name of the group of commands that will be toggled when the command itself is toggled, for
+  commands whose <code id=the-menuitem-element:attr-menuitem-type-5><a href=#attr-menuitem-type>type</a></code> attribute has the value "<code>radio</code>". The scope of the name is the child list of the parent element. The
+  attribute must be omitted unless the <code id=the-menuitem-element:attr-menuitem-type-6><a href=#attr-menuitem-type>type</a></code> attribute is in
+  the <a href=#attr-menuitem-type-state-radio id=the-menuitem-element:attr-menuitem-type-state-radio-3>Radio</a> state. When specified, the
+  attribute's value must be a non-empty string.</p>
+
+  <hr>
+
+  <p>The <dfn id=attr-menuitem-title><code>title</code></dfn> attribute gives a hint describing
+  the command, which might be shown to the user to help them.</p>
+
+  <p>The <dfn id=attr-menuitem-default><code>default</code></dfn> attribute indicates, if
+  present, that the command is the one that would have been invoked if the user had directly
+  activated the menu's subject instead of using the menu. The <code id=the-menuitem-element:attr-menuitem-default-2><a href=#attr-menuitem-default>default</a></code> attribute is a <a href=#boolean-attribute id=the-menuitem-element:boolean-attribute-3>boolean attribute</a>.</p>
+
+  
+
+  <hr>
+
+  <p>The <dfn id=dom-menuitem-type><code>type</code></dfn> IDL attribute must
+  <a href=#reflect id=the-menuitem-element:reflect>reflect</a> the content attribute of the same name, <a href=#limited-to-only-known-values id=the-menuitem-element:limited-to-only-known-values>limited to only known
+  values</a>.</p>
+
+  <p>The <dfn id=dom-menuitem-label><code>label</code></dfn> IDL attribute, on getting, if
+  there is a <code id=the-menuitem-element:attr-menuitem-label-4><a href=#attr-menuitem-label>label</a></code> content attribute, must return that
+  attribute's value; otherwise, it must return the element's <a href=#concept-menuitem-label id=the-menuitem-element:concept-menuitem-label-3>label</a>. On setting, the element's <code id=the-menuitem-element:attr-menuitem-label-5><a href=#attr-menuitem-label>label</a></code> content attribute must be set to the new value.</p>
+
+  <p>The <dfn id=dom-menuitem-icon><code>icon</code></dfn>, <dfn id=dom-menuitem-disabled><code>disabled</code></dfn>, <dfn id=dom-menuitem-checked><code>checked</code></dfn>, and <dfn id=dom-menuitem-radiogroup><code>radiogroup</code></dfn>, and <dfn id=dom-menuitem-default><code>default</code></dfn> IDL attributes must <a href=#reflect id=the-menuitem-element:reflect-2>reflect</a> the
+  respective content attributes of the same name.</p>
+
+  <hr>
+
+  <p>The element's <a id=the-menuitem-element:activation-behaviour href=https://dom.spec.whatwg.org/#eventtarget-activation-behavior data-x-internal=activation-behaviour>activation behavior</a> is to run the steps defined in the following
+  list for the current state of this <code id=the-menuitem-element:attr-menuitem-type-7><a href=#attr-menuitem-type>type</a></code> attribute, if
+  this element's <a href=#command-facet-disabledstate id=the-menuitem-element:command-facet-disabledstate>Disabled State</a> is false
+  (enabled), and do nothing otherwse:</p>
+
+  <dl class=switch><dt>If the <code id=the-menuitem-element:attr-menuitem-type-8><a href=#attr-menuitem-type>type</a></code> attribute is in the <a href=#attr-menuitem-type-state-checkbox id=the-menuitem-element:attr-menuitem-type-state-checkbox-3>Checkbox</a> state<dd><p>If the element has a <code id=the-menuitem-element:attr-menuitem-checked-3><a href=#attr-menuitem-checked>checked</a></code> attribute, the UA
+   must remove that attribute. Otherwise, the UA must add a <code id=the-menuitem-element:attr-menuitem-checked-4><a href=#attr-menuitem-checked>checked</a></code> attribute, with the literal value "<code>checked</code>".<dt>If the <code id=the-menuitem-element:attr-menuitem-type-9><a href=#attr-menuitem-type>type</a></code> attribute is in the <a href=#attr-menuitem-type-state-radio id=the-menuitem-element:attr-menuitem-type-state-radio-4>Radio</a> state<dd><p>If the element has a parent, then the UA must walk the list of child nodes of that parent
+   element, and for each node that is a <code id=the-menuitem-element:the-menuitem-element-8><a href=#the-menuitem-element>menuitem</a></code> element, if that element has a <code id=the-menuitem-element:attr-menuitem-radiogroup-3><a href=#attr-menuitem-radiogroup>radiogroup</a></code> attribute whose value exactly matches the
+   current element's (treating missing <code id=the-menuitem-element:attr-menuitem-radiogroup-4><a href=#attr-menuitem-radiogroup>radiogroup</a></code>
+   attributes as if they were the empty string), and has a <code id=the-menuitem-element:attr-menuitem-checked-5><a href=#attr-menuitem-checked>checked</a></code> attribute, must remove that attribute.</p>
+
+   <p>Then, the element's <code id=the-menuitem-element:attr-menuitem-checked-6><a href=#attr-menuitem-checked>checked</a></code> attribute must be set
+   to the literal value "<code>checked</code>".<dt>Otherwise<dd><p>The element's <a id=the-menuitem-element:activation-behaviour-2 href=https://dom.spec.whatwg.org/#eventtarget-activation-behavior data-x-internal=activation-behaviour>activation behavior</a> is to do nothing.</dl>
+
+  <p class=note>Firing a synthetic <code id=the-menuitem-element:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event at the element
+  does not cause any of the actions described above to happen.</p>
+
+  
+
+  
+
+  <p class=note>The <code id=the-menuitem-element:the-menuitem-element-9><a href=#the-menuitem-element>menuitem</a></code> element is not rendered except as <a href=#the-menu-element id=the-menuitem-element:the-menu-element-3>part of a popup menu</a>.</p>
+
+  <div class=example>
+
+   <p>Here is an example of a pop-up menu button with three options that let the user toggle between
+   left, center, and right alignment. One could imagine such a toolbar as part of a text editor. The
+   menu also has a separator followed by another menu item labeled "Publish", though that menu item
+   is disabled.</p>
+
+   <pre>&lt;button type=menu menu=editmenu>Commands...&lt;/button>
+&lt;menu type="context" id="editmenu">
+ &lt;menuitem type="radio" radiogroup="alignment" checked="checked"
+          label="Left" icon="icons/alL.png" onclick="setAlign('left')">
+ &lt;menuitem type="radio" radiogroup="alignment"
+          label="Center" icon="icons/alC.png" onclick="setAlign('center')">
+ &lt;menuitem type="radio" radiogroup="alignment"
+          label="Right" icon="icons/alR.png" onclick="setAlign('right')">
+ &lt;hr>
+ &lt;menuitem type="command" disabled
+          label="Publish" icon="icons/pub.png" onclick="publish()">
+&lt;/menu></pre>
+
+  </div>
+
+
+  <h4 id=context-menus>4.11.5 Context menus<a href=#context-menus class=self-link></a></h4>
+
+  <h5 id=declaring-a-context-menu>4.11.5.1 Declaring a context menu<a href=#declaring-a-context-menu class=self-link></a></h5>
+
+  <p>The <dfn id=attr-contextmenu><code>contextmenu</code></dfn> attribute gives the element's
+  context menu. The value must be the <a href=https://dom.spec.whatwg.org/#concept-id id=declaring-a-context-menu:concept-id data-x-internal=concept-id>ID</a> of a <code id=declaring-a-context-menu:the-menu-element><a href=#the-menu-element>menu</a></code>
+  element in the same <a id=declaring-a-context-menu:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a> whose <code id=declaring-a-context-menu:attr-menu-type><a href=#attr-menu-type>type</a></code> attribute is
+  in the <a href=#popup-menu-state id=declaring-a-context-menu:popup-menu-state>popup menu</a> state.</p>
+
+  <p class=note>When a user right-clicks on an element with a <code id=declaring-a-context-menu:attr-contextmenu><a href=#attr-contextmenu>contextmenu</a></code> attribute, the user agent will first fire a <code id=declaring-a-context-menu:event-contextmenu><a href=#event-contextmenu>contextmenu</a></code> event at the element, and then, if that event is not
+  canceled, a <code id=declaring-a-context-menu:event-show><a href=#event-show>show</a></code> event at the <code id=declaring-a-context-menu:the-menu-element-2><a href=#the-menu-element>menu</a></code> element.</p>
+
+  <div class=example>
+
+   <p>Here is an example of a context menu for an input control:</p>
+
+   <pre>&lt;form name="npc">
+ &lt;label>Character name: &lt;input name=char type=text contextmenu=namemenu required>&lt;/label>
+ &lt;menu type=context id=namemenu>
+  &lt;menuitem onclick="document.forms.npc.elements.char.value = getRandomName()">
+   Pick random name
+  &lt;menuitem onclick="prefillFields(document.forms.npc.elements.char.value)">
+   Prefill other fields based on name
+ &lt;/menu>
+&lt;/form></pre>
+
+   <p>This adds two items to the control's context menu, one called "Pick random name", and one
+   called "Prefill other fields based on name". They invoke scripts that are not shown in the
+   example above.</p>
+
+  </div>
+
+
+
+  
+
+  <h5 id=context-menu-processing-model>4.11.5.2 <span id=processing-model-4></span>Processing model<a href=#context-menu-processing-model class=self-link></a></h5>
+
+  <p>Each element has an <dfn id=assigned-context-menu>assigned context menu</dfn>, which can be null. If an element <var>A</var> has a <code id=context-menu-processing-model:attr-contextmenu><a href=#attr-contextmenu>contextmenu</a></code> attribute, and there is
+  an element with the ID given by <var>A</var>'s <code id=context-menu-processing-model:attr-contextmenu-2><a href=#attr-contextmenu>contextmenu</a></code> attribute's value in <var>A</var>'s
+  <a id=context-menu-processing-model:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a>, and the first such element in <a id=context-menu-processing-model:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> is a <code id=context-menu-processing-model:the-menu-element><a href=#the-menu-element>menu</a></code>
+  element whose <code id=context-menu-processing-model:attr-menu-type><a href=#attr-menu-type>type</a></code> attribute is in the <a href=#popup-menu-state id=context-menu-processing-model:popup-menu-state>popup menu</a> state, then <var>A</var>'s <a href=#assigned-context-menu id=context-menu-processing-model:assigned-context-menu>assigned context menu</a> is
+  that element. Otherwise, if <var>A</var> has a parent element, then <var>A</var>'s <a href=#assigned-context-menu id=context-menu-processing-model:assigned-context-menu-2>assigned
+  context menu</a> is the <a href=#assigned-context-menu id=context-menu-processing-model:assigned-context-menu-3>assigned context menu</a> of its parent element. Otherwise,
+  <var>A</var>'s <a href=#assigned-context-menu id=context-menu-processing-model:assigned-context-menu-4>assigned context menu</a> is null.</p>
+
+  <p>When an element's context menu is requested (e.g. by the user right-clicking the element, or
+  pressing a context menu key), the user agent must apply the appropriate rules from the following
+  list:</p>
+
+  <dl class=switch><dt>If the user requested a context menu using a pointing device<dd><p>The user agent must <a href=https://dom.spec.whatwg.org/#concept-event-fire id=context-menu-processing-model:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=context-menu-processing-model:event-contextmenu><a href=#event-contextmenu>contextmenu</a></code> at the element for which the menu was requested,
+   using <code id=context-menu-processing-model:mouseevent><a data-x-internal=mouseevent href=https://w3c.github.io/uievents/#interface-MouseEvent>MouseEvent</a></code>, with the <code id=context-menu-processing-model:dom-event-bubbles><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> and <code id=context-menu-processing-model:dom-event-cancelable><a data-x-internal=dom-event-cancelable href=https://dom.spec.whatwg.org/#dom-event-cancelable>cancelable</a></code> attributes initialized to true, and other
+   attributes initialized to the same values as the last <code id=context-menu-processing-model:mouseevent-2><a data-x-internal=mouseevent href=https://w3c.github.io/uievents/#interface-MouseEvent>MouseEvent</a></code> user interaction
+   event that was fired as part of the gesture that was interpreted as a request for the context
+   menu.<dt>Otherwise<dd><p>The user agent must <a href=#fire-a-synthetic-mouse-event id=context-menu-processing-model:fire-a-synthetic-mouse-event>fire a synthetic mouse
+   event named <code>contextmenu</code></a> at the element for which
+   the menu was requested.</dl>
+
+  <p class=note>Typically, therefore, the firing of the <code id=context-menu-processing-model:event-contextmenu-2><a href=#event-contextmenu>contextmenu</a></code> event will be the default action of a <code id=context-menu-processing-model:event-mouseup><a data-x-internal=event-mouseup href=https://w3c.github.io/uievents/#event-type-mouseup>mouseup</a></code> or <code id=context-menu-processing-model:event-keyup><a data-x-internal=event-keyup href=https://w3c.github.io/uievents/#event-type-keyup>keyup</a></code> event. The exact
+  sequence of events is UA-dependent, as it will vary based on platform conventions.</p>
+
+  <p>The default action of the <code id=context-menu-processing-model:event-contextmenu-3><a href=#event-contextmenu>contextmenu</a></code> event depends on
+  whether or not the element for which the menu was requested has a non-null <a href=#assigned-context-menu id=context-menu-processing-model:assigned-context-menu-5>assigned context
+  menu</a> when the event dispatch has completed, as follows.</p>
+
+  <p>If the <a href=#assigned-context-menu id=context-menu-processing-model:assigned-context-menu-6>assigned context menu</a> of the element for which the menu was requested is
+  null, the default action must be for the user agent to show its default context menu, if it has
+  one.</p>
+
+  <p>Otherwise, let <var>subject</var> be the element for which the menu was requested, and let
+  <var>menu</var> be the <a href=#assigned-context-menu id=context-menu-processing-model:assigned-context-menu-7>assigned context menu</a> of <var>target</var> immediately after
+  the <code id=context-menu-processing-model:event-contextmenu-4><a href=#event-contextmenu>contextmenu</a></code> event's dispatch has completed. The user
+  agent must run these steps:</p>
+
+  <ol><li><p>Let <var>build</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-event-fire id=context-menu-processing-model:concept-event-fire-2 data-x-internal=concept-event-fire>firing an
+   event</a> named <code id=context-menu-processing-model:event-show><a href=#event-show>show</a></code> at <var>menu</var>, using
+   <code id=context-menu-processing-model:relatedevent><a href=#relatedevent>RelatedEvent</a></code>, with the <code id=context-menu-processing-model:dom-event-cancelable-2><a data-x-internal=dom-event-cancelable href=https://dom.spec.whatwg.org/#dom-event-cancelable>cancelable</a></code>
+   attribute initialized to true and the <code id=context-menu-processing-model:dom-relatedevent-relatedtarget><a href=#dom-relatedevent-relatedtarget>relatedTarget</a></code> attribute initialized to
+   <var>subject</var>.</p>
+   
+
+   <li><p>If <var>build</var> is true, then <a href=#build-and-show-a-menu id=context-menu-processing-model:build-and-show-a-menu>build and
+   show</a> the menu for <var>menu</var> with <var>subject</var> as the subject.</ol>
+
+  <p>The user agent may also provide access to its default context menu, if any, with the context
+  menu shown. For example, it could merge the menu items from the two menus together, or provide the
+  page's context menu as a submenu of the default menu. In general, user agents are encouraged to
+  de-emphasize their own contextual menu items, so as to give the author's context menu the
+  appearance of legitimacy — to allow documents to feel like "applications" rather than "mere
+  Web pages".</p>
+
+  <p>User agents may provide means for bypassing the context menu processing model, ensuring that
+  the user can always access the UA's default context menus. For example, the user agent could
+  handle right-clicks that have the Shift key depressed in such a way that it does not fire the
+  <code id=context-menu-processing-model:event-contextmenu-5><a href=#event-contextmenu>contextmenu</a></code> event and instead always shows the default
+  context menu.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-contextmenu><code>contextMenu</code></dfn> IDL attribute must
+  <a href=#reflect id=context-menu-processing-model:reflect>reflect</a> the <code id=context-menu-processing-model:attr-contextmenu-3><a href=#attr-contextmenu>contextmenu</a></code> content attribute.</p>
+
+  
+
+  <div class=example>
+
+   <p>In this example, an image of cats is given a context menu with four possible commands:</p>
+
+   <pre>&lt;img src="cats.jpeg" alt="Cats" contextmenu=catsmenu>
+&lt;menu type="context" id="catsmenu">
+ &lt;menuitem label="Pet the kittens" onclick="kittens.pet()">
+ &lt;menuitem label="Cuddle with the kittens" onclick="kittens.cuddle()">
+ &lt;menu label="Feed the kittens">
+  &lt;menuitem label="Fish" onclick="kittens.feed(fish)">
+  &lt;menuitem label="Chicken" onclick="kittens.feed(chicken)">
+ &lt;/menu>
+&lt;/menu></pre>
+
+   <p>When a user of a mouse-operated visual Web browser right-clicks on the image, the browser
+   might pop up a context menu like this:</p>
+
+   <p><img src=/images/contextmenu-collapsed.png alt="A context menu, shown over a picture of cats, with four lines: the first two offering the menu items described in the markup above ('Pet the kittens' and 'Cuddle with the kittens'), the third giving a submenu labeled 'Feed the kittens', and the fourth, after a horizontal splitter, consisting of only a downwards-pointing disclosure triangle.">
+
+   <p>When the user clicks the disclosure triangle, such a user agent would expand the context menu
+   in place, to show the browser's own commands:</p>
+
+   <p><img src=/images/contextmenu-expanded.png alt="This would result in the same basic interface, but with a longer menu; the disclosure triangle having been replaced by items such as 'View Image', 'Copy Image', 'Copy Image Location', and so forth.">
+
+  </div>
+
+
+  <h5 id=the-relatedevent-interfaces>4.11.5.3 The <code id=the-relatedevent-interfaces:relatedevent><a href=#relatedevent>RelatedEvent</a></code> interfaces<a href=#the-relatedevent-interfaces class=self-link></a></h5>
+
+  <pre class=idl>[Constructor(DOMString type, optional <a href=#relatedeventinit id=the-relatedevent-interfaces:relatedeventinit>RelatedEventInit</a> eventInitDict)]
+interface <dfn id=relatedevent>RelatedEvent</dfn> : <a id=the-relatedevent-interfaces:event href=https://dom.spec.whatwg.org/#interface-event data-x-internal=event>Event</a> {
+  readonly attribute <a id=the-relatedevent-interfaces:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a>? <a href=#dom-relatedevent-relatedtarget id=the-relatedevent-interfaces:dom-relatedevent-relatedtarget>relatedTarget</a>;
+};
+
+dictionary <dfn id=relatedeventinit>RelatedEventInit</dfn> : <a id=the-relatedevent-interfaces:eventinit href=https://dom.spec.whatwg.org/#dictdef-eventinit data-x-internal=eventinit>EventInit</a> {
+  <a id=the-relatedevent-interfaces:eventtarget-2 href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a>? relatedTarget = null;
+};</pre>
+
+  <dl class=domintro><dt><var>event</var> . <code id=the-relatedevent-interfaces:dom-relatedevent-relatedtarget-2><a href=#dom-relatedevent-relatedtarget>relatedTarget</a></code><dd>
+
+    <p>Returns the other event target involved in this event. For example, when a <code id=the-relatedevent-interfaces:event-show><a href=#event-show>show</a></code> event fires on a <code id=the-relatedevent-interfaces:the-menu-element><a href=#the-menu-element>menu</a></code> element, the other event
+    target involved in the event would be the element for which the menu is being shown.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-relatedevent-relatedtarget><code>relatedTarget</code></dfn> attribute
+  must return the value it was initialized to. It represents the other event target that is related
+  to the event.</p>
+
+  
+
+
+
+
+  <h4 id=commands>4.11.6 Commands<a href=#commands class=self-link></a></h4>
+
+  <h5 id=facets-2>4.11.6.1 Facets<a href=#facets-2 class=self-link></a></h5>
+
+  <p>A <dfn id=concept-command>command</dfn> is the abstraction behind menu items, buttons, and
+  links. Once a command is defined, other parts of the interface can refer to the same command,
+  allowing many access points to a single feature to share facets such as the <a href=#command-facet-disabledstate id=facets-2:command-facet-disabledstate>Disabled State</a>.</p>
+
+  <p id=facets>Commands are defined to have the following <dfn id=concept-facet>facets</dfn>:</p>
+
+  <dl><dt><dfn id=command-facet-label>Label</dfn><dd>The name of the command as seen by the user.<dt><dfn id=command-facet-accesskey>Access Key</dfn><dd>A key combination selected by the user agent that triggers the command. A command might not
+   have an Access Key.<dt><dfn id=command-facet-hiddenstate>Hidden State</dfn><dd>Whether the command is hidden or not (basically, whether it should be shown in menus).<dt><dfn id=command-facet-disabledstate>Disabled State</dfn><dd>Whether the command is relevant and can be triggered or not.<dt><dfn id=command-facet-action>Action</dfn><dd>The actual effect that triggering the command will have. This could be a scripted event
+   handler, a <a id=facets-2:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> to which to <a href=#navigate id=facets-2:navigate>navigate</a>, or a form submission.</dl>
+
+  <p id=expose-commands-in-ui>User agents may expose the <a href=#concept-command id=facets-2:concept-command>commands</a> that match the following criteria:</p>
+
+  <ul class=brief><li>The <a href=#command-facet-hiddenstate id=facets-2:command-facet-hiddenstate>Hidden State</a> facet is false (visible)<li>The element is <a id=facets-2:in-a-document href=https://dom.spec.whatwg.org/#in-a-document data-x-internal=in-a-document>in a document</a> that has an associated <a href=#concept-document-bc id=facets-2:concept-document-bc>browsing context</a>.<li>Neither the element nor any of its ancestors has a <code id=facets-2:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code>
+   attribute specified.<li>The element is not a <code id=facets-2:the-menuitem-element><a href=#the-menuitem-element>menuitem</a></code> element, or it is a child of a <a href=#currently-relevant-menu-element id=facets-2:currently-relevant-menu-element>currently
+   relevant <code>menu</code> element</a>, or it has an <a href=#command-facet-accesskey id=facets-2:command-facet-accesskey>Access Key</a>.</ul>
+
+  <p>User agents are encouraged to do this especially for commands that have <a href=#command-facet-accesskey id=facets-2:command-facet-accesskey-2>Access Keys</a>, as a way to advertise those keys to the
+  user.</p>
+
+  <p class=example>For example, such commands could be listed in the user agent's menu bar.</p>
+
+
+  
+
+  <h5 id=using-the-a-element-to-define-a-command>4.11.6.2 <dfn>Using the <code>a</code> element to define a command</dfn><a href=#using-the-a-element-to-define-a-command class=self-link></a></h5>
+
+  <p>An <code id=using-the-a-element-to-define-a-command:the-a-element><a href=#the-a-element>a</a></code> element with an <code id=using-the-a-element-to-define-a-command:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> attribute <a href=#concept-command id=using-the-a-element-to-define-a-command:concept-command>defines a command</a>.</p>
+
+  <p>The <a href=#command-facet-label id=using-the-a-element-to-define-a-command:command-facet-label>Label</a> of the command is the string given by the
+  element's <code id=using-the-a-element-to-define-a-command:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute.</p>
+
+  <p>The <a href=#command-facet-accesskey id=using-the-a-element-to-define-a-command:command-facet-accesskey>AccessKey</a> of the command is the element's
+  <a href=#assigned-access-key id=using-the-a-element-to-define-a-command:assigned-access-key>assigned access key</a>, if any.</p>
+
+  <p>The <a href=#command-facet-hiddenstate id=using-the-a-element-to-define-a-command:command-facet-hiddenstate>Hidden State</a> of the command is true (hidden)
+  if the element has a <code id=using-the-a-element-to-define-a-command:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> attribute, and false otherwise.</p>
+
+  <p>The <a href=#command-facet-disabledstate id=using-the-a-element-to-define-a-command:command-facet-disabledstate>Disabled State</a> facet of the command is
+  true if the element or one of its ancestors is <a href=#inert id=using-the-a-element-to-define-a-command:inert>inert</a>, and false otherwise.</p>
+
+  <p>The <a href=#command-facet-action id=using-the-a-element-to-define-a-command:command-facet-action>Action</a> of the command is to <a href=#fire-a-click-event id=using-the-a-element-to-define-a-command:fire-a-click-event>fire a <code>click</code> event</a> at the element.</p>
+
+
+  <h5 id=using-the-button-element-to-define-a-command>4.11.6.3 <dfn>Using the <code>button</code> element to define a command</dfn><a href=#using-the-button-element-to-define-a-command class=self-link></a></h5>
+
+  <p>A <code id=using-the-button-element-to-define-a-command:the-button-element><a href=#the-button-element>button</a></code> element always <a href=#concept-command id=using-the-button-element-to-define-a-command:concept-command>defines a
+  command</a>.</p>
+
+  <p>The <a href=#command-facet-label id=using-the-button-element-to-define-a-command:command-facet-label>Label</a>, <a href=#command-facet-accesskey id=using-the-button-element-to-define-a-command:command-facet-accesskey>Access Key</a>, <a href=#command-facet-hiddenstate id=using-the-button-element-to-define-a-command:command-facet-hiddenstate>Hidden State</a>, and <a href=#command-facet-action id=using-the-button-element-to-define-a-command:command-facet-action>Action</a> facets of the command are determined <a href=#using-the-a-element-to-define-a-command id=using-the-button-element-to-define-a-command:using-the-a-element-to-define-a-command>as for <code>a</code> elements</a> (see the previous section).</p>
+
+  <p>The <a href=#command-facet-disabledstate id=using-the-button-element-to-define-a-command:command-facet-disabledstate>Disabled State</a> of the command is true if
+  the element or one of its ancestors is <a href=#inert id=using-the-button-element-to-define-a-command:inert>inert</a>, or if the element's <a href=#concept-fe-disabled id=using-the-button-element-to-define-a-command:concept-fe-disabled>disabled</a> state is set, and false otherwise.</p>
+
+
+  <h5 id=using-the-input-element-to-define-a-command>4.11.6.4 <dfn>Using the <code>input</code> element to define a command</dfn><a href=#using-the-input-element-to-define-a-command class=self-link></a></h5>
+
+  <p>An <code id=using-the-input-element-to-define-a-command:the-input-element><a href=#the-input-element>input</a></code> element whose <code id=using-the-input-element-to-define-a-command:attr-input-type><a href=#attr-input-type>type</a></code> attribute is in
+  one of the <a href="#submit-button-state-(type=submit)" id="using-the-input-element-to-define-a-command:submit-button-state-(type=submit)">Submit Button</a>, <a href="#reset-button-state-(type=reset)" id="using-the-input-element-to-define-a-command:reset-button-state-(type=reset)">Reset Button</a>, <a href="#image-button-state-(type=image)" id="using-the-input-element-to-define-a-command:image-button-state-(type=image)">Image
+  Button</a>, <a href="#button-state-(type=button)" id="using-the-input-element-to-define-a-command:button-state-(type=button)">Button</a>, <a href="#radio-button-state-(type=radio)" id="using-the-input-element-to-define-a-command:radio-button-state-(type=radio)">Radio Button</a>, or <a href="#checkbox-state-(type=checkbox)" id="using-the-input-element-to-define-a-command:checkbox-state-(type=checkbox)">Checkbox</a> states <a href=#concept-command id=using-the-input-element-to-define-a-command:concept-command>defines a
+  command</a>.</p>
+
+  <p>The <a href=#command-facet-label id=using-the-input-element-to-define-a-command:command-facet-label>Label</a> of the command is determined as
+  follows:</p>
+
+  <ul><li><p>If the <code id=using-the-input-element-to-define-a-command:attr-input-type-2><a href=#attr-input-type>type</a></code> attribute is in one of the
+    <a href="#submit-button-state-(type=submit)" id="using-the-input-element-to-define-a-command:submit-button-state-(type=submit)-2">Submit Button</a>, <a href="#reset-button-state-(type=reset)" id="using-the-input-element-to-define-a-command:reset-button-state-(type=reset)-2">Reset Button</a>, <a href="#image-button-state-(type=image)" id="using-the-input-element-to-define-a-command:image-button-state-(type=image)-2">Image
+    Button</a>, or <a href="#button-state-(type=button)" id="using-the-input-element-to-define-a-command:button-state-(type=button)-2">Button</a> states, then the
+    <a href=#command-facet-label id=using-the-input-element-to-define-a-command:command-facet-label-2>Label</a> is the string given by the
+    <code id=using-the-input-element-to-define-a-command:attr-input-value><a href=#attr-input-value>value</a></code> attribute, if any, and a UA-dependent,
+    locale-dependent value that the UA uses to label the button itself if the attribute is
+    absent.<li><p>Otherwise, if the element is a <a href=#labeled-control id=using-the-input-element-to-define-a-command:labeled-control>labeled control</a>, then the
+    <a href=#command-facet-label id=using-the-input-element-to-define-a-command:command-facet-label-3>Label</a> is the string given by the
+    <code id=using-the-input-element-to-define-a-command:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> of the first <code id=using-the-input-element-to-define-a-command:the-label-element><a href=#the-label-element>label</a></code> element in <a id=using-the-input-element-to-define-a-command:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>
+    whose <a href=#labeled-control id=using-the-input-element-to-define-a-command:labeled-control-2>labeled control</a> is the element in question. (In DOM terms, this is the
+    string given by <code><var>element</var>.labels[0].textContent</code>.)<li><p>Otherwise, if the <code id=using-the-input-element-to-define-a-command:attr-input-value-2><a href=#attr-input-value>value</a></code> attribute is present, then
+    the <a href=#command-facet-label id=using-the-input-element-to-define-a-command:command-facet-label-4>Label</a> is the value of that attribute.<li><p>Otherwise, the <a href=#command-facet-label id=using-the-input-element-to-define-a-command:command-facet-label-5>Label</a> is the empty string.</ul>
+
+  <p>The <a href=#command-facet-accesskey id=using-the-input-element-to-define-a-command:command-facet-accesskey>AccessKey</a> of the command is the element's
+  <a href=#assigned-access-key id=using-the-input-element-to-define-a-command:assigned-access-key>assigned access key</a>, if any.</p>
+
+  <p>The <a href=#command-facet-hiddenstate id=using-the-input-element-to-define-a-command:command-facet-hiddenstate>Hidden State</a> of the command is true (hidden)
+  if the element has a <code id=using-the-input-element-to-define-a-command:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> attribute, and false otherwise.</p>
+
+  <p>The <a href=#command-facet-disabledstate id=using-the-input-element-to-define-a-command:command-facet-disabledstate>Disabled State</a> of the command is true if
+  the element or one of its ancestors is <a href=#inert id=using-the-input-element-to-define-a-command:inert>inert</a>, or if the element's <a href=#concept-fe-disabled id=using-the-input-element-to-define-a-command:concept-fe-disabled>disabled</a> state is set, and false otherwise.</p>
+
+  <p>The <a href=#command-facet-action id=using-the-input-element-to-define-a-command:command-facet-action>Action</a> of the command is to <a href=#fire-a-click-event id=using-the-input-element-to-define-a-command:fire-a-click-event>fire a <code>click</code> event</a> at the element.</p>
+
+
+  <h5 id=using-the-option-element-to-define-a-command>4.11.6.5 <dfn>Using the <code>option</code> element to define a command</dfn><a href=#using-the-option-element-to-define-a-command class=self-link></a></h5>
+
+  <p>An <code id=using-the-option-element-to-define-a-command:the-option-element><a href=#the-option-element>option</a></code> element with an ancestor <code id=using-the-option-element-to-define-a-command:the-select-element><a href=#the-select-element>select</a></code> element and either no <code id=using-the-option-element-to-define-a-command:attr-option-value><a href=#attr-option-value>value</a></code> attribute or a <code id=using-the-option-element-to-define-a-command:attr-option-value-2><a href=#attr-option-value>value</a></code>
+  attribute that is not the empty string <a href=#concept-command id=using-the-option-element-to-define-a-command:concept-command>defines a command</a>.</p>
+
+  <p>The <a href=#command-facet-label id=using-the-option-element-to-define-a-command:command-facet-label>Label</a> of the command is the value of the
+  <code id=using-the-option-element-to-define-a-command:the-option-element-2><a href=#the-option-element>option</a></code> element's <code id=using-the-option-element-to-define-a-command:attr-option-label><a href=#attr-option-label>label</a></code> attribute, if there is
+  one, or else the value of <code id=using-the-option-element-to-define-a-command:the-option-element-3><a href=#the-option-element>option</a></code> element's <code id=using-the-option-element-to-define-a-command:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute,
+  with <a href=#strip-leading-and-trailing-whitespace id=using-the-option-element-to-define-a-command:strip-leading-and-trailing-whitespace>leading and trailing whitespace
+  stripped</a>, and with any sequences of two or more <a href=#space-character id=using-the-option-element-to-define-a-command:space-character>space
+  characters</a> replaced by a single U+0020 SPACE character.</p>
+
+  <p>The <a href=#command-facet-accesskey id=using-the-option-element-to-define-a-command:command-facet-accesskey>AccessKey</a> of the command is the element's
+  <a href=#assigned-access-key id=using-the-option-element-to-define-a-command:assigned-access-key>assigned access key</a>, if any.</p>
+
+  <p>The <a href=#command-facet-hiddenstate id=using-the-option-element-to-define-a-command:command-facet-hiddenstate>Hidden State</a> of the command is true (hidden)
+  if the element has a <code id=using-the-option-element-to-define-a-command:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> attribute, and false otherwise.</p>
+
+  <p>The <a href=#command-facet-disabledstate id=using-the-option-element-to-define-a-command:command-facet-disabledstate>Disabled State</a> of the command is true if
+  the element is <a href=#concept-option-disabled id=using-the-option-element-to-define-a-command:concept-option-disabled>disabled</a>, or if its nearest ancestor
+  <code id=using-the-option-element-to-define-a-command:the-select-element-2><a href=#the-select-element>select</a></code> element is <a href=#concept-fe-disabled id=using-the-option-element-to-define-a-command:concept-fe-disabled>disabled</a>, or if it or one
+  of its ancestors is <a href=#inert id=using-the-option-element-to-define-a-command:inert>inert</a>, and false otherwise.</p>
+
+  <p>If the <code id=using-the-option-element-to-define-a-command:the-option-element-4><a href=#the-option-element>option</a></code>'s nearest ancestor <code id=using-the-option-element-to-define-a-command:the-select-element-3><a href=#the-select-element>select</a></code> element has a <code id=using-the-option-element-to-define-a-command:attr-select-multiple><a href=#attr-select-multiple>multiple</a></code> attribute, the <a href=#command-facet-action id=using-the-option-element-to-define-a-command:command-facet-action>Action</a> of the command is to <a href=#concept-select-pick id=using-the-option-element-to-define-a-command:concept-select-pick>pick</a> the <code id=using-the-option-element-to-define-a-command:the-option-element-5><a href=#the-option-element>option</a></code> element. Otherwise, the <a href=#command-facet-action id=using-the-option-element-to-define-a-command:command-facet-action-2>Action</a> is to <a href=#concept-select-toggle id=using-the-option-element-to-define-a-command:concept-select-toggle>toggle</a> the <code id=using-the-option-element-to-define-a-command:the-option-element-6><a href=#the-option-element>option</a></code> element.</p>
+
+
+  <h5 id=using-the-menuitem-element-to-define-a-command>4.11.6.6 Using the <dfn><code>menuitem</code></dfn> element to define a
+  command<a href=#using-the-menuitem-element-to-define-a-command class=self-link></a></h5>
+
+  <p>A <code id=using-the-menuitem-element-to-define-a-command:the-menuitem-element><a href=#the-menuitem-element>menuitem</a></code> element always <a href=#concept-command id=using-the-menuitem-element-to-define-a-command:concept-command>defines a
+  command</a>.</p>
+
+  <p>The <a href=#command-facet-label id=using-the-menuitem-element-to-define-a-command:command-facet-label>Label</a> of the command is the element's <a href=#concept-menuitem-label id=using-the-menuitem-element-to-define-a-command:concept-menuitem-label>label</a>.</p>
+
+  <p>The <a href=#command-facet-accesskey id=using-the-menuitem-element-to-define-a-command:command-facet-accesskey>AccessKey</a> of the command is the element's
+  <a href=#assigned-access-key id=using-the-menuitem-element-to-define-a-command:assigned-access-key>assigned access key</a>, if any.</p>
+
+  <p>The <a href=#command-facet-hiddenstate id=using-the-menuitem-element-to-define-a-command:command-facet-hiddenstate>Hidden State</a> of the command is true (hidden)
+  if the element has a <code id=using-the-menuitem-element-to-define-a-command:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> attribute, and false otherwise.</p>
+
+  <p>The <a href=#command-facet-disabledstate id=using-the-menuitem-element-to-define-a-command:command-facet-disabledstate>Disabled State</a> of the command is true if
+  the element or one of its ancestors is <a href=#inert id=using-the-menuitem-element-to-define-a-command:inert>inert</a>, or if the element has a <code id=using-the-menuitem-element-to-define-a-command:attr-menuitem-disabled><a href=#attr-menuitem-disabled>disabled</a></code> attribute, and false otherwise.</p>
+
+  <p>The <a href=#command-facet-action id=using-the-menuitem-element-to-define-a-command:command-facet-action>Action</a> of the command is to <a href=#fire-a-click-event id=using-the-menuitem-element-to-define-a-command:fire-a-click-event>fire a <code>click</code> event</a> at the element.</p>
+
+  <h5 id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command>4.11.6.7 <dfn>Using the <code>accesskey</code> attribute
+  on a <code>label</code> element to define a command</dfn><a href=#using-the-accesskey-attribute-on-a-label-element-to-define-a-command class=self-link></a></h5>
+
+  <p>A <code id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:the-label-element><a href=#the-label-element>label</a></code> element that has an <a href=#assigned-access-key id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:assigned-access-key>assigned access key</a> and a <a href=#labeled-control id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:labeled-control>labeled
+  control</a> and whose <a href=#labeled-control id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:labeled-control-2>labeled control</a> <a href=#concept-command id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:concept-command>defines a
+  command</a>, itself <a href=#concept-command id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:concept-command-2>defines a command</a>.</p>
+
+  <p>The <a href=#command-facet-label id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:command-facet-label>Label</a> of the command is the string given by the
+  element's <code id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute.</p>
+
+  <p>The <a href=#command-facet-accesskey id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:command-facet-accesskey>AccessKey</a> of the command is the element's
+  <a href=#assigned-access-key id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:assigned-access-key-2>assigned access key</a>.</p>
+
+  <p>The <a href=#command-facet-hiddenstate id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:command-facet-hiddenstate>Hidden State</a>, <a href=#command-facet-disabledstate id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:command-facet-disabledstate>Disabled State</a>, and <a href=#command-facet-action id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:command-facet-action>Action</a> facets of the command are the same as the respective
+  facets of the element's <a href=#labeled-control id=using-the-accesskey-attribute-on-a-label-element-to-define-a-command:labeled-control-3>labeled control</a>.</p>
+
+
+  <h5 id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command>4.11.6.8 <dfn>Using the <code>accesskey</code> attribute
+  on a <code>legend</code> element to define a command</dfn><a href=#using-the-accesskey-attribute-on-a-legend-element-to-define-a-command class=self-link></a></h5>
+
+  <p>A <code id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:the-legend-element><a href=#the-legend-element>legend</a></code> element that has an <a href=#assigned-access-key id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:assigned-access-key>assigned access key</a> and is a child of a
+  <code id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:the-fieldset-element><a href=#the-fieldset-element>fieldset</a></code> element that has a descendant that is not a descendant of the
+  <code id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:the-legend-element-2><a href=#the-legend-element>legend</a></code> element and is neither a <code id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:the-label-element><a href=#the-label-element>label</a></code> element nor a <code id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:the-legend-element-3><a href=#the-legend-element>legend</a></code>
+  element but that <a href=#concept-command id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:concept-command>defines a command</a>, itself <a href=#concept-command id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:concept-command-2>defines a command</a>.</p>
+
+  <p>The <a href=#command-facet-label id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:command-facet-label>Label</a> of the command is the string given by the
+  element's <code id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute.</p>
+
+  <p>The <a href=#command-facet-accesskey id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:command-facet-accesskey>AccessKey</a> of the command is the element's
+  <a href=#assigned-access-key id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:assigned-access-key-2>assigned access key</a>.</p>
+
+  <p>The <a href=#command-facet-hiddenstate id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:command-facet-hiddenstate>Hidden State</a>, <a href=#command-facet-disabledstate id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:command-facet-disabledstate>Disabled State</a>, and <a href=#command-facet-action id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:command-facet-action>Action</a> facets of the command are the same as the respective
+  facets of the first element in <a id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> that is a descendant of the parent of the
+  <code id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:the-legend-element-4><a href=#the-legend-element>legend</a></code> element that <a href=#concept-command id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:concept-command-3>defines a command</a> but is not
+  a descendant of the <code id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:the-legend-element-5><a href=#the-legend-element>legend</a></code> element and is neither a <code id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:the-label-element-2><a href=#the-label-element>label</a></code> nor a
+  <code id=using-the-accesskey-attribute-on-a-legend-element-to-define-a-command:the-legend-element-6><a href=#the-legend-element>legend</a></code> element.</p>
+
+
+  <h5 id=using-the-accesskey-attribute-to-define-a-command-on-other-elements>4.11.6.9 <dfn>Using the <code>accesskey</code>
+  attribute to define a command on other elements</dfn><a href=#using-the-accesskey-attribute-to-define-a-command-on-other-elements class=self-link></a></h5>
+
+  <p>An element that has an <a href=#assigned-access-key id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:assigned-access-key>assigned access key</a> <a href=#concept-command id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:concept-command>defines a
+  command</a>.</p>
+
+  <p>If one of the earlier sections that define elements that <a href=#concept-command id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:concept-command-2>define
+  commands</a> define that this element <a href=#concept-command id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:concept-command-3>defines a command</a>,
+  then that section applies to this element, and this section does not. Otherwise, this section
+  applies to that element.</p>
+
+  <p>The <a href=#command-facet-label id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:command-facet-label>Label</a> of the command depends on the element. If
+  the element is a <a href=#labeled-control id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:labeled-control>labeled control</a>, the <code id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> of the first
+  <code id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:the-label-element><a href=#the-label-element>label</a></code> element in <a id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> whose <a href=#labeled-control id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:labeled-control-2>labeled control</a> is the
+  element in question is the <a href=#command-facet-label id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:command-facet-label-2>Label</a> (in DOM terms, this is
+  the string given by <code><var>element</var>.labels[0].textContent</code>). Otherwise,
+  the <a href=#command-facet-label id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:command-facet-label-3>Label</a> is the <code id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:textcontent-2><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> of the element
+  itself.</p>
+
+  <p>The <a href=#command-facet-accesskey id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:command-facet-accesskey>AccessKey</a> of the command is the element's
+  <a href=#assigned-access-key id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:assigned-access-key-2>assigned access key</a>.</p>
+
+  <p>The <a href=#command-facet-hiddenstate id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:command-facet-hiddenstate>Hidden State</a> of the command is true (hidden)
+  if the element has a <code id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> attribute, and false otherwise.</p>
+
+  <p>The <a href=#command-facet-disabledstate id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:command-facet-disabledstate>Disabled State</a> of the command is true if
+  the element or one of its ancestors is <a href=#inert id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:inert>inert</a>, and false otherwise.</p>
+
+  <p>The <a href=#command-facet-action id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:command-facet-action>Action</a> of the command is to run the following
+  steps:</p>
+
+  <ol><li>Run the <a href=#focusing-steps id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:focusing-steps>focusing steps</a> for the element.<li><a href=#fire-a-click-event id=using-the-accesskey-attribute-to-define-a-command-on-other-elements:fire-a-click-event>Fire a <code>click</code> event</a> at the element.</ol>
+
+  
+
+
+  <h4 id=the-dialog-element>4.11.7 The <dfn><code>dialog</code></dfn> element<a href=#the-dialog-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> dialog<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>37+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox no"><span>Firefox</span> <span>None</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>53+</span></span><span class="safari no"><span>Safari</span> <span>None</span></span><span class="edge no"><span>Edge</span> <span>None</span></span><span class="opera yes"><span>Opera</span> <span>24+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=dialog">caniuse.com</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-dialog-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-dialog-element:flow-content-2>Flow content</a>.<dd><a href=#sectioning-root id=the-dialog-element:sectioning-root>Sectioning root</a>.<dt><a href=#concept-element-contexts id=the-dialog-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-dialog-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-dialog-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-dialog-element:flow-content-2-3>Flow content</a>.<dt><a href=#concept-element-tag-omission id=the-dialog-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-dialog-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-dialog-element:global-attributes>Global attributes</a><dd><code id=the-dialog-element:attr-dialog-open><a href=#attr-dialog-open>open</a></code> — Whether the dialog box is showing<dt><a href=#concept-element-dom id=the-dialog-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-dialog-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmldialogelement>HTMLDialogElement</dfn> : <a href=#htmlelement id=the-dialog-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-dialog-element:cereactions>CEReactions</a>] attribute boolean <a href=#dom-dialog-open id=the-dialog-element:dom-dialog-open>open</a>;
+  attribute DOMString <a href=#dom-dialog-returnvalue id=the-dialog-element:dom-dialog-returnvalue>returnValue</a>;
+  [<a href=#cereactions id=the-dialog-element:cereactions-2>CEReactions</a>] void <a href=#dom-dialog-show id=the-dialog-element:dom-dialog-show>show</a>();
+  [<a href=#cereactions id=the-dialog-element:cereactions-3>CEReactions</a>] void <a href=#dom-dialog-showmodal id=the-dialog-element:dom-dialog-showmodal>showModal</a>();
+  [<a href=#cereactions id=the-dialog-element:cereactions-4>CEReactions</a>] void <a href=#dom-dialog-close id=the-dialog-element:dom-dialog-close>close</a>(optional DOMString returnValue);
+};</pre>
+   </dl>
+
+  <p>The <code id=the-dialog-element:the-dialog-element><a href=#the-dialog-element>dialog</a></code> element represents a part of an application that a user interacts with
+  to perform a task, for example a dialog box, inspector, or window.</p>
+
+  <p>The <dfn id=attr-dialog-open><code>open</code></dfn> attribute is a <a href=#boolean-attribute id=the-dialog-element:boolean-attribute>boolean
+  attribute</a>. When specified, it indicates that the <code id=the-dialog-element:the-dialog-element-2><a href=#the-dialog-element>dialog</a></code> element is active and
+  that the user can interact with it.</p>
+
+  
+
+  <p>A <code id=the-dialog-element:the-dialog-element-3><a href=#the-dialog-element>dialog</a></code> element without an <code id=the-dialog-element:attr-dialog-open-2><a href=#attr-dialog-open>open</a></code> attribute
+  specified should not be shown to the user. This requirement may be implemented indirectly through
+  the style layer. For example, user agents that <a href=#renderingUA>support the suggested
+  default rendering</a> implement this requirement using the CSS rules described in the <a href=#rendering>rendering section</a>.</p>
+
+  
+
+  <div class=note>
+   <p>Removing the <code id=the-dialog-element:attr-dialog-open-3><a href=#attr-dialog-open>open</a></code> attribute will usually hide the
+   dialog. However, doing so has a number of strange additional consequences:
+
+   <ul><li><p>The <code id=the-dialog-element:event-close><a href=#event-close>close</a></code> event will not be fired.<li><p>The <code id=the-dialog-element:dom-dialog-close-2><a href=#dom-dialog-close>close()</a></code> method, and any <a href=#canceling-dialogs>user-agent provided cancelation interface</a>, will no longer be able
+    to close the dialog.<li><p>If the dialog was shown using its <code id=the-dialog-element:dom-dialog-showmodal-2><a href=#dom-dialog-showmodal>showModal()</a></code>
+    method, the <code id=the-dialog-element:document><a href=#document>Document</a></code> will still be <a href=#blocked-by-a-modal-dialog id=the-dialog-element:blocked-by-a-modal-dialog>blocked</a>.</ul>
+
+   <p>For these reasons, it is generally better to never remove the <code id=the-dialog-element:attr-dialog-open-4><a href=#attr-dialog-open>open</a></code> attribute manually. Instead, use the <code id=the-dialog-element:dom-dialog-close-3><a href=#dom-dialog-close>close()</a></code> method to close the dialog, or the <code id=the-dialog-element:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> attribute to hide it.</p>
+  </div>
+
+  <p>The <code id=the-dialog-element:attr-tabindex><a href=#attr-tabindex>tabindex</a></code> attribute must not be specified on
+  <code id=the-dialog-element:the-dialog-element-4><a href=#the-dialog-element>dialog</a></code> elements.</p>
+
+
+
+  <dl class=domintro><dt><var>dialog</var> . <code id=the-dialog-element:dom-dialog-show-2><a href=#dom-dialog-show>show</a></code>()<dd>
+
+    <p>Displays the <code id=the-dialog-element:the-dialog-element-5><a href=#the-dialog-element>dialog</a></code> element.</p>
+
+   <dt><var>dialog</var> . <code id=the-dialog-element:dom-dialog-showmodal-3><a href=#dom-dialog-showmodal>showModal</a></code>()<dd>
+
+    <p>Displays the <code id=the-dialog-element:the-dialog-element-6><a href=#the-dialog-element>dialog</a></code> element and makes it the top-most modal dialog.</p>
+
+    <p>This method honors the <code id=the-dialog-element:attr-fe-autofocus><a href=#attr-fe-autofocus>autofocus</a></code> attribute.</p>
+
+   <dt><var>dialog</var> . <code id=the-dialog-element:dom-dialog-close-4><a href=#dom-dialog-close>close</a></code>( [ <var>result</var> ] )<dd>
+
+    <p>Closes the <code id=the-dialog-element:the-dialog-element-7><a href=#the-dialog-element>dialog</a></code> element.</p>
+
+    <p>The argument, if provided, provides a return value.</p>
+
+   <dt><var>dialog</var> . <code id=the-dialog-element:dom-dialog-returnvalue-2><a href=#dom-dialog-returnvalue>returnValue</a></code> [ = <var>result</var> ]<dd>
+
+    <p>Returns the <code id=the-dialog-element:the-dialog-element-8><a href=#the-dialog-element>dialog</a></code>'s return value.</p>
+
+    <p>Can be set, to update the return value.</p>
+
+   </dl>
+
+
+
+  
+
+  <p>When the <dfn id=dom-dialog-show><code>show()</code></dfn> method is invoked, the user
+  agent must run the following steps:</p>
+
+  <ol><li><p>If the element already has an <code id=the-dialog-element:attr-dialog-open-5><a href=#attr-dialog-open>open</a></code> attribute, then
+   abort these steps.<li><p>Add an <code id=the-dialog-element:attr-dialog-open-6><a href=#attr-dialog-open>open</a></code> attribute to the <code id=the-dialog-element:the-dialog-element-9><a href=#the-dialog-element>dialog</a></code>
+   element, whose value is the empty string.<li><p>Set the <code id=the-dialog-element:the-dialog-element-10><a href=#the-dialog-element>dialog</a></code> to the <a href=#normal-alignment id=the-dialog-element:normal-alignment>normal alignment</a> mode.<li><p>Run the <a href=#dialog-focusing-steps id=the-dialog-element:dialog-focusing-steps>dialog focusing steps</a> for the <code id=the-dialog-element:the-dialog-element-11><a href=#the-dialog-element>dialog</a></code> element.</ol>
+
+  <hr>
+
+  <p>Each <code id=the-dialog-element:document-2><a href=#document>Document</a></code> has a stack of <code id=the-dialog-element:the-dialog-element-12><a href=#the-dialog-element>dialog</a></code> elements known as the
+  <dfn id=pending-dialog-stack>pending dialog stack</dfn>. When a <code id=the-dialog-element:document-3><a href=#document>Document</a></code> is created, this stack must be
+  initialized to be empty.</p>
+
+  <p>When an element is added to the <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack>pending dialog stack</a>, it must also be <a href=https://fullscreen.spec.whatwg.org/#top-layer-add id=the-dialog-element:top-layer-add data-x-internal=top-layer-add>added</a> to the <a id=the-dialog-element:top-layer href=https://fullscreen.spec.whatwg.org/#top-layer data-x-internal=top-layer>top layer</a>. When an element is removed from
+  the <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-2>pending dialog stack</a>, it must be <a href=https://fullscreen.spec.whatwg.org/#top-layer-remove id=the-dialog-element:top-layer-remove data-x-internal=top-layer-remove>removed</a>
+  from the <a id=the-dialog-element:top-layer-2 href=https://fullscreen.spec.whatwg.org/#top-layer data-x-internal=top-layer>top layer</a>. <a href=#refsFULLSCREEN>[FULLSCREEN]</a></p>
+
+  <p>When the <dfn id=dom-dialog-showmodal><code>showModal()</code></dfn> method is invoked,
+  the user agent must run the following steps:</p>
+
+  <ol><li><p>Let <var>subject</var> be the <code id=the-dialog-element:the-dialog-element-13><a href=#the-dialog-element>dialog</a></code> element on which the method was
+   invoked.<li><p>If <var>subject</var> already has an <code id=the-dialog-element:attr-dialog-open-7><a href=#attr-dialog-open>open</a></code>
+   attribute, then throw an <a id=the-dialog-element:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-dialog-element:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>
+   and abort these steps.<li><p>If <var>subject</var> is not <a id=the-dialog-element:connected href=https://dom.spec.whatwg.org/#connected data-x-internal=connected>connected</a>, then throw an
+   <a id=the-dialog-element:invalidstateerror-2 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=the-dialog-element:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li><p>Add an <code id=the-dialog-element:attr-dialog-open-8><a href=#attr-dialog-open>open</a></code> attribute to <var>subject</var>, whose value is the empty string.<li><p>Set the <code id=the-dialog-element:the-dialog-element-14><a href=#the-dialog-element>dialog</a></code> to the <a href=#centered-alignment id=the-dialog-element:centered-alignment>centered alignment</a> mode.<li><p>Let <var>subject</var>'s <a id=the-dialog-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> be <a href=#blocked-by-a-modal-dialog id=the-dialog-element:blocked-by-a-modal-dialog-2>blocked by the modal dialog</a> <var>subject</var>.<li><p>Push <var>subject</var> onto <var>subject</var>'s
+   <a id=the-dialog-element:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-3>pending dialog stack</a>.<li><p>Run the <a href=#dialog-focusing-steps id=the-dialog-element:dialog-focusing-steps-2>dialog focusing steps</a> for <var>subject</var>.</ol>
+
+  <p>The <dfn id=dialog-focusing-steps>dialog focusing steps</dfn> for a <code id=the-dialog-element:the-dialog-element-15><a href=#the-dialog-element>dialog</a></code> element <var>subject</var> are as follows:</p>
+
+  <ol><li><p>If for some reason <var>subject</var> is not a <a href=#control-group-owner-object id=the-dialog-element:control-group-owner-object>control group owner object</a>
+   at this point, or if it is <a href=#inert id=the-dialog-element:inert>inert</a>, abort these steps.<li>
+
+    <p>Let <var>control</var> be the first non-<a href=#inert id=the-dialog-element:inert-2>inert</a> <a href=#focusable-area id=the-dialog-element:focusable-area>focusable area</a> in
+    <var>subject</var>'s <a href=#control-group id=the-dialog-element:control-group>control group</a> whose <a href=#dom-anchor id=the-dialog-element:dom-anchor>DOM anchor</a> has an <code id=the-dialog-element:attr-fe-autofocus-2><a href=#attr-fe-autofocus>autofocus</a></code> attribute specified.</p>
+
+    <p>If there isn't one, then let <var>control</var> be the first non-<a href=#inert id=the-dialog-element:inert-3>inert</a>
+    <a href=#focusable-area id=the-dialog-element:focusable-area-2>focusable area</a> in <var>subject</var>'s <a href=#control-group id=the-dialog-element:control-group-2>control group</a>.</p>
+
+    <p>If there isn't one of those either, then let <var>control</var> be <var>subject</var>.</p>
+
+   <li><p>Run the <a href=#focusing-steps id=the-dialog-element:focusing-steps>focusing steps</a> for <var>control</var>.</ol>
+
+  <p>If at any time a <code id=the-dialog-element:the-dialog-element-16><a href=#the-dialog-element>dialog</a></code> element is <a href=#remove-an-element-from-a-document id=the-dialog-element:remove-an-element-from-a-document>removed from a <code>Document</code></a>, then if that <code id=the-dialog-element:the-dialog-element-17><a href=#the-dialog-element>dialog</a></code> is in that
+  <code id=the-dialog-element:document-4><a href=#document>Document</a></code>'s <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-4>pending dialog stack</a>, the following steps must be run:</p>
+
+  <ol><li><p>Let <var>subject</var> be that <code id=the-dialog-element:the-dialog-element-18><a href=#the-dialog-element>dialog</a></code> element and <var>document</var> be the <code id=the-dialog-element:document-5><a href=#document>Document</a></code> from which it is being removed.<li><p>Remove <var>subject</var> from <var>document</var>'s <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-5>pending
+   dialog stack</a>.<li><p>If <var>document</var>'s <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-6>pending dialog stack</a> is not empty, then let
+   <var>document</var> be <a href=#blocked-by-a-modal-dialog id=the-dialog-element:blocked-by-a-modal-dialog-3>blocked by the modal
+   dialog</a> that is at the top of <var>document</var>'s <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-7>pending dialog
+   stack</a>. Otherwise, let <var>document</var> be no longer <a href=#blocked-by-a-modal-dialog id=the-dialog-element:blocked-by-a-modal-dialog-4>blocked by a modal
+   dialog</a> at all.</ol>
+
+  <p>When the <dfn id=dom-dialog-close><code>close()</code></dfn> method is invoked, the user
+  agent must <a href=#close-the-dialog id=the-dialog-element:close-the-dialog>close the dialog</a> that the method was invoked on. If the method was invoked
+  with an argument, that argument must be used as the return value; otherwise, there is no return
+  value.</p>
+
+
+
+  <p>When a <code id=the-dialog-element:the-dialog-element-19><a href=#the-dialog-element>dialog</a></code> element <var>subject</var> is to be <dfn id=close-the-dialog>closed</dfn>, optionally with a return value <var>result</var>, the user agent
+  must run the following steps:</p>
+
+  <ol><li><p>If <var>subject</var> does not have an <code id=the-dialog-element:attr-dialog-open-9><a href=#attr-dialog-open>open</a></code>
+   attribute, then abort these steps.<li><p>Remove <var>subject</var>'s <code id=the-dialog-element:attr-dialog-open-10><a href=#attr-dialog-open>open</a></code>
+   attribute.<li><p>If the argument <var>result</var> was provided, then set the <code id=the-dialog-element:dom-dialog-returnvalue-3><a href=#dom-dialog-returnvalue>returnValue</a></code> attribute to the value of <var>result</var>.<li>
+
+    <p>If <var>subject</var> is in its <code id=the-dialog-element:document-6><a href=#document>Document</a></code>'s <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-8>pending dialog
+    stack</a>, then run these substeps:</p>
+
+    <ol><li><p>Remove <var>subject</var> from that <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-9>pending dialog stack</a>.<li><p>If that <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-10>pending dialog stack</a> is not empty, then let <var>subject</var>'s <a id=the-dialog-element:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> be <a href=#blocked-by-a-modal-dialog id=the-dialog-element:blocked-by-a-modal-dialog-5>blocked by the modal dialog</a> that is at the top of the <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-11>pending dialog
+     stack</a>. Otherwise, let <var>document</var> be no longer <a href=#blocked-by-a-modal-dialog id=the-dialog-element:blocked-by-a-modal-dialog-6>blocked by a modal
+     dialog</a> at all.</ol>
+
+   <li><p><a href=#queue-a-task id=the-dialog-element:queue-a-task>Queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-dialog-element:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named
+   <code id=the-dialog-element:event-close-2><a href=#event-close>close</a></code> at <var>subject</var>.</ol>
+
+
+  <p>The <dfn id=dom-dialog-returnvalue><code>returnValue</code></dfn> IDL attribute, on
+  getting, must return the last value to which it was set. On setting, it must be set to the new
+  value. When the element is created, it must be set to the empty string.</p>
+
+
+  <hr>
+
+  <p id=canceling-dialogs><strong>Canceling dialogs</strong>: When a <code id=the-dialog-element:document-7><a href=#document>Document</a></code>'s
+  <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-12>pending dialog stack</a> is not empty, user agents may provide a user interface that,
+  upon activation, <a href=#queue-a-task id=the-dialog-element:queue-a-task-2>queues a task</a> to run these steps:
+
+  <ol><li><p>Let <var>dialog</var> be the top <code id=the-dialog-element:the-dialog-element-20><a href=#the-dialog-element>dialog</a></code> element on the
+   <code id=the-dialog-element:document-8><a href=#document>Document</a></code>'s <a href=#pending-dialog-stack id=the-dialog-element:pending-dialog-stack-13>pending dialog stack</a>.<li><p>Let <var>close</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-dialog-element:concept-event-fire-2 data-x-internal=concept-event-fire>firing an
+   event</a> named <code id=the-dialog-element:event-cancel><a href=#event-cancel>cancel</a></code> at <var>dialog</var>, with the <code id=the-dialog-element:dom-event-cancelable><a data-x-internal=dom-event-cancelable href=https://dom.spec.whatwg.org/#dom-event-cancelable>cancelable</a></code> attribute initialized to true.<li><p>If <var>close</var> is true and <var>dialog</var> has an <code id=the-dialog-element:attr-dialog-open-11><a href=#attr-dialog-open>open</a></code> attribute, then <a href=#close-the-dialog id=the-dialog-element:close-the-dialog-2>close the dialog</a> with no
+   return value.</ol>
+
+  <p class=note>An example of such a UI mechanism would be the user pressing the "Escape" key.</p>
+
+  <hr>
+
+  <p>A <code id=the-dialog-element:the-dialog-element-21><a href=#the-dialog-element>dialog</a></code> element is in one of two modes: <dfn id=normal-alignment>normal alignment</dfn> or
+  <dfn id=centered-alignment>centered alignment</dfn>. When a <code id=the-dialog-element:the-dialog-element-22><a href=#the-dialog-element>dialog</a></code> element is created, it must be placed in
+  the <a href=#normal-alignment id=the-dialog-element:normal-alignment-2>normal alignment</a> mode. In this mode, normal CSS requirements apply to the
+  element. The <a href=#centered-alignment id=the-dialog-element:centered-alignment-2>centered alignment</a> mode is only used for <code id=the-dialog-element:the-dialog-element-23><a href=#the-dialog-element>dialog</a></code> elements
+  that are in the <a id=the-dialog-element:top-layer-3 href=https://fullscreen.spec.whatwg.org/#top-layer data-x-internal=top-layer>top layer</a>. <a href=#refsFULLSCREEN>[FULLSCREEN]</a> <a href=#refsCSS>[CSS]</a></p>
+
+  <p>When an element <var>subject</var> is placed in <a href=#centered-alignment id=the-dialog-element:centered-alignment-3>centered alignment</a> mode,
+  and when it is in that mode and has new rendering boxes created, the user agent must set up the
+  element such that its top static position, for the purposes of calculating the
+  <a id=the-dialog-element:used-value href=https://drafts.csswg.org/css-cascade/#used-value data-x-internal=used-value>used value</a> of the <a id="the-dialog-element:'top'" href=https://drafts.csswg.org/css-position/#propdef-top data-x-internal="'top'">'top'</a> property, is the value that would place the
+  element's top <a id=the-dialog-element:margin-edge href=https://drafts.csswg.org/css2/box.html#margin-edge data-x-internal=margin-edge>margin edge</a> as far from the top of the <a id=the-dialog-element:viewport href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> as the
+  element's bottom <a id=the-dialog-element:margin-edge-2 href=https://drafts.csswg.org/css2/box.html#margin-edge data-x-internal=margin-edge>margin edge</a> from the bottom of the <a id=the-dialog-element:viewport-2 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>, if the
+  element's height is less than the height of the <a id=the-dialog-element:viewport-3 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>, and otherwise is the value
+  that would place the element's top <a id=the-dialog-element:margin-edge-3 href=https://drafts.csswg.org/css2/box.html#margin-edge data-x-internal=margin-edge>margin edge</a> at the top of the
+  <a id=the-dialog-element:viewport-4 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>.</p>
+
+  <p>If there is a <code id=the-dialog-element:the-dialog-element-24><a href=#the-dialog-element>dialog</a></code> element with <a href=#centered-alignment id=the-dialog-element:centered-alignment-4>centered alignment</a> and that is
+  <a href=#being-rendered id=the-dialog-element:being-rendered>being rendered</a> when its <a href=#browsing-context id=the-dialog-element:browsing-context>browsing context</a> changes <a id=the-dialog-element:viewport-5 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>
+  width (as measured in <a href=https://drafts.csswg.org/css-values/#px id="the-dialog-element:'px'" data-x-internal="'px'">CSS pixels</a>), then the user agent must recreate
+  the element's boxes, recalculating its top static position as in the previous paragraph.</p>
+
+  <p>This top static position of a <code id=the-dialog-element:the-dialog-element-25><a href=#the-dialog-element>dialog</a></code> element with <a href=#centered-alignment id=the-dialog-element:centered-alignment-5>centered alignment</a>
+  must remain the element's top static position until its boxes are recreated. (The element's static
+  position is only used in calculating the <a id=the-dialog-element:used-value-2 href=https://drafts.csswg.org/css-cascade/#used-value data-x-internal=used-value>used value</a> of the <a id="the-dialog-element:'top'-2" href=https://drafts.csswg.org/css-position/#propdef-top data-x-internal="'top'">'top'</a>
+  property in certain situations; it's not used, for instance, to position the element if its
+  <a id="the-dialog-element:'position'" href=https://drafts.csswg.org/css-position/#position-property data-x-internal="'position'">'position'</a> property is set to 'static'.)</p>
+
+  <p>User agents in visual interactive media should allow the user to pan the <a id=the-dialog-element:viewport-6 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>
+  to access all parts of a <code id=the-dialog-element:the-dialog-element-26><a href=#the-dialog-element>dialog</a></code> element's <a id=the-dialog-element:border-box href=https://drafts.csswg.org/css2/box.html#x14 data-x-internal=border-box>border box</a>, even if the
+  element is larger than the <a id=the-dialog-element:viewport-7 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> and the <a id=the-dialog-element:viewport-8 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a> would otherwise not
+  have a scroll mechanism (e.g. because the <a id=the-dialog-element:viewport-9 href=https://drafts.csswg.org/css2/visuren.html#viewport data-x-internal=viewport>viewport</a>'s <a id="the-dialog-element:'overflow'" href=https://drafts.csswg.org/css-overflow/#propdef-overflow data-x-internal="'overflow'">'overflow'</a> property
+  is set to 'hidden').</p>
+
+  <hr>
+
+
+  <p>The <dfn id=dom-dialog-open><code>open</code></dfn> IDL attribute must
+  <a href=#reflect id=the-dialog-element:reflect>reflect</a> the <code id=the-dialog-element:attr-dialog-open-12><a href=#attr-dialog-open>open</a></code> content attribute.</p>
+
+
+  
+
+  <div class=example>
+
+   <p>This dialog box has some small print. The <code id=the-dialog-element:the-main-element><a href=#the-main-element>main</a></code> element is used to draw the user's
+   attention to the more important parts.</p>
+
+   <pre>&lt;dialog>
+ &lt;h1>Add to Wallet&lt;/h1>
+ &lt;main>
+  &lt;p>How many gold coins do you want to add to your wallet?&lt;/p>
+  &lt;p>&lt;input name=amt type=number min=0 step=0.01 value=100>&lt;/p>
+ &lt;/main>
+ &lt;p>&lt;small>You add coins at your own risk.&lt;/small>&lt;/p>
+ &lt;p>&lt;label>&lt;input name=round type=checkbox> Only add perfectly round coins &lt;/label>
+ &lt;p>&lt;input type=button onclick="submit()" value="Add Coins">&lt;/p>
+&lt;/dialog></pre>
+
+  </div>
+
+
+
+
+  <h3 id=scripting-3>4.12 Scripting<a href=#scripting-3 class=self-link></a></h3>
+
+  <p>Scripts allow authors to add interactivity to their documents.</p>

@@ -1,0 +1,850 @@
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-inheadnoscript:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-inhead id=parsing-main-inheadnoscript:parsing-main-inhead-2>in head</a>" <a href=#insertion-mode id=parsing-main-inheadnoscript:insertion-mode-4>insertion mode</a>.</p>
+
+   <dt>An end tag whose tag name is "br"<dd>
+    <p>Act as described in the "anything else" entry below.</p>
+   <dt>A start tag whose tag name is one of: "head", "noscript"<dt>Any other end tag<dd>
+    <p><a href=#parse-error id=parsing-main-inheadnoscript:parse-error-2>Parse error</a>. Ignore the token.</p>
+   <dt>Anything else<dd>
+
+    
+
+    <p><a href=#parse-error id=parsing-main-inheadnoscript:parse-error-3>Parse error</a>.</p>
+
+    
+    <p>Pop the <a href=#current-node id=parsing-main-inheadnoscript:current-node-3>current node</a> (which will be a <code id=parsing-main-inheadnoscript:the-noscript-element-2><a href=#the-noscript-element>noscript</a></code> element) from the
+    <a href=#stack-of-open-elements id=parsing-main-inheadnoscript:stack-of-open-elements-2>stack of open elements</a>; the new <a href=#current-node id=parsing-main-inheadnoscript:current-node-4>current node</a> will be a
+    <code id=parsing-main-inheadnoscript:the-head-element-2><a href=#the-head-element>head</a></code> element.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-inheadnoscript:insertion-mode-5>insertion mode</a> to "<a href=#parsing-main-inhead id=parsing-main-inheadnoscript:parsing-main-inhead-3>in
+    head</a>".</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   </dl>
+
+
+  <h6 id=the-after-head-insertion-mode>12.2.5.4.6 The "<dfn>after head</dfn>" insertion mode<a href=#the-after-head-insertion-mode class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#the-after-head-insertion-mode id=the-after-head-insertion-mode:the-after-head-insertion-mode>after head</a>" <a href=#insertion-mode id=the-after-head-insertion-mode:insertion-mode>insertion mode</a>, the user agent must handle the token as
+  follows:</p>
+
+  <dl class=switch><dt>A character token that is one of U+0009 CHARACTER
+   TABULATION, U+000A LINE FEED (LF), U+000C FORM FEED (FF),
+   U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dd>
+    <p><a href=#insert-a-character id=the-after-head-insertion-mode:insert-a-character>Insert the character</a>.</p>
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=the-after-head-insertion-mode:insert-a-comment>Insert a comment</a>.</p>
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=the-after-head-insertion-mode:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=the-after-head-insertion-mode:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=the-after-head-insertion-mode:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=the-after-head-insertion-mode:insertion-mode-2>insertion mode</a>.</p>
+
+   <dt>A start tag whose tag name is "body"<dd>
+
+    <p><a href=#insert-an-html-element id=the-after-head-insertion-mode:insert-an-html-element>Insert an HTML element</a> for the token.</p>
+
+    <p>Set the <a href=#frameset-ok-flag id=the-after-head-insertion-mode:frameset-ok-flag>frameset-ok flag</a> to "not ok".</p>
+
+    <p>Switch the <a href=#insertion-mode id=the-after-head-insertion-mode:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-inbody id=the-after-head-insertion-mode:parsing-main-inbody-2>in
+    body</a>".</p>
+
+   <dt>A start tag whose tag name is "frameset"<dd>
+
+    <p><a href=#insert-an-html-element id=the-after-head-insertion-mode:insert-an-html-element-2>Insert an HTML element</a> for the token.</p>
+
+    <p>Switch the <a href=#insertion-mode id=the-after-head-insertion-mode:insertion-mode-4>insertion mode</a> to "<a href=#parsing-main-inframeset id=the-after-head-insertion-mode:parsing-main-inframeset>in
+    frameset</a>".</p>
+
+   <dt>A start tag whose tag name is one of: "base", "basefont", "bgsound", "link", "meta",
+   "noframes", "script", "style", "template", "title"<dd>
+
+    <p><a href=#parse-error id=the-after-head-insertion-mode:parse-error-2>Parse error</a>.</p>
+
+    <p>Push the node pointed to by the <a href=#head-element-pointer id=the-after-head-insertion-mode:head-element-pointer><code>head</code> element pointer</a> onto
+    the <a href=#stack-of-open-elements id=the-after-head-insertion-mode:stack-of-open-elements>stack of open elements</a>.</p>
+
+    <p>Process the token <a href=#using-the-rules-for id=the-after-head-insertion-mode:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-inhead id=the-after-head-insertion-mode:parsing-main-inhead>in head</a>" <a href=#insertion-mode id=the-after-head-insertion-mode:insertion-mode-5>insertion mode</a>.</p>
+
+    <p>Remove the node pointed to by the <a href=#head-element-pointer id=the-after-head-insertion-mode:head-element-pointer-2><code>head</code> element pointer</a>
+    from the <a href=#stack-of-open-elements id=the-after-head-insertion-mode:stack-of-open-elements-2>stack of open elements</a>. (It might not be the <a href=#current-node id=the-after-head-insertion-mode:current-node>current node</a> at
+    this point.)</p>
+
+    <p class=note>The <a href=#head-element-pointer id=the-after-head-insertion-mode:head-element-pointer-3><code>head</code> element pointer</a> cannot be null at
+    this point.</p>
+
+   <dt>An end tag whose tag name is "template"<dd>
+    <p>Process the token <a href=#using-the-rules-for id=the-after-head-insertion-mode:using-the-rules-for-3>using the rules for</a> the "<a href=#parsing-main-inhead id=the-after-head-insertion-mode:parsing-main-inhead-2>in head</a>" <a href=#insertion-mode id=the-after-head-insertion-mode:insertion-mode-6>insertion mode</a>.</p>
+   <dt>An end tag whose tag name is one of: "body", "html", "br"<dd>
+    <p>Act as described in the "anything else" entry below.</p>
+   <dt>A start tag whose tag name is "head"<dt>Any other end tag<dd>
+    <p><a href=#parse-error id=the-after-head-insertion-mode:parse-error-3>Parse error</a>. Ignore the token.</p>
+   <dt>Anything else<dd>
+
+    
+    <p><a href=#insert-an-html-element id=the-after-head-insertion-mode:insert-an-html-element-3>Insert an HTML element</a> for a "body" start tag token with no attributes.</p>
+
+    <p>Switch the <a href=#insertion-mode id=the-after-head-insertion-mode:insertion-mode-7>insertion mode</a> to "<a href=#parsing-main-inbody id=the-after-head-insertion-mode:parsing-main-inbody-3>in
+    body</a>".</p>
+    
+
+    <p>Reprocess the current token.</p>
+
+   </dl>
+
+
+  <h6 id=parsing-main-inbody>12.2.5.4.7 The "<dfn>in body</dfn>" insertion mode<a href=#parsing-main-inbody class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-inbody id=parsing-main-inbody:parsing-main-inbody>in
+  body</a>" <a href=#insertion-mode id=parsing-main-inbody:insertion-mode>insertion mode</a>, the user agent must handle the token as follows:</p>
+
+  <dl class=switch><dt>A character token that is U+0000 NULL<dd>
+
+    <p><a href=#parse-error id=parsing-main-inbody:parse-error>Parse error</a>. Ignore the token.</p>
+
+    
+
+   <dt>A character token that is one of U+0009 CHARACTER TABULATION,
+   U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE
+   RETURN (CR), or U+0020 SPACE<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-a-character id=parsing-main-inbody:insert-a-character>Insert the token's character</a>.</p>
+
+   <dt>Any other character token<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-2>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-a-character id=parsing-main-inbody:insert-a-character-2>Insert the token's character</a>.</p>
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag>frameset-ok flag</a> to "not ok".</p>
+
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=parsing-main-inbody:insert-a-comment>Insert a comment</a>.</p>
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=parsing-main-inbody:parse-error-2>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+
+    <p><a href=#parse-error id=parsing-main-inbody:parse-error-3>Parse error</a>.</p>
+
+    <p>If there is a <code id=parsing-main-inbody:the-template-element><a href=#the-template-element>template</a></code> element on the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements>stack of open elements</a>, then
+    ignore the token.</p>
+
+    <p>Otherwise, for each attribute on the token, check to see if the attribute is already present
+    on the top element of the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-2>stack of open elements</a>. If it is not, add the attribute
+    and its corresponding value to that element.</p>
+
+   <dt>A start tag whose tag name is one of: "base", "basefont", "bgsound", "link", "meta",
+   "noframes", "script", "style", "template", "title"<dt>An end tag whose tag name is "template"<dd>
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-inbody:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inhead id=parsing-main-inbody:parsing-main-inhead>in head</a>" <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-2>insertion mode</a>.</p>
+   <dt>A start tag whose tag name is "body"<dd>
+
+    <p><a href=#parse-error id=parsing-main-inbody:parse-error-4>Parse error</a>.</p>
+
+    <p>If the second element on the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-3>stack of open elements</a> is not a <code id=parsing-main-inbody:the-body-element><a href=#the-body-element>body</a></code>
+    element, if the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-4>stack of open elements</a> has only one node on it, or if there is a
+    <code id=parsing-main-inbody:the-template-element-2><a href=#the-template-element>template</a></code> element on the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-5>stack of open elements</a>, then ignore the token.
+    (<a href=#fragment-case id=parsing-main-inbody:fragment-case>fragment case</a>)</p>
+
+    <p>Otherwise, set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-2>frameset-ok flag</a> to "not ok"; then, for each attribute on the
+    token, check to see if the attribute is already present on the <code id=parsing-main-inbody:the-body-element-2><a href=#the-body-element>body</a></code> element (the
+    second element) on the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-6>stack of open elements</a>, and if it is not, add the attribute
+    and its corresponding value to that element.</p>
+
+   <dt>A start tag whose tag name is "frameset"<dd>
+
+    <p><a href=#parse-error id=parsing-main-inbody:parse-error-5>Parse error</a>.</p>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-7>stack of open elements</a> has only one node on it, or if the second element
+    on the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-8>stack of open elements</a> is not a <code id=parsing-main-inbody:the-body-element-3><a href=#the-body-element>body</a></code> element, then ignore the
+    token. (<a href=#fragment-case id=parsing-main-inbody:fragment-case-2>fragment case</a>)</p>
+
+    <p>If the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-3>frameset-ok flag</a> is set to "not ok", ignore the token.</p>
+
+    <p>Otherwise, run the following steps:</p>
+
+    <ol><li><p>Remove the second element on the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-9>stack of open elements</a> from its parent
+     node, if it has one.<li><p>Pop all the nodes from the bottom of the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-10>stack of open elements</a>, from the
+     <a href=#current-node id=parsing-main-inbody:current-node>current node</a> up to, but not including, the root <code id=parsing-main-inbody:the-html-element><a href=#the-html-element>html</a></code> element.</p>
+
+     <li><p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element>Insert an HTML element</a> for the token.<li><p>Switch the <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-inframeset id=parsing-main-inbody:parsing-main-inframeset>in
+     frameset</a>".</p>
+
+    </ol>
+
+   <dt>An end-of-file token<dd>
+
+    <p>If the <a href=#stack-of-template-insertion-modes id=parsing-main-inbody:stack-of-template-insertion-modes>stack of template insertion modes</a> is not empty, then process the token
+    <a href=#using-the-rules-for id=parsing-main-inbody:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-intemplate id=parsing-main-inbody:parsing-main-intemplate>in
+    template</a>" <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-4>insertion mode</a>.</p>
+    
+
+    <p>Otherwise, follow these steps:</p>
+
+    <ol><li><p>If there is a node in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-11>stack of open elements</a> that is not either a
+     <code id=parsing-main-inbody:the-dd-element><a href=#the-dd-element>dd</a></code> element, a <code id=parsing-main-inbody:the-dt-element><a href=#the-dt-element>dt</a></code> element, an <code id=parsing-main-inbody:the-li-element><a href=#the-li-element>li</a></code> element, a
+     <code id=parsing-main-inbody:the-menuitem-element><a href=#the-menuitem-element>menuitem</a></code> element, an <code id=parsing-main-inbody:the-optgroup-element><a href=#the-optgroup-element>optgroup</a></code> element, an <code id=parsing-main-inbody:the-option-element><a href=#the-option-element>option</a></code>
+     element, a <code id=parsing-main-inbody:the-p-element><a href=#the-p-element>p</a></code> element, an <code id=parsing-main-inbody:rb><a href=#rb>rb</a></code> element, an <code id=parsing-main-inbody:the-rp-element><a href=#the-rp-element>rp</a></code> element, an
+     <code id=parsing-main-inbody:the-rt-element><a href=#the-rt-element>rt</a></code> element, an <code id=parsing-main-inbody:rtc><a href=#rtc>rtc</a></code> element, a <code id=parsing-main-inbody:the-tbody-element><a href=#the-tbody-element>tbody</a></code> element, a
+     <code id=parsing-main-inbody:the-td-element><a href=#the-td-element>td</a></code> element, a <code id=parsing-main-inbody:the-tfoot-element><a href=#the-tfoot-element>tfoot</a></code> element, a <code id=parsing-main-inbody:the-th-element><a href=#the-th-element>th</a></code> element, a
+     <code id=parsing-main-inbody:the-thead-element><a href=#the-thead-element>thead</a></code> element, a <code id=parsing-main-inbody:the-tr-element><a href=#the-tr-element>tr</a></code> element, the <code id=parsing-main-inbody:the-body-element-4><a href=#the-body-element>body</a></code> element, or the
+     <code id=parsing-main-inbody:the-html-element-2><a href=#the-html-element>html</a></code> element, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-6>parse error</a>.<li><p><a href=#stop-parsing id=parsing-main-inbody:stop-parsing>Stop parsing</a>.</ol>
+
+   <dt>An end tag whose tag name is "body"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-12>stack of open elements</a> does not <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope>have a <code>body</code> element in scope</a>, this is a <a href=#parse-error id=parsing-main-inbody:parse-error-7>parse error</a>;
+    ignore the token.</p>
+
+    
+
+    <p>Otherwise, if there is a node in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-13>stack of open elements</a> that is not either a
+    <code id=parsing-main-inbody:the-dd-element-2><a href=#the-dd-element>dd</a></code> element, a <code id=parsing-main-inbody:the-dt-element-2><a href=#the-dt-element>dt</a></code> element, an <code id=parsing-main-inbody:the-li-element-2><a href=#the-li-element>li</a></code> element, a
+    <code id=parsing-main-inbody:the-menuitem-element-2><a href=#the-menuitem-element>menuitem</a></code> element, an <code id=parsing-main-inbody:the-optgroup-element-2><a href=#the-optgroup-element>optgroup</a></code> element, an <code id=parsing-main-inbody:the-option-element-2><a href=#the-option-element>option</a></code> element,
+    a <code id=parsing-main-inbody:the-p-element-2><a href=#the-p-element>p</a></code> element, an <code id=parsing-main-inbody:rb-2><a href=#rb>rb</a></code> element, an <code id=parsing-main-inbody:the-rp-element-2><a href=#the-rp-element>rp</a></code> element, an
+    <code id=parsing-main-inbody:the-rt-element-2><a href=#the-rt-element>rt</a></code> element, an <code id=parsing-main-inbody:rtc-2><a href=#rtc>rtc</a></code> element, a <code id=parsing-main-inbody:the-tbody-element-2><a href=#the-tbody-element>tbody</a></code> element, a
+    <code id=parsing-main-inbody:the-td-element-2><a href=#the-td-element>td</a></code> element, a <code id=parsing-main-inbody:the-tfoot-element-2><a href=#the-tfoot-element>tfoot</a></code> element, a <code id=parsing-main-inbody:the-th-element-2><a href=#the-th-element>th</a></code> element, a
+    <code id=parsing-main-inbody:the-thead-element-2><a href=#the-thead-element>thead</a></code> element, a <code id=parsing-main-inbody:the-tr-element-2><a href=#the-tr-element>tr</a></code> element, the <code id=parsing-main-inbody:the-body-element-5><a href=#the-body-element>body</a></code> element, or the
+    <code id=parsing-main-inbody:the-html-element-3><a href=#the-html-element>html</a></code> element, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-8>parse error</a>.</p> 
+
+    
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-5>insertion mode</a> to "<a href=#parsing-main-afterbody id=parsing-main-inbody:parsing-main-afterbody>after
+    body</a>".</p>
+
+   <dt>An end tag whose tag name is "html"<dd>
+
+    
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-14>stack of open elements</a> does not <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-2>have a <code>body</code> element in scope</a>, this is a <a href=#parse-error id=parsing-main-inbody:parse-error-9>parse error</a>;
+    ignore the token.</p>
+
+    
+
+    <p>Otherwise, if there is a node in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-15>stack of open elements</a> that is not either a
+    <code id=parsing-main-inbody:the-dd-element-3><a href=#the-dd-element>dd</a></code> element, a <code id=parsing-main-inbody:the-dt-element-3><a href=#the-dt-element>dt</a></code> element, an <code id=parsing-main-inbody:the-li-element-3><a href=#the-li-element>li</a></code> element, a
+    <code id=parsing-main-inbody:the-menuitem-element-3><a href=#the-menuitem-element>menuitem</a></code> element, an <code id=parsing-main-inbody:the-optgroup-element-3><a href=#the-optgroup-element>optgroup</a></code> element, an <code id=parsing-main-inbody:the-option-element-3><a href=#the-option-element>option</a></code> element,
+    a <code id=parsing-main-inbody:the-p-element-3><a href=#the-p-element>p</a></code> element, an <code id=parsing-main-inbody:rb-3><a href=#rb>rb</a></code> element, an <code id=parsing-main-inbody:the-rp-element-3><a href=#the-rp-element>rp</a></code> element, an
+    <code id=parsing-main-inbody:the-rt-element-3><a href=#the-rt-element>rt</a></code> element, an <code id=parsing-main-inbody:rtc-3><a href=#rtc>rtc</a></code> element, a <code id=parsing-main-inbody:the-tbody-element-3><a href=#the-tbody-element>tbody</a></code> element, a
+    <code id=parsing-main-inbody:the-td-element-3><a href=#the-td-element>td</a></code> element, a <code id=parsing-main-inbody:the-tfoot-element-3><a href=#the-tfoot-element>tfoot</a></code> element, a <code id=parsing-main-inbody:the-th-element-3><a href=#the-th-element>th</a></code> element, a
+    <code id=parsing-main-inbody:the-thead-element-3><a href=#the-thead-element>thead</a></code> element, a <code id=parsing-main-inbody:the-tr-element-3><a href=#the-tr-element>tr</a></code> element, the <code id=parsing-main-inbody:the-body-element-6><a href=#the-body-element>body</a></code> element, or the
+    <code id=parsing-main-inbody:the-html-element-4><a href=#the-html-element>html</a></code> element, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-10>parse error</a>.</p> 
+
+    
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-6>insertion mode</a> to "<a href=#parsing-main-afterbody id=parsing-main-inbody:parsing-main-afterbody-2>after
+    body</a>".</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   <dt>A start tag whose tag name is one of: "address", "article", "aside", "blockquote", "center",
+   "details", "dialog", "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer", "header",
+   "hgroup", "main", "nav", "ol", "p", "section", "summary", "ul"<dd>
+
+    
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-16>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope>has a
+    <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element>close a <code>p</code>
+    element</a>.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-2>Insert an HTML element</a> for the token.</p>
+
+   <dt>A start tag whose tag name is "menu"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-17>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-2>has a
+    <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-2>close a <code>p</code>
+    element</a>.</p>
+
+    
+    <p>If the <a href=#current-node id=parsing-main-inbody:current-node-2>current node</a> is a <code id=parsing-main-inbody:the-menuitem-element-4><a href=#the-menuitem-element>menuitem</a></code> element, pop that node from the
+    <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-18>stack of open elements</a>.</p>
+    
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-3>Insert an HTML element</a> for the token.</p>
+
+   <dt>A start tag whose tag name is one of: "h1", "h2", "h3", "h4",
+   "h5", "h6"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-19>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-3>has a
+    <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-3>close a <code>p</code>
+    element</a>.</p>
+
+    <p>If the <a href=#current-node id=parsing-main-inbody:current-node-3>current node</a> is an <a href=#html-elements id=parsing-main-inbody:html-elements>HTML element</a> whose
+    tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6", then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-11>parse
+    error</a>; pop the <a href=#current-node id=parsing-main-inbody:current-node-4>current node</a> off the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-20>stack of open elements</a>.</p>
+    
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-4>Insert an HTML element</a> for the token.</p>
+
+   <dt>A start tag whose tag name is one of: "pre", "listing"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-21>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-4>has
+    a <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-4>close a <code>p</code>
+    element</a>.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-5>Insert an HTML element</a> for the token.</p>
+
+    <p>If the <a href=#next-token id=parsing-main-inbody:next-token>next token</a> is a U+000A LINE FEED (LF) character token, then ignore that
+    token and move on to the next one. (Newlines at the start of <code id=parsing-main-inbody:the-pre-element><a href=#the-pre-element>pre</a></code> blocks are ignored
+    as an authoring convenience.)</p>
+
+    
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-4>frameset-ok flag</a> to "not ok".</p>
+
+   <dt>A start tag whose tag name is "form"<dd>
+
+    <p>If the <a href=#form-element-pointer id=parsing-main-inbody:form-element-pointer><code>form</code> element pointer</a> is not null, and there is
+    no <code id=parsing-main-inbody:the-template-element-3><a href=#the-template-element>template</a></code> element on the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-22>stack of open elements</a>, then this is a
+    <a href=#parse-error id=parsing-main-inbody:parse-error-12>parse error</a>; ignore the token.</p>
+
+    <p>Otherwise:</p>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-23>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-5>has
+    a <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-5>close a <code>p</code>
+    element</a>.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-6>Insert an HTML element</a> for the token, and, if there is no <code id=parsing-main-inbody:the-template-element-4><a href=#the-template-element>template</a></code>
+    element on the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-24>stack of open elements</a>, set the <a href=#form-element-pointer id=parsing-main-inbody:form-element-pointer-2><code>form</code> element pointer</a> to point to the element created.</p>
+
+   <dt>A start tag whose tag name is "li"<dd>
+
+    <p>Run these steps:</p>
+
+    <ol><li><p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-5>frameset-ok flag</a> to "not ok".<li><p>Initialize <var>node</var> to be the <a href=#current-node id=parsing-main-inbody:current-node-5>current
+     node</a> (the bottommost node of the stack).<li>
+
+      <p><i>Loop</i>: If <var>node</var> is an <code id=parsing-main-inbody:the-li-element-4><a href=#the-li-element>li</a></code> element, then run these
+      substeps:</p>
+
+      <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags>Generate implied end tags</a>, except for <code id=parsing-main-inbody:the-li-element-5><a href=#the-li-element>li</a></code> elements.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-6>current node</a> is not an <code id=parsing-main-inbody:the-li-element-6><a href=#the-li-element>li</a></code> element, then this is a
+       <a href=#parse-error id=parsing-main-inbody:parse-error-13>parse error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-25>stack of open elements</a> until an <code id=parsing-main-inbody:the-li-element-7><a href=#the-li-element>li</a></code>
+       element has been popped from the stack.<li><p>Jump to the step labeled <i>done</i> below.</ol>
+
+     <li><p>If <var>node</var> is in the <a href=#special id=parsing-main-inbody:special>special</a> category, but is not an
+     <code id=parsing-main-inbody:the-address-element><a href=#the-address-element>address</a></code>, <code id=parsing-main-inbody:the-div-element><a href=#the-div-element>div</a></code>, or <code id=parsing-main-inbody:the-p-element-4><a href=#the-p-element>p</a></code> element, then jump to the step
+     labeled <i>done</i> below.<li><p>Otherwise, set <var>node</var> to the previous entry in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-26>stack of open
+     elements</a> and return to the step labeled <i>loop</i>.<li><p><i>Done</i>: If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-27>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-6>has a <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-6>close a
+     <code>p</code> element</a>.<li><p>Finally, <a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-7>insert an HTML element</a> for the token.</ol>
+
+   <dt>A start tag whose tag name is one of: "dd", "dt"<dd>
+
+    <p>Run these steps:</p>
+
+    <ol><li><p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-6>frameset-ok flag</a> to "not ok".<li><p>Initialize <var>node</var> to be the <a href=#current-node id=parsing-main-inbody:current-node-7>current
+     node</a> (the bottommost node of the stack).<li>
+
+      <p><i>Loop</i>: If <var>node</var> is a <code id=parsing-main-inbody:the-dd-element-4><a href=#the-dd-element>dd</a></code> element, then run these
+      substeps:</p>
+
+      <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-2>Generate implied end tags</a>, except for <code id=parsing-main-inbody:the-dd-element-5><a href=#the-dd-element>dd</a></code> elements.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-8>current node</a> is not a <code id=parsing-main-inbody:the-dd-element-6><a href=#the-dd-element>dd</a></code> element, then this is a
+       <a href=#parse-error id=parsing-main-inbody:parse-error-14>parse error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-28>stack of open elements</a> until a <code id=parsing-main-inbody:the-dd-element-7><a href=#the-dd-element>dd</a></code>
+       element has been popped from the stack.<li><p>Jump to the step labeled <i>done</i> below.</ol>
+
+     <li>
+
+      <p>If <var>node</var> is a <code id=parsing-main-inbody:the-dt-element-4><a href=#the-dt-element>dt</a></code> element, then run these substeps:</p>
+
+      <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-3>Generate implied end tags</a>, except for <code id=parsing-main-inbody:the-dt-element-5><a href=#the-dt-element>dt</a></code> elements.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-9>current node</a> is not a <code id=parsing-main-inbody:the-dt-element-6><a href=#the-dt-element>dt</a></code> element, then this is a
+       <a href=#parse-error id=parsing-main-inbody:parse-error-15>parse error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-29>stack of open elements</a> until a <code id=parsing-main-inbody:the-dt-element-7><a href=#the-dt-element>dt</a></code>
+       element has been popped from the stack.<li><p>Jump to the step labeled <i>done</i> below.</ol>
+
+     <li><p>If <var>node</var> is in the <a href=#special id=parsing-main-inbody:special-2>special</a> category, but is not an
+     <code id=parsing-main-inbody:the-address-element-2><a href=#the-address-element>address</a></code>, <code id=parsing-main-inbody:the-div-element-2><a href=#the-div-element>div</a></code>, or <code id=parsing-main-inbody:the-p-element-5><a href=#the-p-element>p</a></code> element, then jump to the step
+     labeled <i>done</i> below.<li><p>Otherwise, set <var>node</var> to the previous entry in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-30>stack of open
+     elements</a> and return to the step labeled <i>loop</i>.<li><p><i>Done</i>: If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-31>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-7>has a <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-7>close a
+     <code>p</code> element</a>.<li><p>Finally, <a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-8>insert an HTML element</a> for the token.</ol>
+
+   <dt>A start tag whose tag name is "plaintext"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-32>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-8>has a
+    <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-8>close a <code>p</code>
+    element</a>.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-9>Insert an HTML element</a> for the token.</p>
+
+    <p>Switch the tokenizer to the <a href=#plaintext-state id=parsing-main-inbody:plaintext-state>PLAINTEXT state</a>.</p>
+
+    <p class=note>Once a start tag with the tag name "plaintext" has been seen, that will be the
+    last token ever seen other than character tokens (and the end-of-file token), because there is
+    no way to switch out of the <a href=#plaintext-state id=parsing-main-inbody:plaintext-state-2>PLAINTEXT state</a>.</p>
+
+   <dt>A start tag whose tag name is "button"<dd>
+
+    <ol><li>
+
+      <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-33>stack of open elements</a> <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-3>has a
+      <code>button</code> element in scope</a>, then run these substeps:</p>
+
+      <ol><li><p><a href=#parse-error id=parsing-main-inbody:parse-error-16>Parse error</a>.<li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-4>Generate implied end tags</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-34>stack of open elements</a> until a <code id=parsing-main-inbody:the-button-element><a href=#the-button-element>button</a></code>
+       element has been popped from the stack.</ol>
+
+     <li><p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-3>Reconstruct the active formatting elements</a>, if any.<li><p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-10>Insert an HTML element</a> for the token.<li><p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-7>frameset-ok flag</a> to "not ok".</ol>
+
+   <dt>An end tag whose tag name is one of: "address", "article", "aside", "blockquote", "button",
+   "center", "details", "dialog", "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer",
+   "header", "hgroup", "listing", "main", "menu", "nav", "ol", "pre", "section", "summary",
+   "ul"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-35>stack of open elements</a> does not <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-4>have an element in scope</a> that is an <a href=#html-elements id=parsing-main-inbody:html-elements-2>HTML
+    element</a> with the same tag name as that of the token, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-17>parse
+    error</a>; ignore the token.</p>
+
+    <p>Otherwise, run these steps:</p>
+
+    <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-5>Generate implied end tags</a>.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-10>current node</a> is not an <a href=#html-elements id=parsing-main-inbody:html-elements-3>HTML element</a> with
+     the same tag name as that of the token, then this is a
+     <a href=#parse-error id=parsing-main-inbody:parse-error-18>parse error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-36>stack of open elements</a> until an <a href=#html-elements id=parsing-main-inbody:html-elements-4>HTML element</a> with the same tag name as the token has been popped from the
+     stack.</ol>
+
+   <dt>An end tag whose tag name is "form"<dd>
+
+    <p>If there is no <code id=parsing-main-inbody:the-template-element-5><a href=#the-template-element>template</a></code> element on the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-37>stack of open elements</a>, then
+    run these substeps:</p>
+
+    <ol><li><p>Let <var>node</var> be the element that the <a href=#form-element-pointer id=parsing-main-inbody:form-element-pointer-3><code>form</code>
+     element pointer</a> is set to, or null if it is not set to an element.<li><p>Set the <a href=#form-element-pointer id=parsing-main-inbody:form-element-pointer-4><code>form</code> element pointer</a> to null.<li><p>If <var>node</var> is null or if the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-38>stack of open elements</a> does
+     not <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-5>have <var>node</var> in scope</a>, then
+     this is a <a href=#parse-error id=parsing-main-inbody:parse-error-19>parse error</a>; abort these steps and ignore the token.<li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-6>Generate implied end tags</a>.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-11>current node</a> is not <var>node</var>, then this is a
+     <a href=#parse-error id=parsing-main-inbody:parse-error-20>parse error</a>.<li><p>Remove <var>node</var> from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-39>stack of open elements</a>.</ol>
+
+    <p>If there <em>is</em> a <code id=parsing-main-inbody:the-template-element-6><a href=#the-template-element>template</a></code> element on the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-40>stack of open
+    elements</a>, then run these substeps instead:</p>
+
+    <ol><li><p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-41>stack of open elements</a> does not <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-6>have a <code>form</code> element in scope</a>, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-21>parse
+     error</a>; abort these steps and ignore the token.<li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-7>Generate implied end tags</a>.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-12>current node</a> is not a <code id=parsing-main-inbody:the-form-element><a href=#the-form-element>form</a></code> element, then this is a
+     <a href=#parse-error id=parsing-main-inbody:parse-error-22>parse error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-42>stack of open elements</a> until a <code id=parsing-main-inbody:the-form-element-2><a href=#the-form-element>form</a></code>
+     element has been popped from the stack.</ol>
+
+   <dt>An end tag whose tag name is "p"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-43>stack of open elements</a> does not <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-9>have a <code>p</code> element in button scope</a>, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-23>parse
+    error</a>; <a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-11>insert an HTML element</a> for a "p" start tag token with no
+    attributes.</p>
+
+    <p><a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-9>Close a <code>p</code> element</a>.</p>
+
+   <dt>An end tag whose tag name is "li"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-44>stack of open elements</a> does not <a href=#has-an-element-in-list-item-scope id=parsing-main-inbody:has-an-element-in-list-item-scope>have an <code>li</code> element in list item scope</a>, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-24>parse
+    error</a>; ignore the token.</p>
+
+    <p>Otherwise, run these steps:</p>
+
+    <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-8>Generate implied end tags</a>, except for <code id=parsing-main-inbody:the-li-element-8><a href=#the-li-element>li</a></code> elements.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-13>current node</a> is not an <code id=parsing-main-inbody:the-li-element-9><a href=#the-li-element>li</a></code> element, then this is a
+     <a href=#parse-error id=parsing-main-inbody:parse-error-25>parse error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-45>stack of open elements</a> until an <code id=parsing-main-inbody:the-li-element-10><a href=#the-li-element>li</a></code>
+     element has been popped from the stack.</ol>
+
+   <dt>An end tag whose tag name is one of: "dd", "dt"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-46>stack of open elements</a> does not <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-7>have an element in scope</a> that is an <a href=#html-elements id=parsing-main-inbody:html-elements-5>HTML
+    element</a> with the same tag name as that of the token, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-26>parse
+    error</a>; ignore the token.</p>
+
+    <p>Otherwise, run these steps:</p>
+
+    <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-9>Generate implied end tags</a>, except for <a href=#html-elements id=parsing-main-inbody:html-elements-6>HTML elements</a> with the
+     same tag name as the token.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-14>current node</a> is not an <a href=#html-elements id=parsing-main-inbody:html-elements-7>HTML
+     element</a> with the same tag name as that of the token, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-27>parse
+     error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-47>stack of open elements</a> until an <a href=#html-elements id=parsing-main-inbody:html-elements-8>HTML element</a> with the same tag name as the token has been popped from the
+     stack.</ol>
+
+   <dt>An end tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-48>stack of open elements</a> does not <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-8>have an element in scope</a> that is an <a href=#html-elements id=parsing-main-inbody:html-elements-9>HTML
+    element</a> and whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6", then this is
+    a <a href=#parse-error id=parsing-main-inbody:parse-error-28>parse error</a>; ignore the token.</p>
+
+    <p>Otherwise, run these steps:</p>
+
+    <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-10>Generate implied end tags</a>.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-15>current node</a> is not an <a href=#html-elements id=parsing-main-inbody:html-elements-10>HTML
+     element</a> with the same tag name as that of the token, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-29>parse
+     error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-49>stack of open elements</a> until an <a href=#html-elements id=parsing-main-inbody:html-elements-11>HTML element</a> whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6"
+     has been popped from the stack.</ol>
+
+   <dt>An end tag whose tag name is "sarcasm"<dd>
+    <p>Take a deep breath, then act as described in the "any other end
+    tag" entry below.</p>
+   <dt>A start tag whose tag name is "a"<dd>
+
+    <p>If the <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements>list of active formatting elements</a> contains an <code id=parsing-main-inbody:the-a-element><a href=#the-a-element>a</a></code> element
+    between the end of the list and the last <a href=#concept-parser-marker id=parsing-main-inbody:concept-parser-marker>marker</a> on
+    the list (or the start of the list if there is no <a href=#concept-parser-marker id=parsing-main-inbody:concept-parser-marker-2>marker</a> on the list), then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-30>parse
+    error</a>; run the <a href=#adoption-agency-algorithm id=parsing-main-inbody:adoption-agency-algorithm>adoption agency algorithm</a> for the token, then remove that
+    element from the <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-2>list of active formatting elements</a> and the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-50>stack of open
+    elements</a> if the <a href=#adoption-agency-algorithm id=parsing-main-inbody:adoption-agency-algorithm-2>adoption agency algorithm</a> didn't already remove it (it might
+    not have if the element is not <a href=#has-an-element-in-table-scope id=parsing-main-inbody:has-an-element-in-table-scope>in table
+    scope</a>).</p>
+
+    <p class=example>In the non-conforming stream
+    <code>&lt;a href="a">a&lt;table>&lt;a href="b">b&lt;/table>x</code>, the first
+    <code id=parsing-main-inbody:the-a-element-2><a href=#the-a-element>a</a></code> element would be closed upon seeing the second one, and the "x" character would
+    be inside a link to "b", not to "a". This is despite the fact that the outer <code id=parsing-main-inbody:the-a-element-3><a href=#the-a-element>a</a></code>
+    element is not in table scope (meaning that a regular <code>&lt;/a></code> end tag at the start
+    of the table wouldn't close the outer <code id=parsing-main-inbody:the-a-element-4><a href=#the-a-element>a</a></code> element). The result is that the two
+    <code id=parsing-main-inbody:the-a-element-5><a href=#the-a-element>a</a></code> elements are indirectly nested inside each other — non-conforming markup
+    will often result in non-conforming DOMs when parsed.</p>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-4>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-12>Insert an HTML element</a> for the token. <a href=#push-onto-the-list-of-active-formatting-elements id=parsing-main-inbody:push-onto-the-list-of-active-formatting-elements>Push onto the list of active
+    formatting elements</a> that element.</p>
+
+   <dt>A start tag whose tag name is one of: "b", "big", "code", "em",
+   "font", "i", "s", "small", "strike", "strong", "tt", "u"<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-5>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-13>Insert an HTML element</a> for the token. <a href=#push-onto-the-list-of-active-formatting-elements id=parsing-main-inbody:push-onto-the-list-of-active-formatting-elements-2>Push onto the list of active
+    formatting elements</a> that element.</p>
+
+   <dt>A start tag whose tag name is "nobr"<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-6>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-51>stack of open elements</a> <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-9>has a
+    <code>nobr</code> element in scope</a>, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-31>parse error</a>; run the
+    <a href=#adoption-agency-algorithm id=parsing-main-inbody:adoption-agency-algorithm-3>adoption agency algorithm</a> for the token, then once again <a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-7>reconstruct the
+    active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-14>Insert an HTML element</a> for the token. <a href=#push-onto-the-list-of-active-formatting-elements id=parsing-main-inbody:push-onto-the-list-of-active-formatting-elements-3>Push onto the list of active
+    formatting elements</a> that element.</p>
+
+   <dt>An end tag whose tag name is one of: "a",
+   "b", "big", "code", "em", "font", "i", "nobr", "s", "small",
+   "strike", "strong", "tt", "u"<dd>
+
+    <p>Run the <a href=#adoption-agency-algorithm id=parsing-main-inbody:adoption-agency-algorithm-4>adoption agency algorithm</a> for the token.</p>
+
+   <dt>A start tag whose tag name is one of: "applet", "marquee", "object"<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-8>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-15>Insert an HTML element</a> for the token.</p>
+
+    <p>Insert a <a href=#concept-parser-marker id=parsing-main-inbody:concept-parser-marker-3>marker</a> at the end of the <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-3>list of
+    active formatting elements</a>.</p>
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-8>frameset-ok flag</a> to "not ok".</p>
+
+   <dt>An end tag token whose tag name is one of: "applet", "marquee", "object"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-52>stack of open elements</a> does not <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-10>have an element in scope</a> that is an <a href=#html-elements id=parsing-main-inbody:html-elements-12>HTML
+    element</a> with the same tag name as that of the token, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-32>parse
+    error</a>; ignore the token.</p>
+
+    <p>Otherwise, run these steps:</p>
+
+    <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-11>Generate implied end tags</a>.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-16>current node</a> is not an <a href=#html-elements id=parsing-main-inbody:html-elements-13>HTML
+     element</a> with the same tag name as that of the token, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-33>parse
+     error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-53>stack of open elements</a> until an <a href=#html-elements id=parsing-main-inbody:html-elements-14>HTML element</a> with the same tag name as the token has been popped from the
+     stack.<li><a href=#clear-the-list-of-active-formatting-elements-up-to-the-last-marker id=parsing-main-inbody:clear-the-list-of-active-formatting-elements-up-to-the-last-marker>Clear the list of active formatting elements up to the last marker</a>.</ol>
+
+   <dt>A start tag whose tag name is "table"<dd>
+
+    <p>If the <code id=parsing-main-inbody:document><a href=#document>Document</a></code> is <em>not</em> set to <a id=parsing-main-inbody:quirks-mode href=https://dom.spec.whatwg.org/#concept-document-quirks data-x-internal=quirks-mode>quirks mode</a>, and the
+    <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-54>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-10>has a
+    <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-10>close a <code>p</code>
+    element</a>.</p> 
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-16>Insert an HTML element</a> for the token.</p>
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-9>frameset-ok flag</a> to "not ok".</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-7>insertion mode</a> to "<a href=#parsing-main-intable id=parsing-main-inbody:parsing-main-intable>in
+    table</a>".</p>
+
+   <dt>An end tag whose tag name is "br"<dd>
+
+    <p><a href=#parse-error id=parsing-main-inbody:parse-error-34>Parse error</a>. Drop the attributes from the token, and act as described in the
+    next entry; i.e. act as if this was a "br" start tag token with no attributes, rather than the
+    end tag token that it actually is.</p>
+
+   <dt>A start tag whose tag name is one of: "area", "br", "embed",
+   "img", "keygen", "wbr"<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-9>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-17>Insert an HTML element</a> for the token. Immediately pop the <a href=#current-node id=parsing-main-inbody:current-node-17>current
+    node</a> off the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-55>stack of open elements</a>.</p>
+
+    <p><a href=#acknowledge-self-closing-flag id=parsing-main-inbody:acknowledge-self-closing-flag>Acknowledge the token's <i>self-closing
+    flag</i></a>, if it is set.</p>
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-10>frameset-ok flag</a> to "not ok".</p>
+    
+
+   <dt>A start tag whose tag name is "input"<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-10>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-18>Insert an HTML element</a> for the token. Immediately pop the <a href=#current-node id=parsing-main-inbody:current-node-18>current
+    node</a> off the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-56>stack of open elements</a>.</p>
+
+    <p><a href=#acknowledge-self-closing-flag id=parsing-main-inbody:acknowledge-self-closing-flag-2>Acknowledge the token's <i>self-closing
+    flag</i></a>, if it is set.</p>
+
+    <p>If the token does not have an attribute with the name "type", or if it does, but that
+    attribute's value is not an <a id=parsing-main-inbody:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>hidden</code>", then: set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-11>frameset-ok flag</a> to "not ok".</p>
+
+   <dt>A start tag whose tag name is one of: "param", "source", "track"<dd>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-19>Insert an HTML element</a> for the token. Immediately pop the <a href=#current-node id=parsing-main-inbody:current-node-19>current
+    node</a> off the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-57>stack of open elements</a>.</p>
+
+    <p><a href=#acknowledge-self-closing-flag id=parsing-main-inbody:acknowledge-self-closing-flag-3>Acknowledge the token's <i>self-closing
+    flag</i></a>, if it is set.</p>
+
+   <dt>A start tag whose tag name is "hr"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-58>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-11>has a
+    <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-11>close a <code>p</code>
+    element</a>.</p>
+
+    
+    <p>If the <a href=#current-node id=parsing-main-inbody:current-node-20>current node</a> is a <code id=parsing-main-inbody:the-menuitem-element-5><a href=#the-menuitem-element>menuitem</a></code> element, pop that node from the
+    <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-59>stack of open elements</a>.</p>
+    
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-20>Insert an HTML element</a> for the token. Immediately pop the <a href=#current-node id=parsing-main-inbody:current-node-21>current
+    node</a> off the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-60>stack of open elements</a>.</p>
+
+    <p><a href=#acknowledge-self-closing-flag id=parsing-main-inbody:acknowledge-self-closing-flag-4>Acknowledge the token's <i>self-closing
+    flag</i></a>, if it is set.</p>
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-12>frameset-ok flag</a> to "not ok".</p>
+
+   <dt>A start tag whose tag name is "image"<dd>
+    
+    <p><a href=#parse-error id=parsing-main-inbody:parse-error-35>Parse error</a>. Change the token's tag name to "img" and reprocess it. (Don't
+    ask.)</p>
+   <dt>A start tag whose tag name is "textarea"<dd>
+
+    <p>Run these steps:</p>
+
+    <ol><li><p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-21>Insert an HTML element</a> for the token.<li><p>If the <a href=#next-token id=parsing-main-inbody:next-token-2>next token</a> is a U+000A LINE FEED (LF) character token, then ignore
+     that token and move on to the next one. (Newlines at the start of <code id=parsing-main-inbody:the-textarea-element><a href=#the-textarea-element>textarea</a></code>
+     elements are ignored as an authoring convenience.)<li><p>Switch the tokenizer to the <a href=#rcdata-state id=parsing-main-inbody:rcdata-state>RCDATA state</a>.<li><p>Let the <a href=#original-insertion-mode id=parsing-main-inbody:original-insertion-mode>original insertion mode</a> be the current <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-8>insertion
+     mode</a>.</p>
+
+     <li><p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-13>frameset-ok flag</a> to "not ok".<li><p>Switch the <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-9>insertion mode</a> to "<a href=#parsing-main-incdata id=parsing-main-inbody:parsing-main-incdata>text</a>".</ol>
+
+   <dt>A start tag whose tag name is "xmp"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-61>stack of open elements</a> <a href=#has-an-element-in-button-scope id=parsing-main-inbody:has-an-element-in-button-scope-12>has a
+    <code>p</code> element in button scope</a>, then <a href=#close-a-p-element id=parsing-main-inbody:close-a-p-element-12>close a <code>p</code>
+    element</a>.</p>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-11>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-14>frameset-ok flag</a> to "not ok".</p>
+
+    <p>Follow the <a href=#generic-raw-text-element-parsing-algorithm id=parsing-main-inbody:generic-raw-text-element-parsing-algorithm>generic raw text element parsing algorithm</a>.</p>
+
+   <dt>A start tag whose tag name is "iframe"<dd>
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-15>frameset-ok flag</a> to "not ok".</p>
+
+    <p>Follow the <a href=#generic-raw-text-element-parsing-algorithm id=parsing-main-inbody:generic-raw-text-element-parsing-algorithm-2>generic raw text element parsing algorithm</a>.</p>
+
+   <dt>A start tag whose tag name is "noembed"<dt>A start tag whose tag name is "noscript", if the <a href=#scripting-flag id=parsing-main-inbody:scripting-flag>scripting flag</a> is enabled<dd>
+
+    <p>Follow the <a href=#generic-raw-text-element-parsing-algorithm id=parsing-main-inbody:generic-raw-text-element-parsing-algorithm-3>generic raw text element parsing algorithm</a>.</p>
+
+   <dt>A start tag whose tag name is "select"<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-12>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-22>Insert an HTML element</a> for the token.</p>
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inbody:frameset-ok-flag-16>frameset-ok flag</a> to "not ok".</p>
+
+    <p>If the <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-10>insertion mode</a> is one of "<a href=#parsing-main-intable id=parsing-main-inbody:parsing-main-intable-2>in
+    table</a>", "<a href=#parsing-main-incaption id=parsing-main-inbody:parsing-main-incaption>in caption</a>", "<a href=#parsing-main-intbody id=parsing-main-inbody:parsing-main-intbody>in table body</a>", "<a href=#parsing-main-intr id=parsing-main-inbody:parsing-main-intr>in row</a>", or "<a href=#parsing-main-intd id=parsing-main-inbody:parsing-main-intd>in cell</a>", then switch the
+    <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-11>insertion mode</a> to "<a href=#parsing-main-inselectintable id=parsing-main-inbody:parsing-main-inselectintable>in select in
+    table</a>". Otherwise, switch the <a href=#insertion-mode id=parsing-main-inbody:insertion-mode-12>insertion mode</a> to "<a href=#parsing-main-inselect id=parsing-main-inbody:parsing-main-inselect>in select</a>".</p>
+
+   <dt>A start tag whose tag name is one of: "optgroup", "option"<dd>
+
+    <p>If the <a href=#current-node id=parsing-main-inbody:current-node-22>current node</a> is an <code id=parsing-main-inbody:the-option-element-4><a href=#the-option-element>option</a></code> element, then pop the
+    <a href=#current-node id=parsing-main-inbody:current-node-23>current node</a> off the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-62>stack of open elements</a>.</p>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-13>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-23>Insert an HTML element</a> for the token.</p>
+
+   <dt>A start tag whose tag name is "menuitem"<dd>
+
+    <p>If the <a href=#current-node id=parsing-main-inbody:current-node-24>current node</a> is a <code id=parsing-main-inbody:the-menuitem-element-6><a href=#the-menuitem-element>menuitem</a></code> element, then pop the
+    <a href=#current-node id=parsing-main-inbody:current-node-25>current node</a> off the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-63>stack of open elements</a>.</p>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-14>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-24>Insert an HTML element</a> for the token.</p>
+
+   <dt>A start tag whose tag name is one of: "rb", "rtc"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-64>stack of open elements</a> <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-11>has a
+    <code>ruby</code> element in scope</a>, then <a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-12>generate implied end tags</a>. If the
+    <a href=#current-node id=parsing-main-inbody:current-node-26>current node</a> is not now a <code id=parsing-main-inbody:the-ruby-element><a href=#the-ruby-element>ruby</a></code> element, this is a
+    <a href=#parse-error id=parsing-main-inbody:parse-error-36>parse error</a>.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-25>Insert an HTML element</a> for the token.</p>
+
+   <dt>A start tag whose tag name is one of: "rp", "rt"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-65>stack of open elements</a> <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-12>has a
+    <code>ruby</code> element in scope</a>, then <a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-13>generate implied end tags</a>, except
+    for <code id=parsing-main-inbody:rtc-4><a href=#rtc>rtc</a></code> elements. If the <a href=#current-node id=parsing-main-inbody:current-node-27>current node</a> is not now a <code id=parsing-main-inbody:rtc-5><a href=#rtc>rtc</a></code>
+    element or a <code id=parsing-main-inbody:the-ruby-element-2><a href=#the-ruby-element>ruby</a></code> element, this is a <a href=#parse-error id=parsing-main-inbody:parse-error-37>parse error</a>.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-26>Insert an HTML element</a> for the token.</p>
+
+   <dt>A start tag whose tag name is "math"<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-15>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#adjust-mathml-attributes id=parsing-main-inbody:adjust-mathml-attributes>Adjust MathML attributes</a> for the token. (This fixes the case of MathML
+    attributes that are not all lowercase.)</p>
+
+    <p><a href=#adjust-foreign-attributes id=parsing-main-inbody:adjust-foreign-attributes>Adjust foreign attributes</a> for the token. (This fixes the use of namespaced
+    attributes, in particular XLink.)</p>
+
+    <p><a href=#insert-a-foreign-element id=parsing-main-inbody:insert-a-foreign-element>Insert a foreign element</a> for the token, in the <a id=parsing-main-inbody:mathml-namespace href=https://infra.spec.whatwg.org/#mathml-namespace data-x-internal=mathml-namespace>MathML
+    namespace</a>.</p>
+
+    
+
+    <p>If the token has its <i id=parsing-main-inbody:self-closing-flag><a href=#self-closing-flag>self-closing flag</a></i> set, pop the <a href=#current-node id=parsing-main-inbody:current-node-28>current node</a> off the
+    <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-66>stack of open elements</a> and <a href=#acknowledge-self-closing-flag id=parsing-main-inbody:acknowledge-self-closing-flag-5>acknowledge
+    the token's <i>self-closing flag</i></a>.</p>
+
+   <dt>A start tag whose tag name is "svg"<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-16>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#adjust-svg-attributes id=parsing-main-inbody:adjust-svg-attributes>Adjust SVG attributes</a> for the token. (This fixes the case of SVG attributes that
+    are not all lowercase.)</p>
+
+    <p><a href=#adjust-foreign-attributes id=parsing-main-inbody:adjust-foreign-attributes-2>Adjust foreign attributes</a> for the token. (This fixes the use of namespaced
+    attributes, in particular XLink in SVG.)</p>
+
+    <p><a href=#insert-a-foreign-element id=parsing-main-inbody:insert-a-foreign-element-2>Insert a foreign element</a> for the token, in the <a id=parsing-main-inbody:svg-namespace href=https://infra.spec.whatwg.org/#svg-namespace data-x-internal=svg-namespace>SVG namespace</a>.</p>
+
+    
+
+    <p>If the token has its <i id=parsing-main-inbody:self-closing-flag-2><a href=#self-closing-flag>self-closing flag</a></i> set, pop the <a href=#current-node id=parsing-main-inbody:current-node-29>current node</a> off the
+    <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-67>stack of open elements</a> and <a href=#acknowledge-self-closing-flag id=parsing-main-inbody:acknowledge-self-closing-flag-6>acknowledge
+    the token's <i>self-closing flag</i></a>.</p>
+
+   <dt>A start  tag whose tag name is one of: "caption", "col", "colgroup", "frame",
+   "head", "tbody", "td", "tfoot", "th", "thead", "tr"<dd>
+
+    <p><a href=#parse-error id=parsing-main-inbody:parse-error-38>Parse error</a>. Ignore the token.</p>
+
+    
+
+   <dt>Any other start tag<dd>
+
+    <p><a href=#reconstruct-the-active-formatting-elements id=parsing-main-inbody:reconstruct-the-active-formatting-elements-17>Reconstruct the active formatting elements</a>, if any.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inbody:insert-an-html-element-27>Insert an HTML element</a> for the token.</p>
+
+    <p class=note>This element will be an <a href=#ordinary id=parsing-main-inbody:ordinary>ordinary</a>
+    element.</p>
+
+   <dt>Any other end tag<dd>
+
+    <p>Run these steps:</p>
+
+    <ol><li><p>Initialize <var>node</var> to be the <a href=#current-node id=parsing-main-inbody:current-node-30>current node</a> (the bottommost
+     node of the stack).<li><p><i>Loop</i>: If <var>node</var> is an <a href=#html-elements id=parsing-main-inbody:html-elements-15>HTML
+     element</a> with the same tag name as the token, then:</p>
+
+      <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-14>Generate implied end tags</a>, except for <a href=#html-elements id=parsing-main-inbody:html-elements-16>HTML elements</a> with the
+       same tag name as the token.<li><p>If <var>node</var> is not the <a href=#current-node id=parsing-main-inbody:current-node-31>current node</a>, then this is a
+       <a href=#parse-error id=parsing-main-inbody:parse-error-39>parse error</a>.<li><p>Pop all the nodes from the <a href=#current-node id=parsing-main-inbody:current-node-32>current node</a> up to <var>node</var>,
+       including <var>node</var>, then stop these steps.</ol>
+
+     <li><p>Otherwise, if <var>node</var> is in the <a href=#special id=parsing-main-inbody:special-3>special</a> category, then
+     this is a <a href=#parse-error id=parsing-main-inbody:parse-error-40>parse error</a>; ignore the token, and abort these steps.<li><p>Set <var>node</var> to the previous entry in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-68>stack of open
+     elements</a>.<li><p>Return to the step labeled <i>loop</i>.</ol>
+
+   </dl>
+
+  <p>When the steps above say the user agent is to <dfn id=close-a-p-element>close a <code>p</code> element</dfn>, it
+  means that the user agent must run the following steps:</p>
+
+  <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-inbody:generate-implied-end-tags-15>Generate implied end tags</a>, except for <code id=parsing-main-inbody:the-p-element-6><a href=#the-p-element>p</a></code> elements.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-33>current node</a> is not a <code id=parsing-main-inbody:the-p-element-7><a href=#the-p-element>p</a></code> element, then this is a
+   <a href=#parse-error id=parsing-main-inbody:parse-error-41>parse error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-69>stack of open elements</a> until a <code id=parsing-main-inbody:the-p-element-8><a href=#the-p-element>p</a></code> element
+   has been popped from the stack.</ol>
+
+  
+  <p id=adoptionAgency>The <dfn id=adoption-agency-algorithm>adoption agency algorithm</dfn>, which takes as its only argument
+  a token <var>token</var> for which the algorithm is being run, consists of the following
+  steps:</p>
+
+  <ol><li><p>Let <var>subject</var> be <var>token</var>'s tag name.<li><p>If the <a href=#current-node id=parsing-main-inbody:current-node-34>current node</a> is an <a href=#html-elements id=parsing-main-inbody:html-elements-17>HTML element</a>
+   whose tag name is <var>subject</var>, and the <a href=#current-node id=parsing-main-inbody:current-node-35>current node</a> is not in the
+   <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-4>list of active formatting elements</a>, then pop the <a href=#current-node id=parsing-main-inbody:current-node-36>current node</a> off the
+   <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-70>stack of open elements</a>, and abort these steps.<li><p>Let <var>outer loop counter</var> be zero.<li><p><i>Outer loop</i>: If <var>outer loop counter</var> is greater than or equal to
+   eight, then abort these steps.<li><p>Increment <var>outer loop counter</var> by one.<li>
+
+    <p>Let <var>formatting element</var> be the last element in the <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-5>list of active
+    formatting elements</a> that:</p>
+
+    <ul><li>is between the end of the list and the last <a href=#concept-parser-marker id=parsing-main-inbody:concept-parser-marker-4>marker</a> in the list, if any, or the start of the list
+     otherwise, and<li>has the tag name <var>subject</var>.</ul>
+
+    <p>If there is no such element, then abort these steps and instead act as described in the "any
+    other end tag" entry above.</p>
+
+   <li><p>If <var>formatting element</var> is not in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-71>stack of open
+   elements</a>, then this is a <a href=#parse-error id=parsing-main-inbody:parse-error-42>parse error</a>; remove the element from the list, and
+   abort these steps.<li><p>If <var>formatting element</var> is in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-72>stack of open elements</a>,
+   but the element is not <a href=#has-an-element-in-scope id=parsing-main-inbody:has-an-element-in-scope-13>in scope</a>, then this is a
+   <a href=#parse-error id=parsing-main-inbody:parse-error-43>parse error</a>; abort these steps.<li><p>If <var>formatting element</var> is not the <a href=#current-node id=parsing-main-inbody:current-node-37>current node</a>, this is a
+   <a href=#parse-error id=parsing-main-inbody:parse-error-44>parse error</a>. (But do not abort these steps.)<li><p>Let <var>furthest block</var> be the topmost node in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-73>stack of open
+   elements</a> that is lower in the stack than <var>formatting element</var>, and is an
+   element in the <a href=#special id=parsing-main-inbody:special-4>special</a> category. There might not be one.<li><p>If there is no <var>furthest block</var>, then the UA must first pop all the
+   nodes from the bottom of the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-74>stack of open elements</a>, from the <a href=#current-node id=parsing-main-inbody:current-node-38>current
+   node</a> up to and including <var>formatting element</var>, then remove <var>formatting element</var> from the <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-6>list of active formatting elements</a>, and
+   finally abort these steps.<li><p>Let <var>common ancestor</var> be the element immediately above <var>formatting element</var> in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-75>stack of open elements</a>.<li><p>Let a bookmark note the position of <var>formatting element</var> in the
+   <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-7>list of active formatting elements</a> relative to the elements on either side of it in
+   the list.<li>
+
+    <p>Let <var>node</var> and <var>last node</var> be <var>furthest
+    block</var>. Follow these steps:</p>
+
+    <ol><li><p>Let <var>inner loop counter</var> be zero.<li><p><i>Inner loop</i>: Increment <var>inner loop counter</var> by one.<li><p>Let <var>node</var> be the element immediately above <var>node</var>
+     in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-76>stack of open elements</a>, or if <var>node</var> is no longer in the
+     <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-77>stack of open elements</a> (e.g. because it got removed by this algorithm), the element that was immediately above <var>node</var> in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-78>stack of open elements</a> before <var>node</var>
+     was removed.<li><p>If <var>node</var> is <var>formatting element</var>, then go to the
+     next step in the overall algorithm.<li><p>If <var>inner loop counter</var> is greater than three and <var>node</var> is in the <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-8>list of active formatting elements</a>, then remove <var>node</var> from the <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-9>list of active formatting elements</a>.<li><p>If <var>node</var> is not in the <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-10>list of active
+     formatting elements</a>, then remove <var>node</var> from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-79>stack of open
+     elements</a> and then go back to the step labeled <i>inner loop</i>.<li><p><a href=#create-an-element-for-the-token id=parsing-main-inbody:create-an-element-for-the-token>Create an element for the token</a> for which the element <var>node</var> was created, in the <a id=parsing-main-inbody:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>, with <var>common
+     ancestor</var> as the intended parent; replace the entry for <var>node</var> in the
+     <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-11>list of active formatting elements</a> with an entry for the new element, replace the
+     entry for <var>node</var> in the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-80>stack of open elements</a> with an entry for
+     the new element, and let <var>node</var> be the new element.<li><p>If <var>last node</var> is <var>furthest block</var>, then move the
+     aforementioned bookmark to be immediately after the new <var>node</var> in the
+     <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-12>list of active formatting elements</a>.<li><p>Insert <var>last node</var> into <var>node</var>, first removing it
+     from its previous parent node if any.<li><p>Let <var>last node</var> be <var>node</var>.<li><p>Return to the step labeled <i>inner loop</i>.</ol>
+
+   <li><p>Insert whatever <var>last node</var> ended up being in the previous step at the
+   <a href=#appropriate-place-for-inserting-a-node id=parsing-main-inbody:appropriate-place-for-inserting-a-node>appropriate place for inserting a node</a>, but using <var>common
+   ancestor</var> as the <i>override target</i>.<li><p><a href=#create-an-element-for-the-token id=parsing-main-inbody:create-an-element-for-the-token-2>Create an element for the token</a> for which <var>formatting
+   element</var> was created, in the <a id=parsing-main-inbody:html-namespace-2-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>, with <var>furthest
+   block</var> as the intended parent.<li><p>Take all of the child nodes of <var>furthest block</var> and append them to the
+   element created in the last step.<li><p>Append that new element to <var>furthest block</var>.<li><p>Remove <var>formatting element</var> from the <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-13>list of active formatting
+   elements</a>, and insert the new element into the <a href=#list-of-active-formatting-elements id=parsing-main-inbody:list-of-active-formatting-elements-14>list of active formatting
+   elements</a> at the position of the aforementioned bookmark.<li><p>Remove <var>formatting element</var> from the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-81>stack of open
+   elements</a>, and insert the new element into the <a href=#stack-of-open-elements id=parsing-main-inbody:stack-of-open-elements-82>stack of open elements</a>
+   immediately below the position of <var>furthest block</var> in that stack.<li><p>Jump back to the step labeled <i>outer loop</i>.</ol>
+
+  <p class=note>This algorithm's name, the "adoption agency algorithm", comes from the way it
+  causes elements to change parents, and is in contrast with other possible algorithms for dealing
+  with misnested content, which included the "incest algorithm", the "secret affair algorithm", and
+  the "Heisenberg algorithm".</p>
+

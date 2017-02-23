@@ -1,0 +1,850 @@
+   <li>
+
+    <p>Remove all the entries in the <a href=#browsing-context id=opening-the-input-stream:browsing-context-4>browsing context</a>'s <a href=#session-history id=opening-the-input-stream:session-history-2>session history</a>
+    after the <a href=#current-entry id=opening-the-input-stream:current-entry>current entry</a>. If the <a href=#current-entry id=opening-the-input-stream:current-entry-2>current entry</a> is the last entry in the
+    session history, then no entries are removed.</p>
+
+    <p class=note>This <a href=#history-notes>doesn't necessarily have to affect</a> the user
+    agent's user interface.</p>
+
+   <li><p>Remove any <a href=#concept-task id=opening-the-input-stream:concept-task-2>tasks</a> queued by the <a href=#history-traversal-task-source id=opening-the-input-stream:history-traversal-task-source>history traversal
+   task source</a> that are associated with any <code id=opening-the-input-stream:document-36><a href=#document>Document</a></code> objects in the
+   <a href=#top-level-browsing-context id=opening-the-input-stream:top-level-browsing-context>top-level browsing context</a>'s <a href=#document-family id=opening-the-input-stream:document-family>document family</a>.<li>Remove any earlier entries that share the same <code id=opening-the-input-stream:document-37><a href=#document>Document</a></code>.<li><p>If <var>replace</var> is false, then add a new entry, just before the last entry,
+   and associate with the new entry the text that was parsed by the previous parser associated with
+   the <code id=opening-the-input-stream:document-38><a href=#document>Document</a></code> object, as well as the state of the document at the start of these
+   steps. This allows the user to step backwards in the session history to see the page before it
+   was blown away by the <code id=opening-the-input-stream:dom-document-open-9><a href=#dom-document-open>document.open()</a></code> call. This new entry
+   does not have a <code id=opening-the-input-stream:document-39><a href=#document>Document</a></code> object, so a new one will be created if the session history
+   is traversed to that entry.<li><p>Set the <code id=opening-the-input-stream:document-40><a href=#document>Document</a></code>'s <a href=#fired-unload id=opening-the-input-stream:fired-unload>fired unload</a> flag to false. (It could have
+   been set to true during the <a href=#unload-a-document id=opening-the-input-stream:unload-a-document-4>unload</a> step above.)<li><p>Finally, set the <a href=#insertion-point id=opening-the-input-stream:insertion-point>insertion point</a> to point at just before the end of the
+   <a href=#input-stream id=opening-the-input-stream:input-stream>input stream</a> (which at this point will be empty).<li><p>Return the <code id=opening-the-input-stream:document-41><a href=#document>Document</a></code> on which the method was invoked.</ol>
+
+  <p class=note>The <code id=opening-the-input-stream:dom-document-open-10><a href=#dom-document-open>document.open()</a></code> method does not affect
+  whether a <code id=opening-the-input-stream:document-42><a href=#document>Document</a></code> is <a href=#ready-for-post-load-tasks id=opening-the-input-stream:ready-for-post-load-tasks-2>ready for post-load tasks</a> or <a href=#completely-loaded id=opening-the-input-stream:completely-loaded>completely
+  loaded</a>.</p>
+
+  <p>When called with three arguments, the <code id=opening-the-input-stream:dom-document-open-11><a href=#dom-document-open>open()</a></code> method on
+  the <code id=opening-the-input-stream:document-43><a href=#document>Document</a></code> object must call the <code id=opening-the-input-stream:dom-open-2><a href=#dom-open>open()</a></code> method on the
+  <code id=opening-the-input-stream:window-2><a href=#window>Window</a></code> object of the <code id=opening-the-input-stream:document-44><a href=#document>Document</a></code> object, with the same arguments as the
+  original call to the <code id=opening-the-input-stream:dom-document-open-12><a href=#dom-document-open>open()</a></code> method, and return whatever
+  that method returned. If the <code id=opening-the-input-stream:document-45><a href=#document>Document</a></code> object has no <code id=opening-the-input-stream:window-3><a href=#window>Window</a></code> object, then
+  the method must throw an <a id=opening-the-input-stream:invalidaccesserror href=https://heycam.github.io/webidl/#invalidaccesserror data-x-internal=invalidaccesserror>"<code>InvalidAccessError</code>"</a>
+  <code id=opening-the-input-stream:domexception-6><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+  
+
+
+
+  <h4 id=closing-the-input-stream>8.4.2 Closing the input stream<a href=#closing-the-input-stream class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>document</var> . <code id=closing-the-input-stream:dom-document-close><a href=#dom-document-close>close</a></code>()<dd>
+
+    <p>Closes the input stream that was opened by the <code id=closing-the-input-stream:dom-document-open><a href=#dom-document-open>document.open()</a></code> method.</p>
+
+    <p>Throws an <a id=closing-the-input-stream:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=closing-the-input-stream:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the
+    <code id=closing-the-input-stream:document><a href=#document>Document</a></code> is an <a href=https://dom.spec.whatwg.org/#xml-document id=closing-the-input-stream:xml-documents data-x-internal=xml-documents>XML document</a>.</p>
+
+    <p>Throws an <a id=closing-the-input-stream:invalidstateerror-2 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=closing-the-input-stream:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the
+    parser is currently executing a <a href=#custom-element-constructor id=closing-the-input-stream:custom-element-constructor>custom element constructor</a>.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-document-close><code>close()</code></dfn> method must run the following
+  steps:</p>
+
+  <ol><li><p>If the <code id=closing-the-input-stream:document-2><a href=#document>Document</a></code> object is an <a href=https://dom.spec.whatwg.org/#xml-document id=closing-the-input-stream:xml-documents-2 data-x-internal=xml-documents>XML
+   document</a>, then throw an <a id=closing-the-input-stream:invalidstateerror-3 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+   <code id=closing-the-input-stream:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If the <code id=closing-the-input-stream:document-3><a href=#document>Document</a></code> object's <a href=#throw-on-dynamic-markup-insertion-counter id=closing-the-input-stream:throw-on-dynamic-markup-insertion-counter>throw-on-dynamic-markup-insertion
+   counter</a> is greater than zero, then throw an <a id=closing-the-input-stream:invalidstateerror-4 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+   <code id=closing-the-input-stream:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If there is no <a href=#script-created-parser id=closing-the-input-stream:script-created-parser>script-created parser</a> associated with the document, then abort
+   these steps.<li><p>Insert an <a href=#explicit-eof-character id=closing-the-input-stream:explicit-eof-character>explicit "EOF" character</a> at the end of the parser's <a href=#input-stream id=closing-the-input-stream:input-stream>input
+   stream</a>.<li><p>If there is a <a href=#pending-parsing-blocking-script id=closing-the-input-stream:pending-parsing-blocking-script>pending parsing-blocking script</a>, then abort these
+   steps.<li><p>Run the tokenizer, processing resulting tokens as they are emitted, and stopping when the
+   tokenizer reaches the <a href=#explicit-eof-character id=closing-the-input-stream:explicit-eof-character-2>explicit "EOF" character</a> or <a href=#spin-the-event-loop id=closing-the-input-stream:spin-the-event-loop>spins the event loop</a>.</ol>
+
+  
+
+
+
+  <h4 id=document.write()>8.4.3 <code id=document.write():dom-document-write><a href=#dom-document-write>document.write()</a></code><a href=#document.write() class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>document</var> . <code id=document.write():dom-document-write-2><a href=#dom-document-write>write</a></code>(<var>text</var>...)<dd>
+
+    <p>In general, adds the given string(s) to the <code id=document.write():document><a href=#document>Document</a></code>'s input stream.</p>
+
+    <p class=warning>This method has very idiosyncratic behavior. In some cases, this method can
+    affect the state of the <a href=#html-parser id=document.write():html-parser>HTML parser</a> while the parser is running, resulting in a DOM
+    that does not correspond to the source of the document (e.g. if the string written is the string
+    "<code>&lt;plaintext></code>" or "<code>&lt;!--</code>"). In other cases,
+    the call can clear the current page first, as if <code id=document.write():dom-document-open><a href=#dom-document-open>document.open()</a></code> had been called. In yet more cases, the method
+    is simply ignored, or throws an exception. To make matters worse, the exact behavior of this
+    method can in some cases be dependent on network latency, which can lead to failures that are very hard to debug. <strong>For all these reasons, use
+    of this method is strongly discouraged.</strong></p>
+
+    <p>Throws an <a id=document.write():invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=document.write():domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> when
+    invoked on <a id=document.write():xml-documents href=https://dom.spec.whatwg.org/#xml-document data-x-internal=xml-documents>XML documents</a>.</p>
+
+    <p>Throws an <a id=document.write():invalidstateerror-2 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=document.write():domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the
+    parser is currently executing a <a href=#custom-element-constructor id=document.write():custom-element-constructor>custom element constructor</a>.</p>
+
+   </dl>
+
+  
+
+  <p><code id=document.write():document-2><a href=#document>Document</a></code> objects have an <dfn id=ignore-destructive-writes-counter>ignore-destructive-writes counter</dfn>, which is
+  used in conjunction with the processing of <code id=document.write():the-script-element><a href=#the-script-element>script</a></code> elements to prevent external
+  scripts from being able to use <code id=document.write():dom-document-write-3><a href=#dom-document-write>document.write()</a></code> to blow
+  away the document by implicitly calling <code id=document.write():dom-document-open-2><a href=#dom-document-open>document.open()</a></code>.
+  Initially, the counter must be set to zero.</p>
+
+  <p>The <dfn id=dom-document-write><code>document.write(...)</code></dfn> method must act as
+  follows:</p>
+
+  <ol><li>
+
+    <p>If the method was invoked on an <a href=https://dom.spec.whatwg.org/#xml-document id=document.write():xml-documents-2 data-x-internal=xml-documents>XML document</a>, throw an
+    <a id=document.write():invalidstateerror-3 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=document.write():domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+    steps.</p>
+
+    
+
+   <li><p>If the <code id=document.write():document-3><a href=#document>Document</a></code> object's <a href=#throw-on-dynamic-markup-insertion-counter id=document.write():throw-on-dynamic-markup-insertion-counter>throw-on-dynamic-markup-insertion
+   counter</a> is greater than zero, then throw an <a id=document.write():invalidstateerror-4 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a>
+   <code id=document.write():domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li><p>If the <code id=document.write():document-4><a href=#document>Document</a></code> object is not an <a href=#active-document id=document.write():active-document>active document</a>, then abort
+   these steps.<li>
+
+    <p>If the <a href=#insertion-point id=document.write():insertion-point>insertion point</a> is undefined and either the <code id=document.write():document-5><a href=#document>Document</a></code>'s
+    <a href=#ignore-opens-during-unload-counter id=document.write():ignore-opens-during-unload-counter>ignore-opens-during-unload counter</a> is greater than zero or the
+    <code id=document.write():document-6><a href=#document>Document</a></code>'s <a href=#ignore-destructive-writes-counter id=document.write():ignore-destructive-writes-counter>ignore-destructive-writes counter</a> is greater than zero,
+    abort these steps.</p>
+
+   <li>
+
+    <p>If the <a href=#insertion-point id=document.write():insertion-point-2>insertion point</a> is undefined, call the <code id=document.write():dom-document-open-3><a href=#dom-document-open>open()</a></code> method on the <code id=document.write():document-7><a href=#document>document</a></code>
+    object (with no arguments). If the user <a href=#refused-to-allow-the-document-to-be-unloaded id=document.write():refused-to-allow-the-document-to-be-unloaded>refused to allow the document to be
+    unloaded</a>, then abort these steps. Otherwise, the <a href=#insertion-point id=document.write():insertion-point-3>insertion point</a> will point
+    at just before the end of the (empty) <a href=#input-stream id=document.write():input-stream>input stream</a>.</p>
+
+   <li>
+
+    <p>Insert the string consisting of the concatenation of all the arguments to the method into the
+    <a href=#input-stream id=document.write():input-stream-2>input stream</a> just before the <a href=#insertion-point id=document.write():insertion-point-4>insertion point</a>.</p>
+
+   <li>
+
+    <p>If the <code id=document.write():document-8><a href=#document>Document</a></code> object's <a href=#reload-override-flag id=document.write():reload-override-flag>reload override flag</a> is set, then append
+    the string consisting of the concatenation of all the arguments to the method to the
+    <code id=document.write():document-9><a href=#document>Document</a></code>'s <a href=#reload-override-buffer id=document.write():reload-override-buffer>reload override buffer</a>.</p>
+
+   <li>
+
+    <p>If there is no <a href=#pending-parsing-blocking-script id=document.write():pending-parsing-blocking-script>pending parsing-blocking script</a>, have the <a href=#html-parser id=document.write():html-parser-2>HTML
+    parser</a> process the characters that were inserted, one at a time, processing resulting
+    tokens as they are emitted, and stopping when the tokenizer reaches the insertion point or when
+    the processing of the tokenizer is aborted by the tree construction stage (this can happen if a
+    <code id=document.write():the-script-element-2><a href=#the-script-element>script</a></code> end tag token is emitted by the tokenizer).
+
+    <p class=note>If the <code id=document.write():dom-document-write-4><a href=#dom-document-write>document.write()</a></code> method was
+    called from script executing inline (i.e. executing because the parser parsed a set of
+    <code id=document.write():the-script-element-3><a href=#the-script-element>script</a></code> tags), then this is a <a href=#nestedParsing>reentrant invocation of the
+    parser</a>. If the <a href=#parser-pause-flag id=document.write():parser-pause-flag>parser pause flag</a> is set, the tokenizer will abort immediately
+    and no HTML will be parsed, per the tokenizer's <a href=#check-parser-pause-flag>parser pause
+    flag check</a>.</p>
+
+   <li>
+
+    <p>Finally, return from the method.</p>
+
+   </ol>
+
+  
+
+
+  <h4 id=document.writeln()>8.4.4 <code id=document.writeln():dom-document-writeln><a href=#dom-document-writeln>document.writeln()</a></code><a href=#document.writeln() class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>document</var> . <code id=document.writeln():dom-document-writeln-2><a href=#dom-document-writeln>writeln</a></code>(<var>text</var>...)<dd>
+
+    <p>Adds the given string(s) to the <code id=document.writeln():document><a href=#document>Document</a></code>'s input stream, followed by a newline
+    character. If necessary, calls the <code id=document.writeln():dom-document-open><a href=#dom-document-open>open()</a></code> method
+    implicitly first.</p>
+
+    <p>Throws an <a id=document.writeln():invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=document.writeln():domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> when
+    invoked on <a id=document.writeln():xml-documents href=https://dom.spec.whatwg.org/#xml-document data-x-internal=xml-documents>XML documents</a>.</p>
+
+    <p>Throws an <a id=document.writeln():invalidstateerror-2 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=document.writeln():domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the
+    parser is currently executing a <a href=#custom-element-constructor id=document.writeln():custom-element-constructor>custom element constructor</a>.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-document-writeln><code>document.writeln(...)</code></dfn> method, when
+  invoked, must act as if the <code id=document.writeln():dom-document-write><a href=#dom-document-write>document.write()</a></code> method had
+  been invoked with the same argument(s), plus an extra argument consisting of a string containing a
+  single line feed character (U+000A).</p>
+
+  
+
+
+
+  <h3 id=timers>8.5 Timers<a href=#timers class=self-link></a></h3>
+
+  <p>The <code id=timers:dom-settimeout><a href=#dom-settimeout>setTimeout()</a></code> and <code id=timers:dom-setinterval><a href=#dom-setinterval>setInterval()</a></code> methods allow authors to schedule timer-based
+  callbacks.</p>
+
+  <dl class=domintro><dt><var>handle</var> = self . <code id=timers:dom-settimeout-2><a href=#dom-settimeout>setTimeout</a></code>( <var>handler</var> [, <var>timeout</var> [, <var>arguments</var>... ] ] )<dd>
+
+    <p>Schedules a timeout to run <var>handler</var> after <var>timeout</var>
+    milliseconds. Any <var>arguments</var> are passed straight through to the <var>handler</var>.</p>
+
+   <dt><var>handle</var> = self . <code id=timers:dom-settimeout-3><a href=#dom-settimeout>setTimeout</a></code>( <var>code</var> [, <var>timeout</var> ] )<dd>
+
+    <p>Schedules a timeout to compile and run <var>code</var> after <var>timeout</var> milliseconds.</p>
+
+   <dt>self . <code id=timers:dom-cleartimeout><a href=#dom-cleartimeout>clearTimeout</a></code>( <var>handle</var> )<dd>
+
+    <p>Cancels the timeout set with <code id=timers:dom-settimeout-4><a href=#dom-settimeout>setTimeout()</a></code> or <code id=timers:dom-setinterval-2><a href=#dom-setinterval>setInterval()</a></code> identified by <var>handle</var>.</p>
+
+   <dt><var>handle</var> = self . <code id=timers:dom-setinterval-3><a href=#dom-setinterval>setInterval</a></code>( <var>handler</var> [, <var>timeout</var> [, <var>arguments</var>... ] ] )<dd>
+
+    <p>Schedules a timeout to run <var>handler</var> every <var>timeout</var>
+    milliseconds. Any <var>arguments</var> are passed straight through to the <var>handler</var>.</p>
+
+   <dt><var>handle</var> = self . <code id=timers:dom-setinterval-4><a href=#dom-setinterval>setInterval</a></code>( <var>code</var> [, <var>timeout</var> ] )<dd>
+
+    <p>Schedules a timeout to compile and run <var>code</var> every <var>timeout</var> milliseconds.</p>
+
+   <dt>self . <code id=timers:dom-clearinterval><a href=#dom-clearinterval>clearInterval</a></code>( <var>handle</var> )<dd>
+
+    <p>Cancels the timeout set with <code id=timers:dom-setinterval-5><a href=#dom-setinterval>setInterval()</a></code> or <code id=timers:dom-settimeout-5><a href=#dom-settimeout>setTimeout()</a></code> identified by <var>handle</var>.</p>
+
+   </dl>
+
+  <p class=note>Timers can be nested; after five such nested timers, however, the interval is
+  forced to be at least four milliseconds.</p>
+
+  <p class=note>This API does not guarantee that timers will run exactly on schedule. Delays due
+  to CPU load, other tasks, etc, are to be expected.</p>
+
+  
+
+  <p>Objects that implement the <code id=timers:windoworworkerglobalscope><a href=#windoworworkerglobalscope>WindowOrWorkerGlobalScope</a></code> mixin have a <dfn id=list-of-active-timers data-export="">list of active timers</dfn>. Each entry in this lists is identified by a number,
+  which must be unique within the list for the lifetime of the object that implements the
+  <code id=timers:windoworworkerglobalscope-2><a href=#windoworworkerglobalscope>WindowOrWorkerGlobalScope</a></code> mixin.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-settimeout><code id=dom-windowtimers-setTimeout>setTimeout()</code></dfn> method must return the value returned
+  by the <a href=#timer-initialisation-steps id=timers:timer-initialisation-steps>timer initialization steps</a>, passing them the method's arguments, the object on
+  which the method for which the algorithm is running is implemented (a <code id=timers:window><a href=#window>Window</a></code> or
+  <code id=timers:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> object) as the <var>method context</var>, and the <var>repeat</var>
+  flag set to false.</p>
+
+  <p>The <dfn id=dom-setinterval><code id=dom-windowtimers-setInterval>setInterval()</code></dfn> method must return the value returned
+  by the <a href=#timer-initialisation-steps id=timers:timer-initialisation-steps-2>timer initialization steps</a>, passing them the method's arguments, the object on
+  which the method for which the algorithm is running is implemented (a <code id=timers:window-2><a href=#window>Window</a></code> or
+  <code id=timers:workerglobalscope-2><a href=#workerglobalscope>WorkerGlobalScope</a></code> object) as the <var>method context</var>, and the <var>repeat</var>
+  flag set to true.</p>
+
+  <p>The <dfn id=dom-cleartimeout><code id=dom-windowtimers-clearTimeout>clearTimeout()</code></dfn> and <dfn id=dom-clearinterval><code id=dom-windowtimers-clearInterval>clearInterval()</code></dfn>
+  methods must clear the entry identified as <var>handle</var> from the <a href=#list-of-active-timers id=timers:list-of-active-timers>list of active
+  timers</a> of the <code id=timers:windoworworkerglobalscope-3><a href=#windoworworkerglobalscope>WindowOrWorkerGlobalScope</a></code> object on which the method was
+  invoked, if any, where <var>handle</var> is the argument passed to the method. (If
+  <var>handle</var> does not identify an entry in the <a href=#list-of-active-timers id=timers:list-of-active-timers-2>list of active timers</a> of the
+  <code id=timers:windoworworkerglobalscope-4><a href=#windoworworkerglobalscope>WindowOrWorkerGlobalScope</a></code> object on which the method was invoked, the method does
+  nothing.)</p>
+
+  <p class=note>Because <code id=timers:dom-cleartimeout-2><a href=#dom-cleartimeout>clearTimeout()</a></code> and <code id=timers:dom-clearinterval-2><a href=#dom-clearinterval>clearInterval()</a></code> clear entries from the same list, either method
+  can be used to clear timers created by <code id=timers:dom-settimeout-6><a href=#dom-settimeout>setTimeout()</a></code> or <code id=timers:dom-setinterval-6><a href=#dom-setinterval>setInterval()</a></code>.</p>
+
+  <hr>
+
+  <p>The <dfn id=timer-initialisation-steps>timer initialization steps</dfn>, which
+  are invoked with some method arguments, a <var>method context</var>, a <var>repeat</var> flag
+  which can be true or false, and optionally (and only if the <var>repeat</var> flag is true) a
+  <var>previous handle</var>, are as follows:</p>
+
+  <ol><li><p>Let <var>method context proxy</var> be <var>method context</var> if that
+   is a <code id=timers:workerglobalscope-3><a href=#workerglobalscope>WorkerGlobalScope</a></code> object, or else the <code id=timers:windowproxy><a href=#windowproxy>WindowProxy</a></code> that corresponds
+   to <var>method context</var>.<li><p>If <var>previous handle</var> was provided, let <var>handle</var> be
+   <var>previous handle</var>; otherwise, let <var>handle</var> be a
+   user-agent-defined integer that is greater than zero that will identify the timeout to be set by
+   this call in the <a href=#list-of-active-timers id=timers:list-of-active-timers-3>list of active timers</a>.<li><p>If <var>previous handle</var> was not provided, add an entry to the <a href=#list-of-active-timers id=timers:list-of-active-timers-4>list of
+   active timers</a> for <var>handle</var>.<li><p>Let <var>callerRealm</var> be the <a id=timers:current-realm-record href=https://tc39.github.io/ecma262/#current-realm data-x-internal=current-realm-record>current Realm Record</a>, and
+   <var>calleeRealm</var> be <var>method context</var>'s <a id=timers:javascript-realm href=https://tc39.github.io/ecma262/#sec-code-realms data-x-internal=javascript-realm>JavaScript realm</a>.<li>
+
+    <p>Let <var>task</var> be a <a href=#concept-task id=timers:concept-task>task</a> that runs the
+    following substeps:</p>
+
+    <ol><li><p>If the entry for <var>handle</var> in the <a href=#list-of-active-timers id=timers:list-of-active-timers-5>list of active timers</a>
+     has been cleared, then abort this <a href=#concept-task id=timers:concept-task-2>task</a>'s substeps.<li>
+
+      <p>Run the appropriate set of steps from the following list:</p>
+
+      <dl class=switch><dt>If the first method argument is a <code id=timers:idl-function><a data-x-internal=idl-function href=https://heycam.github.io/webidl/#common-Function>Function</a></code><dd>
+
+        <p><a href=https://heycam.github.io/webidl/#es-invoking-callback-functions id=timers:es-invoking-callback-functions data-x-internal=es-invoking-callback-functions>Invoke</a> the <code id=timers:idl-function-2><a data-x-internal=idl-function href=https://heycam.github.io/webidl/#common-Function>Function</a></code>. Use the third and subsequent method
+        arguments (if any) as the arguments for invoking the <code id=timers:idl-function-3><a data-x-internal=idl-function href=https://heycam.github.io/webidl/#common-Function>Function</a></code>. Use <var>method context proxy</var> as the
+        <a href=https://heycam.github.io/webidl/#dfn-callback-this-value id=timers:dfn-callback-this-value data-x-internal=dfn-callback-this-value>callback this value</a>.</p>
+
+       <dt>Otherwise<dd>
+
+        <ol><li><p>Perform <a href=#hostensurecancompilestrings(callerrealm,-calleerealm) id=timers:hostensurecancompilestrings(callerrealm,-calleerealm)>HostEnsureCanCompileStrings</a>(<var>callerRealm</var>,
+         <var>calleeRealm</var>). If this throws an exception, <a href=#report-the-exception id=timers:report-the-exception>report the
+         exception</a>.<li><p>Let <var>script source</var> be the first method argument.<li><p>Let <var>settings object</var> be <var>method context</var>'s <a href=#environment-settings-object id=timers:environment-settings-object>environment
+         settings object</a>.<li><p>Let <var>script</var> be the result of <a href=#creating-a-classic-script id=timers:creating-a-classic-script>creating a classic script</a> using
+         <var>script source</var> and <var>settings object</var>.<li><p><a href=#run-a-classic-script id=timers:run-a-classic-script>Run the classic script</a>
+         <var>script</var>.</ol>
+
+       </dl>
+
+     <li><p>If the <var>repeat</var> flag is true, then call <a href=#timer-initialisation-steps id=timers:timer-initialisation-steps-3>timer initialization
+     steps</a> again, passing them the same method arguments, the same <var>method
+     context</var>, with the <var>repeat</var> flag still set to true, and with the <var>previous handle</var> set to <var>handler</var>.</ol>
+
+   <li><p>Let <var>timeout</var> be the second method argument.<li>
+    <p>If the currently running <a href=#concept-task id=timers:concept-task-3>task</a> is a task that was created
+    by this algorithm, then let <var>nesting level</var> be the <a href=#concept-task id=timers:concept-task-4>task</a>'s <a href=#timer-nesting-level id=timers:timer-nesting-level>timer nesting level</a>. Otherwise, let
+    <var>nesting level</var> be zero.</p>
+
+    <p class=note>The task's <a href=#timer-nesting-level id=timers:timer-nesting-level-2>timer nesting level</a> is used both for nested calls to
+    <code id=timers:dom-settimeout-7><a href=#dom-settimeout>setTimeout()</a></code>, and for the repeating timers created by <code id=timers:dom-setinterval-7><a href=#dom-setinterval>setInterval()</a></code>. (Or, indeed, for any combination of the two.) In
+    other words, it represents nested invocations of this algorithm, not of a particular method.</p>
+   <li><p>If <var>nesting level</var> is greater than 5, and <var>timeout</var> is
+   less than 4, then increase <var>timeout</var> to 4.<li><p>Increment <var>nesting level</var> by one.<li><p>Let <var>task</var>'s <dfn id=timer-nesting-level>timer nesting level</dfn> be <var>nesting
+   level</var>.<li><p>Return <var>handle</var>, and then continue running this algorithm
+   <a href=#in-parallel id=timers:in-parallel>in parallel</a>.<li>
+
+    <p>If <var>method context</var> is a <code id=timers:window-3><a href=#window>Window</a></code> object, wait until the
+    <code id=timers:document><a href=#document>Document</a></code> associated with <var>method context</var> has been <a href=#fully-active id=timers:fully-active>fully
+    active</a> for a further <var>timeout</var> milliseconds (not necessarily
+    consecutively).</p>
+
+    <p>Otherwise, <var>method context</var> is a <code id=timers:workerglobalscope-4><a href=#workerglobalscope>WorkerGlobalScope</a></code> object;
+    wait until <var>timeout</var> milliseconds have passed with the worker not suspended
+    (not necessarily consecutively).</p>
+
+   <li>
+
+    <p>Wait until any invocations of this algorithm that had the same <var>method
+    context</var>, that started before this one, and whose <var>timeout</var> is equal to
+    or less than this one's, have completed.</p>
+
+    <p class=note>Argument conversion as defined by Web IDL (for example, invoking <code>toString()</code> methods on objects passed as the first argument) happens in the
+    algorithms defined in Web IDL, before this algorithm is invoked.</p>
+
+    <div class=example>
+
+     <p>So for example, the following rather silly code will result in the log containing "<code>ONE TWO </code>":</p>
+
+     <pre>var log = '';
+function logger(s) { log += s + ' '; }
+
+setTimeout({ toString: function () {
+  setTimeout("logger('ONE')", 100);
+  return "logger('TWO')";
+} }, 100);</pre>
+
+    </div>
+
+   <li>
+
+    <p>Optionally, wait a further user-agent defined length of time.</p>
+
+    <p class=note>This is intended to allow user agents to pad timeouts as needed to optimize the
+    power usage of the device. For example, some processors have a low-power mode where the
+    granularity of timers is reduced; on such platforms, user agents can slow timers down to fit
+    this schedule instead of requiring the processor to use the more accurate mode with its
+    associated higher power usage.</p>
+
+   <li>
+
+    <p><a href=#queue-a-task id=timers:queue-a-task>Queue</a> the <a href=#concept-task id=timers:concept-task-5>task</a> <var>task</var>.</p>
+
+    <p class=note>Once the task has been processed, if the <var>repeat</var> flag is
+    false, it is safe to remove the entry for <var>handle</var> from the <a href=#list-of-active-timers id=timers:list-of-active-timers-6>list of
+    active timers</a> (there is no way for the entry's existence to be detected past this point,
+    so it does not technically matter one way or the other).</p>
+
+   </ol>
+
+  <p>The <a href=#task-source id=timers:task-source>task source</a> for these <a href=#concept-task id=timers:concept-task-6>tasks</a> is the
+  <dfn id=timer-task-source>timer task source</dfn>.</p>
+
+  
+
+  <div class=example>
+
+   <p>To run tasks of several milliseconds back to back without any delay, while still yielding back
+   to the browser to avoid starving the user interface (and to avoid the browser killing the script
+   for hogging the CPU), simply queue the next timer before performing work:</p>
+
+   <pre>function doExpensiveWork() {
+  var done = false;
+  // ...
+  // this part of the function takes up to five milliseconds
+  // set done to true if we're done
+  // ...
+  return done;
+}
+
+function rescheduleWork() {
+  var handle = setTimeout(rescheduleWork, 0); // preschedule next iteration
+  if (doExpensiveWork())
+    clearTimeout(handle); // clear the timeout if we don't need it
+}
+
+function scheduleWork() {
+  setTimeout(rescheduleWork, 0);
+}
+
+scheduleWork(); // queues a task to do lots of work</pre>
+
+  </div>
+
+
+  <h3 id=user-prompts>8.6 User prompts<a href=#user-prompts class=self-link></a></h3>
+
+  
+
+  <h4 id=simple-dialogs>8.6.1 Simple dialogs<a href=#simple-dialogs class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>window</var> . <code id=simple-dialogs:dom-alert><a href=#dom-alert>alert</a></code>(<var>message</var>)<dd>
+
+    <p>Displays a modal alert with the given message, and waits for the user to dismiss it.</p>
+
+   <dt><var>result</var> = <var>window</var> . <code id=simple-dialogs:dom-confirm><a href=#dom-confirm>confirm</a></code>(<var>message</var>)<dd>
+
+    <p>Displays a modal OK/Cancel prompt with the given message, waits for the user to dismiss it,
+    and returns true if the user clicks OK and false if the user clicks Cancel.</p>
+
+   <dt><var>result</var> = <var>window</var> . <code id=simple-dialogs:dom-prompt><a href=#dom-prompt>prompt</a></code>(<var>message</var> [, <var>default</var>] )<dd>
+
+    <p>Displays a modal text control prompt with the given message, waits for the user to dismiss
+    it, and returns the value that the user entered. If the user cancels the prompt, then returns
+    null instead. If the second argument is present, then the given value is used as a default.</p>
+
+   </dl>
+
+  <p class=note>Logic that depends on <a href=#concept-task id=simple-dialogs:concept-task>tasks</a> or <a href=#microtask id=simple-dialogs:microtask>microtasks</a>, such as <a href=#media-element id=simple-dialogs:media-element>media elements</a>
+  loading their <a href=#media-data id=simple-dialogs:media-data>media data</a>, are stalled when these methods are invoked.</p>
+
+  
+
+  <p>To <dfn id=optionally-truncate-a-simple-dialog-string>optionally truncate a simple dialog string</dfn> <var>s</var>, return either
+  <var>s</var> itself or some string derived from <var>s</var> that is shorter. User agents should
+  not provide UI for displaying the elided portion of <var>s</var>, as this makes it too easy for
+  abusers to create dialogs of the form "Important security alert! Click 'Show More' for full
+  details!".</p>
+
+  <p class=note>For example, a user agent might want to only display the first 100 characters of a
+  message. Or, a user agent might replace the middle of the string with "…". These types of
+  modifications can be useful in limiting the abuse potential of unnaturally large,
+  trustworthy-looking system dialogs.</p>
+
+  <p>The <dfn id=dom-alert><code>alert(<var>message</var>)</code></dfn> method, when
+  invoked, must run the following steps:</p>
+
+  <ol><li><p>If the <a href=#event-loop id=simple-dialogs:event-loop>event loop</a>'s <a href=#termination-nesting-level id=simple-dialogs:termination-nesting-level>termination nesting level</a> is non-zero,
+   optionally abort these steps.<li><p>If the <a href=#active-sandboxing-flag-set id=simple-dialogs:active-sandboxing-flag-set>active sandboxing flag set</a> of this <code id=simple-dialogs:window><a href=#window>Window</a></code> object's <a href=#concept-document-window id=simple-dialogs:concept-document-window>associated <code>Document</code></a> has the <a href=#sandboxed-modals-flag id=simple-dialogs:sandboxed-modals-flag>sandboxed
+   modals flag</a> set, then abort these steps.<li><p>Optionally, abort these steps. (For example, the user agent might give the user the option
+   to ignore all alerts, and would thus abort at this step whenever the method was
+   invoked.)<li><p>If the method was invoked with no arguments, then let <var>message</var> be the
+   empty string; otherwise, let <var>message</var> be the method's first
+   argument.<li><p>Set <var>message</var> to the result of <a href=#optionally-truncate-a-simple-dialog-string id=simple-dialogs:optionally-truncate-a-simple-dialog-string>optionally truncating</a> <var>message</var>.<li><p>Show <var>message</var> to the user.<li><p>Optionally, <a href=#pause id=simple-dialogs:pause>pause</a> while waiting for the user to acknowledge the
+   message.</ol>
+
+  <p>The <dfn id=dom-confirm><code>confirm(<var>message</var>)</code></dfn> method,
+  when invoked, must run the following steps:</p>
+
+  <ol><li><p>If the <a href=#event-loop id=simple-dialogs:event-loop-2>event loop</a>'s <a href=#termination-nesting-level id=simple-dialogs:termination-nesting-level-2>termination nesting level</a> is non-zero,
+   optionally abort these steps, returning false.<li><p>If the <a href=#active-sandboxing-flag-set id=simple-dialogs:active-sandboxing-flag-set-2>active sandboxing flag set</a> of this <code id=simple-dialogs:window-2><a href=#window>Window</a></code> object's <a href=#concept-document-window id=simple-dialogs:concept-document-window-2>associated <code>Document</code></a> has the <a href=#sandboxed-modals-flag id=simple-dialogs:sandboxed-modals-flag-2>sandboxed
+   modals flag</a> set, then abort these steps.<li><p>Optionally, return false and abort these steps. (For example, the user agent might give
+   the user the option to ignore all prompts, and would thus abort at this step whenever the method
+   was invoked.)<li><p>Set <var>message</var> to the result of <a href=#optionally-truncate-a-simple-dialog-string id=simple-dialogs:optionally-truncate-a-simple-dialog-string-2>optionally truncating</a> <var>message</var>.<li><p>Show <var>message</var> to the user, and ask the user to respond with a positive or
+   negative response.<li><p><a href=#pause id=simple-dialogs:pause-2>Pause</a> until the user responds either positively or negatively.<li><p>If the user responded positively, return true; otherwise, the user responded negatively:
+   return false.</ol>
+
+  <p>The <dfn id=dom-prompt><code>prompt(<var>message</var>, <var>default</var>)</code></dfn>
+  method, when invoked, must run the following steps:</p>
+
+  <ol><li><p>If the <a href=#event-loop id=simple-dialogs:event-loop-3>event loop</a>'s <a href=#termination-nesting-level id=simple-dialogs:termination-nesting-level-3>termination nesting level</a> is non-zero,
+   optionally abort these steps, returning null.<li><p>If the <a href=#active-sandboxing-flag-set id=simple-dialogs:active-sandboxing-flag-set-3>active sandboxing flag set</a> of this <code id=simple-dialogs:window-3><a href=#window>Window</a></code> object's <a href=#concept-document-window id=simple-dialogs:concept-document-window-3>associated <code>Document</code></a> has the <a href=#sandboxed-modals-flag id=simple-dialogs:sandboxed-modals-flag-3>sandboxed
+   modals flag</a> set, then abort these steps.<li><p>Optionally, return null and abort these steps. (For example, the user agent might give the
+   user the option to ignore all prompts, and would thus abort at this step whenever the method was
+   invoked.)<li><p>Set <var>message</var> to the result of <a href=#optionally-truncate-a-simple-dialog-string id=simple-dialogs:optionally-truncate-a-simple-dialog-string-3>optionally truncating</a> <var>message</var>.<li><p>Set <var>default</var> to the result of <a href=#optionally-truncate-a-simple-dialog-string id=simple-dialogs:optionally-truncate-a-simple-dialog-string-4>optionally truncating</a> <var>default</var>.<li><p>Show <var>message</var> to the user, and ask the user to either respond with a string
+   value or abort. The response must be defaulted to the value given by <var>default</var>.<li><p><a href=#pause id=simple-dialogs:pause-3>Pause</a> while waiting for the user's response.<li><p>If the user aborts, then return null; otherwise, return the string that the user responded
+   with.</ol>
+
+  
+
+
+  <h4 id=printing>8.6.2 Printing<a href=#printing class=self-link></a></h4>
+
+  <dl class=domintro><dt><var>window</var> . <code id=printing:dom-print><a href=#dom-print>print</a></code>()<dd>
+
+    <p>Prompts the user to print the page.</p>
+
+   </dl>
+
+  
+
+  <p>When the <dfn id=dom-print><code>print()</code></dfn> method is invoked, if the
+  <code id=printing:document><a href=#document>Document</a></code> is <a href=#ready-for-post-load-tasks id=printing:ready-for-post-load-tasks>ready for post-load tasks</a>, then the user agent must
+  run the <a href=#printing-steps id=printing:printing-steps>printing steps</a> <a href=#in-parallel id=printing:in-parallel>in parallel</a>. Otherwise, the user agent must only set the
+  <dfn id=print-when-loaded>print when loaded</dfn> flag on the <code id=printing:document-2><a href=#document>Document</a></code>.</p>
+
+
+
+  <p>User agents should also run the <a href=#printing-steps id=printing:printing-steps-2>printing steps</a> whenever the user asks for the
+  opportunity to <a href=#obtain-a-physical-form id=printing:obtain-a-physical-form>obtain a physical form</a> (e.g. printed copy), or the representation of a
+  physical form (e.g. PDF copy), of a document.</p>
+
+  <p>The <dfn id=printing-steps>printing steps</dfn> are as follows:<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27864" title="Printing steps should apply &quot;img environment changed&quot; algorithm before and after printing and wait u [...]">27864</a></div>
+
+  <ol><li>
+
+    <p>The user agent may display a message to the user or abort these steps (or both).</p>
+
+    <p class=example>For instance, a kiosk browser could silently ignore any invocations of the
+    <code id=printing:dom-print-2><a href=#dom-print>print()</a></code> method.</p>
+
+    <p class=example>For instance, a browser on a mobile device could detect that there are no
+    printers in the vicinity and display a message saying so before continuing to offer a "save to
+    PDF" option.</p>
+
+   <li>
+
+    <p>If the <a href=#active-sandboxing-flag-set id=printing:active-sandboxing-flag-set>active sandboxing flag set</a> of this <code id=printing:window><a href=#window>Window</a></code> object's <a href=#concept-document-window id=printing:concept-document-window>associated <code>Document</code></a> has the <a href=#sandboxed-modals-flag id=printing:sandboxed-modals-flag>sandboxed
+    modals flag</a> set, then abort these steps.</p>
+
+    <p class=note>If the printing dialog is blocked by a <code id=printing:document-3><a href=#document>Document</a></code>'s sandbox,
+    then neither the <code id=printing:event-beforeprint><a href=#event-beforeprint>beforeprint</a></code> nor <code id=printing:event-afterprint><a href=#event-afterprint>afterprint</a></code> events will be fired.</p>
+
+   <li>
+
+    <p>The user agent must <a href=https://dom.spec.whatwg.org/#concept-event-fire id=printing:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=printing:event-beforeprint-2><a href=#event-beforeprint>beforeprint</a></code> at the <code id=printing:window-2><a href=#window>Window</a></code> object of the
+    <code id=printing:document-4><a href=#document>Document</a></code> that is being printed, as well as any <a href=#nested-browsing-context id=printing:nested-browsing-context>nested browsing contexts</a> in it.</p>
+
+    <p class=example>The <code id=printing:event-beforeprint-3><a href=#event-beforeprint>beforeprint</a></code> event can be used to
+    annotate the printed copy, for instance adding the time at which the document was printed.</p>
+
+   <li>
+
+    <p>The user agent should offer the user the opportunity to <a href=#obtain-a-physical-form id=printing:obtain-a-physical-form-2>obtain a physical form</a>
+    (or the representation of a physical form) of the document. The user agent may wait for the user
+    to either accept or decline before returning; if so, the user agent must <a href=#pause id=printing:pause>pause</a>
+    while the method is waiting. Even if the user agent doesn't wait at this point, the user agent
+    must use the state of the relevant documents as they are at this point in the algorithm if and
+    when it eventually creates the alternate form.</p>
+
+   <li>
+
+    <p>The user agent must <a href=https://dom.spec.whatwg.org/#concept-event-fire id=printing:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=printing:event-afterprint-2><a href=#event-afterprint>afterprint</a></code> at the <code id=printing:window-3><a href=#window>Window</a></code> object of the
+    <code id=printing:document-5><a href=#document>Document</a></code> that is being printed, as well as any <a href=#nested-browsing-context id=printing:nested-browsing-context-2>nested browsing contexts</a> in it.</p>
+
+    <p class=example>The <code id=printing:event-afterprint-3><a href=#event-afterprint>afterprint</a></code> event can be used to
+    revert annotations added in the earlier event, as well as showing post-printing UI. For
+    instance, if a page is walking the user through the steps of applying for a home loan, the
+    script could automatically advance to the next step after having printed a form or other.</p>
+
+   </ol>
+
+  
+
+
+  <h3 id=system-state-and-capabilities>8.7 System state and capabilities<a href=#system-state-and-capabilities class=self-link></a></h3>
+
+  <h4 id=the-navigator-object>8.7.1 The <code id=the-navigator-object:navigator><a href=#navigator>Navigator</a></code> object<a href=#the-navigator-object class=self-link></a></h4>
+
+  
+
+  <p>The <dfn id=dom-navigator><code>navigator</code></dfn> attribute of the
+  <code id=the-navigator-object:window><a href=#window>Window</a></code> interface must return an instance of the <code id=the-navigator-object:navigator-2><a href=#navigator>Navigator</a></code> interface,
+  which represents the identity and state of the user agent (the client), and allows Web pages to
+  register themselves as potential protocol and content handlers:</p>
+
+  
+
+  <pre class=idl>interface <dfn id=navigator>Navigator</dfn> {
+  // objects implementing this interface also implement the interfaces given below
+};
+<a href=#navigator id=the-navigator-object:navigator-3>Navigator</a> implements <a href=#navigatorid id=the-navigator-object:navigatorid>NavigatorID</a>;
+<a href=#navigator id=the-navigator-object:navigator-4>Navigator</a> implements <a href=#navigatorlanguage id=the-navigator-object:navigatorlanguage>NavigatorLanguage</a>;
+<a href=#navigator id=the-navigator-object:navigator-5>Navigator</a> implements <a href=#navigatoronline id=the-navigator-object:navigatoronline>NavigatorOnLine</a>;
+<a href=#navigator id=the-navigator-object:navigator-6>Navigator</a> implements <a href=#navigatorcontentutils id=the-navigator-object:navigatorcontentutils>NavigatorContentUtils</a>;
+<a href=#navigator id=the-navigator-object:navigator-7>Navigator</a> implements <a href=#navigatorcookies id=the-navigator-object:navigatorcookies>NavigatorCookies</a>;
+<a href=#navigator id=the-navigator-object:navigator-8>Navigator</a> implements <a href=#navigatorplugins id=the-navigator-object:navigatorplugins>NavigatorPlugins</a>;
+<a href=#navigator id=the-navigator-object:navigator-9>Navigator</a> implements <a href=#navigatorconcurrenthardware id=the-navigator-object:navigatorconcurrenthardware>NavigatorConcurrentHardware</a>;</pre>
+
+
+
+  
+
+  <p>These interfaces are defined separately so that <code id=the-navigator-object:workernavigator><a href=#workernavigator>WorkerNavigator</a></code> can re-use parts
+  of the <code id=the-navigator-object:navigator-10><a href=#navigator>Navigator</a></code> interface.</p>
+
+  
+
+
+  <h5 id=client-identification>8.7.1.1 Client identification<a href=#client-identification class=self-link></a></h5>
+
+  <pre class=idl>[NoInterfaceObject, Exposed=(Window,Worker)]
+interface <dfn id=navigatorid>NavigatorID</dfn> {
+  readonly attribute DOMString <a href=#dom-navigator-appcodename id=client-identification:dom-navigator-appcodename>appCodeName</a>; // constant "Mozilla"
+  readonly attribute DOMString <a href=#dom-navigator-appname id=client-identification:dom-navigator-appname>appName</a>; // constant "Netscape"
+  readonly attribute DOMString <a href=#dom-navigator-appversion id=client-identification:dom-navigator-appversion>appVersion</a>;
+  readonly attribute DOMString <a href=#dom-navigator-platform id=client-identification:dom-navigator-platform>platform</a>;
+  readonly attribute DOMString <a href=#dom-navigator-product id=client-identification:dom-navigator-product>product</a>; // constant "Gecko"
+  [Exposed=Window] readonly attribute DOMString <a href=#dom-navigator-productsub id=client-identification:dom-navigator-productsub>productSub</a>;
+  readonly attribute DOMString <a href=#dom-navigator-useragent id=client-identification:dom-navigator-useragent>userAgent</a>;
+  [Exposed=Window] readonly attribute DOMString <a href=#dom-navigator-vendor id=client-identification:dom-navigator-vendor>vendor</a>;
+  [Exposed=Window] readonly attribute DOMString <a href=#dom-navigator-vendorsub id=client-identification:dom-navigator-vendorsub>vendorSub</a>; // constant ""
+
+  // <a href="#NavigatorID-partial">also has additional members in a partial interface</a>
+};</pre>
+
+  <p>In certain cases, despite the best efforts of the entire industry, Web browsers have bugs and
+  limitations that Web authors are forced to work around.</p>
+
+  <p>This section defines a collection of attributes that can be used to determine, from script, the
+  kind of user agent in use, in order to work around these issues.</p>
+
+  
+
+  <p>The user agent has a <dfn id=concept-navigator-compatibility-mode>navigator compatibility
+  mode</dfn>, which is either <i>Chrome</i>, <i>Gecko</i>, or <i>WebKit</i>.</p>
+
+  <p class=note>The <a href=#concept-navigator-compatibility-mode id=client-identification:concept-navigator-compatibility-mode>navigator compatibility
+  mode</a> constrains the <a href=#navigatorid id=client-identification:navigatorid>NavigatorID</a> interface to the combinations of attribute
+  values and presence of <code id=client-identification:dom-navigator-taintenabled><a href=#dom-navigator-taintenabled>taintEnabled()</a></code> and <code id=client-identification:dom-navigator-oscpu><a href=#dom-navigator-oscpu>oscpu</a></code> that are known to be compatible with existing Web
+  content.</p>
+
+  
+
+  <p>Client detection should always be limited to detecting known current versions; future versions
+  and unknown versions should always be assumed to be fully compliant.</p>
+
+  <dl class=domintro><dt><var>window</var> . <code id=client-identification:dom-navigator><a href=#dom-navigator>navigator</a></code> . <code id=client-identification:dom-navigator-appcodename-2><a href=#dom-navigator-appcodename>appCodeName</a></code><dd>
+    <p>Returns the string "<code>Mozilla</code>".</p>
+   <dt><var>window</var> . <code id=client-identification:dom-navigator-2><a href=#dom-navigator>navigator</a></code> . <code id=client-identification:dom-navigator-appname-2><a href=#dom-navigator-appname>appName</a></code><dd>
+    <p>Returns the string "<code>Netscape</code>".</p>
+   <dt><var>window</var> . <code id=client-identification:dom-navigator-3><a href=#dom-navigator>navigator</a></code> . <code id=client-identification:dom-navigator-appversion-2><a href=#dom-navigator-appversion>appVersion</a></code><dd>
+    <p>Returns the version of the browser.</p>
+   <dt><var>window</var> . <code id=client-identification:dom-navigator-4><a href=#dom-navigator>navigator</a></code> . <code id=client-identification:dom-navigator-platform-2><a href=#dom-navigator-platform>platform</a></code><dd>
+    <p>Returns the name of the platform.</p>
+   <dt><var>window</var> . <code id=client-identification:dom-navigator-5><a href=#dom-navigator>navigator</a></code> . <code id=client-identification:dom-navigator-product-2><a href=#dom-navigator-product>product</a></code><dd>
+    <p>Returns the string "<code>Gecko</code>".</p>
+   <dt><var>window</var> . <code id=client-identification:dom-navigator-6><a href=#dom-navigator>navigator</a></code> . <code id=client-identification:dom-navigator-productsub-2><a href=#dom-navigator-productsub>productSub</a></code><dd>
+    <p>Returns either the string "<code>20030107</code>", or the string "<code>20100101</code>".</p>
+   <dt><var>window</var> . <code id=client-identification:dom-navigator-7><a href=#dom-navigator>navigator</a></code> . <code id=client-identification:dom-navigator-useragent-2><a href=#dom-navigator-useragent>userAgent</a></code><dd>
+    <p>Returns the complete `<code>User-Agent</code>` header.</p>
+   <dt><var>window</var> . <code id=client-identification:dom-navigator-8><a href=#dom-navigator>navigator</a></code> . <code id=client-identification:dom-navigator-vendor-2><a href=#dom-navigator-vendor>vendor</a></code><dd>
+    <p>Returns either the empty string, the string "<code>Apple Computer, Inc.</code>", or
+    the string "<code>Google Inc.</code>".</p>
+   <dt><var>window</var> . <code id=client-identification:dom-navigator-9><a href=#dom-navigator>navigator</a></code> . <code id=client-identification:dom-navigator-vendorsub-2><a href=#dom-navigator-vendorsub>vendorSub</a></code><dd>
+    <p>Returns the empty string.</p>
+   </dl>
+
+  
+
+  <dl><dt><dfn id=dom-navigator-appcodename><code>appCodeName</code></dfn><dd><p>Must return the string "<code>Mozilla</code>".<dt><dfn id=dom-navigator-appname><code>appName</code></dfn><dd><p>Must return the string "<code>Netscape</code>".<dt><dfn id=dom-navigator-appversion><code>appVersion</code></dfn><dd><p>Must return either the string "<code>4.0</code>" or a string representing the
+   version of the browser in detail, e.g. "<code>1.0 (VMS; en-US)
+   Mellblomenator/9000</code>".<dt><dfn id=dom-navigator-platform><code>platform</code></dfn><dd><p>Must return either the empty string or a string representing the platform on which the
+   browser is executing, e.g. "<code>MacIntel</code>", "<code>Win32</code>",
+   "<code>FreeBSD i386</code>", "<code>WebTV OS</code>".<dt><dfn id=dom-navigator-product><code>product</code></dfn><dd><p>Must return the string "<code>Gecko</code>".<dt><dfn id=dom-navigator-productsub><code>productSub</code></dfn><dd>
+
+    <p>Must return the appropriate string from the following list:</p>
+
+    <dl class=switch><dt>If the <a href=#concept-navigator-compatibility-mode id=client-identification:concept-navigator-compatibility-mode-2>navigator compatibility
+     mode</a> is <i>Chrome</i> or <i>WebKit</i><dd><p>The string "<code>20030107</code>".<dt>If the <a href=#concept-navigator-compatibility-mode id=client-identification:concept-navigator-compatibility-mode-3>navigator compatibility
+     mode</a> is <i>Gecko</i><dd><p>The string "<code>20100101</code>".</dl>
+
+   <dt><dfn id=dom-navigator-useragent><code>userAgent</code></dfn><dd><p>Must return the <a href=https://fetch.spec.whatwg.org/#default-user-agent-value id=client-identification:default-user-agent-value data-x-internal=default-user-agent-value>default `<code>User-Agent</code>`
+   value</a>.<dt><dfn id=dom-navigator-vendor><code>vendor</code></dfn><dd>
+
+    <p>Must return the appropriate string from the following list:</p>
+
+    <dl class=switch><dt>If the <a href=#concept-navigator-compatibility-mode id=client-identification:concept-navigator-compatibility-mode-4>navigator compatibility
+     mode</a> is <i>Chrome</i><dd><p>The string "<code>Google Inc.</code>".<dt>If the <a href=#concept-navigator-compatibility-mode id=client-identification:concept-navigator-compatibility-mode-5>navigator compatibility
+     mode</a> is <i>Gecko</i><dd><p>The empty string.<dt>If the <a href=#concept-navigator-compatibility-mode id=client-identification:concept-navigator-compatibility-mode-6>navigator compatibility
+     mode</a> is <i>WebKit</i><dd><p>The string "<code>Apple Computer, Inc.</code>".</dl>
+
+   <dt><dfn id=dom-navigator-vendorsub><code>vendorSub</code></dfn><dd><p>Must return the empty string.</dl>
+
+  <p>If the <a href=#concept-navigator-compatibility-mode id=client-identification:concept-navigator-compatibility-mode-7>navigator compatibility mode</a>
+  is <i>Gecko</i>, then the user agent must also support the following partial interface:</p>
+
+  <pre class=idl>partial interface <a href=#navigatorid id=NavigatorID-partial>NavigatorID</a> {
+  [Exposed=Window] boolean <a href=#dom-navigator-taintenabled id=client-identification:dom-navigator-taintenabled-2>taintEnabled</a>(); // constant false
+  [Exposed=Window] readonly attribute DOMString <a href=#dom-navigator-oscpu id=client-identification:dom-navigator-oscpu-2>oscpu</a>;
+};</pre>
+
+  <p>The <dfn id=dom-navigator-taintenabled><code>taintEnabled()</code></dfn> method must
+  return false.</p>
+
+  <p>The <dfn id=dom-navigator-oscpu><code>oscpu</code></dfn> attribute's getter must return
+  either the empty string or a string representing the platform on which the browser is executing,
+  e.g. "<code>Windows NT 10.0; Win64; x64</code>", "<code>Linux
+  x86_64</code>".</p>
+
+  
+  <p class=warning>Any information in this API that varies from user to user can be used to
+  profile the user. In fact, if enough such information is available, a user can actually be
+  uniquely identified. For this reason, user agent implementors are strongly urged to include as
+  little information in this API as possible.
+  <a href=#fingerprinting-vector id=client-identification:fingerprinting-vector class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a>
+  </p>
+
+  
+
+  
+
+  <h5 id=language-preferences>8.7.1.2 Language preferences<a href=#language-preferences class=self-link></a></h5>
+
+  <pre class=idl>[NoInterfaceObject, Exposed=(Window,Worker)]
+interface <dfn id=navigatorlanguage>NavigatorLanguage</dfn> {
+  readonly attribute DOMString <a href=#dom-navigator-language id=language-preferences:dom-navigator-language>language</a>;
+  readonly attribute FrozenArray&lt;DOMString> <a href=#dom-navigator-languages id=language-preferences:dom-navigator-languages>languages</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>window</var> . <code id=language-preferences:dom-navigator><a href=#dom-navigator>navigator</a></code> . <code id=language-preferences:dom-navigator-language-2><a href=#dom-navigator-language>language</a></code><dd>
+    <p>Returns a language tag representing the user's preferred language.</p>
+   <dt><var>window</var> . <code id=language-preferences:dom-navigator-2><a href=#dom-navigator>navigator</a></code> . <code id=language-preferences:dom-navigator-languages-2><a href=#dom-navigator-languages>languages</a></code><dd>
+    <p>Returns an array of language tags representing the user's preferred languages, with the most preferred language first.</p>
+    <p>The most preferred language is the one returned by <code id=language-preferences:dom-navigator-language-3><a href=#dom-navigator-language>navigator.language</a></code>.</p>
+   </dl>
+
+  <p class=note>A <code id=language-preferences:event-languagechange><a href=#event-languagechange>languagechange</a></code> event is fired at the
+  <code id=language-preferences:window><a href=#window>Window</a></code> or <code id=language-preferences:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> object when the user agent's understanding
+  of what the user's preferred languages are changes.</p>
+
+  
+
+  <dl><dt><dfn id=dom-navigator-language><code>language</code></dfn><dd><p>Must return a valid BCP 47 language tag representing either <a href=#a-plausible-language id=language-preferences:a-plausible-language>a plausible
+   language</a> or the user's most preferred language. <a href=#refsBCP47>[BCP47]</a><dt><dfn id=dom-navigator-languages><code>languages</code></dfn><dd>
+
+    <p>Must return a <a id=language-preferences:frozen-array href=https://heycam.github.io/webidl/#dfn-frozen-array-type data-x-internal=frozen-array>frozen array</a> of valid BCP 47 language tags representing either one
+    or more <a href=#a-plausible-language id=language-preferences:a-plausible-language-2>plausible languages</a>, or the user's preferred
+    languages, ordered by preference with the most preferred language first. The same object must be
+    returned until the user agent needs to return different values, or values in a different order.
+    <a href=#refsBCP47>[BCP47]</a></p>
+
+    <p>Whenever the user agent needs to make the <code id=language-preferences:dom-navigator-languages-3><a href=#dom-navigator-languages>navigator.languages</a></code> attribute of a <code id=language-preferences:window-2><a href=#window>Window</a></code>
+    or <code id=language-preferences:workerglobalscope-2><a href=#workerglobalscope>WorkerGlobalScope</a></code> object return a new set of language tags, the user agent must
+    <a href=#queue-a-task id=language-preferences:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=language-preferences:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=language-preferences:event-languagechange-2><a href=#event-languagechange>languagechange</a></code> at the <code id=language-preferences:window-3><a href=#window>Window</a></code> or
+    <code id=language-preferences:workerglobalscope-3><a href=#workerglobalscope>WorkerGlobalScope</a></code> object and wait until that task begins to be executed before
+    actually returning a new value.</p>
+
+    <p>The <a href=#task-source id=language-preferences:task-source>task source</a> for this <a href=#concept-task id=language-preferences:concept-task>task</a> is the
+    <a href=#dom-manipulation-task-source id=language-preferences:dom-manipulation-task-source>DOM manipulation task source</a>.</p>
+
+   </dl>
+
+  <p>To determine <dfn id=a-plausible-language>a plausible language</dfn>, the user agent should bear in mind the following:</p>
+
+  <ul><li>Any information in this API that varies from user to user can be used to profile or identify
+   the user.
+   <a href=#fingerprinting-vector id=language-preferences:fingerprinting-vector class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a>
+   <li>If the user is not using a service that obfuscates the user's point of origin (e.g. the Tor
+   anonymity network), then the value that is least likely to distinguish the user from other users
+   with similar origins (e.g. from the same IP address block) is the language used by the majority
+   of such users. <a href=#refsTOR>[TOR]</a><li>If the user is using an anonymizing service, then the value "<code>en-US</code>" is
+   suggested; if all users of the service use that same value, that reduces the possibility of
+   distinguishing the users from each other.</ul>
+
+  <p>To avoid introducing any more fingerprinting vectors, user agents should use the same list for
+  the APIs defined in this function as for the HTTP `<code id=language-preferences:http-accept-language><a data-x-internal=http-accept-language href=https://tools.ietf.org/html/rfc7231#section-5.3.5>Accept-Language</a></code>` header.
+  <a href=#fingerprinting-vector id=language-preferences:fingerprinting-vector-2 class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a>
+  </p>
+
+  
+
+
+
+  <h5 id=custom-handlers>8.7.1.3 Custom scheme and content handlers: the <code id=custom-handlers:dom-navigator-registerprotocolhandler><a href=#dom-navigator-registerprotocolhandler>registerProtocolHandler()</a></code> and <code id=custom-handlers:dom-navigator-registercontenthandler><a href=#dom-navigator-registercontenthandler>registerContentHandler()</a></code> methods<a href=#custom-handlers class=self-link></a></h5><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> registerprotocolhandler<span class="and_chr no"><span>Chrome for Android</span> <span>None</span></span><span class="chrome yes"><span>Chrome</span> <span>13+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox yes"><span>Firefox</span> <span>3+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung no"><span>Samsung Internet</span> <span>None</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android no"><span>Android Browser</span> <span>None</span></span><span class="safari no"><span>Safari</span> <span>None</span></span><span class="edge no"><span>Edge</span> <span>None</span></span><span class="opera yes"><span>Opera</span> <span>11.6+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=registerprotocolhandler">caniuse.com</a></div>
+
+  <pre class=idl>[NoInterfaceObject]
+interface <dfn id=navigatorcontentutils>NavigatorContentUtils</dfn> {
+  // content handler registration
+  void <a href=#dom-navigator-registerprotocolhandler id=custom-handlers:dom-navigator-registerprotocolhandler-2>registerProtocolHandler</a>(DOMString scheme, USVString url, DOMString title);
+  void <a href=#dom-navigator-registercontenthandler id=custom-handlers:dom-navigator-registercontenthandler-2>registerContentHandler</a>(DOMString mimeType, USVString url, DOMString title);
+  DOMString <a href=#dom-navigator-isprotocolhandlerregistered id=custom-handlers:dom-navigator-isprotocolhandlerregistered>isProtocolHandlerRegistered</a>(DOMString scheme, USVString url);
+  DOMString <a href=#dom-navigator-iscontenthandlerregistered id=custom-handlers:dom-navigator-iscontenthandlerregistered>isContentHandlerRegistered</a>(DOMString mimeType, USVString url);
+  void <a href=#dom-navigator-unregisterprotocolhandler id=custom-handlers:dom-navigator-unregisterprotocolhandler>unregisterProtocolHandler</a>(DOMString scheme, USVString url);
+  void <a href=#dom-navigator-unregistercontenthandler id=custom-handlers:dom-navigator-unregistercontenthandler>unregisterContentHandler</a>(DOMString mimeType, USVString url);
+};</pre>
+
+  <p>The <dfn id=dom-navigator-registerprotocolhandler><code>registerProtocolHandler()</code></dfn> method
+  allows Web sites to register themselves as possible handlers for particular schemes. For example,
+  an online telephone messaging service could register itself as a handler of the <code id=custom-handlers:sms-protocol><a data-x-internal=sms-protocol href=https://tools.ietf.org/html/rfc5724#section-2>sms:</a></code> scheme, so that if the user clicks on such a link, they are given the
+  opportunity to use that Web site. Analogously, the <dfn id=dom-navigator-registercontenthandler><code>registerContentHandler()</code></dfn> method allows
+  Web sites to register themselves as possible handlers for content in a particular <a id=custom-handlers:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME
+  type</a>. For example, the same online telephone messaging service could register itself as a
+  handler for <code id=custom-handlers:text/vcard><a href=#text/vcard>text/vcard</a></code> files, so that if the user has no native application capable
+  of handling vCards, their Web browser can instead suggest they use that site to view contact
+  information stored on vCards that they open. <a href=#refsSMS>[SMS]</a> <a href=#refsRFC6350>[RFC6350]</a></p>
+
+  <dl class=domintro><dt><var>window</var> . <code id=custom-handlers:dom-navigator><a href=#dom-navigator>navigator</a></code> . <code id=custom-handlers:dom-navigator-registerprotocolhandler-3><a href=#dom-navigator-registerprotocolhandler>registerProtocolHandler</a></code>(<var>scheme</var>, <var>url</var>, <var>title</var>)<dt><var>window</var> . <code id=custom-handlers:dom-navigator-2><a href=#dom-navigator>navigator</a></code> . <code id=custom-handlers:dom-navigator-registercontenthandler-3><a href=#dom-navigator-registercontenthandler>registerContentHandler</a></code>(<var>mimeType</var>, <var>url</var>, <var>title</var>)<dd>
+
+    <p>Registers a handler for the given scheme or content type, at the given URL, with the given
+    title.</p>
+
+    <p>The string "<code>%s</code>" in the URL is used as a placeholder for where to put
+    the URL of the content to be handled.</p>
+
+    <p>Throws a <a id=custom-handlers:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=custom-handlers:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the user
+    agent blocks the registration (this might happen if trying to register as a handler for "http",
+    for instance).</p>
+
+    <p>Throws a <a id=custom-handlers:syntaxerror href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=custom-handlers:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the "<code>%s</code>" string is missing in the URL.</p>
+
+   </dl>
+
+  
+
+  <p>User agents may, within the constraints described in this section, do whatever they like when
+  the methods are called. A UA could, for instance, prompt the user and offer the user the
+  opportunity to add the site to a shortlist of handlers, or make the handlers their default, or
+  cancel the request. UAs could provide such a UI through modal UI or through a non-modal transient
+  notification interface. UAs could also simply silently collect the information, providing it only
+  when relevant to the user.</p>
+
+  <p>User agents should keep track of which sites have registered handlers (even if the user has
+  declined such registrations) so that the user is not repeatedly prompted with the same
+  request.</p>
+
+  <p>The arguments to the methods have the following meanings and corresponding implementation
+  requirements. The requirements that involve throwing exceptions must be processed in the order
+  given below, stopping at the first exception thrown. (So the exceptions for the first argument
+  take precedence over the exceptions for the second argument.)</p>
+
+  <dl><dt><var>scheme</var> (<code id=custom-handlers:dom-navigator-registerprotocolhandler-4><a href=#dom-navigator-registerprotocolhandler>registerProtocolHandler()</a></code> only)<dd>
+
+    <p>A scheme, such as "<code>mailto</code>" or "<code>web+auth</code>". The
+    scheme must be compared in an <a id=custom-handlers:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> manner by user agents for the
+    purposes of comparing with the scheme part of URLs that they consider against the list of
+    registered handlers.</p>
+
+    <p>The <var>scheme</var> value, if it contains a colon (as in "<code>mailto:</code>"),
+    will never match anything, since schemes don't contain colons.</p>
+
+    <p>If the <code id=custom-handlers:dom-navigator-registerprotocolhandler-5><a href=#dom-navigator-registerprotocolhandler>registerProtocolHandler()</a></code>
+    method is invoked with a scheme that is neither a <a href=#safelisted-scheme id=custom-handlers:safelisted-scheme>safelisted scheme</a> nor a scheme
+    whose value starts with the substring "<code>web+</code>" and otherwise contains only
+    <a href=#lowercase-ascii-letters id=custom-handlers:lowercase-ascii-letters>lowercase ASCII letters</a>, and whose length is at least five characters (including
+    the "<code>web+</code>" prefix), the user agent must throw a
+    <a id=custom-handlers:securityerror-2 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=custom-handlers:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+    <p>The following schemes are the <dfn id=safelisted-scheme>safelisted schemes</dfn>:</p>
+
+    <ul class=brief><li><code>bitcoin</code><li><code>geo</code><li><code>im</code><li><code>irc</code><li><code>ircs</code><li><code>magnet</code><li><code>mailto</code><li><code>mms</code><li><code>news</code><li><code>nntp</code><li><code>openpgp4fpr</code><li><code>sip</code><li><code>sms</code><li><code>smsto</code><li><code>ssh</code><li><code>tel</code><li><code>urn</code><li><code>webcal</code><li><code>wtai</code><li><code>xmpp</code></ul>
+
+    <p class=note>This list can be changed. If there are schemes that should be added, please send
+    feedback.</p>
+
+    <p class=note>This list excludes any schemes that could reasonably be expected to be supported
+    inline, e.g. in an <code id=custom-handlers:the-iframe-element><a href=#the-iframe-element>iframe</a></code>, such as <code>http</code> or (more
+    theoretically) <code>gopher</code>. If those were supported, they could potentially be

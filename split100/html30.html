@@ -1,0 +1,850 @@
+
+  <pre class=idl>interface <dfn id=texttrackcue>TextTrackCue</dfn> : <a id=text-track-api:eventtarget-3 href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  readonly attribute <a href=#texttrack id=text-track-api:texttrack-31>TextTrack</a>? <a href=#dom-texttrackcue-track id=text-track-api:dom-texttrackcue-track>track</a>;
+
+  attribute DOMString <a href=#dom-texttrackcue-id id=text-track-api:dom-texttrackcue-id>id</a>;
+  attribute double <a href=#dom-texttrackcue-starttime id=text-track-api:dom-texttrackcue-starttime>startTime</a>;
+  attribute double <a href=#dom-texttrackcue-endtime id=text-track-api:dom-texttrackcue-endtime>endTime</a>;
+  attribute boolean <a href=#dom-texttrackcue-pauseonexit id=text-track-api:dom-texttrackcue-pauseonexit>pauseOnExit</a>;
+
+  attribute <a href=#eventhandler id=text-track-api:eventhandler-5>EventHandler</a> <a href=#handler-texttrackcue-onenter id=text-track-api:handler-texttrackcue-onenter>onenter</a>;
+  attribute <a href=#eventhandler id=text-track-api:eventhandler-6>EventHandler</a> <a href=#handler-texttrackcue-onexit id=text-track-api:handler-texttrackcue-onexit>onexit</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>cue</var> . <a href=#dom-texttrackcue-track id=text-track-api:dom-texttrackcue-track-2>track</a><dd>
+    <p>Returns the <code id=text-track-api:texttrack-32><a href=#texttrack>TextTrack</a></code> object to which this
+    <a href=#text-track-cue id=text-track-api:text-track-cue-13>text track cue</a> belongs, if any, or null
+    otherwise.</p>
+   <dt><var>cue</var> . <a href=#dom-texttrackcue-id id=text-track-api:dom-texttrackcue-id-2>id</a> [ = <var>value</var> ]<dd>
+    <p>Returns the <a href=#text-track-cue-identifier id=text-track-api:text-track-cue-identifier-3>text track cue identifier</a>.</p>
+    <p>Can be set.</p>
+   <dt><var>cue</var> . <a href=#dom-texttrackcue-starttime id=text-track-api:dom-texttrackcue-starttime-2>startTime</a> [ = <var>value</var> ]<dd>
+    <p>Returns the <a href=#text-track-cue-start-time id=text-track-api:text-track-cue-start-time>text track cue start time</a>, in seconds.</p>
+    <p>Can be set.</p>
+   <dt><var>cue</var> . <a href=#dom-texttrackcue-endtime id=text-track-api:dom-texttrackcue-endtime-2>endTime</a> [ = <var>value</var> ]<dd>
+    <p>Returns the <a href=#text-track-cue-end-time id=text-track-api:text-track-cue-end-time-2>text track cue end time</a>, in seconds.</p>
+    <p>Can be set.</p>
+   <dt><var>cue</var> . <a href=#dom-texttrackcue-pauseonexit id=text-track-api:dom-texttrackcue-pauseonexit-2>pauseOnExit</a> [ = <var>value</var> ]<dd>
+    <p>Returns true if the <a href=#text-track-cue-pause-on-exit-flag id=text-track-api:text-track-cue-pause-on-exit-flag>text track cue pause-on-exit flag</a> is set, false otherwise.</p>
+    <p>Can be set.</p>
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-texttrackcue-track><code>track</code></dfn> attribute, on getting, must
+  return the <code id=text-track-api:texttrack-33><a href=#texttrack>TextTrack</a></code> object of the <a href=#text-track id=text-track-api:text-track-28>text track</a> in whose <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-18>list of cues</a> the <a href=#text-track-cue id=text-track-api:text-track-cue-14>text track cue</a> that the
+  <code id=text-track-api:texttrackcue-5><a href=#texttrackcue>TextTrackCue</a></code> object represents finds itself, if any; or null otherwise.</p>
+
+  <p>The <dfn id=dom-texttrackcue-id><code>id</code></dfn> attribute, on getting, must return
+  the <a href=#text-track-cue-identifier id=text-track-api:text-track-cue-identifier-4>text track cue identifier</a> of the <a href=#text-track-cue id=text-track-api:text-track-cue-15>text track cue</a> that the
+  <code id=text-track-api:texttrackcue-6><a href=#texttrackcue>TextTrackCue</a></code> object represents. On setting, the <a href=#text-track-cue-identifier id=text-track-api:text-track-cue-identifier-5>text track cue
+  identifier</a> must be set to the new value.</p>
+
+  <p>The <dfn id=dom-texttrackcue-starttime><code>startTime</code></dfn> attribute, on
+  getting, must return the <a href=#text-track-cue-start-time id=text-track-api:text-track-cue-start-time-2>text track cue start time</a> of the <a href=#text-track-cue id=text-track-api:text-track-cue-16>text track cue</a>
+  that the <code id=text-track-api:texttrackcue-7><a href=#texttrackcue>TextTrackCue</a></code> object represents, in seconds. On setting, the <a href=#text-track-cue-start-time id=text-track-api:text-track-cue-start-time-3>text track
+  cue start time</a> must be set to the new value, interpreted in seconds; then, if the
+  <code id=text-track-api:texttrackcue-8><a href=#texttrackcue>TextTrackCue</a></code> object's <a href=#text-track-cue id=text-track-api:text-track-cue-17>text track cue</a> is in a <a href=#text-track id=text-track-api:text-track-29>text track</a>'s
+  <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-19>list of cues</a>, and that <a href=#text-track id=text-track-api:text-track-30>text track</a> is in
+  a <a href=#media-element id=text-track-api:media-element-10>media element</a>'s <a href=#list-of-text-tracks id=text-track-api:list-of-text-tracks-7>list of text tracks</a>, and the <a href=#media-element id=text-track-api:media-element-11>media
+  element</a>'s <a href=#show-poster-flag id=text-track-api:show-poster-flag>show poster flag</a> is not set, then run the <i id=text-track-api:time-marches-on><a href=#time-marches-on>time marches on</a></i> steps for that <a href=#media-element id=text-track-api:media-element-12>media element</a>.</p>
+
+  <p>The <dfn id=dom-texttrackcue-endtime><code>endTime</code></dfn> attribute, on getting,
+  must return the <a href=#text-track-cue-end-time id=text-track-api:text-track-cue-end-time-3>text track cue end time</a> of the <a href=#text-track-cue id=text-track-api:text-track-cue-18>text track cue</a> that the
+  <code id=text-track-api:texttrackcue-9><a href=#texttrackcue>TextTrackCue</a></code> object represents, in seconds. On setting, the <a href=#text-track-cue-end-time id=text-track-api:text-track-cue-end-time-4>text track cue end
+  time</a> must be set to the new value, interpreted in seconds; then, if the
+  <code id=text-track-api:texttrackcue-10><a href=#texttrackcue>TextTrackCue</a></code> object's <a href=#text-track-cue id=text-track-api:text-track-cue-19>text track cue</a> is in a <a href=#text-track id=text-track-api:text-track-31>text track</a>'s
+  <a href=#text-track-list-of-cues id=text-track-api:text-track-list-of-cues-20>list of cues</a>, and that <a href=#text-track id=text-track-api:text-track-32>text track</a> is in
+  a <a href=#media-element id=text-track-api:media-element-13>media element</a>'s <a href=#list-of-text-tracks id=text-track-api:list-of-text-tracks-8>list of text tracks</a>, and the <a href=#media-element id=text-track-api:media-element-14>media
+  element</a>'s <a href=#show-poster-flag id=text-track-api:show-poster-flag-2>show poster flag</a> is not set, then run the <i id=text-track-api:time-marches-on-2><a href=#time-marches-on>time marches on</a></i> steps for that <a href=#media-element id=text-track-api:media-element-15>media element</a>.</p>
+
+  <p>The <dfn id=dom-texttrackcue-pauseonexit><code>pauseOnExit</code></dfn> attribute, on
+  getting, must return true if the <a href=#text-track-cue-pause-on-exit-flag id=text-track-api:text-track-cue-pause-on-exit-flag-2>text track cue pause-on-exit flag</a> of the <a href=#text-track-cue id=text-track-api:text-track-cue-20>text
+  track cue</a> that the <code id=text-track-api:texttrackcue-11><a href=#texttrackcue>TextTrackCue</a></code> object represents is set; or false otherwise.
+  On setting, the <a href=#text-track-cue-pause-on-exit-flag id=text-track-api:text-track-cue-pause-on-exit-flag-3>text track cue pause-on-exit flag</a> must be set if the new value is
+  true, and must be unset otherwise.</p>
+
+  
+
+
+  <h6 id=text-tracks-describing-chapters>4.8.12.11.6 Text tracks describing chapters<a href=#text-tracks-describing-chapters class=self-link></a></h6>
+
+  <p>Chapters are segments of a <a href=#media-resource id=text-tracks-describing-chapters:media-resource>media resource</a> with a given title. Chapters can be
+  nested, in the same way that sections in a document outline can have subsections.</p>
+
+  <p>Each <a href=#text-track-cue id=text-tracks-describing-chapters:text-track-cue>text track cue</a> in a <a href=#text-track id=text-tracks-describing-chapters:text-track>text track</a> being used for describing
+  chapters has three key features: the <a href=#text-track-cue-start-time id=text-tracks-describing-chapters:text-track-cue-start-time>text track cue start time</a>, giving the start time
+  of the chapter, the <a href=#text-track-cue-end-time id=text-tracks-describing-chapters:text-track-cue-end-time>text track cue end time</a>, giving the end time of the chapter, and
+  the <a href=#text-track-rules-for-extracting-the-chapter-title id=text-tracks-describing-chapters:text-track-rules-for-extracting-the-chapter-title>text track rules for extracting the chapter title</a>.</p>
+
+  
+
+  <p>The <dfn id=rules-for-constructing-the-chapter-tree-from-a-text-track>rules for constructing the chapter tree from a text track</dfn> are as follows. They
+  produce a potentially nested list of chapters, each of which have a start time, end time, title,
+  and a list of nested chapters. This algorithm discards cues that do not correctly nest within each
+  other, or that are out of order.</p>
+
+  <ol><li><p>Let <var>list</var> be a copy of the <a href=#text-track-list-of-cues id=text-tracks-describing-chapters:text-track-list-of-cues>list
+   of cues</a> of the <a href=#text-track id=text-tracks-describing-chapters:text-track-2>text track</a> being processed.<li><p>Remove from <var>list</var> any <a href=#text-track-cue id=text-tracks-describing-chapters:text-track-cue-2>text track cue</a> whose <a href=#text-track-cue-end-time id=text-tracks-describing-chapters:text-track-cue-end-time-2>text
+   track cue end time</a> is before its <a href=#text-track-cue-start-time id=text-tracks-describing-chapters:text-track-cue-start-time-2>text track cue start time</a>.<li><p>Let <var>output</var> be an empty list of chapters, where a chapter is a record
+   consisting of a start time, an end time, a title, and a (potentially empty) list of nested
+   chapters. For the purpose of this algorithm, each chapter also has a parent chapter.<li><p>Let <var>current chapter</var> be a stand-in chapter whose start time is negative
+   infinity, whose end time is positive infinity, and whose list of nested chapters is <var>output</var>. (This is just used to make the algorithm easier to describe.)<li><p><i>Loop</i>: If <var>list</var> is empty, jump to the step labeled
+   <i>end</i>.<li><p>Let <var>current cue</var> be the first cue in <var>list</var>, and then
+   remove it from <var>list</var>.<li><p>If <var>current cue</var>'s <a href=#text-track-cue-start-time id=text-tracks-describing-chapters:text-track-cue-start-time-3>text track cue start time</a> is less than
+   the start time of <var>current chapter</var>, then return to the step labeled
+   <i>loop</i>.</p> 
+
+   <li><p>While <var>current cue</var>'s <a href=#text-track-cue-start-time id=text-tracks-describing-chapters:text-track-cue-start-time-4>text track cue start time</a> is greater
+   than or equal to <var>current chapter</var>'s end time, let <var>current
+   chapter</var> be <var>current chapter</var>'s parent chapter.<li><p>If <var>current cue</var>'s <a href=#text-track-cue-end-time id=text-tracks-describing-chapters:text-track-cue-end-time-3>text track cue end time</a> is greater than
+   the end time of <var>current chapter</var>, then return to the step labeled
+   <i>loop</i>.</p> 
+
+   <li>
+
+    <p>Create a new chapter <var>new chapter</var>, whose start time is <var>current cue</var>'s <a href=#text-track-cue-start-time id=text-tracks-describing-chapters:text-track-cue-start-time-5>text track cue start time</a>, whose end time is <var>current cue</var>'s <a href=#text-track-cue-end-time id=text-tracks-describing-chapters:text-track-cue-end-time-4>text track cue end time</a>, whose title is the result of running <var>current cue</var>'s <a href=#text-track-rules-for-extracting-the-chapter-title id=text-tracks-describing-chapters:text-track-rules-for-extracting-the-chapter-title-2>text track rules for extracting the chapter title</a>, and whose list of nested chapters is
+    empty.</p>
+
+   <li><p>Append <var>new chapter</var> to <var>current chapter</var>'s list of
+   nested chapters, and let <var>current chapter</var> be <var>new chapter</var>'s
+   parent.<li><p>Let <var>current chapter</var> be <var>new chapter</var>.<li><p>Return to the step labeled <i>loop</i>.<li><p><i>End</i>: Return <var>output</var>.</ol>
+
+  
+
+  <div class=example>
+
+   <p>The following snippet of a <a id=text-tracks-describing-chapters:webvtt-file href=https://w3c.github.io/webvtt/#webvtt-file data-x-internal=webvtt-file>WebVTT file</a> shows how nested chapters can be marked
+   up. The file describes three 50-minute chapters, "Astrophysics", "Computational Physics", and
+   "General Relativity". The first has three subchapters, the second has four, and the third has
+   two. <a href=#refsWEBVTT>[WEBVTT]</a></p>
+
+   <pre>WEBVTT
+
+00:00:00.000 --> 00:50:00.000
+Astrophysics
+
+00:00:00.000 --> 00:10:00.000
+Introduction to Astrophysics
+
+00:10:00.000 --> 00:45:00.000
+The Solar System
+
+00:00:00.000 --> 00:10:00.000
+Coursework Description
+
+00:50:00.000 --> 01:40:00.000
+Computational Physics
+
+00:50:00.000 --> 00:55:00.000
+Introduction to Programming
+
+00:55:00.000 --> 01:30:00.000
+Data Structures
+
+01:30:00.000 --> 01:35:00.000
+Answers to Last Exam
+
+01:35:00.000 --> 01:40:00.000
+Coursework Description
+
+01:40:00.000 --> 02:30:00.000
+General Relativity
+
+01:40:00.000 --> 02:00:00.000
+Tensor Algebra
+
+02:00:00.000 --> 02:30:00.000
+The General Relativistic Field Equations</pre>
+
+  </div>
+
+
+  
+
+  <h6 id=cue-events>4.8.12.11.7 Event handlers for objects of the text track APIs<a href=#cue-events class=self-link></a></h6>
+
+  <p>The following are the <a href=#event-handlers id=cue-events:event-handlers>event handlers</a> that (and their corresponding <a href=#event-handler-event-type id=cue-events:event-handler-event-type>event handler event types</a>) must be supported, as <a href=#event-handler-idl-attributes id=cue-events:event-handler-idl-attributes>event handler IDL
+  attributes</a>, by all objects implementing the <code id=cue-events:texttracklist><a href=#texttracklist>TextTrackList</a></code> interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=cue-events:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=cue-events:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-texttracklist-onchange><code>onchange</code></dfn> <td> <code id=cue-events:event-media-change><a href=#event-media-change>change</a></code>
+    <tr><td><dfn id=handler-texttracklist-onaddtrack><code>onaddtrack</code></dfn> <td> <code id=cue-events:event-media-addtrack><a href=#event-media-addtrack>addtrack</a></code>
+    <tr><td><dfn id=handler-texttracklist-onremovetrack><code>onremovetrack</code></dfn> <td> <code id=cue-events:event-media-removetrack><a href=#event-media-removetrack>removetrack</a></code>
+  </table>
+
+  <p>The following are the <a href=#event-handlers id=cue-events:event-handlers-3>event handlers</a> that (and their corresponding <a href=#event-handler-event-type id=cue-events:event-handler-event-type-3>event handler event types</a>) must be supported, as <a href=#event-handler-idl-attributes id=cue-events:event-handler-idl-attributes-2>event handler IDL
+  attributes</a>, by all objects implementing the <code id=cue-events:texttrack><a href=#texttrack>TextTrack</a></code> interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=cue-events:event-handlers-4>Event handler</a> <th><a href=#event-handler-event-type id=cue-events:event-handler-event-type-4>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-texttrack-oncuechange><code>oncuechange</code></dfn> <td> <code id=cue-events:event-media-cuechange><a href=#event-media-cuechange>cuechange</a></code>
+  </table>
+
+  <p>The following are the <a href=#event-handlers id=cue-events:event-handlers-5>event handlers</a> that (and their corresponding <a href=#event-handler-event-type id=cue-events:event-handler-event-type-5>event handler event types</a>) must be supported, as <a href=#event-handler-idl-attributes id=cue-events:event-handler-idl-attributes-3>event handler IDL
+  attributes</a>, by all objects implementing the <code id=cue-events:texttrackcue><a href=#texttrackcue>TextTrackCue</a></code> interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=cue-events:event-handlers-6>Event handler</a> <th><a href=#event-handler-event-type id=cue-events:event-handler-event-type-6>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-texttrackcue-onenter><code>onenter</code></dfn> <td> <code id=cue-events:event-media-enter><a href=#event-media-enter>enter</a></code>
+    <tr><td><dfn id=handler-texttrackcue-onexit><code>onexit</code></dfn> <td> <code id=cue-events:event-media-exit><a href=#event-media-exit>exit</a></code>
+  </table>
+
+  
+
+
+
+  <h6 id=best-practices-for-metadata-text-tracks>4.8.12.11.8 Best practices for metadata text tracks<a href=#best-practices-for-metadata-text-tracks class=self-link></a></h6>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Text tracks can be used for storing data relating to the media data, for interactive or
+  augmented views.</p>
+
+  <p>For example, a page showing a sports broadcast could include information about the current
+  score. Suppose a robotics competition was being streamed live. The image could be overlayed with
+  the scores, as follows:</p>
+
+  <p><iframe src="data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Cstyle%3E%0A%20body%2C%20html%20%7B%20margin%3A%200%3B%20padding%3A%200%3B%20overflow%3A%20hidden%3B%20%7D%0A%20div%20%7B%20width%3A%20600px%3B%20height%3A%20400px%3B%20position%3A%20relative%3B%20%7D%0A%20p%20%7B%20position%3A%20absolute%3B%20top%3A%200%3B%20margin%3A%200.25em%3B%20font%3A%20small-caps%20900%202em%20sans-serif%3B%20text-shadow%3A%20white%200%200%204px%3B%20%7D%0A%20span%20%7B%20display%3A%20block%3B%20%7D%0A%20.left%20%7B%20color%3A%20red%3B%20left%3A%200%3B%20text-align%3A%20left%3B%20%7D%0A%20.right%20%7B%20color%3A%20blue%3B%20right%3A%200%3B%20text-align%3A%20right%3B%20%7D%0A%20.middle%20%7B%20color%3A%20white%3B%20top%3A%20auto%3B%20bottom%3A%200%3B%20left%3A%200%3B%20right%3A%200%3B%20text-align%3A%20center%3B%20text-shadow%3A%20black%200%200%204px%3B%20%7D%0A%20.middle%20span%20%7B%20display%3A%20inline-block%3B%20margin%3A%200%201em%3B%20font-size%3A%200.75em%3B%20text-transform%3A%20uppercase%3B%20%7D%0A%3C%2Fstyle%3E%0A%3Cdiv%3E%0A%20%3Cimg%20src%3D%22https%3A%2F%2Fhtml.spec.whatwg.org%2Fimages%2Frobots.jpeg%22%3E%0A%20%3Cp%20class%3D%22score%20left%22%3E%3Cspan%3ERed%20Alliance%3C%2Fspan%3E%20%3Cspan%3E78%3C%2Fspan%3E%3C%2Fp%3E%0A%20%3Cp%20class%3D%22score%20right%22%3E%3Cspan%3EBlue%20Alliance%3C%2Fspan%3E%20%3Cspan%3E66%3C%2Fspan%3E%3C%2Fp%3E%0A%20%3Cp%20class%3D%22score%20middle%22%3E%3Cspan%3EQual%20Match%2037%3C%2Fspan%3E%20%3Cspan%3EFriday%2014%3A21%3C%2Fspan%3E%0A%3C%2Fdiv%3E" width=600 height=400></iframe>
+
+  <p>In order to make the score display render correctly whenever the user seeks to an arbitrary
+  point in the video, the metadata text track cues need to be as long as is appropriate for the
+  score. For example, in the frame above, there would be maybe one cue that lasts the length of the
+  match that gives the match number, one cue that lasts until the blue alliance's score changes, and
+  one cue that lasts until the red alliance's score changes. If the video is just a stream of the
+  live event, the time in the bottom right would presumably be automatically derived from the
+  current video time, rather than based on a cue. However, if the video was just the highlights,
+  then that might be given in cues also.</p>
+
+  <p>The following shows what fragments of this could look like in a WebVTT file:</p>
+
+  <pre>WEBVTT
+
+...
+
+05:10:00.000 --> 05:12:15.000
+matchtype:qual
+matchnumber:37
+
+...
+
+05:11:02.251 --> 05:11:17.198
+red:78
+
+05:11:03.672 --> 05:11:54.198
+blue:66
+
+05:11:17.198 --> 05:11:25.912
+red:80
+
+05:11:25.912 --> 05:11:26.522
+red:83
+
+05:11:26.522 --> 05:11:26.982
+red:86
+
+05:11:26.982 --> 05:11:27.499
+red:89
+
+...</pre>
+
+  <p>The key here is to notice that the information is given in cues that span the length of time to
+  which the relevant event applies. If, instead, the scores were given as zero-length (or very
+  brief, nearly zero-length) cues when the score changes, for example saying "red+2" at
+  05:11:17.198, "red+3" at 05:11:25.912, etc, problems arise: primarily, seeking is much harder to
+  implement, as the script has to walk the entire list of cues to make sure that no notifications
+  have been missed; but also, if the cues are short it's possible the script will never see that
+  they are active unless it listens to them specifically.</p>
+
+  <p>When using cues in this manner, authors are encouraged to use the <code id=best-practices-for-metadata-text-tracks:event-media-cuechange><a href=#event-media-cuechange>cuechange</a></code> event to update the current annotations. (In
+  particular, using the <code id=best-practices-for-metadata-text-tracks:event-media-timeupdate><a href=#event-media-timeupdate>timeupdate</a></code> event would be less
+  appropriate as it would require doing work even when the cues haven't changed, and, more
+  importantly, would introduce a higher latency between when the metadata cues become active and
+  when the display is updated, since <code id=best-practices-for-metadata-text-tracks:event-media-timeupdate-2><a href=#event-media-timeupdate>timeupdate</a></code> events
+  are rate-limited.)</p>
+
+
+
+  <h5 id=identifying-a-track-kind-through-a-url>4.8.12.12 Identifying a track kind through a URL<a href=#identifying-a-track-kind-through-a-url class=self-link></a></h5>
+
+  <p>Other specifications or formats that need a <a id=identifying-a-track-kind-through-a-url:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> to identify the return values of
+  the <code id=identifying-a-track-kind-through-a-url:dom-audiotrack-kind><a href=#dom-audiotrack-kind>AudioTrack.kind</a></code> or <code id=identifying-a-track-kind-through-a-url:dom-videotrack-kind><a href=#dom-videotrack-kind>VideoTrack.kind</a></code> IDL attributes, or identify the <a href=#text-track-kind id=identifying-a-track-kind-through-a-url:text-track-kind>kind of text track</a>, must use the <code id=identifying-a-track-kind-through-a-url:about:html-kind><a href=#about:html-kind>about:html-kind</a></code>
+  <a id=identifying-a-track-kind-through-a-url:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>.</p>
+
+
+
+  <h5 id=user-interface>4.8.12.13 User interface<a href=#user-interface class=self-link></a></h5>
+
+  <p>The <dfn id=attr-media-controls><code>controls</code></dfn> attribute is a <a href=#boolean-attribute id=user-interface:boolean-attribute>boolean
+  attribute</a>. If present, it indicates that the author has not provided a scripted controller
+  and would like the user agent to provide its own set of controls.</p>
+
+  
+
+  <p>If the attribute is present, or if <a href=#concept-n-noscript id=user-interface:concept-n-noscript>scripting is
+  disabled</a> for the <a href=#media-element id=user-interface:media-element>media element</a>, then the user agent should <dfn id=expose-a-user-interface-to-the-user>expose a user
+  interface to the user</dfn>. This user interface should include features to begin playback, pause
+  playback, seek to an arbitrary position in the content (if the content supports arbitrary
+  seeking), change the volume, change the display of closed captions or embedded sign-language
+  tracks, select different audio tracks or turn on audio descriptions, and show the media content in
+  manners more suitable to the user (e.g. fullscreen video or in an independent resizable window).
+  Other controls may also be made available.</p>
+
+  <p>Even when the attribute is absent, however, user agents may provide controls to affect playback
+  of the media resource (e.g. play, pause, seeking, track selection, and volume controls), but such
+  features should not interfere with the page's normal rendering. For example, such features could
+  be exposed in the <a href=#media-element id=user-interface:media-element-2>media element</a>'s context menu, platform media keys, or a remote
+  control. The user agent may implement this simply by <a href=#expose-a-user-interface-to-the-user id=user-interface:expose-a-user-interface-to-the-user>exposing a user interface to the user</a> as described above (as if the <code id=user-interface:attr-media-controls><a href=#attr-media-controls>controls</a></code> attribute was present).</p>
+
+  <p>If the user agent <a href=#expose-a-user-interface-to-the-user id=user-interface:expose-a-user-interface-to-the-user-2>exposes a user interface to
+  the user</a> by displaying controls over the <a href=#media-element id=user-interface:media-element-3>media element</a>, then the user agent
+  should suppress any user interaction events while the user agent is interacting with this
+  interface. (For example, if the user clicks on a video's playback control, <code id=user-interface:event-mousedown><a data-x-internal=event-mousedown href=https://w3c.github.io/uievents/#event-type-mousedown>mousedown</a></code> events and so forth would not simultaneously be fired at
+  elements on the page.)</p>
+
+  <p>Where possible (specifically, for starting, stopping, pausing, and unpausing playback, for
+  seeking, for changing the rate of playback, for fast-forwarding or rewinding, for listing,
+  enabling, and disabling text tracks, and for muting or changing the volume of the audio), user
+  interface features exposed by the user agent must be implemented in terms of the DOM API described
+  above, so that, e.g., all the same events fire.</p>
+
+  <p>Features such as fast-forward or rewind must be implemented by only changing the <code>playbackRate</code> attribute (and not the <code>defaultPlaybackRate</code>
+  attribute).</p>
+
+  <p>Seeking must be implemented in terms of <a href=#dom-media-seek id=user-interface:dom-media-seek>seeking</a> to the
+  requested position in the <a href=#media-element id=user-interface:media-element-4>media element</a>'s <a href=#media-timeline id=user-interface:media-timeline>media timeline</a>. For media
+  resources where seeking to an arbitrary position would be slow, user agents are encouraged to use
+  the <i>approximate-for-speed</i> flag when seeking in response to the user manipulating an
+  approximate position interface such as a seek bar.</p>
+
+  <p>For the purposes of listing chapters in the <a href=#media-resource id=user-interface:media-resource>media resource</a>, only <a href=#text-track id=user-interface:text-track>text tracks</a> in the <a href=#media-element id=user-interface:media-element-5>media element</a>'s <a href=#list-of-text-tracks id=user-interface:list-of-text-tracks>list of text tracks</a>
+  that are <a href=#text-track-showing id=user-interface:text-track-showing>showing</a> and whose <a href=#text-track-kind id=user-interface:text-track-kind>text track kind</a> is
+  <code id=user-interface:dom-texttrack-kind-chapters><a href=#dom-texttrack-kind-chapters>chapters</a></code> should be used. Such tracks must be
+  interpreted according to the <a href=#rules-for-constructing-the-chapter-tree-from-a-text-track id=user-interface:rules-for-constructing-the-chapter-tree-from-a-text-track>rules for constructing the chapter tree from a text
+  track</a>. When seeking in response to a user manipulating a chapter selection interface, user
+  agents should not use the <i>approximate-for-speed</i> flag.</p>
+
+  <p>The <dfn id=dom-media-controls><code>controls</code></dfn> IDL attribute must
+  <a href=#reflect id=user-interface:reflect>reflect</a> the content attribute of the same name.</p>
+
+  <hr>
+
+  
+
+  <dl class=domintro><dt><var>media</var> . <code id=user-interface:dom-media-volume><a href=#dom-media-volume>volume</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current playback volume, as a number in the range 0.0 to 1.0, where 0.0 is the
+    quietest and 1.0 the loudest.</p>
+
+    <p>Can be set, to change the volume.</p>
+
+    <p>Throws an <a id=user-interface:indexsizeerror href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=user-interface:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the new
+    value is not in the range 0.0 .. 1.0.</p>
+
+   <dt><var>media</var> . <code id=user-interface:dom-media-muted><a href=#dom-media-muted>muted</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns true if audio is muted, overriding the <code id=user-interface:dom-media-volume-2><a href=#dom-media-volume>volume</a></code>
+    attribute, and false if the <code id=user-interface:dom-media-volume-3><a href=#dom-media-volume>volume</a></code> attribute is being
+    honored.</p>
+
+    <p>Can be set, to change whether the audio is muted or not.</p>
+
+   </dl>
+
+  
+
+  <p>A <a href=#media-element id=user-interface:media-element-6>media element</a> has a <dfn id=concept-media-volume>playback volume</dfn>, which is a fraction in the range 0.0 (silent) to 1.0 (loudest).
+  Initially, the volume should be 1.0, but user agents may remember the last set value across
+  sessions, on a per-site basis or otherwise, so the volume may start at other values.</p>
+
+  <p>The <dfn id=dom-media-volume><code>volume</code></dfn> IDL attribute must return the
+  <a href=#concept-media-volume id=user-interface:concept-media-volume>playback volume</a> of any audio portions of the
+  <a href=#media-element id=user-interface:media-element-7>media element</a>. On setting, if the new value is in the range 0.0 to 1.0 inclusive, the
+  <a href=#media-element id=user-interface:media-element-8>media element</a>'s <a href=#concept-media-volume id=user-interface:concept-media-volume-2>playback volume</a> must be
+  set to the new value. If the new value is outside the range 0.0 to 1.0 inclusive, then, on
+  setting, an <a id=user-interface:indexsizeerror-2 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=user-interface:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> must be thrown
+  instead.</p>
+
+  <p>A <a href=#media-element id=user-interface:media-element-9>media element</a> can also be <dfn id=concept-media-muted>muted</dfn>. If
+  anything is muting the element, then it is muted. (For example, when the <a href=#direction-of-playback id=user-interface:direction-of-playback>direction of
+  playback</a> is backwards, the element is muted.)</p>
+
+  <p>The <dfn id=dom-media-muted><code>muted</code></dfn> IDL attribute must return the value
+  to which it was last set. When a <a href=#media-element id=user-interface:media-element-10>media element</a> is created, if the element has a <code id=user-interface:attr-media-muted><a href=#attr-media-muted>muted</a></code> content attribute specified, then the <code id=user-interface:dom-media-muted-2><a href=#dom-media-muted>muted</a></code> IDL attribute should be set to true; otherwise, the user
+  agents may set the value to the user's preferred value (e.g. remembering the last set value across
+  sessions, on a per-site basis or otherwise). While the <code id=user-interface:dom-media-muted-3><a href=#dom-media-muted>muted</a></code>
+  IDL attribute is set to true, the <a href=#media-element id=user-interface:media-element-11>media element</a> must be <a href=#concept-media-muted id=user-interface:concept-media-muted>muted</a>.</p>
+
+  <p>Whenever either of the values that would be returned by the <code id=user-interface:dom-media-volume-4><a href=#dom-media-volume>volume</a></code> and <code id=user-interface:dom-media-muted-4><a href=#dom-media-muted>muted</a></code> IDL
+  attributes change, the user agent must <a href=#queue-a-task id=user-interface:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=user-interface:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=user-interface:event-media-volumechange><a href=#event-media-volumechange>volumechange</a></code> at the <a href=#media-element id=user-interface:media-element-12>media element</a>. Then, if
+  the <a href=#media-element id=user-interface:media-element-13>media element</a> is not <a href=#allowed-to-play id=user-interface:allowed-to-play>allowed to play</a>, the user agent must run the
+  <a href=#internal-pause-steps id=user-interface:internal-pause-steps>internal pause steps</a> for the <a href=#media-element id=user-interface:media-element-14>media element</a>.</p>
+
+  <p>An element's <dfn id=effective-media-volume>effective media volume</dfn> is determined as follows:</p>
+
+  <ol><li><p>If the user has indicated that the user agent is to override the volume of the element,
+   then the element's <a href=#effective-media-volume id=user-interface:effective-media-volume>effective media volume</a> is the volume desired by the user. Abort
+   these steps.<li><p>If the element's audio output is <a href=#concept-media-muted id=user-interface:concept-media-muted-2>muted</a>, the
+   element's <a href=#effective-media-volume id=user-interface:effective-media-volume-2>effective media volume</a> is zero. Abort these steps.<li><p>Let <var>volume</var> be the <a href=#concept-media-volume id=user-interface:concept-media-volume-3>playback
+   volume</a> of the audio portions of the <a href=#media-element id=user-interface:media-element-15>media element</a>, in range 0.0 (silent) to
+   1.0 (loudest).<li><p>The element's <a href=#effective-media-volume id=user-interface:effective-media-volume-3>effective media volume</a> is <var>volume</var>,
+   interpreted relative to the range 0.0 to 1.0, with 0.0 being silent, and 1.0 being the loudest
+   setting, values in between increasing in loudness. The range need not be linear. The loudest
+   setting may be lower than the system's loudest possible setting; for example the user could have
+   set a maximum volume.</ol>
+
+  
+
+  <p>The <dfn id=attr-media-muted><code>muted</code></dfn> content attribute on <a href=#media-element id=user-interface:media-element-16>media elements</a> is a <a href=#boolean-attribute id=user-interface:boolean-attribute-2>boolean attribute</a> that controls the
+  default state of the audio output of the <a href=#media-resource id=user-interface:media-resource-2>media resource</a>, potentially overriding user
+  preferences.</p>
+
+  
+
+  <p>The <dfn id=dom-media-defaultmuted><code>defaultMuted</code></dfn> IDL attribute must
+  <a href=#reflect id=user-interface:reflect-2>reflect</a> the <code id=user-interface:attr-media-muted-2><a href=#attr-media-muted>muted</a></code> content attribute.</p>
+
+  
+
+  <p class=note>This attribute has no dynamic effect (it only controls the default state of the
+  element).</p>
+
+  <div class=example>
+
+   <p>This video (an advertisement) autoplays, but to avoid annoying users, it does so without
+   sound, and allows the user to turn the sound on. The user agent can pause the video if it's
+   unmuted without a user interaction.</p>
+
+   <pre>&lt;video src="adverts.cgi?kind=video" controls autoplay loop muted>&lt;/video></pre>
+
+  </div>
+
+
+
+
+  <h5 id=time-ranges>4.8.12.14 Time ranges<a href=#time-ranges class=self-link></a></h5>
+
+  <p>Objects implementing the <code id=time-ranges:timeranges><a href=#timeranges>TimeRanges</a></code> interface
+  represent a list of ranges (periods) of time.</p>
+
+  <pre class=idl>interface <dfn id=timeranges>TimeRanges</dfn> {
+  readonly attribute unsigned long <a href=#dom-timeranges-length id=time-ranges:dom-timeranges-length>length</a>;
+  double <a href=#dom-timeranges-start id=time-ranges:dom-timeranges-start>start</a>(unsigned long index);
+  double <a href=#dom-timeranges-end id=time-ranges:dom-timeranges-end>end</a>(unsigned long index);
+};</pre>
+
+  <dl class=domintro><dt><var>media</var> . <code id=time-ranges:dom-timeranges-length-2><a href=#dom-timeranges-length>length</a></code><dd>
+
+    <p>Returns the number of ranges in the object.</p>
+
+   <dt><var>time</var> = <var>media</var> . <code id=time-ranges:dom-timeranges-start-2><a href=#dom-timeranges-start>start</a></code>(<var>index</var>)<dd>
+
+    <p>Returns the time for the start of the range with the given index.</p>
+
+    <p>Throws an <a id=time-ranges:indexsizeerror href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=time-ranges:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the index
+    is out of range.</p>
+
+   <dt><var>time</var> = <var>media</var> . <code id=time-ranges:dom-timeranges-end-2><a href=#dom-timeranges-end>end</a></code>(<var>index</var>)<dd>
+
+    <p>Returns the time for the end of the range with the given index.</p>
+
+    <p>Throws an <a id=time-ranges:indexsizeerror-2 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=time-ranges:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the index
+    is out of range.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-timeranges-length><code>length</code></dfn> IDL attribute must return the
+  number of ranges represented by the object.</p>
+
+  <p>The <dfn id=dom-timeranges-start><code>start(<var>index</var>)</code></dfn>
+  method must return the position of the start of the <var>index</var>th range represented
+  by the object, in seconds measured from the start of the timeline that the object covers.</p>
+
+  <p>The <dfn id=dom-timeranges-end><code>end(<var>index</var>)</code></dfn> method
+  must return the position of the end of the <var>index</var>th range represented by the
+  object, in seconds measured from the start of the timeline that the object covers.</p>
+
+  <p>These methods must throw <a id=time-ranges:indexsizeerror-3 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=time-ranges:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>s
+  if called with an <var>index</var> argument greater than or equal to the number of ranges
+  represented by the object.</p>
+
+  <p>When a <code id=time-ranges:timeranges-2><a href=#timeranges>TimeRanges</a></code> object is said to be a
+  <dfn id=normalised-timeranges-object>normalized <code>TimeRanges</code>
+  object</dfn>, the ranges it represents must obey the following criteria:</p>
+
+  <ul><li>The start of a range must be greater than the end of all earlier ranges.<li>The start of a range must be less than or equal to the end of that same range.</ul>
+
+  <p>In other words, the ranges in such an object are ordered, don't overlap, and don't touch
+  (adjacent ranges are folded into one bigger range). A range can be empty (referencing just a
+  single moment in time), e.g. to indicate that only one frame is currently buffered in the case
+  that the user agent has discarded the entire <a href=#media-resource id=time-ranges:media-resource>media resource</a> except for the current
+  frame, when a <a href=#media-element id=time-ranges:media-element>media element</a> is paused.</p>
+
+  <p>Ranges in a <code id=time-ranges:timeranges-3><a href=#timeranges>TimeRanges</a></code> object must be inclusive.</p>
+
+  <p class=example>Thus, the end of a range would be equal to the start of a following adjacent
+  (touching but not overlapping) range. Similarly, a range covering a whole timeline anchored at
+  zero would have a start equal to zero and an end equal to the duration of the timeline.</p>
+
+  <p>The timelines used by the objects returned by the <code id=time-ranges:dom-media-buffered><a href=#dom-media-buffered>buffered</a></code>, <code id=time-ranges:dom-media-seekable><a href=#dom-media-seekable>seekable</a></code> and
+  <code id=time-ranges:dom-media-played><a href=#dom-media-played>played</a></code> IDL attributes of <a href=#media-element id=time-ranges:media-element-2>media
+  elements</a> must be that element's <a href=#media-timeline id=time-ranges:media-timeline>media timeline</a>.</p>
+
+  
+
+
+  <h5 id=the-trackevent-interface>4.8.12.15 The <code id=the-trackevent-interface:trackevent><a href=#trackevent>TrackEvent</a></code> interface<a href=#the-trackevent-interface class=self-link></a></h5>
+
+  <pre class=idl>[Constructor(DOMString type, optional <a href=#trackeventinit id=the-trackevent-interface:trackeventinit>TrackEventInit</a> eventInitDict)]
+interface <dfn id=trackevent>TrackEvent</dfn> : <a id=the-trackevent-interface:event href=https://dom.spec.whatwg.org/#interface-event data-x-internal=event>Event</a> {
+  readonly attribute (<a href=#videotrack id=the-trackevent-interface:videotrack>VideoTrack</a> or <a href=#audiotrack id=the-trackevent-interface:audiotrack>AudioTrack</a> or <a href=#texttrack id=the-trackevent-interface:texttrack>TextTrack</a>)? <a href=#dom-trackevent-track id=the-trackevent-interface:dom-trackevent-track>track</a>;
+};
+
+dictionary <dfn id=trackeventinit>TrackEventInit</dfn> : <a id=the-trackevent-interface:eventinit href=https://dom.spec.whatwg.org/#dictdef-eventinit data-x-internal=eventinit>EventInit</a> {
+  (<a href=#videotrack id=the-trackevent-interface:videotrack-2>VideoTrack</a> or <a href=#audiotrack id=the-trackevent-interface:audiotrack-2>AudioTrack</a> or <a href=#texttrack id=the-trackevent-interface:texttrack-2>TextTrack</a>)? track = null;
+};</pre>
+
+  <dl class=domintro><dt><var>event</var> . <code id=the-trackevent-interface:dom-trackevent-track-2><a href=#dom-trackevent-track>track</a></code><dd>
+
+    <p>Returns the track object (<code id=the-trackevent-interface:texttrack-3><a href=#texttrack>TextTrack</a></code>, <code id=the-trackevent-interface:audiotrack-3><a href=#audiotrack>AudioTrack</a></code>, or
+    <code id=the-trackevent-interface:videotrack-3><a href=#videotrack>VideoTrack</a></code>) to which the event relates.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-trackevent-track><code>track</code></dfn> attribute must return the value
+  it was initialized to. It represents the context information for the event.</p>
+
+  
+
+
+
+  <h5 id=mediaevents>4.8.12.16 Event summary<a href=#mediaevents class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The following events fire on <a href=#media-element id=mediaevents:media-element>media elements</a> as part of the
+  processing model described above:</p>
+
+  <table><thead><tr><th>Event name
+     <th>Interface
+     <th>Fired when...
+     <th>Preconditions
+
+   <tbody><tr><td><dfn id=event-media-loadstart><code>loadstart</code></dfn>
+
+     <td><code id=mediaevents:event><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The user agent begins looking for <a href=#media-data id=mediaevents:media-data>media data</a>, as part of the <a href=#concept-media-load-algorithm id=mediaevents:concept-media-load-algorithm>resource selection algorithm</a>.
+
+     <td><code id=mediaevents:dom-media-networkstate><a href=#dom-media-networkstate>networkState</a></code> equals <code id=mediaevents:dom-media-network_loading><a href=#dom-media-network_loading>NETWORK_LOADING</a></code>
+
+    <tr><td><dfn id=event-media-progress><code>progress</code></dfn>
+
+     <td><code id=mediaevents:event-2><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The user agent is fetching <a href=#media-data id=mediaevents:media-data-2>media data</a>.
+
+     <td><code id=mediaevents:dom-media-networkstate-2><a href=#dom-media-networkstate>networkState</a></code> equals <code id=mediaevents:dom-media-network_loading-2><a href=#dom-media-network_loading>NETWORK_LOADING</a></code>
+
+    <tr><td><dfn id=event-media-suspend><code>suspend</code></dfn>
+
+     <td><code id=mediaevents:event-3><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The user agent is intentionally not currently fetching <a href=#media-data id=mediaevents:media-data-3>media data</a>.
+
+     <td><code id=mediaevents:dom-media-networkstate-3><a href=#dom-media-networkstate>networkState</a></code> equals <code id=mediaevents:dom-media-network_idle><a href=#dom-media-network_idle>NETWORK_IDLE</a></code>
+
+    <tr><td><dfn id=event-media-abort><code>abort</code></dfn>
+
+     <td><code id=mediaevents:event-4><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The user agent stops fetching the <a href=#media-data id=mediaevents:media-data-4>media data</a> before it is completely
+     downloaded, but not due to an error.
+
+     <td><code id=mediaevents:dom-media-error><a href=#dom-media-error>error</a></code> is an object with the code <code id=mediaevents:dom-mediaerror-media_err_aborted><a href=#dom-mediaerror-media_err_aborted>MEDIA_ERR_ABORTED</a></code>. <code id=mediaevents:dom-media-networkstate-4><a href=#dom-media-networkstate>networkState</a></code> equals either <code id=mediaevents:dom-media-network_empty><a href=#dom-media-network_empty>NETWORK_EMPTY</a></code> or <code id=mediaevents:dom-media-network_idle-2><a href=#dom-media-network_idle>NETWORK_IDLE</a></code>, depending on when the download was aborted.
+
+    <tr><td><dfn id=event-media-error><code>error</code></dfn>
+
+     <td><code id=mediaevents:event-5><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>An error occurs while fetching the <a href=#media-data id=mediaevents:media-data-5>media data</a> or the type of the resource
+     is not supported media format.
+
+     <td><code id=mediaevents:dom-media-error-2><a href=#dom-media-error>error</a></code> is an object with the code <code id=mediaevents:dom-mediaerror-media_err_network><a href=#dom-mediaerror-media_err_network>MEDIA_ERR_NETWORK</a></code> or higher. <code id=mediaevents:dom-media-networkstate-5><a href=#dom-media-networkstate>networkState</a></code> equals either <code id=mediaevents:dom-media-network_empty-2><a href=#dom-media-network_empty>NETWORK_EMPTY</a></code> or <code id=mediaevents:dom-media-network_idle-3><a href=#dom-media-network_idle>NETWORK_IDLE</a></code>, depending on when the download was aborted.
+
+    <tr><td><dfn id=event-media-emptied><code>emptied</code></dfn>
+
+     <td><code id=mediaevents:event-6><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>A <a href=#media-element id=mediaevents:media-element-2>media element</a> whose <code id=mediaevents:dom-media-networkstate-6><a href=#dom-media-networkstate>networkState</a></code>
+     was previously not in the <code id=mediaevents:dom-media-network_empty-3><a href=#dom-media-network_empty>NETWORK_EMPTY</a></code> state has
+     just switched to that state (either because of a fatal error during load that's about to be
+     reported, or because the <code id=mediaevents:dom-media-load><a href=#dom-media-load>load()</a></code> method was invoked while
+     the <a href=#concept-media-load-algorithm id=mediaevents:concept-media-load-algorithm-2>resource selection algorithm</a> was already
+     running).
+
+     <td><code id=mediaevents:dom-media-networkstate-7><a href=#dom-media-networkstate>networkState</a></code> is <code id=mediaevents:dom-media-network_empty-4><a href=#dom-media-network_empty>NETWORK_EMPTY</a></code>; all the IDL attributes are in their
+     initial states.
+
+    <tr><td><dfn id=event-media-stalled><code>stalled</code></dfn>
+
+     <td><code id=mediaevents:event-7><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The user agent is trying to fetch <a href=#media-data id=mediaevents:media-data-6>media data</a>, but data is unexpectedly not
+     forthcoming.
+
+     <td><code id=mediaevents:dom-media-networkstate-8><a href=#dom-media-networkstate>networkState</a></code> is <code id=mediaevents:dom-media-network_loading-3><a href=#dom-media-network_loading>NETWORK_LOADING</a></code>.
+
+   <tbody><tr><td><dfn id=event-media-loadedmetadata><code>loadedmetadata</code></dfn>
+
+     <td><code id=mediaevents:event-8><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The user agent has just determined the duration and dimensions of the <a href=#media-resource id=mediaevents:media-resource>media
+     resource</a> and <a href=#the-text-tracks-are-ready id=mediaevents:the-text-tracks-are-ready>the text tracks are ready</a>.
+
+     <td><code id=mediaevents:dom-media-readystate><a href=#dom-media-readystate>readyState</a></code> is newly equal to <code id=mediaevents:dom-media-have_metadata><a href=#dom-media-have_metadata>HAVE_METADATA</a></code> or greater for the first time.
+
+    <tr><td><dfn id=event-media-loadeddata><code>loadeddata</code></dfn>
+
+     <td><code id=mediaevents:event-9><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The user agent can render the <a href=#media-data id=mediaevents:media-data-7>media data</a> at the <a href=#current-playback-position id=mediaevents:current-playback-position>current playback
+     position</a> for the first time.
+
+     <td><code id=mediaevents:dom-media-readystate-2><a href=#dom-media-readystate>readyState</a></code> newly increased to <code id=mediaevents:dom-media-have_current_data><a href=#dom-media-have_current_data>HAVE_CURRENT_DATA</a></code> or greater for the first time.
+
+    <tr><td><dfn id=event-media-canplay><code>canplay</code></dfn>
+
+     <td><code id=mediaevents:event-10><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The user agent can resume playback of the <a href=#media-data id=mediaevents:media-data-8>media data</a>, but estimates that if
+     playback were to be started now, the <a href=#media-resource id=mediaevents:media-resource-2>media resource</a> could not be rendered at the
+     current playback rate up to its end without having to stop for further buffering of content.
+
+     <td><code id=mediaevents:dom-media-readystate-3><a href=#dom-media-readystate>readyState</a></code> newly increased to <code id=mediaevents:dom-media-have_future_data><a href=#dom-media-have_future_data>HAVE_FUTURE_DATA</a></code> or greater.
+
+    <tr><td><dfn id=event-media-canplaythrough><code>canplaythrough</code></dfn>
+
+     <td><code id=mediaevents:event-11><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The user agent estimates that if playback were to be started now, the <a href=#media-resource id=mediaevents:media-resource-3>media
+     resource</a> could be rendered at the current playback rate all the way to its end without
+     having to stop for further buffering.
+
+     <td><code id=mediaevents:dom-media-readystate-4><a href=#dom-media-readystate>readyState</a></code> is newly equal to <code id=mediaevents:dom-media-have_enough_data><a href=#dom-media-have_enough_data>HAVE_ENOUGH_DATA</a></code>.
+
+    <tr><td><dfn id=event-media-playing><code>playing</code></dfn>
+
+     <td><code id=mediaevents:event-12><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>Playback is ready to start after having been paused or delayed due to lack of <a href=#media-data id=mediaevents:media-data-9>media
+     data</a>.
+
+     <td><code id=mediaevents:dom-media-readystate-5><a href=#dom-media-readystate>readyState</a></code> is newly equal to or greater than
+     <code id=mediaevents:dom-media-have_future_data-2><a href=#dom-media-have_future_data>HAVE_FUTURE_DATA</a></code> and <code id=mediaevents:dom-media-paused><a href=#dom-media-paused>paused</a></code> is false, or <code id=mediaevents:dom-media-paused-2><a href=#dom-media-paused>paused</a></code> is newly false and <code id=mediaevents:dom-media-readystate-6><a href=#dom-media-readystate>readyState</a></code> is equal to or greater than <code id=mediaevents:dom-media-have_future_data-3><a href=#dom-media-have_future_data>HAVE_FUTURE_DATA</a></code>. Even if this event fires, the
+     element might still not be <a href=#potentially-playing id=mediaevents:potentially-playing>potentially playing</a>, e.g. if the element is
+     <a href=#paused-for-user-interaction id=mediaevents:paused-for-user-interaction>paused for user interaction</a> or <a href=#paused-for-in-band-content id=mediaevents:paused-for-in-band-content>paused for in-band content</a>.
+
+    <tr><td><dfn id=event-media-waiting><code>waiting</code></dfn>
+
+     <td><code id=mediaevents:event-13><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>Playback has stopped because the next frame is not available, but the user agent expects
+     that frame to become available in due course.
+
+     <td><code id=mediaevents:dom-media-readystate-7><a href=#dom-media-readystate>readyState</a></code> is equal to or less than <code id=mediaevents:dom-media-have_current_data-2><a href=#dom-media-have_current_data>HAVE_CURRENT_DATA</a></code>, and <code id=mediaevents:dom-media-paused-3><a href=#dom-media-paused>paused</a></code> is false. Either <code id=mediaevents:dom-media-seeking><a href=#dom-media-seeking>seeking</a></code> is true, or the <a href=#current-playback-position id=mediaevents:current-playback-position-2>current playback position</a>
+     is not contained in any of the ranges in <code id=mediaevents:dom-media-buffered><a href=#dom-media-buffered>buffered</a></code>. It
+     is possible for playback to stop for other reasons without <code id=mediaevents:dom-media-paused-4><a href=#dom-media-paused>paused</a></code> being false, but those reasons do not fire this event
+     (and when those situations resolve, a separate <code id=mediaevents:event-media-playing><a href=#event-media-playing>playing</a></code>
+     event is not fired either): e.g., <a href=#ended-playback id=mediaevents:ended-playback>playback has ended</a>, or
+     playback <a href=#stopped-due-to-errors id=mediaevents:stopped-due-to-errors>stopped due to errors</a>, or the element has <a href=#paused-for-user-interaction id=mediaevents:paused-for-user-interaction-2>paused for user
+     interaction</a> or <a href=#paused-for-in-band-content id=mediaevents:paused-for-in-band-content-2>paused for in-band content</a>.
+
+   <tbody><tr><td><dfn id=event-media-seeking><code>seeking</code></dfn>
+
+     <td><code id=mediaevents:event-14><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The <code id=mediaevents:dom-media-seeking-2><a href=#dom-media-seeking>seeking</a></code> IDL attribute changed to true, and the user agent has started seeking to a new position.
+
+     <td>
+
+    <tr><td><dfn id=event-media-seeked><code>seeked</code></dfn>
+
+     <td><code id=mediaevents:event-15><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The <code id=mediaevents:dom-media-seeking-3><a href=#dom-media-seeking>seeking</a></code> IDL attribute changed to false after the <a href=#current-playback-position id=mediaevents:current-playback-position-3>current playback position</a> was changed.
+
+     <td>
+
+    <tr><td><dfn id=event-media-ended><code>ended</code></dfn>
+
+     <td><code id=mediaevents:event-16><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>Playback has stopped because the end of the <a href=#media-resource id=mediaevents:media-resource-4>media resource</a> was reached.
+
+     <td><code id=mediaevents:dom-media-currenttime><a href=#dom-media-currenttime>currentTime</a></code> equals the end of the <a href=#media-resource id=mediaevents:media-resource-5>media
+     resource</a>; <code id=mediaevents:dom-media-ended><a href=#dom-media-ended>ended</a></code> is true.
+
+   <tbody><tr><td><dfn id=event-media-durationchange><code>durationchange</code></dfn>
+
+     <td><code id=mediaevents:event-17><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The <code id=mediaevents:dom-media-duration><a href=#dom-media-duration>duration</a></code> attribute has just been updated.
+
+     <td>
+
+    <tr><td><dfn id=event-media-timeupdate><code>timeupdate</code></dfn>
+
+     <td><code id=mediaevents:event-18><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The <a href=#current-playback-position id=mediaevents:current-playback-position-4>current playback position</a> changed as part of normal playback or in an especially interesting way, for example discontinuously.
+
+     <td>
+
+    <tr><td><dfn id=event-media-play><code>play</code></dfn>
+
+     <td><code id=mediaevents:event-19><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The element is no longer paused. Fired after the <code id=mediaevents:dom-media-play><a href=#dom-media-play>play()</a></code>
+     method has returned, or when the <code id=mediaevents:attr-media-autoplay><a href=#attr-media-autoplay>autoplay</a></code> attribute
+     has caused playback to begin.
+
+     <td><code id=mediaevents:dom-media-paused-5><a href=#dom-media-paused>paused</a></code> is newly false.
+
+    <tr><td><dfn id=event-media-pause><code>pause</code></dfn>
+
+     <td><code id=mediaevents:event-20><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The element has been paused. Fired after the <code id=mediaevents:dom-media-pause><a href=#dom-media-pause>pause()</a></code>
+     method has returned.
+
+     <td><code id=mediaevents:dom-media-paused-6><a href=#dom-media-paused>paused</a></code> is newly true.
+
+    <tr><td><dfn id=event-media-ratechange><code>ratechange</code></dfn>
+
+     <td><code id=mediaevents:event-21><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>Either the <code id=mediaevents:dom-media-defaultplaybackrate><a href=#dom-media-defaultplaybackrate>defaultPlaybackRate</a></code> or the
+     <code id=mediaevents:dom-media-playbackrate><a href=#dom-media-playbackrate>playbackRate</a></code> attribute has just been updated.
+
+     <td>
+
+   <tbody><tr><td><dfn id=event-media-resize><code>resize</code></dfn>
+
+     <td><code id=mediaevents:event-22><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>One or both of the <code id=mediaevents:dom-video-videowidth><a href=#dom-video-videowidth>videoWidth</a></code> and <code id=mediaevents:dom-video-videoheight><a href=#dom-video-videoheight>videoHeight</a></code> attributes have just been updated.
+
+     <td><a href=#media-element id=mediaevents:media-element-3>Media element</a> is a <code id=mediaevents:the-video-element><a href=#the-video-element>video</a></code> element; <code id=mediaevents:dom-media-readystate-8><a href=#dom-media-readystate>readyState</a></code> is not <code id=mediaevents:dom-media-have_nothing><a href=#dom-media-have_nothing>HAVE_NOTHING</a></code>
+
+    <tr><td><dfn id=event-media-volumechange><code>volumechange</code></dfn>
+
+     <td><code id=mediaevents:event-23><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>Either the <code id=mediaevents:dom-media-volume><a href=#dom-media-volume>volume</a></code> attribute or the <code id=mediaevents:dom-media-muted><a href=#dom-media-muted>muted</a></code> attribute has changed. Fired after the relevant
+     attribute's setter has returned.
+
+     <td>
+
+  </table>
+
+
+  <p>The following event fires on <code id=mediaevents:the-source-element><a href=#the-source-element>source</a></code> element:</p>
+
+  <table><thead><tr><th>Event name
+
+     <th>Interface
+
+     <th>Fired when...
+
+   <tbody><tr><td><dfn id=event-source-error><code>error</code></dfn>
+
+     <td><code id=mediaevents:event-24><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>An error occurs while fetching the <a href=#media-data id=mediaevents:media-data-10>media data</a> or the type of the resource
+     is not supported media format.
+
+  </table>
+
+
+  <p>The following events fire on <code id=mediaevents:audiotracklist><a href=#audiotracklist>AudioTrackList</a></code>, <code id=mediaevents:videotracklist><a href=#videotracklist>VideoTrackList</a></code>, and
+  <code id=mediaevents:texttracklist><a href=#texttracklist>TextTrackList</a></code> objects:</p>
+
+  <table><thead><tr><th>Event name
+
+     <th>Interface
+
+     <th>Fired when...
+
+   <tbody><tr><td><dfn id=event-media-change><code>change</code></dfn>
+
+     <td><code id=mediaevents:event-25><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>One or more tracks in the track list have been enabled or disabled.
+
+    <tr><td><dfn id=event-media-addtrack><code>addtrack</code></dfn>
+
+     <td><code id=mediaevents:trackevent><a href=#trackevent>TrackEvent</a></code>
+
+     <td>A track has been added to the track list.
+
+    <tr><td><dfn id=event-media-removetrack><code>removetrack</code></dfn>
+
+     <td><code id=mediaevents:trackevent-2><a href=#trackevent>TrackEvent</a></code>
+
+     <td>A track has been removed from the track list.
+
+  </table>
+
+
+
+  <p>The following event fires on <code id=mediaevents:texttrack><a href=#texttrack>TextTrack</a></code> objects and <code id=mediaevents:the-track-element><a href=#the-track-element>track</a></code> elements:</p>
+
+  <table><thead><tr><th>Event name
+
+     <th>Interface
+
+     <th>Fired when...
+
+   <tbody><tr><td><dfn id=event-media-cuechange><code>cuechange</code></dfn>
+
+     <td><code id=mediaevents:event-26><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>One or more cues in the track have become active or stopped being active.
+
+  </table>
+
+
+  <p>The following events fire on <code id=mediaevents:the-track-element-2><a href=#the-track-element>track</a></code> elements:</p>
+
+  <table><thead><tr><th>Event name
+
+     <th>Interface
+
+     <th>Fired when...
+
+   <tbody><tr><td><dfn id=event-track-error><code>error</code></dfn>
+
+     <td><code id=mediaevents:event-27><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>An error occurs while fetching the track data or the type of the resource is not supported text track format.
+
+    <tr><td><dfn id=event-track-load><code>load</code></dfn>
+
+     <td><code id=mediaevents:event-28><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>A track data has been fetched and successfully processed.
+  </table>
+
+
+  <p>The following events fire on <code id=mediaevents:texttrackcue><a href=#texttrackcue>TextTrackCue</a></code> objects:</p>
+
+  <table><thead><tr><th>Event name
+
+     <th>Interface
+
+     <th>Fired when...
+
+   <tbody><tr><td><dfn id=event-media-enter><code>enter</code></dfn>

@@ -1,0 +1,850 @@
+
+
+
+
+  <h6 id=parsing-main-incdata>12.2.5.4.8 The "<dfn>text</dfn>" insertion mode<a href=#parsing-main-incdata class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-incdata id=parsing-main-incdata:parsing-main-incdata>text</a>" <a href=#insertion-mode id=parsing-main-incdata:insertion-mode>insertion mode</a>, the user agent must handle the token as
+  follows:</p>
+
+  <dl class=switch><dt>A character token<dd>
+
+    <p><a href=#insert-a-character id=parsing-main-incdata:insert-a-character>Insert the token's character</a>.</p>
+
+    <p class=note>This can never be a U+0000 NULL character; the tokenizer converts those to
+    U+FFFD REPLACEMENT CHARACTER characters.</p>
+
+   <dt>An end-of-file token<dd>
+
+    
+    <p><a href=#parse-error id=parsing-main-incdata:parse-error>Parse error</a>.</p>
+
+    <p>If the <a href=#current-node id=parsing-main-incdata:current-node>current node</a> is a <code id=parsing-main-incdata:the-script-element><a href=#the-script-element>script</a></code> element, mark the
+    <code id=parsing-main-incdata:the-script-element-2><a href=#the-script-element>script</a></code> element as <a href=#already-started id=parsing-main-incdata:already-started>"already started"</a>.</p>
+
+    <p>Pop the <a href=#current-node id=parsing-main-incdata:current-node-2>current node</a> off the <a href=#stack-of-open-elements id=parsing-main-incdata:stack-of-open-elements>stack of open elements</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-incdata:insertion-mode-2>insertion mode</a> to the <a href=#original-insertion-mode id=parsing-main-incdata:original-insertion-mode>original insertion mode</a> and
+    reprocess the token.</p>
+
+   <dt id=scriptEndTag>An end tag whose tag name is "script"<dd>
+
+    <p>If the <a id=parsing-main-incdata:javascript-execution-context-stack href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript execution context stack</a> is empty, <a href=#perform-a-microtask-checkpoint id=parsing-main-incdata:perform-a-microtask-checkpoint>perform a microtask
+    checkpoint</a>.</p>
+
+    <p>Let <var>script</var> be the <a href=#current-node id=parsing-main-incdata:current-node-3>current node</a> (which will be a
+    <code id=parsing-main-incdata:the-script-element-3><a href=#the-script-element>script</a></code> element).</p>
+
+    <p>Pop the <a href=#current-node id=parsing-main-incdata:current-node-4>current node</a> off the <a href=#stack-of-open-elements id=parsing-main-incdata:stack-of-open-elements-2>stack of open elements</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-incdata:insertion-mode-3>insertion mode</a> to the <a href=#original-insertion-mode id=parsing-main-incdata:original-insertion-mode-2>original insertion mode</a>.</p>
+
+    <p>Let the <var>old insertion point</var> have the same value as the current
+    <a href=#insertion-point id=parsing-main-incdata:insertion-point>insertion point</a>. Let the <a href=#insertion-point id=parsing-main-incdata:insertion-point-2>insertion point</a> be just before the <a href=#next-input-character id=parsing-main-incdata:next-input-character>next
+    input character</a>.</p>
+
+    <p>Increment the parser's <a href=#script-nesting-level id=parsing-main-incdata:script-nesting-level>script nesting level</a> by one.</p>
+
+    <p><a href=#prepare-a-script id=parsing-main-incdata:prepare-a-script>Prepare</a> the <var>script</var>. This might
+    cause some script to execute, which might cause <a href=#dom-document-write id=parsing-main-incdata:dom-document-write>new characters
+    to be inserted into the tokenizer</a>, and might cause the tokenizer to output more tokens,
+    resulting in a <a href=#nestedParsing>reentrant invocation of the parser</a>.</p>
+
+    <p>Decrement the parser's <a href=#script-nesting-level id=parsing-main-incdata:script-nesting-level-2>script nesting level</a> by one. If the parser's <a href=#script-nesting-level id=parsing-main-incdata:script-nesting-level-3>script
+    nesting level</a> is zero, then set the <a href=#parser-pause-flag id=parsing-main-incdata:parser-pause-flag>parser pause flag</a> to false.</p>
+
+    <p>Let the <a href=#insertion-point id=parsing-main-incdata:insertion-point-3>insertion point</a> have the value of the <var>old insertion
+    point</var>. (In other words, restore the <a href=#insertion-point id=parsing-main-incdata:insertion-point-4>insertion point</a> to its previous value.
+    This value might be the "undefined" value.)</p>
+
+    <p id=scriptTagParserResumes>At this stage, if there is a <a href=#pending-parsing-blocking-script id=parsing-main-incdata:pending-parsing-blocking-script>pending parsing-blocking
+    script</a>, then:</p>
+
+    <dl class=switch><dt>If the <a href=#script-nesting-level id=parsing-main-incdata:script-nesting-level-4>script nesting level</a> is not zero:<dd>
+
+      <p>Set the <a href=#parser-pause-flag id=parsing-main-incdata:parser-pause-flag-2>parser pause flag</a> to true, and abort the processing of any nested
+      invocations of the tokenizer, yielding control back to the caller. (Tokenization will resume
+      when the caller returns to the "outer" tree construction stage.)</p>
+
+      <p class=note>The tree construction stage of this particular parser is <a href=#nestedParsing>being called reentrantly</a>, say from a call to <code id=parsing-main-incdata:dom-document-write-2><a href=#dom-document-write>document.write()</a></code>.</p>
+
+     <dt>Otherwise:<dd>
+
+      <p>Run these steps:</p>
+
+      <ol><li><p>Let <var>the script</var> be the <a href=#pending-parsing-blocking-script id=parsing-main-incdata:pending-parsing-blocking-script-2>pending parsing-blocking
+       script</a>. There is no longer a <a href=#pending-parsing-blocking-script id=parsing-main-incdata:pending-parsing-blocking-script-3>pending parsing-blocking script</a>.<li><p>Block the <a href=#tokenization id=parsing-main-incdata:tokenization>tokenizer</a> for this instance of the
+       <a href=#html-parser id=parsing-main-incdata:html-parser>HTML parser</a>, such that the <a href=#event-loop id=parsing-main-incdata:event-loop>event loop</a> will not run <a href=#concept-task id=parsing-main-incdata:concept-task>tasks</a> that invoke the <a href=#tokenization id=parsing-main-incdata:tokenization-2>tokenizer</a>.<li><p>If the parser's <code id=parsing-main-incdata:document><a href=#document>Document</a></code> <a href=#has-a-style-sheet-that-is-blocking-scripts id=parsing-main-incdata:has-a-style-sheet-that-is-blocking-scripts>has a style sheet that is blocking
+       scripts</a> or <var>the script</var>'s <a href=#ready-to-be-parser-executed id=parsing-main-incdata:ready-to-be-parser-executed>"ready to be parser-executed"</a>
+       flag is not set: <a href=#spin-the-event-loop id=parsing-main-incdata:spin-the-event-loop>spin the event loop</a> until the parser's <code id=parsing-main-incdata:document-2><a href=#document>Document</a></code>
+       <a href=#has-no-style-sheet-that-is-blocking-scripts id=parsing-main-incdata:has-no-style-sheet-that-is-blocking-scripts>has no style sheet that is blocking scripts</a> and <var>the script</var>'s
+       <a href=#ready-to-be-parser-executed id=parsing-main-incdata:ready-to-be-parser-executed-2>"ready to be parser-executed"</a> flag is set.<li>
+
+        <p>If this <a href=#abort-a-parser id=parsing-main-incdata:abort-a-parser>parser has been aborted</a> in the meantime,
+        abort these steps.</p>
+
+        <p class=note>This could happen if, e.g., while the <a href=#spin-the-event-loop id=parsing-main-incdata:spin-the-event-loop-2>spin the event loop</a>
+        algorithm is running, the <a href=#browsing-context id=parsing-main-incdata:browsing-context>browsing context</a> gets closed, or the <code id=parsing-main-incdata:dom-document-open><a href=#dom-document-open>document.open()</a></code> method gets invoked on the
+        <code id=parsing-main-incdata:document-3><a href=#document>Document</a></code>.</p>
+
+       <li><p>Unblock the <a href=#tokenization id=parsing-main-incdata:tokenization-3>tokenizer</a> for this instance of the
+       <a href=#html-parser id=parsing-main-incdata:html-parser-2>HTML parser</a>, such that <a href=#concept-task id=parsing-main-incdata:concept-task-2>tasks</a> that invoke the
+       <a href=#tokenization id=parsing-main-incdata:tokenization-4>tokenizer</a> can again be run.<li><p>Let the <a href=#insertion-point id=parsing-main-incdata:insertion-point-5>insertion point</a> be just before the <a href=#next-input-character id=parsing-main-incdata:next-input-character-2>next input
+       character</a>.<li><p>Increment the parser's <a href=#script-nesting-level id=parsing-main-incdata:script-nesting-level-5>script nesting level</a> by one (it should be zero
+       before this step, so this sets it to one).<li><p><a href=#execute-the-script-block id=parsing-main-incdata:execute-the-script-block>Execute</a> <var>the
+       script</var>.<li><p>Decrement the parser's <a href=#script-nesting-level id=parsing-main-incdata:script-nesting-level-6>script nesting level</a> by one. If the parser's
+       <a href=#script-nesting-level id=parsing-main-incdata:script-nesting-level-7>script nesting level</a> is zero (which it always should be at this point), then set
+       the <a href=#parser-pause-flag id=parsing-main-incdata:parser-pause-flag-3>parser pause flag</a> to false.</p>
+
+       <li><p>Let the <a href=#insertion-point id=parsing-main-incdata:insertion-point-6>insertion point</a> be undefined again.<li><p>If there is once again a <a href=#pending-parsing-blocking-script id=parsing-main-incdata:pending-parsing-blocking-script-4>pending parsing-blocking script</a>, then repeat
+       these steps from step 1.</ol>
+
+     </dl>
+
+   <dt>Any other end tag<dd>
+
+    <p>Pop the <a href=#current-node id=parsing-main-incdata:current-node-5>current node</a> off the <a href=#stack-of-open-elements id=parsing-main-incdata:stack-of-open-elements-3>stack of open elements</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-incdata:insertion-mode-4>insertion mode</a> to the <a href=#original-insertion-mode id=parsing-main-incdata:original-insertion-mode-3>original insertion mode</a>.</p>
+
+   </dl>
+
+
+  <h6 id=parsing-main-intable>12.2.5.4.9 The "<dfn>in table</dfn>" insertion mode<a href=#parsing-main-intable class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-intable id=parsing-main-intable:parsing-main-intable>in
+  table</a>" <a href=#insertion-mode id=parsing-main-intable:insertion-mode>insertion mode</a>, the user agent must handle the token as follows:</p>
+
+  <dl class=switch><dt>A character token, if the <a href=#current-node id=parsing-main-intable:current-node>current node</a> is <code id=parsing-main-intable:the-table-element><a href=#the-table-element>table</a></code>, <code id=parsing-main-intable:the-tbody-element><a href=#the-tbody-element>tbody</a></code>, <code id=parsing-main-intable:the-tfoot-element><a href=#the-tfoot-element>tfoot</a></code>, <code id=parsing-main-intable:the-thead-element><a href=#the-thead-element>thead</a></code>, or <code id=parsing-main-intable:the-tr-element><a href=#the-tr-element>tr</a></code> element<dd>
+
+     <p>Let the <dfn id=concept-pending-table-char-tokens><var>pending table character
+     tokens</var></dfn> be an empty list of tokens.</p>
+
+     <p>Let the <a href=#original-insertion-mode id=parsing-main-intable:original-insertion-mode>original insertion mode</a> be the current <a href=#insertion-mode id=parsing-main-intable:insertion-mode-2>insertion mode</a>.</p>
+
+     <p>Switch the <a href=#insertion-mode id=parsing-main-intable:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-intabletext id=parsing-main-intable:parsing-main-intabletext>in
+     table text</a>" and reprocess the token.</p>
+
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=parsing-main-intable:insert-a-comment>Insert a comment</a>.</p>
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=parsing-main-intable:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "caption"<dd>
+
+    <p><a href=#clear-the-stack-back-to-a-table-context id=parsing-main-intable:clear-the-stack-back-to-a-table-context>Clear the stack back to a table context</a>. (See below.)</p>
+
+    <p>Insert a <a href=#concept-parser-marker id=parsing-main-intable:concept-parser-marker>marker</a> at the end of the <a href=#list-of-active-formatting-elements id=parsing-main-intable:list-of-active-formatting-elements>list of
+    active formatting elements</a>.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-intable:insert-an-html-element>Insert an HTML element</a> for the token, then switch the <a href=#insertion-mode id=parsing-main-intable:insertion-mode-4>insertion
+    mode</a> to "<a href=#parsing-main-incaption id=parsing-main-intable:parsing-main-incaption>in caption</a>".</p>
+
+   <dt>A start tag whose tag name is "colgroup"<dd>
+
+    <p><a href=#clear-the-stack-back-to-a-table-context id=parsing-main-intable:clear-the-stack-back-to-a-table-context-2>Clear the stack back to a table context</a>. (See below.)</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-intable:insert-an-html-element-2>Insert an HTML element</a> for the token, then switch the <a href=#insertion-mode id=parsing-main-intable:insertion-mode-5>insertion
+    mode</a> to "<a href=#parsing-main-incolgroup id=parsing-main-intable:parsing-main-incolgroup>in column group</a>".</p>
+
+   <dt>A start tag whose tag name is "col"<dd>
+
+    
+    <p><a href=#clear-the-stack-back-to-a-table-context id=parsing-main-intable:clear-the-stack-back-to-a-table-context-3>Clear the stack back to a table context</a>. (See below.)</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-intable:insert-an-html-element-3>Insert an HTML element</a> for a "colgroup" start tag token with no attributes, then
+    switch the <a href=#insertion-mode id=parsing-main-intable:insertion-mode-6>insertion mode</a> to "<a href=#parsing-main-incolgroup id=parsing-main-intable:parsing-main-incolgroup-2>in
+    column group</a>".</p>
+    
+
+    <p>Reprocess the current token.</p>
+
+   <dt>A start tag whose tag name is one of: "tbody", "tfoot", "thead"<dd>
+
+    <p><a href=#clear-the-stack-back-to-a-table-context id=parsing-main-intable:clear-the-stack-back-to-a-table-context-4>Clear the stack back to a table context</a>. (See below.)</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-intable:insert-an-html-element-4>Insert an HTML element</a> for the token, then switch the <a href=#insertion-mode id=parsing-main-intable:insertion-mode-7>insertion
+    mode</a> to "<a href=#parsing-main-intbody id=parsing-main-intable:parsing-main-intbody>in table body</a>".</p>
+
+   <dt>A start tag whose tag name is one of: "td", "th", "tr"<dd>
+
+    
+    <p><a href=#clear-the-stack-back-to-a-table-context id=parsing-main-intable:clear-the-stack-back-to-a-table-context-5>Clear the stack back to a table context</a>. (See below.)</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-intable:insert-an-html-element-5>Insert an HTML element</a> for a "tbody" start tag token with no attributes, then
+    switch the <a href=#insertion-mode id=parsing-main-intable:insertion-mode-8>insertion mode</a> to "<a href=#parsing-main-intbody id=parsing-main-intable:parsing-main-intbody-2>in table
+    body</a>".</p>
+    
+
+    <p>Reprocess the current token.</p>
+
+   <dt>A start tag whose tag name is "table"<dd>
+
+    <p><a href=#parse-error id=parsing-main-intable:parse-error-2>Parse error</a>.</p>
+
+    
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intable:stack-of-open-elements>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-intable:has-an-element-in-table-scope>have a <code>table</code> element in table scope</a>, ignore the token.</p>
+
+    <p>Otherwise:</p>
+
+    <p>Pop elements from this stack until a <code id=parsing-main-intable:the-table-element-2><a href=#the-table-element>table</a></code> element has been popped from the
+    stack.</p>
+
+    <p><a href=#reset-the-insertion-mode-appropriately id=parsing-main-intable:reset-the-insertion-mode-appropriately>Reset the insertion mode appropriately</a>.</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   <dt>An end tag whose tag name is "table"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intable:stack-of-open-elements-2>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-intable:has-an-element-in-table-scope-2>have a <code>table</code> element in table scope</a>, this is a <a href=#parse-error id=parsing-main-intable:parse-error-3>parse
+    error</a>; ignore the token.</p>
+
+    <p>Otherwise:</p>
+
+    <p>Pop elements from this stack until a <code id=parsing-main-intable:the-table-element-3><a href=#the-table-element>table</a></code> element has been popped from the
+    stack.</p>
+
+    <p><a href=#reset-the-insertion-mode-appropriately id=parsing-main-intable:reset-the-insertion-mode-appropriately-2>Reset the insertion mode appropriately</a>.</p>
+
+   <dt>An end tag whose tag name is one of: "body", "caption", "col", "colgroup", "html", "tbody",
+   "td", "tfoot", "th", "thead", "tr"<dd>
+    <p><a href=#parse-error id=parsing-main-intable:parse-error-4>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is one of: "style", "script", "template"<dt>An end tag whose tag name is "template"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-intable:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inhead id=parsing-main-intable:parsing-main-inhead>in head</a>" <a href=#insertion-mode id=parsing-main-intable:insertion-mode-9>insertion
+    mode</a>.</p>
+
+   <dt>A start tag whose tag name is "input"<dd>
+
+    <p>If the token does not have an attribute with the name "type", or if it does, but that
+    attribute's value is not an <a id=parsing-main-intable:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>hidden</code>", then: act as described in the "anything else" entry below.</p>
+
+    <p>Otherwise:</p>
+
+    <p><a href=#parse-error id=parsing-main-intable:parse-error-5>Parse error</a>.</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-intable:insert-an-html-element-6>Insert an HTML element</a> for the token.</p>
+
+    <p>Pop that <code id=parsing-main-intable:the-input-element><a href=#the-input-element>input</a></code> element off the <a href=#stack-of-open-elements id=parsing-main-intable:stack-of-open-elements-3>stack of open elements</a>.</p>
+
+    <p><a href=#acknowledge-self-closing-flag id=parsing-main-intable:acknowledge-self-closing-flag>Acknowledge the token's <i>self-closing
+    flag</i></a>, if it is set.</p>
+
+   <dt>A start tag whose tag name is "form"<dd>
+
+    <p><a href=#parse-error id=parsing-main-intable:parse-error-6>Parse error</a>.</p>
+
+    <p>If there is a <code id=parsing-main-intable:the-template-element><a href=#the-template-element>template</a></code> element on the <a href=#stack-of-open-elements id=parsing-main-intable:stack-of-open-elements-4>stack of open elements</a>, or if
+    the <a href=#form-element-pointer id=parsing-main-intable:form-element-pointer><code>form</code> element pointer</a> is not null, ignore the
+    token.</p> 
+
+    <p>Otherwise:</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-intable:insert-an-html-element-7>Insert an HTML element</a> for the token, and set the <a href=#form-element-pointer id=parsing-main-intable:form-element-pointer-2><code>form</code> element pointer</a> to point to the element created.</p>
+
+    <p>Pop that <code id=parsing-main-intable:the-form-element><a href=#the-form-element>form</a></code> element off the <a href=#stack-of-open-elements id=parsing-main-intable:stack-of-open-elements-5>stack of open elements</a>.</p>
+
+   <dt>An end-of-file token<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-intable:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-intable:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-intable:insertion-mode-10>insertion mode</a>.</p>
+
+   <dt>Anything else<dd>
+
+    <p><a href=#parse-error id=parsing-main-intable:parse-error-7>Parse error</a>. Enable <a href=#foster-parent id=parsing-main-intable:foster-parent>foster parenting</a>, process
+    the token <a href=#using-the-rules-for id=parsing-main-intable:using-the-rules-for-3>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-intable:parsing-main-inbody-2>in
+    body</a>" <a href=#insertion-mode id=parsing-main-intable:insertion-mode-11>insertion mode</a>, and then disable <a href=#foster-parent id=parsing-main-intable:foster-parent-2>foster
+    parenting</a>.</p>
+
+   </dl>
+
+  <p>When the steps above require the UA to <dfn id=clear-the-stack-back-to-a-table-context>clear the stack back to a table context</dfn>, it
+  means that the UA must, while the <a href=#current-node id=parsing-main-intable:current-node-2>current node</a> is not a <code id=parsing-main-intable:the-table-element-4><a href=#the-table-element>table</a></code>,
+  <code id=parsing-main-intable:the-template-element-2><a href=#the-template-element>template</a></code>, or <code id=parsing-main-intable:the-html-element><a href=#the-html-element>html</a></code> element, pop elements from the <a href=#stack-of-open-elements id=parsing-main-intable:stack-of-open-elements-6>stack of open
+  elements</a>.</p>
+
+  <p class=note>This is the same list of elements as used in the <i id=parsing-main-intable:has-an-element-in-table-scope-3><a href=#has-an-element-in-table-scope>has an element in table scope</a></i> steps.</p>
+
+  <p class=note>The <a href=#current-node id=parsing-main-intable:current-node-3>current node</a> being an <code id=parsing-main-intable:the-html-element-2><a href=#the-html-element>html</a></code> element after this
+  process is a <a href=#fragment-case id=parsing-main-intable:fragment-case>fragment case</a>.</p>
+
+
+
+  <h6 id=parsing-main-intabletext>12.2.5.4.10 The "<dfn>in table text</dfn>" insertion mode<a href=#parsing-main-intabletext class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-intabletext id=parsing-main-intabletext:parsing-main-intabletext>in table text</a>" <a href=#insertion-mode id=parsing-main-intabletext:insertion-mode>insertion mode</a>, the user agent must handle the token as
+  follows:</p>
+
+  <dl class=switch><dt>A character token that is U+0000 NULL<dd>
+
+    <p><a href=#parse-error id=parsing-main-intabletext:parse-error>Parse error</a>. Ignore the token.</p>
+
+   <dt>Any other character token<dd>
+
+    <p>Append the character token to the <var id=parsing-main-intabletext:concept-pending-table-char-tokens><a href=#concept-pending-table-char-tokens>pending
+    table character tokens</a></var> list.</p>
+
+   <dt>Anything else<dd>
+
+    
+
+    <p>If any of the tokens in the <var id=parsing-main-intabletext:concept-pending-table-char-tokens-2><a href=#concept-pending-table-char-tokens>pending table
+    character tokens</a></var> list are character tokens that are not <a href=#space-character id=parsing-main-intabletext:space-character>space characters</a>, then this is a <a href=#parse-error id=parsing-main-intabletext:parse-error-2>parse error</a>: reprocess the
+    character tokens in the <var id=parsing-main-intabletext:concept-pending-table-char-tokens-3><a href=#concept-pending-table-char-tokens>pending table character
+    tokens</a></var> list using the rules given in the "anything else" entry in the "<a href=#parsing-main-intable id=parsing-main-intabletext:parsing-main-intable>in table</a>" insertion mode.</p>
+
+    
+
+    <p>Otherwise, <a href=#insert-a-character id=parsing-main-intabletext:insert-a-character>insert the characters</a> given by the <var id=parsing-main-intabletext:concept-pending-table-char-tokens-4><a href=#concept-pending-table-char-tokens>pending table character tokens</a></var> list.</p> 
+
+    
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-intabletext:insertion-mode-2>insertion mode</a> to the <a href=#original-insertion-mode id=parsing-main-intabletext:original-insertion-mode>original insertion mode</a> and
+    reprocess the token.</p>
+
+   </dl>
+
+
+  <h6 id=parsing-main-incaption>12.2.5.4.11 The "<dfn>in caption</dfn>" insertion mode<a href=#parsing-main-incaption class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-incaption id=parsing-main-incaption:parsing-main-incaption>in
+  caption</a>" <a href=#insertion-mode id=parsing-main-incaption:insertion-mode>insertion mode</a>, the user agent must handle the token as follows:</p>
+
+  <dl class=switch><dt>An end tag whose tag name is "caption"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-incaption:stack-of-open-elements>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-incaption:has-an-element-in-table-scope>have a <code>caption</code> element in table scope</a>, this is a <a href=#parse-error id=parsing-main-incaption:parse-error>parse
+    error</a>; ignore the token. (<a href=#fragment-case id=parsing-main-incaption:fragment-case>fragment case</a>)</p>
+
+    <p>Otherwise:</p>
+
+    <p><a href=#generate-implied-end-tags id=parsing-main-incaption:generate-implied-end-tags>Generate implied end tags</a>.</p>
+
+    <p>Now, if the <a href=#current-node id=parsing-main-incaption:current-node>current node</a> is not a <code id=parsing-main-incaption:the-caption-element><a href=#the-caption-element>caption</a></code> element, then this is a
+    <a href=#parse-error id=parsing-main-incaption:parse-error-2>parse error</a>.</p>
+
+    <p>Pop elements from this stack until a <code id=parsing-main-incaption:the-caption-element-2><a href=#the-caption-element>caption</a></code> element has been popped from the
+    stack.</p>
+
+    <p><a href=#clear-the-list-of-active-formatting-elements-up-to-the-last-marker id=parsing-main-incaption:clear-the-list-of-active-formatting-elements-up-to-the-last-marker>Clear the list of active formatting elements up to the last marker</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-incaption:insertion-mode-2>insertion mode</a> to "<a href=#parsing-main-intable id=parsing-main-incaption:parsing-main-intable>in
+    table</a>".</p>
+
+   <dt>A start tag whose tag name is one of: "caption", "col", "colgroup", "tbody", "td", "tfoot",
+   "th", "thead", "tr"<dt>An end tag whose tag name is "table"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-incaption:stack-of-open-elements-2>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-incaption:has-an-element-in-table-scope-2>have a <code>caption</code> element in table scope</a>, this is a <a href=#parse-error id=parsing-main-incaption:parse-error-3>parse
+    error</a>; ignore the token. (<a href=#fragment-case id=parsing-main-incaption:fragment-case-2>fragment case</a>)</p>
+
+    <p>Otherwise:</p>
+
+    
+    <p><a href=#generate-implied-end-tags id=parsing-main-incaption:generate-implied-end-tags-2>Generate implied end tags</a>.</p>
+
+    <p>Now, if the <a href=#current-node id=parsing-main-incaption:current-node-2>current node</a> is not a <code id=parsing-main-incaption:the-caption-element-3><a href=#the-caption-element>caption</a></code> element, then this is a
+    <a href=#parse-error id=parsing-main-incaption:parse-error-4>parse error</a>.</p>
+
+    <p>Pop elements from this stack until a <code id=parsing-main-incaption:the-caption-element-4><a href=#the-caption-element>caption</a></code> element has been popped from the
+    stack.</p>
+
+    <p><a href=#clear-the-list-of-active-formatting-elements-up-to-the-last-marker id=parsing-main-incaption:clear-the-list-of-active-formatting-elements-up-to-the-last-marker-2>Clear the list of active formatting elements up to the last marker</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-incaption:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-intable id=parsing-main-incaption:parsing-main-intable-2>in
+    table</a>".</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   <dt>An end tag whose tag name is one of: "body", "col", "colgroup", "html", "tbody", "td",
+   "tfoot", "th", "thead", "tr"<dd>
+    <p><a href=#parse-error id=parsing-main-incaption:parse-error-5>Parse error</a>. Ignore the token.</p>
+   <dt>Anything else<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-incaption:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-incaption:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-incaption:insertion-mode-4>insertion mode</a>.</p>
+
+   </dl>
+
+
+  <h6 id=parsing-main-incolgroup>12.2.5.4.12 The "<dfn>in column group</dfn>" insertion mode<a href=#parsing-main-incolgroup class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-incolgroup id=parsing-main-incolgroup:parsing-main-incolgroup>in column group</a>" <a href=#insertion-mode id=parsing-main-incolgroup:insertion-mode>insertion mode</a>, the user agent must handle the token
+  as follows:</p>
+
+  <dl class=switch><dt>A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C
+   FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dd>
+    <p><a href=#insert-a-character id=parsing-main-incolgroup:insert-a-character>Insert the character</a>.</p>
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=parsing-main-incolgroup:insert-a-comment>Insert a comment</a>.</p>
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=parsing-main-incolgroup:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-incolgroup:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-incolgroup:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-incolgroup:insertion-mode-2>insertion mode</a>.</p>
+
+   <dt>A start tag whose tag name is "col"<dd>
+
+    <p><a href=#insert-an-html-element id=parsing-main-incolgroup:insert-an-html-element>Insert an HTML element</a> for the token. Immediately pop the <a href=#current-node id=parsing-main-incolgroup:current-node>current
+    node</a> off the <a href=#stack-of-open-elements id=parsing-main-incolgroup:stack-of-open-elements>stack of open elements</a>.</p>
+
+    <p><a href=#acknowledge-self-closing-flag id=parsing-main-incolgroup:acknowledge-self-closing-flag>Acknowledge the token's <i>self-closing
+    flag</i></a>, if it is set.</p>
+
+   <dt>An end tag whose tag name is "colgroup"<dd>
+
+    <p>If the <a href=#current-node id=parsing-main-incolgroup:current-node-2>current node</a> is not a <code id=parsing-main-incolgroup:the-colgroup-element><a href=#the-colgroup-element>colgroup</a></code> element, then this is a
+    <a href=#parse-error id=parsing-main-incolgroup:parse-error-2>parse error</a>; ignore the token.</p> 
+
+    <p>Otherwise, pop the <a href=#current-node id=parsing-main-incolgroup:current-node-3>current node</a> from the <a href=#stack-of-open-elements id=parsing-main-incolgroup:stack-of-open-elements-2>stack of open elements</a>.
+    Switch the <a href=#insertion-mode id=parsing-main-incolgroup:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-intable id=parsing-main-incolgroup:parsing-main-intable>in
+    table</a>".</p>
+
+   <dt>An end tag whose tag name is "col"<dd>
+    <p><a href=#parse-error id=parsing-main-incolgroup:parse-error-3>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "template"<dt>An end tag whose tag name is "template"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-incolgroup:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-inhead id=parsing-main-incolgroup:parsing-main-inhead>in head</a>" <a href=#insertion-mode id=parsing-main-incolgroup:insertion-mode-4>insertion mode</a>.</p>
+
+   <dt>An end-of-file token<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-incolgroup:using-the-rules-for-3>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-incolgroup:parsing-main-inbody-2>in body</a>" <a href=#insertion-mode id=parsing-main-incolgroup:insertion-mode-5>insertion mode</a>.</p>
+
+   <dt>Anything else<dd>
+
+    
+    <p>If the <a href=#current-node id=parsing-main-incolgroup:current-node-4>current node</a> is not a <code id=parsing-main-incolgroup:the-colgroup-element-2><a href=#the-colgroup-element>colgroup</a></code> element, then this is a
+    <a href=#parse-error id=parsing-main-incolgroup:parse-error-4>parse error</a>; ignore the token.</p> 
+
+    <p>Otherwise, pop the <a href=#current-node id=parsing-main-incolgroup:current-node-5>current node</a> from the <a href=#stack-of-open-elements id=parsing-main-incolgroup:stack-of-open-elements-3>stack of open
+    elements</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-incolgroup:insertion-mode-6>insertion mode</a> to "<a href=#parsing-main-intable id=parsing-main-incolgroup:parsing-main-intable-2>in
+    table</a>".</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   </dl>
+
+
+  <h6 id=parsing-main-intbody>12.2.5.4.13 The "<dfn>in table body</dfn>" insertion mode<a href=#parsing-main-intbody class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-intbody id=parsing-main-intbody:parsing-main-intbody>in table body</a>" <a href=#insertion-mode id=parsing-main-intbody:insertion-mode>insertion mode</a>, the user agent must handle the token as
+  follows:</p>
+
+  <dl class=switch><dt>A start tag whose tag name is "tr"<dd>
+
+    <p><a href=#clear-the-stack-back-to-a-table-body-context id=parsing-main-intbody:clear-the-stack-back-to-a-table-body-context>Clear the stack back to a table body context</a>. (See below.)</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-intbody:insert-an-html-element>Insert an HTML element</a> for the token, then switch the <a href=#insertion-mode id=parsing-main-intbody:insertion-mode-2>insertion
+    mode</a> to "<a href=#parsing-main-intr id=parsing-main-intbody:parsing-main-intr>in row</a>".</p>
+
+   <dt>A start tag whose tag name is one of: "th", "td"<dd>
+
+    <p><a href=#parse-error id=parsing-main-intbody:parse-error>Parse error</a>.</p>
+
+    
+    <p><a href=#clear-the-stack-back-to-a-table-body-context id=parsing-main-intbody:clear-the-stack-back-to-a-table-body-context-2>Clear the stack back to a table body context</a>. (See below.)</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-intbody:insert-an-html-element-2>Insert an HTML element</a> for a "tr" start tag token with no attributes, then
+    switch the <a href=#insertion-mode id=parsing-main-intbody:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-intr id=parsing-main-intbody:parsing-main-intr-2>in
+    row</a>".</p>
+    
+
+    <p>Reprocess the current token.</p>
+
+   <dt>An end tag whose tag name is one of: "tbody", "tfoot",
+   "thead"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intbody:stack-of-open-elements>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-intbody:has-an-element-in-table-scope>have an element in table scope</a> that is an <a href=#html-elements id=parsing-main-intbody:html-elements>HTML
+    element</a> with the same tag name as the token, this is a <a href=#parse-error id=parsing-main-intbody:parse-error-2>parse error</a>;
+    ignore the token.</p>
+
+    <p>Otherwise:</p>
+
+    <p><a href=#clear-the-stack-back-to-a-table-body-context id=parsing-main-intbody:clear-the-stack-back-to-a-table-body-context-3>Clear the stack back to a table body context</a>. (See below.)</p>
+
+    <p>Pop the <a href=#current-node id=parsing-main-intbody:current-node>current node</a> from the <a href=#stack-of-open-elements id=parsing-main-intbody:stack-of-open-elements-2>stack of open elements</a>. Switch the
+    <a href=#insertion-mode id=parsing-main-intbody:insertion-mode-4>insertion mode</a> to "<a href=#parsing-main-intable id=parsing-main-intbody:parsing-main-intable>in table</a>".</p>
+
+   <dt>A start tag whose tag name is one of: "caption", "col",
+   "colgroup", "tbody", "tfoot", "thead"<dt>An end tag whose tag name is "table"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intbody:stack-of-open-elements-3>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-intbody:has-an-element-in-table-scope-2>have a <code>tbody</code>, <code>thead</code>, or <code>tfoot</code> element in table
+    scope</a>, this is a <a href=#parse-error id=parsing-main-intbody:parse-error-3>parse error</a>; ignore the token.</p>
+
+    <p>Otherwise:</p>
+
+    <p><a href=#clear-the-stack-back-to-a-table-body-context id=parsing-main-intbody:clear-the-stack-back-to-a-table-body-context-4>Clear the stack back to a table body context</a>. (See below.)</p>
+
+    
+
+    <p>Pop the <a href=#current-node id=parsing-main-intbody:current-node-2>current node</a> from the <a href=#stack-of-open-elements id=parsing-main-intbody:stack-of-open-elements-4>stack of open elements</a>. Switch the
+    <a href=#insertion-mode id=parsing-main-intbody:insertion-mode-5>insertion mode</a> to "<a href=#parsing-main-intable id=parsing-main-intbody:parsing-main-intable-2>in table</a>".</p>
+
+    
+
+    <p>Reprocess the token.</p>
+
+   <dt>An end tag whose tag name is one of: "body", "caption", "col", "colgroup", "html", "td",
+   "th", "tr"<dd>
+    <p><a href=#parse-error id=parsing-main-intbody:parse-error-4>Parse error</a>. Ignore the token.</p>
+   <dt>Anything else<dd>
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-intbody:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-intable id=parsing-main-intbody:parsing-main-intable-3>in table</a>" <a href=#insertion-mode id=parsing-main-intbody:insertion-mode-6>insertion mode</a>.</p>
+   </dl>
+
+  <p>When the steps above require the UA to <dfn id=clear-the-stack-back-to-a-table-body-context>clear the stack back to a table body context</dfn>,
+  it means that the UA must, while the <a href=#current-node id=parsing-main-intbody:current-node-3>current node</a> is not a <code id=parsing-main-intbody:the-tbody-element><a href=#the-tbody-element>tbody</a></code>,
+  <code id=parsing-main-intbody:the-tfoot-element><a href=#the-tfoot-element>tfoot</a></code>, <code id=parsing-main-intbody:the-thead-element><a href=#the-thead-element>thead</a></code>, <code id=parsing-main-intbody:the-template-element><a href=#the-template-element>template</a></code>, or <code id=parsing-main-intbody:the-html-element><a href=#the-html-element>html</a></code> element, pop
+  elements from the <a href=#stack-of-open-elements id=parsing-main-intbody:stack-of-open-elements-5>stack of open elements</a>.</p>
+
+  <p class=note>The <a href=#current-node id=parsing-main-intbody:current-node-4>current node</a> being an <code id=parsing-main-intbody:the-html-element-2><a href=#the-html-element>html</a></code> element after this
+  process is a <a href=#fragment-case id=parsing-main-intbody:fragment-case>fragment case</a>.</p>
+
+
+  <h6 id=parsing-main-intr>12.2.5.4.14 The "<dfn>in row</dfn>" insertion mode<a href=#parsing-main-intr class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-intr id=parsing-main-intr:parsing-main-intr>in
+  row</a>" <a href=#insertion-mode id=parsing-main-intr:insertion-mode>insertion mode</a>, the user agent must handle the token as follows:</p>
+
+  <dl class=switch><dt>A start tag whose tag name is one of: "th", "td"<dd>
+
+    <p><a href=#clear-the-stack-back-to-a-table-row-context id=parsing-main-intr:clear-the-stack-back-to-a-table-row-context>Clear the stack back to a table row context</a>. (See below.)</p>
+
+    <p><a href=#insert-an-html-element id=parsing-main-intr:insert-an-html-element>Insert an HTML element</a> for the token, then switch the <a href=#insertion-mode id=parsing-main-intr:insertion-mode-2>insertion
+    mode</a> to "<a href=#parsing-main-intd id=parsing-main-intr:parsing-main-intd>in cell</a>".</p>
+
+    <p>Insert a <a href=#concept-parser-marker id=parsing-main-intr:concept-parser-marker>marker</a> at the end of the <a href=#list-of-active-formatting-elements id=parsing-main-intr:list-of-active-formatting-elements>list of
+    active formatting elements</a>.</p>
+
+   <dt>An end tag whose tag name is "tr"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intr:stack-of-open-elements>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-intr:has-an-element-in-table-scope>have a <code>tr</code> element in table scope</a>, this is a <a href=#parse-error id=parsing-main-intr:parse-error>parse error</a>;
+    ignore the token.</p>
+
+    <p>Otherwise:</p>
+
+    <p><a href=#clear-the-stack-back-to-a-table-row-context id=parsing-main-intr:clear-the-stack-back-to-a-table-row-context-2>Clear the stack back to a table row context</a>. (See below.)</p>
+
+    <p>Pop the <a href=#current-node id=parsing-main-intr:current-node>current node</a> (which will be a <code id=parsing-main-intr:the-tr-element><a href=#the-tr-element>tr</a></code> element) from the
+    <a href=#stack-of-open-elements id=parsing-main-intr:stack-of-open-elements-2>stack of open elements</a>. Switch the <a href=#insertion-mode id=parsing-main-intr:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-intbody id=parsing-main-intr:parsing-main-intbody>in table body</a>".</p>
+
+   <dt>A start tag whose tag name is one of: "caption", "col", "colgroup", "tbody", "tfoot",
+   "thead", "tr"<dt>An end tag whose tag name is "table"<dd>
+
+    
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intr:stack-of-open-elements-3>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-intr:has-an-element-in-table-scope-2>have a <code>tr</code> element in table scope</a>, this is a <a href=#parse-error id=parsing-main-intr:parse-error-2>parse error</a>;
+    ignore the token.</p>
+
+    <p>Otherwise:</p>
+
+    <p><a href=#clear-the-stack-back-to-a-table-row-context id=parsing-main-intr:clear-the-stack-back-to-a-table-row-context-3>Clear the stack back to a table row context</a>. (See below.)</p>
+
+    <p>Pop the <a href=#current-node id=parsing-main-intr:current-node-2>current node</a> (which will be a <code id=parsing-main-intr:the-tr-element-2><a href=#the-tr-element>tr</a></code> element) from the
+    <a href=#stack-of-open-elements id=parsing-main-intr:stack-of-open-elements-4>stack of open elements</a>. Switch the <a href=#insertion-mode id=parsing-main-intr:insertion-mode-4>insertion mode</a> to "<a href=#parsing-main-intbody id=parsing-main-intr:parsing-main-intbody-2>in table body</a>".</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   <dt>An end tag whose tag name is one of: "tbody", "tfoot", "thead"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intr:stack-of-open-elements-5>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-intr:has-an-element-in-table-scope-3>have an element in table scope</a> that is an <a href=#html-elements id=parsing-main-intr:html-elements>HTML
+    element</a> with the same tag name as the token, this is a <a href=#parse-error id=parsing-main-intr:parse-error-3>parse error</a>;
+    ignore the token.</p>
+
+    
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intr:stack-of-open-elements-6>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-intr:has-an-element-in-table-scope-4>have a <code>tr</code> element in table scope</a>, ignore the token.</p>
+
+    <p>Otherwise:</p>
+
+    <p><a href=#clear-the-stack-back-to-a-table-row-context id=parsing-main-intr:clear-the-stack-back-to-a-table-row-context-4>Clear the stack back to a table row context</a>. (See below.)</p>
+
+    <p>Pop the <a href=#current-node id=parsing-main-intr:current-node-3>current node</a> (which will be a <code id=parsing-main-intr:the-tr-element-3><a href=#the-tr-element>tr</a></code> element) from the
+    <a href=#stack-of-open-elements id=parsing-main-intr:stack-of-open-elements-7>stack of open elements</a>. Switch the <a href=#insertion-mode id=parsing-main-intr:insertion-mode-5>insertion mode</a> to "<a href=#parsing-main-intbody id=parsing-main-intr:parsing-main-intbody-3>in table body</a>".</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   <dt>An end tag whose tag name is one of: "body", "caption", "col", "colgroup", "html", "td",
+   "th"<dd>
+    <p><a href=#parse-error id=parsing-main-intr:parse-error-4>Parse error</a>. Ignore the token.</p>
+   <dt>Anything else<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-intr:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-intable id=parsing-main-intr:parsing-main-intable>in table</a>" <a href=#insertion-mode id=parsing-main-intr:insertion-mode-6>insertion mode</a>.</p>
+
+   </dl>
+
+  <p>When the steps above require the UA to <dfn id=clear-the-stack-back-to-a-table-row-context>clear the stack back to a table row context</dfn>,
+  it means that the UA must, while the <a href=#current-node id=parsing-main-intr:current-node-4>current node</a> is not a <code id=parsing-main-intr:the-tr-element-4><a href=#the-tr-element>tr</a></code>,
+  <code id=parsing-main-intr:the-template-element><a href=#the-template-element>template</a></code>, or <code id=parsing-main-intr:the-html-element><a href=#the-html-element>html</a></code> element, pop elements from the <a href=#stack-of-open-elements id=parsing-main-intr:stack-of-open-elements-8>stack of open
+  elements</a>.</p>
+
+  <p class=note>The <a href=#current-node id=parsing-main-intr:current-node-5>current node</a> being an <code id=parsing-main-intr:the-html-element-2><a href=#the-html-element>html</a></code> element after this
+  process is a <a href=#fragment-case id=parsing-main-intr:fragment-case>fragment case</a>.</p>
+
+
+  <h6 id=parsing-main-intd>12.2.5.4.15 The "<dfn>in cell</dfn>" insertion mode<a href=#parsing-main-intd class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-intd id=parsing-main-intd:parsing-main-intd>in cell</a>" <a href=#insertion-mode id=parsing-main-intd:insertion-mode>insertion mode</a>, the user agent must handle the token as follows:</p>
+
+  <dl class=switch><dt>An end tag whose tag name is one of: "td", "th"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intd:stack-of-open-elements>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-intd:has-an-element-in-table-scope>have an element in table scope</a> that is an <a href=#html-elements id=parsing-main-intd:html-elements>HTML
+    element</a> with the same tag name as that of the token, then this is a <a href=#parse-error id=parsing-main-intd:parse-error>parse
+    error</a>; ignore the token.</p>
+
+    <p>Otherwise:</p>
+
+    <p><a href=#generate-implied-end-tags id=parsing-main-intd:generate-implied-end-tags>Generate implied end tags</a>.</p>
+
+    <p>Now, if the <a href=#current-node id=parsing-main-intd:current-node>current node</a> is not an <a href=#html-elements id=parsing-main-intd:html-elements-2>HTML
+    element</a> with the same tag name as the token, then this is a <a href=#parse-error id=parsing-main-intd:parse-error-2>parse error</a>.</p>
+
+    <p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-intd:stack-of-open-elements-2>stack of open elements</a> stack until an <a href=#html-elements id=parsing-main-intd:html-elements-3>HTML element</a> with the same tag name as the token has been popped from the
+    stack.</p>
+
+    <p><a href=#clear-the-list-of-active-formatting-elements-up-to-the-last-marker id=parsing-main-intd:clear-the-list-of-active-formatting-elements-up-to-the-last-marker>Clear the list of active formatting elements up to the last marker</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-intd:insertion-mode-2>insertion mode</a> to "<a href=#parsing-main-intr id=parsing-main-intd:parsing-main-intr>in
+    row</a>".</p> 
+
+   <dt>A start tag whose tag name is one of: "caption", "col",
+   "colgroup", "tbody", "td", "tfoot", "th", "thead", "tr"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intd:stack-of-open-elements-3>stack of open elements</a> does <em>not</em> <a href=#has-an-element-in-table-scope id=parsing-main-intd:has-an-element-in-table-scope-2>have a <code>td</code> or <code>th</code> element in table scope</a>, then this
+    is a <a href=#parse-error id=parsing-main-intd:parse-error-3>parse error</a>; ignore the token. (<a href=#fragment-case id=parsing-main-intd:fragment-case>fragment case</a>)</p>
+
+    <p>Otherwise, <a href=#close-the-cell id=parsing-main-intd:close-the-cell>close the cell</a> (see below) and reprocess the token.</p>
+
+   <dt>An end tag whose tag name is one of: "body", "caption",
+   "col", "colgroup", "html"<dd>
+    <p><a href=#parse-error id=parsing-main-intd:parse-error-4>Parse error</a>. Ignore the token.</p>
+   <dt>An end tag whose tag name is one of: "table", "tbody",
+   "tfoot", "thead", "tr"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-intd:stack-of-open-elements-4>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-intd:has-an-element-in-table-scope-3>have an element in table scope</a> that is an <a href=#html-elements id=parsing-main-intd:html-elements-4>HTML
+    element</a> with the same tag name as that of the token, then this is a <a href=#parse-error id=parsing-main-intd:parse-error-5>parse
+    error</a>; ignore the token.</p>
+
+    <p>Otherwise, <a href=#close-the-cell id=parsing-main-intd:close-the-cell-2>close the cell</a> (see below) and reprocess the token.</p>
+
+   <dt>Anything else<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-intd:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-intd:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-intd:insertion-mode-3>insertion mode</a>.</p>
+
+   </dl>
+
+  <p>Where the steps above say to <dfn id=close-the-cell>close the cell</dfn>, they mean to run the following
+  algorithm:</p>
+
+  <ol><li><p><a href=#generate-implied-end-tags id=parsing-main-intd:generate-implied-end-tags-2>Generate implied end tags</a>.<li><p>If the <a href=#current-node id=parsing-main-intd:current-node-2>current node</a> is not now a <code id=parsing-main-intd:the-td-element><a href=#the-td-element>td</a></code> element or a <code id=parsing-main-intd:the-th-element><a href=#the-th-element>th</a></code>
+   element, then this is a <a href=#parse-error id=parsing-main-intd:parse-error-6>parse error</a>.<li><p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-intd:stack-of-open-elements-5>stack of open elements</a> stack until a <code id=parsing-main-intd:the-td-element-2><a href=#the-td-element>td</a></code>
+   element or a <code id=parsing-main-intd:the-th-element-2><a href=#the-th-element>th</a></code> element has been popped from the stack.<li><p><a href=#clear-the-list-of-active-formatting-elements-up-to-the-last-marker id=parsing-main-intd:clear-the-list-of-active-formatting-elements-up-to-the-last-marker-2>Clear the list of active formatting elements up to the last marker</a>.<li><p>Switch the <a href=#insertion-mode id=parsing-main-intd:insertion-mode-4>insertion mode</a> to "<a href=#parsing-main-intr id=parsing-main-intd:parsing-main-intr-2>in
+   row</a>".</ol>
+
+  <p class=note>The <a href=#stack-of-open-elements id=parsing-main-intd:stack-of-open-elements-6>stack of open elements</a> cannot have both a <code id=parsing-main-intd:the-td-element-3><a href=#the-td-element>td</a></code> and a
+  <code id=parsing-main-intd:the-th-element-3><a href=#the-th-element>th</a></code> element <a href=#has-an-element-in-table-scope id=parsing-main-intd:has-an-element-in-table-scope-4>in table scope</a> at the
+  same time, nor can it have neither when the <a href=#close-the-cell id=parsing-main-intd:close-the-cell-3>close the cell</a> algorithm is invoked.</p>
+
+
+  <h6 id=parsing-main-inselect>12.2.5.4.16 The "<dfn>in select</dfn>" insertion mode<a href=#parsing-main-inselect class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-inselect id=parsing-main-inselect:parsing-main-inselect>in
+  select</a>" <a href=#insertion-mode id=parsing-main-inselect:insertion-mode>insertion mode</a>, the user agent must handle the token as follows:</p>
+
+  <dl class=switch><dt>A character token that is U+0000 NULL<dd>
+    <p><a href=#parse-error id=parsing-main-inselect:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>Any other character token<dd>
+
+    <p><a href=#insert-a-character id=parsing-main-inselect:insert-a-character>Insert the token's character</a>.</p>
+
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=parsing-main-inselect:insert-a-comment>Insert a comment</a>.</p>
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=parsing-main-inselect:parse-error-2>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-inselect:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-inselect:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-inselect:insertion-mode-2>insertion mode</a>.</p>
+
+   <dt>A start tag whose tag name is "option"<dd>
+
+    
+    <p>If the <a href=#current-node id=parsing-main-inselect:current-node>current node</a> is an <code id=parsing-main-inselect:the-option-element><a href=#the-option-element>option</a></code> element, pop that node from the
+    <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements>stack of open elements</a>.</p>
+    
+
+    <p><a href=#insert-an-html-element id=parsing-main-inselect:insert-an-html-element>Insert an HTML element</a> for the token.</p>
+
+   <dt>A start tag whose tag name is "optgroup"<dd>
+
+    
+    <p>If the <a href=#current-node id=parsing-main-inselect:current-node-2>current node</a> is an <code id=parsing-main-inselect:the-option-element-2><a href=#the-option-element>option</a></code> element, pop that node from the
+    <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-2>stack of open elements</a>.</p>
+    
+
+    
+    <p>If the <a href=#current-node id=parsing-main-inselect:current-node-3>current node</a> is an <code id=parsing-main-inselect:the-optgroup-element><a href=#the-optgroup-element>optgroup</a></code> element, pop that node from the
+    <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-3>stack of open elements</a>.</p>
+    
+
+    <p><a href=#insert-an-html-element id=parsing-main-inselect:insert-an-html-element-2>Insert an HTML element</a> for the token.</p>
+
+   <dt>An end tag whose tag name is "optgroup"<dd>
+
+    
+    <p>First, if the <a href=#current-node id=parsing-main-inselect:current-node-4>current node</a> is an <code id=parsing-main-inselect:the-option-element-3><a href=#the-option-element>option</a></code> element, and the node
+    immediately before it in the <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-4>stack of open elements</a> is an <code id=parsing-main-inselect:the-optgroup-element-2><a href=#the-optgroup-element>optgroup</a></code>
+    element, then pop the <a href=#current-node id=parsing-main-inselect:current-node-5>current node</a> from the <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-5>stack of open
+    elements</a>.</p>
+    
+
+    <p>If the <a href=#current-node id=parsing-main-inselect:current-node-6>current node</a> is an <code id=parsing-main-inselect:the-optgroup-element-3><a href=#the-optgroup-element>optgroup</a></code> element, then pop that node from
+    the <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-6>stack of open elements</a>. Otherwise, this is a <a href=#parse-error id=parsing-main-inselect:parse-error-3>parse error</a>; ignore
+    the token.</p>
+
+   <dt>An end tag whose tag name is "option"<dd>
+
+    <p>If the <a href=#current-node id=parsing-main-inselect:current-node-7>current node</a> is an <code id=parsing-main-inselect:the-option-element-4><a href=#the-option-element>option</a></code> element, then pop that node from
+    the <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-7>stack of open elements</a>. Otherwise, this is a <a href=#parse-error id=parsing-main-inselect:parse-error-4>parse error</a>; ignore
+    the token.</p>
+
+   <dt>An end tag whose tag name is "select"<dd>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-8>stack of open elements</a> does not <a href=#has-an-element-in-select-scope id=parsing-main-inselect:has-an-element-in-select-scope>have a <code>select</code> element in select scope</a>, this is a <a href=#parse-error id=parsing-main-inselect:parse-error-5>parse
+    error</a>; ignore the token. (<a href=#fragment-case id=parsing-main-inselect:fragment-case>fragment case</a>)</p>
+
+    <p>Otherwise:</p>
+
+    <p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-9>stack of open elements</a> until a <code id=parsing-main-inselect:the-select-element><a href=#the-select-element>select</a></code> element
+    has been popped from the stack.</p>
+
+    <p><a href=#reset-the-insertion-mode-appropriately id=parsing-main-inselect:reset-the-insertion-mode-appropriately>Reset the insertion mode appropriately</a>.</p>
+
+   <dt>A start tag whose tag name is "select"<dd>
+
+    <p><a href=#parse-error id=parsing-main-inselect:parse-error-6>Parse error</a>.</p>
+
+    
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-10>stack of open elements</a> does not <a href=#has-an-element-in-select-scope id=parsing-main-inselect:has-an-element-in-select-scope-2>have a <code>select</code> element in select scope</a>, ignore the token.
+    (<a href=#fragment-case id=parsing-main-inselect:fragment-case-2>fragment case</a>)</p>
+
+    <p>Otherwise:</p>
+
+    <p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-11>stack of open elements</a> until a <code id=parsing-main-inselect:the-select-element-2><a href=#the-select-element>select</a></code> element
+    has been popped from the stack.</p>
+
+    <p><a href=#reset-the-insertion-mode-appropriately id=parsing-main-inselect:reset-the-insertion-mode-appropriately-2>Reset the insertion mode appropriately</a>.</p>
+    
+
+    <p class=note>It just gets treated like an end tag.</p>
+
+   <dt>A start tag whose tag name is one of: "input", "keygen", "textarea"<dd>
+
+    <p><a href=#parse-error id=parsing-main-inselect:parse-error-7>Parse error</a>.</p>
+
+    
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-12>stack of open elements</a> does not <a href=#has-an-element-in-select-scope id=parsing-main-inselect:has-an-element-in-select-scope-3>have a <code>select</code> element in select scope</a>, ignore the token.
+    (<a href=#fragment-case id=parsing-main-inselect:fragment-case-3>fragment case</a>)</p>
+
+    <p>Otherwise:</p>
+
+    <p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inselect:stack-of-open-elements-13>stack of open elements</a> until a <code id=parsing-main-inselect:the-select-element-3><a href=#the-select-element>select</a></code> element
+    has been popped from the stack.</p>
+
+    <p><a href=#reset-the-insertion-mode-appropriately id=parsing-main-inselect:reset-the-insertion-mode-appropriately-3>Reset the insertion mode appropriately</a>.</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   <dt>A start tag whose tag name is one of: "script", "template"<dt>An end tag whose tag name is "template"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-inselect:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-inhead id=parsing-main-inselect:parsing-main-inhead>in head</a>" <a href=#insertion-mode id=parsing-main-inselect:insertion-mode-3>insertion mode</a>.</p>
+
+   <dt>An end-of-file token<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-inselect:using-the-rules-for-3>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-inselect:parsing-main-inbody-2>in body</a>" <a href=#insertion-mode id=parsing-main-inselect:insertion-mode-4>insertion mode</a>.</p>
+
+   <dt>Anything else<dd>
+    <p><a href=#parse-error id=parsing-main-inselect:parse-error-8>Parse error</a>. Ignore the token.</p>
+   </dl>
+
+
+  <h6 id=parsing-main-inselectintable>12.2.5.4.17 The "<dfn>in select in table</dfn>" insertion mode<a href=#parsing-main-inselectintable class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-inselectintable id=parsing-main-inselectintable:parsing-main-inselectintable>in select in table</a>" <a href=#insertion-mode id=parsing-main-inselectintable:insertion-mode>insertion mode</a>, the user agent must handle the
+  token as follows:</p>
+
+  <dl class=switch><dt>A start tag whose tag name is one of: "caption", "table", "tbody", "tfoot", "thead", "tr",
+   "td", "th"<dd>
+
+    <p><a href=#parse-error id=parsing-main-inselectintable:parse-error>Parse error</a>.</p>
+
+    
+    <p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inselectintable:stack-of-open-elements>stack of open elements</a> until a <code id=parsing-main-inselectintable:the-select-element><a href=#the-select-element>select</a></code> element
+    has been popped from the stack.</p>
+
+    <p><a href=#reset-the-insertion-mode-appropriately id=parsing-main-inselectintable:reset-the-insertion-mode-appropriately>Reset the insertion mode appropriately</a>.</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   <dt>An end tag whose tag name is one of: "caption", "table", "tbody", "tfoot", "thead", "tr",
+   "td", "th"<dd>
+
+    <p><a href=#parse-error id=parsing-main-inselectintable:parse-error-2>Parse error</a>.</p>
+
+    <p>If the <a href=#stack-of-open-elements id=parsing-main-inselectintable:stack-of-open-elements-2>stack of open elements</a> does not <a href=#has-an-element-in-table-scope id=parsing-main-inselectintable:has-an-element-in-table-scope>have an element in table scope</a> that is an <a href=#html-elements id=parsing-main-inselectintable:html-elements>HTML
+    element</a> with the same tag name as that of the token, then ignore the token.</p>
+
+    <p>Otherwise:</p>
+
+    
+    <p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-inselectintable:stack-of-open-elements-3>stack of open elements</a> until a <code id=parsing-main-inselectintable:the-select-element-2><a href=#the-select-element>select</a></code> element
+    has been popped from the stack.</p>
+
+    <p><a href=#reset-the-insertion-mode-appropriately id=parsing-main-inselectintable:reset-the-insertion-mode-appropriately-2>Reset the insertion mode appropriately</a>.</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   <dt>Anything else<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-inselectintable:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inselect id=parsing-main-inselectintable:parsing-main-inselect>in select</a>" <a href=#insertion-mode id=parsing-main-inselectintable:insertion-mode-2>insertion mode</a>.</p>
+
+   </dl>
+
+
+
+  <h6 id=parsing-main-intemplate>12.2.5.4.18 The "<dfn>in template</dfn>" insertion mode<a href=#parsing-main-intemplate class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-intemplate id=parsing-main-intemplate:parsing-main-intemplate>in
+  template</a>" <a href=#insertion-mode id=parsing-main-intemplate:insertion-mode>insertion mode</a>, the user agent must handle the token as follows:</p>
+
+  <dl class=switch><dt>A character token<dt>A comment token<dt>A DOCTYPE token<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-intemplate:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-intemplate:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-intemplate:insertion-mode-2>insertion mode</a>.</p>
+
+   <dt>A start tag whose tag name is one of: "base", "basefont", "bgsound", "link", "meta", "noframes", "script", "style", "template", "title"<dt>An end tag whose tag name is "template"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-intemplate:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-inhead id=parsing-main-intemplate:parsing-main-inhead>in head</a>" <a href=#insertion-mode id=parsing-main-intemplate:insertion-mode-3>insertion mode</a>.</p>
+
+   <dt>A start tag whose tag name is one of: "caption", "colgroup", "tbody", "tfoot", "thead"<dd>
+
+    <p>Pop the <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode>current template insertion mode</a> off the <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes>stack of template
+    insertion modes</a>.</p>
+
+    <p>Push "<a href=#parsing-main-intable id=parsing-main-intemplate:parsing-main-intable>in table</a>" onto the <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes-2>stack of
+    template insertion modes</a> so that it is the new <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode-2>current template insertion
+    mode</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-intemplate:insertion-mode-4>insertion mode</a> to "<a href=#parsing-main-intable id=parsing-main-intemplate:parsing-main-intable-2>in
+    table</a>", and reprocess the token.</p>
+
+   <dt>A start tag whose tag name is "col"<dd>
+
+    <p>Pop the <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode-3>current template insertion mode</a> off the <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes-3>stack of template
+    insertion modes</a>.</p>
+
+    <p>Push "<a href=#parsing-main-incolgroup id=parsing-main-intemplate:parsing-main-incolgroup>in column group</a>" onto the
+    <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes-4>stack of template insertion modes</a> so that it is the new <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode-4>current template
+    insertion mode</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-intemplate:insertion-mode-5>insertion mode</a> to "<a href=#parsing-main-incolgroup id=parsing-main-intemplate:parsing-main-incolgroup-2>in

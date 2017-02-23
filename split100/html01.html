@@ -1,0 +1,850 @@
+  &lt;h1>Sample styled page&lt;/h1>
+  &lt;p>This page is just a demo.&lt;/p>
+ &lt;/body>
+&lt;/html></pre>
+
+  <p>For more details on how to use HTML, authors are encouraged to consult tutorials and guides.
+  Some of the examples included in this specification might also be of use, but the novice author is
+  cautioned that this specification, by necessity, defines the language with a level of detail that
+  might be difficult to understand at first.</p>
+
+
+
+
+  <h4 id=writing-secure-applications-with-html>1.11.1 Writing secure applications with HTML<a href=#writing-secure-applications-with-html class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>When HTML is used to create interactive sites, care needs to be taken to avoid introducing
+  vulnerabilities through which attackers can compromise the integrity of the site itself or of the
+  site's users.</p>
+
+  <p>A comprehensive study of this matter is beyond the scope of this document, and authors are
+  strongly encouraged to study the matter in more detail. However, this section attempts to provide
+  a quick introduction to some common pitfalls in HTML application development.</p>
+
+  <p>The security model of the Web is based on the concept of "origins", and correspondingly many of
+  the potential attacks on the Web involve cross-origin actions. <a href=#refsORIGIN>[ORIGIN]</a></p>
+
+  <dl><dt>Not validating user input<dt>Cross-site scripting (XSS)<dt>SQL injection<dd>
+
+    <p>When accepting untrusted input, e.g. user-generated content such as text comments, values in
+    URL parameters, messages from third-party sites, etc, it is imperative that the data be
+    validated before use, and properly escaped when displayed. Failing to do this can allow a
+    hostile user to perform a variety of attacks, ranging from the potentially benign, such as
+    providing bogus user information like a negative age, to the serious, such as running scripts
+    every time a user looks at a page that includes the information, potentially propagating the
+    attack in the process, to the catastrophic, such as deleting all data in the server.</p>
+
+    <p>When writing filters to validate user input, it is imperative that filters always be
+    safelist-based, allowing known-safe constructs and disallowing all other input. Blocklist-based
+    filters that disallow known-bad inputs and allow everything else are not secure, as not
+    everything that is bad is yet known (for example, because it might be invented in the
+    future).</p>
+
+    <div class=example>
+
+     <p>For example, suppose a page looked at its URL's query string to determine what to display,
+     and the site then redirected the user to that page to display a message, as in:</p>
+
+     <pre>&lt;ul>
+ &lt;li>&lt;a href="message.cgi?say=Hello">Say Hello&lt;/a>
+ &lt;li>&lt;a href="message.cgi?say=Welcome">Say Welcome&lt;/a>
+ &lt;li>&lt;a href="message.cgi?say=Kittens">Say Kittens&lt;/a>
+&lt;/ul></pre>
+
+     <p>If the message was just displayed to the user without escaping, a hostile attacker could
+     then craft a URL that contained a script element:</p>
+
+     <pre>https://example.com/message.cgi?say=%3Cscript%3Ealert%28%27Oh%20no%21%27%29%3C/script%3E</pre>
+
+     <p>If the attacker then convinced a victim user to visit this page, a script of the attacker's
+     choosing would run on the page. Such a script could do any number of hostile actions, limited
+     only by what the site offers: if the site is an e-commerce shop, for instance, such a script
+     could cause the user to unknowingly make arbitrarily many unwanted purchases.</p>
+
+     <p>This is called a cross-site scripting attack.</p>
+
+    </div>
+
+    <p>There are many constructs that can be used to try to trick a site into executing code. Here
+    are some that authors are encouraged to consider when writing safelist filters:</p>
+
+    <ul><li>When allowing harmless-seeming elements like <code id=writing-secure-applications-with-html:the-img-element><a href=#the-img-element>img</a></code>, it is important to safelist
+     any provided attributes as well. If one allowed all attributes then an attacker could, for
+     instance, use the <code id=writing-secure-applications-with-html:handler-onload><a href=#handler-onload>onload</a></code> attribute to run arbitrary
+     script.<li>When allowing URLs to be provided (e.g. for links), the scheme of each URL also needs to be
+     explicitly safelisted, as there are many schemes that can be abused. The most prominent
+     example is "<code id=writing-secure-applications-with-html:javascript-protocol><a href=#javascript-protocol>javascript:</a></code>", but user agents can
+     implement (and indeed, have historically implemented) others.<li>Allowing a <code id=writing-secure-applications-with-html:the-base-element><a href=#the-base-element>base</a></code> element to be inserted means any <code id=writing-secure-applications-with-html:the-script-element><a href=#the-script-element>script</a></code> elements
+     in the page with relative links can be hijacked, and similarly that any form submissions can
+     get redirected to a hostile site.</ul>
+
+   <dt>Cross-site request forgery (CSRF)<dd>
+
+    <p>If a site allows a user to make form submissions with user-specific side-effects, for example
+    posting messages on a forum under the user's name, making purchases, or applying for a passport,
+    it is important to verify that the request was made by the user intentionally, rather than by
+    another site tricking the user into making the request unknowingly.</p>
+
+    <p>This problem exists because HTML forms can be submitted to other origins.</p>
+
+    <p>Sites can prevent such attacks by populating forms with user-specific hidden tokens, or by
+    checking `<code id=writing-secure-applications-with-html:http-origin><a data-x-internal=http-origin href=https://fetch.spec.whatwg.org/#http-origin>Origin</a></code>` headers on all requests.</p>
+
+   <dt>Clickjacking<dd>
+
+    <p>A page that provides users with an interface to perform actions that the user might not wish
+    to perform needs to be designed so as to avoid the possibility that users can be tricked into
+    activating the interface.</p>
+
+    <p>One way that a user could be so tricked is if a hostile site places the victim site in a
+    small <code id=writing-secure-applications-with-html:the-iframe-element><a href=#the-iframe-element>iframe</a></code> and then convinces the user to click, for instance by having the user
+    play a reaction game. Once the user is playing the game, the hostile site can quickly position
+    the iframe under the mouse cursor just as the user is about to click, thus tricking the user
+    into clicking the victim site's interface.</p>
+
+    <p>To avoid this, sites that do not expect to be used in frames are encouraged to only enable
+    their interface if they detect that they are not in a frame (e.g. by comparing the <code id=writing-secure-applications-with-html:dom-window><a href=#dom-window>window</a></code> object to the value of the <code id=writing-secure-applications-with-html:dom-top><a href=#dom-top>top</a></code>
+    attribute).</p>
+
+   </dl>
+
+
+
+  <h4 id=common-pitfalls-to-avoid-when-using-the-scripting-apis>1.11.2 Common pitfalls to avoid when using the scripting APIs<a href=#common-pitfalls-to-avoid-when-using-the-scripting-apis class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Scripts in HTML have "run-to-completion" semantics, meaning that the browser will generally run
+  the script uninterrupted before doing anything else, such as firing further events or continuing
+  to parse the document.</p>
+
+  <p>On the other hand, parsing of HTML files happens incrementally, meaning that
+  the parser can pause at any point to let scripts run. This is generally a good thing, but it does
+  mean that authors need to be careful to avoid hooking event handlers after the events could have
+  possibly fired.</p>
+
+  <p>There are two techniques for doing this reliably: use <a href=#event-handler-content-attributes id=common-pitfalls-to-avoid-when-using-the-scripting-apis:event-handler-content-attributes>event handler content
+  attributes</a>, or create the element and add the event handlers in the same script. The latter
+  is safe because, as mentioned earlier, scripts are run to completion before further events can
+  fire.</p>
+
+  <div class=example>
+
+   <p>One way this could manifest itself is with <code id=common-pitfalls-to-avoid-when-using-the-scripting-apis:the-img-element><a href=#the-img-element>img</a></code> elements and the <code id=common-pitfalls-to-avoid-when-using-the-scripting-apis:event-load><a href=#event-load>load</a></code> event. The event could fire as soon as the element has been
+   parsed, especially if the image has already been cached (which is common).</p>
+
+   <p>Here, the author uses the <code id=common-pitfalls-to-avoid-when-using-the-scripting-apis:handler-onload><a href=#handler-onload>onload</a></code> handler on an
+   <code id=common-pitfalls-to-avoid-when-using-the-scripting-apis:the-img-element-2><a href=#the-img-element>img</a></code> element to catch the <code id=common-pitfalls-to-avoid-when-using-the-scripting-apis:event-load-2><a href=#event-load>load</a></code> event:</p>
+
+   <pre>&lt;img src="games.png" alt="Games" onload="gamesLogoHasLoaded(event)"></pre>
+
+   <p>If the element is being added by script, then so long as the event handlers are added in the
+   same script, the event will still not be missed:</p>
+
+   <pre>&lt;script>
+ var img = new Image();
+ img.src = 'games.png';
+ img.alt = 'Games';
+ img.onload = gamesLogoHasLoaded;
+ // img.addEventListener('load', gamesLogoHasLoaded, false); // would work also
+&lt;/script></pre>
+
+   <p>However, if the author first created the <code id=common-pitfalls-to-avoid-when-using-the-scripting-apis:the-img-element-3><a href=#the-img-element>img</a></code> element and then in a separate
+   script added the event listeners, there's a chance that the <code id=common-pitfalls-to-avoid-when-using-the-scripting-apis:event-load-3><a href=#event-load>load</a></code>
+   event would be fired in between, leading it to be missed:</p>
+
+   <pre class=bad>&lt;!-- Do not use this style, it has a race condition! -->
+ &lt;img id="games" src="games.png" alt="Games">
+ &lt;!-- the 'load' event might fire here while the parser is taking a
+      break, in which case you will not see it! -->
+ &lt;script>
+  var img = document.getElementById('games');
+  img.onload = gamesLogoHasLoaded; // might never fire!
+ &lt;/script></pre>
+
+  </div>
+
+
+
+  <h4 id=how-to-catch-mistakes-when-writing-html:-validators-and-conformance-checkers>1.11.3 How to catch mistakes when writing HTML: validators and conformance checkers<a href=#how-to-catch-mistakes-when-writing-html:-validators-and-conformance-checkers class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Authors are encouraged to make use of conformance checkers (also known as <i>validators</i>) to
+  catch common mistakes. The WHATWG maintains a list of such tools at: <a href=https://validator.whatwg.org/>https://validator.whatwg.org/</a></p>
+
+
+
+  <h3 id=conformance-requirements-for-authors>1.12 Conformance requirements for authors<a href=#conformance-requirements-for-authors class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Unlike previous versions of the HTML specification, this specification defines in some detail
+  the required processing for invalid documents as well as valid documents.</p> 
+
+  <p>However, even though the processing of invalid content is in most cases well-defined,
+  conformance requirements for documents are still important: in practice, interoperability (the
+  situation in which all implementations process particular content in a reliable and identical or
+  equivalent way) is not the only goal of document conformance requirements. This section details
+  some of the more common reasons for still distinguishing between a conforming document and one
+  with errors.</p>
+
+
+  <h4 id=presentational-markup>1.12.1 Presentational markup<a href=#presentational-markup class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The majority of presentational features from previous versions of HTML are no longer allowed.
+  Presentational markup in general has been found to have a number of problems:</p>
+
+  <dl><dt>The use of presentational elements leads to poorer accessibility<dd>
+
+    <p>While it is possible to use presentational markup in a way that provides users of assistive
+    technologies (ATs) with an acceptable experience (e.g. using ARIA), doing so is significantly
+    more difficult than doing so when using semantically-appropriate markup. Furthermore, even using
+    such techniques doesn't help make pages accessible for non-AT non-graphical users, such as users
+    of text-mode browsers.</p>
+
+    <p>Using media-independent markup, on the other hand, provides an easy way for documents to be
+    authored in such a way that they work for more users (e.g. users of text browsers).</p>
+
+   <dt>Higher cost of maintenance<dd>
+
+    <p>It is significantly easier to maintain a site written in such a way that the markup is
+    style-independent. For example, changing the color of a site that uses <code>&lt;font color=""></code> throughout requires changes across the entire site,
+    whereas a similar change to a site based on CSS can be done by changing a single file.</p>
+
+   <dt>Larger document sizes<dd>
+
+    <p>Presentational markup tends to be much more redundant, and thus results in larger document
+    sizes.</p>
+
+   </dl>
+
+  <p>For those reasons, presentational markup has been removed from HTML in this version. This
+  change should not come as a surprise; HTML4 deprecated presentational markup many years ago and
+  provided a mode (HTML4 Transitional) to help authors move away from presentational markup; later,
+  XHTML 1.1 went further and obsoleted those features altogether.</p>
+
+  <p>The only remaining presentational markup features in HTML are the <code id=presentational-markup:the-style-attribute><a href=#the-style-attribute>style</a></code> attribute and the <code id=presentational-markup:the-style-element><a href=#the-style-element>style</a></code> element. Use of the <code id=presentational-markup:the-style-attribute-2><a href=#the-style-attribute>style</a></code> attribute is somewhat discouraged in production environments, but
+  it can be useful for rapid prototyping (where its rules can be directly moved into a separate
+  style sheet later) and for providing specific styles in unusual cases where a separate style sheet
+  would be inconvenient. Similarly, the <code id=presentational-markup:the-style-element-2><a href=#the-style-element>style</a></code> element can be useful in syndication or
+  for page-specific styles, but in general an external style sheet is likely to be more convenient
+  when the styles apply to multiple pages.</p>
+
+  <p>It is also worth noting that some elements that were previously presentational have been
+  redefined in this specification to be media-independent: <code id=presentational-markup:the-b-element><a href=#the-b-element>b</a></code>, <code id=presentational-markup:the-i-element><a href=#the-i-element>i</a></code>,
+  <code id=presentational-markup:the-hr-element><a href=#the-hr-element>hr</a></code>, <code id=presentational-markup:the-s-element><a href=#the-s-element>s</a></code>, <code id=presentational-markup:the-small-element><a href=#the-small-element>small</a></code>, and <code id=presentational-markup:the-u-element><a href=#the-u-element>u</a></code>.</p>
+
+
+  <h4 id=syntax-errors>1.12.2 Syntax errors<a href=#syntax-errors class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The syntax of HTML is constrained to avoid a wide variety of problems.</p>
+
+  <dl><dt>Unintuitive error-handling behavior<dd>
+
+    <p>Certain invalid syntax constructs, when parsed, result in DOM trees that are highly
+    unintuitive.</p>
+
+    <div class=example>
+
+     <p>For example, the following markup fragment results in a DOM with an <code id=syntax-errors:the-hr-element><a href=#the-hr-element>hr</a></code> element
+     that is an <em>earlier</em> sibling of the corresponding <code id=syntax-errors:the-table-element><a href=#the-table-element>table</a></code> element:</p>
+
+     <pre class=bad>&lt;table>&lt;hr>...</pre>
+
+    </div>
+
+   <dt>Errors with optional error recovery<dd>
+
+    <p>To allow user agents to be used in controlled environments without having to implement the
+    more bizarre and convoluted error handling rules, user agents are permitted to fail whenever
+    encountering a <a href=#parse-error id=syntax-errors:parse-error>parse error</a>.</p>
+
+   <dt>Errors where the error-handling behavior is not compatible with streaming user agents<dd>
+
+    <p>Some error-handling behavior, such as the behavior for the <code>&lt;table>&lt;hr>...</code> example mentioned above, are incompatible with streaming
+    user agents (user agents that process HTML files in one pass, without storing state). To avoid
+    interoperability problems with such user agents, any syntax resulting in such behavior is
+    considered invalid.</p>
+
+   <dt>Errors that can result in infoset coercion<dd>
+
+    <p>When a user agent based on XML is connected to an HTML parser, it is possible that certain
+    invariants that XML enforces, such as element or attribute names never contain multiple colons,
+    will be violated by an HTML file. Handling this can require that the parser coerce the HTML DOM
+    into an XML-compatible infoset. Most syntax constructs that require such handling are considered
+    invalid. (Comments containing two consecutive hyphens, or ending with a hyphen, are exceptions
+    that are allowed in the HTML syntax.)</p>
+
+   <dt>Errors that result in disproportionately poor performance<dd>
+
+    <p>Certain syntax constructs can result in disproportionately poor performance. To discourage the
+    use of such constructs, they are typically made non-conforming.</p>
+
+    <div class=example>
+
+     <p>For example, the following markup results in poor performance, since all the unclosed
+     <code id=syntax-errors:the-i-element><a href=#the-i-element>i</a></code> elements have to be reconstructed in each paragraph, resulting in progressively
+     more elements in each paragraph:</p>
+
+     <pre class=bad>&lt;p>&lt;i>She dreamt.
+&lt;p>&lt;i>She dreamt that she ate breakfast.
+&lt;p>&lt;i>Then lunch.
+&lt;p>&lt;i>And finally dinner.</pre>
+
+     <p>The resulting DOM for this fragment would be:</p>
+
+     <ul class=domTree><li class=t1><code id=syntax-errors:the-p-element><a href=#the-p-element>p</a></code><ul><li class=t1><code id=syntax-errors:the-i-element-2><a href=#the-i-element>i</a></code><ul><li class=t3><code id=syntax-errors:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>She dreamt.</span></ul></ul><li class=t1><code id=syntax-errors:the-p-element-2><a href=#the-p-element>p</a></code><ul><li class=t1><code id=syntax-errors:the-i-element-3><a href=#the-i-element>i</a></code><ul><li class=t1><code id=syntax-errors:the-i-element-4><a href=#the-i-element>i</a></code><ul><li class=t3><code id=syntax-errors:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>She dreamt that she ate breakfast.</span></ul></ul></ul><li class=t1><code id=syntax-errors:the-p-element-3><a href=#the-p-element>p</a></code><ul><li class=t1><code id=syntax-errors:the-i-element-5><a href=#the-i-element>i</a></code><ul><li class=t1><code id=syntax-errors:the-i-element-6><a href=#the-i-element>i</a></code><ul><li class=t1><code id=syntax-errors:the-i-element-7><a href=#the-i-element>i</a></code><ul><li class=t3><code id=syntax-errors:text-3><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>Then lunch.</span></ul></ul></ul></ul><li class=t1><code id=syntax-errors:the-p-element-4><a href=#the-p-element>p</a></code><ul><li class=t1><code id=syntax-errors:the-i-element-8><a href=#the-i-element>i</a></code><ul><li class=t1><code id=syntax-errors:the-i-element-9><a href=#the-i-element>i</a></code><ul><li class=t1><code id=syntax-errors:the-i-element-10><a href=#the-i-element>i</a></code><ul><li class=t1><code id=syntax-errors:the-i-element-11><a href=#the-i-element>i</a></code><ul><li class=t3><code id=syntax-errors:text-4><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>And finally dinner.</span></ul></ul></ul></ul></ul></ul>
+
+    </div>
+
+   <dt>Errors involving fragile syntax constructs<dd>
+
+    <p>There are syntax constructs that, for historical reasons, are relatively fragile. To help
+    reduce the number of users who accidentally run into such problems, they are made
+    non-conforming.</p>
+
+    <div class=example>
+
+     <p>For example, the parsing of certain named character references in attributes happens even
+     with the closing semicolon being omitted. It is safe to include an ampersand followed by
+     letters that do not form a named character reference, but if the letters are changed to a
+     string that <em>does</em> form a named character reference, they will be interpreted as that
+     character instead.</p>
+
+     <p>In this fragment, the attribute's value is "<code>?bill&amp;ted</code>":</p>
+
+     <pre class=bad>&lt;a href="?bill&amp;ted">Bill and Ted&lt;/a></pre>
+
+     <p>In the following fragment, however, the attribute's value is actually "<code>?art©</code>", <em>not</em> the intended "<code>?art&amp;copy</code>",
+     because even without the final semicolon, "<code>&amp;copy</code>" is handled the same
+     as "<code>&amp;copy;</code>" and thus gets interpreted as "<code>©</code>":</p>
+
+     <pre class=bad>&lt;a href="?art&amp;copy">Art and Copy&lt;/a></pre>
+
+     <p>To avoid this problem, all named character references are required to end with a semicolon,
+     and uses of named character references without a semicolon are flagged as errors.</p>
+
+     <p>Thus, the correct way to express the above cases is as
+     follows:</p>
+
+     <pre>&lt;a href="?bill&amp;ted">Bill and Ted&lt;/a> &lt;!-- &amp;ted is ok, since it's not a named character reference --></pre>
+     <pre>&lt;a href="?art&amp;amp;copy">Art and Copy&lt;/a> &lt;!-- the &amp; has to be escaped, since &amp;copy <em>is</em> a named character reference --></pre>
+
+    </div>
+
+   <dt>Errors involving known interoperability problems in legacy user agents<dd>
+
+    <p>Certain syntax constructs are known to cause especially subtle or serious problems in legacy
+    user agents, and are therefore marked as non-conforming to help authors avoid them.</p>
+
+    <div class=example>
+
+     <p>For example, this is why the U+0060 GRAVE ACCENT character (`) is not allowed in unquoted
+     attributes. In certain legacy user agents,  it is sometimes treated as a
+     quote character.</p>
+
+    </div>
+
+    <div class=example>
+
+     <p>Another example of this is the DOCTYPE, which is required to trigger <a id=syntax-errors:no-quirks-mode href=https://dom.spec.whatwg.org/#concept-document-no-quirks data-x-internal=no-quirks-mode>no-quirks
+     mode</a>, because the behavior of legacy user agents in <a id=syntax-errors:quirks-mode href=https://dom.spec.whatwg.org/#concept-document-quirks data-x-internal=quirks-mode>quirks mode</a> is often
+     largely undocumented.</p>
+
+    </div>
+
+   <dt>Errors that risk exposing authors to security attacks<dd>
+
+    <p>Certain restrictions exist purely to avoid known security problems.</p>
+
+    <div class=example>
+
+     <p>For example, the restriction on using UTF-7 exists purely to avoid authors falling prey to a
+     known cross-site-scripting attack using UTF-7. <a href=#refsUTF7>[UTF7]</a></p>
+
+    </div>
+
+   <dt>Cases where the author's intent is unclear<dd>
+
+    <p>Markup where the author's intent is very unclear is often made non-conforming. Correcting
+    these errors early makes later maintenance easier.</p>
+
+    <div class=example>
+
+     <p>For example, it is unclear whether the author intended the following to be an
+     <code id=syntax-errors:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> heading or an <code id=syntax-errors:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h2</a></code> heading:</p>
+
+     <pre class=bad>&lt;h1>Contact details&lt;/h2></pre>
+
+    </div>
+
+   <dt>Cases that are likely to be typos<dd>
+
+    <p>When a user makes a simple typo, it is helpful if the error can be caught early, as this can
+    save the author a lot of debugging time. This specification therefore usually considers it an
+    error to use element names, attribute names, and so forth, that do not match the names defined
+    in this specification.</p>
+
+    <div class=example>
+
+     <p>For example, if the author typed <code>&lt;capton></code> instead of <code>&lt;caption></code>, this would be flagged as an error and the author could correct
+     the typo immediately.</p>
+
+    </div>
+
+   <dt>Errors that could interfere with new syntax in the future<dd>
+
+    <p>In order to allow the language syntax to be extended in the future, certain otherwise
+    harmless features are disallowed.</p>
+
+    <div class=example>
+
+     <p>For example, "attributes" in end tags are ignored currently, but they are invalid, in case a
+     future change to the language makes use of that syntax feature without conflicting with
+     already-deployed (and valid!) content.</p>
+
+    </div>
+
+   </dl>
+
+  <p>Some authors find it helpful to be in the practice of always quoting all attributes and always
+  including all optional tags, preferring the consistency derived from such custom over the minor
+  benefits of terseness afforded by making use of the flexibility of the HTML syntax. To aid such
+  authors, conformance checkers can provide modes of operation wherein such conventions are
+  enforced.</p>
+
+
+
+  <h4 id=restrictions-on-content-models-and-on-attribute-values>1.12.3 Restrictions on content models and on attribute values<a href=#restrictions-on-content-models-and-on-attribute-values class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Beyond the syntax of the language, this specification also places restrictions on how elements
+  and attributes can be specified. These restrictions are present for similar reasons:</p>
+
+  <dl><dt>Errors involving content with dubious semantics<dd>
+
+    <p>To avoid misuse of elements with defined meanings, content models are defined that restrict
+    how elements can be nested when such nestings would be of dubious value.</p>
+
+    <p class=example>For example, this specification disallows nesting a <code id=restrictions-on-content-models-and-on-attribute-values:the-section-element><a href=#the-section-element>section</a></code>
+    element inside a <code id=restrictions-on-content-models-and-on-attribute-values:the-kbd-element><a href=#the-kbd-element>kbd</a></code> element, since it is highly unlikely for an author to indicate
+    that an entire section should be keyed in.</p>
+
+   <dt>Errors that involve a conflict in expressed semantics<dd>
+
+    <p>Similarly, to draw the author's attention to mistakes in the use of elements, clear
+    contradictions in the semantics expressed are also considered conformance errors.</p>
+
+    <div class=example>
+
+     <p>In the fragments below, for example, the semantics are nonsensical: a separator cannot
+     simultaneously be a cell, nor can a radio button be a progress bar.</p>
+
+     <pre class=bad>&lt;hr role="cell"></pre>
+     <pre class=bad>&lt;input type=radio role=progressbar></pre>
+
+    </div>
+
+    <p class=example>Another example is the restrictions on the content models of the
+    <code id=restrictions-on-content-models-and-on-attribute-values:the-ul-element><a href=#the-ul-element>ul</a></code> element, which only allows <code id=restrictions-on-content-models-and-on-attribute-values:the-li-element><a href=#the-li-element>li</a></code> element children. Lists by definition
+    consist just of zero or more list items, so if a <code id=restrictions-on-content-models-and-on-attribute-values:the-ul-element-2><a href=#the-ul-element>ul</a></code> element contains something
+    other than an <code id=restrictions-on-content-models-and-on-attribute-values:the-li-element-2><a href=#the-li-element>li</a></code> element, it's not clear what was meant.</p>
+
+   <dt>Cases where the default styles are likely to lead to confusion<dd>
+
+    <p>Certain elements have default styles or behaviors that make certain combinations likely to
+    lead to confusion. Where these have equivalent alternatives without this problem, the confusing
+    combinations are disallowed.</p>
+
+    <p class=example>For example, <code id=restrictions-on-content-models-and-on-attribute-values:the-div-element><a href=#the-div-element>div</a></code> elements are rendered as <a href=https://drafts.csswg.org/css2/visuren.html#x9 id=restrictions-on-content-models-and-on-attribute-values:block-box data-x-internal=block-box>block boxes</a>, and <code id=restrictions-on-content-models-and-on-attribute-values:the-span-element><a href=#the-span-element>span</a></code> elements as <a href=https://drafts.csswg.org/css2/visuren.html#inline-box id=restrictions-on-content-models-and-on-attribute-values:inline-box data-x-internal=inline-box>inline boxes</a>. Putting a <a id=restrictions-on-content-models-and-on-attribute-values:block-box-2 href=https://drafts.csswg.org/css2/visuren.html#x9 data-x-internal=block-box>block box</a> in an
+    <a id=restrictions-on-content-models-and-on-attribute-values:inline-box-2 href=https://drafts.csswg.org/css2/visuren.html#inline-box data-x-internal=inline-box>inline box</a> is unnecessarily confusing; since either nesting just <code id=restrictions-on-content-models-and-on-attribute-values:the-div-element-2><a href=#the-div-element>div</a></code>
+    elements, or nesting just <code id=restrictions-on-content-models-and-on-attribute-values:the-span-element-2><a href=#the-span-element>span</a></code> elements, or nesting <code id=restrictions-on-content-models-and-on-attribute-values:the-span-element-3><a href=#the-span-element>span</a></code> elements
+    inside <code id=restrictions-on-content-models-and-on-attribute-values:the-div-element-3><a href=#the-div-element>div</a></code> elements all serve the same purpose as nesting a <code id=restrictions-on-content-models-and-on-attribute-values:the-div-element-4><a href=#the-div-element>div</a></code>
+    element in a <code id=restrictions-on-content-models-and-on-attribute-values:the-span-element-4><a href=#the-span-element>span</a></code> element, but only the latter involves a <a id=restrictions-on-content-models-and-on-attribute-values:block-box-3 href=https://drafts.csswg.org/css2/visuren.html#x9 data-x-internal=block-box>block box</a> in
+    an <a id=restrictions-on-content-models-and-on-attribute-values:inline-box-3 href=https://drafts.csswg.org/css2/visuren.html#inline-box data-x-internal=inline-box>inline box</a>, the latter combination is disallowed.</p>
+
+    <p class=example>Another example would be the way <a href=#interactive-content-2 id=restrictions-on-content-models-and-on-attribute-values:interactive-content-2>interactive content</a> cannot be
+    nested. For example, a <code id=restrictions-on-content-models-and-on-attribute-values:the-button-element><a href=#the-button-element>button</a></code> element cannot contain a <code id=restrictions-on-content-models-and-on-attribute-values:the-textarea-element><a href=#the-textarea-element>textarea</a></code>
+    element. This is because the default behavior of such nesting interactive elements would be
+    highly confusing to users. Instead of nesting these elements, they can be placed side by
+    side.</p>
+
+   <dt>Errors that indicate a likely misunderstanding of the specification<dd>
+
+    <p>Sometimes, something is disallowed because allowing it would likely cause author
+    confusion.</p>
+
+    <p class=example>For example, setting the <code id=restrictions-on-content-models-and-on-attribute-values:attr-fe-disabled><a href=#attr-fe-disabled>disabled</a></code>
+    attribute to the value "<code>false</code>" is disallowed, because despite the
+    appearance of meaning that the element is enabled, it in fact means that the element is
+    <em>disabled</em> (what matters for implementations is the presence of the attribute, not its
+    value).</p>
+
+   <dt>Errors involving limits that have been imposed merely to simplify the language<dd>
+
+    <p>Some conformance errors simplify the language that authors need to learn.</p>
+
+    <p class=example>For example, the <code id=restrictions-on-content-models-and-on-attribute-values:the-area-element><a href=#the-area-element>area</a></code> element's <code id=restrictions-on-content-models-and-on-attribute-values:attr-area-shape><a href=#attr-area-shape>shape</a></code> attribute, despite accepting both <code id=restrictions-on-content-models-and-on-attribute-values:attr-area-shape-keyword-circ><a href=#attr-area-shape-keyword-circ>circ</a></code> and <code id=restrictions-on-content-models-and-on-attribute-values:attr-area-shape-keyword-circle><a href=#attr-area-shape-keyword-circle>circle</a></code> values in practice as synonyms, disallows
+    the use of the <code id=restrictions-on-content-models-and-on-attribute-values:attr-area-shape-keyword-circ-2><a href=#attr-area-shape-keyword-circ>circ</a></code> value, so as to simplify
+    tutorials and other learning aids. There would be no benefit to allowing both, but it would
+    cause extra confusion when teaching the language.</p>
+
+   <dt>Errors that involve peculiarities of the parser<dd>
+
+    <p>Certain elements are parsed in somewhat eccentric ways (typically for historical reasons),
+    and their content model restrictions are intended to avoid exposing the author to these
+    issues.</p>
+
+    <div class=example>
+
+     <p>For example, a <code id=restrictions-on-content-models-and-on-attribute-values:the-form-element><a href=#the-form-element>form</a></code> element isn't allowed inside <a href=#phrasing-content-2 id=restrictions-on-content-models-and-on-attribute-values:phrasing-content-2>phrasing content</a>,
+     because when parsed as HTML, a <code id=restrictions-on-content-models-and-on-attribute-values:the-form-element-2><a href=#the-form-element>form</a></code> element's start tag will imply a
+     <code id=restrictions-on-content-models-and-on-attribute-values:the-p-element><a href=#the-p-element>p</a></code> element's end tag. Thus, the following markup results in two <a href=#paragraph id=restrictions-on-content-models-and-on-attribute-values:paragraph>paragraphs</a>, not one:</p>
+
+     <pre>&lt;p>Welcome. &lt;form>&lt;label>Name:&lt;/label> &lt;input>&lt;/form></pre>
+
+     <p>It is parsed exactly like the following:</p>
+
+     <pre>&lt;p>Welcome. &lt;/p>&lt;form>&lt;label>Name:&lt;/label> &lt;input>&lt;/form></pre>
+
+    </div>
+
+   <dt>Errors that would likely result in scripts failing in hard-to-debug ways<dd>
+
+    <p>Some errors are intended to help prevent script problems that would be hard to debug.</p>
+
+    <p class=example>This is why, for instance, it is non-conforming to have two <code id=restrictions-on-content-models-and-on-attribute-values:the-id-attribute><a href=#the-id-attribute>id</a></code> attributes with the same value. Duplicate IDs lead to the wrong
+    element being selected, with sometimes disastrous effects whose cause is hard to determine.</p>
+
+   <dt>Errors that waste authoring time<dd>
+
+    <p>Some constructs are disallowed because historically they have been the cause of a lot of
+    wasted authoring time, and by encouraging authors to avoid making them, authors can save time in
+    future efforts.</p>
+
+    <p class=example>For example, a <code id=restrictions-on-content-models-and-on-attribute-values:the-script-element><a href=#the-script-element>script</a></code> element's <code id=restrictions-on-content-models-and-on-attribute-values:attr-script-src><a href=#attr-script-src>src</a></code> attribute causes the element's contents to be ignored.
+    However, this isn't obvious, especially if the element's contents appear to be executable script
+    — which can lead to authors spending a lot of time trying to debug the inline script
+    without realizing that it is not executing. To reduce this problem, this specification makes it
+    non-conforming to have executable script in a <code id=restrictions-on-content-models-and-on-attribute-values:the-script-element-2><a href=#the-script-element>script</a></code> element when the <code id=restrictions-on-content-models-and-on-attribute-values:attr-script-src-2><a href=#attr-script-src>src</a></code> attribute is present. This means that authors who are
+    validating their documents are less likely to waste time with this kind of mistake.</p>
+
+   <dt>Errors that involve areas that affect authors migrating between the HTML and XML
+   syntaxes<dd>
+
+    <p>Some authors like to write files that can be interpreted as both XML and HTML with similar
+    results. Though this practice is discouraged in general due to the myriad of subtle
+    complications involved (especially when involving scripting, styling, or any kind of automated
+    serialization), this specification has a few restrictions intended to at least somewhat mitigate
+    the difficulties. This makes it easier for authors to use this as a transitionary step when
+    migrating between the HTML and XML syntaxes.</p>
+
+    <p class=example>For example, there are somewhat complicated rules surrounding the <code id=restrictions-on-content-models-and-on-attribute-values:attr-lang><a href=#attr-lang>lang</a></code> and <code id=restrictions-on-content-models-and-on-attribute-values:attr-xml-lang><a href=#attr-xml-lang>xml:lang</a></code> attributes
+    intended to keep the two synchronized.</p>
+
+    <p class=example>Another example would be the restrictions on the values of <code>xmlns</code> attributes in the HTML serialization, which are intended to ensure that
+    elements in conforming documents end up in the same namespaces whether processed as HTML or
+    XML.</p>
+
+   <dt>Errors that involve areas reserved for future expansion<dd>
+
+    <p>As with the restrictions on the syntax intended to allow for new syntax in future revisions
+    of the language, some restrictions on the content models of elements and values of attributes
+    are intended to allow for future expansion of the HTML vocabulary.</p>
+
+    <p class=example>For example, limiting the values of the <code id=restrictions-on-content-models-and-on-attribute-values:attr-hyperlink-target><a href=#attr-hyperlink-target>target</a></code> attribute that start with an U+005F LOW LINE
+    character (_) to only specific predefined values allows new predefined values to be introduced
+    at a future time without conflicting with author-defined values.</p>
+
+   <dt>Errors that indicate a mis-use of other specifications<dd>
+
+    <p>Certain restrictions are intended to support the restrictions made by other
+    specifications.</p>
+
+    <p class=example>For example, requiring that attributes that take media query lists use only
+    <em>valid</em> media query lists reinforces the importance of following the conformance rules of
+    that specification.</p>
+
+   </dl>
+
+
+
+  <h3 id=suggested-reading>1.13 Suggested reading<a href=#suggested-reading class=self-link></a></h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The following documents might be of interest to readers of this specification.</p>
+
+  <dl><dt><cite>Character Model for the World Wide Web 1.0: Fundamentals</cite> <a href=#refsCHARMOD>[CHARMOD]</a><dd><blockquote><p>This Architectural Specification provides authors of specifications, software
+   developers, and content developers with a common reference for interoperable text manipulation on
+   the World Wide Web, building on the Universal Character Set, defined jointly by the Unicode
+   Standard and ISO/IEC 10646. Topics addressed include use of the terms 'character', 'encoding' and
+   'string', a reference processing model, choice and identification of character encodings,
+   character escaping, and string indexing.</blockquote><dt><cite>Unicode Security Considerations</cite> <a href=#refsUTR36>[UTR36]</a><dd><blockquote><p>Because Unicode contains such a large number of characters and incorporates
+   the varied writing systems of the world, incorrect usage can expose programs or systems to
+   possible security attacks. This is especially important as more and more products are
+   internationalized. This document describes some of the security considerations that programmers,
+   system analysts, standards developers, and users should take into account, and provides specific
+   recommendations to reduce the risk of problems.</blockquote><dt><cite>Web Content Accessibility Guidelines (WCAG) 2.0</cite> <a href=#refsWCAG>[WCAG]</a><dd><blockquote><p>Web Content Accessibility Guidelines (WCAG) 2.0 covers a wide range of
+   recommendations for making Web content more accessible. Following these guidelines will make
+   content accessible to a wider range of people with disabilities, including blindness and low
+   vision, deafness and hearing loss, learning disabilities, cognitive limitations, limited
+   movement, speech disabilities, photosensitivity and combinations of these. Following these
+   guidelines will also often make your Web content more usable to users in
+   general.</blockquote><dt><cite>Authoring Tool Accessibility Guidelines (ATAG) 2.0</cite> <a href=#refsATAG>[ATAG]</a><dd><blockquote><p>This specification provides guidelines for designing Web content
+   authoring tools that are more accessible for people with disabilities. An authoring tool that
+   conforms to these guidelines will promote accessibility by providing an accessible user interface
+   to authors with disabilities as well as by enabling, supporting, and promoting the production of
+   accessible Web content by all authors.</blockquote><dt><cite>User Agent Accessibility Guidelines (UAAG) 2.0</cite> <a href=#refsUAAG>[UAAG]</a><dd><blockquote><p>This document provides guidelines for designing user agents that
+   lower barriers to Web accessibility for people with disabilities. User agents include browsers
+   and other types of software that retrieve and render Web content. A user agent that conforms to
+   these guidelines will promote accessibility through its own user interface and through other
+   internal facilities, including its ability to communicate with other technologies (especially
+   assistive technologies). Furthermore, all users, not just users with disabilities, should find
+   conforming user agents to be more usable.</blockquote></dl>
+
+
+
+  <h2 id=infrastructure>2 Common infrastructure<a href=#infrastructure class=self-link></a></h2>
+
+  <p>This specification depends on the WHATWG Infra standard. <a href=#refsINFRA>[INFRA]</a></p>
+
+  <h3 id=terminology>2.1 Terminology<a href=#terminology class=self-link></a></h3>
+
+  <p>This specification refers to both HTML and XML attributes and IDL attributes, often in the same
+  context. When it is not clear which is being referred to, they are referred to as <dfn>content attributes</dfn> for HTML and XML attributes, and <dfn>IDL
+  attributes</dfn> for those defined on IDL interfaces. Similarly, the term "properties" is used for
+  both JavaScript object properties and CSS properties. When these are ambiguous they are qualified
+  as <dfn>object properties</dfn> and <dfn>CSS properties</dfn> respectively.</p>
+
+  <p>Generally, when the specification states that a feature applies to <a href=#syntax id=terminology:syntax>the HTML syntax</a>
+  or <a href=#the-xhtml-syntax id=terminology:the-xhtml-syntax>the XML syntax</a>, it also includes the other. When a feature specifically only
+  applies to one of the two languages, it is called out by explicitly stating that it does not apply
+  to the other format, as in "for HTML, ... (this does not apply to XML)".</p>
+
+  <p>This specification uses the term <dfn>document</dfn> to refer to any use of HTML,
+  ranging from short static documents to long essays or reports with rich multimedia, as well as to
+  fully-fledged interactive applications. The term is used to refer both to <code id=terminology:document><a href=#document>Document</a></code>
+  objects and their descendant DOM trees, and to serialized byte streams using the <a href=#syntax id=terminology:syntax-2>HTML syntax</a> or the <a href=#the-xhtml-syntax id=terminology:the-xhtml-syntax-2>XML syntax</a>, depending
+  on context.</p>
+
+  <p>In the context of the DOM structures, the terms <a href=https://dom.spec.whatwg.org/#html-document id=terminology:html-documents data-x-internal=html-documents>HTML
+  document</a> and <a href=https://dom.spec.whatwg.org/#xml-document id=terminology:xml-documents data-x-internal=xml-documents>XML document</a> are used as defined in the DOM
+  specification, and refer specifically to two different modes that <code id=terminology:document-2><a href=#document>Document</a></code> objects
+  can find themselves in. <a href=#refsDOM>[DOM]</a> (Such uses are always hyperlinked to their
+  definition.)</p>
+
+  <p>In the context of byte streams, the term HTML document refers to resources labeled as
+  <code id=terminology:text/html><a href=#text/html>text/html</a></code>, and the term XML document refers to resources labeled with an <a id=terminology:xml-mime-type href=https://mimesniff.spec.whatwg.org/#xml-mime-type data-x-internal=xml-mime-type>XML
+  MIME type</a>.</p>
+
+  <hr>
+
+  <p>For simplicity, terms such as <dfn>shown</dfn>, <dfn>displayed</dfn>, and
+  <dfn>visible</dfn> might sometimes be used when referring to the way a document is
+  rendered to the user. These terms are not meant to imply a visual medium; they must be considered
+  to apply to other media in equivalent ways.</p>
+
+  
+
+  <p>When an algorithm B says to return to another algorithm A, it implies that A called B. Upon
+  returning to A, the implementation must continue from where it left off in calling B. Some
+  algorithms run <dfn id=in-parallel data-export="">in parallel</dfn>; this means that the algorithm's subsequent
+  steps are to be run, one after another, at the same time as other logic in the specification (e.g.
+  at the same time as the <a href=#event-loop id=terminology:event-loop>event loop</a>). This specification does not define the precise
+  mechanism by which this is achieved, be it time-sharing cooperative multitasking, fibers, threads,
+  processes, using different hyperthreads, cores, CPUs, machines, etc. By contrast, an operation
+  that is to run <dfn id=immediately>immediately</dfn> must interrupt the currently running task, run itself, and
+  then resume the previously running task.</p>
+
+  
+
+  
+  <p>The term "transparent black" refers to the color with red, green, blue, and alpha channels all
+  set to zero.</p>
+
+
+  <h4 id=resources>2.1.1 Resources<a href=#resources class=self-link></a></h4>
+
+  <p>The specification uses the term <dfn>supported</dfn> when referring to whether a user
+  agent has an implementation capable of decoding the semantics of an external resource. A format or
+  type is said to be <i>supported</i> if the implementation can process an external resource of that
+  format or type without critical aspects of the resource being ignored. Whether a specific resource
+  is <i>supported</i> can depend on what features of the resource's format are in use.</p>
+
+  <p class=example>For example, a PNG image would be considered to be in a supported format if its
+  pixel data could be decoded and rendered, even if, unbeknownst to the implementation, the image
+  also contained animation data.</p>
+
+  <p class=example>An MPEG-4 video file would not be considered to be in a supported format if the
+  compression format used was not supported, even if the implementation could determine the
+  dimensions of the movie from the file's metadata.</p>
+
+  <p>What some specifications, in particular the HTTP specification, refer to as a
+  <i>representation</i> is referred to in this specification as a <dfn>resource</dfn>.
+  <a href=#refsHTTP>[HTTP]</a></p>
+
+  <p>A resource's <dfn id=critical-subresources>critical subresources</dfn> are those that the resource needs to have
+  available to be correctly processed. Which resources are considered critical or not is defined by
+  the specification that defines the resource's format.</p>
+
+
+  <h4 id=xml>2.1.2 XML compatibility<a href=#xml class=self-link></a></h4>
+
+  <p id=html-namespace>To ease migration from HTML to XML, UAs conforming to this specification
+  will place elements in HTML in the <code id=xml:html-namespace-2><a data-x-internal=html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace>http://www.w3.org/1999/xhtml</a></code> namespace, at least for the purposes of the DOM and
+  CSS. The term "<dfn id=html-elements>HTML elements</dfn>", when used in this specification, refers to any element
+  in that namespace, even in XML documents.</p>
+
+  <p>Except where otherwise stated, all elements defined or mentioned in this specification are in
+  the <a id=xml:html-namespace-2-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a> ("<code>http://www.w3.org/1999/xhtml</code>"), and all
+  attributes defined or mentioned in this specification have no namespace.</p>
+
+  <p>The term <dfn id=element-type>element type</dfn> is used to refer to the set of elements that have a given
+  local name and namespace. For example, <code id=xml:the-button-element><a href=#the-button-element>button</a></code> elements are elements with the element
+  type <code id=xml:the-button-element-2><a href=#the-button-element>button</a></code>, meaning they have the local name "<code>button</code>" and
+  (implicitly as defined above) the <a id=xml:html-namespace-2-3 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>.</p>
+
+  <p>Attribute names are said to be <dfn id=xml-compatible>XML-compatible</dfn> if they match the <code id=xml:xml-name><a data-x-internal=xml-name href=https://www.w3.org/TR/xml/#NT-Name>Name</a></code> production defined in XML and they contain no U+003A COLON
+  characters (:). <a href=#refsXML>[XML]</a></p>
+
+
+  <h4 id=dom-trees>2.1.3 DOM trees<a href=#dom-trees class=self-link></a></h4>
+
+  <p>When it is stated that some element or attribute is <dfn id=ignore>ignored</dfn>, or
+  treated as some other value, or handled as if it was something else, this refers only to the
+  processing of the node after it is in the DOM. A user agent must not mutate the
+  DOM in such situations.</p>
+
+  <p>A content attribute is said to <dfn>change</dfn> value only if its new value is
+  different than its previous value; setting an attribute to a value it already has does not change
+  it.</p>
+
+  <p>The term <dfn>empty</dfn>, when used of an attribute value, <code id=dom-trees:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node, or
+  string, means that the length of the text is zero (i.e. not even containing spaces or <a href=#control-characters id=dom-trees:control-characters>control
+  characters</a>).</p>
+
+  <p>An element's <dfn id=child-text-content data-export="">child text content</dfn> is the concatenation of the <a href=https://dom.spec.whatwg.org/#concept-cd-data id=dom-trees:concept-cd-data data-x-internal=concept-cd-data>data</a> of all the <code id=dom-trees:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> nodes that are children of the
+  element (ignoring any other nodes such as comments or elements), in <a id=dom-trees:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>.</p>
+
+  <p>A <dfn id=nodes-are-inserted>node <var>A</var> is inserted</dfn> into a node <var>B</var>
+  when the <a href=https://dom.spec.whatwg.org/#concept-node-insert-ext id=dom-trees:concept-node-insert-ext data-x-internal=concept-node-insert-ext>insertion steps</a> are invoked with
+  <var>A</var> as the argument and <var>A</var>'s new parent is <var>B</var>. Similarly, a <dfn id=nodes-are-removed>node <var>A</var> is removed</dfn> from a node <var>B</var> when the
+  <a href=https://dom.spec.whatwg.org/#concept-node-remove-ext id=dom-trees:concept-node-remove-ext data-x-internal=concept-node-remove-ext>removing steps</a> are invoked with <var>A</var> as the
+  <var>removedNode</var> argument and <var>B</var> as the <var>oldParent</var> argument.</p>
+
+  <p>A <dfn id=insert-an-element-into-a-document data-lt="inserted into a document|node is inserted into a document" data-export="">node is
+  inserted into a document</dfn> when the <a href=https://dom.spec.whatwg.org/#concept-node-insert-ext id=dom-trees:concept-node-insert-ext-2 data-x-internal=concept-node-insert-ext>insertion
+  steps</a> are invoked with it as the argument and it is now <a id=dom-trees:in-a-document-tree href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a>.
+  Analogously, a <dfn id=remove-an-element-from-a-document data-lt="removed from a document|node is removed from a document" data-export="">node is
+  removed from a document</dfn> when the <a href=https://dom.spec.whatwg.org/#concept-node-remove-ext id=dom-trees:concept-node-remove-ext-2 data-x-internal=concept-node-remove-ext>removing
+  steps</a> are invoked with it as the argument and it is now no longer <a id=dom-trees:in-a-document-tree-2 href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document
+  tree</a>.</p>
+
+  <p>A node <dfn id=becomes-connected data-export="">becomes connected</dfn> when the <a href=https://dom.spec.whatwg.org/#concept-node-insert-ext id=dom-trees:concept-node-insert-ext-3 data-x-internal=concept-node-insert-ext>insertion steps</a> are invoked with it as the argument and it
+  is now <a id=dom-trees:connected href=https://dom.spec.whatwg.org/#connected data-x-internal=connected>connected</a>. Analogously, a node <dfn id=becomes-disconnected data-lt="become disconnected" data-export="">becomes disconnected</dfn> when the <a href=https://dom.spec.whatwg.org/#concept-node-remove-ext id=dom-trees:concept-node-remove-ext-3 data-x-internal=concept-node-remove-ext>removing
+  steps</a> are invoked with it as the argument and it is now no longer
+  <a id=dom-trees:connected-2 href=https://dom.spec.whatwg.org/#connected data-x-internal=connected>connected</a>.</p>
+
+  <p>A node is <dfn id=browsing-context-connected data-export="">browsing-context connected</dfn> when it is
+  <a id=dom-trees:connected-3 href=https://dom.spec.whatwg.org/#connected data-x-internal=connected>connected</a> and its <a href=https://dom.spec.whatwg.org/#concept-shadow-including-root id=dom-trees:shadow-including-root data-x-internal=shadow-including-root>shadow-including root</a>
+  has a <a href=#concept-document-bc id=dom-trees:concept-document-bc>browsing context</a>. A node <dfn id=becomes-browsing-context-connected data-lt="become
+  browsing-context connected" data-export="">becomes browsing-context connected</dfn> when the <a href=https://dom.spec.whatwg.org/#concept-node-insert-ext id=dom-trees:concept-node-insert-ext-4 data-x-internal=concept-node-insert-ext>insertion steps</a> are invoked with it as the argument and it
+  is now <a href=#browsing-context-connected id=dom-trees:browsing-context-connected>browsing-context connected</a>. A node <dfn id=becomes-browsing-context-disconnected data-lt="become browsing-context
+  disconnected" data-export="">becomes browsing-context disconnected</dfn> either when the <a href=https://dom.spec.whatwg.org/#concept-node-remove-ext id=dom-trees:concept-node-remove-ext-4 data-x-internal=concept-node-remove-ext>removing steps</a> are invoked with it as the argument and it
+  is now no longer <a href=#browsing-context-connected id=dom-trees:browsing-context-connected-2>browsing-context connected</a>, or when its <a id=dom-trees:shadow-including-root-2 href=https://dom.spec.whatwg.org/#concept-shadow-including-root data-x-internal=shadow-including-root>shadow-including
+  root</a> no longer has a <a href=#concept-document-bc id=dom-trees:concept-document-bc-2>browsing context</a>.
+
+
+  <h4 id=scripting-2>2.1.4 Scripting<a href=#scripting-2 class=self-link></a></h4>
+
+  <p>The construction "a <code>Foo</code> object", where <code>Foo</code> is
+  actually an interface, is sometimes used instead of the more accurate "an object implementing the
+  interface <code>Foo</code>".</p>
+
+  <p>An IDL attribute is said to be <dfn>getting</dfn> when its value is being retrieved
+  (e.g. by author script), and is said to be <dfn>setting</dfn> when a new value is
+  assigned to it.</p>
+
+  <p>If a DOM object is said to be <dfn id=live>live</dfn>, then the attributes and methods on that object
+  must operate on the actual underlying data, not a snapshot of the
+  data.</p>
+
+
+  <h4 id=plugins>2.1.5 Plugins<a href=#plugins class=self-link></a></h4>
+
+  <p>The term <dfn id=plugin>plugin</dfn> refers to a user-agent defined set of content handlers used by the
+  user agent that can take part in the user agent's rendering of a <code id=plugins:document><a href=#document>Document</a></code> object, but
+  that neither act as <a href=#child-browsing-context id=plugins:child-browsing-context>child browsing contexts</a> of the
+  <code id=plugins:document-2><a href=#document>Document</a></code> nor introduce any <code id=plugins:node><a data-x-internal=node href=https://dom.spec.whatwg.org/#interface-node>Node</a></code> objects to the <code id=plugins:document-3><a href=#document>Document</a></code>'s
+  DOM.</p>
+
+  <p>Typically such content handlers are provided by third parties, though a user agent can also
+  designate built-in content handlers as plugins.</p>
+
+  
+
+  <p>A user agent must not consider the types <code id=plugins:text/plain><a data-x-internal=text/plain href=https://tools.ietf.org/html/rfc2046#section-4.1.3>text/plain</a></code> and
+  <code id=plugins:application/octet-stream><a data-x-internal=application/octet-stream href=https://tools.ietf.org/html/rfc2046#section-4.5.1>application/octet-stream</a></code> as having a registered <a href=#plugin id=plugins:plugin>plugin</a>.</p> 
+
+  
+
+  <p class=example>One example of a plugin would be a PDF viewer that is instantiated in a
+  <a href=#browsing-context id=plugins:browsing-context>browsing context</a> when the user navigates to a PDF file. This would count as a plugin
+  regardless of whether the party that implemented the PDF viewer component was the same as that
+  which implemented the user agent itself. However, a PDF viewer application that launches separate
+  from the user agent (as opposed to using the same interface) is not a plugin by this
+  definition.</p>
+
+  <p class=note>This specification does not define a mechanism for interacting with plugins, as it
+  is expected to be user-agent- and platform-specific. Some UAs might opt to support a plugin
+  mechanism such as the Netscape Plugin API; others might use remote content converters or have
+  built-in support for certain types. Indeed, this specification doesn't require user agents to
+  support plugins at all. <a href=#refsNPAPI>[NPAPI]</a></p>
+
+  <p>A plugin can be <dfn id=concept-plugin-secure>secured</dfn> if it honors the semantics of
+  the <code id=plugins:attr-iframe-sandbox><a href=#attr-iframe-sandbox>sandbox</a></code> attribute.</p>
+
+  <p class=example>For example, a secured plugin would prevent its contents from creating pop-up
+  windows when the plugin is instantiated inside a sandboxed <code id=plugins:the-iframe-element><a href=#the-iframe-element>iframe</a></code>.</p>
+
+  
+
+  <p class=warning>Browsers should take extreme care when interacting with external content
+  intended for <a href=#plugin id=plugins:plugin-2>plugins</a>. When third-party software is run with the same
+  privileges as the user agent itself, vulnerabilities in the third-party software become as
+  dangerous as those in the user agent.</p>
+
+  <p>Since different users having different sets of <a href=#plugin id=plugins:plugin-3>plugins</a> provides a
+  fingerprinting vector that increases the chances of users being uniquely identified, user agents
+  are encouraged to support the exact same set of <a href=#plugin id=plugins:plugin-4>plugins</a> for each
+  user.
+  <a href=#fingerprinting-vector id=plugins:fingerprinting-vector class=fingerprint title="There is a potential fingerprinting vector here."><img alt="(This is a fingerprinting vector.)" src=/images/fingerprint.png width=46 height=64></a>
+  </p>
+
+  
+
+
+
+  <h4 id=encoding-terminology>2.1.6 Character encodings<a href=#encoding-terminology class=self-link></a></h4>
+
+  <p>A <dfn id=encoding><a href=https://encoding.spec.whatwg.org/#encoding>character
+  encoding</a></dfn>, or just <i>encoding</i> where that is not ambiguous, is a defined way to convert
+  between byte streams and Unicode strings, as defined in the WHATWG Encoding standard. An
+  <a id=encoding-terminology:encoding href=https://encoding.spec.whatwg.org/#encoding data-x-internal=encoding>encoding</a> has an <dfn id=encoding-name><a href=https://encoding.spec.whatwg.org/#name>encoding
+  name</a></dfn> and one or more <dfn id=encoding-label><a href=https://encoding.spec.whatwg.org/#label>encoding labels</a></dfn>, referred to as the
+  encoding's <i>name</i> and <i>labels</i> in the Encoding standard. <a href=#refsENCODING>[ENCODING]</a></p>
+
+  <p>A <dfn id=utf-16-encoding>UTF-16 encoding</dfn> is <a id=encoding-terminology:utf-16be href=https://encoding.spec.whatwg.org/#utf-16be data-x-internal=utf-16be>UTF-16BE</a> or <a id=encoding-terminology:utf-16le href=https://encoding.spec.whatwg.org/#utf-16le data-x-internal=utf-16le>UTF-16LE</a>. <a href=#refsENCODING>[ENCODING]</a></p>
+
+  <p>An <dfn id=ascii-compatible-encoding>ASCII-compatible encoding</dfn> is any <a id=encoding-terminology:encoding-2 href=https://encoding.spec.whatwg.org/#encoding data-x-internal=encoding>encoding</a> that is not a
+  <a href=#utf-16-encoding id=encoding-terminology:utf-16-encoding>UTF-16 encoding</a>. <a href=#refsENCODING>[ENCODING]</a></p>
+

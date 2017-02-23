@@ -1,0 +1,850 @@
+
+    <p>If the <a href=#responsible-event-loop id=definitions-2:responsible-event-loop>responsible event loop</a> is not a <a href=#browsing-context id=definitions-2:browsing-context-4>browsing context</a> <a href=#event-loop id=definitions-2:event-loop-2>event loop</a>,
+    then the <a href=#environment-settings-object id=definitions-2:environment-settings-object-6>environment settings object</a> has no <a href=#responsible-document id=definitions-2:responsible-document-3>responsible document</a>.</p>
+
+   <dt>An <dfn data-dfn-for="environment settings object" id=api-url-character-encoding data-export="">API URL character encoding</dfn><dd>
+
+    <p>A character encoding used to encode URLs by APIs called by scripts that use this <a href=#environment-settings-object id=definitions-2:environment-settings-object-7>environment
+    settings object</a>.</p>
+
+   <dt>An <dfn data-dfn-for="environment settings object" id=api-base-url data-export="">API base URL</dfn><dd>
+
+    <p>A <a id=definitions-2:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> used by APIs called by scripts that use this <a href=#environment-settings-object id=definitions-2:environment-settings-object-8>environment settings
+    object</a> to <a href=#parse-a-url id=definitions-2:parse-a-url>parse URLs</a>.</p>
+
+   <dt>An <dfn data-dfn-for="environment
+   settings object" id=concept-settings-object-origin data-export="">origin</dfn><dd>
+
+    <p>An <a href=#concept-origin id=definitions-2:concept-origin>origin</a> used in security checks.</p>
+
+   <dt>An <dfn data-dfn-for="environment settings object" id=https-state data-export="">HTTPS state</dfn><dd><p>An <a id=definitions-2:https-state-value href=https://fetch.spec.whatwg.org/#concept-https-state-value data-x-internal=https-state-value>HTTPS state value</a> representing the security properties of the network
+   channel used to deliver the resource with which the <a href=#environment-settings-object id=definitions-2:environment-settings-object-9>environment settings object</a> is
+   associated.<dt>A <dfn data-dfn-for="environment settings object" id=concept-settings-object-referrer-policy data-export="">referrer policy</dfn><dd><p>The default <a id=definitions-2:referrer-policy href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a> for <a href=https://fetch.spec.whatwg.org/#concept-fetch id=definitions-2:concept-fetch data-x-internal=concept-fetch>fetches</a>
+   performed using this <a href=#environment-settings-object id=definitions-2:environment-settings-object-10>environment settings object</a> as a <a href=https://fetch.spec.whatwg.org/#concept-request-client id=definitions-2:concept-request-client data-x-internal=concept-request-client>request client</a>. <a href=#refsREFERRERPOLICY>[REFERRERPOLICY]</a>
+
+  </dl>
+
+  <p>An <a href=#environment-settings-object id=definitions-2:environment-settings-object-11>environment settings object</a> also has an <dfn id=outstanding-rejected-promises-weak-set>outstanding rejected promises
+  weak set</dfn> and an <dfn id=about-to-be-notified-rejected-promises-list>about-to-be-notified rejected promises list</dfn>, used to track
+  <a href=#unhandled-promise-rejections>unhandled promise rejections</a>. The <a href=#outstanding-rejected-promises-weak-set id=definitions-2:outstanding-rejected-promises-weak-set>outstanding
+  rejected promises weak set</a> must not create strong references to any of its members, and
+  implementations are free to limit its size, e.g. by removing old entries from it when new ones
+  are added.</p>
+
+  <h5 id=fetching-scripts>8.1.3.2 Fetching scripts<a href=#fetching-scripts class=self-link></a></h5>
+
+  <p>This section introduces a number of algorithms for fetching scripts, taking various necessary
+  inputs and resulting in <a href=#classic-script id=fetching-scripts:classic-script>classic</a> or <a href=#module-script id=fetching-scripts:module-script>module scripts</a>.</p>
+
+  <p>The algorithms below can be customized by optionally supplying a custom <dfn data-dfn-for="fetching scripts" id=fetching-scripts-perform-fetch data-export="">perform the
+  fetch</dfn> hook, which takes a <a href=https://fetch.spec.whatwg.org/#concept-request id=fetching-scripts:concept-request data-x-internal=concept-request>request</a> and an <dfn data-dfn-for="fetching scripts" id=fetching-scripts-is-top-level data-export=""><var>is
+  top-level</var></dfn> flag. The algorithm must complete with a <a href=https://fetch.spec.whatwg.org/#concept-response id=fetching-scripts:concept-response data-x-internal=concept-response>response</a> (which may be a <a id=fetching-scripts:network-error href=https://fetch.spec.whatwg.org/#concept-network-error data-x-internal=network-error>network error</a>), either
+  synchronously (when using <a href=#fetch-a-classic-worker-imported-script id=fetching-scripts:fetch-a-classic-worker-imported-script>fetch a classic worker-imported script</a>) or asynchronously
+  (otherwise). The <var id=fetching-scripts:fetching-scripts-is-top-level><a href=#fetching-scripts-is-top-level>is top-level</a></var> flag will be set
+  for all <a href=#classic-script id=fetching-scripts:classic-script-2>classic script</a> fetches, and for the initial fetch when <a href=#fetch-a-module-script-tree id=fetching-scripts:fetch-a-module-script-tree>fetching a module script graph</a> or <a href=#fetch-a-module-worker-script-tree id=fetching-scripts:fetch-a-module-worker-script-tree>fetching a module worker script graph</a>, but not for the fetches resulting from
+  <code>import</code> statements encountered throughout the graph.</p>
+
+  <div class=note>
+   <p>By default, not supplying the <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch>perform the
+   fetch</a> will cause the below algorithms to simply <a href=https://fetch.spec.whatwg.org/#concept-fetch id=fetching-scripts:concept-fetch data-x-internal=concept-fetch>fetch</a>
+   the given <a href=https://fetch.spec.whatwg.org/#concept-request id=fetching-scripts:concept-request-2 data-x-internal=concept-request>request</a>, with algorithm-specific customizations
+   to the <a href=https://fetch.spec.whatwg.org/#concept-request id=fetching-scripts:concept-request-3 data-x-internal=concept-request>request</a> and validations of the resulting <a href=https://fetch.spec.whatwg.org/#concept-response id=fetching-scripts:concept-response-2 data-x-internal=concept-response>response</a>.</p>
+
+   <p>To layer your own customizations on top of these algorithm-specific ones, supply a <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-2>perform the fetch</a> hook that modifies the given
+   <a href=https://fetch.spec.whatwg.org/#concept-request id=fetching-scripts:concept-request-4 data-x-internal=concept-request>request</a>, <a href=https://fetch.spec.whatwg.org/#concept-fetch id=fetching-scripts:concept-fetch-2 data-x-internal=concept-fetch>fetches</a> it,
+   and then performs specific validations of the resulting <a href=https://fetch.spec.whatwg.org/#concept-response id=fetching-scripts:concept-response-3 data-x-internal=concept-response>response</a> (completing with a <a id=fetching-scripts:network-error-2 href=https://fetch.spec.whatwg.org/#concept-network-error data-x-internal=network-error>network error</a> if the
+   validations fail).</p>
+
+   <p>The hook can also be used to perform more subtle customizations, such as keeping a cache of
+   <a href=https://fetch.spec.whatwg.org/#concept-response id=fetching-scripts:concept-response-4 data-x-internal=concept-response>responses</a> and avoiding performing a <a href=https://fetch.spec.whatwg.org/#concept-fetch id=fetching-scripts:concept-fetch-3 data-x-internal=concept-fetch>fetch</a> at all.</p>
+  </div>
+
+  <p class=note><cite>Service Workers</cite> is an example of a specification that runs these
+  algorithms with its own options for the hook. <a href=#refsSW>[SW]</a></p>
+
+  <p>To <dfn id=fetch-a-classic-script data-export="">fetch a classic script</dfn> given a <var>url</var>, a <var>settings
+  object</var>, a <var>cryptographic nonce</var>, an <var>integrity metadata</var>, a <var>parser
+  state</var>, a <var>CORS setting</var>, and a <var>character encoding</var>, run these steps. The
+  algorithm will asynchronously complete with either null (on failure) or a new <a href=#classic-script id=fetching-scripts:classic-script-3>classic
+  script</a> (on success).</p>
+
+  <ol><li><p>Let <var>request</var> be the result of <a href=#create-a-potential-cors-request id=fetching-scripts:create-a-potential-cors-request>creating a potential-CORS request</a> given <var>url</var>, "<code>script</code>", and <var>CORS setting</var>.<li><p>Set <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-client id=fetching-scripts:concept-request-client data-x-internal=concept-request-client>client</a> to
+   <var>settings object</var>, its <a href=https://fetch.spec.whatwg.org/#concept-request-type id=fetching-scripts:concept-request-type data-x-internal=concept-request-type>type</a> to "<code>script</code>", its <a href=https://fetch.spec.whatwg.org/#concept-request-nonce-metadata id=fetching-scripts:concept-request-nonce-metadata data-x-internal=concept-request-nonce-metadata>cryptographic nonce
+   metadata</a> to <var>cryptographic nonce</var>, its <a href=https://fetch.spec.whatwg.org/#concept-request-integrity-metadata id=fetching-scripts:concept-request-integrity-metadata data-x-internal=concept-request-integrity-metadata>integrity metadata</a> to <var>integrity
+   metadata</var> and its <a href=https://fetch.spec.whatwg.org/#concept-request-parser-metadata id=fetching-scripts:concept-request-parser-metadata data-x-internal=concept-request-parser-metadata>parser metadata</a> to
+   <var>parser state</var>.<li>
+    <p>If the caller specified custom steps to <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-3>perform
+    the fetch</a>, perform them on <var>request</var>, with the <var id=fetching-scripts:fetching-scripts-is-top-level-2><a href=#fetching-scripts-is-top-level>is top-level</a></var> flag set. Return from this algorithm,
+    and when the custom <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-4>perform the fetch</a> steps
+    complete with <a href=https://fetch.spec.whatwg.org/#concept-response id=fetching-scripts:concept-response-5 data-x-internal=concept-response>response</a> <var>response</var>, run the
+    remaining steps.</p>
+
+    <p>Otherwise, <a href=https://fetch.spec.whatwg.org/#concept-fetch id=fetching-scripts:concept-fetch-4 data-x-internal=concept-fetch>fetch</a> <var>request</var>. Return from this
+    algorithm, and run the remaining steps as part of the fetch's <a id=fetching-scripts:process-response href=https://fetch.spec.whatwg.org/#process-response data-x-internal=process-response>process response</a> for
+    the <a href=https://fetch.spec.whatwg.org/#concept-response id=fetching-scripts:concept-response-6 data-x-internal=concept-response>response</a> <var>response</var>.</p>
+
+    <p class=note><var>response</var> can be either <a href=#cors-same-origin id=fetching-scripts:cors-same-origin>CORS-same-origin</a> or
+    <a href=#cors-cross-origin id=fetching-scripts:cors-cross-origin>CORS-cross-origin</a>. This only affects how error reporting happens.</p>
+   <li><p>Let <var>response</var> be <var>response</var>'s <a href=#unsafe-response id=fetching-scripts:unsafe-response>unsafe response</a>.<li><p>If <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-type id=fetching-scripts:concept-response-type data-x-internal=concept-response-type>type</a> is "<code>error</code>", or <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-status id=fetching-scripts:concept-response-status data-x-internal=concept-response-status>status</a> is not an <a id=fetching-scripts:ok-status href=https://fetch.spec.whatwg.org/#ok-status data-x-internal=ok-status>ok status</a>, asynchronously
+   complete this algorithm with null, and abort these steps.<li><p>If <var>response</var>'s <a href=#content-type id=fetching-scripts:content-type>Content Type metadata</a>, if
+   any, specifies a character encoding, and the user agent supports that encoding, then set
+   <var>character encoding</var> to that encoding (ignoring the passed-in value).<li>
+    <p>Let <var>source text</var> be the result of <a href=https://encoding.spec.whatwg.org/#decode id=fetching-scripts:decode data-x-internal=decode>decoding</a>
+    <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-body id=fetching-scripts:concept-response-body data-x-internal=concept-response-body>body</a> to Unicode, using
+    <var>character encoding</var> as the fallback encoding.</p>
+
+    <p class=note>The <a id=fetching-scripts:decode-2 href=https://encoding.spec.whatwg.org/#decode data-x-internal=decode>decode</a> algorithm overrides <var>character encoding</var> if
+    the file contains a BOM.</p>
+   <li>
+    <p>Let <var>script</var> be the result of <a href=#creating-a-classic-script id=fetching-scripts:creating-a-classic-script>creating a classic script</a> using
+    <var>source text</var> and <var>settings object</var>.</p>
+
+    <p>If <var>response</var> was <a href=#cors-cross-origin id=fetching-scripts:cors-cross-origin-2>CORS-cross-origin</a>, then pass the <var>muted
+    errors</var> flag to the <a href=#creating-a-classic-script id=fetching-scripts:creating-a-classic-script-2>create a classic
+    script</a> algorithm as well.</p>
+   <li>Asynchronously complete this algorithm with <var>script</var>.</ol>
+
+  <p>To <dfn id=fetch-a-classic-worker-script data-export="">fetch a classic worker script</dfn> given a <var>url</var>, a <var>fetch
+  client settings object</var>, a <var>destination</var>, and a <var>script settings object</var>,
+  run these steps. The algorithm will asynchronously complete with either null (on failure) or a new
+  <a href=#classic-script id=fetching-scripts:classic-script-4>classic script</a> (on success).</p>
+
+  <ol><li><p>Let <var>request</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id=fetching-scripts:concept-request-5 data-x-internal=concept-request>request</a> whose <a href=https://fetch.spec.whatwg.org/#concept-request-url id=fetching-scripts:concept-request-url data-x-internal=concept-request-url>url</a> is <var>url</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-client id=fetching-scripts:concept-request-client-2 data-x-internal=concept-request-client>client</a> is <var>fetch client settings object</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-type id=fetching-scripts:concept-request-type-2 data-x-internal=concept-request-type>type</a> is "<code>script</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=fetching-scripts:concept-request-destination data-x-internal=concept-request-destination>destination</a> is <var>destination</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-mode id=fetching-scripts:concept-request-mode data-x-internal=concept-request-mode>mode</a> is "<code>same-origin</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-credentials-mode id=fetching-scripts:concept-request-credentials-mode data-x-internal=concept-request-credentials-mode>credentials mode</a> is "<code>same-origin</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-parser-metadata id=fetching-scripts:concept-request-parser-metadata-2 data-x-internal=concept-request-parser-metadata>parser
+   metadata</a> is "<code>not parser-inserted</code>", and whose
+   <a id=fetching-scripts:use-url-credentials-flag href=https://fetch.spec.whatwg.org/#concept-request-use-url-credentials-flag data-x-internal=use-url-credentials-flag>use-URL-credentials flag</a> is set.<li>
+    <p>If the caller specified custom steps to <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-5>perform
+    the fetch</a>, perform them on <var>request</var>, with the <var id=fetching-scripts:fetching-scripts-is-top-level-3><a href=#fetching-scripts-is-top-level>is top-level</a></var> flag set. Return from this algorithm,
+    and when the custom <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-6>perform the fetch</a> steps
+    complete with <a href=https://fetch.spec.whatwg.org/#concept-response id=fetching-scripts:concept-response-7 data-x-internal=concept-response>response</a> <var>response</var>, run the
+    remaining steps.</p>
+
+    <p>Otherwise, <a href=https://fetch.spec.whatwg.org/#concept-fetch id=fetching-scripts:concept-fetch-5 data-x-internal=concept-fetch>fetch</a> <var>request</var>. Return from this
+    algorithm, and run the remaining steps as part of the fetch's <a id=fetching-scripts:process-response-2 href=https://fetch.spec.whatwg.org/#process-response data-x-internal=process-response>process response</a> for
+    the <a href=https://fetch.spec.whatwg.org/#concept-response id=fetching-scripts:concept-response-8 data-x-internal=concept-response>response</a> <var>response</var>.</p>
+   <li><p>Let <var>response</var> be <var>response</var>'s <a href=#unsafe-response id=fetching-scripts:unsafe-response-2>unsafe response</a>.<li><p>If <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-type id=fetching-scripts:concept-response-type-2 data-x-internal=concept-response-type>type</a> is "<code>error</code>", or <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-status id=fetching-scripts:concept-response-status-2 data-x-internal=concept-response-status>status</a> is not an <a id=fetching-scripts:ok-status-2 href=https://fetch.spec.whatwg.org/#ok-status data-x-internal=ok-status>ok status</a>, asynchronously
+   complete this algorithm with null, and abort these steps.<li><p>Let <var>source text</var> be the result of <a href=https://encoding.spec.whatwg.org/#utf-8-decode id=fetching-scripts:utf-8-decode data-x-internal=utf-8-decode>UTF-8
+   decoding</a> <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-body id=fetching-scripts:concept-response-body-2 data-x-internal=concept-response-body>body</a>.<li><p>Let <var>script</var> be the result of <a href=#creating-a-classic-script id=fetching-scripts:creating-a-classic-script-3>creating a classic script</a> using
+   <var>source text</var> and <var>script settings object</var>.<li>Asynchronously complete this algorithm with <var>script</var>.</ol>
+
+  <p>To <dfn id=fetch-a-classic-worker-imported-script data-export="">fetch a classic worker-imported script</dfn> given a <var>url</var> and
+  a <var>settings object</var>, run these steps. The algorithm will synchronously complete with a
+  <a href=#classic-script id=fetching-scripts:classic-script-5>classic script</a> on success, or throw an exception on failure.</p>
+
+  <ol><li><p>Let <var>request</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id=fetching-scripts:concept-request-6 data-x-internal=concept-request>request</a> whose <a href=https://fetch.spec.whatwg.org/#concept-request-url id=fetching-scripts:concept-request-url-2 data-x-internal=concept-request-url>url</a> is <var>url</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-client id=fetching-scripts:concept-request-client-3 data-x-internal=concept-request-client>client</a> is <var>settings object</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-type id=fetching-scripts:concept-request-type-3 data-x-internal=concept-request-type>type</a> is "<code>script</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=fetching-scripts:concept-request-destination-2 data-x-internal=concept-request-destination>destination</a> is "<var>script</var>", <a href=https://fetch.spec.whatwg.org/#concept-request-parser-metadata id=fetching-scripts:concept-request-parser-metadata-3 data-x-internal=concept-request-parser-metadata>parser metadata</a> is "<code>not
+   parser-inserted</code>", <a id=fetching-scripts:synchronous-flag href=https://fetch.spec.whatwg.org/#synchronous-flag data-x-internal=synchronous-flag>synchronous flag</a> is set, and whose
+   <a id=fetching-scripts:use-url-credentials-flag-2 href=https://fetch.spec.whatwg.org/#concept-request-use-url-credentials-flag data-x-internal=use-url-credentials-flag>use-URL-credentials flag</a> is set.<li>
+    <p>If the caller specified custom steps to <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-7>perform
+    the fetch</a>, perform them on <var>request</var>, with the <var id=fetching-scripts:fetching-scripts-is-top-level-4><a href=#fetching-scripts-is-top-level>is top-level</a></var> flag set. Let <var>response</var> be
+    the result.</p>
+
+    <p>Otherwise, <a href=https://fetch.spec.whatwg.org/#concept-fetch id=fetching-scripts:concept-fetch-6 data-x-internal=concept-fetch>fetch</a> <var>request</var>, and let
+    <var>response</var> be the result.</p>
+
+    <p class=note>Unlike other algorithms in this section, the fetching process is synchronous
+    here. Thus any <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-8>perform the fetch</a> steps must
+    also finish their work synchronously.</p>
+   <li><p>Let <var>response</var> be <var>response</var>'s <a href=#unsafe-response id=fetching-scripts:unsafe-response-3>unsafe response</a>.<li><p>If <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-type id=fetching-scripts:concept-response-type-3 data-x-internal=concept-response-type>type</a> is "<code>error</code>", or <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-status id=fetching-scripts:concept-response-status-3 data-x-internal=concept-response-status>status</a> is not an <a id=fetching-scripts:ok-status-3 href=https://fetch.spec.whatwg.org/#ok-status data-x-internal=ok-status>ok status</a>, throw a
+   <a id=fetching-scripts:networkerror href=https://heycam.github.io/webidl/#networkerror data-x-internal=networkerror>"<code>NetworkError</code>"</a> <code id=fetching-scripts:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li><p>Let <var>source text</var> be the result of <a href=https://encoding.spec.whatwg.org/#utf-8-decode id=fetching-scripts:utf-8-decode-2 data-x-internal=utf-8-decode>UTF-8
+   decoding</a> <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-body id=fetching-scripts:concept-response-body-3 data-x-internal=concept-response-body>body</a>.<li>
+    <p>Let <var>script</var> be the result of <a href=#creating-a-classic-script id=fetching-scripts:creating-a-classic-script-4>creating a classic script</a> using
+    <var>source text</var> and <var>settings object</var>.</p>
+
+    <p>If <var>response</var> was <a href=#cors-cross-origin id=fetching-scripts:cors-cross-origin-3>CORS-cross-origin</a>, then pass the <var>muted
+    errors</var> flag to the <a href=#creating-a-classic-script id=fetching-scripts:creating-a-classic-script-5>create a classic
+    script</a> algorithm as well.</p>
+   <li><p>Return <var>script</var>.</ol>
+
+  <p>To <dfn id=fetch-a-module-script-tree data-export="">fetch a module script graph</dfn> given
+  a <var>url</var>, a <var>settings object</var>, a <var>destination</var>, a <var>cryptographic
+  nonce</var>, a <var>parser state</var>, and a <var>credentials mode</var>, run these steps. The
+  algorithm will asynchronously complete with either null (on failure) or a <a href=#module-script id=fetching-scripts:module-script-2>module
+  script</a> (on success).</p>
+
+  <ol><li><p>Perform the <a href=#internal-module-script-graph-fetching-procedure id=fetching-scripts:internal-module-script-graph-fetching-procedure>internal module script graph fetching procedure</a> given
+   <var>url</var>, <var>settings object</var>, <var>destination</var>, <var>cryptographic
+   nonce</var>, <var>parser state</var>, <var>credentials mode</var>, <var>settings object</var>, a
+   new empty list, "<code>client</code>", and with the <var>top-level module fetch
+   flag</var> set. If the caller of this algorithm specified custom <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-9>perform the fetch</a> steps, pass those along as
+   well.</p>
+
+   <li><p>When the <a href=#internal-module-script-graph-fetching-procedure id=fetching-scripts:internal-module-script-graph-fetching-procedure-2>internal module script graph fetching procedure</a> asynchronously
+   completes with <var>result</var>, asynchronously complete this algorithm with
+   <var>result</var>.</ol>
+
+  <p>To <dfn id=fetch-a-module-worker-script-tree data-export="">fetch a module worker script
+  graph</dfn> given a <var>url</var>, a <var>fetch client settings object</var>, a
+  <var>destination</var>, a <var>credentials mode</var>, and a <var>module map settings
+  object</var>, run these steps. The algorithm will asynchronously complete with either null (on
+  failure) or a <a href=#module-script id=fetching-scripts:module-script-3>module script</a> (on success).</p>
+
+  <ol><li><p>Perform the <a href=#internal-module-script-graph-fetching-procedure id=fetching-scripts:internal-module-script-graph-fetching-procedure-3>internal module script graph fetching procedure</a> given
+   <var>url</var>, <var>fetch client settings object</var>, <var>destination</var>, the empty
+   string, "<code>not parser-inserted</code>", <var>credentials mode</var>, <var>module
+   map settings object</var>, a new empty list, "<code>client</code>", and with the
+   <var>top-level module fetch flag</var> set. If the caller of this algorithm specified custom
+   <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-10>perform the fetch</a> steps, pass those along as
+   well.</p>
+
+   <li><p>When the <a href=#internal-module-script-graph-fetching-procedure id=fetching-scripts:internal-module-script-graph-fetching-procedure-4>internal module script graph fetching procedure</a> asynchronously
+   completes with <var>result</var>, asynchronously complete this algorithm with
+   <var>result</var>.</ol>
+
+  <hr>
+
+  <p>The following algorithms are meant for internal use by this specification only as part of <a href=#fetch-a-module-script-tree id=fetching-scripts:fetch-a-module-script-tree-2>fetching a module script graph</a> or <a href=#prepare-a-script id=fetching-scripts:prepare-a-script>preparing a script</a>, and should not be used directly by other specifications.</p>
+
+  <p>To perform the <dfn id=internal-module-script-graph-fetching-procedure>internal module script graph fetching procedure</dfn> given a
+  <var>url</var>, a <var>fetch client settings object</var>, a <var>destination</var>, a
+  <var>cryptographic nonce</var>, a <var>parser state</var>, a <var>credentials mode</var>, a
+  <var>module map settings object</var>, an <var>ancestor list</var>, a <var>referrer</var>, and a
+  <var>top-level module fetch</var> flag, perform these steps. The algorithm will asynchronously
+  complete with either null (on failure) or a <a href=#module-script id=fetching-scripts:module-script-4>module script</a> (on success).</p>
+
+  <ol><li><p><a href=#fetch-a-single-module-script id=fetching-scripts:fetch-a-single-module-script>Fetch a single module script</a> given <var>url</var>, <var>fetch client settings
+   object</var>, <var>destination</var>, <var>cryptographic nonce</var>, <var>parser state</var>,
+   <var>credentials mode</var>, <var>module map settings object</var>, <var>referrer</var>, and the
+   <var>top-level module fetch</var> flag. If the caller of this algorithm specified custom <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-11>perform the fetch</a> steps, pass those along while
+   <a href=#fetch-a-single-module-script id=fetching-scripts:fetch-a-single-module-script-2>fetching a single module script</a>.</p>
+
+   <li><p>Return from this algorithm, and run the following steps when <a href=#fetch-a-single-module-script id=fetching-scripts:fetch-a-single-module-script-3>fetching a single module script</a> asynchronously completes with
+   <var>result</var>:<li><p>If <var>result</var> is null, asynchronously complete this algorithm with null and abort
+   these steps.<li><p>Otherwise, <var>result</var> is a <a href=#module-script id=fetching-scripts:module-script-5>module script</a>. <a href=#fetch-the-descendants-of-a-module-script id=fetching-scripts:fetch-the-descendants-of-a-module-script>Fetch the descendants</a> of <var>result</var> given
+   <var>destination</var> and an ancestor list obtained by appending <var>url</var> to <var>ancestor
+   list</var>. Wait for <a href=#fetch-the-descendants-of-a-module-script id=fetching-scripts:fetch-the-descendants-of-a-module-script-2>fetching the
+   descendants of a module script</a> to asynchronously complete with <var>descendants
+   result</var> before proceeding to the next step.<li><p>Let <var>record</var> be <var>result</var>'s <a href=#concept-module-script-module-record id=fetching-scripts:concept-module-script-module-record>module record</a>.</p>
+
+   <li>
+    <p>Let <var>instantiationStatus</var> be <var>record</var>.<a href=https://tc39.github.io/ecma262/#sec-moduledeclarationinstantiation id=fetching-scripts:js-moduledeclarationinstantiation data-x-internal=js-moduledeclarationinstantiation>ModuleDeclarationInstantiation</a>().</p>
+
+    <p class=note>This step will recursively call <a href=https://tc39.github.io/ecma262/#sec-moduledeclarationinstantiation id=fetching-scripts:js-moduledeclarationinstantiation-2 data-x-internal=js-moduledeclarationinstantiation>ModuleDeclarationInstantiation</a> all of the
+    module's uninstantiated dependencies.</p>
+   <li>
+    <p>For each <a href=#module-script id=fetching-scripts:module-script-6>module script</a> <var>script</var> in <var>result</var>'s
+    <a href=#uninstantiated-inclusive-descendant-module-scripts id=fetching-scripts:uninstantiated-inclusive-descendant-module-scripts>uninstantiated inclusive descendant module scripts</a>, perform the following
+    steps:</p>
+
+    <ol><li><p>If <var>instantiationStatus</var> is an abrupt completion, then set <var>script</var>'s
+     <a href=#concept-module-script-instantiation-state id=fetching-scripts:concept-module-script-instantiation-state>instantiation state</a> to "<code>errored</code>", its <a href=#concept-module-script-instantiation-error id=fetching-scripts:concept-module-script-instantiation-error>instantiation error</a> to
+     <var>instantiationStatus</var>.[[Value]], and its <a href=#concept-module-script-module-record id=fetching-scripts:concept-module-script-module-record-2>module record</a> to null.<li><p>Otherwise, set <var>script</var>'s <a href=#concept-module-script-instantiation-state id=fetching-scripts:concept-module-script-instantiation-state-2>instantiation state</a> to "<code>instantiated</code>".</ol>
+   <li>
+    <p>Asynchronously complete this algorithm with <var>descendants result</var>.</p>
+
+    <p class=note>It is intentional that we complete with <var>descendants result</var> here, and
+    not <var>result</var>, as this allows us to propagate error signals to the caller.</p>
+   </ol>
+
+  <p>In the above algorithm, a <a href=#module-script id=fetching-scripts:module-script-7>module script</a> <var>script</var>'s <dfn id=uninstantiated-inclusive-descendant-module-scripts>uninstantiated
+  inclusive descendant module scripts</dfn> is a <a id=fetching-scripts:set href=https://infra.spec.whatwg.org/#ordered-set data-x-internal=set>set</a> of <a href=#module-script id=fetching-scripts:module-script-8>module scripts</a> determined as follows:</p>
+
+  <ol><li><p>Let <var>moduleMap</var> be <var>script</var>'s <a href=#settings-object id=fetching-scripts:settings-object>settings object</a>'s
+   <a href=#concept-settings-object-module-map id=fetching-scripts:concept-settings-object-module-map>module map</a>.<li><p>Let <var>stack</var> be the <a id=fetching-scripts:stack href=https://infra.spec.whatwg.org/#stack data-x-internal=stack>stack</a> « <var>script</var> ».<li><p>Let <var>inclusive descendants</var> be an empty <a id=fetching-scripts:set-2 href=https://infra.spec.whatwg.org/#ordered-set data-x-internal=set>set</a>.<li>
+    <p>While <var>stack</var> <a href=https://infra.spec.whatwg.org/#list-is-empty id=fetching-scripts:list-is-empty data-x-internal=list-is-empty>is not empty</a>:</p>
+
+    <ol><li><p>Let <var>current</var> the result of <a href=https://infra.spec.whatwg.org/#stack-pop id=fetching-scripts:stack-pop data-x-internal=stack-pop>popping</a> from
+     <var>stack</var>.<li>
+      <p>If <var>inclusive descendants</var> and <var>stack</var> both do not <a href=https://infra.spec.whatwg.org/#list-contains id=fetching-scripts:list-contains data-x-internal=list-contains>contain</a> <var>current</var>, then:</p>
+
+      <ol><li><p><a href=https://infra.spec.whatwg.org/#list-append id=fetching-scripts:list-append data-x-internal=list-append>Append</a> <var>current</var> to
+       <var>inclusive descendants</var>.<li><p>Let <var>child specifiers</var> be the value of <var>current</var>'s <a href=#concept-module-script-module-record id=fetching-scripts:concept-module-script-module-record-3>module record</a>'s [[RequestedModules]]
+       internal slot.<li><p>Let <var>child URLs</var> be the <a id=fetching-scripts:list href=https://infra.spec.whatwg.org/#list data-x-internal=list>list</a> obtained by calling
+       <a href=#resolve-a-module-specifier id=fetching-scripts:resolve-a-module-specifier>resolve a module specifier</a> once for each item of <var>child specifiers</var>,
+       given <var>current</var> and that item. Omit any failures.<li><p>Let <var>child modules</var> be the <a id=fetching-scripts:list-2 href=https://infra.spec.whatwg.org/#list data-x-internal=list>list</a> obtained by <a href=https://infra.spec.whatwg.org/#map-get id=fetching-scripts:map-get data-x-internal=map-get>getting each value</a> in <var>moduleMap</var> whose key is given by an
+       item of <var>child URLs</var>.<li><p><a href=https://infra.spec.whatwg.org/#list-iterate id=fetching-scripts:list-iterate data-x-internal=list-iterate>For each</a> <var>s</var> in <var>child modules</var>
+       that is not <a href=https://infra.spec.whatwg.org/#list-contains id=fetching-scripts:list-contains-2 data-x-internal=list-contains>contained by</a> <var>inclusive
+       descendants</var>, <a href=https://infra.spec.whatwg.org/#stack-push id=fetching-scripts:stack-push data-x-internal=stack-push>push</a> <var>s</var> onto
+       <var>stack</var>.</ol>
+     </ol>
+   <li><p>Return a <a id=fetching-scripts:set-3 href=https://infra.spec.whatwg.org/#ordered-set data-x-internal=set>set</a> containing all items of <var>inclusive descendants</var> whose
+   <a href=#concept-module-script-instantiation-state id=fetching-scripts:concept-module-script-instantiation-state-3>instantiation state</a> is "<code>uninstantiated</code>".</ol>
+
+  <p class=note>The above algorithm gives a depth-first search of the module dependency graph. The
+  main interesting part is in how the "edges" of this graph are determined. The actual search
+  implementation is not important; any other technique for exploring the graph will suffice, given
+  that the output is a <a id=fetching-scripts:set-4 href=https://infra.spec.whatwg.org/#ordered-set data-x-internal=set>set</a> only used for membership testing and whose order is thus not
+  important.</p>
+
+  <p>To <dfn id=fetch-a-single-module-script>fetch a single module script</dfn>, given a <var>url</var>, a <var>fetch client
+  settings object</var>, a <var>destination</var>, a <var>cryptographic nonce</var>, a <var>parser
+  state</var>, a <var>credentials mode</var>, a <var>module map settings object</var>, a
+  <var>referrer</var>, and a <var>top-level module fetch</var> flag, run these steps. The algorithm
+  will asynchronously complete with either null (on failure) or a <a href=#module-script id=fetching-scripts:module-script-9>module script</a> (on
+  success).</p>
+
+  <ol><li><p>Let <var>moduleMap</var> be <var>module map settings object</var>'s <a href=#concept-settings-object-module-map id=fetching-scripts:concept-settings-object-module-map-2>module map</a>.<li><p>If <var>moduleMap</var>[<var>url</var>] is "<code>fetching</code>", wait
+   <a href=#in-parallel id=fetching-scripts:in-parallel>in parallel</a> until that entry's value changes, then <a href=#queue-a-task id=fetching-scripts:queue-a-task>queue a task</a> on
+   the <a href=#networking-task-source id=fetching-scripts:networking-task-source>networking task source</a> to proceed with running the following steps.<li><p>If <var>moduleMap</var>[<var>url</var>] <a href=https://infra.spec.whatwg.org/#map-exists id=fetching-scripts:map-exists data-x-internal=map-exists>exists</a>,
+   asynchronously complete this algorithm with <var>moduleMap</var>[<var>url</var>], and abort these
+   steps.<li><p><a href=https://infra.spec.whatwg.org/#map-set id=fetching-scripts:map-set data-x-internal=map-set>Set</a> <var>moduleMap</var>[<var>url</var>] to "<code>fetching</code>".</p>
+
+   <li><p>Let <var>request</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id=fetching-scripts:concept-request-7 data-x-internal=concept-request>request</a> whose
+   <a href=https://fetch.spec.whatwg.org/#concept-request-url id=fetching-scripts:concept-request-url-3 data-x-internal=concept-request-url>url</a> is <var>url</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=fetching-scripts:concept-request-destination-3 data-x-internal=concept-request-destination>destination</a> is <var>destination</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-type id=fetching-scripts:concept-request-type-4 data-x-internal=concept-request-type>type</a> is "<code>script</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-mode id=fetching-scripts:concept-request-mode-2 data-x-internal=concept-request-mode>mode</a> is "<code>cors</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-credentials-mode id=fetching-scripts:concept-request-credentials-mode-2 data-x-internal=concept-request-credentials-mode>credentials mode</a> is <var>credentials
+   mode</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-nonce-metadata id=fetching-scripts:concept-request-nonce-metadata-2 data-x-internal=concept-request-nonce-metadata>cryptographic nonce metadata</a> is
+   <var>cryptographic nonce</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-parser-metadata id=fetching-scripts:concept-request-parser-metadata-4 data-x-internal=concept-request-parser-metadata>parser
+   metadata</a> is <var>parser state</var>, <a href=https://fetch.spec.whatwg.org/#concept-request-referrer id=fetching-scripts:concept-request-referrer data-x-internal=concept-request-referrer>referrer</a> is <var>referrer</var>, and <a href=https://fetch.spec.whatwg.org/#concept-request-client id=fetching-scripts:concept-request-client-4 data-x-internal=concept-request-client>client</a> is <var>fetch client settings
+   object</var>.<li>
+    <p>If the caller specified custom steps to <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-12>perform
+    the fetch</a>, perform them on <var>request</var>, setting the <var id=fetching-scripts:fetching-scripts-is-top-level-5><a href=#fetching-scripts-is-top-level>is top-level</a></var> flag if the <var>top-level module
+    fetch</var> flag is set. Return from this algorithm, and when the custom <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-13>perform the fetch</a> steps complete with <a href=https://fetch.spec.whatwg.org/#concept-response id=fetching-scripts:concept-response-9 data-x-internal=concept-response>response</a> <var>response</var>, run the remaining steps.</p>
+
+    <p>Otherwise, <a href=https://fetch.spec.whatwg.org/#concept-fetch id=fetching-scripts:concept-fetch-7 data-x-internal=concept-fetch>fetch</a> <var>request</var>. Return from this
+    algorithm, and run the remaining steps as part of the fetch's <a id=fetching-scripts:process-response-3 href=https://fetch.spec.whatwg.org/#process-response data-x-internal=process-response>process response</a> for
+    the <a href=https://fetch.spec.whatwg.org/#concept-response id=fetching-scripts:concept-response-10 data-x-internal=concept-response>response</a> <var>response</var>.</p>
+
+    <p class=note><var>response</var> is always <a href=#cors-same-origin id=fetching-scripts:cors-same-origin-2>CORS-same-origin</a>.</p>
+   <li>
+    <p>If any of the following conditions are met, <a href=https://infra.spec.whatwg.org/#map-set id=fetching-scripts:map-set-2 data-x-internal=map-set>set</a>
+    <var>moduleMap</var>[<var>url</var>] to null, asynchronously complete this algorithm with null,
+    and abort these steps:</p>
+
+    <ul class=compact><li><p><var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-type id=fetching-scripts:concept-response-type-4 data-x-internal=concept-response-type>type</a> is "<code>error</code>"<li><p><var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-status id=fetching-scripts:concept-response-status-4 data-x-internal=concept-response-status>status</a> is not an
+     <a id=fetching-scripts:ok-status-4 href=https://fetch.spec.whatwg.org/#ok-status data-x-internal=ok-status>ok status</a><li>
+      <p>The result of <a href=https://fetch.spec.whatwg.org/#concept-header-extract-mime-type id=fetching-scripts:extract-a-mime-type data-x-internal=extract-a-mime-type>extracting a MIME type</a> from
+      <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-header-list id=fetching-scripts:concept-response-header-list data-x-internal=concept-response-header-list>header list</a>
+      (ignoring parameters) is not a <a href=#javascript-mime-type id=fetching-scripts:javascript-mime-type>JavaScript MIME type</a></p>
+
+      <p class=note>For historical reasons, <a href=#fetch-a-classic-script id=fetching-scripts:fetch-a-classic-script>fetching a
+      classic script</a> does not include MIME type checking. In contrast, module scripts will
+      fail to load if they are not of a correct MIME type.</p>
+     </ul>
+   <li><p>Let <var>source text</var> be the result of <a href=https://encoding.spec.whatwg.org/#utf-8-decode id=fetching-scripts:utf-8-decode-3 data-x-internal=utf-8-decode>UTF-8
+   decoding</a> <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-body id=fetching-scripts:concept-response-body-4 data-x-internal=concept-response-body>body</a>.<li><p>Let <var>module script</var> be the result of <a href=#creating-a-module-script id=fetching-scripts:creating-a-module-script>creating a module script</a> given
+   <var>source text</var>, <var>module map settings object</var>, <var>response</var>'s <a href=https://fetch.spec.whatwg.org/#concept-response-url id=fetching-scripts:concept-response-url data-x-internal=concept-response-url>url</a>, <var>cryptographic
+   nonce</var>, <var>parser state</var>, and <var>credentials mode</var>.<li>
+    <p><a href=https://infra.spec.whatwg.org/#map-set id=fetching-scripts:map-set-3 data-x-internal=map-set>Set</a> <var>moduleMap</var>[<var>url</var>] to <var>module
+    script</var>, and asynchronously complete this algorithm with <var>module script</var>.</p>
+
+    <p class=note>It is intentional that the <a href=#module-map id=fetching-scripts:module-map>module map</a> is keyed by the <a href=https://fetch.spec.whatwg.org/#concept-request-url id=fetching-scripts:concept-request-url-4 data-x-internal=concept-request-url>request URL</a>, whereas the <a href=#concept-module-script-base-url id=fetching-scripts:concept-module-script-base-url>base URL</a> for the <a href=#module-script id=fetching-scripts:module-script-10>module script</a> is
+    set to the <a href=https://fetch.spec.whatwg.org/#concept-response-url id=fetching-scripts:concept-response-url-2 data-x-internal=concept-response-url>response URL</a>. The former is used to
+    deduplicate fetches, while the latter is used for URL resolution.</p>
+   </ol>
+
+  <p>To <dfn id=fetch-the-descendants-of-a-module-script>fetch the descendants of a module script</dfn> <var>module script</var>, given a
+  <var>destination</var> and an <var>ancestor list</var>, run these steps. The algorithm will
+  asynchronously complete with either null (on failure) or with <var>module script</var> (on
+  success).</p>
+
+  <ol><li><p>Let <var>record</var> be <var>module script</var>'s <a href=#concept-module-script-module-record id=fetching-scripts:concept-module-script-module-record-4>module record</a>.<li><p>If <var>record</var>.[[RequestedModules]] <a href=https://infra.spec.whatwg.org/#list-is-empty id=fetching-scripts:list-is-empty-2 data-x-internal=list-is-empty>is empty</a>,
+   asynchronously complete this algorithm with <var>module script</var>.<li><p>Let <var>urls</var> be a new empty <a id=fetching-scripts:list-3 href=https://infra.spec.whatwg.org/#list data-x-internal=list>list</a>.<li>
+    <p><a href=https://infra.spec.whatwg.org/#list-iterate id=fetching-scripts:list-iterate-2 data-x-internal=list-iterate>For each</a> string <var>requested</var> of
+    <var>record</var>.[[RequestedModules]],</p>
+
+    <ol><li><p>Let <var>url</var> be the result of <a href=#resolve-a-module-specifier id=fetching-scripts:resolve-a-module-specifier-2>resolving
+     a module specifier</a> given <var>module script</var> and <var>requested</var>.<li>
+      <p>If the result is error:</p>
+
+      <ol><li><p>Let <var>error</var> be a new <code id=fetching-scripts:typeerror><a data-x-internal=typeerror href=https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror>TypeError</a></code> exception.<li><p><a href=#report-the-exception id=fetching-scripts:report-the-exception>Report the exception</a> <var>error</var> for <var>module
+       script</var>.<li><p>Abort this algorithm, and asynchronously complete it with null.</ol>
+     <li><p>Otherwise, if <var>ancestor list</var> does not <a href=https://infra.spec.whatwg.org/#list-contains id=fetching-scripts:list-contains-3 data-x-internal=list-contains>contain</a> <var>url</var>, <a href=https://infra.spec.whatwg.org/#list-append id=fetching-scripts:list-append-2 data-x-internal=list-append>append</a>
+     <var>url</var> to <var>urls</var>.</ol>
+   <li>
+    <p><a href=https://infra.spec.whatwg.org/#list-iterate id=fetching-scripts:list-iterate-3 data-x-internal=list-iterate>For each</a> <var>url</var> in <var>urls</var>, perform the
+    <a href=#internal-module-script-graph-fetching-procedure id=fetching-scripts:internal-module-script-graph-fetching-procedure-5>internal module script graph fetching procedure</a> given <var>url</var>, <var>module
+    script</var>'s <a href=#concept-module-script-credentials-mode id=fetching-scripts:concept-module-script-credentials-mode>credentials mode</a>,
+    <var>module script</var>'s <a href=#concept-module-script-nonce id=fetching-scripts:concept-module-script-nonce>cryptographic
+    nonce</a>, <var>module script</var>'s <a href=#concept-module-script-parser id=fetching-scripts:concept-module-script-parser>parser
+    state</a>, <var>destination</var>, <var>module script</var>'s <a href=#settings-object id=fetching-scripts:settings-object-2>settings object</a>,
+    <var>module script</var>'s <a href=#settings-object id=fetching-scripts:settings-object-3>settings object</a>, <var>ancestor list</var>, <var>module
+    script</var>'s <a href=#concept-module-script-base-url id=fetching-scripts:concept-module-script-base-url-2>base URL</a>, and with the
+    <var>top-level module fetch</var> flag unset. If the caller of this algorithm specified custom
+    <a href=#fetching-scripts-perform-fetch id=fetching-scripts:fetching-scripts-perform-fetch-14>perform the fetch</a> steps, pass those along
+    while performing the <a href=#internal-module-script-graph-fetching-procedure id=fetching-scripts:internal-module-script-graph-fetching-procedure-6>internal module script graph fetching procedure</a>.</p>
+
+    <p>Wait for all of the <a href=#internal-module-script-graph-fetching-procedure id=fetching-scripts:internal-module-script-graph-fetching-procedure-7>internal module script graph fetching procedure</a> invocations
+    to asynchronously complete. If any of them asynchronously complete with null, then
+    asynchronously complete this algorithm with null. Otherwise, asynchronously complete this
+    algorithm with <var>module script</var>.</p>
+   </ol>
+
+  <h5 id=creating-scripts>8.1.3.3 Creating scripts<a href=#creating-scripts class=self-link></a></h5>
+
+  <p>To <dfn id=creating-a-classic-script>create a classic script</dfn>, given some script
+  source, an <a href=#environment-settings-object id=creating-scripts:environment-settings-object>environment settings object</a>, and an optional <var>muted errors</var>
+  flag:</p>
+
+  <ol><li><p>Let <var>script</var> be a new <a href=#classic-script id=creating-scripts:classic-script>classic script</a> that this algorithm will
+   subsequently initialize.<li><p>Set <var>script</var>'s <a href=#settings-object id=creating-scripts:settings-object>settings object</a> to the <a href=#environment-settings-object id=creating-scripts:environment-settings-object-2>environment
+   settings object</a> provided.<li><p>If <a href=#concept-bc-noscript id=creating-scripts:concept-bc-noscript>scripting is disabled</a> for the given
+   <a href=#environment-settings-object id=creating-scripts:environment-settings-object-3>environment settings object</a>'s <a href=#responsible-browsing-context id=creating-scripts:responsible-browsing-context>responsible browsing context</a>, then set
+   <var>script</var>'s <a href=#concept-classic-script-source-text id=creating-scripts:concept-classic-script-source-text>source text</a> to the
+   empty string. Otherwise, set <var>script</var>'s <a href=#concept-classic-script-source-text id=creating-scripts:concept-classic-script-source-text-2>source text</a> to the supplied script
+   source.<li><p>If the <var>muted errors</var> flag was set, then set <var>script</var>'s <a href=#muted-errors id=creating-scripts:muted-errors>muted
+   errors</a> flag.<li><p>Return <var>script</var>.</ol>
+
+  <p>To <dfn id=creating-a-module-script>create a module script</dfn>, given some script
+  source, an <a href=#environment-settings-object id=creating-scripts:environment-settings-object-4>environment settings object</a>, a script base URL, a cryptographic nonce, a
+  parser state, and a credentials mode:</p>
+
+  <ol><li><p>Let <var>script</var> be a new <a href=#module-script id=creating-scripts:module-script>module script</a> that this algorithm will
+   subsequently initialize.<li><p>Set <var>script</var>'s <a href=#settings-object id=creating-scripts:settings-object-2>settings object</a> to the <a href=#environment-settings-object id=creating-scripts:environment-settings-object-5>environment
+   settings object</a> provided.<li><p>Let <var>realm</var> be the provided <a href=#environment-settings-object id=creating-scripts:environment-settings-object-6>environment settings object</a>'s <a href="#environment-settings-object's-realm" id="creating-scripts:environment-settings-object's-realm">Realm</a>.<li><p>If <a href=#concept-bc-noscript id=creating-scripts:concept-bc-noscript-2>scripting is disabled</a> for the given
+   <a href=#environment-settings-object id=creating-scripts:environment-settings-object-7>environment settings object</a>'s <a href=#responsible-browsing-context id=creating-scripts:responsible-browsing-context-2>responsible browsing context</a>, then let
+   <var>script source</var> be the empty string. Otherwise, let <var>script source</var> be the
+   provided script source.<li><p>Let <var>result</var> be <a href=https://tc39.github.io/ecma262/#sec-parsemodule id=creating-scripts:js-parsemodule data-x-internal=js-parsemodule>ParseModule</a>(<var>script source</var>, <var>realm</var>,
+   <var>script</var>).<li><p>If <var>result</var> is a <a id=creating-scripts:list href=https://infra.spec.whatwg.org/#list data-x-internal=list>List</a> of errors, <a href=#report-the-exception id=creating-scripts:report-the-exception>report the exception</a>
+   given by the first element of <var>result</var> for <var>script</var>, return null, and abort
+   these steps.<li><p>Set <var>script</var>'s <a href=#concept-module-script-module-record id=creating-scripts:concept-module-script-module-record>module
+   record</a> to <var>result</var>.<li><p>Set <var>script</var>'s <a href=#concept-module-script-base-url id=creating-scripts:concept-module-script-base-url>base URL</a> to
+   the script base URL provided.<li><p>Set <var>script</var>'s <a href=#concept-module-script-nonce id=creating-scripts:concept-module-script-nonce>cryptographic
+   nonce</a> to the cryptographic nonce provided.<li><p>Set <var>script</var>'s <a href=#concept-module-script-parser id=creating-scripts:concept-module-script-parser>parser state</a>
+   to the parser state.<li><p>Set <var>script</var>'s <a href=#concept-module-script-credentials-mode id=creating-scripts:concept-module-script-credentials-mode>credentials
+   mode</a> to the credentials mode provided.<li><p>Return <var>script</var>.</ol>
+
+  <h5 id=calling-scripts>8.1.3.4 Calling scripts<a href=#calling-scripts class=self-link></a></h5>
+
+  <p>To <dfn id=run-a-classic-script data-export="">run a classic script</dfn> given a <a href=#classic-script id=calling-scripts:classic-script>classic script</a>
+  <var>s</var> and an optional <var>rethrow errors</var> flag:</p>
+
+  <ol><li><p>Let <var>settings</var> be the <a href=#settings-object id=calling-scripts:settings-object>settings object</a> of <var>s</var>.<li><p><a href=#check-if-we-can-run-script id=calling-scripts:check-if-we-can-run-script>Check if we can run script</a> with <var>settings</var>. If this returns "do not
+   run", then return undefined and abort these steps.<li><p>Let <var>realm</var> be <var>settings</var>'s <a href="#environment-settings-object's-realm" id="calling-scripts:environment-settings-object's-realm">Realm</a>.<li><p><a href=#prepare-to-run-script id=calling-scripts:prepare-to-run-script>Prepare to run script</a> with <var>settings</var>.<li><p>Let <var>result</var> be <a href=https://tc39.github.io/ecma262/#sec-parse-script id=calling-scripts:js-parsescript data-x-internal=js-parsescript>ParseScript</a>(<var>s</var>'s <a href=#concept-classic-script-source-text id=calling-scripts:concept-classic-script-source-text>source text</a>, <var>realm</var>,
+   <var>s</var>).<li><p>If <var>result</var> is a <a id=calling-scripts:list href=https://infra.spec.whatwg.org/#list data-x-internal=list>List</a> of errors, set <var>result</var> to the first
+   element of <var>result</var> and go to the step labeled <i>error</i>.<li><p>Let <var>evaluationStatus</var> be <a href=https://tc39.github.io/ecma262/#sec-runtime-semantics-scriptevaluation id=calling-scripts:js-scriptevaluation data-x-internal=js-scriptevaluation>ScriptEvaluation</a>(<var>result</var>).<li><p>If <var>evaluationStatus</var> is an abrupt completion, set <var>result</var> to
+   <var>evaluationStatus</var>.[[Value]] and go to the next step (labeled <i>error</i>). If
+   <var>evaluationStatus</var> is a normal completion, or if <a href=https://tc39.github.io/ecma262/#sec-runtime-semantics-scriptevaluation id=calling-scripts:js-scriptevaluation-2 data-x-internal=js-scriptevaluation>ScriptEvaluation</a> does not complete because the user agent
+   has <a href=#abort-a-running-script id=calling-scripts:abort-a-running-script>aborted the running script</a>, skip to the step
+   labeled <i>cleanup</i>.<li>
+    <p><i>Error</i>: At this point <var>result</var> must be an exception. Perform the following
+    steps:</p>
+
+    <ol><li><p>If the <var>rethrow errors</var> flag is set and <var>s</var>'s <a href=#muted-errors id=calling-scripts:muted-errors>muted
+     errors</a> flag is not set, rethrow <var>result</var>.<li><p>If the <var>rethrow errors</var> flag is set and <var>s</var>'s <a href=#muted-errors id=calling-scripts:muted-errors-2>muted
+     errors</a> flag is set, throw a <a id=calling-scripts:networkerror href=https://heycam.github.io/webidl/#networkerror data-x-internal=networkerror>"<code>NetworkError</code>"</a>
+     <code id=calling-scripts:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>If the <var>rethrow errors</var> flag is not set, <a href=#report-the-exception id=calling-scripts:report-the-exception>report the exception</a>
+     given by <var>result</var> for the script <var>s</var>.</ol>
+   <li><p><i>Cleanup</i>: <a href=#clean-up-after-running-script id=calling-scripts:clean-up-after-running-script>Clean up after running script</a> with
+   <var>settings</var>.<li><p>If <var>evaluationStatus</var> exists and is a normal completion, return
+   <var>evaluationStatus</var>.[[Value]]. Otherwise, script execution was unsuccessful, either
+   because an error occurred during parsing, or an exception occurred during evaluation, or because
+   it was <a href=#abort-a-running-script id=calling-scripts:abort-a-running-script-2>aborted prematurely</a>.</ol>
+
+  <p>To <dfn id=run-a-module-script data-export="">run a module script</dfn> given a <a href=#module-script id=calling-scripts:module-script>module script</a>
+  <var>s</var>:</p>
+
+  <ol><li><p>Let <var>settings</var> be the <a href=#settings-object id=calling-scripts:settings-object-2>settings object</a> of <var>s</var>.<li><p><a href=#check-if-we-can-run-script id=calling-scripts:check-if-we-can-run-script-2>Check if we can run script</a> with <var>settings</var>. If this returns "do
+   not run" then abort these steps.<li><p>If <var>s</var>'s <a href=#concept-module-script-instantiation-state id=calling-scripts:concept-module-script-instantiation-state>instantiation
+   state</a> is "<code>errored</code>", then <a href=#report-the-exception id=calling-scripts:report-the-exception-2>report the
+   exception</a> given by <var>s</var>'s <a href=#concept-module-script-instantiation-error id=calling-scripts:concept-module-script-instantiation-error>instantiation error</a> for <var>s</var>
+   and abort these steps.<li><p>Assert: <var>s</var>'s <a href=#concept-module-script-instantiation-state id=calling-scripts:concept-module-script-instantiation-state-2>instantiation state</a> is "<code>instantiated</code>" (and thus its <a href=#concept-module-script-module-record id=calling-scripts:concept-module-script-module-record>module record</a> is not null).<li><p>Let <var>record</var> be <var>s</var>'s <a href=#concept-module-script-module-record id=calling-scripts:concept-module-script-module-record-2>module record</a>.</p>
+
+   <li><p><a href=#prepare-to-run-script id=calling-scripts:prepare-to-run-script-2>Prepare to run script</a> given <var>settings</var>.<li>
+    <p>Let <var>evaluationStatus</var> be <var>record</var>.<a href=https://tc39.github.io/ecma262/#sec-moduleevaluation id=calling-scripts:js-moduleevaluation data-x-internal=js-moduleevaluation>ModuleEvaluation</a>().</p>
+
+    <p class=note>This step will recursively evaluate all of the module's dependencies.</p>
+   <li><p>If <var>evaluationStatus</var> is an abrupt completion, then <a href=#report-the-exception id=calling-scripts:report-the-exception-3>report the
+   exception</a> given by <var>evaluationStatus</var>.[[Value]] for <var>s</var>. (Do not perform
+   this step if <a href=https://tc39.github.io/ecma262/#sec-moduleevaluation id=calling-scripts:js-moduleevaluation-2 data-x-internal=js-moduleevaluation>ModuleEvaluation</a> fails to complete as a
+   result of the user agent <a href=#abort-a-running-script id=calling-scripts:abort-a-running-script-3>aborting the running
+   script</a>.)<li><p><a href=#clean-up-after-running-script id=calling-scripts:clean-up-after-running-script-2>Clean up after running script</a> with <var>settings</var>.</ol>
+
+  <p>The steps to <dfn id=check-if-we-can-run-script>check if we can run script</dfn> with an <a href=#environment-settings-object id=calling-scripts:environment-settings-object>environment settings
+  object</a> <var>settings</var> are as follows. They return either "run" or "do not run".</p>
+
+  <ol><li><p>If the <a href=#concept-settings-object-global id=calling-scripts:concept-settings-object-global>global object</a> specified by
+   <var>settings</var> is a <code id=calling-scripts:window><a href=#window>Window</a></code> object whose <code id=calling-scripts:document><a href=#document>Document</a></code> object is not
+   <a href=#fully-active id=calling-scripts:fully-active>fully active</a>, then return "do not run" and abort these steps.</p>
+
+   <li><p>If <a href=#concept-bc-noscript id=calling-scripts:concept-bc-noscript>scripting is disabled</a> for the
+   <a href=#responsible-browsing-context id=calling-scripts:responsible-browsing-context>responsible browsing context</a> specified by <var>settings</var>, then return "do
+   not run" and abort these steps.</p>
+
+   <li><p>Return "run".</ol>
+
+  <p>The steps to <dfn id=prepare-to-run-script data-export="">prepare to run script</dfn> with an <a href=#environment-settings-object id=calling-scripts:environment-settings-object-2>environment settings
+  object</a> <var>settings</var> are as follows:</p>
+
+  <ol><li><p>Increment <var>settings</var>'s <a href=#realm-execution-context id=calling-scripts:realm-execution-context>realm execution context</a>'s <a href=#entrance-counter id=calling-scripts:entrance-counter>entrance
+   counter</a> by one.<li><p>Push <var>settings</var>'s <a href=#realm-execution-context id=calling-scripts:realm-execution-context-2>realm execution context</a> onto the <a id=calling-scripts:javascript-execution-context-stack href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript
+   execution context stack</a>; it is now the <a id=calling-scripts:running-javascript-execution-context href=https://tc39.github.io/ecma262/#running-execution-context data-x-internal=running-javascript-execution-context>running JavaScript execution
+   context</a>.</ol>
+
+  <p>The steps to <dfn id=clean-up-after-running-script data-export="">clean up after running script</dfn> with an <a href=#environment-settings-object id=calling-scripts:environment-settings-object-3>environment
+  settings object</a> <var>settings</var> are as follows:</p>
+
+  <ol><li><p>Assert: <var>settings</var>'s <a href=#realm-execution-context id=calling-scripts:realm-execution-context-3>realm execution context</a> is the <a id=calling-scripts:running-javascript-execution-context-2 href=https://tc39.github.io/ecma262/#running-execution-context data-x-internal=running-javascript-execution-context>running
+   JavaScript execution context</a>.<li><p>Remove <var>settings</var>'s <a href=#realm-execution-context id=calling-scripts:realm-execution-context-4>realm execution context</a> from the
+   <a id=calling-scripts:javascript-execution-context-stack-2 href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript execution context stack</a>.<li><p>Decrement <var>settings</var>'s <a href=#realm-execution-context id=calling-scripts:realm-execution-context-5>realm execution context</a>'s <a href=#entrance-counter id=calling-scripts:entrance-counter-2>entrance
+   counter</a> by one.<li><p>If the <a id=calling-scripts:javascript-execution-context-stack-3 href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript execution context stack</a> is now empty, <a href=#perform-a-microtask-checkpoint id=calling-scripts:perform-a-microtask-checkpoint>perform a
+   microtask checkpoint</a>. (If this runs scripts, these algorithms will be invoked
+   reentrantly.)</ol>
+
+  <p class=note>These algorithms are not invoked by one script directly calling another, but they
+  can be invoked reentrantly in an indirect manner, e.g. if a script dispatches an event which has
+  event listeners registered.</p>
+
+  <p>The <dfn id=running-script>running script</dfn> is the <a href=#the-script-element id=calling-scripts:the-script-element>script</a> in the [[HostDefined]] field in the
+  ScriptOrModule component of the <a id=calling-scripts:running-javascript-execution-context-3 href=https://tc39.github.io/ecma262/#running-execution-context data-x-internal=running-javascript-execution-context>running JavaScript execution context</a>.</p>
+
+  <h5 id=realms-settings-objects-global-objects>8.1.3.5 Realms, settings objects, and global objects<a href=#realms-settings-objects-global-objects class=self-link></a></h5>
+
+  <p>A <dfn id=global-object data-export="">global object</dfn> is a JavaScript object that is the [[GlobalObject]]
+  field of a <a id=realms-settings-objects-global-objects:javascript-realm href=https://tc39.github.io/ecma262/#sec-code-realms data-x-internal=javascript-realm>JavaScript realm</a>.</p>
+
+  <p class=note>In this specification, all <a href=https://tc39.github.io/ecma262/#sec-code-realms id=realms-settings-objects-global-objects:javascript-realm-2 data-x-internal=javascript-realm>JavaScript
+  realms</a> are <a href=https://tc39.github.io/ecma262/#sec-initializehostdefinedrealm id=realms-settings-objects-global-objects:js-initializehostdefinedrealm data-x-internal=js-initializehostdefinedrealm>initialized</a> with <a href=#global-object id=realms-settings-objects-global-objects:global-object>global objects</a> that are either <code id=realms-settings-objects-global-objects:window><a href=#window>Window</a></code> or
+  <code id=realms-settings-objects-global-objects:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> objects.</p>
+
+  <p>There is always a 1-to-1-to-1 mapping between <a href=https://tc39.github.io/ecma262/#sec-code-realms id=realms-settings-objects-global-objects:javascript-realm-3 data-x-internal=javascript-realm>JavaScript
+  realms</a>, <a href=#global-object id=realms-settings-objects-global-objects:global-object-2>global objects</a>, and <a href=#environment-settings-object id=realms-settings-objects-global-objects:environment-settings-object>environment settings objects</a>:</p>
+
+  <ul><li><p>A <a id=realms-settings-objects-global-objects:javascript-realm-4 href=https://tc39.github.io/ecma262/#sec-code-realms data-x-internal=javascript-realm>JavaScript realm</a> has a [[HostDefined]] field, which contains <dfn data-dfn-for=Realm id=concept-realm-settings-object data-lt="settings object" data-export="">the Realm's settings object</dfn>.<li><p>A <a id=realms-settings-objects-global-objects:javascript-realm-5 href=https://tc39.github.io/ecma262/#sec-code-realms data-x-internal=javascript-realm>JavaScript realm</a> has a [[GlobalObject]] field, which contains <dfn data-dfn-for=Realm id=concept-realm-global data-lt="global object" data-export="">the
+   Realm's global object</dfn>.<li><p>Each <a href=#global-object id=realms-settings-objects-global-objects:global-object-3>global object</a> in this specification is created during the <a href=https://tc39.github.io/ecma262/#sec-initializehostdefinedrealm id=realms-settings-objects-global-objects:js-initializehostdefinedrealm-2 data-x-internal=js-initializehostdefinedrealm>initialization</a> of a corresponding <a id=realms-settings-objects-global-objects:javascript-realm-6 href=https://tc39.github.io/ecma262/#sec-code-realms data-x-internal=javascript-realm>JavaScript
+   realm</a>, known as <dfn data-dfn-for="global object" id=concept-global-object-realm data-lt=Realm data-export="">the global object's Realm</dfn>.<li id=relevant-settings-object-for-a-global-object><p>Each <a href=#global-object id=realms-settings-objects-global-objects:global-object-4>global object</a> in this
+   specification is created alongside a corresponding <a href=#environment-settings-object id=realms-settings-objects-global-objects:environment-settings-object-2>environment settings object</a>,
+   known as its <a href=#relevant-settings-object id=realms-settings-objects-global-objects:relevant-settings-object>relevant settings object</a>.</p>
+
+   <li><p>An <a href=#environment-settings-object id=realms-settings-objects-global-objects:environment-settings-object-3>environment settings object</a>'s <a href=#realm-execution-context id=realms-settings-objects-global-objects:realm-execution-context>realm execution context</a>'s
+   Realm component is <dfn data-dfn-for="environment settings object" id="environment-settings-object's-realm" data-lt=Realm data-export="">the environment settings object's
+   Realm</dfn>.<li><p>An <a href=#environment-settings-object id=realms-settings-objects-global-objects:environment-settings-object-4>environment settings object</a>'s <a href="#environment-settings-object's-realm" id="realms-settings-objects-global-objects:environment-settings-object's-realm">Realm</a> then has a [[GlobalObject]] field, which contains <dfn data-dfn-for="environment
+   settings object" id=concept-settings-object-global data-lt="global object" data-export="">the environment settings object's global object</dfn>.</ul>
+
+  <hr>
+
+  <p>When defining algorithm steps throughout this specification, it is often important to indicate
+  what <a id=realms-settings-objects-global-objects:javascript-realm-7 href=https://tc39.github.io/ecma262/#sec-code-realms data-x-internal=javascript-realm>JavaScript realm</a> is to be used—or, equivalently, what <a href=#global-object id=realms-settings-objects-global-objects:global-object-5>global object</a>
+  or <a href=#environment-settings-object id=realms-settings-objects-global-objects:environment-settings-object-5>environment settings object</a> is to be used. In general, there are at least four
+  possibilities:</p>
+
+  <dl><dt><dfn id=concept-entry-everything>Entry</dfn><dd>This corresponds to the script that initiated the currently running script action: i.e.,
+    the function or script that the user agent called into when it called into author code.<dt><dfn id=concept-incumbent-everything>Incumbent</dfn><dd>This corresponds to the most-recently-entered author function or script on the stack, or the
+    author function or script that originally scheduled the currently-running callback.<dt><dfn id=concept-current-everything>Current</dfn><dd>This corresponds to the currently-running function object, including built-in user-agent
+    functions which might not be implemented as JavaScript. (It is derived from the <a href=https://tc39.github.io/ecma262/#current-realm id=realms-settings-objects-global-objects:current-realm-record data-x-internal=current-realm-record>current JavaScript realm</a>.)<dt><dfn id=concept-relevant-everything>Relevant</dfn><dd>Every <a id=realms-settings-objects-global-objects:platform-object href=https://heycam.github.io/webidl/#dfn-platform-object data-x-internal=platform-object>platform object</a> has a <a href=#concept-relevant-realm id=realms-settings-objects-global-objects:concept-relevant-realm>relevant
+    Realm</a>, which is roughly the <a id=realms-settings-objects-global-objects:javascript-realm-8 href=https://tc39.github.io/ecma262/#sec-code-realms data-x-internal=javascript-realm>JavaScript realm</a> in which it was created. When
+    writing algorithms, the most prominent <a id=realms-settings-objects-global-objects:platform-object-2 href=https://heycam.github.io/webidl/#dfn-platform-object data-x-internal=platform-object>platform object</a> whose <a href=#concept-relevant-realm id=realms-settings-objects-global-objects:concept-relevant-realm-2>relevant Realm</a> might be important is the <b>this</b>
+    value of the currently-running function object. In some cases, there can be other important
+    <a href=#concept-relevant-realm id=realms-settings-objects-global-objects:concept-relevant-realm-3>relevant Realms</a>, such as those of any
+    arguments.</dl>
+
+  <p>Note how the <a href=#concept-entry-everything id=realms-settings-objects-global-objects:concept-entry-everything>entry</a>, <a href=#concept-incumbent-everything id=realms-settings-objects-global-objects:concept-incumbent-everything>incumbent</a>, and <a href=#concept-current-everything id=realms-settings-objects-global-objects:concept-current-everything>current</a> concepts are usable without qualification,
+  whereas the <a href=#concept-relevant-everything id=realms-settings-objects-global-objects:concept-relevant-everything>relevant</a> concept must be applied to
+  a particular <a id=realms-settings-objects-global-objects:platform-object-3 href=https://heycam.github.io/webidl/#dfn-platform-object data-x-internal=platform-object>platform object</a>.</p>
+
+  <div class=example>
+
+   <p>Consider the following pages, with <code>a.html</code> being loaded in a browser
+   window, <code>b.html</code> being loaded in an <code id=realms-settings-objects-global-objects:the-iframe-element><a href=#the-iframe-element>iframe</a></code> as shown, and <code>c.html</code> and <code>d.html</code> omitted (they can simply be empty
+   documents):</p>
+
+   <pre>&lt;!-- a.html -->
+&lt;!DOCTYPE html>
+&lt;html lang="en">
+&lt;title>Entry page&lt;/title>
+
+&lt;iframe src="b.html">&lt;/iframe>
+&lt;button onclick="frames[0].hello()">Hello&lt;/button>
+
+&lt;!--b.html -->
+&lt;!DOCTYPE html>
+&lt;html lang="en">
+&lt;title>Incumbent page&lt;/title>
+
+&lt;iframe src="c.html" id="c">&lt;/iframe>
+&lt;iframe src="d.html" id="d">&lt;/iframe>
+
+&lt;script>
+  const c = document.querySelector("#c").contentWindow;
+  const d = document.querySelector("#d").contentWindow;
+
+  window.hello = () => {
+    c.print.call(d);
+  };
+&lt;/script></pre>
+
+   <p>Each page has its own <a href=#browsing-context id=realms-settings-objects-global-objects:browsing-context>browsing context</a>, and thus its own <a id=realms-settings-objects-global-objects:javascript-realm-9 href=https://tc39.github.io/ecma262/#sec-code-realms data-x-internal=javascript-realm>JavaScript
+   realm</a>, <a href=#global-object id=realms-settings-objects-global-objects:global-object-6>global object</a>, and <a href=#environment-settings-object id=realms-settings-objects-global-objects:environment-settings-object-6>environment settings object</a>.</p>
+
+   <p>When the <code id=realms-settings-objects-global-objects:dom-print><a href=#dom-print>print()</a></code> method is called in response to pressing the
+   button in <code>a.html</code>, then:</p>
+
+   <ul><li><p>The <a href=#concept-entry-realm id=realms-settings-objects-global-objects:concept-entry-realm>entry Realm</a> is that of <code>a.html</code>.<li><p>The <a href=#concept-incumbent-realm id=realms-settings-objects-global-objects:concept-incumbent-realm>incumbent Realm</a> is that of <code>b.html</code>.<li><p>The <a href=https://tc39.github.io/ecma262/#current-realm id=realms-settings-objects-global-objects:current-realm-record-2 data-x-internal=current-realm-record>current Realm</a> is that of <code>c.html</code> (since it is the <code id=realms-settings-objects-global-objects:dom-print-2><a href=#dom-print>print()</a></code> method from
+    <code>c.html</code> whose code is running).<li><p>The <a href=#concept-relevant-realm id=realms-settings-objects-global-objects:concept-relevant-realm-4>relevant Realm</a> of the object on which
+    the <code id=realms-settings-objects-global-objects:dom-print-3><a href=#dom-print>print()</a></code> method is being called is that of <code>d.html</code>.</ul>
+  </div>
+
+  <p class=warning>The <a href=#concept-incumbent-everything id=realms-settings-objects-global-objects:concept-incumbent-everything-2>incumbent</a> and <a href=#concept-entry-everything id=realms-settings-objects-global-objects:concept-entry-everything-2>entry</a> concepts should not be used by new specifications,
+  as they are excessively complicated and unintuitive to work with. We are working to remove almost
+  all existing uses from the platform: see <a href=https://github.com/whatwg/html/issues/1430>issue #1430</a> for <a href=#concept-incumbent-everything id=realms-settings-objects-global-objects:concept-incumbent-everything-3>incumbent</a>, and <a href=https://github.com/whatwg/html/issues/1431>issue #1431</a> for <a href=#concept-entry-everything id=realms-settings-objects-global-objects:concept-entry-everything-3>entry</a>.</p>
+
+  <p>In general, web platform specifications should use the <a href=#concept-relevant-everything id=realms-settings-objects-global-objects:concept-relevant-everything-2>relevant</a> concept, applied to the object being operated
+  on (usually the <b>this</b> value of the current method). This mismatches the JavaScript
+  specification, where <a href=#concept-current-everything id=realms-settings-objects-global-objects:concept-current-everything-2>current</a> is generally used as
+  the default (e.g. in determining the <a id=realms-settings-objects-global-objects:javascript-realm-10 href=https://tc39.github.io/ecma262/#sec-code-realms data-x-internal=javascript-realm>JavaScript realm</a> whose <code>Array</code> constructor should be used to construct the result in <code>Array.prototype.map</code>). But this inconsistency is so embedded in the platform that
+  we have to accept it going forward.</p>
+
+  <p>Note that in constructors, where there is no <b>this</b> value yet, the <a href=#concept-current-everything id=realms-settings-objects-global-objects:concept-current-everything-3>current</a> concept is the appropriate default.</p>
+
+  <div class=example>
+   <p>One reason why the <a href=#concept-relevant-everything id=realms-settings-objects-global-objects:concept-relevant-everything-3>relevant</a> concept is
+   generally a better default choice than the <a href=#concept-current-everything id=realms-settings-objects-global-objects:concept-current-everything-4>current</a> concept is that it is more suitable for
+   creating an object that is to be persisted and returned multiple times. For example, the <code id=realms-settings-objects-global-objects:dom-navigator-getbattery><a data-x-internal=dom-navigator-getbattery href=https://w3c.github.io/battery/#widl-Navigator-getBattery-Promise-BatteryManager>navigator.getBattery()</a></code> method creates promises in the
+   <a href=#concept-relevant-realm id=realms-settings-objects-global-objects:concept-relevant-realm-5>relevant Realm</a> for the <code id=realms-settings-objects-global-objects:navigator><a href=#navigator>Navigator</a></code> object
+   on which it is invoked. This has the following impact: <a href=#refsBATTERY>[BATTERY]</a>
+
+   <pre>&lt;!-- outer.html -->
+&lt;!DOCTYPE html>
+&lt;html lang="en">
+&lt;title>Relevant Realm demo: outer page&lt;/title>
+&lt;script>
+  function doTest() {
+    const promise = navigator.getBattery.call(frames[0].navigator);
+
+    console.log(promise instanceof Promise);           // logs false
+    console.log(promise instanceof frames[0].Promise); // logs true
+
+    frames[0].hello();
+  }
+&lt;/script>
+&lt;iframe src="inner.html" onload="doTest()">&lt;/iframe>
+
+&lt;!-- inner.html -->
+&lt;!DOCTYPE html>
+&lt;html lang="en">
+&lt;title>Relevant Realm demo: inner page&lt;/title>
+&lt;script>
+  function hello() {
+    const promise = navigator.getBattery();
+
+    console.log(promise instanceof Promise);        // logs true
+    console.log(promise instanceof parent.Promise); // logs false
+  }
+&lt;/script></pre>
+
+   <p>If the algorithm for the <code id=realms-settings-objects-global-objects:dom-navigator-getbattery-2><a data-x-internal=dom-navigator-getbattery href=https://w3c.github.io/battery/#widl-Navigator-getBattery-Promise-BatteryManager>getBattery()</a></code> method
+   had instead used the <a href=https://tc39.github.io/ecma262/#current-realm id=realms-settings-objects-global-objects:current-realm-record-3 data-x-internal=current-realm-record>current Realm</a>, all the results
+   would be reversed. That is, after the first call to <code id=realms-settings-objects-global-objects:dom-navigator-getbattery-3><a data-x-internal=dom-navigator-getbattery href=https://w3c.github.io/battery/#widl-Navigator-getBattery-Promise-BatteryManager>getBattery()</a></code> in <code>outer.html</code>, the
+   <code id=realms-settings-objects-global-objects:navigator-2><a href=#navigator>Navigator</a></code> object in <code>inner.html</code> would be permanently storing
+   a <code>Promise</code> object created in <code>outer.html</code>'s
+   <a id=realms-settings-objects-global-objects:javascript-realm-11 href=https://tc39.github.io/ecma262/#sec-code-realms data-x-internal=javascript-realm>JavaScript realm</a>, and calls like that inside the <code>hello()</code>
+   function would thus return a promise from the "wrong" realm. Since this is undesirable, the
+   algorithm instead uses the <a href=#concept-relevant-realm id=realms-settings-objects-global-objects:concept-relevant-realm-6>relevant Realm</a>, giving
+   the sensible results indicated in the comments above.</p>
+  </div>
+
+  <hr>
+
+  <p>The rest of this section deals with formally defining the <a href=#concept-entry-everything id=realms-settings-objects-global-objects:concept-entry-everything-4>entry</a>, <a href=#concept-incumbent-everything id=realms-settings-objects-global-objects:concept-incumbent-everything-4>incumbent</a>, <a href=#concept-current-everything id=realms-settings-objects-global-objects:concept-current-everything-5>current</a>, and <a href=#concept-relevant-everything id=realms-settings-objects-global-objects:concept-relevant-everything-4>relevant</a> concepts.</p>
+
+  <h6 id=entry>8.1.3.5.1 Entry<a href=#entry class=self-link></a></h6>
+
+  <p>All <a href=#realm-execution-context id=entry:realm-execution-context>realm execution contexts</a> must contain, as
+  part of their code evaluation state, an <dfn id=entrance-counter>entrance counter</dfn> value, which is initially
+  zero. In the process of <a href=#calling-scripts>calling scripts</a>, this value will be
+  incremented and decremented.</p>
+
+  <p>With this in hand, we define the <dfn id=entry-execution-context>entry execution context</dfn> to be the most recently
+  pushed entry in the <a id=entry:javascript-execution-context-stack href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript execution context stack</a> whose <a href=#entrance-counter id=entry:entrance-counter>entrance
+  counter</a> value is greater than zero. The <dfn id=concept-entry-realm>entry Realm</dfn>
+  is the <a href=#entry-execution-context id=entry:entry-execution-context>entry execution context</a>'s Realm component.</p>
+
+  <p>Then, the <dfn id=entry-settings-object>entry settings object</dfn> is the <a href=#concept-realm-settings-object id=entry:concept-realm-settings-object>environment settings object</a> of the <a href=#concept-entry-realm id=entry:concept-entry-realm>entry Realm</a>.</p>
+
+  <p>Similarly, the <dfn id=entry-global-object>entry global object</dfn> is the <a href=#concept-realm-global id=entry:concept-realm-global>global object</a> of the <a href=#concept-entry-realm id=entry:concept-entry-realm-2>entry
+  Realm</a>.</p>
+
+  <h6 id=incumbent>8.1.3.5.2 Incumbent<a href=#incumbent class=self-link></a></h6>
+
+  <p>All <a href=https://tc39.github.io/ecma262/#sec-execution-contexts id=incumbent:javascript-execution-context data-x-internal=javascript-execution-context>JavaScript execution contexts</a> must
+  contain, as part of their code evaluation state, a <dfn id=skip-when-determining-incumbent-counter>skip-when-determining-incumbent
+  counter</dfn> value, which is initially zero. In the process of <a href=#prepare-to-run-a-callback id=incumbent:prepare-to-run-a-callback>preparing to run a callback</a> and <a href=#clean-up-after-running-a-callback id=incumbent:clean-up-after-running-a-callback>cleaning up after running a callback</a>, this value will be incremented and
+  decremented.</p>
+
+  <p>Every <a href=#event-loop id=incumbent:event-loop>event loop</a> has an associated <dfn id=backup-incumbent-settings-object-stack>backup incumbent settings object
+  stack</dfn>, initially empty. Roughly speaking, it is used to determine the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object>incumbent
+  settings object</a> when no author code is on the stack, but author code is responsible for the
+  current algorithm having been run in some way. The process of <a href=#prepare-to-run-a-callback id=incumbent:prepare-to-run-a-callback-2>preparing to run a callback</a> and <a href=#clean-up-after-running-a-callback id=incumbent:clean-up-after-running-a-callback-2>cleaning up after running a callback</a> manipulate this stack. <a href=#refsWEBIDL>[WEBIDL]</a></p>
+
+  <p>When Web IDL is used to <a href=https://heycam.github.io/webidl/#es-invoking-callback-functions id=incumbent:es-invoking-callback-functions data-x-internal=es-invoking-callback-functions>invoke</a> author
+  code, or when <a href=#enqueuejob(queuename,-job,-arguments) id=incumbent:enqueuejob(queuename,-job,-arguments)>EnqueueJob</a> invokes a promise job, they use the following algorithms to
+  track relevant data for determining the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-2>incumbent settings object</a>:</p>
+
+  <p>To <dfn id=prepare-to-run-a-callback data-export="">prepare to run a callback</dfn> with an <a href=#environment-settings-object id=incumbent:environment-settings-object>environment settings
+  object</a> <var>settings</var>:</p>
+
+  <ol><li><p>Push <var>settings</var> onto the <a href=#backup-incumbent-settings-object-stack id=incumbent:backup-incumbent-settings-object-stack>backup incumbent settings object
+   stack</a>.<li><p>Let <var>context</var> be the <a href=#topmost-script-having-execution-context id=incumbent:topmost-script-having-execution-context>topmost script-having execution
+   context</a>.<li><p>If <var>context</var> is not null, increment <var>context</var>'s
+   <a href=#skip-when-determining-incumbent-counter id=incumbent:skip-when-determining-incumbent-counter>skip-when-determining-incumbent counter</a>.</ol>
+
+  <p>To <dfn id=clean-up-after-running-a-callback data-export="">clean up after running a callback</dfn> with an <a href=#environment-settings-object id=incumbent:environment-settings-object-2>environment
+  settings object</a> <var>settings</var>:</p>
+
+  <ol><li>
+    <p>Let <var>context</var> be the <a href=#topmost-script-having-execution-context id=incumbent:topmost-script-having-execution-context-2>topmost script-having execution context</a>.</p>
+
+    <p class=note>This will be the same as the <a href=#topmost-script-having-execution-context id=incumbent:topmost-script-having-execution-context-3>topmost script-having execution
+    context</a> inside the corresponding invocation of <a href=#prepare-to-run-a-callback id=incumbent:prepare-to-run-a-callback-3>prepare to run a
+    callback</a>.</p>
+   <li><p>If <var>context</var> is not null, decrement <var>context</var>'s
+   <a href=#skip-when-determining-incumbent-counter id=incumbent:skip-when-determining-incumbent-counter-2>skip-when-determining-incumbent counter</a>.<li><p>Assert: the topmost entry of the <a href=#backup-incumbent-settings-object-stack id=incumbent:backup-incumbent-settings-object-stack-2>backup incumbent settings object stack</a> is
+   <var>settings</var>.<li><p>Remove <var>settings</var> from the <a href=#backup-incumbent-settings-object-stack id=incumbent:backup-incumbent-settings-object-stack-3>backup incumbent settings object
+   stack</a>.</ol>
+
+  <p>Here, the <dfn id=topmost-script-having-execution-context>topmost script-having execution context</dfn> is the topmost entry of the
+  <a id=incumbent:javascript-execution-context-stack href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript execution context stack</a> that has a non-null ScriptOrModule component, or
+  null if there is no such entry in the <a id=incumbent:javascript-execution-context-stack-2 href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript execution context stack</a>.</p>
+
+  <p>With all this in place, the <dfn id=incumbent-settings-object data-export="">incumbent settings object</dfn> is determined
+  as follows:</p>
+
+  <ol><li><p>Let <var>context</var> be the <a href=#topmost-script-having-execution-context id=incumbent:topmost-script-having-execution-context-4>topmost script-having execution
+   context</a>.<li>
+    <p>If <var>context</var> is null, or if <var>context</var>'s
+    <a href=#skip-when-determining-incumbent-counter id=incumbent:skip-when-determining-incumbent-counter-3>skip-when-determining-incumbent counter</a> is greater than zero, then:</p>
+
+    <ol><li>
+      <p>Assert: the <a href=#backup-incumbent-settings-object-stack id=incumbent:backup-incumbent-settings-object-stack-4>backup incumbent settings object stack</a> is not empty.</p>
+
+      <p class=note>This assert would fail if you try to obtain the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-3>incumbent settings
+      object</a> from inside an algorithm that was triggered neither by <a href=#calling-scripts>calling scripts</a> nor by Web IDL <a href=https://heycam.github.io/webidl/#es-invoking-callback-functions id=incumbent:es-invoking-callback-functions-2 data-x-internal=es-invoking-callback-functions>invoking</a> a callback. For example, it would
+      trigger if you tried to obtain the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-4>incumbent settings object</a> inside an algorithm
+      that ran periodically as part of the <a href=#event-loop id=incumbent:event-loop-2>event loop</a>, with no involvement of author
+      code. In such cases the <a href=#concept-incumbent-everything id=incumbent:concept-incumbent-everything>incumbent</a> concept
+      cannot be used.</p>
+     <li><p>Return the topmost entry of the <a href=#backup-incumbent-settings-object-stack id=incumbent:backup-incumbent-settings-object-stack-5>backup incumbent settings object
+     stack</a>.</ol>
+   <li><p>Return <var>context</var>'s Realm component's <a href=#concept-realm-settings-object id=incumbent:concept-realm-settings-object>settings obect</a>.</ol>
+
+  <p>Then, the <dfn id=concept-incumbent-realm>incumbent Realm</dfn> is the <a href="#environment-settings-object's-realm" id="incumbent:environment-settings-object's-realm">Realm</a> of the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-5>incumbent settings
+  object</a>.</p>
+
+  <p>Similarly, the <dfn id=concept-incumbent-global>incumbent global object</dfn> is the
+  <a href=#concept-settings-object-global id=incumbent:concept-settings-object-global>global object</a> of the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-6>incumbent
+  settings object</a>.</p>
+
+  <hr>
+
+  <p>The following series of examples is intended to make it clear how all of the different
+  mechanisms contribute to the definition of the <a href=#incumbent>incumbent</a> concept:</p>
+
+  <div class=example>
+   <p>Consider the following very simple example:</p>
+
+   <pre>&lt;!DOCTYPE html>
+&lt;iframe>&lt;/iframe>
+&lt;script>
+  new frames[0].MessageChannel();
+&lt;/script></pre>
+
+   <p>When the <code id=incumbent:dom-messagechannel><a href=#dom-messagechannel>MessageChannel()</a></code> constructor looks up the
+   <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-7>incumbent settings object</a> to use as the <a href=#concept-port-owner id=incumbent:concept-port-owner>owner</a> of the new <code id=incumbent:messageport><a href=#messageport>MessagePort</a></code> objects, the
+   <a href=#topmost-script-having-execution-context id=incumbent:topmost-script-having-execution-context-5>topmost script-having execution context</a> will be that corresponding to the
+   <code id=incumbent:the-script-element><a href=#the-script-element>script</a></code> element: it was pushed onto the <a id=incumbent:javascript-execution-context-stack-3 href=https://tc39.github.io/ecma262/#execution-context-stack data-x-internal=javascript-execution-context-stack>JavaScript execution context
+   stack</a> as part of <a href=https://tc39.github.io/ecma262/#sec-runtime-semantics-scriptevaluation id=incumbent:js-scriptevaluation data-x-internal=js-scriptevaluation>ScriptEvaluation</a> during the
+   <a href=#run-a-classic-script id=incumbent:run-a-classic-script>run a classic script</a> algorithm. Since there are no Web IDL callback invocations
+   involved, the context's <a href=#skip-when-determining-incumbent-counter id=incumbent:skip-when-determining-incumbent-counter-4>skip-when-determining-incumbent counter</a> is zero, so it is
+   used to determine the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-8>incumbent settings object</a>; the result is the <a href=#environment-settings-object id=incumbent:environment-settings-object-3>environment
+   settings object</a> of <code>window</code>.</p>
+
+   <p>(In this example, the <a href=#environment-settings-object id=incumbent:environment-settings-object-4>environment settings object</a> of <code>frames[0]</code> is not involved at all. It is the <a href=#current-settings-object id=incumbent:current-settings-object>current settings
+   object</a>, but the <code id=incumbent:dom-messagechannel-2><a href=#dom-messagechannel>MessageChannel()</a></code> constructor
+   cares only about the incumbent, not current.)</p>
+  </div>
+
+  <div class=example>
+   <p>Consider the following more complicated example:</p>
+
+   <pre>&lt;!DOCTYPE html>
+&lt;iframe>&lt;/iframe>
+&lt;script>
+  const bound = frames[0].postMessage.bind(frames[0], "some data", "*");
+  window.setTimeout(bound);
+&lt;/script></pre>
+
+   <p>There are two interesting <a href=#environment-settings-object id=incumbent:environment-settings-object-5>environment settings
+   objects</a> here: that of <code>window</code>, and that of <code>frames[0]</code>. Our concern is: what is the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-9>incumbent settings object</a> at
+   the time that the algorithm for <code id=incumbent:dom-window-postmessage><a href=#dom-window-postmessage>postMessage()</a></code>
+   executes?</p>
+
+   <p>It should be that of <code>window</code>, to capture the intuitive notion that the
+   author script responsible for causing the algorithm to happen is executing in <code>window</code>, not <code>frames[0]</code>. Another way of capturing the
+   intuition here is that invoking algorithms asynchronously (in this case via <code id=incumbent:dom-settimeout><a href=#dom-settimeout>setTimeout()</a></code>) should not change the <a href=#concept-incumbent-everything id=incumbent:concept-incumbent-everything-2>incumbent</a> concept.</p>
+
+   <p>Let us now explain how the steps given above give us our intuitively-desired result of <code>window</code>'s <a href=#relevant-settings-object id=incumbent:relevant-settings-object>relevant settings object</a>.</p>
+
+   <p>When <code>bound</code> is <a href=https://heycam.github.io/webidl/#es-type-mapping id=incumbent:concept-idl-convert data-x-internal=concept-idl-convert>converted</a> to a
+   Web IDL callback type, the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-10>incumbent settings object</a> is that corresponding to <code>window</code> (in the same manner as in our simple example above). Web IDL stores this
+   as the resulting callback value's <a id=incumbent:callback-context href=https://heycam.github.io/webidl/#dfn-callback-context data-x-internal=callback-context>callback context</a>.</p>
+
+   <p>When the <a href=#concept-task id=incumbent:concept-task>task</a> posted by <code id=incumbent:dom-settimeout-2><a href=#dom-settimeout>setTimeout()</a></code> executes, the algorithm for that task uses Web IDL to
+   <a href=https://heycam.github.io/webidl/#es-invoking-callback-functions id=incumbent:es-invoking-callback-functions-3 data-x-internal=es-invoking-callback-functions>invoke</a> the stored callback value. Web IDL in
+   turn calls the above <a href=#prepare-to-run-a-callback id=incumbent:prepare-to-run-a-callback-4>prepare to run a callback</a> algorithm. This pushes the stored
+   <a id=incumbent:callback-context-2 href=https://heycam.github.io/webidl/#dfn-callback-context data-x-internal=callback-context>callback context</a> onto the <a href=#backup-incumbent-settings-object-stack id=incumbent:backup-incumbent-settings-object-stack-6>backup incumbent settings object stack</a>. At
+   this time (inside the timer task) there is no author code on the stack, so the <a href=#topmost-script-having-execution-context id=incumbent:topmost-script-having-execution-context-6>topmost
+   script-having execution context</a> is null, and nothing gets its
+   <a href=#skip-when-determining-incumbent-counter id=incumbent:skip-when-determining-incumbent-counter-5>skip-when-determining-incumbent counter</a> incremented.</p>
+
+   <p>Invoking the callback then calls <code>bound</code>, which in turn calls
+   the <code id=incumbent:dom-window-postmessage-2><a href=#dom-window-postmessage>postMessage()</a></code> method of <code>frames[0]</code>. When the <code id=incumbent:dom-window-postmessage-3><a href=#dom-window-postmessage>postMessage()</a></code>
+   algorithm looks up the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-11>incumbent settings object</a>, there is still no author code on
+   the stack, since the bound function just directly calls the built-in method. So the
+   <a href=#topmost-script-having-execution-context id=incumbent:topmost-script-having-execution-context-7>topmost script-having execution context</a> will be null: the <a id=incumbent:javascript-execution-context-2 href=https://tc39.github.io/ecma262/#sec-execution-contexts data-x-internal=javascript-execution-context>JavaScript execution
+   context</a> stack only contains an execution context corresponding to <code id=incumbent:dom-window-postmessage-4><a href=#dom-window-postmessage>postMessage()</a></code>, with no <a href=https://tc39.github.io/ecma262/#sec-runtime-semantics-scriptevaluation id=incumbent:js-scriptevaluation-2 data-x-internal=js-scriptevaluation>ScriptEvaluation</a> context or similar below it.</p>
+
+   <p>This is where we fall back to the <a href=#backup-incumbent-settings-object-stack id=incumbent:backup-incumbent-settings-object-stack-7>backup incumbent settings object stack</a>. As
+   noted above, it will contain as its topmost entry the <a href=#relevant-settings-object id=incumbent:relevant-settings-object-2>relevant settings object</a> of
+   <code>window</code>. So that is what is used as the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-12>incumbent settings
+   object</a> while executing the <code id=incumbent:dom-window-postmessage-5><a href=#dom-window-postmessage>postMessage()</a></code>
+   algorithm.</p>
+  </div>
+
+  <div class=example>
+   <p>Consider this final, even more convoluted example:</p>
+
+   <pre>&lt;!-- a.html -->
+&lt;!DOCTYPE html>
+&lt;button>click me&lt;/button>
+&lt;iframe>&lt;/iframe>
+&lt;script>
+const bound = frames[0].location.assign.bind(frames[0].location, "https://example.com/");
+document.querySelector("button").addEventListener("click", bound);
+&lt;/script>
+
+&lt;!-- b.html -->
+&lt;!DOCTYPE html>
+&lt;iframe src="a.html">&lt;/iframe>
+&lt;script>
+  const iframe = document.querySelector("iframe");
+  iframe.onload = function onLoad() {
+    iframe.contentWindow.document.querySelector("button").click();
+  };
+&lt;/script></pre>
+
+   <p>Again there are two interesting <a href=#environment-settings-object id=incumbent:environment-settings-object-6>environment
+   settings objects</a> in play: that of <code>a.html</code>, and that of <code>b.html</code>. When the <code id=incumbent:dom-location-assign><a href=#dom-location-assign>location.assign()</a></code>
+   method triggers the <a href=#location-object-navigate id=incumbent:location-object-navigate><code>Location</code>-object navigate</a> algorithm, what will be
+   the <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-13>incumbent settings object</a>? As before, it should intuitively be that of <code>a.html</code>: the <code id=incumbent:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> listener was originally
+   scheduled by <code>a.html</code>, so even if something involving <code>b.html</code> causes the listener to fire, the <a href=#incumbent-everything>incumbent</a> responsible is that of <code>a.html</code>.</p>
+
+   <p>The callback setup is similar to the previous example: when <code>bound</code> is
+   <a href=https://heycam.github.io/webidl/#es-type-mapping id=incumbent:concept-idl-convert-2 data-x-internal=concept-idl-convert>converted</a> to a Web IDL callback type, the
+   <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-14>incumbent settings object</a> is that corresponding to <code>a.html</code>,
+   which is stored as the callback's <a id=incumbent:callback-context-3 href=https://heycam.github.io/webidl/#dfn-callback-context data-x-internal=callback-context>callback context</a>.</p>
+
+   <p>When the <code id=incumbent:dom-click><a href=#dom-click>click()</a></code> method is called inside <code>b.html</code>, it <a href=https://dom.spec.whatwg.org/#concept-event-dispatch id=incumbent:concept-event-dispatch data-x-internal=concept-event-dispatch>dispatches</a> a <code id=incumbent:event-click-2><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event on the button that is inside <code>a.html</code>. This time, when the <a href=#prepare-to-run-a-callback id=incumbent:prepare-to-run-a-callback-5>prepare to run a callback</a> algorithm
+   executes as part of event dispatch, there <em>is</em> author code on the stack; the <a href=#topmost-script-having-execution-context id=incumbent:topmost-script-having-execution-context-8>topmost
+   script-having execution context</a> is that of the <code>onLoad</code> function,
+   whose <a href=#skip-when-determining-incumbent-counter id=incumbent:skip-when-determining-incumbent-counter-6>skip-when-determining-incumbent counter</a> gets incremented. Additionally, <code>a.html</code>'s <a href=#environment-settings-object id=incumbent:environment-settings-object-7>environment settings object</a> (stored as the
+   <code id=incumbent:eventhandler><a href=#eventhandler>EventHandler</a></code>'s <a id=incumbent:callback-context-4 href=https://heycam.github.io/webidl/#dfn-callback-context data-x-internal=callback-context>callback context</a>) is pushed onto the
+   <a href=#backup-incumbent-settings-object-stack id=incumbent:backup-incumbent-settings-object-stack-8>backup incumbent settings object stack</a>.</p>
+
+   <p>Now, when the <a href=#location-object-navigate id=incumbent:location-object-navigate-2><code>Location</code>-object navigate</a> algorithm looks up the
+   <a href=#incumbent-settings-object id=incumbent:incumbent-settings-object-15>incumbent settings object</a>, the <a href=#topmost-script-having-execution-context id=incumbent:topmost-script-having-execution-context-9>topmost script-having execution
+   context</a> is still that of the <code>onLoad</code> function (due to the fact we
+   are using a bound function as the callback). Its <a href=#skip-when-determining-incumbent-counter id=incumbent:skip-when-determining-incumbent-counter-7>skip-when-determining-incumbent
+   counter</a> value is one, however, so we fall back to the <a href=#backup-incumbent-settings-object-stack id=incumbent:backup-incumbent-settings-object-stack-9>backup incumbent settings
+   object stack</a>. This gives us the <a href=#environment-settings-object id=incumbent:environment-settings-object-8>environment settings object</a> of <code>a.html</code>, as expected.</p>
+
+   <p>Note that this means that even though it is the <code id=incumbent:the-iframe-element><a href=#the-iframe-element>iframe</a></code> inside <code>a.html</code> that navigates, it is <code>a.html</code> itself that is used
+   as the <a href=#source-browsing-context id=incumbent:source-browsing-context>source browsing context</a>, which determines among other things the <a href=https://fetch.spec.whatwg.org/#concept-request-client id=incumbent:concept-request-client data-x-internal=concept-request-client>request client</a>. This is <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=26603#c36">perhaps the only justifiable use
+   of the incumbent concept on the web platform</a>; in all other cases the consequences of using it
+   are simply confusing and we hope to one day switch them to use <a href=#current-everything>current</a> or <a href=#relevant-everything>relevant</a> as
+   appropriate.</p>
+  </div>
+
+  <h6 id=current>8.1.3.5.3 Current<a href=#current class=self-link></a></h6>
+
+  <p>The JavaScript specification defines the <a id=current:current-realm-record href=https://tc39.github.io/ecma262/#current-realm data-x-internal=current-realm-record>current Realm Record</a>, sometimes
+  abbreviated to the "current Realm". <a href=#refsJAVASCRIPT>[JAVASCRIPT]</a></p>
+
+  <p>Then, the <dfn id=current-settings-object data-export="">current settings object</dfn> is the <a href=#concept-realm-settings-object id=current:concept-realm-settings-object>environment settings object</a> of the <a id=current:current-realm-record-2 href=https://tc39.github.io/ecma262/#current-realm data-x-internal=current-realm-record>current
+  Realm Record</a>.</p>

@@ -1,0 +1,850 @@
+  <div class=example>
+
+   <p>If a Web page wanted an element to represent a space ship, e.g. as part of a game, it would
+   have to use the <code id=embedding-custom-non-visible-data-with-the-data-*-attributes:classes><a href=#classes>class</a></code> attribute along with <code id=embedding-custom-non-visible-data-with-the-data-*-attributes:attr-data-*-4><a href=#attr-data-*>data-*</a></code> attributes:</p>
+
+   <pre>&lt;div class="spaceship" data-ship-id="92432"
+     data-weapons="laser 2" data-shields="50%"
+     data-x="30" data-y="10" data-z="90">
+ &lt;button class="fire"
+         onclick="spaceships[this.parentNode.dataset.shipId].fire()">
+  Fire
+ &lt;/button>
+&lt;/div></pre>
+
+   <p>Notice how the hyphenated attribute name becomes camel-cased in the API.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>Given the following fragment and elements with similar constructions:</p>
+
+   <pre>&lt;img class="tower" id="tower5" data-x="12" data-y="5"
+     data-ai="robotarget" data-hp="46" data-ability="flames"
+     src="towers/rocket.png" alt="Rocket Tower"></pre>
+
+   <p>...one could imagine a function <code>splashDamage()</code> that takes some arguments, the first
+   of which is the element to process:</p>
+
+   <pre>function splashDamage(node, x, y, damage) {
+  if (node.classList.contains('tower') &amp;&amp; // checking the 'class' attribute
+      node.dataset.x == x &amp;&amp; // reading the 'data-x' attribute
+      node.dataset.y == y) { // reading the 'data-y' attribute
+    var hp = parseInt(node.dataset.hp); // reading the 'data-hp' attribute
+    hp = hp - damage;
+    if (hp &lt; 0) {
+      hp = 0;
+      node.dataset.ai = 'dead'; // setting the 'data-ai' attribute
+      delete node.dataset.ability; // removing the 'data-ability' attribute
+    }
+    node.dataset.hp = hp; // setting the 'data-hp' attribute
+  }
+}</pre>
+
+  </div>
+
+
+  <h4 id=the-innertext-idl-attribute>3.2.7 The <code id=the-innertext-idl-attribute:dom-innertext><a href=#dom-innertext>innerText</a></code> IDL attribute<a href=#the-innertext-idl-attribute class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> innertext<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>4.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>45+</span></span><span class="ie yes"><span>IE</span> <span>6+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>2.3+</span></span><span class="safari yes"><span>Safari</span> <span>3.2+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>9.5+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=innertext">caniuse.com</a></div>
+
+  <dl class=domintro><dt><var>element</var> . <code id=the-innertext-idl-attribute:dom-innertext-2><a href=#dom-innertext>innerText</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the element's text content "as rendered".</p>
+
+    <p>Can be set, to replace the element's children with the given value, but with line breaks
+    converted to <code id=the-innertext-idl-attribute:the-br-element><a href=#the-br-element>br</a></code> elements.</p>
+
+  </dl>
+
+  
+
+  <p>On getting, the <dfn id=dom-innertext><code>innerText</code></dfn> attribute must follow
+  these steps:</p>
+
+  <ol><li><p>If this element is not <a href=#being-rendered id=the-innertext-idl-attribute:being-rendered>being rendered</a>, or if the user agent is a non-CSS user
+   agent, then return the same value as the <code id=the-innertext-idl-attribute:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute on this
+   element.<li>
+    <p>Compute a list of items each of which is a string or a positive integer (a <i>required line
+    break count</i>), by applying the following recursive procedure to each child node
+    <var>node</var> of this element in <a id=the-innertext-idl-attribute:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>, and then concatenating the results
+    to a single list of items.</p>
+
+    <p class=note>Intuitively, a <i>required line break count</i> item means that a certain number
+    of line breaks appear at that point, but they can be collapsed with the line breaks induced by
+    adjacent <i>required line break count</i> items, reminiscent to CSS margin-collapsing.</p>
+
+    <ol><li><p>Let <var>items</var> be the result of recursively applying this procedure to each child
+     of <var>node</var> in <a id=the-innertext-idl-attribute:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>, and then concatenating the results to a single
+     list of items.<li><p>If <var>node</var>'s <a id=the-innertext-idl-attribute:computed-value href=https://drafts.csswg.org/css-cascade/#computed-value data-x-internal=computed-value>computed value</a> of <a id="the-innertext-idl-attribute:'visibility'" href=https://drafts.csswg.org/css2/visufx.html#propdef-visibility data-x-internal="'visibility'">'visibility'</a> is not
+     'visible', then let the result of these substeps be <var>items</var> and abort these
+     substeps.<li>
+      <p>If <var>node</var> has no associated CSS box, then let the result of these substeps be
+      <var>items</var> and abort these substeps. For the purpose of this step, the following
+      elements must act as described if the <a id=the-innertext-idl-attribute:computed-value-2 href=https://drafts.csswg.org/css-cascade/#computed-value data-x-internal=computed-value>computed value</a> of the
+      <a id="the-innertext-idl-attribute:'display'" href=https://drafts.csswg.org/css2/visuren.html#display-prop data-x-internal="'display'">'display'</a> property is not 'none':</p>
+
+      <ul class=brief><li><code id=the-innertext-idl-attribute:the-select-element><a href=#the-select-element>select</a></code> elements have an associated non-replaced inline CSS box whose child
+       boxes include only those of <code id=the-innertext-idl-attribute:the-optgroup-element><a href=#the-optgroup-element>optgroup</a></code> and <code id=the-innertext-idl-attribute:the-option-element><a href=#the-option-element>option</a></code> element child
+       nodes;<li><code id=the-innertext-idl-attribute:the-optgroup-element-2><a href=#the-optgroup-element>optgroup</a></code> elements have an associated non-replaced block-level CSS box whose
+       child boxes include only those of <code id=the-innertext-idl-attribute:the-option-element-2><a href=#the-option-element>option</a></code> element child nodes; and<li><code id=the-innertext-idl-attribute:the-option-element-3><a href=#the-option-element>option</a></code> element have an associated non-replaced block-level CSS box whose
+       child boxes are as normal for non-replaced block-level CSS boxes.</ul>
+
+      <p class=note><var>items</var> can be non-empty due to 'display:contents'.</p>
+     <li><p>If <var>node</var> is a <code id=the-innertext-idl-attribute:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node, then for each CSS text box produced by
+     <var>node</var>, in content order, compute the text of the box after application of the CSS
+     <a id="the-innertext-idl-attribute:'white-space'" href=https://drafts.csswg.org/css-text/#white-space-property data-x-internal="'white-space'">'white-space'</a> processing rules and <a id="the-innertext-idl-attribute:'text-transform'" href=https://drafts.csswg.org/css-text/#text-transform-property data-x-internal="'text-transform'">'text-transform'</a> rules, let the
+     result of these substeps be a list of the resulting strings, and abort these substeps. The CSS
+     <a id="the-innertext-idl-attribute:'white-space'-2" href=https://drafts.csswg.org/css-text/#white-space-property data-x-internal="'white-space'">'white-space'</a> processing rules are slightly modified: collapsible spaces at the
+     end of lines are always collapsed, but they are only removed if the line is the last line of
+     the block, or it ends with a <code id=the-innertext-idl-attribute:the-br-element-2><a href=#the-br-element>br</a></code> element. Soft hyphens should be preserved. <a href=#refsCSSTEXT>[CSSTEXT]</a><li><p>If <var>node</var> is a <code id=the-innertext-idl-attribute:the-br-element-3><a href=#the-br-element>br</a></code> element, then append a string containing a
+     single U+000A LINE FEED (LF) character to <var>items</var>.<li><p>If <var>node</var>'s <a id=the-innertext-idl-attribute:computed-value-3 href=https://drafts.csswg.org/css-cascade/#computed-value data-x-internal=computed-value>computed value</a> of <a id="the-innertext-idl-attribute:'display'-2" href=https://drafts.csswg.org/css2/visuren.html#display-prop data-x-internal="'display'">'display'</a> is
+     <a id="the-innertext-idl-attribute:'table-cell'" href=https://drafts.csswg.org/css-tables/#table-cell data-x-internal="'table-cell'">'table-cell'</a>, and <var>node</var>'s CSS box is not the last
+     <a id="the-innertext-idl-attribute:'table-cell'-2" href=https://drafts.csswg.org/css-tables/#table-cell data-x-internal="'table-cell'">'table-cell'</a> box of its enclosing <a id="the-innertext-idl-attribute:'table-row'" href=https://drafts.csswg.org/css-tables/#table-row data-x-internal="'table-row'">'table-row'</a> box, then append a
+     string containing a single U+0009 CHARACTER TABULATION (tab) character to
+     <var>items</var>.<li><p>If <var>node</var>'s <a id=the-innertext-idl-attribute:computed-value-4 href=https://drafts.csswg.org/css-cascade/#computed-value data-x-internal=computed-value>computed value</a> of <a id="the-innertext-idl-attribute:'display'-3" href=https://drafts.csswg.org/css2/visuren.html#display-prop data-x-internal="'display'">'display'</a> is
+     <a id="the-innertext-idl-attribute:'table-row'-2" href=https://drafts.csswg.org/css-tables/#table-row data-x-internal="'table-row'">'table-row'</a>, and <var>node</var>'s CSS box is not the last
+     <a id="the-innertext-idl-attribute:'table-row'-3" href=https://drafts.csswg.org/css-tables/#table-row data-x-internal="'table-row'">'table-row'</a> box of the nearest ancestor <a id="the-innertext-idl-attribute:'table'" href=https://drafts.csswg.org/css-tables/#table data-x-internal="'table'">'table'</a> box, then append a
+     string containing a single U+000A LINE FEED (LF) character to <var>items</var>.<li><p>If <var>node</var> is a <code id=the-innertext-idl-attribute:the-p-element><a href=#the-p-element>p</a></code> element, then add 2 (a <i>required line break
+     count</i>) at the beginning and end of <var>items</var>.<li>
+      <p>If <var>node</var>'s <a id=the-innertext-idl-attribute:used-value href=https://drafts.csswg.org/css-cascade/#used-value data-x-internal=used-value>used value</a> of <a id="the-innertext-idl-attribute:'display'-4" href=https://drafts.csswg.org/css2/visuren.html#display-prop data-x-internal="'display'">'display'</a> is
+      <a id=the-innertext-idl-attribute:block-level href=https://drafts.csswg.org/css-display/#block-level data-x-internal=block-level>block-level</a> or <a id="the-innertext-idl-attribute:'table-caption'" href=https://drafts.csswg.org/css-tables/#table-caption data-x-internal="'table-caption'">'table-caption'</a>, then add 1 (a <i>required line break
+      count</i>) at the beginning and end of <var>items</var>. <a href=#refsCSSDISPLAY>[CSSDISPLAY]</a></p>
+
+      <p class=note>Floats and absolutely-positioned elements fall into this category.</p>
+     <li><p>Let the result of these substeps be <var>items</var>.</ol>
+   <li><p>Delete any string items whose strings are empty.<li><p>Delete any runs of consecutive <i>required line break count</i> items at the start or end
+   of the list.<li><p>Replace each remaining run of consecutive <i>required line break count</i> items with a
+   string consisting of as many U+000A LINE FEED (LF) characters as the maximum of the values in the
+   <i>required line break count</i> items.<li><p>Return the concatenation of the string items.</ol>
+
+  <p class=note>Note that descendant nodes of most replaced elements (e.g., <code id=the-innertext-idl-attribute:the-textarea-element><a href=#the-textarea-element>textarea</a></code>,
+  <code id=the-innertext-idl-attribute:the-input-element><a href=#the-input-element>input</a></code>, and <code id=the-innertext-idl-attribute:the-video-element><a href=#the-video-element>video</a></code> — but not <code id=the-innertext-idl-attribute:the-button-element><a href=#the-button-element>button</a></code>) are not rendered
+  by CSS, strictly speaking, and therefore have no CSS boxes for the purposes of this algorithm.</p>
+
+  <p class=big-issue>This algorithm is amenable to being generalized to work on <a href=https://dom.spec.whatwg.org/#concept-range id=the-innertext-idl-attribute:concept-range data-x-internal=concept-range>ranges</a>. Then we can use it as the basis for <code id=the-innertext-idl-attribute:selection><a data-x-internal=selection href=https://w3c.github.io/selection-api/#selection-interface>Selection</a></code>'s
+  stringifier and maybe expose it directly on <a href=https://dom.spec.whatwg.org/#concept-range id=the-innertext-idl-attribute:concept-range-2 data-x-internal=concept-range>ranges</a>. See <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=10583">Bugzilla bug 10583</a>.</p>
+
+  <p>On setting, the <code id=the-innertext-idl-attribute:dom-innertext-3><a href=#dom-innertext>innerText</a></code> attribute must follow these
+  steps:</p>
+
+  <ol><li><p>Let <var>document</var> be this element's <a id=the-innertext-idl-attribute:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.<li><p>Let <var>fragment</var> be a new <code id=the-innertext-idl-attribute:documentfragment><a data-x-internal=documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment>DocumentFragment</a></code> object whose <a id=the-innertext-idl-attribute:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+   document</a> is <var>document</var>.<li><p>Let <var>input</var> be the given value.<li><p>Let <var>pointer</var> be a pointer into <var>input</var>, initially pointing at the start
+   of the string.<li><p>Let <var>text</var> be the empty string.<li>
+    <p>While <var>pointer</var> is not past the end of <var>input</var>:</p>
+
+    <ol><li><p><a href=#collect-a-sequence-of-characters id=the-innertext-idl-attribute:collect-a-sequence-of-characters>Collect a sequence of characters</a> that are not U+000A LINE FEED (LF) or
+     U+000D CARRIAGE RETURN (CR) characters. Set <var>text</var> to the collected
+     characters.<li><p>If <var>text</var> is not the empty string, then <a href=https://dom.spec.whatwg.org/#concept-node-append id=the-innertext-idl-attribute:concept-node-append data-x-internal=concept-node-append>append</a> a new <code id=the-innertext-idl-attribute:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node whose <a href=https://dom.spec.whatwg.org/#concept-cd-data id=the-innertext-idl-attribute:concept-cd-data data-x-internal=concept-cd-data>data</a> is <var>text</var> and <a id=the-innertext-idl-attribute:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is
+     <var>document</var> to <var>fragment</var>.<li>
+      <p>While <var>pointer</var> is not past the end of <var>input</var>, and the character at
+      <var>position</var> is either a U+000A LINE FEED (LF) or U+000D CARRIAGE RETURN (CR)
+      character:</p>
+
+      <ol><li><p>If the character at <var>position</var> is a U+000D CARRIAGE RETURN (CR) character and
+       the next character is a U+000A LINE FEED (LF) character, then advance <var>position</var> to
+       the next character in <var>input</var>.<li><p>Advance <var>position</var> to the next character in <var>input</var>.<li><p><a href=https://dom.spec.whatwg.org/#concept-node-append id=the-innertext-idl-attribute:concept-node-append-2 data-x-internal=concept-node-append>Append</a> the result of <a href=https://dom.spec.whatwg.org/#concept-create-element id=the-innertext-idl-attribute:create-an-element data-x-internal=create-an-element>creating an element</a> given <var>document</var>,
+       <code id=the-innertext-idl-attribute:the-br-element-4><a href=#the-br-element>br</a></code>, and the <a id=the-innertext-idl-attribute:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a> to <var>fragment</var>.</ol>
+     </ol>
+   <li><p><a href=https://dom.spec.whatwg.org/#concept-node-replace-all id=the-innertext-idl-attribute:concept-node-replace-all data-x-internal=concept-node-replace-all>Replace all</a> with <var>fragment</var> within
+   this element.</ol>
+
+  
+
+  <h4 id=requirements-relating-to-the-bidirectional-algorithm>3.2.8 Requirements relating to the bidirectional algorithm<a href=#requirements-relating-to-the-bidirectional-algorithm class=self-link></a></h4>
+
+  
+  <h5 id=authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters>3.2.8.1 Authoring conformance criteria for bidirectional-algorithm formatting characters<a href=#authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters class=self-link></a></h5>
+  
+
+  <p><a href=#text-content id=authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters:text-content>Text content</a> in <a href=#html-elements id=authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters:html-elements>HTML elements</a> with <code id=authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> nodes in their
+  <a href=#concept-html-contents id=authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters:concept-html-contents>contents</a>, and text in attributes of <a href=#html-elements id=authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters:html-elements-2>HTML
+  elements</a> that allow free-form text, may contain characters in the ranges U+202A to U+202E
+  and U+2066 to U+2069 (the bidirectional-algorithm formatting characters). <a href=#refsBIDI>[BIDI]</a></p>
+
+  <p class=note>Authors are encouraged to use the <code id=authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters:the-dir-attribute><a href=#the-dir-attribute>dir</a></code> attribute, the
+  <code id=authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters:the-bdo-element><a href=#the-bdo-element>bdo</a></code> element, and the <code id=authoring-conformance-criteria-for-bidirectional-algorithm-formatting-characters:the-bdi-element><a href=#the-bdi-element>bdi</a></code> element, rather than maintaining the
+  bidirectional-algorithm formatting characters manually. The bidirectional-algorithm formatting
+  characters interact poorly with CSS.</p>
+
+
+  
+
+  <h5 id=user-agent-conformance-criteria>3.2.8.2 User agent conformance criteria<a href=#user-agent-conformance-criteria class=self-link></a></h5>
+
+  <p>User agents must implement the Unicode bidirectional algorithm to determine the proper ordering
+  of characters when rendering documents and parts of documents. <a href=#refsBIDI>[BIDI]</a></p>
+
+  <p>The mapping of HTML to the Unicode bidirectional algorithm must be done in one of three ways.
+  Either the user agent must implement CSS, including in particular the CSS
+  <a id="user-agent-conformance-criteria:'unicode-bidi'" href=https://drafts.csswg.org/css-writing-modes/#unicode-bidi data-x-internal="'unicode-bidi'">'unicode-bidi'</a>, <a id="user-agent-conformance-criteria:'direction'" href=https://drafts.csswg.org/css-writing-modes/#direction data-x-internal="'direction'">'direction'</a>, and <a id="user-agent-conformance-criteria:'content'" href=https://drafts.csswg.org/css2/generate.html#content data-x-internal="'content'">'content'</a> properties, and
+  must have, in its user agent style sheet, the rules using those properties given in this
+  specification's <a href=#rendering>rendering</a> section, or, alternatively, the user agent must
+  act as if it implemented just the aforementioned properties and had a user agent style sheet that
+  included all the aforementioned rules, but without letting style sheets specified in documents
+  override them, or, alternatively, the user agent must implement another styling language with
+  equivalent semantics. <a href=#refsCSSGC>[CSSGC]</a></p>
+
+  <p id=bidireq>The following elements and attributes have requirements defined by the <a href=#rendering>rendering</a> section that, due to the requirements in this section, are
+  requirements on all user agents (not just those that <a href=#renderingUA>support the suggested
+  default rendering</a>):</p>
+
+  <ul class=brief><li><code id=user-agent-conformance-criteria:the-dir-attribute><a href=#the-dir-attribute>dir</a></code> attribute<li><code id=user-agent-conformance-criteria:the-bdi-element><a href=#the-bdi-element>bdi</a></code> element<li><code id=user-agent-conformance-criteria:the-bdo-element><a href=#the-bdo-element>bdo</a></code> element<li><code id=user-agent-conformance-criteria:the-br-element><a href=#the-br-element>br</a></code> element<li><code id=user-agent-conformance-criteria:the-pre-element><a href=#the-pre-element>pre</a></code> element<li><code id=user-agent-conformance-criteria:the-textarea-element><a href=#the-textarea-element>textarea</a></code> element<li><code id=user-agent-conformance-criteria:the-wbr-element><a href=#the-wbr-element>wbr</a></code> element</ul>
+
+  
+
+  
+
+  <h4 id=wai-aria>3.2.9 Requirements related to ARIA and to platform accessibility APIs<a href=#wai-aria class=self-link></a></h4>
+
+  <p>User agent requirements for implementing Accessibility API semantics on <a href=#html-elements id=wai-aria:html-elements>HTML
+  elements</a> are defined in <cite>HTML Accessibility API Mappings</cite>. <a href=#refsHTMLAAM>[HTMLAAM]</a></p>
+
+  <p>Conformance checker requirements for checking use of ARIA <code id=wai-aria:attr-aria-role><a href=#attr-aria-role>role</a></code> and <code id=wai-aria:attr-aria-*><a href=#attr-aria-*>aria-*</a></code> attributes on
+  <a href=#html-elements id=wai-aria:html-elements-2>HTML elements</a> are defined in <cite>ARIA in HTML</cite>. <a href=#refsARIAHTML>[ARIAHTML]</a></p>
+
+  
+
+
+
+  <h2 id=semantics>4 The elements of HTML<a href=#semantics class=self-link></a></h2>
+
+  <h3 id=the-root-element>4.1 The document element<a href=#the-root-element class=self-link></a></h3>
+
+  <h4 id=the-html-element>4.1.1 The <dfn><code>html</code></dfn> element<a href=#the-html-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-html-element:concept-element-categories>Categories</a>:<dd>None.<dt><a href=#concept-element-contexts id=the-html-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>As document's <a id=the-html-element:document-element href=https://dom.spec.whatwg.org/#document-element data-x-internal=document-element>document element</a>.<dd>Wherever a subdocument fragment is allowed in a compound document.<dt><a href=#concept-element-content-model id=the-html-element:concept-element-content-model>Content model</a>:<dd>A <code id=the-html-element:the-head-element><a href=#the-head-element>head</a></code> element followed by a <code id=the-html-element:the-body-element><a href=#the-body-element>body</a></code> element.<dt><a href=#concept-element-tag-omission id=the-html-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>An <code id=the-html-element:the-html-element><a href=#the-html-element>html</a></code> element's <a href=#syntax-start-tag id=the-html-element:syntax-start-tag>start tag</a> can be omitted
+   if the first thing inside the <code id=the-html-element:the-html-element-2><a href=#the-html-element>html</a></code> element is not a <a href=#syntax-comments id=the-html-element:syntax-comments>comment</a>.<dd>An <code id=the-html-element:the-html-element-3><a href=#the-html-element>html</a></code> element's <a href=#syntax-end-tag id=the-html-element:syntax-end-tag>end tag</a> can be omitted if
+   the <code id=the-html-element:the-html-element-4><a href=#the-html-element>html</a></code> element is not immediately followed by a <a href=#syntax-comments id=the-html-element:syntax-comments-2>comment</a>.<dt><a href=#concept-element-attributes id=the-html-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-html-element:global-attributes>Global attributes</a><dd><code id=the-html-element:attr-html-manifest><a href=#attr-html-manifest>manifest</a></code> — <a href=#concept-appcache-manifest id=the-html-element:concept-appcache-manifest>Application cache manifest</a><dt><a href=#concept-element-dom id=the-html-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-html-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlhtmlelement>HTMLHtmlElement</dfn> : <a href=#htmlelement id=the-html-element:htmlelement>HTMLElement</a> {
+  // <a href="#HTMLHtmlElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-html-element:the-html-element-5><a href=#the-html-element>html</a></code> element <a href=#represents id=the-html-element:represents>represents</a> the root of an HTML document.</p>
+
+  <p>Authors are encouraged to specify a <code id=the-html-element:attr-lang><a href=#attr-lang>lang</a></code> attribute on the root
+  <code id=the-html-element:the-html-element-6><a href=#the-html-element>html</a></code> element, giving the document's language. This aids speech synthesis tools to
+  determine what pronunciations to use, translation tools to determine what rules to use, and so
+  forth.</p>
+
+
+  <p>The <dfn id=attr-html-manifest><code>manifest</code></dfn> attribute gives the address of
+  the document's <a href=#application-cache id=the-html-element:application-cache>application cache</a> <a href=#concept-appcache-manifest id=the-html-element:concept-appcache-manifest-2>manifest</a>, if there is one. If the attribute is present,
+  the attribute's value must be a <a href=#valid-non-empty-url-potentially-surrounded-by-spaces id=the-html-element:valid-non-empty-url-potentially-surrounded-by-spaces>valid non-empty URL potentially surrounded by
+  spaces</a>.</p>
+
+  <p class=critical>The <code id=the-html-element:attr-html-manifest-2><a href=#attr-html-manifest>manifest</a></code> attribute is part of the
+  legacy "<a href=#offline>offline Web applications</a>" feature, which is in the process of being
+  removed from the Web platform. (This is a long process that takes many years.) Using the <code id=the-html-element:attr-html-manifest-3><a href=#attr-html-manifest>manifest</a></code> attribute at this time is highly discouraged. Use
+  service workers instead. <a href=#refsSW>[SW]</a></p>
+
+  <p>The <code id=the-html-element:attr-html-manifest-4><a href=#attr-html-manifest>manifest</a></code> attribute only <a href=#concept-appcache-init id=the-html-element:concept-appcache-init>has an effect</a> during the early stages of document load.
+  Changing the attribute dynamically thus has no effect (and thus, no DOM API is provided for this
+  attribute).</p>
+
+  <p class=note>For the purposes of <a href=#concept-appcache-init id=the-html-element:concept-appcache-init-2>application cache
+  selection</a>, later <code id=the-html-element:the-base-element><a href=#the-base-element>base</a></code> elements cannot affect the <a href=#parse-a-url id=the-html-element:parse-a-url>parsing of URLs</a> in <code id=the-html-element:attr-html-manifest-5><a href=#attr-html-manifest>manifest</a></code> attributes, as
+  the attributes are processed before those elements are seen.</p>
+
+  <p class=note>The <code id=the-html-element:dom-applicationcache><a href=#dom-applicationcache>window.applicationCache</a></code> IDL
+  attribute provides scripted access to the offline <a href=#application-cache id=the-html-element:application-cache-2>application cache</a> mechanism.</p>
+
+
+
+  <div class=example>
+
+   <p>The <code id=the-html-element:the-html-element-7><a href=#the-html-element>html</a></code> element in the following example declares that the document's language
+   is English.</p>
+
+   <pre>&lt;!DOCTYPE html>
+<strong>&lt;html lang="en"></strong>
+&lt;head>
+&lt;title>Swapping Songs&lt;/title>
+&lt;/head>
+&lt;body>
+&lt;h1>Swapping Songs&lt;/h1>
+&lt;p>Tonight I swapped some of the songs I wrote with some friends, who
+gave me some of the songs they wrote. I love sharing my music.&lt;/p>
+&lt;/body>
+<strong>&lt;/html></strong></pre>
+
+  </div>
+
+
+
+
+  <h3 id=document-metadata>4.2 Document metadata<a href=#document-metadata class=self-link></a></h3>
+
+  <h4 id=the-head-element data-dfn-type=element data-lt=head>4.2.1 The <dfn><code>head</code></dfn> element<a href=#the-head-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-head-element:concept-element-categories>Categories</a>:<dd>None.<dt><a href=#concept-element-contexts id=the-head-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>As the first element in an <code id=the-head-element:the-html-element><a href=#the-html-element>html</a></code> element.<dt><a href=#concept-element-content-model id=the-head-element:concept-element-content-model>Content model</a>:<dd>If the document is <a href=#an-iframe-srcdoc-document id=the-head-element:an-iframe-srcdoc-document>an <code>iframe</code> <code>srcdoc</code> document</a> or if title information is available from a higher-level protocol: Zero or more elements of <a href=#metadata-content-2 id=the-head-element:metadata-content-2>metadata content</a>, of which no more than one is a <code id=the-head-element:the-title-element><a href=#the-title-element>title</a></code> element and no more than one is a <code id=the-head-element:the-base-element><a href=#the-base-element>base</a></code> element.<dd>Otherwise: One or more elements of <a href=#metadata-content-2 id=the-head-element:metadata-content-2-2>metadata content</a>, of which exactly one is a <code id=the-head-element:the-title-element-2><a href=#the-title-element>title</a></code> element and no more than one is a <code id=the-head-element:the-base-element-2><a href=#the-base-element>base</a></code> element.<dt><a href=#concept-element-tag-omission id=the-head-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>A <code id=the-head-element:the-head-element><a href=#the-head-element>head</a></code> element's <a href=#syntax-start-tag id=the-head-element:syntax-start-tag>start tag</a> can be omitted if
+   the element is empty, or if the first thing inside the <code id=the-head-element:the-head-element-2><a href=#the-head-element>head</a></code> element is an
+   element.<dd>A <code id=the-head-element:the-head-element-3><a href=#the-head-element>head</a></code> element's <a href=#syntax-end-tag id=the-head-element:syntax-end-tag>end tag</a> can be omitted if the
+   <code id=the-head-element:the-head-element-4><a href=#the-head-element>head</a></code> element is not immediately followed by a <a href=#space-character id=the-head-element:space-character>space character</a> or a <a href=#syntax-comments id=the-head-element:syntax-comments>comment</a>.<dt><a href=#concept-element-attributes id=the-head-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-head-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-head-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-head-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlheadelement>HTMLHeadElement</dfn> : <a href=#htmlelement id=the-head-element:htmlelement>HTMLElement</a> {};</pre>
+   </dl>
+
+  <p>The <code id=the-head-element:the-head-element-5><a href=#the-head-element>head</a></code> element <a href=#represents id=the-head-element:represents>represents</a> a collection of metadata for the
+  <code id=the-head-element:document><a href=#document>Document</a></code>.</p>
+
+  <div class=example>
+
+   <p>The collection of metadata in a <code id=the-head-element:the-head-element-6><a href=#the-head-element>head</a></code> element can be large or small. Here is an
+   example of a very short one:</p>
+
+   <pre>&lt;!doctype html>
+&lt;html lang=en>
+ &lt;head>
+  &lt;title>A document with a short head&lt;/title>
+ &lt;/head>
+ &lt;body>
+ ...</pre>
+
+   <p>Here is an example of a longer one:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;HTML LANG="EN">
+ &lt;HEAD>
+  &lt;META CHARSET="UTF-8">
+  &lt;BASE HREF="https://www.example.com/">
+  &lt;TITLE>An application with a long head&lt;/TITLE>
+  &lt;LINK REL="STYLESHEET" HREF="default.css">
+  &lt;LINK REL="STYLESHEET ALTERNATE" HREF="big.css" TITLE="Big Text">
+  &lt;SCRIPT SRC="support.js">&lt;/SCRIPT>
+  &lt;META NAME="APPLICATION-NAME" CONTENT="Long headed application">
+ &lt;/HEAD>
+ &lt;BODY>
+ ...</pre>
+
+  </div>
+
+  <p class=note>The <code id=the-head-element:the-title-element-3><a href=#the-title-element>title</a></code> element is a required child in most situations, but when a
+  higher-level protocol provides title information, e.g. in the Subject line of an e-mail when HTML
+  is used as an e-mail authoring format, the <code id=the-head-element:the-title-element-4><a href=#the-title-element>title</a></code> element can be omitted.</p>
+
+
+
+  <h4 id=the-title-element>4.2.2 The <dfn><code>title</code></dfn> element<a href=#the-title-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-title-element:concept-element-categories>Categories</a>:<dd><a href=#metadata-content-2 id=the-title-element:metadata-content-2>Metadata content</a>.<dt><a href=#concept-element-contexts id=the-title-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>In a <code id=the-title-element:the-head-element><a href=#the-head-element>head</a></code> element containing no other <code id=the-title-element:the-title-element><a href=#the-title-element>title</a></code> elements.<dt><a href=#concept-element-content-model id=the-title-element:concept-element-content-model>Content model</a>:<dd><a href=#text-content id=the-title-element:text-content>Text</a> that is not <a href=#inter-element-whitespace id=the-title-element:inter-element-whitespace>inter-element whitespace</a>.<dt><a href=#concept-element-tag-omission id=the-title-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-title-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-title-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-title-element:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-title-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmltitleelement>HTMLTitleElement</dfn> : <a href=#htmlelement id=the-title-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-title-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-title-text id=the-title-element:dom-title-text>text</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-title-element:the-title-element-2><a href=#the-title-element>title</a></code> element <a href=#represents id=the-title-element:represents>represents</a> the document's title or name. Authors
+  should use titles that identify their documents even when they are used out of context, for
+  example in a user's history or bookmarks, or in search results. The document's title is often
+  different from its first heading, since the first heading does not have to stand alone when taken
+  out of context.</p>
+
+  <p>There must be no more than one <code id=the-title-element:the-title-element-3><a href=#the-title-element>title</a></code> element per document.</p>
+
+  <p class=note>If it's reasonable for the <code id=the-title-element:document><a href=#document>Document</a></code> to have no title, then the
+  <code id=the-title-element:the-title-element-4><a href=#the-title-element>title</a></code> element is probably not required. See the <code id=the-title-element:the-head-element-2><a href=#the-head-element>head</a></code> element's content
+  model for a description of when the element is required.</p>
+
+
+  <dl class=domintro><dt><var>title</var> . <code id=the-title-element:dom-title-text-2><a href=#dom-title-text>text</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the <a href=#child-text-content id=the-title-element:child-text-content>child text content</a> of the element.</p>
+
+    <p>Can be set, to replace the element's children with the given value.</p>
+
+   </dl>
+
+  
+
+  <p>The IDL attribute <dfn id=dom-title-text><code>text</code></dfn> must return the
+  <a href=#child-text-content id=the-title-element:child-text-content-2>child text content</a> of the <code id=the-title-element:the-title-element-5><a href=#the-title-element>title</a></code> element. On setting, it must act the
+  same way as the <code id=the-title-element:textcontent><a data-x-internal=textcontent href=https://dom.spec.whatwg.org/#dom-node-textcontent>textContent</a></code> IDL attribute.</p>
+
+  
+
+
+  <div class=example>
+
+   <p>Here are some examples of appropriate titles, contrasted with the top-level headings that
+   might be used on those same pages.</p>
+
+   <pre>  &lt;title>Introduction to The Mating Rituals of Bees&lt;/title>
+    ...
+  &lt;h1>Introduction&lt;/h1>
+  &lt;p>This companion guide to the highly successful
+  &lt;cite>Introduction to Medieval Bee-Keeping&lt;/cite> book is...</pre>
+
+   <p>The next page might be a part of the same site. Note how the title describes the subject
+   matter unambiguously, while the first heading assumes the reader knows what the context is and
+   therefore won't wonder if the dances are Salsa or Waltz:</p>
+
+   <pre>  &lt;title>Dances used during bee mating rituals&lt;/title>
+    ...
+  &lt;h1>The Dances&lt;/h1></pre>
+
+  </div>
+
+  <p>The string to use as the document's title is given by the <code id=the-title-element:document.title><a href=#document.title>document.title</a></code> IDL attribute.</p>
+
+  
+
+  <p>User agents should use the document's title when referring to the document in their user
+  interface. When the contents of a <code id=the-title-element:the-title-element-6><a href=#the-title-element>title</a></code> element are used in this way, <a href=#the-directionality id=the-title-element:the-directionality>the
+  directionality</a> of that <code id=the-title-element:the-title-element-7><a href=#the-title-element>title</a></code> element should be used to set the directionality
+  of the document's title in the user interface.</p>
+
+  
+
+
+  <h4 id=the-base-element data-dfn-type=element data-lt=base>4.2.3 The <dfn><code>base</code></dfn> element<a href=#the-base-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-base-element:concept-element-categories>Categories</a>:<dd><a href=#metadata-content-2 id=the-base-element:metadata-content-2>Metadata content</a>.<dt><a href=#concept-element-contexts id=the-base-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>In a <code id=the-base-element:the-head-element><a href=#the-head-element>head</a></code> element containing no other <code id=the-base-element:the-base-element><a href=#the-base-element>base</a></code> elements.<dt><a href=#concept-element-content-model id=the-base-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-base-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-base-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-base-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-base-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-base-element:global-attributes>Global attributes</a><dd><code id=the-base-element:attr-base-href><a href=#attr-base-href>href</a></code> — <a href=#document-base-url id=the-base-element:document-base-url>Document base URL</a><dd><code id=the-base-element:attr-base-target><a href=#attr-base-target>target</a></code> — Default <a href=#browsing-context id=the-base-element:browsing-context>browsing context</a> for <a href=#hyperlink id=the-base-element:hyperlink>hyperlink</a> <a href=#navigate id=the-base-element:navigate>navigation</a> and <a href=#form-submission-2 id=the-base-element:form-submission-2>form submission</a><dt><a href=#concept-element-dom id=the-base-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-base-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlbaseelement>HTMLBaseElement</dfn> : <a href=#htmlelement id=the-base-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-base-element:cereactions>CEReactions</a>] attribute USVString <a href=#dom-base-href id=the-base-element:dom-base-href>href</a>;
+  [<a href=#cereactions id=the-base-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-base-target id=the-base-element:dom-base-target>target</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-base-element:the-base-element-2><a href=#the-base-element>base</a></code> element allows authors to specify the <a href=#document-base-url id=the-base-element:document-base-url-2>document base URL</a> for
+  the purposes of <a href=#parse-a-url id=the-base-element:parse-a-url>parsing URLs</a>, and the name of the default
+  <a href=#browsing-context id=the-base-element:browsing-context-2>browsing context</a> for the purposes of <a href=#following-hyperlinks-2 id=the-base-element:following-hyperlinks-2>following hyperlinks</a>. The element
+  does not <a href=#represents id=the-base-element:represents>represent</a> any content beyond this information.</p>
+
+  <p>There must be no more than one <code id=the-base-element:the-base-element-3><a href=#the-base-element>base</a></code> element per document.</p>
+
+  <p>A <code id=the-base-element:the-base-element-4><a href=#the-base-element>base</a></code> element must have either an <code id=the-base-element:attr-base-href-2><a href=#attr-base-href>href</a></code>
+  attribute, a <code id=the-base-element:attr-base-target-2><a href=#attr-base-target>target</a></code> attribute, or both.</p>
+
+  <p>The <dfn id=attr-base-href><code>href</code></dfn> content attribute, if specified, must
+  contain a <a href=#valid-url-potentially-surrounded-by-spaces id=the-base-element:valid-url-potentially-surrounded-by-spaces>valid URL potentially surrounded by spaces</a>.</p>
+
+  <p>A <code id=the-base-element:the-base-element-5><a href=#the-base-element>base</a></code> element, if it has an <code id=the-base-element:attr-base-href-3><a href=#attr-base-href>href</a></code> attribute,
+  must come before any other elements in the tree that have attributes defined as taking <a href=https://url.spec.whatwg.org/#concept-url id=the-base-element:url data-x-internal=url>URLs</a>, except the <code id=the-base-element:the-html-element><a href=#the-html-element>html</a></code> element (its <code id=the-base-element:attr-html-manifest><a href=#attr-html-manifest>manifest</a></code> attribute isn't affected by <code id=the-base-element:the-base-element-6><a href=#the-base-element>base</a></code>
+  elements).</p>
+
+  
+
+  <p class=note>If there are multiple <code id=the-base-element:the-base-element-7><a href=#the-base-element>base</a></code> elements with <code id=the-base-element:attr-base-href-4><a href=#attr-base-href>href</a></code> attributes, all but the first are ignored.</p>
+
+  
+
+  <p>The <dfn id=attr-base-target><code>target</code></dfn> attribute, if specified, must
+  contain a <a href=#valid-browsing-context-name-or-keyword id=the-base-element:valid-browsing-context-name-or-keyword>valid browsing context name or keyword</a>, which specifies which
+  <a href=#browsing-context id=the-base-element:browsing-context-3>browsing context</a> is to be used as the default when <a href=#hyperlink id=the-base-element:hyperlink-2>hyperlinks</a> and <a href=#the-form-element id=the-base-element:the-form-element>forms</a> in the
+  <code id=the-base-element:document><a href=#document>Document</a></code> cause <a href=#navigate id=the-base-element:navigate-2>navigation</a>.</p>
+
+  <p>A <code id=the-base-element:the-base-element-8><a href=#the-base-element>base</a></code> element, if it has a <code id=the-base-element:attr-base-target-3><a href=#attr-base-target>target</a></code>
+  attribute, must come before any elements in the tree that represent <a href=#hyperlink id=the-base-element:hyperlink-3>hyperlinks</a>.</p>
+
+  
+
+  <p class=note>If there are multiple <code id=the-base-element:the-base-element-9><a href=#the-base-element>base</a></code> elements with <code id=the-base-element:attr-base-target-4><a href=#attr-base-target>target</a></code> attributes, all but the first are ignored.</p>
+
+  <p>A <code id=the-base-element:the-base-element-10><a href=#the-base-element>base</a></code> element that is the first <code id=the-base-element:the-base-element-11><a href=#the-base-element>base</a></code> element with an <code id=the-base-element:attr-base-href-5><a href=#attr-base-href>href</a></code> content attribute <a id=the-base-element:in-a-document-tree href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a> has a
+  <dfn id=frozen-base-url>frozen base URL</dfn>. The <a href=#frozen-base-url id=the-base-element:frozen-base-url>frozen base URL</a> must be <a href=#immediately id=the-base-element:immediately>immediately</a>
+  <a href=#set-the-frozen-base-url id=the-base-element:set-the-frozen-base-url>set</a> for an element whenever any of the following
+  situations occur:</p>
+
+  <ul class=brief><li>The <code id=the-base-element:the-base-element-12><a href=#the-base-element>base</a></code> element becomes the first <code id=the-base-element:the-base-element-13><a href=#the-base-element>base</a></code> element in <a id=the-base-element:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree
+   order</a> with an <code id=the-base-element:attr-base-href-6><a href=#attr-base-href>href</a></code> content attribute in its
+   <code id=the-base-element:document-2><a href=#document>Document</a></code>.<li>The <code id=the-base-element:the-base-element-14><a href=#the-base-element>base</a></code> element is the first <code id=the-base-element:the-base-element-15><a href=#the-base-element>base</a></code> element in <a id=the-base-element:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree
+   order</a> with an <code id=the-base-element:attr-base-href-7><a href=#attr-base-href>href</a></code> content attribute in its
+   <code id=the-base-element:document-3><a href=#document>Document</a></code>, and its <code id=the-base-element:attr-base-href-8><a href=#attr-base-href>href</a></code> content attribute is
+   changed.</ul>
+
+  <p>To <dfn id=set-the-frozen-base-url data-export="">set the frozen base URL</dfn> for an element <var>element</var>:</p>
+
+  <ol><li><p>Let <var>document</var> be <var>element</var>'s <a id=the-base-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.
+
+   <li><p>Let <var>urlRecord</var> be the result of <a href=https://url.spec.whatwg.org/#concept-url-parser id=the-base-element:url-parser data-x-internal=url-parser>parsing</a> the
+   value of <var>element</var>'s <code id=the-base-element:attr-base-href-9><a href=#attr-base-href>href</a></code> content attribute with
+   <var>document</var>'s <a href=#fallback-base-url id=the-base-element:fallback-base-url>fallback base URL</a>, and <var>document</var>'s <a href=https://dom.spec.whatwg.org/#concept-document-encoding id="the-base-element:document's-character-encoding" data-x-internal="document's-character-encoding">character encoding</a>. (Thus, the <code id=the-base-element:the-base-element-16><a href=#the-base-element>base</a></code>
+   element isn't affected by itself.)<li><p>Set <var>element</var>'s <a href=#frozen-base-url id=the-base-element:frozen-base-url-2>frozen base URL</a> to <var>document</var>'s
+   <a href=#fallback-base-url id=the-base-element:fallback-base-url-2>fallback base URL</a>, if <var>urlRecord</var> is failure or running <a id=the-base-element:is-base-allowed-for-document href=https://w3c.github.io/webappsec-csp/#allow-base-for-document data-x-internal=is-base-allowed-for-document>Is base
+   allowed for Document?</a> on the <a href=#resulting-url-record id=the-base-element:resulting-url-record>resulting URL record</a> and <var>document</var>
+   returns "<code>Blocked</code>", and to <var>urlRecord</var> otherwise.</ol>
+
+  <p>The <dfn id=dom-base-href><code>href</code></dfn> IDL attribute, on getting, must return
+  the result of running the following algorithm:
+  
+
+  <ol><li><p>Let <var>document</var> be <var>element</var>'s <a id=the-base-element:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>.
+
+   <li><p>Let <var>url</var> be the value of the <code id=the-base-element:attr-base-href-10><a href=#attr-base-href>href</a></code>
+   attribute of this element, if it has one, and the empty string otherwise.<li><p>Let <var>urlRecord</var> be the result of <a href=https://url.spec.whatwg.org/#concept-url-parser id=the-base-element:url-parser-2 data-x-internal=url-parser>parsing</a>
+   <var>url</var> with <var>document</var>'s <a href=#fallback-base-url id=the-base-element:fallback-base-url-3>fallback base URL</a>, and
+   <var>document</var>'s <a href=https://dom.spec.whatwg.org/#concept-document-encoding id="the-base-element:document's-character-encoding-2" data-x-internal="document's-character-encoding">character encoding</a>.
+   (Thus, the <code id=the-base-element:the-base-element-17><a href=#the-base-element>base</a></code> element isn't affected by other <code id=the-base-element:the-base-element-18><a href=#the-base-element>base</a></code> elements or
+   itself.)<li><p>If <var>urlRecord</var> is failure, return <var>url</var>.<li><p>Return the <a href=https://url.spec.whatwg.org/#concept-url-serializer id=the-base-element:concept-url-serializer data-x-internal=concept-url-serializer>serialization</a> of
+   <var>urlRecord</var>.</ol>
+
+  <p>The <code id=the-base-element:dom-base-href-2><a href=#dom-base-href>href</a></code> IDL attribute, on setting, must set the <code id=the-base-element:attr-base-href-11><a href=#attr-base-href>href</a></code> content attribute to the given new value.</p>
+
+  <p>The <dfn id=dom-base-target><code>target</code></dfn> IDL attribute must
+  <a href=#reflect id=the-base-element:reflect>reflect</a> the content attribute of the same name.</p>
+
+  
+
+  <div class=example>
+
+   <p>In this example, a <code id=the-base-element:the-base-element-19><a href=#the-base-element>base</a></code> element is used to set the <a href=#document-base-url id=the-base-element:document-base-url-3>document base
+   URL</a>:</p>
+
+   <pre>&lt;!DOCTYPE html>
+&lt;html lang="en">
+    &lt;head>
+        &lt;title>This is an example for the &amp;lt;base&amp;gt; element&lt;/title>
+        &lt;base href="https://www.example.com/news/index.html">
+    &lt;/head>
+    &lt;body>
+        &lt;p>Visit the &lt;a href="archives.html">archives&lt;/a>.&lt;/p>
+    &lt;/body>
+&lt;/html></pre>
+
+   <p>The link in the above example would be a link to "<code>https://www.example.com/news/archives.html</code>".</p>
+
+  </div>
+
+
+
+
+  <h4 id=the-link-element data-dfn-type=element data-lt=link>4.2.4 The <dfn><code>link</code></dfn> element<a href=#the-link-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21622" title="CSSOM defines algorithms named &quot;create a style sheet&quot; and various other similar ones.  These need to be explicitly invoked somehow so that <link rel=stylesheet> elements correctly contribute to document.styleSheets.">21622</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-link-element:concept-element-categories>Categories</a>:<dd><a href=#metadata-content-2 id=the-link-element:metadata-content-2>Metadata content</a>.<dd>If the element is <a href=#allowed-in-the-body id=the-link-element:allowed-in-the-body>allowed in the body</a>: <a href=#flow-content-2 id=the-link-element:flow-content-2>flow content</a>.<dd>If the element is <a href=#allowed-in-the-body id=the-link-element:allowed-in-the-body-2>allowed in the body</a>: <a href=#phrasing-content-2 id=the-link-element:phrasing-content-2>phrasing content</a>.<dt><a href=#concept-element-contexts id=the-link-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#metadata-content-2 id=the-link-element:metadata-content-2-2>metadata content</a> is expected.<dd>In a <code id=the-link-element:the-noscript-element><a href=#the-noscript-element>noscript</a></code> element that is a child of a <code id=the-link-element:the-head-element><a href=#the-head-element>head</a></code> element.<dd>If the element is <a href=#allowed-in-the-body id=the-link-element:allowed-in-the-body-3>allowed in the body</a>: where <a href=#phrasing-content-2 id=the-link-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-link-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-link-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-link-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-link-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-link-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-link-element:global-attributes>Global attributes</a><dd><code id=the-link-element:attr-link-href><a href=#attr-link-href>href</a></code> — Address of the <a href=#hyperlink id=the-link-element:hyperlink>hyperlink</a><dd><code id=the-link-element:attr-link-crossorigin><a href=#attr-link-crossorigin>crossorigin</a></code> — How the element handles crossorigin requests<dd><code id=the-link-element:attr-link-rel><a href=#attr-link-rel>rel</a></code> — Relationship between the document containing the hyperlink and the destination resource<dd><code id=the-link-element:attr-link-as><a href=#attr-link-as>as</a></code> — Destination for a preload request (for <code id=the-link-element:attr-link-rel-2><a href=#attr-link-rel>rel</a></code>="<code id=the-link-element:link-type-preload><a href=#link-type-preload>preload</a></code>")<dd><code id=the-link-element:attr-link-media><a href=#attr-link-media>media</a></code> — Applicable media<dd><code id=the-link-element:attr-link-nonce><a href=#attr-link-nonce>nonce</a></code> — Cryptographic nonce used in <cite>Content Security Policy</cite> checks <a href=#refsCSP>[CSP]</a><dd><code id=the-link-element:attr-link-integrity><a href=#attr-link-integrity>integrity</a></code> — Integrity metadata used in <cite>Subresource Integrity</cite> checks <a href=#refsSRI>[SRI]</a><dd><code id=the-link-element:attr-link-hreflang><a href=#attr-link-hreflang>hreflang</a></code> — Language of the linked resource<dd><code id=the-link-element:attr-link-type><a href=#attr-link-type>type</a></code> — Hint for the type of the referenced resource<dd><code id=the-link-element:attr-link-sizes><a href=#attr-link-sizes>sizes</a></code> — Sizes of the icons (for <code id=the-link-element:attr-link-rel-3><a href=#attr-link-rel>rel</a></code>="<code id=the-link-element:rel-icon><a href=#rel-icon>icon</a></code>")<dd><code id=the-link-element:attr-link-referrerpolicy><a href=#attr-link-referrerpolicy>referrerpolicy</a></code> — Determines the <a id=the-link-element:referrer-policy href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a> for <a href=https://fetch.spec.whatwg.org/#concept-fetch id=the-link-element:concept-fetch data-x-internal=concept-fetch>fetches</a> initiated by the element<dd>Also, the <code id=the-link-element:attr-link-title><a href=#attr-link-title>title</a></code> attribute <a href=#attr-link-title id=the-link-element:attr-link-title-2>has special semantics</a> on this element: Title of the link; <a id=the-link-element:css-style-sheet-set-name href=https://drafts.csswg.org/cssom/#css-style-sheet-set-name data-x-internal=css-style-sheet-set-name>CSS style sheet set name</a>.<dt><a href=#concept-element-dom id=the-link-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-link-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmllinkelement>HTMLLinkElement</dfn> : <a href=#htmlelement id=the-link-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-link-element:cereactions>CEReactions</a>] attribute USVString <a href=#dom-link-href id=the-link-element:dom-link-href>href</a>;
+  [<a href=#cereactions id=the-link-element:cereactions-2>CEReactions</a>] attribute DOMString? <a href=#dom-link-crossorigin id=the-link-element:dom-link-crossorigin>crossOrigin</a>;
+  [<a href=#cereactions id=the-link-element:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-link-rel id=the-link-element:dom-link-rel>rel</a>;
+  [<a href=#cereactions id=the-link-element:cereactions-4>CEReactions</a>] attribute <a id=the-link-element:requestdestination href=https://fetch.spec.whatwg.org/#requestdestination data-x-internal=requestdestination>RequestDestination</a> <a href=#dom-link-as id=the-link-element:dom-link-as>as</a>; // (default "")
+  [<a href=#cereactions id=the-link-element:cereactions-5>CEReactions</a>, SameObject, PutForwards=<a href=https://dom.spec.whatwg.org/#dom-domtokenlist-value id=the-link-element:dom-domtokenlist-value data-x-internal=dom-domtokenlist-value>value</a>] readonly attribute <a id=the-link-element:domtokenlist href=https://dom.spec.whatwg.org/#interface-domtokenlist data-x-internal=domtokenlist>DOMTokenList</a> <a href=#dom-link-rellist id=the-link-element:dom-link-rellist>relList</a>;
+  [<a href=#cereactions id=the-link-element:cereactions-6>CEReactions</a>] attribute DOMString <a href=#dom-link-media id=the-link-element:dom-link-media>media</a>;
+  [<a href=#cereactions id=the-link-element:cereactions-7>CEReactions</a>] attribute DOMString <a href=#dom-link-nonce id=the-link-element:dom-link-nonce>nonce</a>;
+  [<a href=#cereactions id=the-link-element:cereactions-8>CEReactions</a>] attribute DOMString <a href=#dom-link-integrity id=the-link-element:dom-link-integrity>integrity</a>;
+  [<a href=#cereactions id=the-link-element:cereactions-9>CEReactions</a>] attribute DOMString <a href=#dom-link-hreflang id=the-link-element:dom-link-hreflang>hreflang</a>;
+  [<a href=#cereactions id=the-link-element:cereactions-10>CEReactions</a>] attribute DOMString <a href=#dom-link-type id=the-link-element:dom-link-type>type</a>;
+  [<a href=#cereactions id=the-link-element:cereactions-11>CEReactions</a>, SameObject, PutForwards=<a href=https://dom.spec.whatwg.org/#dom-domtokenlist-value id=the-link-element:dom-domtokenlist-value-2 data-x-internal=dom-domtokenlist-value>value</a>] readonly attribute <a id=the-link-element:domtokenlist-2 href=https://dom.spec.whatwg.org/#interface-domtokenlist data-x-internal=domtokenlist>DOMTokenList</a> <a href=#dom-link-sizes id=the-link-element:dom-link-sizes>sizes</a>;
+  [<a href=#cereactions id=the-link-element:cereactions-12>CEReactions</a>] attribute DOMString <a href=#dom-link-referrerpolicy id=the-link-element:dom-link-referrerpolicy>referrerPolicy</a>;
+
+  // <a href="#HTMLLinkElement-partial">also has obsolete members</a>
+};
+<a href=#htmllinkelement id=the-link-element:htmllinkelement>HTMLLinkElement</a> implements <a id=the-link-element:linkstyle href=https://drafts.csswg.org/cssom/#the-linkstyle-interface data-x-internal=linkstyle>LinkStyle</a>;</pre>
+   </dl>
+
+  <p>The <code id=the-link-element:the-link-element><a href=#the-link-element>link</a></code> element allows authors to link their document to other resources.</p>
+
+  <p>The destination of the link(s) is given by the <dfn id=attr-link-href><code>href</code></dfn> attribute, which must be present and must contain a
+  <a href=#valid-non-empty-url-potentially-surrounded-by-spaces id=the-link-element:valid-non-empty-url-potentially-surrounded-by-spaces>valid non-empty URL potentially surrounded by spaces</a>. If the <code id=the-link-element:attr-link-href-2><a href=#attr-link-href>href</a></code> attribute is absent, then the element does not define a
+  link.</p>
+
+  <p>A <code id=the-link-element:the-link-element-2><a href=#the-link-element>link</a></code> element must have either a <code id=the-link-element:attr-link-rel-4><a href=#attr-link-rel>rel</a></code> attribute
+  or an <code id=the-link-element:names:-the-itemprop-attribute><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute, but not both.</p>
+
+  <p>The types of link indicated (the relationships) are given by the value of the <dfn id=attr-link-rel><code>rel</code></dfn> attribute, which, if present, must have a value that
+  is a <a href=#set-of-space-separated-tokens id=the-link-element:set-of-space-separated-tokens>set of space-separated tokens</a>. The <a href=#linkTypes>allowed keywords and
+  their meanings</a> are defined in a later section. If the <code id=the-link-element:attr-link-rel-5><a href=#attr-link-rel>rel</a></code> attribute is absent, has no keywords, or if none of the keywords
+  used are allowed according to the definitions in this specification, then the element does not
+  create any links.</p>
+
+  <p><code id=the-link-element:attr-link-rel-6><a href=#attr-link-rel>rel</a></code>'s
+  <a href=https://dom.spec.whatwg.org/#concept-supported-tokens id=the-link-element:concept-supported-tokens data-x-internal=concept-supported-tokens>supported tokens</a> are the keywords defined in
+  <a href=#linkTypes>HTML link types</a> which are allowed on <code id=the-link-element:the-link-element-3><a href=#the-link-element>link</a></code> elements, impact
+  the processing model, and are supported by the user agent. The possible <a href=https://dom.spec.whatwg.org/#concept-supported-tokens id=the-link-element:concept-supported-tokens-2 data-x-internal=concept-supported-tokens>supported tokens</a> are
+  <code id=the-link-element:rel-alternate><a href=#rel-alternate>alternate</a></code>,
+  <code id=the-link-element:link-type-dns-prefetch><a href=#link-type-dns-prefetch>dns-prefetch</a></code>,
+  <code id=the-link-element:rel-icon-2><a href=#rel-icon>icon</a></code>,
+  <code id=the-link-element:link-type-pingback><a href=#link-type-pingback>pingback</a></code>,
+  <code id=the-link-element:link-type-preconnect><a href=#link-type-preconnect>preconnect</a></code>,
+  <code id=the-link-element:link-type-prefetch><a href=#link-type-prefetch>prefetch</a></code>,
+  <code id=the-link-element:link-type-preload-2><a href=#link-type-preload>preload</a></code>,
+  <code id=the-link-element:link-type-prerender><a href=#link-type-prerender>prerender</a></code>,
+  <code id=the-link-element:link-type-search><a href=#link-type-search>search</a></code>,
+  <code id=the-link-element:link-type-stylesheet><a href=#link-type-stylesheet>stylesheet</a></code>, and
+  <code id=the-link-element:link-type-next><a href=#link-type-next>next</a></code>.
+  <code id=the-link-element:attr-link-rel-7><a href=#attr-link-rel>rel</a></code>'s <a href=https://dom.spec.whatwg.org/#concept-supported-tokens id=the-link-element:concept-supported-tokens-3 data-x-internal=concept-supported-tokens>supported
+  tokens</a> must only include the tokens from this list that the user agent implements the
+  processing model for.</p>
+
+  <p>The <dfn id=attr-link-as><code>as</code></dfn> attribute specifies the <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=the-link-element:concept-request-destination data-x-internal=concept-request-destination>destination</a> for a preload request for the resource
+  given by the <code id=the-link-element:attr-link-href-3><a href=#attr-link-href>href</a></code> attribute. If the attribute is present, the
+  value must <a href=#case-sensitive id=the-link-element:case-sensitive>case-sensitively</a> match one of the <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=the-link-element:concept-request-destination-2 data-x-internal=concept-request-destination>destination keywords</a>. The default value is the empty
+  string. The attribute may be omitted. The attribute must not be specified on <code id=the-link-element:the-link-element-4><a href=#the-link-element>link</a></code>
+  elements that do not have a <code id=the-link-element:attr-link-rel-8><a href=#attr-link-rel>rel</a></code> attribute that contains the
+  <code id=the-link-element:link-type-preload-3><a href=#link-type-preload>preload</a></code> keyword. User agents must implement the
+  processing model of the <code id=the-link-element:attr-link-as-2><a href=#attr-link-as>as</a></code> attribute described in
+  <cite>Preload</cite>. <a href=#refsFETCH>[FETCH]</a> <a href=#refsPRELOAD>[PRELOAD]</a></p>
+
+  <p>If a <code id=the-link-element:the-link-element-5><a href=#the-link-element>link</a></code> element has an <code id=the-link-element:names:-the-itemprop-attribute-2><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute,
+  or has a <code id=the-link-element:attr-link-rel-9><a href=#attr-link-rel>rel</a></code> attribute that contains only keywords that are
+  <a href=#body-ok id=the-link-element:body-ok>body-ok</a>, then the element is said to be <dfn id=allowed-in-the-body>allowed in the body</dfn>. This means
+  that the element can be used where <a href=#phrasing-content-2 id=the-link-element:phrasing-content-2-3>phrasing content</a> is expected.</p>
+
+  <p class=note>If the <code id=the-link-element:attr-link-rel-10><a href=#attr-link-rel>rel</a></code> attribute is used, the element can
+  only sometimes be used in the <code id=the-link-element:the-body-element><a href=#the-body-element>body</a></code> of the page. When used with the <code id=the-link-element:names:-the-itemprop-attribute-3><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute, the element can be used both in the
+  <code id=the-link-element:the-head-element-2><a href=#the-head-element>head</a></code> element and in the <code id=the-link-element:the-body-element-2><a href=#the-body-element>body</a></code> of the page, subject to the constraints of
+  the microdata model.</p>
+
+  <p>Two categories of links can be created using the <code id=the-link-element:the-link-element-6><a href=#the-link-element>link</a></code> element: <a href=#external-resource-link id=the-link-element:external-resource-link>Links to external resources</a> and <a href=#hyperlink id=the-link-element:hyperlink-2>hyperlinks</a>. The <a href=#linkTypes>link types section</a> defines
+  whether a particular link type is an external resource or a hyperlink. One <code id=the-link-element:the-link-element-7><a href=#the-link-element>link</a></code>
+  element can create multiple links (of which some might be external resource links and some might
+  be hyperlinks); exactly which and how many links are created depends on the keywords given in the
+  <code id=the-link-element:attr-link-rel-11><a href=#attr-link-rel>rel</a></code> attribute. User agents must process the links on a per-link
+  basis, not a per-element basis.</p>
+
+  <p class=note>Each link created for a <code id=the-link-element:the-link-element-8><a href=#the-link-element>link</a></code> element is handled separately. For
+  instance, if there are two <code id=the-link-element:the-link-element-9><a href=#the-link-element>link</a></code> elements with <code>rel="stylesheet"</code>,
+  they each count as a separate external resource, and each is affected by its own attributes
+  independently. Similarly, if a single <code id=the-link-element:the-link-element-10><a href=#the-link-element>link</a></code> element has a <code id=the-link-element:attr-link-rel-12><a href=#attr-link-rel>rel</a></code> attribute with the value <code>next stylesheet</code>,
+  it creates both a <a href=#hyperlink id=the-link-element:hyperlink-3>hyperlink</a> (for the <code id=the-link-element:link-type-next-2><a href=#link-type-next>next</a></code> keyword) and
+  an <a href=#external-resource-link id=the-link-element:external-resource-link-2>external resource link</a> (for the <code id=the-link-element:link-type-stylesheet-2><a href=#link-type-stylesheet>stylesheet</a></code>
+  keyword), and they are affected by other attributes (such as <code id=the-link-element:attr-link-media-2><a href=#attr-link-media>media</a></code> or <code id=the-link-element:attr-link-title-3><a href=#attr-link-title>title</a></code>)
+  differently.</p>
+
+  <div class=example>
+
+   <p>For example, the following <code id=the-link-element:the-link-element-11><a href=#the-link-element>link</a></code> element creates two hyperlinks (to the same
+   page):</p>
+
+   <pre>&lt;link rel="author license" href="/about"></pre>
+
+   <p>The two links created by this element are one whose semantic is that the target page has
+   information about the current page's author, and one whose semantic is that the target page has
+   information regarding the license under which the current page is provided.</p>
+
+  </div>
+
+  <p>The <dfn id=attr-link-nonce><code>nonce</code></dfn> attribute represents a
+  cryptographic nonce ("number used once") which can be used by <cite>Content Security Policy</cite>
+  to determine whether or not an external resource specified by the link will be loaded and applied
+  to the document. The value is text. <a href=#refsCSP>[CSP]</a></p>
+
+  <p>The <dfn data-dfn-for=link id=attr-link-integrity data-dfn-type=element-attr data-export=""><code>integrity</code></dfn> attribute represents the <a href=https://fetch.spec.whatwg.org/#concept-request-integrity-metadata id=the-link-element:concept-request-integrity-metadata data-x-internal=concept-request-integrity-metadata>integrity metadata</a> for requests which this
+  element is responsible for. The value is text. The attribute must not be specified on
+  <code id=the-link-element:the-link-element-12><a href=#the-link-element>link</a></code> elements that do not have a <code id=the-link-element:attr-link-rel-13><a href=#attr-link-rel>rel</a></code> attribute
+  that contains the <code id=the-link-element:link-type-stylesheet-3><a href=#link-type-stylesheet>stylesheet</a></code> keyword. <a href=#refsSRI>[SRI]</a></p>
+
+  <p>The <dfn id=attr-link-crossorigin><code>crossorigin</code></dfn> attribute is a <a href=#cors-settings-attribute id=the-link-element:cors-settings-attribute>CORS
+  settings attribute</a>. It is intended for use with external resource links.</p>
+
+  <p>The <dfn id=attr-link-referrerpolicy><code>referrerpolicy</code></dfn> attribute is a
+  <a href=#referrer-policy-attribute id=the-link-element:referrer-policy-attribute>referrer policy attribute</a>. It too is intended for use with external resource
+  links, where it helps set the <a id=the-link-element:referrer-policy-2 href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a> used when <a href=#concept-link-obtain id=the-link-element:concept-link-obtain>obtaining</a> the external resource. <a href=#refsREFERRERPOLICY>[REFERRERPOLICY]</a>.</p>
+
+  <p>The exact behavior for links to external resources depends on the exact relationship, as
+  defined for the relevant link type. Some of the attributes control whether or not the external
+  resource is to be applied (as defined below).</p>
+
+  
+
+  <p>For external resources that are represented in the DOM (for example, style sheets), the DOM
+  representation must be made available (modulo cross-origin restrictions) even if the resource is
+  not applied. To <dfn id=concept-link-obtain>obtain the resource</dfn>, the user agent must
+  run the following steps:</p>
+
+  <ol><li><p>If the <code id=the-link-element:attr-link-href-4><a href=#attr-link-href>href</a></code> attribute's value is the empty string,
+   then abort these steps.<li><p><a href=#parse-a-url id=the-link-element:parse-a-url>Parse</a> the <a id=the-link-element:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> given by the <code id=the-link-element:attr-link-href-5><a href=#attr-link-href>href</a></code> attribute, relative to the element's <a id=the-link-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+   document</a>. If that fails, then abort these steps. Otherwise, let <var>url</var> be the
+   <a href=#resulting-url-record id=the-link-element:resulting-url-record>resulting URL record</a>.<li><p>Let <var>corsAttributeState</var> be the current state of the element's <code id=the-link-element:attr-link-crossorigin-2><a href=#attr-link-crossorigin>crossorigin</a></code> content attribute.<li><p>Let <var>request</var> be the result of <a href=#create-a-potential-cors-request id=the-link-element:create-a-potential-cors-request>creating a potential-CORS request</a> given
+   <var>url</var>, the empty string, and <var>corsAttributeState</var>.
+
+   <li><p>Set <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-client id=the-link-element:concept-request-client data-x-internal=concept-request-client>client</a> to the
+   <code id=the-link-element:the-link-element-13><a href=#the-link-element>link</a></code> element's <a id=the-link-element:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>'s <code id=the-link-element:window><a href=#window>Window</a></code> object's
+   <a href=#environment-settings-object id=the-link-element:environment-settings-object>environment settings object</a>.
+
+   <li><p>Set <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-nonce-metadata id=the-link-element:concept-request-nonce-metadata data-x-internal=concept-request-nonce-metadata>cryptographic
+   nonce metadata</a> to the current value of the <code id=the-link-element:the-link-element-14><a href=#the-link-element>link</a></code> element's <code id=the-link-element:attr-link-nonce-2><a href=#attr-link-nonce>nonce</a></code> content attribute.<li><p>Set <var>request</var>'s <a href=https://fetch.spec.whatwg.org/#concept-request-integrity-metadata id=the-link-element:concept-request-integrity-metadata-2 data-x-internal=concept-request-integrity-metadata>integrity
+   metadata</a> to the current value of the <code id=the-link-element:the-link-element-15><a href=#the-link-element>link</a></code> element's <code id=the-link-element:attr-link-integrity-2><a href=#attr-link-integrity>integrity</a></code> content attribute.<li><p>Set <var>request</var>'s
+   <a href=https://fetch.spec.whatwg.org/#concept-request-referrer-policy id=the-link-element:concept-request-referrer-policy data-x-internal=concept-request-referrer-policy>referrer policy</a> to the current state of the
+   <code id=the-link-element:the-link-element-16><a href=#the-link-element>link</a></code> element's <code id=the-link-element:attr-link-referrerpolicy-2><a href=#attr-link-referrerpolicy>referrerpolicy</a></code>
+   attribute.<li><p><a href=https://fetch.spec.whatwg.org/#concept-fetch id=the-link-element:concept-fetch-2 data-x-internal=concept-fetch>Fetch</a> <var>request</var>.</ol>
+
+  <p>User agents may opt to only try to obtain such resources when they are needed, instead of
+  pro-actively fetching all the external resources that are not applied.</p>
+
+  <p>The semantics of the protocol used (e.g. HTTP) must be followed when fetching external
+  resources. (For example, redirects will be followed and 404 responses will cause the external
+  resource to not be applied.)</p>
+
+  
+  <p>Once the attempts to obtain the resource and its <a href=#critical-subresources id=the-link-element:critical-subresources>critical subresources</a> are
+  complete, the user agent must, if the loads were successful, <a href=#queue-a-task id=the-link-element:queue-a-task>queue a task</a> to
+  <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-link-element:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=the-link-element:event-load><a href=#event-load>load</a></code>
+  at the <code id=the-link-element:the-link-element-17><a href=#the-link-element>link</a></code> element, or, if the resource or one of its <a href=#critical-subresources id=the-link-element:critical-subresources-2>critical
+  subresources</a> failed to completely load for any reason (e.g. DNS error, HTTP 404 response, a
+  connection being prematurely closed, unsupported Content-Type), <a href=#queue-a-task id=the-link-element:queue-a-task-2>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-link-element:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=the-link-element:event-error><a href=#event-error>error</a></code> at
+  the <code id=the-link-element:the-link-element-18><a href=#the-link-element>link</a></code> element. Non-network errors in processing the resource or its subresources
+  (e.g. CSS parse errors, PNG decoding errors) are not failures for the purposes of this
+  paragraph.</p>
+
+  <p>The <a href=#task-source id=the-link-element:task-source>task source</a> for these <a href=#concept-task id=the-link-element:concept-task>tasks</a> is the <a href=#dom-manipulation-task-source id=the-link-element:dom-manipulation-task-source>DOM
+  manipulation task source</a>.</p>
+
+  <p>The element must <a href=#delay-the-load-event id=the-link-element:delay-the-load-event>delay the load event</a> of the element's <a id=the-link-element:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> until all the
+  attempts to obtain the resource and its <a href=#critical-subresources id=the-link-element:critical-subresources-3>critical subresources</a> are complete.
+  (Resources that the user agent has not yet attempted to obtain, e.g. because it is waiting for the
+  resource to be needed, do not <a href=#delay-the-load-event id=the-link-element:delay-the-load-event-2>delay the load event</a>.)</p>
+
+  <hr>
+
+  <p id=linkui>Interactive user agents may provide users with a means to <a href=#following-hyperlinks-2 id=the-link-element:following-hyperlinks-2>follow the hyperlinks</a> created using the <code id=the-link-element:the-link-element-19><a href=#the-link-element>link</a></code> element, somewhere
+  within their user interface. The exact interface is not defined by this specification, but it
+  could include the following information (obtained from the element's attributes, again as defined
+  below), in some form or another (possibly simplified), for each hyperlink created with each
+  <code id=the-link-element:the-link-element-20><a href=#the-link-element>link</a></code> element in the document:</p>
+
+  <ul><li>The relationship between this document and the resource (given by the <code id=the-link-element:attr-link-rel-14><a href=#attr-link-rel>rel</a></code> attribute)<li>The title of the resource (given by the <code id=the-link-element:attr-link-title-4><a href=#attr-link-title>title</a></code>
+   attribute).<li>The address of the resource (given by the <code id=the-link-element:attr-link-href-6><a href=#attr-link-href>href</a></code>
+   attribute).<li>The language of the resource (given by the <code id=the-link-element:attr-link-hreflang-2><a href=#attr-link-hreflang>hreflang</a></code>
+   attribute).<li>The optimum media for the resource (given by the <code id=the-link-element:attr-link-media-3><a href=#attr-link-media>media</a></code>
+   attribute).</ul>
+
+  <p>User agents could also include other information, such as the type of the resource (as given by
+  the <code id=the-link-element:attr-link-type-2><a href=#attr-link-type>type</a></code> attribute).</p>
+
+  
+
+  <p class=note>Hyperlinks created with the <code id=the-link-element:the-link-element-21><a href=#the-link-element>link</a></code> element and its <code id=the-link-element:attr-link-rel-15><a href=#attr-link-rel>rel</a></code> attribute apply to the whole document. This contrasts with the
+  <code id=the-link-element:attr-hyperlink-rel><a href=#attr-hyperlink-rel>rel</a></code> attribute of <code id=the-link-element:the-a-element><a href=#the-a-element>a</a></code> and <code id=the-link-element:the-area-element><a href=#the-area-element>area</a></code>
+  elements, which indicates the type of a link whose context is given by the link's location within
+  the document.</p>
+
+  <p>The <dfn id=attr-link-media><code>media</code></dfn> attribute says which media the
+  resource applies to. The value must be a <a href=#valid-media-query-list id=the-link-element:valid-media-query-list>valid media query list</a>.</p>
+
+  
+
+  <p>If the link is a <a href=#hyperlink id=the-link-element:hyperlink-4>hyperlink</a> then the <code id=the-link-element:attr-link-media-4><a href=#attr-link-media>media</a></code>
+  attribute is purely advisory, and describes for which media the document in question was
+  designed.</p>
+
+  <p>However, if the link is an <a href=#external-resource-link id=the-link-element:external-resource-link-3>external resource link</a>, then the <code id=the-link-element:attr-link-media-5><a href=#attr-link-media>media</a></code> attribute is prescriptive. The user agent must apply the
+  external resource when the <code id=the-link-element:attr-link-media-6><a href=#attr-link-media>media</a></code> attribute's value
+  <a href=#matches-the-environment id=the-link-element:matches-the-environment>matches the environment</a> and the other relevant conditions apply, and must not apply
+  it otherwise.</p>
+
+  <p class=note>The external resource might have further restrictions defined within that limit
+  its applicability. For example, a CSS style sheet might have some <code>@media</code>
+  blocks. This specification does not override such further restrictions or requirements.</p>
+
+  
+
+  <p id=default-media>The default, if the <code id=the-link-element:attr-link-media-7><a href=#attr-link-media>media</a></code> attribute is
+  omitted, is "<code>all</code>", meaning that by default links apply to all media.</p>
+
+  <p>The <dfn id=attr-link-hreflang><code>hreflang</code></dfn> attribute on the
+  <code id=the-link-element:the-link-element-22><a href=#the-link-element>link</a></code> element has the same semantics as the <a href=#attr-hyperlink-hreflang id=the-link-element:attr-hyperlink-hreflang><code>hreflang</code> attribute on the <code>a</code>
+  element</a>.</p>
+
+  <p>The <dfn id=attr-link-type><code>type</code></dfn> attribute gives the <a id=the-link-element:mime-type href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME
+  type</a> of the linked resource. It is purely advisory. The value must be a <a id=the-link-element:valid-mime-type href=https://mimesniff.spec.whatwg.org/#valid-mime-type data-x-internal=valid-mime-type>valid MIME
+  type</a>.</p>
+
+  <p>For <a href=#external-resource-link id=the-link-element:external-resource-link-4>external resource links</a>, the <code id=the-link-element:attr-link-type-3><a href=#attr-link-type>type</a></code> attribute is used as a hint to user agents so that they can
+  avoid fetching resources they do not support. If the attribute is present, then
+  the user agent must assume that the resource is of the given type (even if that is not a
+  <a id=the-link-element:valid-mime-type-2 href=https://mimesniff.spec.whatwg.org/#valid-mime-type data-x-internal=valid-mime-type>valid MIME type</a>, e.g. the empty string). If the attribute is omitted, but the
+  external resource link type has a default type defined, then the user agent must assume that the
+  resource is of that type. If the UA does not support the given <a id=the-link-element:mime-type-2 href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> for the
+  given link relationship, then the UA should not <a href=#concept-link-obtain id=the-link-element:concept-link-obtain-2>obtain</a>
+  the resource; if the UA does support the given <a id=the-link-element:mime-type-3 href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> for the given link
+  relationship, then the UA should <a href=#concept-link-obtain id=the-link-element:concept-link-obtain-3>obtain</a> the resource at
+  the appropriate time as specified for the <a href=#external-resource-link id=the-link-element:external-resource-link-5>external resource link</a>'s particular type.
+  If the attribute is omitted, and the external resource link type does not have a default type
+  defined, but the user agent would <a href=#concept-link-obtain id=the-link-element:concept-link-obtain-4>obtain</a> the resource if
+  the type was known and supported, then the user agent should <a href=#concept-link-obtain id=the-link-element:concept-link-obtain-5>obtain</a> the resource under the assumption that it will be
+  supported.</p>
+
+  
+
+  <p>User agents must not consider the <code id=the-link-element:attr-link-type-4><a href=#attr-link-type>type</a></code> attribute
+  authoritative — upon fetching the resource, user agents must not use the <code id=the-link-element:attr-link-type-5><a href=#attr-link-type>type</a></code> attribute to determine its actual type. Only the actual type
+  (as defined in the next paragraph) is used to determine whether to <em>apply</em> the resource,
+  not the aforementioned assumed type.</p>
+
+  <p id=concept-link-type-sniffing>If the external resource link type defines rules for processing
+  the resource's <a href=#content-type id=the-link-element:content-type>Content-Type metadata</a>, then those rules apply.
+  Otherwise, if the resource is expected to be an image, user agents may apply the <a href=https://mimesniff.spec.whatwg.org/#rules-for-sniffing-images-specifically id=the-link-element:content-type-sniffing:-image data-x-internal=content-type-sniffing:-image>image sniffing rules</a>, with the <var>official
+  type</var> being the type determined from the resource's <a href=#content-type id=the-link-element:content-type-2>Content-Type
+  metadata</a>, and use the resulting <a href=https://mimesniff.spec.whatwg.org/#computed-mime-type id=the-link-element:content-type-sniffing-2 data-x-internal=content-type-sniffing-2>computed type of the
+  resource</a> as if it was the actual type.
+  Otherwise, if neither of these conditions apply or if the user agent opts not to apply the image
+  sniffing rules, then the user agent must use the resource's <a href=#content-type id=the-link-element:content-type-3>Content-Type metadata</a> to determine the type of the resource. If there
+  is no type metadata, but the external resource link type has a default type defined, then the user
+  agent must assume that the resource is of that type.</p>
+
+  <p class=note>The <code id=the-link-element:link-type-stylesheet-4><a href=#link-type-stylesheet>stylesheet</a></code> link type defines rules for
+  processing the resource's <a href=#content-type id=the-link-element:content-type-4>Content-Type metadata</a>.</p>
+
+  <p>Once the user agent has established the type of the resource, the user agent must apply the
+  resource if it is of a supported type and the other relevant conditions apply, and must ignore the
+  resource otherwise.</p>
+
+  <div class=example>
+
+   <p>If a document contains style sheet links labeled as follows:</p>
+
+   <pre>&lt;link rel="stylesheet" href="A" type="text/plain">
+&lt;link rel="stylesheet" href="B" type="text/css">
+&lt;link rel="stylesheet" href="C"></pre>
+
+   <p>...then a compliant UA that supported only CSS style sheets would fetch the B and C files, and
+   skip the A file (since <code id=the-link-element:text/plain><a data-x-internal=text/plain href=https://tools.ietf.org/html/rfc2046#section-4.1.3>text/plain</a></code> is not the <a id=the-link-element:mime-type-4 href=https://mimesniff.spec.whatwg.org/#mime-type data-x-internal=mime-type>MIME type</a> for CSS style
+   sheets).</p>
+
+   <p>For files B and C, it would then check the actual types returned by the server. For those that
+   are sent as <code id=the-link-element:text/css><a href=#text/css>text/css</a></code>, it would apply the styles, but for those labeled as
+   <code id=the-link-element:text/plain-2><a data-x-internal=text/plain href=https://tools.ietf.org/html/rfc2046#section-4.1.3>text/plain</a></code>, or any other type, it would not.</p>
+
+   <p>If one of the two files was returned without a <a href=#content-type id=the-link-element:content-type-5>Content-Type</a> metadata, or with a
+   syntactically incorrect type like <code>Content-Type: "null"</code>, then the
+   default type for <code id=the-link-element:link-type-stylesheet-5><a href=#link-type-stylesheet>stylesheet</a></code> links would kick in. Since that
+   default type is <code>text/css</code>, the style sheet <em>would</em> nonetheless be
+   applied.</p>
+
+  </div>
+
+  
+
+  <p>The <dfn id=attr-link-title><code>title</code></dfn> attribute gives the title of the
+  link. With one exception, it is purely advisory. The value is text. The exception is for style
+  sheet links that are <a id=the-link-element:in-a-document-tree href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a>, for which the <code id=the-link-element:attr-link-title-5><a href=#attr-link-title>title</a></code> attribute defines <a href=https://drafts.csswg.org/cssom/#css-style-sheet-set id=the-link-element:css-style-sheet-set data-x-internal=css-style-sheet-set>CSS
+  style sheet sets</a>.</p>
+
+  <p class=note>The <code id=the-link-element:attr-link-title-6><a href=#attr-link-title>title</a></code> attribute on <code id=the-link-element:the-link-element-23><a href=#the-link-element>link</a></code>
+  elements differs from the global <code id=the-link-element:attr-title><a href=#attr-title>title</a></code> attribute of most other
+  elements in that a link without a title does not inherit the title of the parent element: it
+  merely has no title.</p>
+
+  <p>The <code id=the-link-element:attr-link-sizes-2><a href=#attr-link-sizes>sizes</a></code> attribute is used with the <code id=the-link-element:rel-icon-3><a href=#rel-icon>icon</a></code> link type. The attribute must not be specified on <code id=the-link-element:the-link-element-24><a href=#the-link-element>link</a></code>
+  elements that do not have a <code id=the-link-element:attr-link-rel-16><a href=#attr-link-rel>rel</a></code> attribute that specifies the
+  <code id=the-link-element:rel-icon-4><a href=#rel-icon>icon</a></code> keyword or the <code>apple-touch-icon</code>
+  keyword.</p>
+
+  <p class=note>The <code>apple-touch-icon</code> keyword is a registered <a href=#concept-rel-extensions id=the-link-element:concept-rel-extensions>extension to the predefined set of link types</a>, but user
+  agents are not required to support it in any way.</p>.
+
+  
+
+  <p>The <a id=the-link-element:activation-behaviour href=https://dom.spec.whatwg.org/#eventtarget-activation-behavior data-x-internal=activation-behaviour>activation behavior</a> of <code id=the-link-element:the-link-element-25><a href=#the-link-element>link</a></code> elements that create <a href=#hyperlink id=the-link-element:hyperlink-5>hyperlinks</a> is to run the following steps:</p>
+
+  <ol><li><p>If the <code id=the-link-element:the-link-element-26><a href=#the-link-element>link</a></code> element's <a id=the-link-element:node-document-4 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is not <a href=#fully-active id=the-link-element:fully-active>fully active</a>,
+   then abort these steps.<li><p><a href=#following-hyperlinks-2 id=the-link-element:following-hyperlinks-2-2>Follow the hyperlink</a> created by the
+   <code id=the-link-element:the-link-element-27><a href=#the-link-element>link</a></code> element.</ol>
+
+  <p>HTTP `<code id=the-link-element:http-link><a data-x-internal=http-link href=https://tools.ietf.org/html/rfc5988#section-5>Link</a></code>` headers, if supported, must be assumed to come
+  before any links in the document, in the order that they were given in the HTTP message. These
+  headers are to be processed according to the rules given in the relevant specifications. <a href=#refsHTTP>[HTTP]</a> <a href=#refsWEBLINK>[WEBLINK]</a></p> 
+
+  <p class=note>Registration of relation types in HTTP `<code id=the-link-element:http-link-2><a data-x-internal=http-link href=https://tools.ietf.org/html/rfc5988#section-5>Link</a></code>`
+  headers is distinct from <a href=#linkTypes>HTML link types</a>, and thus their semantics can be
+  different from same-named HTML types.</p>
+
+  <p>The IDL attributes <dfn id=dom-link-href><code>href</code></dfn>, <dfn id=dom-link-rel><code>rel</code></dfn>, <dfn id=dom-link-as><code>as</code></dfn>,
+  <dfn id=dom-link-media><code>media</code></dfn>, <dfn id=dom-link-hreflang><code>hreflang</code></dfn>, <dfn id=dom-link-type><code>type</code></dfn>, <dfn id=dom-link-nonce><code>nonce</code></dfn>,
+  <dfn id=dom-link-integrity><code>integrity</code></dfn> and <dfn id=dom-link-sizes><code>sizes</code></dfn> each must <a href=#reflect id=the-link-element:reflect>reflect</a> the respective content
+  attributes of the same name.</p>
+
+  <p>The <dfn id=dom-link-crossorigin><code>crossOrigin</code></dfn> IDL attribute must

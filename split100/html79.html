@@ -1,0 +1,850 @@
+     <var>targetOrigin</var>.<li><p>If <var>parsedURL</var> is failure, then throw a <a id=posting-messages:syntaxerror href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a>
+     <code id=posting-messages:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Set <var>targetOrigin</var> to <var>parsedURL</var>'s <a href=https://url.spec.whatwg.org/#concept-url-origin id=posting-messages:concept-url-origin data-x-internal=concept-url-origin>origin</a>.</ol>
+   <li><p>Let <var>cloneRecord</var> be <a href=#structuredclonewithtransfer id=posting-messages:structuredclonewithtransfer>StructuredCloneWithTransfer</a>(<var>message</var>,
+   <var>transfer</var>, <var>targetRealm</var>). Rethrow any exceptions.<li><p>Let <var>messageClone</var> be <var>cloneRecord</var>.[[Clone]].<li><p>Let <var>newPorts</var> be a new <a id=posting-messages:frozen-array href=https://heycam.github.io/webidl/#dfn-frozen-array-type data-x-internal=frozen-array>frozen array</a> consisting of all
+   <code id=posting-messages:messageport><a href=#messageport>MessagePort</a></code> objects in <var>cloneRecord</var>.[[TransferList]], if any, maintaining
+   their relative order.<li><p>Return, but continue running these steps in <a href=#in-parallel id=posting-messages:in-parallel>in parallel</a>.<li><p>If the <var>targetOrigin</var> argument is not a single literal U+002A ASTERISK character
+   (*) and <var>targetWindow</var>'s <a href=#concept-document-window id=posting-messages:concept-document-window>associated
+   <code>Document</code></a>'s <a href=#concept-origin id=posting-messages:concept-origin>origin</a> is not <a href=#same-origin id=posting-messages:same-origin>same origin</a> with
+   <var>targetOrigin</var>, then abort these steps.<li><p><a href=#queue-a-task id=posting-messages:queue-a-task>Queue a task</a> on the <a href=#posted-message-task-source id=posting-messages:posted-message-task-source>posted message task source</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=posting-messages:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=posting-messages:event-message><a href=#event-message>message</a></code> at <var>targetWindow</var>, using
+   <code id=posting-messages:messageevent><a href=#messageevent>MessageEvent</a></code>, with the <code id=posting-messages:dom-messageevent-data><a href=#dom-messageevent-data>data</a></code> attribute
+   initialized to <var>messageClone</var>, the <code id=posting-messages:dom-messageevent-origin><a href=#dom-messageevent-origin>origin</a></code>
+   attribute initialized to the <a href=#unicode-serialisation-of-an-origin id=posting-messages:unicode-serialisation-of-an-origin>Unicode
+   serialization</a> of <var>incumbentSettings</var>'s <a href=#concept-settings-object-origin id=posting-messages:concept-settings-object-origin-2>origin</a>, the <code id=posting-messages:dom-messageevent-source><a href=#dom-messageevent-source>source</a></code> attribute initialized to the
+   <code id=posting-messages:windowproxy><a href=#windowproxy>WindowProxy</a></code> object's corresponding <var>incumbentSettings</var>'s <a href=#concept-settings-object-global id=posting-messages:concept-settings-object-global>global object</a> (a <code id=posting-messages:window-5><a href=#window>Window</a></code> object), and
+   the <code id=posting-messages:dom-messageevent-ports><a href=#dom-messageevent-ports>ports</a></code> attribute initialized to
+   <var>newPorts</var>.</ol>
+
+  
+
+
+
+
+  <h3 id=channel-messaging>9.5 <dfn>Channel messaging</dfn><a href=#channel-messaging class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> channel-messaging<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>41+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.4+</span></span><span class="safari yes"><span>Safari</span> <span>5+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>10.6+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=channel-messaging">caniuse.com</a></div>
+
+  <h4 id=introduction-13>9.5.1 Introduction<a href=#introduction-13 class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>To enable independent pieces of code (e.g. running in different <a href=#browsing-context id=introduction-13:browsing-context>browsing contexts</a>) to communicate directly, authors can use <a href=#channel-messaging id=introduction-13:channel-messaging>channel
+  messaging</a>.</p>
+
+  <p>Communication channels in this mechanism are implemented as two-ways pipes, with a port at each
+  end. Messages sent in one port are delivered at the other port, and vice-versa. Messages are
+  delivered as DOM events, without interrupting or blocking running <a href=#concept-task id=introduction-13:concept-task>tasks</a>.</p>
+
+  <p>To create a connection (two "entangled" ports), the <code>MessageChannel()</code>
+  constructor is called:</p>
+
+  <pre>var channel = new MessageChannel();</pre>
+
+  <p>One of the ports is kept as the local port, and the other port is sent to the remote code, e.g.
+  using <code id=introduction-13:dom-window-postmessage><a href=#dom-window-postmessage>postMessage()</a></code>:</p>
+
+  <pre>otherWindow.postMessage('hello', 'https://example.com', [channel.port2]);</pre>
+
+  <p>To send messages, the <code id=introduction-13:dom-messageport-postmessage><a href=#dom-messageport-postmessage>postMessage()</a></code> method on
+  the port is used:</p>
+
+  <pre>channel.port1.postMessage('hello');</pre>
+
+  <p>To receive messages, one listens to <code id=introduction-13:event-message><a href=#event-message>message</a></code> events:</p>
+
+  <pre>channel.port1.onmessage = handleMessage;
+function handleMessage(event) {
+  // message is in event.data
+  // ...
+}</pre>
+
+  <p>Data sent on a port can be structured data; for example here an array of strings is passed on a
+  <code id=introduction-13:messageport><a href=#messageport>MessagePort</a></code>:</p>
+
+  <pre>port1.postMessage(['hello', 'world']);</pre>
+
+
+  <h5 id=examples-5>9.5.1.1 Examples<a href=#examples-5 class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <div class=example>
+
+   <p>In this example, two JavaScript libraries are connected to each other using
+   <code id=examples-5:messageport><a href=#messageport>MessagePort</a></code>s. This allows the libraries to later be hosted in different frames, or
+   in <code id=examples-5:worker><a href=#worker>Worker</a></code> objects, without any change to the APIs.</p>
+
+   <pre>&lt;script src="contacts.js">&lt;/script> &lt;!-- exposes a contacts object -->
+&lt;script src="compose-mail.js">&lt;/script> &lt;!-- exposes a composer object -->
+&lt;script>
+ var channel = new MessageChannel();
+ composer.addContactsProvider(channel.port1);
+ contacts.registerConsumer(channel.port2);
+&lt;/script></pre>
+
+   <p>Here's what the "addContactsProvider()" function's implementation could look like:</p>
+
+   <pre>function addContactsProvider(port) {
+  port.onmessage = function (event) {
+    switch (event.data.messageType) {
+      'search-result': handleSearchResult(event.data.results); break;
+      'search-done': handleSearchDone(); break;
+      'search-error': handleSearchError(event.data.message); break;
+      // ...
+    }
+  };
+};</pre>
+
+   <p>Alternatively, it could be implemented as follows:</p>
+
+   <pre>function addContactsProvider(port) {
+  port.addEventListener('message', function (event) {
+    if (event.data.messageType == 'search-result')
+      handleSearchResult(event.data.results);
+  });
+  port.addEventListener('message', function (event) {
+    if (event.data.messageType == 'search-done')
+      handleSearchDone();
+  });
+  port.addEventListener('message', function (event) {
+    if (event.data.messageType == 'search-error')
+      handleSearchError(event.data.message);
+  });
+  // ...
+  port.start();
+};</pre>
+
+   <p>The key difference is that when using <code id=examples-5:dom-eventtarget-addeventlistener><a data-x-internal=dom-eventtarget-addeventlistener href=https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener>addEventListener()</a></code>, the <code id=examples-5:dom-messageport-start><a href=#dom-messageport-start>start()</a></code> method must also be invoked. When using <code id=examples-5:handler-messageport-onmessage><a href=#handler-messageport-onmessage>onmessage</a></code>, the call to <code id=examples-5:dom-messageport-start-2><a href=#dom-messageport-start>start()</a></code> is implied.</p>
+
+   <p>The <code id=examples-5:dom-messageport-start-3><a href=#dom-messageport-start>start()</a></code> method, whether called explicitly or
+   implicitly (by setting <code id=examples-5:handler-messageport-onmessage-2><a href=#handler-messageport-onmessage>onmessage</a></code>), starts the
+   flow of messages: messages posted on message ports are initially paused, so that they don't get
+   dropped on the floor before the script has had a chance to set up its handlers.</p>
+
+  </div>
+
+
+  <h5 id=ports-as-the-basis-of-an-object-capability-model-on-the-web>9.5.1.2 Ports as the basis of an object-capability model on the Web<a href=#ports-as-the-basis-of-an-object-capability-model-on-the-web class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Ports can be viewed as a way to expose limited capabilities (in the object-capability model
+  sense) to other actors in the system. This can either be a weak capability system, where the ports
+  are merely used as a convenient model within a particular origin, or as a strong capability model,
+  where they are provided by one origin <var>provider</var> as the only mechanism by which
+  another origin <var>consumer</var> can effect change in or obtain information from <var>provider</var>.</p>
+
+  <p>For example, consider a situation in which a social Web site embeds in one <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:the-iframe-element><a href=#the-iframe-element>iframe</a></code>
+  the user's e-mail contacts provider (an address book site, from a second origin), and in a second
+  <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:the-iframe-element-2><a href=#the-iframe-element>iframe</a></code> a game (from a third origin). The outer social site and the game in the second
+  <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:the-iframe-element-3><a href=#the-iframe-element>iframe</a></code> cannot access anything inside the first <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:the-iframe-element-4><a href=#the-iframe-element>iframe</a></code>; together they can
+  only:</p>
+
+  <ul class=brief><li><a href=#navigate id=ports-as-the-basis-of-an-object-capability-model-on-the-web:navigate>Navigate</a> the <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:the-iframe-element-5><a href=#the-iframe-element>iframe</a></code> to a new <a id=ports-as-the-basis-of-an-object-capability-model-on-the-web:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>, such as the same
+   <a id=ports-as-the-basis-of-an-object-capability-model-on-the-web:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> but with a different <a href=https://url.spec.whatwg.org/#concept-url-fragment id=ports-as-the-basis-of-an-object-capability-model-on-the-web:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a>,
+   causing the <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:window><a href=#window>Window</a></code> in the <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:the-iframe-element-6><a href=#the-iframe-element>iframe</a></code> to receive a <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:event-hashchange><a href=#event-hashchange>hashchange</a></code> event.<li>Resize the <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:the-iframe-element-7><a href=#the-iframe-element>iframe</a></code>, causing the <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:window-2><a href=#window>Window</a></code> in the <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:the-iframe-element-8><a href=#the-iframe-element>iframe</a></code> to
+   receive a <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:event-resize><a data-x-internal=event-resize href=https://drafts.csswg.org/cssom-view/#eventdef-window-resize>resize</a></code> event.<li>Send a <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:event-message><a href=#event-message>message</a></code> event to the <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:window-3><a href=#window>Window</a></code> in the
+   <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:the-iframe-element-9><a href=#the-iframe-element>iframe</a></code> using the <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:dom-window-postmessage><a href=#dom-window-postmessage>window.postMessage()</a></code>
+   API.</ul>
+
+  <p>The contacts provider can use these methods, most particularly the third one, to provide an API
+  that can be accessed by other origins to manipulate the user's address book. For example, it could
+  respond to a message "<code>add-contact Guillaume Tell
+  &lt;tell@pomme.example.net></code>" by adding the given person and e-mail address to the user's
+  address book.</p>
+
+  <p>To avoid any site on the Web being able to manipulate the user's contacts, the contacts
+  provider might only allow certain trusted sites, such as the social site, to do this.</p>
+
+  <p>Now suppose the game wanted to add a contact to the user's address book, and that the social
+  site was willing to allow it to do so on its behalf, essentially "sharing" the trust that the
+  contacts provider had with the social site. There are several ways it could do this; most simply,
+  it could just proxy messages between the game site and the contacts site. However, this solution
+  has a number of difficulties: it requires the social site to either completely trust the game site
+  not to abuse the privilege, or it requires that the social site verify each request to make sure
+  it's not a request that it doesn't want to allow (such as adding multiple contacts, reading the
+  contacts, or deleting them); it also requires some additional complexity if there's ever the
+  possibility of multiple games simultaneously trying to interact with the contacts provider.</p>
+
+  <p>Using message channels and <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:messageport><a href=#messageport>MessagePort</a></code> objects, however, all of these problems can
+  go away. When the game tells the social site that it wants to add a contact, the social site can
+  ask the contacts provider not for it to add a contact, but for the <em>capability</em> to add a
+  single contact. The contacts provider then creates a pair of <code id=ports-as-the-basis-of-an-object-capability-model-on-the-web:messageport-2><a href=#messageport>MessagePort</a></code> objects, and
+  sends one of them back to the social site, who forwards it on to the game. The game and the
+  contacts provider then have a direct connection, and the contacts provider knows to only honor a
+  single "add contact" request, nothing else. In other words, the game has been granted the
+  capability to add a single contact.</p>
+
+
+  <h5 id=ports-as-the-basis-of-abstracting-out-service-implementations>9.5.1.3 Ports as the basis of abstracting out service implementations<a href=#ports-as-the-basis-of-abstracting-out-service-implementations class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Continuing the example from the previous section, consider the contacts provider in particular.
+  While an initial implementation might have simply used <code id=ports-as-the-basis-of-abstracting-out-service-implementations:xmlhttprequest><a data-x-internal=xmlhttprequest href=https://xhr.spec.whatwg.org/#xmlhttprequest>XMLHttpRequest</a></code> objects in the
+  service's <code id=ports-as-the-basis-of-abstracting-out-service-implementations:the-iframe-element><a href=#the-iframe-element>iframe</a></code>, an evolution of the service might instead want to use a <a href=#sharedworker id=ports-as-the-basis-of-abstracting-out-service-implementations:sharedworker>shared worker</a> with a single <code id=ports-as-the-basis-of-abstracting-out-service-implementations:websocket><a href=#websocket>WebSocket</a></code> connection.</p>
+
+  <p>If the initial design used <code id=ports-as-the-basis-of-abstracting-out-service-implementations:messageport><a href=#messageport>MessagePort</a></code> objects to grant capabilities, or even just
+  to allow multiple simultaneous independent sessions, the service implementation can switch from
+  the <code id=ports-as-the-basis-of-abstracting-out-service-implementations:xmlhttprequest-2><a data-x-internal=xmlhttprequest href=https://xhr.spec.whatwg.org/#xmlhttprequest>XMLHttpRequest</a></code>s-in-each-<code id=ports-as-the-basis-of-abstracting-out-service-implementations:the-iframe-element-2><a href=#the-iframe-element>iframe</a></code> model to the
+  shared-<code id=ports-as-the-basis-of-abstracting-out-service-implementations:websocket-2><a href=#websocket>WebSocket</a></code> model without changing the API at all: the ports on the service
+  provider side can all be forwarded to the shared worker without it affecting the users of the API
+  in the slightest.</p>
+
+
+
+  <h4 id=message-channels>9.5.2 Message channels<a href=#message-channels class=self-link></a></h4>
+
+  <pre class=idl>[<a href=#dom-messagechannel id=message-channels:dom-messagechannel>Constructor</a>, Exposed=(Window,Worker)]
+interface <dfn id=messagechannel>MessageChannel</dfn> {
+  readonly attribute <a href=#messageport id=message-channels:messageport>MessagePort</a> <a href=#dom-messagechannel-port1 id=message-channels:dom-messagechannel-port1>port1</a>;
+  readonly attribute <a href=#messageport id=message-channels:messageport-2>MessagePort</a> <a href=#dom-messagechannel-port2 id=message-channels:dom-messagechannel-port2>port2</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>channel</var> = new <code id=message-channels:dom-messagechannel-2><a href=#dom-messagechannel>MessageChannel</a></code>()<dd>
+
+    <p>Returns a new <code id=message-channels:messagechannel><a href=#messagechannel>MessageChannel</a></code> object with two new <code id=message-channels:messageport-3><a href=#messageport>MessagePort</a></code> objects.</p>
+
+   <dt><var>channel</var> . <code id=message-channels:dom-messagechannel-port1-2><a href=#dom-messagechannel-port1>port1</a></code><dd>
+
+    <p>Returns the first <code id=message-channels:messageport-4><a href=#messageport>MessagePort</a></code> object.</p>
+
+   <dt><var>channel</var> . <code id=message-channels:dom-messagechannel-port2-2><a href=#dom-messagechannel-port2>port2</a></code><dd>
+
+    <p>Returns the second <code id=message-channels:messageport-5><a href=#messageport>MessagePort</a></code> object.</p>
+
+   </dl>
+
+  
+
+  <p>When the <dfn id=dom-messagechannel><code>MessageChannel()</code></dfn> constructor is
+  called, it must run the following algorithm:</p>
+
+  <ol><li><p><a href=#create-a-new-messageport-object id=message-channels:create-a-new-messageport-object>Create a new <code>MessagePort</code> object</a> whose <a href=#concept-port-owner id=message-channels:concept-port-owner>owner</a> is the <a href=#incumbent-settings-object id=message-channels:incumbent-settings-object>incumbent settings object</a>, and let
+   <var>port1</var> be that object.<li><p><a href=#create-a-new-messageport-object id=message-channels:create-a-new-messageport-object-2>Create a new <code>MessagePort</code> object</a> whose <a href=#concept-port-owner id=message-channels:concept-port-owner-2>owner</a> is the <a href=#incumbent-settings-object id=message-channels:incumbent-settings-object-2>incumbent settings object</a>, and let
+   <var>port2</var> be that object.<li><p><a href=#entangle id=message-channels:entangle>Entangle</a> the <var>port1</var> and <var>port2</var> objects.<li><p>Instantiate a new <code id=message-channels:messagechannel-2><a href=#messagechannel>MessageChannel</a></code> object, and let <var>channel</var> be that
+   object.<li><p>Let the <code id=message-channels:dom-messagechannel-port1-3><a href=#dom-messagechannel-port1>port1</a></code> attribute of the
+   <var>channel</var> object be <var>port1</var>.</p>
+
+   <li><p>Let the <code id=message-channels:dom-messagechannel-port2-3><a href=#dom-messagechannel-port2>port2</a></code> attribute of the
+   <var>channel</var> object be <var>port2</var>.</p>
+
+   <li><p>Return <var>channel</var>.</ol>
+
+  <p>The <dfn id=dom-messagechannel-port1><code>port1</code></dfn> and <dfn id=dom-messagechannel-port2><code>port2</code></dfn> attributes must return the values they were
+  assigned when the <code id=message-channels:messagechannel-3><a href=#messagechannel>MessageChannel</a></code> object was created.</p>
+
+  
+
+
+
+  <h4 id=message-ports>9.5.3 Message ports<a href=#message-ports class=self-link></a></h4>
+
+  <p>Each channel has two message ports. Data sent through one port is received by the other port,
+  and vice versa.</p>
+
+  <pre class=idl>[Exposed=(Window,Worker)]
+interface <dfn id=messageport>MessagePort</dfn> : <a id=message-ports:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  void <a href=#dom-messageport-postmessage id=message-ports:dom-messageport-postmessage>postMessage</a>(any message, optional sequence&lt;<a href=https://heycam.github.io/webidl/#idl-object id=message-ports:idl-object data-x-internal=idl-object>object</a>> transfer = []);
+  void <a href=#dom-messageport-start id=message-ports:dom-messageport-start>start</a>();
+  void <a href=#dom-messageport-close id=message-ports:dom-messageport-close>close</a>();
+
+  // event handlers
+  attribute <a href=#eventhandler id=message-ports:eventhandler>EventHandler</a> <a href=#handler-messageport-onmessage id=message-ports:handler-messageport-onmessage>onmessage</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>port</var> . <code id=message-ports:dom-messageport-postmessage-2><a href=#dom-messageport-postmessage>postMessage</a></code>(<var>message</var> [, <var>transfer</var>] )<dd>
+
+    <p>Posts a message through the channel. Objects listed in <var>transfer</var> are
+    transferred, not just cloned, meaning that they are no longer usable on the sending side.</p>
+
+    <p>Throws a <a id=message-ports:datacloneerror href=https://heycam.github.io/webidl/#datacloneerror data-x-internal=datacloneerror>"<code>DataCloneError</code>"</a> <code id=message-ports:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if
+    <var>transfer</var> array contains duplicate objects or the source or target ports, or if
+    <var>message</var> could not be cloned.</p>
+
+   <dt><var>port</var> . <code id=message-ports:dom-messageport-start-2><a href=#dom-messageport-start>start</a></code>()<dd>
+
+    <p>Begins dispatching messages received on the port.</p>
+
+   <dt><var>port</var> . <code id=message-ports:dom-messageport-close-2><a href=#dom-messageport-close>close</a></code>()<dd>
+
+    <p>Disconnects the port, so that it is no longer active.</p>
+
+   </dl>
+
+  
+
+  <p>Each <code id=message-ports:messageport><a href=#messageport>MessagePort</a></code> object can be entangled with another (a symmetric relationship).
+  Each <code id=message-ports:messageport-2><a href=#messageport>MessagePort</a></code> object also has a <a href=#task-source id=message-ports:task-source>task source</a> called the <dfn id=port-message-queue>port
+  message queue</dfn>, initially empty. A <a href=#port-message-queue id=message-ports:port-message-queue>port message queue</a> can be enabled or
+  disabled, and is initially disabled. Once enabled, a port can never be disabled again (though
+  messages in the queue can get moved to another queue or removed altogether, which has much the
+  same effect). A <code id=message-ports:messageport-3><a href=#messageport>MessagePort</a></code> also has a <dfn id=has-been-shipped>has been shipped</dfn> flag, which must
+  initially be false, and an <dfn id=concept-port-owner>owner</dfn>, which is a <a href=#settings-object id=message-ports:settings-object>settings
+  object</a> set when the object is created, as described below.</p>
+
+  <p>When a port's <a href=#port-message-queue id=message-ports:port-message-queue-2>port message queue</a> is enabled, the <a href=#event-loop id=message-ports:event-loop>event loop</a> must use
+  it as one of its <a href=#task-source id=message-ports:task-source-2>task sources</a>. When a port's <a href=#concept-port-owner id=message-ports:concept-port-owner>owner</a> specifies a <a href=#responsible-event-loop id=message-ports:responsible-event-loop>responsible event loop</a> that is a
+  <a href=#browsing-context id=message-ports:browsing-context>browsing context</a> <a href=#event-loop id=message-ports:event-loop-2>event loop</a>, all <a href=#concept-task id=message-ports:concept-task>tasks</a> <a href=#queue-a-task id=message-ports:queue-a-task>queued</a> on its <a href=#port-message-queue id=message-ports:port-message-queue-3>port
+  message queue</a> must be associated with the <a href=#responsible-document id=message-ports:responsible-document>responsible document</a> specified by
+  the port's <a href=#concept-port-owner id=message-ports:concept-port-owner-2>owner</a>.</p>
+
+  <p class=note>If the port's <a href=#concept-port-owner id=message-ports:concept-port-owner-3>owner</a> specifies a
+  <a href=#responsible-document id=message-ports:responsible-document-2>responsible document</a> that is <a href=#fully-active id=message-ports:fully-active>fully active</a>, but the event listeners all
+  have scripts whose <a href=#settings-object id=message-ports:settings-object-2>settings objects</a> specify <a href=#responsible-document id=message-ports:responsible-document-3>responsible documents</a> that are <em>not</em> <a href=#fully-active id=message-ports:fully-active-2>fully
+  active</a>, then the messages will be lost.</p> 
+
+  <p>Each <a href=#event-loop id=message-ports:event-loop-3>event loop</a> has a <a href=#task-source id=message-ports:task-source-3>task source</a> called the <dfn id=unshipped-port-message-queue>unshipped port
+  message queue</dfn>. This is a virtual <a href=#task-source id=message-ports:task-source-4>task source</a>: it must act as if it contained
+  the <a href=#concept-task id=message-ports:concept-task-2>tasks</a> of each <a href=#port-message-queue id=message-ports:port-message-queue-4>port message queue</a> of each
+  <code id=message-ports:messageport-4><a href=#messageport>MessagePort</a></code> whose <a href=#has-been-shipped id=message-ports:has-been-shipped>has been shipped</a> flag is false, whose <a href=#port-message-queue id=message-ports:port-message-queue-5>port
+  message queue</a> is enabled, and whose <a href=#concept-port-owner id=message-ports:concept-port-owner-4>owner</a>
+  specifies that <a href=#event-loop id=message-ports:event-loop-4>event loop</a> as the <a href=#responsible-event-loop id=message-ports:responsible-event-loop-2>responsible event loop</a>, in the order in
+  which they were added to their respective <a href=#task-source id=message-ports:task-source-5>task source</a>. When a <a href=#concept-task id=message-ports:concept-task-3>task</a> would be removed from the <a href=#unshipped-port-message-queue id=message-ports:unshipped-port-message-queue>unshipped port message
+  queue</a>, it must instead be removed from its <a href=#port-message-queue id=message-ports:port-message-queue-6>port message queue</a>.</p>
+
+  <p>When a <code id=message-ports:messageport-5><a href=#messageport>MessagePort</a></code>'s <a href=#has-been-shipped id=message-ports:has-been-shipped-2>has been shipped</a> flag is false, its <a href=#port-message-queue id=message-ports:port-message-queue-7>port
+  message queue</a> must be ignored for the purposes of the <a href=#event-loop id=message-ports:event-loop-5>event loop</a>. (The
+  <a href=#unshipped-port-message-queue id=message-ports:unshipped-port-message-queue-2>unshipped port message queue</a> is used instead.)</p>
+
+  <p class=note>The <a href=#has-been-shipped id=message-ports:has-been-shipped-3>has been shipped</a> flag is set to true when a port, its twin, or
+  the object it was cloned from, is or has been transferred. When a <code id=message-ports:messageport-6><a href=#messageport>MessagePort</a></code>'s
+  <a href=#has-been-shipped id=message-ports:has-been-shipped-4>has been shipped</a> flag is true, its <a href=#port-message-queue id=message-ports:port-message-queue-8>port message queue</a> acts as a
+  first-class <a href=#task-source id=message-ports:task-source-6>task source</a>, unaffected to any <a href=#unshipped-port-message-queue id=message-ports:unshipped-port-message-queue-3>unshipped port message
+  queue</a>.</p>
+
+  <p>When the user agent is to <dfn id=create-a-new-messageport-object>create a new <code>MessagePort</code> object</dfn> with a
+  particular <a href=#environment-settings-object id=message-ports:environment-settings-object>environment settings object</a> as its <var>owner</var>, it must instantiate
+  a new <code id=message-ports:messageport-7><a href=#messageport>MessagePort</a></code> object, and let its <a href=#concept-port-owner id=message-ports:concept-port-owner-5>owner</a>
+  be <var>owner</var>.</p>
+
+  <p>When the user agent is to <dfn id=entangle>entangle</dfn> two <code id=message-ports:messageport-8><a href=#messageport>MessagePort</a></code> objects, it must run
+  the following steps:</p>
+
+  <ol><li>
+
+    <p>If one of the ports is already entangled, then disentangle it and the port that it was
+    entangled with.</p>
+
+    <p class=note>If those two previously entangled ports were the two ports of a
+    <code id=message-ports:messagechannel><a href=#messagechannel>MessageChannel</a></code> object, then that <code id=message-ports:messagechannel-2><a href=#messagechannel>MessageChannel</a></code> object no longer
+    represents an actual channel: the two ports in that object are no longer entangled.</p>
+
+   <li>
+
+    <p>Associate the two ports to be entangled, so that they form the two parts of a new channel.
+    (There is no <code id=message-ports:messagechannel-3><a href=#messagechannel>MessageChannel</a></code> object that represents this channel.)</p>
+
+    <p>Two ports <var>A</var> and <var>B</var> that have gone through this step
+    are now said to be entangled; one is entangled to the other, and vice versa.</p>
+
+    <p class=note>While this specification describes this process as instantaneous,
+    implementations are more likely to implement it via message passing. As with all algorithms, the
+    key is "merely" that the end result be indistinguishable, in a black-box sense, from the
+    specification.</p>
+
+   </ol>
+
+  <p id=transferMessagePort><code id=message-ports:messageport-9><a href=#messageport>MessagePort</a></code> objects are <a href=#transferable-objects id=message-ports:transferable-objects>transferable
+  objects</a>.</p>
+
+  <p>Each <code id=message-ports:messageport-10><a href=#messageport>MessagePort</a></code> object's <a href=#transfer-() id=message-ports:transfer-()>[[Transfer]](<var>targetRealm</var>)</a> internal method must run these
+  steps:</p>
+
+  <ol><li><p>Set <b>this</b>'s <a href=#has-been-shipped id=message-ports:has-been-shipped-5>has been shipped</a> flag to true.<li><p>Let <var>new</var> be a <a href=#create-a-new-messageport-object id=message-ports:create-a-new-messageport-object>new
+   <code>MessagePort</code> object</a> in <var>targetRealm</var> whose <a href=#concept-port-owner id=message-ports:concept-port-owner-6>owner</a> is <var>targetRealm</var>'s <a href=#concept-realm-settings-object id=message-ports:concept-realm-settings-object>settings object</a>.<li><p>Set <var>new</var>'s <a href=#has-been-shipped id=message-ports:has-been-shipped-6>has been shipped</a> flag to true.<li><p>Move all the <a href=#concept-task id=message-ports:concept-task-4>tasks</a> that are to fire <code id=message-ports:event-message><a href=#event-message>message</a></code> events in the <a href=#port-message-queue id=message-ports:port-message-queue-9>port message queue</a> of
+   <b>this</b> to the <a href=#port-message-queue id=message-ports:port-message-queue-10>port message queue</a> of <var>new</var>, if any, leaving
+   <var>new</var>'s <a href=#port-message-queue id=message-ports:port-message-queue-11>port message queue</a> in its initial disabled state, and, if
+   <var>new</var>'s <a href=#concept-port-owner id=message-ports:concept-port-owner-7>owner</a> specifies a <a href=#responsible-event-loop id=message-ports:responsible-event-loop-3>responsible
+   event loop</a> that is a <a href=#browsing-context id=message-ports:browsing-context-2>browsing context</a> <a href=#event-loop id=message-ports:event-loop-6>event loop</a>, associating
+   the moved <a href=#concept-task id=message-ports:concept-task-5>tasks</a> with the <a href=#responsible-document id=message-ports:responsible-document-4>responsible document</a>
+   specified by <var>new</var>'s <a href=#concept-port-owner id=message-ports:concept-port-owner-8>owner</a>.<li>
+    <p>If <b>this</b> is entangled with another port, then run these substeps:</p>
+
+    <ol><li><p>Let <var>remote port</var> be the port with which <b>this</b> is entangled.<li><p>Set <var>remote port</var>'s <a href=#has-been-shipped id=message-ports:has-been-shipped-7>has been shipped</a> flag to true.<li><p><a href=#entangle id=message-ports:entangle>Entangle</a> <var>remote port</var> and <var>new</var>. <b>this</b> will be
+     disentangled by this process.</ol>
+   <li><p>Set <b>this</b>'s <a href=#detached id=message-ports:detached>[[Detached]]</a> internal slot value to true.<li><p>Return <var>new</var>. It is the clone.</ol>
+
+  <hr>
+
+  <p>The <dfn id=dom-messageport-postmessage><code>postMessage(<var>message</var>,
+  <var>transfer</var>)</code></dfn> method, when invoked on a <code id=message-ports:messageport-11><a href=#messageport>MessagePort</a></code> object, must
+  run the following steps:</p>
+
+  <ol><li><p>Let <var>targetPort</var> be the port with which this <code id=message-ports:messageport-12><a href=#messageport>MessagePort</a></code> is
+   entangled, if any; otherwise let it be null.<li>
+    <p>Let <var>doomed</var> be false.</p>
+
+    <p class=note>It is set to true if a condition is detected that will make this message cause
+    the port to be unusable; specifically, if the message contains <var>target port</var> as one of
+    the objects being transferred. (This condition cannot necessarily be detected when the method is
+    called.)</p>
+   <li><p>If any of the objects in <var>transfer</var> are this <code id=message-ports:messageport-13><a href=#messageport>MessagePort</a></code>, then throw
+   a <a id=message-ports:datacloneerror-2 href=https://heycam.github.io/webidl/#datacloneerror data-x-internal=datacloneerror>"<code>DataCloneError</code>"</a> <code id=message-ports:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li><p>If <var>targetPort</var> is not null and any of the objects in <var>transfer</var> are
+   <var>targetPort</var>, then set <var>doomed</var> to true, and optionally report to a developer
+   console that the target port was posted to itself, causing the communication channel to be
+   lost.<li>
+    <p>Let <var>targetRealm</var> be <var>targetPort</var>'s <a href=#concept-port-owner id=message-ports:concept-port-owner-9>owner</a>'s <a href="#environment-settings-object's-realm" id="message-ports:environment-settings-object's-realm">Realm</a>, if <var>targetPort</var> is non-null and <var>doomed</var> is false;
+    otherwise let <var>targetRealm</var> be some arbitrary Realm.</p>
+
+    <p class=note><var>targetRealm</var> is used when cloning and transferring objects below. If
+    there is no target port, or if the <var>targetPort</var> is one of the objects being
+    transferred, the transferable objects given in the second argument, if any, are still
+    transferred, but since they are then discarded, it doesn't matter where they are transferred
+    to.)</p>
+   <li><p>Let <var>cloneRecord</var> be <a href=#structuredclonewithtransfer id=message-ports:structuredclonewithtransfer>StructuredCloneWithTransfer</a>(<var>message</var>,
+   <var>transfer</var>, <var>targetRealm</var>). Rethrow any exceptions.<li><p>Let <var>messageClone</var> be <var>cloneRecord</var>.[[Clone]].<li><p>Let <var>newPorts</var> be a new <a id=message-ports:frozen-array href=https://heycam.github.io/webidl/#dfn-frozen-array-type data-x-internal=frozen-array>frozen array</a> consisting of all
+   <code id=message-ports:messageport-14><a href=#messageport>MessagePort</a></code> objects in <var>cloneRecord</var>.[[TransferList]], if any, maintaining
+   their relative order.<li><p>If there is no <var>targetPort</var> (i.e. if this <code id=message-ports:messageport-15><a href=#messageport>MessagePort</a></code> is not
+   entangled), or if <var>doomed</var> is true, then abort these steps.<li><p>Let <var>e</var> be the result of <a id=message-ports:creating-an-event href=https://dom.spec.whatwg.org/#concept-event-create data-x-internal=creating-an-event>creating an event</a> using
+   <code id=message-ports:messageevent><a href=#messageevent>MessageEvent</a></code>.<li><p>Initialize <var>e</var>'s <code id=message-ports:dom-event-type><a data-x-internal=dom-event-type href=https://dom.spec.whatwg.org/#dom-event-type>type</a></code> attribute to <code id=message-ports:event-message-2><a href=#event-message>message</a></code>, its <code id=message-ports:dom-messageevent-data><a href=#dom-messageevent-data>data</a></code>
+   attribute to <var>messageClone</var>, and its <code id=message-ports:dom-messageevent-ports><a href=#dom-messageevent-ports>ports</a></code>
+   attribute to <var>newPorts</var>.<li>
+    <p>Add a <a href=#concept-task id=message-ports:concept-task-6>task</a> that runs the following steps to the <a href=#port-message-queue id=message-ports:port-message-queue-12>port
+    message queue</a> of <var>targetPort</var>:</p>
+
+    <ol><li><p>Let <var>target</var> be the <code id=message-ports:messageport-16><a href=#messageport>MessagePort</a></code> in whose <a href=#port-message-queue id=message-ports:port-message-queue-13>port message
+     queue</a> the event <var>e</var> now finds itself.<li><p><a href=https://dom.spec.whatwg.org/#concept-event-dispatch id=message-ports:concept-event-dispatch data-x-internal=concept-event-dispatch>Dispatch</a> <var>e</var> at
+     <var>target</var>.</ol>
+   </ol>
+
+  <hr>
+
+  <p>The <dfn id=dom-messageport-start><code>start()</code></dfn> method must enable its port's
+  <a href=#port-message-queue id=message-ports:port-message-queue-14>port message queue</a>, if it is not already enabled.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-messageport-close><code>close()</code></dfn> method, when called on a port
+  <var>local port</var> that is entangled with another port, must cause the user agent to
+  disentangle the two ports. If the method is called on a port that is not entangled, then the
+  method must do nothing.</p>
+
+
+
+  <hr>
+
+  <p>The following are the <a href=#event-handlers id=message-ports:event-handlers>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=message-ports:event-handler-event-type>event handler event types</a>) that must be supported, as <a href=#event-handler-idl-attributes id=message-ports:event-handler-idl-attributes>event
+  handler IDL attributes</a>, by all objects implementing the <code id=message-ports:messageport-17><a href=#messageport>MessagePort</a></code>
+  interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=message-ports:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=message-ports:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-messageport-onmessage><code>onmessage</code></dfn> <td> <code id=message-ports:event-message-3><a href=#event-message>message</a></code>
+  </table>
+
+  <p>The first time a <code id=message-ports:messageport-18><a href=#messageport>MessagePort</a></code> object's <code id=message-ports:handler-messageport-onmessage-2><a href=#handler-messageport-onmessage>onmessage</a></code> IDL attribute is set, the port's <a href=#port-message-queue id=message-ports:port-message-queue-15>port
+  message queue</a> must be enabled, as if the <code id=message-ports:dom-messageport-start-3><a href=#dom-messageport-start>start()</a></code>
+  method had been called.</p>
+
+  
+
+
+  <h4 id=broadcasting-to-many-ports>9.5.4 Broadcasting to many ports<a href=#broadcasting-to-many-ports class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Broadcasting to many ports is in principle relatively simple: keep an array of
+  <code id=broadcasting-to-many-ports:messageport><a href=#messageport>MessagePort</a></code> objects to send messages to, and iterate through the array to send a
+  message. However, this has one rather unfortunate effect: it prevents the ports from being garbage
+  collected, even if the other side has gone away. To avoid this problem, implement a simple
+  protocol whereby the other side acknowledges it still exists. If it doesn't do so after a certain
+  amount of time, assume it's gone, close the <code id=broadcasting-to-many-ports:messageport-2><a href=#messageport>MessagePort</a></code> object, and let it be garbage
+  collected.</p>
+
+
+  <h4 id=ports-and-garbage-collection>9.5.5 Ports and garbage collection<a href=#ports-and-garbage-collection class=self-link></a></h4>
+
+  
+
+  <p>When a <code id=ports-and-garbage-collection:messageport><a href=#messageport>MessagePort</a></code> object <var>o</var> is entangled, user agents must
+  either act as if <var>o</var>'s entangled <code id=ports-and-garbage-collection:messageport-2><a href=#messageport>MessagePort</a></code> object has a strong
+  reference to <var>o</var>, or as if the <a href=#concept-settings-object-global id=ports-and-garbage-collection:concept-settings-object-global>global
+  object</a> specified by <var>o</var>'s <a href=#concept-port-owner id=ports-and-garbage-collection:concept-port-owner>owner</a> has a
+  strong reference to <var>o</var>.</p>
+
+  <div class=note>
+
+   <p>Thus, a message port can be received, given an event listener, and then forgotten, and so long
+   as that event listener could receive a message, the channel will be maintained.</p>
+
+   <p>Of course, if this was to occur on both sides of the channel, then both ports could be garbage
+   collected, since they would not be reachable from live code, despite having a strong reference to
+   each other.</p>
+
+  </div>
+
+  <p>Furthermore, a <code id=ports-and-garbage-collection:messageport-3><a href=#messageport>MessagePort</a></code> object must not be garbage collected while there exists
+  an event referenced by a <a href=#concept-task id=ports-and-garbage-collection:concept-task>task</a> in a <a href=#task-queue id=ports-and-garbage-collection:task-queue>task queue</a> that is to be dispatched on that <code id=ports-and-garbage-collection:messageport-4><a href=#messageport>MessagePort</a></code>
+  object, or while the <code id=ports-and-garbage-collection:messageport-5><a href=#messageport>MessagePort</a></code> object's <a href=#port-message-queue id=ports-and-garbage-collection:port-message-queue>port message queue</a> is enabled
+  and not empty.</p> 
+
+  
+
+  
+
+  <p class=note>Authors are strongly encouraged to explicitly close <code id=ports-and-garbage-collection:messageport-6><a href=#messageport>MessagePort</a></code>
+  objects to disentangle them, so that their resources can be recollected. Creating many
+  <code id=ports-and-garbage-collection:messageport-7><a href=#messageport>MessagePort</a></code> objects and discarding them without closing them can lead to high
+  transient memory usage since garbage collection is not necessarily performed promptly, especially
+  for <code id=ports-and-garbage-collection:messageport-8><a href=#messageport>MessagePort</a></code>s where garbage collection can involve cross-process coordination.</p>
+
+
+
+  <h3 id=broadcasting-to-other-browsing-contexts>9.6 <dfn>Broadcasting to other browsing contexts</dfn><a href=#broadcasting-to-other-browsing-contexts class=self-link></a></h3><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> broadcastchannel<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>54+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox yes"><span>Firefox</span> <span>38+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung no"><span>Samsung Internet</span> <span>None</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android no"><span>Android Browser</span> <span>None</span></span><span class="safari no"><span>Safari</span> <span>None</span></span><span class="edge no"><span>Edge</span> <span>None</span></span><span class="opera yes"><span>Opera</span> <span>41+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=broadcastchannel">caniuse.com</a></div>
+
+  <p>Pages on a single <a href=#concept-origin id=broadcasting-to-other-browsing-contexts:concept-origin>origin</a> opened by the same user in the same user agent but in
+  different unrelated <a href=#browsing-context id=broadcasting-to-other-browsing-contexts:browsing-context>browsing contexts</a> sometimes need to
+  send notifications to each other, for example "hey, the user logged in over here, check your
+  credentials again".</p>
+
+  <p>For elaborate cases, e.g. to manage locking of shared state, to manage synchronization of
+  resources between a server and multiple local clients, to share a <code id=broadcasting-to-other-browsing-contexts:websocket><a href=#websocket>WebSocket</a></code>
+  connection with a remote host, and so forth, <a href=#sharedworker id=broadcasting-to-other-browsing-contexts:sharedworker>shared workers</a> are
+  the most appropriate solution.</p>
+
+  <p>For simple cases, though, where a shared worker would be an unreasonable overhead, authors can
+  use the simple channel-based broadcast mechanism described in this section.</p>
+
+  <pre class=idl>[<a href=#dom-broadcastchannel id=broadcasting-to-other-browsing-contexts:dom-broadcastchannel>Constructor</a>(DOMString name), Exposed=(Window,Worker)]
+interface <dfn id=broadcastchannel>BroadcastChannel</dfn> : <a id=broadcasting-to-other-browsing-contexts:eventtarget href=https://dom.spec.whatwg.org/#interface-eventtarget data-x-internal=eventtarget>EventTarget</a> {
+  readonly attribute DOMString <a href=#dom-broadcastchannel-name id=broadcasting-to-other-browsing-contexts:dom-broadcastchannel-name>name</a>;
+  void <a href=#dom-broadcastchannel-postmessage id=broadcasting-to-other-browsing-contexts:dom-broadcastchannel-postmessage>postMessage</a>(any message);
+  void <a href=#dom-broadcastchannel-close id=broadcasting-to-other-browsing-contexts:dom-broadcastchannel-close>close</a>();
+  attribute <a href=#eventhandler id=broadcasting-to-other-browsing-contexts:eventhandler>EventHandler</a> <a href=#handler-broadcastchannel-onmessage id=broadcasting-to-other-browsing-contexts:handler-broadcastchannel-onmessage>onmessage</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>broadcastChannel</var> = new <code id=broadcasting-to-other-browsing-contexts:dom-broadcastchannel-2><a href=#dom-broadcastchannel>BroadcastChannel</a></code>(<var>name</var>)<dd>
+
+    <p>Returns a new <code id=broadcasting-to-other-browsing-contexts:broadcastchannel><a href=#broadcastchannel>BroadcastChannel</a></code> object via which messages for the given channel
+    name can be sent and received.</p>
+
+   <dt><var>broadcastChannel</var> . <code id=broadcasting-to-other-browsing-contexts:dom-broadcastchannel-name-2><a href=#dom-broadcastchannel-name>name</a></code><dd>
+
+    <p>Returns the channel name (as passed to the constructor).</p>
+
+   <dt><var>broadcastChannel</var> . <code id=broadcasting-to-other-browsing-contexts:dom-broadcastchannel-postmessage-2><a href=#dom-broadcastchannel-postmessage>postMessage</a></code>(<var>message</var>)<dd>
+
+    <p>Sends the given message to other <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-2><a href=#broadcastchannel>BroadcastChannel</a></code> objects set up for this channel. Messages can be structured objects, e.g. nested objects and arrays.</p>
+
+   <dt><var>broadcastChannel</var> . <code id=broadcasting-to-other-browsing-contexts:dom-broadcastchannel-close-2><a href=#dom-broadcastchannel-close>close</a></code>()<dd>
+
+    <p>Closes the <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-3><a href=#broadcastchannel>BroadcastChannel</a></code> object, opening it up to garbage collection.</p>
+
+   </dl>
+
+  
+
+  <p>A <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-4><a href=#broadcastchannel>BroadcastChannel</a></code> object has a <dfn id=channel-name>channel name</dfn>, a
+  <dfn id=broadcastchannel-settings-object><code>BroadcastChannel</code> settings object</dfn>, and a <dfn id=concept-broadcastchannel-closed>closed flag</dfn>.</p>
+
+  <p>The <dfn id=dom-broadcastchannel><code>BroadcastChannel()</code></dfn> constructor, when
+  invoked, must create and return a <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-5><a href=#broadcastchannel>BroadcastChannel</a></code> object whose <a href=#channel-name id=broadcasting-to-other-browsing-contexts:channel-name>channel
+  name</a> is the constructor's first argument, whose <a href=#broadcastchannel-settings-object id=broadcasting-to-other-browsing-contexts:broadcastchannel-settings-object><code>BroadcastChannel</code>
+  settings object</a> is the <a href=#incumbent-settings-object id=broadcasting-to-other-browsing-contexts:incumbent-settings-object>incumbent settings object</a>, and whose <a href=#concept-broadcastchannel-closed id=broadcasting-to-other-browsing-contexts:concept-broadcastchannel-closed>closed flag</a> is false.</p>
+
+  <p>The <dfn id=dom-broadcastchannel-name><code>name</code></dfn> attribute must return the
+  <a href=#channel-name id=broadcasting-to-other-browsing-contexts:channel-name-2>channel name</a>.</p>
+
+  <p>The <dfn id=dom-broadcastchannel-postmessage><code>postMessage(<var>message</var>)</code></dfn> method,
+  when invoked on a <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-6><a href=#broadcastchannel>BroadcastChannel</a></code> object, must run the following steps:</p>
+
+  <ol><li><p>Let <var>source</var> be this <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-7><a href=#broadcastchannel>BroadcastChannel</a></code>.<li><p>Let <var>sourceSettings</var> be <var>source</var>'s <a href=#broadcastchannel-settings-object id=broadcasting-to-other-browsing-contexts:broadcastchannel-settings-object-2><code>BroadcastChannel</code>
+   settings object</a>.<li><p>If <var>source</var>'s <a href=#concept-broadcastchannel-closed id=broadcasting-to-other-browsing-contexts:concept-broadcastchannel-closed-2>closed flag</a>
+   is true, then throw an <a id=broadcasting-to-other-browsing-contexts:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=broadcasting-to-other-browsing-contexts:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>
+   and abort these steps.<li><p>Let <var>sourceChannel</var> be <var>source</var>'s <a href=#channel-name id=broadcasting-to-other-browsing-contexts:channel-name-3>channel name</a>.<li><p>Let <var>targetRealm</var> be a user-agent defined Realm.<li><p>Let <var>clonedMessage</var> be <a href=#structuredclone id=broadcasting-to-other-browsing-contexts:structuredclone>StructuredClone</a>(<var>message</var>,
+   <var>targetRealm</var>). Rethrow any exceptions.<li>
+    <p>Let <var>destinations</var> be a list of <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-8><a href=#broadcastchannel>BroadcastChannel</a></code> objects that
+    match the following criteria:</p>
+
+    <ul><li>
+      <p>Their <a href=#broadcastchannel-settings-object id=broadcasting-to-other-browsing-contexts:broadcastchannel-settings-object-3><code>BroadcastChannel</code> settings object</a> specifies either:</p>
+
+      <ul><li><p>a <a href=#concept-settings-object-global id=broadcasting-to-other-browsing-contexts:concept-settings-object-global>global object</a> that is a
+       <code id=broadcasting-to-other-browsing-contexts:window><a href=#window>Window</a></code> object and a <a href=#responsible-document id=broadcasting-to-other-browsing-contexts:responsible-document>responsible document</a> that is <a href=#fully-active id=broadcasting-to-other-browsing-contexts:fully-active>fully
+       active</a>, or<li><p>a <a href=#concept-settings-object-global id=broadcasting-to-other-browsing-contexts:concept-settings-object-global-2>global object</a> that is a
+       <code id=broadcasting-to-other-browsing-contexts:workerglobalscope><a href=#workerglobalscope>WorkerGlobalScope</a></code> object whose <a href=#dom-workerglobalscope-closing id=broadcasting-to-other-browsing-contexts:dom-workerglobalscope-closing>closing</a> flag is false and whose
+       <a href=#worker id=broadcasting-to-other-browsing-contexts:worker>worker</a> is a <a href=#suspendable-worker id=broadcasting-to-other-browsing-contexts:suspendable-worker>suspendable worker</a>.</ul>
+     <li><p>Their <a href=#broadcastchannel-settings-object id=broadcasting-to-other-browsing-contexts:broadcastchannel-settings-object-4><code>BroadcastChannel</code> settings object</a>'s <a href=#concept-settings-object-origin id=broadcasting-to-other-browsing-contexts:concept-settings-object-origin>origin</a> is <a href=#same-origin id=broadcasting-to-other-browsing-contexts:same-origin>same origin</a> with
+     <var>sourceSettings</var>'s <a href=#concept-settings-object-origin id=broadcasting-to-other-browsing-contexts:concept-settings-object-origin-2>origin</a>.<li><p>Their <a href=#channel-name id=broadcasting-to-other-browsing-contexts:channel-name-4>channel name</a> is a <a href=#case-sensitive id=broadcasting-to-other-browsing-contexts:case-sensitive>case-sensitive</a> match for
+     <var>sourceChannel</var>.<li><p>Their <a href=#concept-broadcastchannel-closed id=broadcasting-to-other-browsing-contexts:concept-broadcastchannel-closed-3>closed flag</a> is
+     false.</ul>
+   <li><p>Remove <var>source</var> from <var>destinations</var>.<li><p>Sort <var>destinations</var> such that all <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-9><a href=#broadcastchannel>BroadcastChannel</a></code> objects whose
+   <a href=#broadcastchannel-settings-object id=broadcasting-to-other-browsing-contexts:broadcastchannel-settings-object-5><code>BroadcastChannel</code> settings
+   objects</a> specify the same <a href=#responsible-event-loop id=broadcasting-to-other-browsing-contexts:responsible-event-loop>responsible event loop</a> are sorted in creation
+   order, oldest first. (This does not define a complete ordering. Within this constraint, user
+   agents may sort the list in any user-agent defined manner.)<li>
+    <p>For each <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-10><a href=#broadcastchannel>BroadcastChannel</a></code> object <var>destination</var> in
+    <var>destinations</var>, <a href=#queue-a-task id=broadcasting-to-other-browsing-contexts:queue-a-task>queue a task</a> that runs the following steps:</p>
+
+    <ol><li><p>Let <var>targetRealm</var> be <var>destination</var>'s <a href=#relevant-settings-object id=broadcasting-to-other-browsing-contexts:relevant-settings-object>relevant settings
+     object</a>'s <a href="#environment-settings-object's-realm" id="broadcasting-to-other-browsing-contexts:environment-settings-object's-realm">Realm</a>.<li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=broadcasting-to-other-browsing-contexts:concept-event-fire data-x-internal=concept-event-fire>Fire an event</a> named <code id=broadcasting-to-other-browsing-contexts:event-message><a href=#event-message>message</a></code> at <var>destination</var>, using
+     <code id=broadcasting-to-other-browsing-contexts:messageevent><a href=#messageevent>MessageEvent</a></code>, with the <code id=broadcasting-to-other-browsing-contexts:dom-messageevent-data><a href=#dom-messageevent-data>data</a></code> attribute
+     initialized to <a href=#structuredclone id=broadcasting-to-other-browsing-contexts:structuredclone-2>StructuredClone</a>(<var>clonedMessage</var>, <var>targetRealm</var>)
+     
+     and the <code id=broadcasting-to-other-browsing-contexts:dom-messageevent-origin><a href=#dom-messageevent-origin>origin</a></code> attribute initialized to the <a href=#unicode-serialisation-of-an-origin id=broadcasting-to-other-browsing-contexts:unicode-serialisation-of-an-origin>Unicode serialization</a> of
+     <var>sourceSettings</var>'s <a href=#concept-settings-object-origin id=broadcasting-to-other-browsing-contexts:concept-settings-object-origin-3>origin</a>.</ol>
+
+    <p>The <a href=#concept-task id=broadcasting-to-other-browsing-contexts:concept-task>tasks</a> must use the <a href=#dom-manipulation-task-source id=broadcasting-to-other-browsing-contexts:dom-manipulation-task-source>DOM manipulation task
+    source</a>, and, for those where the <a href=#event-loop id=broadcasting-to-other-browsing-contexts:event-loop>event loop</a> specified by the target
+    <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-11><a href=#broadcastchannel>BroadcastChannel</a></code> object's <a href=#broadcastchannel-settings-object id=broadcasting-to-other-browsing-contexts:broadcastchannel-settings-object-6><code>BroadcastChannel</code> settings
+    object</a> is a <a href=#browsing-context id=broadcasting-to-other-browsing-contexts:browsing-context-2>browsing context</a> <a href=#event-loop id=broadcasting-to-other-browsing-contexts:event-loop-2>event loop</a>, must be associated
+    with the <a href=#responsible-document id=broadcasting-to-other-browsing-contexts:responsible-document-2>responsible document</a> specified by that target
+    <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-12><a href=#broadcastchannel>BroadcastChannel</a></code> object's <a href=#broadcastchannel-settings-object id=broadcasting-to-other-browsing-contexts:broadcastchannel-settings-object-7><code>BroadcastChannel</code> settings
+    object</a>.</p>
+   </ol>
+
+  <p>While a <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-13><a href=#broadcastchannel>BroadcastChannel</a></code> object whose <a href=#concept-broadcastchannel-closed id=broadcasting-to-other-browsing-contexts:concept-broadcastchannel-closed-4>closed flag</a> is false has an event listener
+  registered for <code id=broadcasting-to-other-browsing-contexts:event-message-2><a href=#event-message>message</a></code> events, there must be a strong
+  reference from <a href=#concept-settings-object-global id=broadcasting-to-other-browsing-contexts:concept-settings-object-global-3>global object</a> specified by
+  the <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-14><a href=#broadcastchannel>BroadcastChannel</a></code> object's <a href=#broadcastchannel-settings-object id=broadcasting-to-other-browsing-contexts:broadcastchannel-settings-object-8><code>BroadcastChannel</code> settings
+  object</a> to the <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-15><a href=#broadcastchannel>BroadcastChannel</a></code> object itself.</p>
+
+  <p>The <dfn id=dom-broadcastchannel-close><code>close()</code></dfn> method must set the
+  <a href=#concept-broadcastchannel-closed id=broadcasting-to-other-browsing-contexts:concept-broadcastchannel-closed-5>closed flag</a> of the
+  <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-16><a href=#broadcastchannel>BroadcastChannel</a></code> object on which it was invoked to true.</p>
+
+  <p class=note>Authors are strongly encouraged to explicitly close <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-17><a href=#broadcastchannel>BroadcastChannel</a></code>
+  objects when they are no longer needed, so that they can be garbage collected. Creating many
+  <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-18><a href=#broadcastchannel>BroadcastChannel</a></code> objects and discarding them while leaving them with an event
+  listener and without closing them can lead to an apparent memory leak, since the objects will
+  continue to live for as long as they have an event listener (or until their page or worker is
+  closed).</p>
+
+  <hr>
+
+  <p>The following are the <a href=#event-handlers id=broadcasting-to-other-browsing-contexts:event-handlers>event handlers</a> (and their corresponding <a href=#event-handler-event-type id=broadcasting-to-other-browsing-contexts:event-handler-event-type>event handler event types</a>) that must be supported, as <a href=#event-handler-idl-attributes id=broadcasting-to-other-browsing-contexts:event-handler-idl-attributes>event
+  handler IDL attributes</a>, by all objects implementing the <code id=broadcasting-to-other-browsing-contexts:broadcastchannel-19><a href=#broadcastchannel>BroadcastChannel</a></code>
+  interface:</p>
+
+  <table><thead><tr><th><a href=#event-handlers id=broadcasting-to-other-browsing-contexts:event-handlers-2>Event handler</a> <th><a href=#event-handler-event-type id=broadcasting-to-other-browsing-contexts:event-handler-event-type-2>Event handler event type</a>
+   <tbody><tr><td><dfn id=handler-broadcastchannel-onmessage><code>onmessage</code></dfn> <td> <code id=broadcasting-to-other-browsing-contexts:event-message-3><a href=#event-message>message</a></code>
+  </table>
+
+  
+
+  <div class=example>
+
+   <p>Suppose a page wants to know when the user logs out, even when the user does so from another
+   tab at the same site:</p>
+
+   <pre>var authChannel = new BroadcastChannel('auth');
+authChannel.onmessage = function (event) {
+  if (event.data == 'logout')
+    showLogout();
+}
+
+function logoutRequested() {
+  // called when the user asks us to log them out
+  doLogout();
+  showLogout();
+  authChannel.postMessage('logout');
+}
+
+function doLogout() {
+  // actually log the user out (e.g. clearing cookies)
+  // ...
+}
+
+function showLogout() {
+  // update the UI to indicate we're logged out
+  // ...
+}</pre>
+
+  </div>
+
+
+
+
+
+  <h2 id=workers data-dfn-type=dfn data-lt="web worker" data-export="">10 Web workers<a href=#workers class=self-link></a></h2>
+
+  <h3 id=introduction-14>10.1 Introduction<a href=#introduction-14 class=self-link></a></h3>
+
+  <h4 id=scope-2>10.1.1 Scope<a href=#scope-2 class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This specification defines an API for running scripts in the background independently of any
+  user interface scripts.</p>
+
+  <p>This allows for long-running scripts that are not interrupted by scripts that respond to clicks
+  or other user interactions, and allows long tasks to be executed without yielding to keep the page
+  responsive.</p>
+
+  <p>Workers (as these background scripts are called herein) are relatively heavy-weight, and are
+  not intended to be used in large numbers. For example, it would be inappropriate to launch one
+  worker for each pixel of a four megapixel image. The examples below show some appropriate uses of
+  workers.</p>
+
+  <p>Generally, workers are expected to be long-lived, have a high start-up performance cost, and a
+  high per-instance memory cost.</p>
+
+
+  <h4 id=examples-6>10.1.2 Examples<a href=#examples-6 class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>There are a variety of uses that workers can be put to. The following subsections show various
+  examples of this use.</p>
+
+  <h5 id=a-background-number-crunching-worker>10.1.2.1 A background number-crunching worker<a href=#a-background-number-crunching-worker class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The simplest use of workers is for performing a computationally
+  expensive task without interrupting the user interface.</p>
+
+  <p>In this example, the main document spawns a worker to (naïvely) compute prime numbers, and
+  progressively displays the most recently found prime number.</p>
+
+  <p>The main page is as follows:</p>
+
+  <pre>&lt;!DOCTYPE HTML>
+&lt;html>
+ &lt;head>
+  &lt;meta charset="utf-8">
+  &lt;title>Worker example: One-core computation&lt;/title>
+ &lt;/head>
+ &lt;body>
+  &lt;p>The highest prime number discovered so far is: &lt;output id="result">&lt;/output>&lt;/p>
+  &lt;script>
+   var worker = new Worker('worker.js');
+   worker.onmessage = function (event) {
+     document.getElementById('result').textContent = event.data;
+   };
+  &lt;/script>
+ &lt;/body>
+&lt;/html>
+</pre>
+
+  <p>The <code id=a-background-number-crunching-worker:dom-worker><a href=#dom-worker>Worker()</a></code> constructor call creates a worker and returns a
+  <code id=a-background-number-crunching-worker:worker><a href=#worker>Worker</a></code> object representing that worker, which is used to communicate with the worker.
+  That object's <code id=a-background-number-crunching-worker:handler-worker-onmessage><a href=#handler-worker-onmessage>onmessage</a></code> event handler allows the
+  code to receive messages from the worker.</p>
+
+  <p>The worker itself is as follows:</p>
+
+  <pre>var n = 1;
+search: while (true) {
+  n += 1;
+  for (var i = 2; i &lt;= Math.sqrt(n); i += 1)
+    if (n % i == 0)
+     continue search;
+  // found a prime!
+  postMessage(n);
+}
+</pre>
+
+  <p>The bulk of this code is simply an unoptimized search for a prime number. The <code id=a-background-number-crunching-worker:dom-dedicatedworkerglobalscope-postmessage><a href=#dom-dedicatedworkerglobalscope-postmessage>postMessage()</a></code> method is used to send a
+  message back to the page when a prime is found.</p>
+
+  <p><a href=/demos/workers/primes/page.html>View this example online</a>.</p>
+
+
+
+
+  <h5 id=worker-used-for-background-i/o>10.1.2.2 Worker used for background I/O<a href=#worker-used-for-background-i/o class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>In this example, the main document uses two workers, one for fetching stock updates at regular
+  intervals, and one for performing search queries that the user requests.</p>
+
+  <p>The main page is as follows:</p>
+
+  <pre>&lt;!DOCTYPE HTML>
+&lt;html>
+ &lt;head>
+  &lt;meta charset="utf-8">
+  &lt;title>Worker example: Stock ticker&lt;/title>
+  &lt;script>
+   // TICKER
+   var symbol = 'GOOG'; // default symbol to watch
+   var ticker = new Worker('ticker.js');
+
+   // SEARCHER
+   var searcher = new Worker('searcher.js');
+   function search(query) {
+     searcher.postMessage(query);
+   }
+
+   // SYMBOL SELECTION UI
+   function select(newSymbol) {
+     symbol = newSymbol;
+     ticker.postMessage(symbol);
+   }
+  &lt;/script>
+  &lt;meta http-equiv="Refresh" content="120; URL=../">
+ &lt;/head>
+ &lt;body onload="search('')">
+  &lt;p>&lt;output id="symbol">&lt;/output> &lt;output id="value">&lt;/output>&lt;/p>
+  &lt;script>
+   ticker.onmessage = function (event) {
+     var data = event.data.split(' ');
+     document.getElementById('symbol').textContent = data[0];
+     document.getElementById('value').textContent = data[1];
+   };
+   ticker.postMessage(symbol);
+  &lt;/script>
+  &lt;p>&lt;label>Search: &lt;input type="text" autofocus oninput="search(this.value)">&lt;/label>&lt;/p>
+  &lt;ul id="results">&lt;/ul>
+  &lt;script>
+   searcher.onmessage = function (event) {
+     var data = event.data.split(' ');
+     var results = document.getElementById('results');
+     while (results.hasChildNodes()) // clear previous results
+       results.removeChild(results.firstChild);
+     for (var i = 0; i &lt; data.length; i += 1) {
+       // add a list item with a button for each result
+       var li = document.createElement('li');
+       var button = document.createElement('button');
+       button.value = data[i];
+       button.type = 'button';
+       button.onclick = function () { select(this.value); };
+       button.textContent = data[i];
+       li.appendChild(button);
+       results.appendChild(li);
+     }
+   };
+  &lt;/script>
+  &lt;p>(The data in this example is not real. Try searching for "Google" or "Apple".)&lt;/p>
+ &lt;/body>
+&lt;/html>
+</pre>
+
+  <p>The two workers use a common library for performing the actual network calls. This library is
+  as follows:</p>
+
+  <pre>function get(url) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    return xhr.responseText;
+  } catch (e) {
+    return ''; // turn all errors into empty results
+  }
+}
+</pre>
+
+  <p>The stock updater worker is as follows:</p>
+
+  <pre>importScripts('io.js');
+var timer;
+var symbol;
+function update() {
+  postMessage(symbol + ' ' + get('stock.cgi?' + symbol));
+  timer = setTimeout(update, 10000);
+}
+onmessage = function (event) {
+  if (timer)
+    clearTimeout(timer);
+  symbol = event.data;
+  update();
+};
+</pre>
+
+  <p>The search query worker is as follows:</p>
+
+  <pre>importScripts('io.js');
+onmessage = function (event) {
+  postMessage(get('search.cgi?' + event.data));

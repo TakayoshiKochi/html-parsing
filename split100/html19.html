@@ -1,0 +1,850 @@
+  <p class=note>The "referenced document" can be, and often is, a <code id=link-type-author:mailto-protocol><a data-x-internal=mailto-protocol href=https://tools.ietf.org/html/rfc6068#section-2>mailto:</a></code> URL giving the e-mail address of the author. <a href=#refsMAILTO>[MAILTO]</a></p>
+
+  
+
+  <p><strong>Synonyms</strong>: For historical reasons, user agents must also treat
+  <code id=link-type-author:the-link-element-3><a href=#the-link-element>link</a></code>, <code id=link-type-author:the-a-element-3><a href=#the-a-element>a</a></code>, and <code id=link-type-author:the-area-element-3><a href=#the-area-element>area</a></code> elements that have a <code>rev</code> attribute with the value "<code>made</code>" as having the <code id=link-type-author:link-type-author-4><a href=#link-type-author>author</a></code> keyword specified as a link relationship.</p>
+
+  
+
+
+  <h5 id=link-type-bookmark>4.6.6.3 Link type "<dfn><code>bookmark</code></dfn>"<a href=#link-type-bookmark class=self-link></a></h5>
+
+  <p>The <code id=link-type-bookmark:link-type-bookmark><a href=#link-type-bookmark>bookmark</a></code> keyword may be used with <code id=link-type-bookmark:the-a-element><a href=#the-a-element>a</a></code> and
+  <code id=link-type-bookmark:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword creates a <a href=#hyperlink id=link-type-bookmark:hyperlink>hyperlink</a>.</p>
+
+  <p>The <code id=link-type-bookmark:link-type-bookmark-2><a href=#link-type-bookmark>bookmark</a></code> keyword gives a permalink for the nearest
+  ancestor <code id=link-type-bookmark:the-article-element><a href=#the-article-element>article</a></code> element of the linking element in question, or of <a href=#associatedSection>the section the linking element is most closely associated with</a>, if
+  there are no ancestor <code id=link-type-bookmark:the-article-element-2><a href=#the-article-element>article</a></code> elements.</p>
+
+  <div class=example>
+
+   <p>The following snippet has three permalinks. A user agent could determine which permalink
+   applies to which part of the spec by looking at where the permalinks are given.</p>
+
+   <pre> ...
+ &lt;body>
+  &lt;h1>Example of permalinks&lt;/h1>
+  &lt;div id="a">
+   &lt;h2>First example&lt;/h2>
+   &lt;p>&lt;a href="a.html" rel="bookmark">This permalink applies to
+   only the content from the first H2 to the second H2&lt;/a>. The DIV isn't
+   exactly that section, but it roughly corresponds to it.&lt;/p>
+  &lt;/div>
+  &lt;h2>Second example&lt;/h2>
+  &lt;article id="b">
+   &lt;p>&lt;a href="b.html" rel="bookmark">This permalink applies to
+   the outer ARTICLE element&lt;/a> (which could be, e.g., a blog post).&lt;/p>
+   &lt;article id="c">
+    &lt;p>&lt;a href="c.html" rel="bookmark">This permalink applies to
+    the inner ARTICLE element&lt;/a> (which could be, e.g., a blog comment).&lt;/p>
+   &lt;/article>
+  &lt;/article>
+ &lt;/body>
+ ...</pre>
+
+  </div>
+
+
+  <h5 id=link-type-dns-prefetch>4.6.6.4 Link type "<dfn><code>dns-prefetch</code></dfn>"<a href=#link-type-dns-prefetch class=self-link></a></h5>
+
+  <p>The <code id=link-type-dns-prefetch:link-type-dns-prefetch><a href=#link-type-dns-prefetch>dns-prefetch</a></code> keyword may be used with
+  <code id=link-type-dns-prefetch:the-link-element><a href=#the-link-element>link</a></code> elements. This keyword creates an <a href=#external-resource-link id=link-type-dns-prefetch:external-resource-link>external
+  resource link</a>. This keyword is <a href=#body-ok id=link-type-dns-prefetch:body-ok>body-ok</a>.</p>
+
+  <p>The <code id=link-type-dns-prefetch:link-type-dns-prefetch-2><a href=#link-type-dns-prefetch>dns-prefetch</a></code> keyword indicates that preemptively
+  performing DNS resolution for the <a href=#concept-origin id=link-type-dns-prefetch:concept-origin>origin</a> of the specified resource is likely to be
+  beneficial, as it is highly likely that the user will require resources located at that
+  <a href=#concept-origin id=link-type-dns-prefetch:concept-origin-2>origin</a>, and the user experience would be improved by preempting the latency costs
+  associated with DNS resolution. User agents must implement the processing model of
+  the <code id=link-type-dns-prefetch:link-type-dns-prefetch-3><a href=#link-type-dns-prefetch>dns-prefetch</a></code> keyword described in the <cite>Resource
+  Hints</cite> specification. <a href=#refsRESOURCEHINTS>[RESOURCEHINTS]</a></p>
+
+  <p>There is no default type for resources given by the <code id=link-type-dns-prefetch:link-type-dns-prefetch-4><a href=#link-type-dns-prefetch>dns-prefetch</a></code> keyword.</p>
+
+
+  <h5 id=link-type-external>4.6.6.5 Link type "<dfn><code>external</code></dfn>"<a href=#link-type-external class=self-link></a></h5>
+  
+
+  <p>The <code id=link-type-external:link-type-external><a href=#link-type-external>external</a></code> keyword may be used with <code id=link-type-external:the-a-element><a href=#the-a-element>a</a></code> and
+  <code id=link-type-external:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword does not create a <a href=#hyperlink id=link-type-external:hyperlink>hyperlink</a>, but <a href=#hyperlink-annotation id=link-type-external:hyperlink-annotation>annotates</a> any other hyperlinks created by the element (the
+  implied hyperlink, if no other keywords create one).</p>
+
+  <p>The <code id=link-type-external:link-type-external-2><a href=#link-type-external>external</a></code> keyword indicates that the link is leading to a
+  document that is not part of the site that the current document forms a part of.</p>
+
+
+  <h5 id=link-type-help>4.6.6.6 Link type "<dfn><code>help</code></dfn>"<a href=#link-type-help class=self-link></a></h5>
+
+  <p>The <code id=link-type-help:link-type-help><a href=#link-type-help>help</a></code> keyword may be used with <code id=link-type-help:the-link-element><a href=#the-link-element>link</a></code>,
+  <code id=link-type-help:the-a-element><a href=#the-a-element>a</a></code>, and <code id=link-type-help:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword creates a <a href=#hyperlink id=link-type-help:hyperlink>hyperlink</a>.</p>
+
+  <p>For <code id=link-type-help:the-a-element-2><a href=#the-a-element>a</a></code> and <code id=link-type-help:the-area-element-2><a href=#the-area-element>area</a></code> elements, the <code id=link-type-help:link-type-help-2><a href=#link-type-help>help</a></code>
+  keyword indicates that the referenced document provides further help information for the parent of
+  the element defining the hyperlink, and its children.</p>
+
+  <div class=example>
+
+   <p>In the following example, the form control has associated context-sensitive help. The user
+   agent could use this information, for example, displaying the referenced document if the user
+   presses the "Help" or "F1" key.</p>
+
+   <pre> &lt;p>&lt;label> Topic: &lt;input name=topic> &lt;a href="help/topic.html" rel="help">(Help)&lt;/a>&lt;/label>&lt;/p></pre>
+
+  </div>
+
+  <p>For <code id=link-type-help:the-link-element-2><a href=#the-link-element>link</a></code> elements, the <code id=link-type-help:link-type-help-3><a href=#link-type-help>help</a></code> keyword indicates that
+  the referenced document provides help for the page as a whole.</p>
+
+  <p>For <code id=link-type-help:the-a-element-3><a href=#the-a-element>a</a></code> and <code id=link-type-help:the-area-element-3><a href=#the-area-element>area</a></code> elements, on some browsers, the <code id=link-type-help:link-type-help-4><a href=#link-type-help>help</a></code> keyword causes the link to use a different cursor.</p>
+
+
+  <h5 id=rel-icon>4.6.6.7 Link type "<dfn><code>icon</code></dfn>"<a href=#rel-icon class=self-link></a></h5><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> link-icon-png<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>2+</span></span><span class="ie yes"><span>IE</span> <span>11+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>2.1+</span></span><span class="safari yes"><span>Safari</span> <span>3.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>9+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=link-icon-png">caniuse.com</a></div>
+
+  <p>The <code id=rel-icon:rel-icon><a href=#rel-icon>icon</a></code> keyword may be used with <code id=rel-icon:the-link-element><a href=#the-link-element>link</a></code> elements.
+  This keyword creates an <a href=#external-resource-link id=rel-icon:external-resource-link>external resource link</a>.</p>
+
+  
+
+  <p>The specified resource is an icon representing the page or site, and should be used by the user
+  agent when representing the page in the user interface.</p>
+
+  
+
+  <p>Icons could be auditory icons, visual icons, or other kinds of icons. If
+  multiple icons are provided, the user agent must select the most appropriate icon according to the
+  <code id=rel-icon:attr-link-type><a href=#attr-link-type>type</a></code>, <code id=rel-icon:attr-link-media><a href=#attr-link-media>media</a></code>, and <code id=rel-icon:attr-link-sizes><a href=#attr-link-sizes>sizes</a></code> attributes. If there are multiple equally appropriate icons,
+  user agents must use the last one declared in <a id=rel-icon:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> at the time that the user
+  agent collected the list of icons. If the user agent tries to use an icon but that icon is
+  determined, upon closer examination, to in fact be inappropriate (e.g. because it uses an
+  unsupported format), then the user agent must try the next-most-appropriate icon as determined by
+  the attributes.</p>
+
+  
+
+  <p class=note>User agents are not required to update icons when the list of icons changes, but
+  are encouraged to do so.</p>
+
+  <p>There is no default type for resources given by the <code id=rel-icon:rel-icon-2><a href=#rel-icon>icon</a></code> keyword.
+  However, for the purposes of <a href=#concept-link-type-sniffing>determining the type of the
+  resource</a>, user agents must expect the resource to be an image.</p>
+
+  
+
+  <p>The <dfn id=attr-link-sizes><code>sizes</code></dfn> attribute gives the sizes of icons
+  for visual media. Its value, if present, is merely advisory. User agents may use the value to
+  decide which icon(s) to use if multiple icons are available.</p>
+
+  <p>If specified, the attribute must have a value that is an <a href=#unordered-set-of-unique-space-separated-tokens id=rel-icon:unordered-set-of-unique-space-separated-tokens>unordered set of unique
+  space-separated tokens</a> which are <a id=rel-icon:ascii-case-insensitive href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a>. Each value must be
+  either an <a id=rel-icon:ascii-case-insensitive-2 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code id=rel-icon:attr-link-sizes-any><a href=#attr-link-sizes-any>any</a></code>", or a value that consists of two <a href=#valid-non-negative-integer id=rel-icon:valid-non-negative-integer>valid non-negative integers</a> that do not have a leading U+0030 DIGIT
+  ZERO (0) character and that are separated by a single U+0078 LATIN SMALL LETTER X or U+0058 LATIN
+  CAPITAL LETTER X character.</p>
+
+  <p>The keywords represent icon sizes in raw pixels (as opposed to <a href=https://drafts.csswg.org/css-values/#px id="rel-icon:'px'" data-x-internal="'px'">CSS
+  pixels</a>).</p>
+
+  <p class=note>An icon that is 50 <a href=https://drafts.csswg.org/css-values/#px id="rel-icon:'px'-2" data-x-internal="'px'">CSS pixels</a> wide intended for
+  displays with a device pixel density of two device pixels per <a href=https://drafts.csswg.org/css-values/#px id="rel-icon:'px'-3" data-x-internal="'px'">CSS pixel</a>
+  (2x, 192dpi) would have a width of 100 raw pixels. This feature does not support indicating that a
+  different resource is to be used for small high-resolution icons vs large low-resolution icons
+  (e.g. 50×50 2x vs 100×100 1x).</p>
+
+  
+
+  <p>To parse and process the attribute's value, the user agent must first <a href=#split-a-string-on-spaces id=rel-icon:split-a-string-on-spaces>split the attribute's value on spaces</a>, and must then parse each resulting
+  keyword to determine what it represents.</p>
+
+  
+
+  <p>The <dfn id=attr-link-sizes-any><code>any</code></dfn> keyword represents that the
+  resource contains a scalable icon, e.g. as provided by an SVG image.</p>
+
+  
+
+  <p>Other keywords must be further parsed as follows to determine what they represent:</p>
+
+  <ul><li><p>If the keyword doesn't contain exactly one U+0078 LATIN SMALL LETTER X or U+0058 LATIN
+   CAPITAL LETTER X character, then this keyword doesn't represent anything. Abort these steps for
+   that keyword.<li><p>Let <var>width string</var> be the string before the "<code>x</code>" or
+   "<code>X</code>".<li><p>Let <var>height string</var> be the string after the "<code>x</code>" or
+   "<code>X</code>".<li><p>If either <var>width string</var> or <var>height string</var> start with
+   a U+0030 DIGIT ZERO (0) character or contain any characters other than <a href=#ascii-digits id=rel-icon:ascii-digits>ASCII digits</a>,
+   then this keyword doesn't represent anything. Abort these steps for that keyword.<li><p>Apply the <a href=#rules-for-parsing-non-negative-integers id=rel-icon:rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</a> to <var>width
+   string</var> to obtain <var>width</var>.<li><p>Apply the <a href=#rules-for-parsing-non-negative-integers id=rel-icon:rules-for-parsing-non-negative-integers-2>rules for parsing non-negative integers</a> to <var>height
+   string</var> to obtain <var>height</var>.<li><p>The keyword represents that the resource contains a bitmap icon with a width of <var>width</var> device pixels and a height of <var>height</var> device
+   pixels.</ul>
+
+  
+
+  <p>The keywords specified on the <code id=rel-icon:attr-link-sizes-2><a href=#attr-link-sizes>sizes</a></code> attribute must not
+  represent icon sizes that are not actually available in the linked resource.</p>
+
+  
+
+  <p>In the absence of a <code id=rel-icon:the-link-element-2><a href=#the-link-element>link</a></code> with the <code id=rel-icon:rel-icon-3><a href=#rel-icon>icon</a></code> keyword, for
+  <code id=rel-icon:document><a href=#document>Document</a></code> objects whose <a href=https://dom.spec.whatwg.org/#concept-document-url id="rel-icon:the-document's-address" data-x-internal="the-document's-address">URL</a>'s
+  <a href=https://url.spec.whatwg.org/#concept-url-scheme id=rel-icon:concept-url-scheme data-x-internal=concept-url-scheme>scheme</a> is an <a id=rel-icon:http(s)-scheme href=https://url.spec.whatwg.org/#http-scheme data-x-internal=http(s)-scheme>HTTP(S) scheme</a>, user agents may
+  instead run these steps <a href=#in-parallel id=rel-icon:in-parallel>in parallel</a>:</p>
+
+  <ol><li><p>Let <var>request</var> be a new <a href=https://fetch.spec.whatwg.org/#concept-request id=rel-icon:concept-request data-x-internal=concept-request>request</a> whose
+   <a href=https://fetch.spec.whatwg.org/#concept-request-url id=rel-icon:concept-request-url data-x-internal=concept-request-url>url</a> is the <a id=rel-icon:url-record href=https://url.spec.whatwg.org/#concept-url data-x-internal=url-record>URL record</a> obtained by
+   resolving the <a id=rel-icon:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> "<code>/favicon.ico</code>" against the
+   <code id=rel-icon:document-2><a href=#document>Document</a></code> object's <a href=https://dom.spec.whatwg.org/#concept-document-url id="rel-icon:the-document's-address-2" data-x-internal="the-document's-address">URL</a>, <a href=https://fetch.spec.whatwg.org/#concept-request-client id=rel-icon:concept-request-client data-x-internal=concept-request-client>client</a> is the <code id=rel-icon:document-3><a href=#document>Document</a></code> object's
+   <a href=#relevant-settings-object id=rel-icon:relevant-settings-object>relevant settings object</a>, <a href=https://fetch.spec.whatwg.org/#concept-request-type id=rel-icon:concept-request-type data-x-internal=concept-request-type>type</a> is "<code>image</code>", <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=rel-icon:concept-request-destination data-x-internal=concept-request-destination>destination</a> is "<code>image</code>", <a id=rel-icon:synchronous-flag href=https://fetch.spec.whatwg.org/#synchronous-flag data-x-internal=synchronous-flag>synchronous flag</a> is set, <a href=https://fetch.spec.whatwg.org/#concept-request-credentials-mode id=rel-icon:concept-request-credentials-mode data-x-internal=concept-request-credentials-mode>credentials mode</a> is "<code>include</code>", and whose <a id=rel-icon:use-url-credentials-flag href=https://fetch.spec.whatwg.org/#concept-request-use-url-credentials-flag data-x-internal=use-url-credentials-flag>use-URL-credentials flag</a> is set.<li><p>Let <var>response</var> be the result of <a href=https://fetch.spec.whatwg.org/#concept-fetch id=rel-icon:concept-fetch data-x-internal=concept-fetch>fetching</a> <var>request</var>.<li><p>Use <var>response</var>'s <a href=#unsafe-response id=rel-icon:unsafe-response>unsafe response</a> as an icon as if it had been
+   declared using the <code id=rel-icon:rel-icon-4><a href=#rel-icon>icon</a></code> keyword.</ol>
+
+  
+
+  <div class=example>
+
+   <p>The following snippet shows the top part of an application with several icons.</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>lsForums — Inbox&lt;/title>
+  &lt;link rel=icon href=favicon.png sizes="16x16" type="image/png">
+  &lt;link rel=icon href=windows.ico sizes="32x32 48x48" type="image/vnd.microsoft.icon">
+  &lt;link rel=icon href=mac.icns sizes="128x128 512x512 8192x8192 32768x32768">
+  &lt;link rel=icon href=iphone.png sizes="57x57" type="image/png">
+  &lt;link rel=icon href=gnome.svg sizes="any" type="image/svg+xml">
+  &lt;link rel=stylesheet href=lsforums.css>
+  &lt;script src=lsforums.js>&lt;/script>
+  &lt;meta name=application-name content="lsForums">
+ &lt;/head>
+ &lt;body>
+  ...</pre>
+
+  </div>
+
+  <p>For historical reasons, the <code id=rel-icon:rel-icon-5><a href=#rel-icon>icon</a></code> keyword may be preceded by the
+  keyword "<code>shortcut</code>". If the "<code>shortcut</code>" keyword is
+  present, the <code id=rel-icon:attr-hyperlink-rel><a href=#attr-hyperlink-rel>rel</a></code> attribute's entire value must be an
+  <a id=rel-icon:ascii-case-insensitive-3 href=https://infra.spec.whatwg.org/#ascii-case-insensitive data-x-internal=ascii-case-insensitive>ASCII case-insensitive</a> match for the string "<code>shortcut icon</code>" (with a single U+0020 SPACE character between the tokens and
+  no other <a href=#space-character id=rel-icon:space-character>space characters</a>).</p>
+
+
+  <h5 id=link-type-license>4.6.6.8 Link type "<dfn><code>license</code></dfn>"<a href=#link-type-license class=self-link></a></h5>
+
+  <p>The <code id=link-type-license:link-type-license><a href=#link-type-license>license</a></code> keyword may be used with <code id=link-type-license:the-link-element><a href=#the-link-element>link</a></code>,
+  <code id=link-type-license:the-a-element><a href=#the-a-element>a</a></code>, and <code id=link-type-license:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword creates a <a href=#hyperlink id=link-type-license:hyperlink>hyperlink</a>.</p>
+
+  <p>The <code id=link-type-license:link-type-license-2><a href=#link-type-license>license</a></code> keyword indicates that the referenced document
+  provides the copyright license terms under which the main content of the current document is
+  provided.</p>
+
+  <p>This specification does not specify how to distinguish between the main content of a document
+  and content that is not deemed to be part of that main content. The distinction should be made
+  clear to the user.</p>
+
+  <div class=example>
+
+   <p>Consider a photo sharing site. A page on that site might describe and show a photograph, and
+   the page might be marked up as follows:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>Exampl Pictures: Kissat&lt;/title>
+  &lt;link rel="stylesheet" href="/style/default">
+ &lt;/head>
+ &lt;body>
+  &lt;h1>Kissat&lt;/h1>
+  &lt;nav>
+   &lt;a href="../">Return to photo index&lt;/a>
+  &lt;/nav>
+  &lt;figure>
+   &lt;img src="/pix/39627052_fd8dcd98b5.jpg">
+   &lt;figcaption>Kissat&lt;/figcaption>
+  &lt;/figure>
+  &lt;p>One of them has six toes!&lt;/p>
+  &lt;p>&lt;small>&lt;a rel="license" href="http://www.opensource.org/licenses/mit-license.php">MIT Licensed&lt;/a>&lt;/small>&lt;/p>
+  &lt;footer>
+   &lt;a href="/">Home&lt;/a> | &lt;a href="../">Photo index&lt;/a>
+   &lt;p>&lt;small>© copyright 2009 Exampl Pictures. All Rights Reserved.&lt;/small>&lt;/p>
+  &lt;/footer>
+ &lt;/body>
+&lt;/html></pre>
+
+   <p>In this case the <code id=link-type-license:link-type-license-3><a href=#link-type-license>license</a></code> applies to just the photo (the main
+   content of the document), not the whole document. In particular not the design of the page
+   itself, which is covered by the copyright given at the bottom of the document. This could be made
+   clearer in the styling (e.g. making the license link prominently positioned near the photograph,
+   while having the page copyright in light small text at the foot of the page).</p>
+
+  </div>
+
+  
+
+  <p><strong>Synonyms</strong>: For historical reasons, user agents must also treat the keyword
+  "<code>copyright</code>" like the <code id=link-type-license:link-type-license-4><a href=#link-type-license>license</a></code> keyword.</p>
+
+  
+
+
+  <h5 id=link-type-nofollow>4.6.6.9 Link type "<dfn><code>nofollow</code></dfn>"<a href=#link-type-nofollow class=self-link></a></h5>
+
+  <p>The <code id=link-type-nofollow:link-type-nofollow><a href=#link-type-nofollow>nofollow</a></code> keyword may be used with <code id=link-type-nofollow:the-a-element><a href=#the-a-element>a</a></code> and
+  <code id=link-type-nofollow:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword does not create a <a href=#hyperlink id=link-type-nofollow:hyperlink>hyperlink</a>, but <a href=#hyperlink-annotation id=link-type-nofollow:hyperlink-annotation>annotates</a> any other hyperlinks created by the element (the
+  implied hyperlink, if no other keywords create one).</p>
+
+  <p>The <code id=link-type-nofollow:link-type-nofollow-2><a href=#link-type-nofollow>nofollow</a></code> keyword indicates that the link is not endorsed
+  by the original author or publisher of the page, or that the link to the referenced document was
+  included primarily because of a commercial relationship between people affiliated with the two
+  pages.</p>
+
+
+  <h5 id=link-type-noreferrer>4.6.6.10 Link type "<dfn><code>noreferrer</code></dfn>"<a href=#link-type-noreferrer class=self-link></a></h5>
+
+  <p>The <code id=link-type-noreferrer:link-type-noreferrer><a href=#link-type-noreferrer>noreferrer</a></code> keyword may be used with <code id=link-type-noreferrer:the-a-element><a href=#the-a-element>a</a></code> and
+  <code id=link-type-noreferrer:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword does not create a <a href=#hyperlink id=link-type-noreferrer:hyperlink>hyperlink</a>, but <a href=#hyperlink-annotation id=link-type-noreferrer:hyperlink-annotation>annotates</a> any other hyperlinks created by the element (the
+  implied hyperlink, if no other keywords create one).</p>
+
+  <p>It indicates that no referrer information is to be leaked when following the link.</p>
+
+  
+
+  <p>If a user agent follows a link defined by an <code id=link-type-noreferrer:the-a-element-2><a href=#the-a-element>a</a></code> or <code id=link-type-noreferrer:the-area-element-2><a href=#the-area-element>area</a></code> element that
+  has the <code id=link-type-noreferrer:link-type-noreferrer-2><a href=#link-type-noreferrer>noreferrer</a></code> keyword, the user agent must set their
+  <a href=https://fetch.spec.whatwg.org/#concept-request id=link-type-noreferrer:concept-request data-x-internal=concept-request>request</a>'s <a href=https://fetch.spec.whatwg.org/#concept-request-referrer id=link-type-noreferrer:concept-request-referrer data-x-internal=concept-request-referrer>referrer</a> to "<code>no-referrer</code>".</p>
+
+  <p class=note>For historical reasons, the <code id=link-type-noreferrer:link-type-noreferrer-3><a href=#link-type-noreferrer>noreferrer</a></code>
+  keyword implies the behavior associated with the <code id=link-type-noreferrer:link-type-noopener><a href=#link-type-noopener>noopener</a></code>
+  keyword when present on a hyperlink that <a href=#creating-a-new-browsing-context id=link-type-noreferrer:creating-a-new-browsing-context>creates</a> a new <a href=#browsing-context id=link-type-noreferrer:browsing-context>browsing context</a>. That is, <code>&lt;a
+  href="..." rel="noreferrer" target="_blank"></code> has the same behavior as <code>&lt;a href="..." rel="noreferrer noopener" target="_blank"></code>.</p>
+
+  
+
+  
+
+  <h5 id=link-type-noopener>4.6.6.11 Link type "<dfn><code>noopener</code></dfn>"<a href=#link-type-noopener class=self-link></a></h5><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> rel-noopener<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>49+</span></span><span class="ios_saf no"><span>iOS Safari</span> <span>None</span></span><span class="and_uc no"><span>UC Browser for Android</span> <span>None</span></span><span class="firefox yes"><span>Firefox</span> <span>52+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="samsung no"><span>Samsung Internet</span> <span>None</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>53+</span></span><span class="safari yes"><span>Safari</span> <span>10.1+</span></span><span class="edge no"><span>Edge</span> <span>None</span></span><span class="opera yes"><span>Opera</span> <span>36+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=rel-noopener">caniuse.com</a></div>
+
+  <p>The <code id=link-type-noopener:link-type-noopener><a href=#link-type-noopener>noopener</a></code> keyword may be used with <code id=link-type-noopener:the-a-element><a href=#the-a-element>a</a></code> and
+  <code id=link-type-noopener:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword does not create a <a href=#hyperlink id=link-type-noopener:hyperlink>hyperlink</a>, but <a href=#hyperlink-annotation id=link-type-noopener:hyperlink-annotation>annotates</a> any other hyperlinks created by the element (the
+  implied hyperlink, if no other keywords create one).</p>
+
+  <p>The keyword indicates that any newly created <a href=#browsing-context id=link-type-noopener:browsing-context>browsing context</a> which results from
+  following the <a href=#hyperlink id=link-type-noopener:hyperlink-2>hyperlink</a> will have <a href=#disowned-its-opener id=link-type-noopener:disowned-its-opener>disowned its opener</a>, which means that
+  its <code id=link-type-noopener:dom-opener><a href=#dom-opener>window.opener</a></code> property will be <code>null</code>.</p>
+
+  <h5 id=link-type-pingback>4.6.6.12 Link type "<dfn><code>pingback</code></dfn>"<a href=#link-type-pingback class=self-link></a></h5>
+
+  <p>The <code id=link-type-pingback:link-type-pingback><a href=#link-type-pingback>pingback</a></code> keyword may be used with <code id=link-type-pingback:the-link-element><a href=#the-link-element>link</a></code>
+  elements. This keyword creates an <a href=#external-resource-link id=link-type-pingback:external-resource-link>external resource
+  link</a>. This keyword is <a href=#body-ok id=link-type-pingback:body-ok>body-ok</a>.</p>
+
+  <p>For the semantics of the <code id=link-type-pingback:link-type-pingback-2><a href=#link-type-pingback>pingback</a></code> keyword, see the Pingback
+  1.0 specification. <a href=#refsPINGBACK>[PINGBACK]</a></p>
+
+
+  <h5 id=link-type-preconnect>4.6.6.13 Link type "<dfn><code>preconnect</code></dfn>"<a href=#link-type-preconnect class=self-link></a></h5>
+
+  <p>The <code id=link-type-preconnect:link-type-preconnect><a href=#link-type-preconnect>preconnect</a></code> keyword may be used with <code id=link-type-preconnect:the-link-element><a href=#the-link-element>link</a></code>
+  elements. This keyword creates an <a href=#external-resource-link id=link-type-preconnect:external-resource-link>external resource
+  link</a>. This keyword is <a href=#body-ok id=link-type-preconnect:body-ok>body-ok</a>.</p>
+
+  <p>The <code id=link-type-preconnect:link-type-preconnect-2><a href=#link-type-preconnect>preconnect</a></code> keyword indicates that preemptively
+  initiating a connection to the <a href=#concept-origin id=link-type-preconnect:concept-origin>origin</a> of the specified resource is likely to be
+  beneficial, as it is highly likely that the user will require resources located at that
+  <a href=#concept-origin id=link-type-preconnect:concept-origin-2>origin</a>, and the user experience would be improved by preempting the latency costs
+  associated with establishing the connection. User agents must implement the
+  processing model of the <code id=link-type-preconnect:link-type-preconnect-3><a href=#link-type-preconnect>preconnect</a></code> keyword described in
+  <cite>Resource Hints</cite>. <a href=#refsRESOURCEHINTS>[RESOURCEHINTS]</a></p>
+
+  <p>There is no default type for resources given by the <code id=link-type-preconnect:link-type-preconnect-4><a href=#link-type-preconnect>preconnect</a></code> keyword.</p>
+
+
+  <h5 id=link-type-prefetch>4.6.6.14 Link type "<dfn><code>prefetch</code></dfn>"<a href=#link-type-prefetch class=self-link></a></h5>
+
+  <p>The <code id=link-type-prefetch:link-type-prefetch><a href=#link-type-prefetch>prefetch</a></code> keyword may be used with <code id=link-type-prefetch:the-link-element><a href=#the-link-element>link</a></code>
+  elements. This keyword creates an <a href=#external-resource-link id=link-type-prefetch:external-resource-link>external resource
+  link</a>. This keyword is <a href=#body-ok id=link-type-prefetch:body-ok>body-ok</a>.</p>
+
+  <p>The <code id=link-type-prefetch:link-type-prefetch-2><a href=#link-type-prefetch>prefetch</a></code> keyword indicates that preemptively <a href=https://fetch.spec.whatwg.org/#concept-fetch id=link-type-prefetch:concept-fetch data-x-internal=concept-fetch>fetching</a> and caching the specified resource is likely to be
+  beneficial, as it is highly likely that the user will require this resource for future
+  navigations. User agents must implement the processing model of the <code id=link-type-prefetch:link-type-prefetch-3><a href=#link-type-prefetch>prefetch</a></code> keyword described in <cite>Resource Hints</cite>.
+  <a href=#refsRESOURCEHINTS>[RESOURCEHINTS]</a></p>
+
+  <p>There is no default type for resources given by the <code id=link-type-prefetch:link-type-prefetch-4><a href=#link-type-prefetch>prefetch</a></code>
+  keyword.</p>
+
+
+  <h5 id=link-type-preload>4.6.6.15 Link type "<dfn><code>preload</code></dfn>"<a href=#link-type-preload class=self-link></a></h5>
+
+  <p>The <code id=link-type-preload:link-type-preload><a href=#link-type-preload>preload</a></code> keyword may be used with <code id=link-type-preload:the-link-element><a href=#the-link-element>link</a></code>
+  elements. This keyword creates an <a href=#external-resource-link id=link-type-preload:external-resource-link>external resource
+  link</a>. This keyword is <a href=#body-ok id=link-type-preload:body-ok>body-ok</a>.</p>
+
+  <p>The <code id=link-type-preload:link-type-preload-2><a href=#link-type-preload>preload</a></code> keyword indicates that the user agent must
+  preemptively <a href=https://fetch.spec.whatwg.org/#concept-fetch id=link-type-preload:concept-fetch data-x-internal=concept-fetch>fetch</a> and cache the specified resource according
+  to the <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=link-type-preload:concept-request-destination data-x-internal=concept-request-destination>destination</a> given by the <code id=link-type-preload:attr-link-as><a href=#attr-link-as>as</a></code> attribute (and the <a href=https://fetch.spec.whatwg.org/#concept-request-priority id=link-type-preload:concept-request-priority data-x-internal=concept-request-priority>priority</a> associated with that <a href=https://fetch.spec.whatwg.org/#concept-request-destination id=link-type-preload:concept-request-destination-2 data-x-internal=concept-request-destination>destination</a>), as it is highly likely that the user
+  will require this resource for the current navigation. User agents must implement
+  the processing model of the <code id=link-type-preload:link-type-preload-3><a href=#link-type-preload>preload</a></code> keyword described in
+  <cite>Preload</cite>. <a href=#refsPRELOAD>[PRELOAD]</a></p>
+
+  <p>There is no default type for resources given by the <code id=link-type-preload:link-type-preload-4><a href=#link-type-preload>preload</a></code>
+  keyword.</p>
+
+
+  <h5 id=link-type-prerender>4.6.6.16 Link type "<dfn><code>prerender</code></dfn>"<a href=#link-type-prerender class=self-link></a></h5>
+
+  <p>The <code id=link-type-prerender:link-type-prerender><a href=#link-type-prerender>prerender</a></code> keyword may be used with <code id=link-type-prerender:the-link-element><a href=#the-link-element>link</a></code>
+  elements. This keyword creates an <a href=#external-resource-link id=link-type-prerender:external-resource-link>external resource
+  link</a>. This keyword is <a href=#body-ok id=link-type-prerender:body-ok>body-ok</a>.</p>
+
+  <p>The <code id=link-type-prerender:link-type-prerender-2><a href=#link-type-prerender>prerender</a></code> keyword indicates that the specified resource
+  might be required by the next navigation, and so it may be beneficial to not only preemptively
+  <a href=https://fetch.spec.whatwg.org/#concept-fetch id=link-type-prerender:concept-fetch data-x-internal=concept-fetch>fetch</a> the resource, but also to process it, e.g. by <a href=https://fetch.spec.whatwg.org/#concept-fetch id=link-type-prerender:concept-fetch-2 data-x-internal=concept-fetch>fetching</a> its subresources or performing some rendering. User agents must implement the processing model of the <code id=link-type-prerender:link-type-prerender-3><a href=#link-type-prerender>prerender</a></code> keyword described in <cite>Resource Hints</cite>.
+  <a href=#refsRESOURCEHINTS>[RESOURCEHINTS]</a></p>
+
+  <p>There is no default type for resources given by the <code id=link-type-prerender:link-type-prerender-4><a href=#link-type-prerender>prerender</a></code> keyword.</p>
+
+
+  <h5 id=link-type-search>4.6.6.17 Link type "<dfn><code>search</code></dfn>"<a href=#link-type-search class=self-link></a></h5>
+
+  <p>The <code id=link-type-search:link-type-search><a href=#link-type-search>search</a></code> keyword may be used with <code id=link-type-search:the-link-element><a href=#the-link-element>link</a></code>,
+  <code id=link-type-search:the-a-element><a href=#the-a-element>a</a></code>, and <code id=link-type-search:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword creates a <a href=#hyperlink id=link-type-search:hyperlink>hyperlink</a>.</p>
+
+  <p>The <code id=link-type-search:link-type-search-2><a href=#link-type-search>search</a></code> keyword indicates that the referenced document
+  provides an interface specifically for searching the document and its related resources.</p>
+
+  <p class=note>OpenSearch description documents can be used with <code id=link-type-search:the-link-element-2><a href=#the-link-element>link</a></code> elements and
+  the <code id=link-type-search:link-type-search-3><a href=#link-type-search>search</a></code> link type to enable user agents to autodiscover search
+  interfaces. <a href=#refsOPENSEARCH>[OPENSEARCH]</a></p>
+
+
+
+  <h5 id=link-type-stylesheet>4.6.6.18 Link type "<dfn><code>stylesheet</code></dfn>"<a href=#link-type-stylesheet class=self-link></a></h5>
+
+  <p>The <code id=link-type-stylesheet:link-type-stylesheet><a href=#link-type-stylesheet>stylesheet</a></code> keyword may be used with <code id=link-type-stylesheet:the-link-element><a href=#the-link-element>link</a></code>
+  elements. This keyword creates an <a href=#external-resource-link id=link-type-stylesheet:external-resource-link>external resource
+  link</a> that contributes to the styling processing model. This keyword is
+  <a href=#body-ok id=link-type-stylesheet:body-ok>body-ok</a>.</p>
+
+  <p>The specified resource is a resource that describes how to present the document. Exactly how
+  the resource is to be processed depends on the actual type of the resource.</p>
+
+  <p>If the <code id=link-type-stylesheet:rel-alternate><a href=#rel-alternate>alternate</a></code> keyword is also specified on the
+  <code id=link-type-stylesheet:the-link-element-2><a href=#the-link-element>link</a></code> element, then <dfn id=the-link-is-an-alternative-stylesheet>the link is an alternative stylesheet</dfn>; in this case,
+  the <code id=link-type-stylesheet:attr-title><a href=#attr-title>title</a></code> attribute must be specified on the <code id=link-type-stylesheet:the-link-element-3><a href=#the-link-element>link</a></code>
+  element, with a non-empty value.</p>
+
+  <p>The default type for resources given by the <code id=link-type-stylesheet:link-type-stylesheet-2><a href=#link-type-stylesheet>stylesheet</a></code>
+  keyword is <code>text/css</code>.</p>
+
+  
+
+  <p>The appropriate times to <a href=#concept-link-obtain id=link-type-stylesheet:concept-link-obtain>obtain</a> the resource are:
+
+  
+  <ul><li><p>When the <a href=#external-resource-link id=link-type-stylesheet:external-resource-link-2>external resource link</a> is created on a <code id=link-type-stylesheet:the-link-element-4><a href=#the-link-element>link</a></code> element
+   that is already <a href=#browsing-context-connected id=link-type-stylesheet:browsing-context-connected>browsing-context connected</a>.<li><p>When the <a href=#external-resource-link id=link-type-stylesheet:external-resource-link-3>external resource link</a>'s <code id=link-type-stylesheet:the-link-element-5><a href=#the-link-element>link</a></code> element <a href=#becomes-browsing-context-connected id=link-type-stylesheet:becomes-browsing-context-connected>becomes
+   browsing-context connected</a>.<li><p>When the <code id=link-type-stylesheet:attr-link-href><a href=#attr-link-href>href</a></code> attribute of the <code id=link-type-stylesheet:the-link-element-6><a href=#the-link-element>link</a></code>
+   element of an <a href=#external-resource-link id=link-type-stylesheet:external-resource-link-4>external resource link</a> that is already <a href=#browsing-context-connected id=link-type-stylesheet:browsing-context-connected-2>browsing-context
+   connected</a> is changed.<li><p>When the <code id=link-type-stylesheet:attr-link-crossorigin><a href=#attr-link-crossorigin>crossorigin</a></code> attribute of the
+   <code id=link-type-stylesheet:the-link-element-7><a href=#the-link-element>link</a></code> element of an <a href=#external-resource-link id=link-type-stylesheet:external-resource-link-5>external resource
+   link</a> that is already <a href=#browsing-context-connected id=link-type-stylesheet:browsing-context-connected-3>browsing-context connected</a> is set, changed, or
+   removed.<li><p>When the <code id=link-type-stylesheet:attr-link-type><a href=#attr-link-type>type</a></code> attribute of the <code id=link-type-stylesheet:the-link-element-8><a href=#the-link-element>link</a></code>
+   element of an <a href=#external-resource-link id=link-type-stylesheet:external-resource-link-6>external resource link</a> that is already <a href=#browsing-context-connected id=link-type-stylesheet:browsing-context-connected-4>browsing-context
+   connected</a> is set or changed to a value that does not or no longer matches the <a href=#content-type id=link-type-stylesheet:content-type>Content-Type metadata</a> of the previous obtained external resource, if
+   any.<li><p>When the <code id=link-type-stylesheet:attr-link-type-2><a href=#attr-link-type>type</a></code> attribute of the <code id=link-type-stylesheet:the-link-element-9><a href=#the-link-element>link</a></code>
+   element of an <a href=#external-resource-link id=link-type-stylesheet:external-resource-link-7>external resource link</a> that is already <a href=#browsing-context-connected id=link-type-stylesheet:browsing-context-connected-5>browsing-context
+   connected</a>, but was previously not obtained due to the <code id=link-type-stylesheet:attr-link-type-3><a href=#attr-link-type>type</a></code> attribute specifying an unsupported type, is set, removed, or
+   changed.<li><p>When the <a href=#external-resource-link id=link-type-stylesheet:external-resource-link-8>external resource link</a> that is already <a href=#browsing-context-connected id=link-type-stylesheet:browsing-context-connected-6>browsing-context
+   connected</a> changes from being <a href=#the-link-is-an-alternative-stylesheet id=link-type-stylesheet:the-link-is-an-alternative-stylesheet>an
+   alternative stylesheet</a> to not being one, or vice versa.</ul>
+
+  <p><strong>Quirk</strong>: If the document has been set to <a id=link-type-stylesheet:quirks-mode href=https://dom.spec.whatwg.org/#concept-document-quirks data-x-internal=quirks-mode>quirks mode</a>, has the
+  <a href=#same-origin id=link-type-stylesheet:same-origin>same origin</a> as the <a id=link-type-stylesheet:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of the external resource,
+  and the <a href=#content-type id=link-type-stylesheet:content-type-2>Content-Type metadata</a> of the external resource is not a
+  supported style sheet type, the user agent must instead assume it to be <code>text/css</code>.</p>
+
+  <p>Once a resource has been <a href=#concept-link-obtain id=link-type-stylesheet:concept-link-obtain-2>obtained</a>, if its <a href=#content-type id=link-type-stylesheet:content-type-3>Content-Type metadata</a> is <code>text/css</code>, the user
+  agent must run these steps:</p>
+
+  
+  
+
+  <ol><li><p>Let <var>element</var> be the <code id=link-type-stylesheet:the-link-element-10><a href=#the-link-element>link</a></code> element that created the
+   <a href=#external-resource-link id=link-type-stylesheet:external-resource-link-9>external resource link</a>.<li><p>If <var>element</var> has an <a id=link-type-stylesheet:associated-css-style-sheet href=https://drafts.csswg.org/cssom/#associated-css-style-sheet data-x-internal=associated-css-style-sheet>associated CSS style sheet</a>, <a href=https://drafts.csswg.org/cssom/#remove-a-css-style-sheet id=link-type-stylesheet:remove-a-css-style-sheet data-x-internal=remove-a-css-style-sheet>remove the CSS style sheet</a> in question.<li><p>If <var>element</var> no longer creates an <a href=#external-resource-link id=link-type-stylesheet:external-resource-link-10>external resource link</a>
+   that contributes to the styling processing model, or if, since the resource in question was <a href=#concept-link-obtain id=link-type-stylesheet:concept-link-obtain-3>obtained</a>, it has become appropriate to <a href=#concept-link-obtain id=link-type-stylesheet:concept-link-obtain-4>obtain</a> it again (meaning this algorithm is about to be
+   invoked again for a newly obtained resource), then abort these steps.<li>
+
+    <p><a id=link-type-stylesheet:create-a-css-style-sheet href=https://drafts.csswg.org/cssom/#create-a-css-style-sheet data-x-internal=create-a-css-style-sheet>Create a CSS style sheet</a> with the following properties:</p>
+
+    <dl><dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-type id=link-type-stylesheet:concept-css-style-sheet-type data-x-internal=concept-css-style-sheet-type>type</a><dd><p><code>text/css</code><dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-location id=link-type-stylesheet:concept-css-style-sheet-location data-x-internal=concept-css-style-sheet-location>location</a><dd>
+
+      <p>The <a href=#resulting-url-string id=link-type-stylesheet:resulting-url-string>resulting URL string</a> determined during the <a href=#concept-link-obtain id=link-type-stylesheet:concept-link-obtain-5>obtain</a> algorithm.</p>
+
+      <p class=note>This is before any redirects get applied.</p>
+
+     <dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-owner-node id=link-type-stylesheet:concept-css-style-sheet-owner-node data-x-internal=concept-css-style-sheet-owner-node>owner node</a><dd><p><var>element</var><dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-media id=link-type-stylesheet:concept-css-style-sheet-media data-x-internal=concept-css-style-sheet-media>media</a><dd>
+
+      <p>The <code id=link-type-stylesheet:attr-link-media><a href=#attr-link-media>media</a></code> attribute of <var>element</var>.</p>
+
+      <p class=note>This is a reference to the (possibly absent at this time) attribute, rather
+      than a copy of the attribute's current value. The CSSOM specification defines what happens
+      when the attribute is dynamically set, changed, or removed.</p>
+
+     <dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-title id=link-type-stylesheet:concept-css-style-sheet-title data-x-internal=concept-css-style-sheet-title>title</a><dd>
+
+      <p>The <code id=link-type-stylesheet:attr-link-title><a href=#attr-link-title>title</a></code> attribute of <var>element</var>, if
+      <var>element</var> is <a id=link-type-stylesheet:in-a-document-tree href=https://dom.spec.whatwg.org/#in-a-document-tree data-x-internal=in-a-document-tree>in a document tree</a>, or the empty string otherwise.</p>
+
+      <p class=note>This is similarly a reference to the attribute, rather than a copy of the
+      attribute's current value.</p>
+
+     <dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-alternate-flag id=link-type-stylesheet:concept-css-style-sheet-alternate-flag data-x-internal=concept-css-style-sheet-alternate-flag>alternate flag</a><dd><p>Set if <a href=#the-link-is-an-alternative-stylesheet id=link-type-stylesheet:the-link-is-an-alternative-stylesheet-2>the link is an alternative stylesheet</a>; unset otherwise.<dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-origin-clean-flag id=link-type-stylesheet:concept-css-style-sheet-origin-clean-flag data-x-internal=concept-css-style-sheet-origin-clean-flag>origin-clean flag</a><dd><p>Set if the resource is <a href=#cors-same-origin id=link-type-stylesheet:cors-same-origin>CORS-same-origin</a>; unset otherwise.<dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-parent-css-style-sheet id=link-type-stylesheet:concept-css-style-sheet-parent-css-style-sheet data-x-internal=concept-css-style-sheet-parent-css-style-sheet>parent CSS style sheet</a><dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-owner-css-rule id=link-type-stylesheet:concept-css-style-sheet-owner-css-rule data-x-internal=concept-css-style-sheet-owner-css-rule>owner CSS rule</a><dd><p>null<dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-disabled-flag id=link-type-stylesheet:concept-css-style-sheet-disabeld-flag data-x-internal=concept-css-style-sheet-disabeld-flag>disabled flag</a><dd><p>Left at its default value.<dt><a href=https://drafts.csswg.org/cssom/#concept-css-style-sheet-css-rules id=link-type-stylesheet:concept-css-style-sheet-css-rules data-x-internal=concept-css-style-sheet-css-rules>CSS rules</a><dd><p>Left uninitialized.</dl>
+
+    <p>The CSS <a id=link-type-stylesheet:environment-encoding href=https://drafts.csswg.org/css-syntax/#environment-encoding data-x-internal=environment-encoding>environment encoding</a> is the result of running the following steps: <a href=#refsCSSSYNTAX>[CSSSYNTAX]</a></p>
+
+    <ol><li><p>If the element has a <code id=link-type-stylesheet:attr-link-charset><a href=#attr-link-charset>charset</a></code> attribute, <a href=https://encoding.spec.whatwg.org/#concept-encoding-get id=link-type-stylesheet:getting-an-encoding data-x-internal=getting-an-encoding>get an encoding</a> from that attribute's value. If that
+     succeeds, return the resulting encoding and abort these steps. <a href=#refsENCODING>[ENCODING]</a><li><p>Otherwise, return the <a id="link-type-stylesheet:document's-character-encoding" href=https://dom.spec.whatwg.org/#concept-document-encoding data-x-internal="document's-character-encoding">document's character encoding</a>. <a href=#refsDOM>[DOM]</a></ol>
+
+   </ol>
+
+  
+
+
+
+  <h5 id=link-type-tag>4.6.6.19 Link type "<dfn><code>tag</code></dfn>"<a href=#link-type-tag class=self-link></a></h5>
+
+  <p>The <code id=link-type-tag:link-type-tag><a href=#link-type-tag>tag</a></code> keyword may be used with <code id=link-type-tag:the-a-element><a href=#the-a-element>a</a></code> and
+  <code id=link-type-tag:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword creates a <a href=#hyperlink id=link-type-tag:hyperlink>hyperlink</a>.</p>
+
+  <p>The <code id=link-type-tag:link-type-tag-2><a href=#link-type-tag>tag</a></code> keyword indicates that the <em>tag</em> that the
+  referenced document represents applies to the current document.</p>
+
+  <p class=note>Since it indicates that the tag <em>applies to the current document</em>, it would
+  be inappropriate to use this keyword in the markup of a <a href=#tag-cloud>tag cloud</a>, which
+  lists the popular tags across a set of pages.</p>
+
+  <div class=example>
+
+   <p>This document is about some gems, and so it is <i>tagged</i> with "<code>https://en.wikipedia.org/wiki/Gemstone</code>" to unambiguously categorize it as applying
+   to the "jewel" kind of gems, and not to, say, the towns in the US, the Ruby package format, or
+   the Swiss locomotive class:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>My Precious&lt;/title>
+ &lt;/head>
+ &lt;body>
+  &lt;header>&lt;h1>My precious&lt;/h1> &lt;p>Summer 2012&lt;/p>&lt;/header>
+  &lt;p>Recently I managed to dispose of a red gem that had been
+  bothering me. I now have a much nicer blue sapphire.&lt;/p>
+  &lt;p>The red gem had been found in a bauxite stone while I was digging
+  out the office level, but nobody was willing to haul it away. The
+  same red gem stayed there for literally years.&lt;/p>
+  &lt;footer>
+   Tags: &lt;a rel=tag href="https://en.wikipedia.org/wiki/Gemstone">Gemstone&lt;/a>
+  &lt;/footer>
+ &lt;/body>
+&lt;/html></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In <em>this</em> document, there are two articles. The "<code id=link-type-tag:link-type-tag-3><a href=#link-type-tag>tag</a></code>"
+   link, however, applies to the whole page (and would do so wherever it was placed, including if it
+   was within the <code id=link-type-tag:the-article-element><a href=#the-article-element>article</a></code> elements).</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>Gem 4/4&lt;/title>
+ &lt;/head>
+ &lt;body>
+  &lt;article>
+   &lt;h1>801: Steinbock&lt;/h1>
+   &lt;p>The number 801 Gem 4/4 electro-diesel has an ibex and was rebuilt in 2002.&lt;/p>
+  &lt;/article>
+  &lt;article>
+   &lt;h1>802: Murmeltier&lt;/h1>
+   &lt;figure>
+    &lt;img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Trains_de_la_Bernina_en_hiver_2.jpg"
+         alt="The 802 was red with pantographs and tall vents on the side.">
+    &lt;figcaption>The 802 in the 1980s, above Lago Bianco.&lt;/figcaption>
+   &lt;/figure>
+   &lt;p>The number 802 Gem 4/4 electro-diesel has a marmot and was rebuilt in 2003.&lt;/p>
+  &lt;/article>
+  &lt;p class="topic">&lt;a rel=tag href="https://en.wikipedia.org/wiki/Rhaetian_Railway_Gem_4/4">Gem 4/4&lt;/a>&lt;/p>
+ &lt;/body>
+&lt;/html></pre>
+
+  </div>
+
+
+
+  <h5 id=sequential-link-types>4.6.6.20 Sequential link types<a href=#sequential-link-types class=self-link></a></h5>
+
+  <p>Some documents form part of a sequence of documents.</p>
+
+  <p>A sequence of documents is one where each document can have a <em>previous sibling</em> and a
+  <em>next sibling</em>. A document with no previous sibling is the start of its sequence, a
+  document with no next sibling is the end of its sequence.</p>
+
+  <p>A document may be part of multiple sequences.</p>
+
+
+  <h6 id=link-type-next>4.6.6.20.1 Link type "<dfn><code>next</code></dfn>"<a href=#link-type-next class=self-link></a></h6>
+
+  <p>The <code id=link-type-next:link-type-next><a href=#link-type-next>next</a></code> keyword may be used with <code id=link-type-next:the-link-element><a href=#the-link-element>link</a></code>,
+  <code id=link-type-next:the-a-element><a href=#the-a-element>a</a></code>, and <code id=link-type-next:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword creates a <a href=#hyperlink id=link-type-next:hyperlink>hyperlink</a>.</p>
+
+  <p>The <code id=link-type-next:link-type-next-2><a href=#link-type-next>next</a></code> keyword indicates that the document is part of a
+  sequence, and that the link is leading to the document that is the next logical document in the
+  sequence.</p>
+
+  <p>When the <code id=link-type-next:link-type-next-3><a href=#link-type-next>next</a></code> keyword is used with a <code id=link-type-next:the-link-element-2><a href=#the-link-element>link</a></code>
+  element, user agents should implement one of the processing models described in <cite>Resource
+  Hints</cite>, i.e. should process such links as if they were using one of the <code id=link-type-next:link-type-dns-prefetch><a href=#link-type-dns-prefetch>dns-prefetch</a></code>, <code id=link-type-next:link-type-preconnect><a href=#link-type-preconnect>preconnect</a></code>,
+  <code id=link-type-next:link-type-prefetch><a href=#link-type-prefetch>prefetch</a></code>, or <code id=link-type-next:link-type-prerender><a href=#link-type-prerender>prerender</a></code>
+  keywords. Which resource hint the user agent wishes to use is implementation-dependent; for
+  example, a user agent may wish to use the less-costly <code id=link-type-next:link-type-preconnect-2><a href=#link-type-preconnect>preconnect</a></code> hint when trying to conserve data, battery power, or
+  processing power, or may wish to pick a resource hint depending on heuristic analysis of past
+  user behavior in similar scenarios. <a href=#refsRESOURCEHINTS>[RESOURCEHINTS]</a></p>
+
+
+  <h6 id=link-type-prev>4.6.6.20.2 Link type "<dfn><code>prev</code></dfn>"<a href=#link-type-prev class=self-link></a></h6>
+
+  <p>The <code id=link-type-prev:link-type-prev><a href=#link-type-prev>prev</a></code> keyword may be used with <code id=link-type-prev:the-link-element><a href=#the-link-element>link</a></code>,
+  <code id=link-type-prev:the-a-element><a href=#the-a-element>a</a></code>, and <code id=link-type-prev:the-area-element><a href=#the-area-element>area</a></code> elements. This keyword creates a <a href=#hyperlink id=link-type-prev:hyperlink>hyperlink</a>.</p>
+
+  <p>The <code id=link-type-prev:link-type-prev-2><a href=#link-type-prev>prev</a></code> keyword indicates that the document is part of a
+  sequence, and that the link is leading to the document that is the previous logical document in
+  the sequence.</p>
+
+  
+
+  <p><strong>Synonyms</strong>: For historical reasons, user agents must also treat the keyword
+  "<code>previous</code>" like the <code id=link-type-prev:link-type-prev-3><a href=#link-type-prev>prev</a></code> keyword.</p>
+
+  
+
+
+  <h5 id=other-link-types>4.6.6.21 Other link types<a href=#other-link-types class=self-link></a></h5>
+
+  <p><dfn id=concept-rel-extensions>Extensions to the predefined set of link types</dfn> may be
+  registered in the <a href=http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions>microformats
+  wiki existing-rel-values page</a>. <a href=#refsMFREL>[MFREL]</a></p>
+
+  <p>Anyone is free to edit the <span>microformats wiki existing-rel-values page</span> at
+  any time to add a type. Extension types must be specified with the following information:</p>
+
+  <dl><dt>Keyword<dd>
+
+    <p>The actual value being defined. The value should not be confusingly similar to any other
+    defined value (e.g. differing only in case).</p>
+
+    <p>If the value contains a U+003A COLON character (:), it must also be an <a id=other-link-types:absolute-url href=https://url.spec.whatwg.org/#syntax-url-absolute data-x-internal=absolute-url>absolute
+    URL</a>.</p>
+
+   <dt>Effect on... <code id=other-link-types:the-link-element><a href=#the-link-element>link</a></code><dd>
+
+    <p>One of the following:</p>
+
+    <dl><dt>Not allowed<dd>The keyword must not be specified on <code id=other-link-types:the-link-element-2><a href=#the-link-element>link</a></code> elements.<dt>Hyperlink<dd>The keyword may be specified on a <code id=other-link-types:the-link-element-3><a href=#the-link-element>link</a></code> element; it creates a
+     <a href=#hyperlink id=other-link-types:hyperlink>hyperlink</a>.<dt>External Resource<dd>The keyword may be specified on a <code id=other-link-types:the-link-element-4><a href=#the-link-element>link</a></code> element; it creates an <a href=#external-resource-link id=other-link-types:external-resource-link>external
+     resource link</a>.</dl>
+
+   <dt>Effect on... <code id=other-link-types:the-a-element><a href=#the-a-element>a</a></code> and <code id=other-link-types:the-area-element><a href=#the-area-element>area</a></code><dd>
+
+    <p>One of the following:</p>
+
+    <dl><dt>Not allowed<dd>The keyword must not be specified on <code id=other-link-types:the-a-element-2><a href=#the-a-element>a</a></code> and <code id=other-link-types:the-area-element-2><a href=#the-area-element>area</a></code> elements.<dt>Hyperlink<dd>The keyword may be specified on <code id=other-link-types:the-a-element-3><a href=#the-a-element>a</a></code> and <code id=other-link-types:the-area-element-3><a href=#the-area-element>area</a></code> elements; it creates a
+     <a href=#hyperlink id=other-link-types:hyperlink-2>hyperlink</a>.<dt>External Resource<dd>The keyword may be specified on <code id=other-link-types:the-a-element-4><a href=#the-a-element>a</a></code> and <code id=other-link-types:the-area-element-4><a href=#the-area-element>area</a></code> elements; it creates
+     an <a href=#external-resource-link id=other-link-types:external-resource-link-2>external resource link</a>.<dt>Hyperlink Annotation<dd>The keyword may be specified on <code id=other-link-types:the-a-element-5><a href=#the-a-element>a</a></code> and <code id=other-link-types:the-area-element-5><a href=#the-area-element>area</a></code> elements; it <a href=#hyperlink-annotation id=other-link-types:hyperlink-annotation>annotates</a> other <a href=#hyperlink id=other-link-types:hyperlink-3>hyperlinks</a>
+     created by the element.</dl>
+
+   <dt>Brief description<dd><p>A short non-normative description of what the keyword's meaning is.<dt>Specification<dd><p>A link to a more detailed description of the keyword's semantics and requirements. It
+   could be another page on the Wiki, or a link to an external page.<dt>Synonyms<dd><p>A list of other keyword values that have exactly the same processing requirements. Authors
+   should not use the values defined to be synonyms, they are only intended to allow user agents to
+   support legacy content. Anyone may remove synonyms that are not used in practice; only names that
+   need to be processed as synonyms for compatibility with legacy content are to be registered in
+   this way.<dt>Status<dd>
+
+    <p>One of the following:</p>
+
+    <dl><dt>Proposed<dd>The keyword has not received wide peer review and approval. Someone has proposed it and is,
+     or soon will be, using it.<dt>Ratified<dd>The keyword has received wide peer review and approval. It has a specification that
+     unambiguously defines how to handle pages that use the keyword, including when they use it in
+     incorrect ways.<dt>Discontinued<dd>The keyword has received wide peer review and it has been found wanting. Existing pages are
+     using this keyword, but new pages should avoid it. The "brief description" and "specification"
+     entries will give details of what authors should use instead, if anything.</dl>
+
+    <p>If a keyword is found to be redundant with existing values, it should be removed and listed
+    as a synonym for the existing value.</p>
+
+    <p>If a keyword is registered in the "proposed" state for a period of a month or more without
+    being used or specified, then it may be removed from the registry.</p>
+
+    <p>If a keyword is added with the "proposed" status and found to be redundant with existing
+    values, it should be removed and listed as a synonym for the existing value. If a keyword is
+    added with the "proposed" status and found to be harmful, then it should be changed to
+    "discontinued" status.</p>
+
+    <p>Anyone can change the status at any time, but should only do so in accordance with the
+    definitions above.</p>
+
+   </dl>
+
+  
+
+  <p>Conformance checkers must use the information given on the <span>microformats wiki
+  existing-rel-values page</span> to establish if a value is allowed or not: values defined in this
+  specification or marked as "proposed" or "ratified" must be accepted when used on the elements for
+  which they apply as described in the "Effect on..." field, whereas values marked as "discontinued"
+  or not listed in either this specification or on the aforementioned page must be rejected as
+  invalid. Conformance checkers may cache this information (e.g. for performance reasons or to avoid
+  the use of unreliable network connectivity).</p>
+
+  <p>When an author uses a new type not defined by either this specification or the Wiki page,
+  conformance checkers should offer to add the value to the Wiki, with the details described above,
+  with the "proposed" status.</p>
+
+  
+
+  <p>Types defined as extensions in the <a href=http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions>microformats
+  wiki existing-rel-values page</a> with the status "proposed" or "ratified" may be used with the
+  <code>rel</code> attribute on <code id=other-link-types:the-link-element-5><a href=#the-link-element>link</a></code>, <code id=other-link-types:the-a-element-6><a href=#the-a-element>a</a></code>, and <code id=other-link-types:the-area-element-6><a href=#the-area-element>area</a></code>
+  elements in accordance to the "Effect on..." field. <a href=#refsMFREL>[MFREL]</a></p>
+
+
+
+  <h3 id=edits>4.7 Edits<a href=#edits class=self-link></a></h3>
+
+  <p>The <code id=edits:the-ins-element><a href=#the-ins-element>ins</a></code> and <code id=edits:the-del-element><a href=#the-del-element>del</a></code> elements represent edits to the document.</p>
+
+
+  <h4 id=the-ins-element>4.7.1 The <dfn><code>ins</code></dfn> element<a href=#the-ins-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=28555" title="Your use of &quot;Example&quot; and &quot;Note&quot; in the CSS rather than HTML, when it carries substantial heading-type semantics, is kind of double standards ain't it?">28555</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-ins-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-ins-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-ins-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-ins-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-ins-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-ins-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-ins-element:concept-element-content-model>Content model</a>:<dd><a href=#transparent id=the-ins-element:transparent>Transparent</a>.<dt><a href=#concept-element-tag-omission id=the-ins-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-ins-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-ins-element:global-attributes>Global attributes</a><dd><code id=the-ins-element:attr-mod-cite><a href=#attr-mod-cite>cite</a></code> — Link to the source of the quotation or more information about the edit<dd><code id=the-ins-element:attr-mod-datetime><a href=#attr-mod-datetime>datetime</a></code> — Date and (optionally) time of the change<dt><a href=#concept-element-dom id=the-ins-element:concept-element-dom>DOM interface</a>:<dd>Uses the <code id=the-ins-element:htmlmodelement><a href=#htmlmodelement>HTMLModElement</a></code> interface.</dl>
+
+  <p>The <code id=the-ins-element:the-ins-element><a href=#the-ins-element>ins</a></code> element <a href=#represents id=the-ins-element:represents>represents</a> an addition to the document.</p>
+
+  <div class=example>
+
+   <p>The following represents the addition of a single paragraph:</p>
+
+   <pre>&lt;aside>
+ &lt;ins>
+  &lt;p> I like fruit. &lt;/p>
+ &lt;/ins>
+&lt;/aside></pre>
+
+   <p>As does the following, because everything in the <code id=the-ins-element:the-aside-element><a href=#the-aside-element>aside</a></code> element here counts as
+   <a href=#phrasing-content-2 id=the-ins-element:phrasing-content-2-3>phrasing content</a> and therefore there is just one <a href=#paragraph id=the-ins-element:paragraph>paragraph</a>:</p>
+
+   <pre>&lt;aside>
+ &lt;ins>
+  Apples are &lt;em>tasty&lt;/em>.
+ &lt;/ins>
+ &lt;ins>
+  So are pears.
+ &lt;/ins>
+&lt;/aside></pre>
+
+  </div>
+
+  <p><code id=the-ins-element:the-ins-element-2><a href=#the-ins-element>ins</a></code> elements should not cross <a href=#paragraph id=the-ins-element:paragraph-2>implied paragraph</a>
+  boundaries.</p>
+
+  <div class=example>
+
+   <p>The following example represents the addition of two paragraphs, the second of which was
+   inserted in two parts. The first <code id=the-ins-element:the-ins-element-3><a href=#the-ins-element>ins</a></code> element in this example thus crosses a
+   paragraph boundary, which is considered poor form.</p>
+
+   <pre class=bad>&lt;aside>
+ &lt;!-- don't do this -->
+ &lt;ins datetime="2005-03-16 00:00Z">
+  &lt;p> I like fruit. &lt;/p>
+  Apples are &lt;em>tasty&lt;/em>.
+ &lt;/ins>
+ &lt;ins datetime="2007-12-19 00:00Z">
+  So are pears.
+ &lt;/ins>
+&lt;/aside></pre>
+
+   <p>Here is a better way of marking this up. It uses more elements, but none of the elements cross
+   implied paragraph boundaries.</p>
+
+   <pre>&lt;aside>
+ &lt;ins datetime="2005-03-16 00:00Z">
+  &lt;p> I like fruit. &lt;/p>
+ &lt;/ins>
+ &lt;ins datetime="2005-03-16 00:00Z">
+  Apples are &lt;em>tasty&lt;/em>.
+ &lt;/ins>
+ &lt;ins datetime="2007-12-19 00:00Z">
+  So are pears.
+ &lt;/ins>
+&lt;/aside></pre>
+
+   
+
+  </div>
+
+
+  <h4 id=the-del-element>4.7.2 The <dfn><code>del</code></dfn> element<a href=#the-del-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-del-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-del-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-del-element:phrasing-content-2>Phrasing content</a>.<dt><a href=#concept-element-contexts id=the-del-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-del-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-del-element:concept-element-content-model>Content model</a>:<dd><a href=#transparent id=the-del-element:transparent>Transparent</a>.<dt><a href=#concept-element-tag-omission id=the-del-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-del-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-del-element:global-attributes>Global attributes</a><dd><code id=the-del-element:attr-mod-cite><a href=#attr-mod-cite>cite</a></code> — Link to the source of the quotation or more information about the edit<dd><code id=the-del-element:attr-mod-datetime><a href=#attr-mod-datetime>datetime</a></code> — Date and (optionally) time of the change<dt><a href=#concept-element-dom id=the-del-element:concept-element-dom>DOM interface</a>:<dd>Uses the <code id=the-del-element:htmlmodelement><a href=#htmlmodelement>HTMLModElement</a></code> interface.</dl>
+
+  <p>The <code id=the-del-element:the-del-element><a href=#the-del-element>del</a></code> element <a href=#represents id=the-del-element:represents>represents</a> a removal from the document.</p>
+
+  <p><code id=the-del-element:the-del-element-2><a href=#the-del-element>del</a></code> elements should not cross <a href=#paragraph id=the-del-element:paragraph>implied paragraph</a>
+  boundaries.</p>
+
+  <div class=example>
+
+   <p>The following shows a "to do" list where items that have been done are crossed-off with the
+   date and time of their completion.</p>
+
+   <pre>&lt;h1>To Do&lt;/h1>
+&lt;ul>
+ &lt;li>Empty the dishwasher&lt;/li>
+ &lt;li>&lt;del datetime="2009-10-11T01:25-07:00">Watch Walter Lewin's lectures&lt;/del>&lt;/li>
+ &lt;li>&lt;del datetime="2009-10-10T23:38-07:00">Download more tracks&lt;/del>&lt;/li>
+ &lt;li>Buy a printer&lt;/li>
+&lt;/ul></pre>
+
+  </div>
+
+
+
+  <h4 id=attributes-common-to-ins-and-del-elements>4.7.3 Attributes common to <code id=attributes-common-to-ins-and-del-elements:the-ins-element><a href=#the-ins-element>ins</a></code> and <code id=attributes-common-to-ins-and-del-elements:the-del-element><a href=#the-del-element>del</a></code> elements<a href=#attributes-common-to-ins-and-del-elements class=self-link></a></h4>
+
+  <p>The <dfn id=attr-mod-cite><code>cite</code></dfn> attribute may be used to specify the
+  <a href=https://dom.spec.whatwg.org/#concept-document-url id="attributes-common-to-ins-and-del-elements:the-document's-address" data-x-internal="the-document's-address">URL</a> of a document that explains the change. When that
+  document is long, for instance the minutes of a meeting, authors are encouraged to include a <a href=https://url.spec.whatwg.org/#concept-url-fragment id=attributes-common-to-ins-and-del-elements:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a> pointing to the specific part of that document that
+  discusses the change.</p>
+
+  <p>If the <code id=attributes-common-to-ins-and-del-elements:attr-mod-cite><a href=#attr-mod-cite>cite</a></code> attribute is present, it must be a <a href=#valid-url-potentially-surrounded-by-spaces id=attributes-common-to-ins-and-del-elements:valid-url-potentially-surrounded-by-spaces>valid
+  URL potentially surrounded by spaces</a> that explains the change. To obtain
+  the corresponding citation link, the value of the attribute must be <a href=#parse-a-url id=attributes-common-to-ins-and-del-elements:parse-a-url>parsed</a> relative to the element's <a id=attributes-common-to-ins-and-del-elements:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a>. User agents may
+  allow users to follow such citation links, but they are primarily intended for private use (e.g.,
+  by server-side scripts collecting statistics about a site's edits), not for readers.</p>
+
+
+  <p>The <dfn id=attr-mod-datetime><code>datetime</code></dfn> attribute may be used to specify
+  the time and date of the change.</p>
+
+  <p>If present, the <code id=attributes-common-to-ins-and-del-elements:attr-mod-datetime><a href=#attr-mod-datetime>datetime</a></code> attribute's value must be a
+  <a href=#valid-date-string-with-optional-time id=attributes-common-to-ins-and-del-elements:valid-date-string-with-optional-time>valid date string with optional time</a>.</p>
+
+  
+
+  <p>User agents must parse the <code id=attributes-common-to-ins-and-del-elements:attr-mod-datetime-2><a href=#attr-mod-datetime>datetime</a></code> attribute according
+  to the <a href=#parse-a-date-or-time-string id=attributes-common-to-ins-and-del-elements:parse-a-date-or-time-string>parse a date or time string</a> algorithm. If that doesn't return a <a href=#concept-date id=attributes-common-to-ins-and-del-elements:concept-date>date</a> or a <a href=#concept-datetime id=attributes-common-to-ins-and-del-elements:concept-datetime>global date and time</a>,
+  then the modification has no associated timestamp (the value is non-conforming; it is not a
+  <a href=#valid-date-string-with-optional-time id=attributes-common-to-ins-and-del-elements:valid-date-string-with-optional-time-2>valid date string with optional time</a>). Otherwise, the modification is marked as
+  having been made at the given <a href=#concept-date id=attributes-common-to-ins-and-del-elements:concept-date-2>date</a> or <a href=#concept-datetime id=attributes-common-to-ins-and-del-elements:concept-datetime-2>global date and time</a>. If the given value is a <a href=#concept-datetime id=attributes-common-to-ins-and-del-elements:concept-datetime-3>global date and time</a> then user agents should use the associated
+  time-zone offset information to determine which time zone to present the given datetime in.</p>
+
+  
+
+  <p>This value may be shown to the user, but it is primarily intended for

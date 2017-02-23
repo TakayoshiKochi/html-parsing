@@ -1,0 +1,850 @@
+    column group</a>", and reprocess the token.</p>
+
+   <dt>A start tag whose tag name is "tr"<dd>
+
+    <p>Pop the <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode-5>current template insertion mode</a> off the <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes-5>stack of template
+    insertion modes</a>.</p>
+
+    <p>Push "<a href=#parsing-main-intbody id=parsing-main-intemplate:parsing-main-intbody>in table body</a>" onto the <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes-6>stack
+    of template insertion modes</a> so that it is the new <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode-6>current template insertion
+    mode</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-intemplate:insertion-mode-6>insertion mode</a> to "<a href=#parsing-main-intbody id=parsing-main-intemplate:parsing-main-intbody-2>in
+    table body</a>", and reprocess the token.</p>
+
+   <dt>A start tag whose tag name is one of: "td", "th"<dd>
+
+    <p>Pop the <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode-7>current template insertion mode</a> off the <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes-7>stack of template
+    insertion modes</a>.</p>
+
+    <p>Push "<a href=#parsing-main-intr id=parsing-main-intemplate:parsing-main-intr>in row</a>" onto the <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes-8>stack of template
+    insertion modes</a> so that it is the new <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode-8>current template insertion mode</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-intemplate:insertion-mode-7>insertion mode</a> to "<a href=#parsing-main-intr id=parsing-main-intemplate:parsing-main-intr-2>in
+    row</a>", and reprocess the token.</p>
+
+   <dt>Any other start tag<dd>
+
+    <p>Pop the <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode-9>current template insertion mode</a> off the <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes-9>stack of template
+    insertion modes</a>.</p>
+
+    <p>Push "<a href=#parsing-main-inbody id=parsing-main-intemplate:parsing-main-inbody-2>in body</a>" onto the <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes-10>stack of template
+    insertion modes</a> so that it is the new <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode-10>current template insertion mode</a>.</p>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-intemplate:insertion-mode-8>insertion mode</a> to "<a href=#parsing-main-inbody id=parsing-main-intemplate:parsing-main-inbody-3>in
+    body</a>", and reprocess the token.</p>
+
+   <dt>Any other end tag<dd>
+    <p><a href=#parse-error id=parsing-main-intemplate:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>An end-of-file token<dd>
+
+    <p>If there is no <code id=parsing-main-intemplate:the-template-element><a href=#the-template-element>template</a></code> element on the <a href=#stack-of-open-elements id=parsing-main-intemplate:stack-of-open-elements>stack of open elements</a>, then
+    <a href=#stop-parsing id=parsing-main-intemplate:stop-parsing>stop parsing</a>. (<a href=#fragment-case id=parsing-main-intemplate:fragment-case>fragment case</a>)</p>
+
+    <p>Otherwise, this is a <a href=#parse-error id=parsing-main-intemplate:parse-error-2>parse error</a>.</p>
+
+    
+    <p>Pop elements from the <a href=#stack-of-open-elements id=parsing-main-intemplate:stack-of-open-elements-2>stack of open elements</a> until a <code id=parsing-main-intemplate:the-template-element-2><a href=#the-template-element>template</a></code>
+    element has been popped from the stack.</p>
+
+    <p><a href=#clear-the-list-of-active-formatting-elements-up-to-the-last-marker id=parsing-main-intemplate:clear-the-list-of-active-formatting-elements-up-to-the-last-marker>Clear the list of active formatting elements up to the last marker</a>.</p>
+
+    <p>Pop the <a href=#current-template-insertion-mode id=parsing-main-intemplate:current-template-insertion-mode-11>current template insertion mode</a> off the <a href=#stack-of-template-insertion-modes id=parsing-main-intemplate:stack-of-template-insertion-modes-11>stack of template
+    insertion modes</a>.</p>
+
+    <p><a href=#reset-the-insertion-mode-appropriately id=parsing-main-intemplate:reset-the-insertion-mode-appropriately>Reset the insertion mode appropriately</a>.</p>
+    
+
+    <p>Reprocess the token.</p>
+
+   </dl>
+
+
+  <h6 id=parsing-main-afterbody>12.2.5.4.19 The "<dfn>after body</dfn>" insertion mode<a href=#parsing-main-afterbody class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-afterbody id=parsing-main-afterbody:parsing-main-afterbody>after body</a>" <a href=#insertion-mode id=parsing-main-afterbody:insertion-mode>insertion mode</a>, the user agent must handle the token as follows:</p>
+
+  <dl class=switch><dt>A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C
+   FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-afterbody:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-afterbody:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-afterbody:insertion-mode-2>insertion mode</a>.</p>
+
+   <dt>A comment token<dd>
+
+    <p><a href=#insert-a-comment id=parsing-main-afterbody:insert-a-comment>Insert a comment</a> as the last child of the first element in the <a href=#stack-of-open-elements id=parsing-main-afterbody:stack-of-open-elements>stack of
+    open elements</a> (the <code id=parsing-main-afterbody:the-html-element><a href=#the-html-element>html</a></code> element).</p>
+
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=parsing-main-afterbody:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-afterbody:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-afterbody:parsing-main-inbody-2>in body</a>" <a href=#insertion-mode id=parsing-main-afterbody:insertion-mode-3>insertion mode</a>.</p>
+
+   <dt>An end tag whose tag name is "html"<dd>
+
+    <p>If the parser was originally created as part of the <a href=#html-fragment-parsing-algorithm id=parsing-main-afterbody:html-fragment-parsing-algorithm>HTML fragment parsing
+    algorithm</a>, this is a <a href=#parse-error id=parsing-main-afterbody:parse-error-2>parse error</a>; ignore the token. (<a href=#fragment-case id=parsing-main-afterbody:fragment-case>fragment
+    case</a>)</p>
+
+    <p>Otherwise, switch the <a href=#insertion-mode id=parsing-main-afterbody:insertion-mode-4>insertion mode</a> to "<a href=#the-after-after-body-insertion-mode id=parsing-main-afterbody:the-after-after-body-insertion-mode>after after body</a>".</p>
+
+   <dt>An end-of-file token<dd>
+    <p><a href=#stop-parsing id=parsing-main-afterbody:stop-parsing>Stop parsing</a>.</p>
+   <dt>Anything else<dd>
+
+    <p><a href=#parse-error id=parsing-main-afterbody:parse-error-3>Parse error</a>. Switch the <a href=#insertion-mode id=parsing-main-afterbody:insertion-mode-5>insertion mode</a> to "<a href=#parsing-main-inbody id=parsing-main-afterbody:parsing-main-inbody-3>in body</a>" and reprocess the token.</p>
+
+   </dl>
+
+
+  <h6 id=parsing-main-inframeset>12.2.5.4.20 The "<dfn>in frameset</dfn>" insertion mode<a href=#parsing-main-inframeset class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-inframeset id=parsing-main-inframeset:parsing-main-inframeset>in
+  frameset</a>" <a href=#insertion-mode id=parsing-main-inframeset:insertion-mode>insertion mode</a>, the user agent must handle the token as follows:</p>
+
+  <dl class=switch><dt>A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C
+   FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dd>
+    <p><a href=#insert-a-character id=parsing-main-inframeset:insert-a-character>Insert the character</a>.</p>
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=parsing-main-inframeset:insert-a-comment>Insert a comment</a>.</p>
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=parsing-main-inframeset:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-inframeset:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-inframeset:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-inframeset:insertion-mode-2>insertion mode</a>.</p>
+
+   <dt>A start tag whose tag name is "frameset"<dd>
+    <p><a href=#insert-an-html-element id=parsing-main-inframeset:insert-an-html-element>Insert an HTML element</a> for the token.</p>
+   <dt>An end tag whose tag name is "frameset"<dd>
+
+    <p>If the <a href=#current-node id=parsing-main-inframeset:current-node>current node</a> is the root <code id=parsing-main-inframeset:the-html-element><a href=#the-html-element>html</a></code> element, then this is a
+    <a href=#parse-error id=parsing-main-inframeset:parse-error-2>parse error</a>; ignore the token. (<a href=#fragment-case id=parsing-main-inframeset:fragment-case>fragment case</a>)</p>
+
+    <p>Otherwise, pop the <a href=#current-node id=parsing-main-inframeset:current-node-2>current node</a> from the <a href=#stack-of-open-elements id=parsing-main-inframeset:stack-of-open-elements>stack of open
+    elements</a>.</p>
+
+    <p>If the parser was <em>not</em> originally created as part of the <a href=#html-fragment-parsing-algorithm id=parsing-main-inframeset:html-fragment-parsing-algorithm>HTML fragment parsing
+    algorithm</a> (<a href=#fragment-case id=parsing-main-inframeset:fragment-case-2>fragment case</a>), and the <a href=#current-node id=parsing-main-inframeset:current-node-3>current node</a> is no longer a
+    <code id=parsing-main-inframeset:frameset><a href=#frameset>frameset</a></code> element, then switch the <a href=#insertion-mode id=parsing-main-inframeset:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-afterframeset id=parsing-main-inframeset:parsing-main-afterframeset>after frameset</a>".</p>
+
+   <dt>A start tag whose tag name is "frame"<dd>
+
+    <p><a href=#insert-an-html-element id=parsing-main-inframeset:insert-an-html-element-2>Insert an HTML element</a> for the token. Immediately pop the <a href=#current-node id=parsing-main-inframeset:current-node-4>current
+    node</a> off the <a href=#stack-of-open-elements id=parsing-main-inframeset:stack-of-open-elements-2>stack of open elements</a>.</p>
+
+    <p><a href=#acknowledge-self-closing-flag id=parsing-main-inframeset:acknowledge-self-closing-flag>Acknowledge the token's <i>self-closing
+    flag</i></a>, if it is set.</p>
+
+   <dt>A start tag whose tag name is "noframes"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-inframeset:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-inhead id=parsing-main-inframeset:parsing-main-inhead>in head</a>" <a href=#insertion-mode id=parsing-main-inframeset:insertion-mode-4>insertion mode</a>.</p>
+
+   <dt>An end-of-file token<dd>
+
+    <p>If the <a href=#current-node id=parsing-main-inframeset:current-node-5>current node</a> is not the root <code id=parsing-main-inframeset:the-html-element-2><a href=#the-html-element>html</a></code> element, then this is a
+    <a href=#parse-error id=parsing-main-inframeset:parse-error-3>parse error</a>.</p>
+
+    <p class=note>The <a href=#current-node id=parsing-main-inframeset:current-node-6>current node</a> can only be the root
+    <code id=parsing-main-inframeset:the-html-element-3><a href=#the-html-element>html</a></code> element in the <a href=#fragment-case id=parsing-main-inframeset:fragment-case-3>fragment case</a>.</p>
+
+    <p><a href=#stop-parsing id=parsing-main-inframeset:stop-parsing>Stop parsing</a>.</p>
+
+   <dt>Anything else<dd>
+    <p><a href=#parse-error id=parsing-main-inframeset:parse-error-4>Parse error</a>. Ignore the token.</p>
+   </dl>
+
+
+  <h6 id=parsing-main-afterframeset>12.2.5.4.21 The "<dfn>after frameset</dfn>" insertion mode<a href=#parsing-main-afterframeset class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#parsing-main-afterframeset id=parsing-main-afterframeset:parsing-main-afterframeset>after frameset</a>" <a href=#insertion-mode id=parsing-main-afterframeset:insertion-mode>insertion mode</a>, the user agent must handle the token
+  as follows:</p>
+
+  
+  <dl class=switch><dt>A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C
+   FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dd>
+    <p><a href=#insert-a-character id=parsing-main-afterframeset:insert-a-character>Insert the character</a>.</p>
+   <dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=parsing-main-afterframeset:insert-a-comment>Insert a comment</a>.</p>
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=parsing-main-afterframeset:parse-error>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is "html"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-afterframeset:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=parsing-main-afterframeset:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=parsing-main-afterframeset:insertion-mode-2>insertion mode</a>.</p>
+
+   <dt>An end tag whose tag name is "html"<dd>
+
+    <p>Switch the <a href=#insertion-mode id=parsing-main-afterframeset:insertion-mode-3>insertion mode</a> to "<a href=#the-after-after-frameset-insertion-mode id=parsing-main-afterframeset:the-after-after-frameset-insertion-mode>after after frameset</a>".</p>
+
+   <dt>A start tag whose tag name is "noframes"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=parsing-main-afterframeset:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-inhead id=parsing-main-afterframeset:parsing-main-inhead>in head</a>" <a href=#insertion-mode id=parsing-main-afterframeset:insertion-mode-4>insertion mode</a>.</p>
+
+   <dt>An end-of-file token<dd>
+    <p><a href=#stop-parsing id=parsing-main-afterframeset:stop-parsing>Stop parsing</a>.</p>
+   <dt>Anything else<dd>
+    <p><a href=#parse-error id=parsing-main-afterframeset:parse-error-2>Parse error</a>. Ignore the token.</p>
+   </dl>
+
+
+  <h6 id=the-after-after-body-insertion-mode>12.2.5.4.22 The "<dfn>after after body</dfn>" insertion mode<a href=#the-after-after-body-insertion-mode class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#the-after-after-body-insertion-mode id=the-after-after-body-insertion-mode:the-after-after-body-insertion-mode>after after body</a>" <a href=#insertion-mode id=the-after-after-body-insertion-mode:insertion-mode>insertion mode</a>, the user agent must handle the token
+  as follows:</p>
+
+  <dl class=switch><dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=the-after-after-body-insertion-mode:insert-a-comment>Insert a comment</a> as the last child of the <code id=the-after-after-body-insertion-mode:document><a href=#document>Document</a></code> object.</p>
+   <dt>A DOCTYPE token<dt>A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C
+   FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dt>A start tag whose tag name is "html"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=the-after-after-body-insertion-mode:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=the-after-after-body-insertion-mode:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=the-after-after-body-insertion-mode:insertion-mode-2>insertion mode</a>.</p>
+
+   <dt>An end-of-file token<dd>
+    <p><a href=#stop-parsing id=the-after-after-body-insertion-mode:stop-parsing>Stop parsing</a>.</p>
+   <dt>Anything else<dd>
+
+    <p><a href=#parse-error id=the-after-after-body-insertion-mode:parse-error>Parse error</a>. Switch the <a href=#insertion-mode id=the-after-after-body-insertion-mode:insertion-mode-3>insertion mode</a> to "<a href=#parsing-main-inbody id=the-after-after-body-insertion-mode:parsing-main-inbody-2>in body</a>" and reprocess the token.</p>
+
+   </dl>
+
+
+  <h6 id=the-after-after-frameset-insertion-mode>12.2.5.4.23 The "<dfn>after after frameset</dfn>" insertion mode<a href=#the-after-after-frameset-insertion-mode class=self-link></a></h6>
+
+  <p>When the user agent is to apply the rules for the "<a href=#the-after-after-frameset-insertion-mode id=the-after-after-frameset-insertion-mode:the-after-after-frameset-insertion-mode>after after frameset</a>" <a href=#insertion-mode id=the-after-after-frameset-insertion-mode:insertion-mode>insertion mode</a>, the user agent must handle the
+  token as follows:</p>
+
+  <dl class=switch><dt>A comment token<dd>
+    <p><a href=#insert-a-comment id=the-after-after-frameset-insertion-mode:insert-a-comment>Insert a comment</a> as the last child of the <code id=the-after-after-frameset-insertion-mode:document><a href=#document>Document</a></code> object.</p>
+   <dt>A DOCTYPE token<dt>A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C
+   FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dt>A start tag whose tag name is "html"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=the-after-after-frameset-insertion-mode:using-the-rules-for>using the rules for</a> the "<a href=#parsing-main-inbody id=the-after-after-frameset-insertion-mode:parsing-main-inbody>in body</a>" <a href=#insertion-mode id=the-after-after-frameset-insertion-mode:insertion-mode-2>insertion mode</a>.</p>
+
+   <dt>An end-of-file token<dd>
+    <p><a href=#stop-parsing id=the-after-after-frameset-insertion-mode:stop-parsing>Stop parsing</a>.</p>
+   <dt>A start tag whose tag name is "noframes"<dd>
+
+    <p>Process the token <a href=#using-the-rules-for id=the-after-after-frameset-insertion-mode:using-the-rules-for-2>using the rules for</a> the "<a href=#parsing-main-inhead id=the-after-after-frameset-insertion-mode:parsing-main-inhead>in head</a>" <a href=#insertion-mode id=the-after-after-frameset-insertion-mode:insertion-mode-3>insertion mode</a>.</p>
+
+   <dt>Anything else<dd>
+    <p><a href=#parse-error id=the-after-after-frameset-insertion-mode:parse-error>Parse error</a>. Ignore the token.</p>
+   </dl>
+
+
+
+  <h5 id=parsing-main-inforeign>12.2.5.5 The rules for parsing tokens <dfn>in foreign content</dfn><a href=#parsing-main-inforeign class=self-link></a></h5>
+
+  <p>When the user agent is to apply the rules for parsing tokens in foreign content, the user agent
+  must handle the token as follows:</p>
+
+  <dl class=switch><dt>A character token that is U+0000 NULL<dd>
+
+    <p><a href=#parse-error id=parsing-main-inforeign:parse-error>Parse error</a>. <a href=#insert-a-character id=parsing-main-inforeign:insert-a-character>Insert a U+FFFD REPLACEMENT
+    CHARACTER character</a>.</p>
+
+   <dt>A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF), U+000C
+   FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE<dd>
+
+    <p><a href=#insert-a-character id=parsing-main-inforeign:insert-a-character-2>Insert the token's character</a>.</p>
+
+   <dt>Any other character token<dd>
+
+    <p><a href=#insert-a-character id=parsing-main-inforeign:insert-a-character-3>Insert the token's character</a>.</p>
+
+    <p>Set the <a href=#frameset-ok-flag id=parsing-main-inforeign:frameset-ok-flag>frameset-ok flag</a> to "not ok".</p>
+
+   <dt>A comment token<dd>
+
+    <p><a href=#insert-a-comment id=parsing-main-inforeign:insert-a-comment>Insert a comment</a>.</p>
+
+   <dt>A DOCTYPE token<dd>
+    <p><a href=#parse-error id=parsing-main-inforeign:parse-error-2>Parse error</a>. Ignore the token.</p>
+   <dt>A start tag whose tag name is one of:  "b", "big", "blockquote", "body", "br", "center", "code", "dd", "div", "dl", "dt", "em", "embed", "h1", "h2", "h3", "h4", "h5", "h6", "head", "hr", "i", "img",
+   "li", "listing",
+   "menu", "meta", "nobr", "ol", "p", "pre", "ruby", "s",  "small", "span", "strong", "strike",  "sub",
+   "sup", "table", "tt", "u", "ul", "var"<dt>A start tag whose tag name is "font", if the token has any attributes named "color", "face",
+   or "size"<dd>
+
+    <p><a href=#parse-error id=parsing-main-inforeign:parse-error-3>Parse error</a>.</p>
+
+    
+
+    <p>If the parser was originally created for the <a href=#html-fragment-parsing-algorithm id=parsing-main-inforeign:html-fragment-parsing-algorithm>HTML fragment parsing algorithm</a>,
+    then act as described in the "any other start tag" entry below. (<a href=#fragment-case id=parsing-main-inforeign:fragment-case>fragment case</a>)</p>
+
+    <p>Otherwise:</p>
+
+    <p>Pop an element from the <a href=#stack-of-open-elements id=parsing-main-inforeign:stack-of-open-elements>stack of open elements</a>, and then keep popping more
+    elements from the <a href=#stack-of-open-elements id=parsing-main-inforeign:stack-of-open-elements-2>stack of open elements</a> until the <a href=#current-node id=parsing-main-inforeign:current-node>current node</a> is a
+    <a href=#mathml-text-integration-point id=parsing-main-inforeign:mathml-text-integration-point>MathML text integration point</a>, an <a href=#html-integration-point id=parsing-main-inforeign:html-integration-point>HTML integration point</a>, or an
+    element in the <a id=parsing-main-inforeign:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>.</p>
+
+    <p>Then, reprocess the token.</p>
+
+   <dt>Any other start tag<dd>
+
+    <p>If the <a href=#adjusted-current-node id=parsing-main-inforeign:adjusted-current-node>adjusted current node</a> is an element in the <a id=parsing-main-inforeign:mathml-namespace href=https://infra.spec.whatwg.org/#mathml-namespace data-x-internal=mathml-namespace>MathML namespace</a>,
+    <a href=#adjust-mathml-attributes id=parsing-main-inforeign:adjust-mathml-attributes>adjust MathML attributes</a> for the token. (This fixes the case of MathML attributes
+    that are not all lowercase.)</p>
+
+    <p>If the <a href=#adjusted-current-node id=parsing-main-inforeign:adjusted-current-node-2>adjusted current node</a> is an element in the <a id=parsing-main-inforeign:svg-namespace href=https://infra.spec.whatwg.org/#svg-namespace data-x-internal=svg-namespace>SVG namespace</a>, and the
+    token's tag name is one of the ones in the first column of the following table, change the tag
+    name to the name given in the corresponding cell in the second column. (This fixes the case of
+    SVG elements that are not all lowercase.)</p>
+
+    <table><thead><tr><th> Tag name <th> Element name
+     <tbody><tr><td> <code>altglyph</code> <td> <code>altGlyph</code>
+      <tr><td> <code>altglyphdef</code> <td> <code>altGlyphDef</code>
+      <tr><td> <code>altglyphitem</code> <td> <code>altGlyphItem</code>
+      <tr><td> <code>animatecolor</code> <td> <code>animateColor</code>
+      <tr><td> <code>animatemotion</code> <td> <code>animateMotion</code>
+      <tr><td> <code>animatetransform</code> <td> <code>animateTransform</code>
+      <tr><td> <code>clippath</code> <td> <code>clipPath</code>
+      <tr><td> <code>feblend</code> <td> <code>feBlend</code>
+      <tr><td> <code>fecolormatrix</code> <td> <code>feColorMatrix</code>
+      <tr><td> <code>fecomponenttransfer</code> <td> <code>feComponentTransfer</code>
+      <tr><td> <code>fecomposite</code> <td> <code>feComposite</code>
+      <tr><td> <code>feconvolvematrix</code> <td> <code>feConvolveMatrix</code>
+      <tr><td> <code>fediffuselighting</code> <td> <code>feDiffuseLighting</code>
+      <tr><td> <code>fedisplacementmap</code> <td> <code>feDisplacementMap</code>
+      <tr><td> <code>fedistantlight</code> <td> <code>feDistantLight</code>
+      <tr><td> <code>fedropshadow</code> <td> <code>feDropShadow</code>
+      <tr><td> <code>feflood</code> <td> <code>feFlood</code>
+      <tr><td> <code>fefunca</code> <td> <code>feFuncA</code>
+      <tr><td> <code>fefuncb</code> <td> <code>feFuncB</code>
+      <tr><td> <code>fefuncg</code> <td> <code>feFuncG</code>
+      <tr><td> <code>fefuncr</code> <td> <code>feFuncR</code>
+      <tr><td> <code>fegaussianblur</code> <td> <code>feGaussianBlur</code>
+      <tr><td> <code>feimage</code> <td> <code>feImage</code>
+      <tr><td> <code>femerge</code> <td> <code>feMerge</code>
+      <tr><td> <code>femergenode</code> <td> <code>feMergeNode</code>
+      <tr><td> <code>femorphology</code> <td> <code>feMorphology</code>
+      <tr><td> <code>feoffset</code> <td> <code>feOffset</code>
+      <tr><td> <code>fepointlight</code> <td> <code>fePointLight</code>
+      <tr><td> <code>fespecularlighting</code> <td> <code>feSpecularLighting</code>
+      <tr><td> <code>fespotlight</code> <td> <code>feSpotLight</code>
+      <tr><td> <code>fetile</code> <td> <code>feTile</code>
+      <tr><td> <code>feturbulence</code> <td> <code>feTurbulence</code>
+      <tr><td> <code>foreignobject</code> <td> <code>foreignObject</code>
+      <tr><td> <code>glyphref</code> <td> <code>glyphRef</code>
+      <tr><td> <code>lineargradient</code> <td> <code>linearGradient</code>
+      <tr><td> <code>radialgradient</code> <td> <code>radialGradient</code>
+      
+      <tr><td> <code>textpath</code> <td> <code>textPath</code>
+    </table>
+
+    <p>If the <a href=#adjusted-current-node id=parsing-main-inforeign:adjusted-current-node-3>adjusted current node</a> is an element in the <a id=parsing-main-inforeign:svg-namespace-2 href=https://infra.spec.whatwg.org/#svg-namespace data-x-internal=svg-namespace>SVG namespace</a>,
+    <a href=#adjust-svg-attributes id=parsing-main-inforeign:adjust-svg-attributes>adjust SVG attributes</a> for the token. (This fixes the case of SVG attributes that
+    are not all lowercase.)</p>
+
+    <p><a href=#adjust-foreign-attributes id=parsing-main-inforeign:adjust-foreign-attributes>Adjust foreign attributes</a> for the token. (This fixes the use of namespaced
+    attributes, in particular XLink in SVG.)</p>
+
+    <p><a href=#insert-a-foreign-element id=parsing-main-inforeign:insert-a-foreign-element>Insert a foreign element</a> for the token, in the same namespace as the
+    <a href=#adjusted-current-node id=parsing-main-inforeign:adjusted-current-node-4>adjusted current node</a>.</p>
+
+    <p>If the token has its <i id=parsing-main-inforeign:self-closing-flag><a href=#self-closing-flag>self-closing flag</a></i> set, then run the appropriate steps from the
+    following list:</p>
+
+    <dl class=switch><dt>If the token's tag name is "script", and the new <a href=#current-node id=parsing-main-inforeign:current-node-2>current node</a> is in the <a id=parsing-main-inforeign:svg-namespace-3 href=https://infra.spec.whatwg.org/#svg-namespace data-x-internal=svg-namespace>SVG namespace</a><dd>
+
+      <p><a href=#acknowledge-self-closing-flag id=parsing-main-inforeign:acknowledge-self-closing-flag>Acknowledge the token's <i>self-closing
+      flag</i></a>, and then act as described in the steps for a "script" end tag below.</p>
+
+     <dt>Otherwise<dd>
+
+      <p>Pop the <a href=#current-node id=parsing-main-inforeign:current-node-3>current node</a> off the <a href=#stack-of-open-elements id=parsing-main-inforeign:stack-of-open-elements-3>stack of open elements</a> and <a href=#acknowledge-self-closing-flag id=parsing-main-inforeign:acknowledge-self-closing-flag-2>acknowledge the token's <i>self-closing
+      flag</i></a>.</p>
+
+     </dl>
+
+   <dt id=scriptForeignEndTag>An end tag whose tag name is "script", if the <a href=#current-node id=parsing-main-inforeign:current-node-4>current
+   node</a> is an <a id=parsing-main-inforeign:svg-script href=https://www.w3.org/TR/SVG11/script.html#ScriptElement data-x-internal=svg-script>SVG <code>script</code></a> element<dd>
+
+    <p>Pop the <a href=#current-node id=parsing-main-inforeign:current-node-5>current node</a> off the <a href=#stack-of-open-elements id=parsing-main-inforeign:stack-of-open-elements-4>stack of open elements</a>.</p>
+
+    <p>Let the <var>old insertion point</var> have the same value as the current
+    <a href=#insertion-point id=parsing-main-inforeign:insertion-point>insertion point</a>. Let the <a href=#insertion-point id=parsing-main-inforeign:insertion-point-2>insertion point</a> be just before the <a href=#next-input-character id=parsing-main-inforeign:next-input-character>next
+    input character</a>.</p>
+
+    <p>Increment the parser's <a href=#script-nesting-level id=parsing-main-inforeign:script-nesting-level>script nesting level</a> by one. Set the <a href=#parser-pause-flag id=parsing-main-inforeign:parser-pause-flag>parser pause
+    flag</a> to true.</p>
+
+    <p><a href=https://www.w3.org/TR/SVGMobile12/script.html#ScriptContentProcessing>Process the
+    SVG <code>script</code> element</a> according to the SVG rules, if the user agent
+    supports SVG. <a href=#refsSVG>[SVG]</a></p>
+
+    <p class=note>Even if this causes <a href=#dom-document-write id=parsing-main-inforeign:dom-document-write>new characters to be
+    inserted into the tokenizer</a>, the parser will not be executed reentrantly, since the
+    <a href=#parser-pause-flag id=parsing-main-inforeign:parser-pause-flag-2>parser pause flag</a> is true.</p>
+
+    <p>Decrement the parser's <a href=#script-nesting-level id=parsing-main-inforeign:script-nesting-level-2>script nesting level</a> by one. If the parser's <a href=#script-nesting-level id=parsing-main-inforeign:script-nesting-level-3>script
+    nesting level</a> is zero, then set the <a href=#parser-pause-flag id=parsing-main-inforeign:parser-pause-flag-3>parser pause flag</a> to false.</p>
+
+    <p>Let the <a href=#insertion-point id=parsing-main-inforeign:insertion-point-3>insertion point</a> have the value of the <var>old insertion
+    point</var>. (In other words, restore the <a href=#insertion-point id=parsing-main-inforeign:insertion-point-4>insertion point</a> to its previous value.
+    This value might be the "undefined" value.)</p>
+
+   <dt>Any other end tag<dd>
+
+    <p>Run these steps:</p>
+
+    <ol><li><p>Initialize <var>node</var> to be the <a href=#current-node id=parsing-main-inforeign:current-node-6>current node</a> (the bottommost
+     node of the stack).<li><p>If <var>node</var>'s tag name, <a id=parsing-main-inforeign:converted-to-ascii-lowercase href=https://infra.spec.whatwg.org/#ascii-lowercase data-x-internal=converted-to-ascii-lowercase>converted to ASCII lowercase</a>, is
+     not the same as the tag name of the token, then this is a <a href=#parse-error id=parsing-main-inforeign:parse-error-4>parse error</a>.<li><p><i>Loop</i>: If <var>node</var> is the topmost element in the <a href=#stack-of-open-elements id=parsing-main-inforeign:stack-of-open-elements-5>stack of
+     open elements</a>, abort these steps. (<a href=#fragment-case id=parsing-main-inforeign:fragment-case-2>fragment case</a>)<li><p>If <var>node</var>'s tag name, <a id=parsing-main-inforeign:converted-to-ascii-lowercase-2 href=https://infra.spec.whatwg.org/#ascii-lowercase data-x-internal=converted-to-ascii-lowercase>converted to ASCII lowercase</a>, is
+     the same as the tag name of the token, pop elements from the <a href=#stack-of-open-elements id=parsing-main-inforeign:stack-of-open-elements-6>stack of open
+     elements</a> until <var>node</var> has been popped from the stack, and then abort
+     these steps.<li><p>Set <var>node</var> to the previous entry in the <a href=#stack-of-open-elements id=parsing-main-inforeign:stack-of-open-elements-7>stack of open
+     elements</a>.<li><p>If <var>node</var> is not an element in the <a id=parsing-main-inforeign:html-namespace-2-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>, return
+     to the step labeled <i>loop</i>.<li><p>Otherwise, process the token according to the rules given in the section corresponding
+     to the current <a href=#insertion-mode id=parsing-main-inforeign:insertion-mode>insertion mode</a> in HTML content.</ol>
+
+   </dl>
+
+  
+
+
+  
+
+  <h4 id=the-end>12.2.6 The end<a href=#the-end class=self-link></a></h4>
+
+  <p>Once the user agent <dfn id=stop-parsing>stops parsing</dfn> the document, the user agent
+  must run the following steps:<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> domcontentloaded<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>3.2+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>2+</span></span><span class="ie yes"><span>IE</span> <span>9+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>2.1+</span></span><span class="safari yes"><span>Safari</span> <span>3.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>9+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=domcontentloaded">caniuse.com</a></div>
+
+  <ol><li><p>Set the <a href=#current-document-readiness id=the-end:current-document-readiness>current document readiness</a> to "<code>interactive</code>"
+    and the <a href=#insertion-point id=the-end:insertion-point>insertion point</a> to
+   undefined.<li><p>Pop <em>all</em> the nodes off the <a href=#stack-of-open-elements id=the-end:stack-of-open-elements>stack of open elements</a>.<li><p>If the <a href=#list-of-scripts-that-will-execute-when-the-document-has-finished-parsing id=the-end:list-of-scripts-that-will-execute-when-the-document-has-finished-parsing>list of scripts that will execute when the document has finished
+   parsing</a> is not empty, run these substeps:</p>
+
+    <ol><li><p><a href=#spin-the-event-loop id=the-end:spin-the-event-loop>Spin the event loop</a> until the first <code id=the-end:the-script-element><a href=#the-script-element>script</a></code> in the <a href=#list-of-scripts-that-will-execute-when-the-document-has-finished-parsing id=the-end:list-of-scripts-that-will-execute-when-the-document-has-finished-parsing-2>list
+     of scripts that will execute when the document has finished parsing</a> has its <a href=#ready-to-be-parser-executed id=the-end:ready-to-be-parser-executed>"ready
+     to be parser-executed"</a> flag set <em>and</em> the parser's <code id=the-end:document><a href=#document>Document</a></code>
+     <a href=#has-no-style-sheet-that-is-blocking-scripts id=the-end:has-no-style-sheet-that-is-blocking-scripts>has no style sheet that is blocking scripts</a>.<li><p><a href=#execute-the-script-block id=the-end:execute-the-script-block>Execute</a> the first <code id=the-end:the-script-element-2><a href=#the-script-element>script</a></code> in
+     the <a href=#list-of-scripts-that-will-execute-when-the-document-has-finished-parsing id=the-end:list-of-scripts-that-will-execute-when-the-document-has-finished-parsing-3>list of scripts that will execute when the document has finished
+     parsing</a>.<li><p>Remove the first <code id=the-end:the-script-element-3><a href=#the-script-element>script</a></code> element from the <a href=#list-of-scripts-that-will-execute-when-the-document-has-finished-parsing id=the-end:list-of-scripts-that-will-execute-when-the-document-has-finished-parsing-4>list of scripts that will
+     execute when the document has finished parsing</a> (i.e. shift out the first entry in the
+     list).<li><p>If the <a href=#list-of-scripts-that-will-execute-when-the-document-has-finished-parsing id=the-end:list-of-scripts-that-will-execute-when-the-document-has-finished-parsing-5>list of scripts that will execute when the document has finished
+     parsing</a> is still not empty, repeat these substeps again from substep 1.</p>
+
+    </ol>
+
+   <li>
+    <p><a href=#queue-a-task id=the-end:queue-a-task>Queue a task</a> to run the following substeps:</p>
+
+    <ol><li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-end:concept-event-fire data-x-internal=concept-event-fire>Fire an event</a> named <code id=the-end:event-domcontentloaded><a href=#event-domcontentloaded>DOMContentLoaded</a></code> at the <code id=the-end:document-2><a href=#document>Document</a></code>
+     object, with its <code id=the-end:dom-event-bubbles><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to
+     true.<li><p>Enable the <a href=https://w3c.github.io/ServiceWorker/#dfn-client-message-queue id=the-end:dfn-client-message-queue data-x-internal=dfn-client-message-queue>client message queue</a> of the
+     <code id=the-end:serviceworkercontainer><a data-x-internal=serviceworkercontainer href=https://w3c.github.io/ServiceWorker/#serviceworkercontainer>ServiceWorkerContainer</a></code> object whose associated <a href=https://w3c.github.io/ServiceWorker/#serviceworkercontainer-service-worker-client id=the-end:serviceworkercontainer-service-worker-client data-x-internal=serviceworkercontainer-service-worker-client>service worker client</a> is the
+     <code id=the-end:document-3><a href=#document>Document</a></code> object's <a href=#relevant-settings-object id=the-end:relevant-settings-object>relevant settings object</a>.</ol>
+   <li><p><a href=#spin-the-event-loop id=the-end:spin-the-event-loop-2>Spin the event loop</a> until the <a href=#set-of-scripts-that-will-execute-as-soon-as-possible id=the-end:set-of-scripts-that-will-execute-as-soon-as-possible>set of scripts that will execute as soon
+   as possible</a> and the <a href=#list-of-scripts-that-will-execute-in-order-as-soon-as-possible id=the-end:list-of-scripts-that-will-execute-in-order-as-soon-as-possible>list of scripts that will execute in order as soon as
+   possible</a> are empty.<li><p><a href=#spin-the-event-loop id=the-end:spin-the-event-loop-3>Spin the event loop</a> until there is nothing that <dfn id=delay-the-load-event>delays the load event</dfn> in the <code id=the-end:document-4><a href=#document>Document</a></code>.<li>
+
+    <p><a href=#queue-a-task id=the-end:queue-a-task-2>Queue a task</a> to run the following substeps:</p>
+
+    <ol><li><p>Set the <a href=#current-document-readiness id=the-end:current-document-readiness-2>current document readiness</a> to "<code>complete</code>".<li><p><i>Load event</i>: If the <code id=the-end:document-5><a href=#document>Document</a></code> has a <a href=#concept-document-bc id=the-end:concept-document-bc>browsing context</a>, then <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-end:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=the-end:event-load><a href=#event-load>load</a></code> at
+     the <code id=the-end:document-6><a href=#document>Document</a></code> object's <code id=the-end:window><a href=#window>Window</a></code> object, with <var>legacy target override
+     flag</var> set.</ol>
+
+   <li>
+
+    <p>If the <code id=the-end:document-7><a href=#document>Document</a></code> has a <a href=#concept-document-bc id=the-end:concept-document-bc-2>browsing
+    context</a>, then <a href=#queue-a-task id=the-end:queue-a-task-3>queue a task</a> to run the following substeps:</p>
+
+    <ol><li><p>If the <code id=the-end:document-8><a href=#document>Document</a></code>'s <a href=#page-showing id=the-end:page-showing>page showing</a> flag is true, then abort this
+     task (i.e. don't fire the event below).<li><p>Set the <code id=the-end:document-9><a href=#document>Document</a></code>'s <a href=#page-showing id=the-end:page-showing-2>page showing</a> flag to true.<li><p><a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-end:concept-event-fire-3 data-x-internal=concept-event-fire>Fire an event</a> named <code id=the-end:event-pageshow><a href=#event-pageshow>pageshow</a></code> at the <code id=the-end:document-10><a href=#document>Document</a></code> object's
+     <code id=the-end:window-2><a href=#window>Window</a></code> object, using <code id=the-end:pagetransitionevent><a href=#pagetransitionevent>PageTransitionEvent</a></code>, with the <code id=the-end:dom-pagetransitionevent-persisted><a href=#dom-pagetransitionevent-persisted>persisted</a></code> attribute initialized to false, and
+     <var>legacy target override flag</var> set.</ol>
+
+   <li><p>If the <code id=the-end:document-11><a href=#document>Document</a></code> has any <a href=#pending-application-cache-download-process-tasks id=the-end:pending-application-cache-download-process-tasks>pending application cache download process
+   tasks</a>, then <a href=#queue-a-task id=the-end:queue-a-task-4>queue</a> each such <a href=#concept-task id=the-end:concept-task>task</a> in the order they were added to the list of <a href=#pending-application-cache-download-process-tasks id=the-end:pending-application-cache-download-process-tasks-2>pending
+   application cache download process tasks</a>, and then empty the list of <a href=#pending-application-cache-download-process-tasks id=the-end:pending-application-cache-download-process-tasks-3>pending
+   application cache download process tasks</a>. The <a href=#task-source id=the-end:task-source>task source</a> for these <a href=#concept-task id=the-end:concept-task-2>tasks</a> is the <a href=#networking-task-source id=the-end:networking-task-source>networking task source</a>.<li><p>If the <code id=the-end:document-12><a href=#document>Document</a></code>'s <a href=#print-when-loaded id=the-end:print-when-loaded>print when loaded</a> flag is set, then run the
+   <a href=#printing-steps id=the-end:printing-steps>printing steps</a>.<li><p>The <code id=the-end:document-13><a href=#document>Document</a></code> is now <dfn id=ready-for-post-load-tasks>ready for post-load tasks</dfn>.<li><p><a href=#queue-a-task id=the-end:queue-a-task-5>Queue a task</a> to mark the <code id=the-end:document-14><a href=#document>Document</a></code> as <dfn id=completely-loaded>completely
+   loaded</dfn>.</ol>
+
+  <p>When the user agent is to <dfn id=abort-a-parser>abort a parser</dfn>, it must run the following steps:</p>
+
+  <ol><li><p>Throw away any pending content in the <a href=#input-stream id=the-end:input-stream>input stream</a>, and discard any future
+   content that would have been added to it.<li><p>Set the <a href=#current-document-readiness id=the-end:current-document-readiness-3>current document readiness</a> to "<code>interactive</code>".<li><p>Pop <em>all</em> the nodes off the <a href=#stack-of-open-elements id=the-end:stack-of-open-elements-2>stack of open elements</a>.<li><p>Set the <a href=#current-document-readiness id=the-end:current-document-readiness-4>current document readiness</a> to "<code>complete</code>".</ol>
+
+  <p>Except where otherwise specified, the <a href=#task-source id=the-end:task-source-2>task source</a> for the <a href=#concept-task id=the-end:concept-task-3>tasks</a> mentioned in this section is the <a href=#dom-manipulation-task-source id=the-end:dom-manipulation-task-source>DOM manipulation task
+  source</a>.</p>
+
+  
+
+
+  
+
+  <h4 id=coercing-an-html-dom-into-an-infoset>12.2.7 Coercing an HTML DOM into an infoset<a href=#coercing-an-html-dom-into-an-infoset class=self-link></a></h4>
+
+  <p>When an application uses an <a href=#html-parser id=coercing-an-html-dom-into-an-infoset:html-parser>HTML parser</a> in conjunction with an XML pipeline, it is
+  possible that the constructed DOM is not compatible with the XML tool chain in certain subtle
+  ways. For example, an XML toolchain might not be able to represent attributes with the name <code>xmlns</code>, since they conflict with the Namespaces in XML syntax. There is also some
+  data that the <a href=#html-parser id=coercing-an-html-dom-into-an-infoset:html-parser-2>HTML parser</a> generates that isn't included in the DOM itself. This
+  section specifies some rules for handling these issues.</p>
+
+  <p>If the XML API being used doesn't support DOCTYPEs, the tool may drop DOCTYPEs altogether.</p>
+
+  <p>If the XML API doesn't support attributes in no namespace that are named "<code>xmlns</code>", attributes whose names start with "<code>xmlns:</code>", or
+  attributes in the <a id=coercing-an-html-dom-into-an-infoset:xmlns-namespace href=https://infra.spec.whatwg.org/#xmlns-namespace data-x-internal=xmlns-namespace>XMLNS namespace</a>, then the tool may drop such attributes.</p>
+
+  <p>The tool may annotate the output with any namespace declarations required for proper
+  operation.</p>
+
+  <p>If the XML API being used restricts the allowable characters in the local names of elements and
+  attributes, then the tool may map all element and attribute local names that the API wouldn't
+  support to a set of names that <em>are</em> allowed, by replacing any character that isn't
+  supported with the uppercase letter U and the six digits of the character's Unicode code point
+  when expressed in hexadecimal, using digits 0-9 and capital letters A-F as the symbols, in
+  increasing numeric order.</p>
+
+  <p class=example>For example, the element name <code>foo&lt;bar</code>, which can be
+  output by the <a href=#html-parser id=coercing-an-html-dom-into-an-infoset:html-parser-3>HTML parser</a>, though it is neither a legal HTML element name nor a
+  well-formed XML element name, would be converted into <code>fooU00003Cbar</code>, which
+  <em>is</em> a well-formed XML element name (though it's still not legal in HTML by any means).</p>
+
+  <p class=example>As another example, consider the attribute <code>xlink:href</code>.
+  Used on a MathML element, it becomes, after being <a href=#adjust-foreign-attributes id=coercing-an-html-dom-into-an-infoset:adjust-foreign-attributes>adjusted</a>, an attribute with a prefix "<code>xlink</code>" and a local
+  name "<code>href</code>". However, used on an HTML element, it becomes an attribute with
+  no prefix and the local name "<code>xlink:href</code>", which is not a valid NCName, and
+  thus might not be accepted by an XML API. It could thus get converted, becoming "<code>xlinkU00003Ahref</code>".</p>
+
+  <p class=note>The resulting names from this conversion conveniently can't clash with any
+  attribute generated by the <a href=#html-parser id=coercing-an-html-dom-into-an-infoset:html-parser-4>HTML parser</a>, since those are all either lowercase or those
+  listed in the <a href=#adjust-foreign-attributes id=coercing-an-html-dom-into-an-infoset:adjust-foreign-attributes-2>adjust foreign attributes</a> algorithm's table.</p>
+
+  <p>If the XML API restricts comments from having two consecutive U+002D HYPHEN-MINUS characters
+  (--), the tool may insert a single U+0020 SPACE character between any such offending
+  characters.</p>
+
+  <p>If the XML API restricts comments from ending in a U+002D HYPHEN-MINUS character (-), the tool
+  may insert a single U+0020 SPACE character at the end of such comments.</p>
+
+  <p>If the XML API restricts allowed characters in character data, attribute values, or comments,
+  the tool may replace any U+000C FORM FEED (FF) character with a U+0020 SPACE character, and any
+  other literal non-XML character with a U+FFFD REPLACEMENT CHARACTER.</p>
+
+  <p>If the tool has no way to convey out-of-band information, then the tool may drop the following
+  information:</p>
+
+  <ul><li>Whether the document is set to <i id=coercing-an-html-dom-into-an-infoset:no-quirks-mode><a data-x-internal=no-quirks-mode href=https://dom.spec.whatwg.org/#concept-document-no-quirks>no-quirks mode</a></i>, <i id=coercing-an-html-dom-into-an-infoset:limited-quirks-mode><a data-x-internal=limited-quirks-mode href=https://dom.spec.whatwg.org/#concept-document-limited-quirks>limited-quirks mode</a></i>, or
+   <i id=coercing-an-html-dom-into-an-infoset:quirks-mode><a data-x-internal=quirks-mode href=https://dom.spec.whatwg.org/#concept-document-quirks>quirks mode</a></i><li>The association between form controls and forms that aren't their nearest <code id=coercing-an-html-dom-into-an-infoset:the-form-element><a href=#the-form-element>form</a></code>
+   element ancestor (use of the <a href=#form-element-pointer id=coercing-an-html-dom-into-an-infoset:form-element-pointer><code>form</code> element pointer</a> in the parser)<li>The <a href=#template-contents id=coercing-an-html-dom-into-an-infoset:template-contents>template contents</a> of any <code id=coercing-an-html-dom-into-an-infoset:the-template-element><a href=#the-template-element>template</a></code> elements.</ul>
+
+  <p class=note>The mutations allowed by this section apply <em>after</em> the <a href=#html-parser id=coercing-an-html-dom-into-an-infoset:html-parser-5>HTML
+  parser</a>'s rules have been applied. For example, a <code>&lt;a::></code> start tag
+  will be closed by a <code>&lt;/a::></code> end tag, and never by a <code>&lt;/aU00003AU00003A></code> end tag, even if the user agent is using the rules above to
+  then generate an actual element in the DOM with the name <code>aU00003AU00003A</code> for
+  that start tag.</p>
+
+  
+
+
+  
+
+  <h4 id=an-introduction-to-error-handling-and-strange-cases-in-the-parser>12.2.8 An introduction to error handling and strange cases in the parser<a href=#an-introduction-to-error-handling-and-strange-cases-in-the-parser class=self-link></a></h4>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This section examines some erroneous markup and discusses how the <a href=#html-parser id=an-introduction-to-error-handling-and-strange-cases-in-the-parser:html-parser>HTML parser</a>
+  handles these cases.</p>
+
+
+  <h5 id=misnested-tags:-b-i-/b-/i>12.2.8.1 Misnested tags: &lt;b>&lt;i>&lt;/b>&lt;/i><a href=#misnested-tags:-b-i-/b-/i class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The most-often discussed example of erroneous markup is as follows:</p>
+
+  <pre>&lt;p>1&lt;b>2&lt;i>3&lt;/b>4&lt;/i>5&lt;/p></pre>
+
+  <p>The parsing of this markup is straightforward up to the "3". At this point, the DOM looks like
+  this:</p>
+
+  <ul class=domTree><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-html-element><a href=#the-html-element>html</a></code><ul><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-head-element><a href=#the-head-element>head</a></code><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-body-element><a href=#the-body-element>body</a></code><ul><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-p-element><a href=#the-p-element>p</a></code><ul><li class=t3><code id=misnested-tags:-b-i-/b-/i:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>1</span><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-b-element><a href=#the-b-element>b</a></code><ul><li class=t3><code id=misnested-tags:-b-i-/b-/i:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>2</span><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-i-element><a href=#the-i-element>i</a></code><ul><li class=t3><code id=misnested-tags:-b-i-/b-/i:text-3><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>3</span></ul></ul></ul></ul></ul></ul>
+
+  <p>Here, the <a href=#stack-of-open-elements id=misnested-tags:-b-i-/b-/i:stack-of-open-elements>stack of open elements</a> has five elements on it: <code id=misnested-tags:-b-i-/b-/i:the-html-element-2><a href=#the-html-element>html</a></code>,
+  <code id=misnested-tags:-b-i-/b-/i:the-body-element-2><a href=#the-body-element>body</a></code>, <code id=misnested-tags:-b-i-/b-/i:the-p-element-2><a href=#the-p-element>p</a></code>, <code id=misnested-tags:-b-i-/b-/i:the-b-element-2><a href=#the-b-element>b</a></code>, and <code id=misnested-tags:-b-i-/b-/i:the-i-element-2><a href=#the-i-element>i</a></code>. The <a href=#list-of-active-formatting-elements id=misnested-tags:-b-i-/b-/i:list-of-active-formatting-elements>list of active
+  formatting elements</a> just has two: <code id=misnested-tags:-b-i-/b-/i:the-b-element-3><a href=#the-b-element>b</a></code> and <code id=misnested-tags:-b-i-/b-/i:the-i-element-3><a href=#the-i-element>i</a></code>. The <a href=#insertion-mode id=misnested-tags:-b-i-/b-/i:insertion-mode>insertion
+  mode</a> is "<a href=#parsing-main-inbody id=misnested-tags:-b-i-/b-/i:parsing-main-inbody>in body</a>".</p>
+
+  <p>Upon receiving the end tag token with the tag name "b", the "<a href=#adoptionAgency>adoption
+  agency algorithm</a>" is invoked. This is a simple case, in that the <var>formatting
+  element</var> is the <code id=misnested-tags:-b-i-/b-/i:the-b-element-4><a href=#the-b-element>b</a></code> element, and there is no <var>furthest block</var>.
+  Thus, the <a href=#stack-of-open-elements id=misnested-tags:-b-i-/b-/i:stack-of-open-elements-2>stack of open elements</a> ends up with just three elements: <code id=misnested-tags:-b-i-/b-/i:the-html-element-3><a href=#the-html-element>html</a></code>,
+  <code id=misnested-tags:-b-i-/b-/i:the-body-element-3><a href=#the-body-element>body</a></code>, and <code id=misnested-tags:-b-i-/b-/i:the-p-element-3><a href=#the-p-element>p</a></code>, while the <a href=#list-of-active-formatting-elements id=misnested-tags:-b-i-/b-/i:list-of-active-formatting-elements-2>list of active formatting elements</a>
+  has just one: <code id=misnested-tags:-b-i-/b-/i:the-i-element-4><a href=#the-i-element>i</a></code>. The DOM tree is unmodified at this point.</p>
+
+  <p>The next token is a character ("4"), triggers the <a href=#reconstruct-the-active-formatting-elements id=misnested-tags:-b-i-/b-/i:reconstruct-the-active-formatting-elements>reconstruction of the active formatting elements</a>, in this case just
+  the <code id=misnested-tags:-b-i-/b-/i:the-i-element-5><a href=#the-i-element>i</a></code> element. A new <code id=misnested-tags:-b-i-/b-/i:the-i-element-6><a href=#the-i-element>i</a></code> element is thus created for the "4"
+  <code id=misnested-tags:-b-i-/b-/i:text-4><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node. After the end tag token for the "i" is also received, and the "5"
+  <code id=misnested-tags:-b-i-/b-/i:text-5><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node is inserted, the DOM looks as follows:</p>
+
+  <ul class=domTree><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-html-element-4><a href=#the-html-element>html</a></code><ul><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-head-element-2><a href=#the-head-element>head</a></code><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-body-element-4><a href=#the-body-element>body</a></code><ul><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-p-element-4><a href=#the-p-element>p</a></code><ul><li class=t3><code id=misnested-tags:-b-i-/b-/i:text-6><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>1</span><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-b-element-5><a href=#the-b-element>b</a></code><ul><li class=t3><code id=misnested-tags:-b-i-/b-/i:text-7><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>2</span><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-i-element-7><a href=#the-i-element>i</a></code><ul><li class=t3><code id=misnested-tags:-b-i-/b-/i:text-8><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>3</span></ul></ul><li class=t1><code id=misnested-tags:-b-i-/b-/i:the-i-element-8><a href=#the-i-element>i</a></code><ul><li class=t3><code id=misnested-tags:-b-i-/b-/i:text-9><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>4</span></ul><li class=t3><code id=misnested-tags:-b-i-/b-/i:text-10><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>5</span></ul></ul></ul></ul>
+
+
+  <h5 id=misnested-tags:-b-p-/b-/p>12.2.8.2 Misnested tags: &lt;b>&lt;p>&lt;/b>&lt;/p><a href=#misnested-tags:-b-p-/b-/p class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>A case similar to the previous one is the following:</p>
+
+  <pre>&lt;b>1&lt;p>2&lt;/b>3&lt;/p></pre>
+
+  <p>Up to the "2" the parsing here is straightforward:</p>
+
+  <ul class=domTree><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-html-element><a href=#the-html-element>html</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-head-element><a href=#the-head-element>head</a></code><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-body-element><a href=#the-body-element>body</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-b-element><a href=#the-b-element>b</a></code><ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>1</span><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-p-element><a href=#the-p-element>p</a></code><ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>2</span></ul></ul></ul></ul></ul>
+
+  <p>The interesting part is when the end tag token with the tag name "b" is parsed.</p>
+
+  <p>Before that token is seen, the <a href=#stack-of-open-elements id=misnested-tags:-b-p-/b-/p:stack-of-open-elements>stack of open elements</a> has four elements on it:
+  <code id=misnested-tags:-b-p-/b-/p:the-html-element-2><a href=#the-html-element>html</a></code>, <code id=misnested-tags:-b-p-/b-/p:the-body-element-2><a href=#the-body-element>body</a></code>, <code id=misnested-tags:-b-p-/b-/p:the-b-element-2><a href=#the-b-element>b</a></code>, and <code id=misnested-tags:-b-p-/b-/p:the-p-element-2><a href=#the-p-element>p</a></code>. The <a href=#list-of-active-formatting-elements id=misnested-tags:-b-p-/b-/p:list-of-active-formatting-elements>list of active
+  formatting elements</a> just has the one: <code id=misnested-tags:-b-p-/b-/p:the-b-element-3><a href=#the-b-element>b</a></code>. The <a href=#insertion-mode id=misnested-tags:-b-p-/b-/p:insertion-mode>insertion mode</a> is
+  "<a href=#parsing-main-inbody id=misnested-tags:-b-p-/b-/p:parsing-main-inbody>in body</a>".</p>
+
+  <p>Upon receiving the end tag token with the tag name "b", the "<a href=#adoptionAgency>adoption
+  agency algorithm</a>" is invoked, as in the previous example. However, in this case, there
+  <em>is</em> a <var>furthest block</var>, namely the <code id=misnested-tags:-b-p-/b-/p:the-p-element-3><a href=#the-p-element>p</a></code> element. Thus, this
+  time the adoption agency algorithm isn't skipped over.</p>
+
+  <p>The <var>common ancestor</var> is the <code id=misnested-tags:-b-p-/b-/p:the-body-element-3><a href=#the-body-element>body</a></code> element. A conceptual
+  "bookmark" marks the position of the <code id=misnested-tags:-b-p-/b-/p:the-b-element-4><a href=#the-b-element>b</a></code> in the <a href=#list-of-active-formatting-elements id=misnested-tags:-b-p-/b-/p:list-of-active-formatting-elements-2>list of active formatting
+  elements</a>, but since that list has only one element in it, the bookmark won't have much
+  effect.</p>
+
+  <p>As the algorithm progresses, <var>node</var> ends up set to the formatting element
+  (<code id=misnested-tags:-b-p-/b-/p:the-b-element-5><a href=#the-b-element>b</a></code>), and <var>last node</var> ends up set to the <var>furthest
+  block</var> (<code id=misnested-tags:-b-p-/b-/p:the-p-element-4><a href=#the-p-element>p</a></code>).</p>
+
+  <p>The <var>last node</var> gets appended (moved) to the <var>common
+  ancestor</var>, so that the DOM looks like:</p>
+
+  <ul class=domTree><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-html-element-3><a href=#the-html-element>html</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-head-element-2><a href=#the-head-element>head</a></code><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-body-element-4><a href=#the-body-element>body</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-b-element-6><a href=#the-b-element>b</a></code><ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text-3><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>1</span></ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-p-element-5><a href=#the-p-element>p</a></code><ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text-4><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>2</span></ul></ul></ul></ul>
+
+  <p>A new <code id=misnested-tags:-b-p-/b-/p:the-b-element-7><a href=#the-b-element>b</a></code> element is created, and the children of the <code id=misnested-tags:-b-p-/b-/p:the-p-element-6><a href=#the-p-element>p</a></code> element are
+  moved to it:</p>
+
+  <ul class=domTree><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-html-element-4><a href=#the-html-element>html</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-head-element-3><a href=#the-head-element>head</a></code><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-body-element-5><a href=#the-body-element>body</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-b-element-8><a href=#the-b-element>b</a></code><ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text-5><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>1</span></ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-p-element-7><a href=#the-p-element>p</a></code></ul></ul></ul>
+  <ul class=domTree><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-b-element-9><a href=#the-b-element>b</a></code><ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text-6><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>2</span></ul></ul>
+
+  <p>Finally, the new <code id=misnested-tags:-b-p-/b-/p:the-b-element-10><a href=#the-b-element>b</a></code> element is appended to the <code id=misnested-tags:-b-p-/b-/p:the-p-element-8><a href=#the-p-element>p</a></code> element, so that the
+  DOM looks like:</p>
+
+  <ul class=domTree><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-html-element-5><a href=#the-html-element>html</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-head-element-4><a href=#the-head-element>head</a></code><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-body-element-6><a href=#the-body-element>body</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-b-element-11><a href=#the-b-element>b</a></code><ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text-7><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>1</span></ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-p-element-9><a href=#the-p-element>p</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-b-element-12><a href=#the-b-element>b</a></code><ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text-8><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>2</span></ul></ul></ul></ul></ul>
+
+  <p>The <code id=misnested-tags:-b-p-/b-/p:the-b-element-13><a href=#the-b-element>b</a></code> element is removed from the <a href=#list-of-active-formatting-elements id=misnested-tags:-b-p-/b-/p:list-of-active-formatting-elements-3>list of active formatting elements</a>
+  and the <a href=#stack-of-open-elements id=misnested-tags:-b-p-/b-/p:stack-of-open-elements-2>stack of open elements</a>, so that when the "3" is parsed, it is appended to the
+  <code id=misnested-tags:-b-p-/b-/p:the-p-element-10><a href=#the-p-element>p</a></code> element:</p>
+
+  <ul class=domTree><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-html-element-6><a href=#the-html-element>html</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-head-element-5><a href=#the-head-element>head</a></code><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-body-element-7><a href=#the-body-element>body</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-b-element-14><a href=#the-b-element>b</a></code><ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text-9><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>1</span></ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-p-element-11><a href=#the-p-element>p</a></code><ul><li class=t1><code id=misnested-tags:-b-p-/b-/p:the-b-element-15><a href=#the-b-element>b</a></code><ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text-10><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>2</span></ul><li class=t3><code id=misnested-tags:-b-p-/b-/p:text-11><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>3</span></ul></ul></ul></ul>
+
+
+  <h5 id=unexpected-markup-in-tables>12.2.8.3 Unexpected markup in tables<a href=#unexpected-markup-in-tables class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Error handling in tables is, for historical reasons, especially strange. For example, consider
+  the following markup:</p>
+
+  <pre>&lt;table><strong>&lt;b></strong>&lt;tr>&lt;td>aaa&lt;/td>&lt;/tr><strong>bbb</strong>&lt;/table>ccc</pre>
+
+  <p>The highlighted <code id=unexpected-markup-in-tables:the-b-element><a href=#the-b-element>b</a></code> element start tag is not allowed directly inside a table like
+  that, and the parser handles this case by placing the element <em>before</em> the table. (This is
+  called <i id=unexpected-markup-in-tables:foster-parent><a href=#foster-parent>foster parenting</a></i>.) This can be seen by examining the DOM tree
+  as it stands just after the <code id=unexpected-markup-in-tables:the-table-element><a href=#the-table-element>table</a></code> element's start tag has been seen:</p>
+
+  <ul class=domTree><li class=t1><code id=unexpected-markup-in-tables:the-html-element><a href=#the-html-element>html</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-head-element><a href=#the-head-element>head</a></code><li class=t1><code id=unexpected-markup-in-tables:the-body-element><a href=#the-body-element>body</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-table-element-2><a href=#the-table-element>table</a></code></ul></ul></ul>
+
+  <p>...and then immediately after the <code id=unexpected-markup-in-tables:the-b-element-2><a href=#the-b-element>b</a></code> element start tag has been seen:</p>
+
+  <ul class=domTree><li class=t1><code id=unexpected-markup-in-tables:the-html-element-2><a href=#the-html-element>html</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-head-element-2><a href=#the-head-element>head</a></code><li class=t1><code id=unexpected-markup-in-tables:the-body-element-2><a href=#the-body-element>body</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-b-element-3><a href=#the-b-element>b</a></code><li class=t1><code id=unexpected-markup-in-tables:the-table-element-3><a href=#the-table-element>table</a></code></ul></ul></ul>
+
+  <p>At this point, the <a href=#stack-of-open-elements id=unexpected-markup-in-tables:stack-of-open-elements>stack of open elements</a> has on it the elements
+  <code id=unexpected-markup-in-tables:the-html-element-3><a href=#the-html-element>html</a></code>, <code id=unexpected-markup-in-tables:the-body-element-3><a href=#the-body-element>body</a></code>, <code id=unexpected-markup-in-tables:the-table-element-4><a href=#the-table-element>table</a></code>, and <code id=unexpected-markup-in-tables:the-b-element-4><a href=#the-b-element>b</a></code> (in that order,
+  despite the resulting DOM tree); the <a href=#list-of-active-formatting-elements id=unexpected-markup-in-tables:list-of-active-formatting-elements>list of active formatting elements</a> just has the
+  <code id=unexpected-markup-in-tables:the-b-element-5><a href=#the-b-element>b</a></code> element in it; and the <a href=#insertion-mode id=unexpected-markup-in-tables:insertion-mode>insertion mode</a> is "<a href=#parsing-main-intable id=unexpected-markup-in-tables:parsing-main-intable>in table</a>".</p>
+
+  <p>The <code id=unexpected-markup-in-tables:the-tr-element><a href=#the-tr-element>tr</a></code> start tag causes the <code id=unexpected-markup-in-tables:the-b-element-6><a href=#the-b-element>b</a></code> element to be popped off the stack and
+  a <code id=unexpected-markup-in-tables:the-tbody-element><a href=#the-tbody-element>tbody</a></code> start tag to be implied; the <code id=unexpected-markup-in-tables:the-tbody-element-2><a href=#the-tbody-element>tbody</a></code> and <code id=unexpected-markup-in-tables:the-tr-element-2><a href=#the-tr-element>tr</a></code> elements
+  are then handled in a rather straight-forward manner, taking the parser through the "<a href=#parsing-main-intbody id=unexpected-markup-in-tables:parsing-main-intbody>in table body</a>" and "<a href=#parsing-main-intr id=unexpected-markup-in-tables:parsing-main-intr>in row</a>" insertion modes, after which the DOM looks as follows:</p>
+
+  <ul class=domTree><li class=t1><code id=unexpected-markup-in-tables:the-html-element-4><a href=#the-html-element>html</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-head-element-3><a href=#the-head-element>head</a></code><li class=t1><code id=unexpected-markup-in-tables:the-body-element-4><a href=#the-body-element>body</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-b-element-7><a href=#the-b-element>b</a></code><li class=t1><code id=unexpected-markup-in-tables:the-table-element-5><a href=#the-table-element>table</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-tbody-element-3><a href=#the-tbody-element>tbody</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-tr-element-3><a href=#the-tr-element>tr</a></code></ul></ul></ul></ul></ul>
+
+  <p>Here, the <a href=#stack-of-open-elements id=unexpected-markup-in-tables:stack-of-open-elements-2>stack of open elements</a> has on it the elements <code id=unexpected-markup-in-tables:the-html-element-5><a href=#the-html-element>html</a></code>,
+  <code id=unexpected-markup-in-tables:the-body-element-5><a href=#the-body-element>body</a></code>, <code id=unexpected-markup-in-tables:the-table-element-6><a href=#the-table-element>table</a></code>, <code id=unexpected-markup-in-tables:the-tbody-element-4><a href=#the-tbody-element>tbody</a></code>, and <code id=unexpected-markup-in-tables:the-tr-element-4><a href=#the-tr-element>tr</a></code>; the <a href=#list-of-active-formatting-elements id=unexpected-markup-in-tables:list-of-active-formatting-elements-2>list of
+  active formatting elements</a> still has the <code id=unexpected-markup-in-tables:the-b-element-8><a href=#the-b-element>b</a></code> element in it; and the
+  <a href=#insertion-mode id=unexpected-markup-in-tables:insertion-mode-2>insertion mode</a> is "<a href=#parsing-main-intr id=unexpected-markup-in-tables:parsing-main-intr-2>in row</a>".</p>
+
+  <p>The <code id=unexpected-markup-in-tables:the-td-element><a href=#the-td-element>td</a></code> element start tag token, after putting a <code id=unexpected-markup-in-tables:the-td-element-2><a href=#the-td-element>td</a></code> element on the
+  tree, puts a <a href=#concept-parser-marker id=unexpected-markup-in-tables:concept-parser-marker>marker</a> on the <a href=#list-of-active-formatting-elements id=unexpected-markup-in-tables:list-of-active-formatting-elements-3>list of active
+  formatting elements</a> (it also switches to the "<a href=#parsing-main-intd id=unexpected-markup-in-tables:parsing-main-intd>in
+  cell</a>" <a href=#insertion-mode id=unexpected-markup-in-tables:insertion-mode-3>insertion mode</a>).</p>
+
+  <ul class=domTree><li class=t1><code id=unexpected-markup-in-tables:the-html-element-6><a href=#the-html-element>html</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-head-element-4><a href=#the-head-element>head</a></code><li class=t1><code id=unexpected-markup-in-tables:the-body-element-6><a href=#the-body-element>body</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-b-element-9><a href=#the-b-element>b</a></code><li class=t1><code id=unexpected-markup-in-tables:the-table-element-7><a href=#the-table-element>table</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-tbody-element-5><a href=#the-tbody-element>tbody</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-tr-element-5><a href=#the-tr-element>tr</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-td-element-3><a href=#the-td-element>td</a></code></ul></ul></ul></ul></ul></ul>
+
+  <p>The <a href=#concept-parser-marker id=unexpected-markup-in-tables:concept-parser-marker-2>marker</a> means that when the "aaa" character
+  tokens are seen, no <code id=unexpected-markup-in-tables:the-b-element-10><a href=#the-b-element>b</a></code> element is created to hold the resulting <code id=unexpected-markup-in-tables:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code>
+  node:</p>
+
+  <ul class=domTree><li class=t1><code id=unexpected-markup-in-tables:the-html-element-7><a href=#the-html-element>html</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-head-element-5><a href=#the-head-element>head</a></code><li class=t1><code id=unexpected-markup-in-tables:the-body-element-7><a href=#the-body-element>body</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-b-element-11><a href=#the-b-element>b</a></code><li class=t1><code id=unexpected-markup-in-tables:the-table-element-8><a href=#the-table-element>table</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-tbody-element-6><a href=#the-tbody-element>tbody</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-tr-element-6><a href=#the-tr-element>tr</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-td-element-4><a href=#the-td-element>td</a></code><ul><li class=t3><code id=unexpected-markup-in-tables:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>aaa</span></ul></ul></ul></ul></ul></ul></ul>
+
+  <p>The end tags are handled in a straight-forward manner; after handling them, the <a href=#stack-of-open-elements id=unexpected-markup-in-tables:stack-of-open-elements-3>stack of
+  open elements</a> has on it the elements <code id=unexpected-markup-in-tables:the-html-element-8><a href=#the-html-element>html</a></code>, <code id=unexpected-markup-in-tables:the-body-element-8><a href=#the-body-element>body</a></code>,
+  <code id=unexpected-markup-in-tables:the-table-element-9><a href=#the-table-element>table</a></code>, and <code id=unexpected-markup-in-tables:the-tbody-element-7><a href=#the-tbody-element>tbody</a></code>; the <a href=#list-of-active-formatting-elements id=unexpected-markup-in-tables:list-of-active-formatting-elements-4>list of active formatting elements</a>
+  still has the <code id=unexpected-markup-in-tables:the-b-element-12><a href=#the-b-element>b</a></code> element in it (the <a href=#concept-parser-marker id=unexpected-markup-in-tables:concept-parser-marker-3>marker</a>
+  having been removed by the "td" end tag token); and the <a href=#insertion-mode id=unexpected-markup-in-tables:insertion-mode-4>insertion mode</a> is "<a href=#parsing-main-intbody id=unexpected-markup-in-tables:parsing-main-intbody-2>in table body</a>".</p>
+
+  <p>Thus it is that the "bbb" character tokens are found. These trigger the "<a href=#parsing-main-intabletext id=unexpected-markup-in-tables:parsing-main-intabletext>in table text</a>" insertion mode to be used (with the <a href=#original-insertion-mode id=unexpected-markup-in-tables:original-insertion-mode>original
+  insertion mode</a> set to "<a href=#parsing-main-intbody id=unexpected-markup-in-tables:parsing-main-intbody-3>in table body</a>").
+  The character tokens are collected, and when the next token (the <code id=unexpected-markup-in-tables:the-table-element-10><a href=#the-table-element>table</a></code> element end
+  tag) is seen, they are processed as a group. Since they are not all spaces, they are handled as
+  per the "anything else" rules in the "<a href=#parsing-main-intable id=unexpected-markup-in-tables:parsing-main-intable-2>in table</a>"
+  insertion mode, which defer to the "<a href=#parsing-main-inbody id=unexpected-markup-in-tables:parsing-main-inbody>in body</a>"
+  insertion mode but with <a href=#foster-parent id=unexpected-markup-in-tables:foster-parent-2>foster parenting</a>.</p>
+
+  <p>When <a href=#reconstruct-the-active-formatting-elements id=unexpected-markup-in-tables:reconstruct-the-active-formatting-elements>the active formatting elements
+  are reconstructed</a>, a <code id=unexpected-markup-in-tables:the-b-element-13><a href=#the-b-element>b</a></code> element is created and <a href=#foster-parent id=unexpected-markup-in-tables:foster-parent-3>foster parented</a>, and then the "bbb" <code id=unexpected-markup-in-tables:text-3><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>Text</a></code> node is appended to it:</p>
+
+  <ul class=domTree><li class=t1><code id=unexpected-markup-in-tables:the-html-element-9><a href=#the-html-element>html</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-head-element-6><a href=#the-head-element>head</a></code><li class=t1><code id=unexpected-markup-in-tables:the-body-element-9><a href=#the-body-element>body</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-b-element-14><a href=#the-b-element>b</a></code><li class=t1><code id=unexpected-markup-in-tables:the-b-element-15><a href=#the-b-element>b</a></code><ul><li class=t3><code id=unexpected-markup-in-tables:text-4><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>bbb</span></ul><li class=t1><code id=unexpected-markup-in-tables:the-table-element-11><a href=#the-table-element>table</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-tbody-element-8><a href=#the-tbody-element>tbody</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-tr-element-7><a href=#the-tr-element>tr</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-td-element-5><a href=#the-td-element>td</a></code><ul><li class=t3><code id=unexpected-markup-in-tables:text-5><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>aaa</span></ul></ul></ul></ul></ul></ul></ul>
+
+  <p>The <a href=#stack-of-open-elements id=unexpected-markup-in-tables:stack-of-open-elements-4>stack of open elements</a> has on it the elements <code id=unexpected-markup-in-tables:the-html-element-10><a href=#the-html-element>html</a></code>,
+  <code id=unexpected-markup-in-tables:the-body-element-10><a href=#the-body-element>body</a></code>, <code id=unexpected-markup-in-tables:the-table-element-12><a href=#the-table-element>table</a></code>, <code id=unexpected-markup-in-tables:the-tbody-element-9><a href=#the-tbody-element>tbody</a></code>, and the new <code id=unexpected-markup-in-tables:the-b-element-16><a href=#the-b-element>b</a></code> (again, note
+  that this doesn't match the resulting tree!); the <a href=#list-of-active-formatting-elements id=unexpected-markup-in-tables:list-of-active-formatting-elements-5>list of active formatting elements</a>
+  has the new <code id=unexpected-markup-in-tables:the-b-element-17><a href=#the-b-element>b</a></code> element in it; and the <a href=#insertion-mode id=unexpected-markup-in-tables:insertion-mode-5>insertion mode</a> is still "<a href=#parsing-main-intbody id=unexpected-markup-in-tables:parsing-main-intbody-4>in table body</a>".</p>
+
+  <p>Had the character tokens been only <a href=#space-character id=unexpected-markup-in-tables:space-character>space characters</a>
+  instead of "bbb", then those <a href=#space-character id=unexpected-markup-in-tables:space-character-2>space characters</a> would just be
+  appended to the <code id=unexpected-markup-in-tables:the-tbody-element-10><a href=#the-tbody-element>tbody</a></code> element.</p>
+
+  <p>Finally, the <code id=unexpected-markup-in-tables:the-table-element-13><a href=#the-table-element>table</a></code> is closed by a "table" end tag. This pops all the nodes from
+  the <a href=#stack-of-open-elements id=unexpected-markup-in-tables:stack-of-open-elements-5>stack of open elements</a> up to and including the <code id=unexpected-markup-in-tables:the-table-element-14><a href=#the-table-element>table</a></code> element, but it
+  doesn't affect the <a href=#list-of-active-formatting-elements id=unexpected-markup-in-tables:list-of-active-formatting-elements-6>list of active formatting elements</a>, so the "ccc" character tokens
+  after the table result in yet another <code id=unexpected-markup-in-tables:the-b-element-18><a href=#the-b-element>b</a></code> element being created, this time after the
+  table:</p>
+
+  <ul class=domTree><li class=t1><code id=unexpected-markup-in-tables:the-html-element-11><a href=#the-html-element>html</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-head-element-7><a href=#the-head-element>head</a></code><li class=t1><code id=unexpected-markup-in-tables:the-body-element-11><a href=#the-body-element>body</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-b-element-19><a href=#the-b-element>b</a></code><li class=t1><code id=unexpected-markup-in-tables:the-b-element-20><a href=#the-b-element>b</a></code><ul><li class=t3><code id=unexpected-markup-in-tables:text-6><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>bbb</span></ul><li class=t1><code id=unexpected-markup-in-tables:the-table-element-15><a href=#the-table-element>table</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-tbody-element-11><a href=#the-tbody-element>tbody</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-tr-element-8><a href=#the-tr-element>tr</a></code><ul><li class=t1><code id=unexpected-markup-in-tables:the-td-element-6><a href=#the-td-element>td</a></code><ul><li class=t3><code id=unexpected-markup-in-tables:text-7><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>aaa</span></ul></ul></ul></ul><li class=t1><code id=unexpected-markup-in-tables:the-b-element-21><a href=#the-b-element>b</a></code><ul><li class=t3><code id=unexpected-markup-in-tables:text-8><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>ccc</span></ul></ul></ul></ul>
+
+
+  <h5 id=scripts-that-modify-the-page-as-it-is-being-parsed>12.2.8.4 Scripts that modify the page as it is being parsed<a href=#scripts-that-modify-the-page-as-it-is-being-parsed class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Consider the following markup, which for this example we will assume is the document with
+  <a id=scripts-that-modify-the-page-as-it-is-being-parsed:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> <code>https://example.com/inner</code>, being rendered as the content of
+  an <code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-iframe-element><a href=#the-iframe-element>iframe</a></code> in another document with the <a id=scripts-that-modify-the-page-as-it-is-being-parsed:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> <code>https://example.com/outer</code>:</p>
+
+  <pre>&lt;div id=a>
+ &lt;script>
+  var div = document.getElementById('a');
+  parent.document.body.appendChild(div);
+ &lt;/script>
+ &lt;script>
+  alert(document.URL);
+ &lt;/script>
+&lt;/div>
+&lt;script>
+ alert(document.URL);
+&lt;/script></pre>
+
+  <p>Up to the first "script" end tag, before the script is parsed, the result is relatively
+  straightforward:</p>
+
+  <ul class=domTree><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-html-element><a href=#the-html-element>html</a></code><ul><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-head-element><a href=#the-head-element>head</a></code><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-body-element><a href=#the-body-element>body</a></code><ul><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-div-element><a href=#the-div-element>div</a></code> <span class=t2><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-id-attribute class="attribute name"><a href=#the-id-attribute>id</a></code>="<code class="attribute value">a</code>"</span><ul><li class=t3><code id=scripts-that-modify-the-page-as-it-is-being-parsed:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>
+ </span><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-script-element><a href=#the-script-element>script</a></code><ul><li class=t3><code id=scripts-that-modify-the-page-as-it-is-being-parsed:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>var div = document.getElementById('a'); ⏎ parent.document.body.appendChild(div);</span></ul></ul></ul></ul></ul>
+
+  <p>After the script is parsed, though, the <code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-div-element-2><a href=#the-div-element>div</a></code> element and its child
+  <code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-script-element-2><a href=#the-script-element>script</a></code> element are gone:</p>
+
+  <ul class=domTree><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-html-element-2><a href=#the-html-element>html</a></code><ul><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-head-element-2><a href=#the-head-element>head</a></code><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-body-element-2><a href=#the-body-element>body</a></code></ul></ul>
+
+  <p>They are, at this point, in the <code id=scripts-that-modify-the-page-as-it-is-being-parsed:document><a href=#document>Document</a></code> of the aforementioned outer
+  <a href=#browsing-context id=scripts-that-modify-the-page-as-it-is-being-parsed:browsing-context>browsing context</a>. However, the <a href=#stack-of-open-elements id=scripts-that-modify-the-page-as-it-is-being-parsed:stack-of-open-elements>stack of open elements</a> <em>still contains
+  the <code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-div-element-3><a href=#the-div-element>div</a></code> element</em>.</p>
+
+  <p>Thus, when the second <code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-script-element-3><a href=#the-script-element>script</a></code> element is parsed, it is inserted <em>into the outer
+  <code id=scripts-that-modify-the-page-as-it-is-being-parsed:document-2><a href=#document>Document</a></code> object</em>.</p>
+
+  <p>Those parsed into different <code id=scripts-that-modify-the-page-as-it-is-being-parsed:document-3><a href=#document>Document</a></code>s than the one the parser was created for do
+  not execute, so the first alert does not show.</p>
+
+  <p>Once the <code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-div-element-4><a href=#the-div-element>div</a></code> element's end tag is parsed, the <code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-div-element-5><a href=#the-div-element>div</a></code> element is popped
+  off the stack, and so the next <code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-script-element-4><a href=#the-script-element>script</a></code> element is in the inner
+  <code id=scripts-that-modify-the-page-as-it-is-being-parsed:document-4><a href=#document>Document</a></code>:</p>
+
+  <ul class=domTree><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-html-element-3><a href=#the-html-element>html</a></code><ul><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-head-element-3><a href=#the-head-element>head</a></code><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-body-element-3><a href=#the-body-element>body</a></code><ul><li class=t1><code id=scripts-that-modify-the-page-as-it-is-being-parsed:the-script-element-5><a href=#the-script-element>script</a></code><ul><li class=t3><code id=scripts-that-modify-the-page-as-it-is-being-parsed:text-3><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>alert(document.URL);</span></ul></ul></ul></ul>
+
+  <p>This script does execute, resulting in an alert that says "https://example.com/inner".</p>
+
+
+  <h5 id=the-execution-of-scripts-that-are-moving-across-multiple-documents>12.2.8.5 The execution of scripts that are moving across multiple documents<a href=#the-execution-of-scripts-that-are-moving-across-multiple-documents class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Elaborating on the example in the previous section, consider the case where the second
+  <code id=the-execution-of-scripts-that-are-moving-across-multiple-documents:the-script-element><a href=#the-script-element>script</a></code> element is an external script (i.e. one with a <code id=the-execution-of-scripts-that-are-moving-across-multiple-documents:attr-script-src><a href=#attr-script-src>src</a></code> attribute). Since the element was not in the parser's
+  <code id=the-execution-of-scripts-that-are-moving-across-multiple-documents:document><a href=#document>Document</a></code> when it was created, that external script is not even downloaded.</p>
+
+  <p>In a case where a <code id=the-execution-of-scripts-that-are-moving-across-multiple-documents:the-script-element-2><a href=#the-script-element>script</a></code> element with a <code id=the-execution-of-scripts-that-are-moving-across-multiple-documents:attr-script-src-2><a href=#attr-script-src>src</a></code>
+  attribute is parsed normally into its parser's <code id=the-execution-of-scripts-that-are-moving-across-multiple-documents:document-2><a href=#document>Document</a></code>, but while the external
+  script is being downloaded, the element is moved to another document, the script continues to
+  download, but does not execute.</p>
+
+  <p class=note>In general, moving <code id=the-execution-of-scripts-that-are-moving-across-multiple-documents:the-script-element-3><a href=#the-script-element>script</a></code> elements between <code id=the-execution-of-scripts-that-are-moving-across-multiple-documents:document-3><a href=#document>Document</a></code>s is
+  considered a bad practice.</p>
+
+
+
+  <h5 id=unclosed-formatting-elements>12.2.8.6 Unclosed formatting elements<a href=#unclosed-formatting-elements class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The following markup shows how nested formatting elements (such as <code id=unclosed-formatting-elements:the-b-element><a href=#the-b-element>b</a></code>) get
+  collected and continue to be applied even as the elements they are contained in are closed, but
+  that excessive duplicates are thrown away.</p>
+
+  <pre>&lt;!DOCTYPE html>
+&lt;p>&lt;b class=x>&lt;b class=x>&lt;b>&lt;b class=x>&lt;b class=x>&lt;b>X
+&lt;p>X
+&lt;p>&lt;b>&lt;b class=x>&lt;b>X
+&lt;p>&lt;/b>&lt;/b>&lt;/b>&lt;/b>&lt;/b>&lt;/b>X</pre>
+
+  <p>The resulting DOM tree is as follows:</p>
+
+  <ul class=domTree><li class=t10>DOCTYPE: <code>html</code><li class=t1><code id=unclosed-formatting-elements:the-html-element><a href=#the-html-element>html</a></code><ul><li class=t1><code id=unclosed-formatting-elements:the-head-element><a href=#the-head-element>head</a></code><li class=t1><code id=unclosed-formatting-elements:the-body-element><a href=#the-body-element>body</a></code><ul><li class=t1><code id=unclosed-formatting-elements:the-p-element><a href=#the-p-element>p</a></code><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-2><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-3><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes-2 class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-4><a href=#the-b-element>b</a></code><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-5><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes-3 class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-6><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes-4 class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-7><a href=#the-b-element>b</a></code><ul><li class=t3><code id=unclosed-formatting-elements:text><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>X⏎</span></ul></ul></ul></ul></ul></ul></ul><li class=t1><code id=unclosed-formatting-elements:the-p-element-2><a href=#the-p-element>p</a></code><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-8><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes-5 class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-9><a href=#the-b-element>b</a></code><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-10><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes-6 class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-11><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes-7 class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-12><a href=#the-b-element>b</a></code><ul><li class=t3><code id=unclosed-formatting-elements:text-2><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>X⏎</span></ul></ul></ul></ul></ul></ul><li class=t1><code id=unclosed-formatting-elements:the-p-element-3><a href=#the-p-element>p</a></code><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-13><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes-8 class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-14><a href=#the-b-element>b</a></code><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-15><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes-9 class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-16><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes-10 class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-17><a href=#the-b-element>b</a></code><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-18><a href=#the-b-element>b</a></code><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-19><a href=#the-b-element>b</a></code> <span class=t2><code id=unclosed-formatting-elements:classes-11 class="attribute name"><a href=#classes>class</a></code>="<code class="attribute value">x</code>"</span><ul><li class=t1><code id=unclosed-formatting-elements:the-b-element-20><a href=#the-b-element>b</a></code><ul><li class=t3><code id=unclosed-formatting-elements:text-3><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>X⏎</span></ul></ul></ul></ul></ul></ul></ul></ul></ul><li class=t1><code id=unclosed-formatting-elements:the-p-element-4><a href=#the-p-element>p</a></code><ul><li class=t3><code id=unclosed-formatting-elements:text-4><a data-x-internal=text href=https://dom.spec.whatwg.org/#interface-text>#text</a></code>: <span>X⏎</span></ul></ul></ul></ul>
+
+  <p>Note how the second <code id=unclosed-formatting-elements:the-p-element-5><a href=#the-p-element>p</a></code> element in the markup has no explicit <code id=unclosed-formatting-elements:the-b-element-21><a href=#the-b-element>b</a></code>
+  elements, but in the resulting DOM, up to three of each kind of formatting element (in this case
+  three <code id=unclosed-formatting-elements:the-b-element-22><a href=#the-b-element>b</a></code> elements with the class attribute, and two unadorned <code id=unclosed-formatting-elements:the-b-element-23><a href=#the-b-element>b</a></code> elements)
+  get reconstructed before the element's "X".</p>
+
+  <p>Also note how this means that in the final paragraph only six <code id=unclosed-formatting-elements:the-b-element-24><a href=#the-b-element>b</a></code> end tags are
+  needed to completely clear the <a href=#list-of-active-formatting-elements id=unclosed-formatting-elements:list-of-active-formatting-elements>list of active formatting elements</a>, even though nine
+  <code id=unclosed-formatting-elements:the-b-element-25><a href=#the-b-element>b</a></code> start tags have been seen up to this point.</p>
+
+
+
+
+
+  <h3 id=serialising-html-fragments>12.3 Serializing HTML fragments<a href=#serialising-html-fragments class=self-link></a></h3>
+
+  <p>The following steps form the <dfn data-export="" id=html-fragment-serialisation-algorithm>HTML fragment serialization algorithm</dfn>. The algorithm takes as input a DOM
+  <code id=serialising-html-fragments:element><a data-x-internal=element href=https://dom.spec.whatwg.org/#interface-element>Element</a></code>, <code id=serialising-html-fragments:document><a href=#document>Document</a></code>, or <code id=serialising-html-fragments:documentfragment><a data-x-internal=documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment>DocumentFragment</a></code> referred to as
+  <var>the node</var>, and returns a string.</p>
+
+  <p class=note>This algorithm serializes the <em>children</em> of the node being serialized, not
+  the node itself.</p>
+
+  <ol><li><p>Let <var>s</var> be a string, and initialize it to the empty string.<li><p>If <var>the node</var> is a <code id=serialising-html-fragments:the-template-element><a href=#the-template-element>template</a></code> element, then let <var>the node</var> instead be the <code id=serialising-html-fragments:the-template-element-2><a href=#the-template-element>template</a></code> element's <a href=#template-contents id=serialising-html-fragments:template-contents>template
+   contents</a> (a <code id=serialising-html-fragments:documentfragment-2><a data-x-internal=documentfragment href=https://dom.spec.whatwg.org/#interface-documentfragment>DocumentFragment</a></code> node).<li>
+
+    <p>For each child node of <var>the node</var>, in <a id=serialising-html-fragments:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>, run the
+    following steps:
+
+    <ol><li><p>Let <var>current node</var> be the child node being processed.<li>
+
+      <p>Append the appropriate string from the following list to <var>s</var>:</p>
+
+      <dl class=switch><dt>If <var>current node</var> is an <code>Element</code><dd>
+
+        <p>If <var>current node</var> is an element in the <a id=serialising-html-fragments:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>, the

@@ -1,0 +1,850 @@
+    on the region of the rendering context's <a href=#output-bitmap id=drawing-images:output-bitmap-6>output bitmap</a> specified by the
+    destination rectangle, after applying the <a href=#transformations id=drawing-images:transformations>current
+    transformation matrix</a> to the destination rectangle.</p>
+
+    <p>The image data must be processed in the original direction, even if the dimensions given are
+    negative. </p>
+
+    <p>When scaling up, if the <code id=drawing-images:dom-context-2d-imagesmoothingenabled><a href=#dom-context-2d-imagesmoothingenabled>imageSmoothingEnabled</a></code> attribute is set to
+    true, the user agent should attempt to apply a smoothing algorithm to the image data when it is
+    scaled. User agents which support multiple filtering algorithms may use the value of the <code id=drawing-images:dom-context-2d-imagesmoothingquality><a href=#dom-context-2d-imagesmoothingquality>imageSmoothingQuality</a></code> attribute to guide
+    the choice of filtering algorithm when the <code id=drawing-images:dom-context-2d-imagesmoothingenabled-2><a href=#dom-context-2d-imagesmoothingenabled>imageSmoothingEnabled</a></code> attribute is set to
+    true. Otherwise, the image must be rendered using nearest-neighbor interpolation.</p>
+
+    <p class=note>This specification does not define the precise algorithm to use when scaling an
+    image down, or when scaling an image up when the <code id=drawing-images:dom-context-2d-imagesmoothingenabled-3><a href=#dom-context-2d-imagesmoothingenabled>imageSmoothingEnabled</a></code> attribute is set to
+    true.</p>
+
+    <p class=note>When a <code id=drawing-images:the-canvas-element><a href=#the-canvas-element>canvas</a></code> element is drawn onto itself, the <a href=#drawing-model id=drawing-images:drawing-model>drawing
+    model</a> requires the source to be copied before the image is drawn, so it is possible to
+    copy parts of a <code id=drawing-images:the-canvas-element-2><a href=#the-canvas-element>canvas</a></code> element onto overlapping parts of itself.</p>
+
+    <p>If the original image data is a bitmap image, then the value painted at a point in the
+    destination rectangle is computed by filtering the original image data. The user agent may use
+    any filtering algorithm (for example bilinear interpolation or nearest-neighbor). When the
+    filtering algorithm requires a pixel value from outside the original image data, it must instead
+    use the value from the nearest edge pixel. (That is, the filter uses 'clamp-to-edge' behavior.)
+    When the filtering algorithm requires a pixel value from outside the source rectangle but inside
+    the original image data, then the value from the original image data must be used.</p>
+    
+    
+
+    <p class=note>Thus, scaling an image in parts or in whole will have the same effect. This does
+    mean that when sprites coming from a single sprite sheet are to be scaled, adjacent images in
+    the sprite sheet can interfere. This can be avoided by ensuring each sprite in the sheet is
+    surrounded by a border of transparent black, or by copying sprites to be scaled into temporary
+    <code id=drawing-images:the-canvas-element-3><a href=#the-canvas-element>canvas</a></code> elements and drawing the scaled sprites from there.</p>
+
+    <p>Images are painted without affecting the current path, and are subject to <a href=#shadows id=drawing-images:shadows>shadow effects</a>, <a href=#dom-context-2d-globalalpha id=drawing-images:dom-context-2d-globalalpha>global
+    alpha</a>, the <a href=#clipping-region id=drawing-images:clipping-region>clipping region</a>, and <a href=#dom-context-2d-globalcompositeoperation id=drawing-images:dom-context-2d-globalcompositeoperation>global composition operators</a>.</p>
+
+   <li><p>If <a href=#the-image-argument-is-not-origin-clean id=drawing-images:the-image-argument-is-not-origin-clean>the <var>image argument</var> is not origin-clean</a>, then set the
+   <code id=drawing-images:canvasrenderingcontext2d><a href=#canvasrenderingcontext2d>CanvasRenderingContext2D</a></code>'s <a href=#concept-canvas-origin-clean id=drawing-images:concept-canvas-origin-clean>origin-clean</a> flag to false.</ol>
+
+  
+
+
+  <h6 id=pixel-manipulation>4.12.5.1.15 <dfn>Pixel manipulation</dfn><a href=#pixel-manipulation class=self-link></a></h6>
+
+  <dl class=domintro><dt><var>imagedata</var> = new <code id=pixel-manipulation:dom-imagedata><a href=#dom-imagedata>ImageData</a></code>(<var>sw</var>, <var>sh</var>)<dt><var>imagedata</var> = <var>context</var> . <code id=pixel-manipulation:dom-context-2d-createimagedata><a href=#dom-context-2d-createimagedata>createImageData</a></code>(<var>sw</var>, <var>sh</var>)<dd>
+
+    <p>Returns an <code id=pixel-manipulation:imagedata><a href=#imagedata>ImageData</a></code> object with the given dimensions. All the pixels in the
+    returned object are transparent black.</p>
+
+    <p>Throws an <a id=pixel-manipulation:indexsizeerror href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=pixel-manipulation:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if either of
+    the width or height arguments are zero.</p>
+
+   <dt><var>imagedata</var> = <var>context</var> . <code id=pixel-manipulation:dom-context-2d-createimagedata-2><a href=#dom-context-2d-createimagedata>createImageData</a></code>(<var>imagedata</var>)<dd>
+
+    <p>Returns an <code id=pixel-manipulation:imagedata-2><a href=#imagedata>ImageData</a></code> object with the same dimensions as the argument. All the
+    pixels in the returned object are transparent black.</p>
+
+   <dt><var>imagedata</var> = new <code id=pixel-manipulation:dom-imagedata-2><a href=#dom-imagedata>ImageData</a></code>(<var>data</var>, <var>sw</var> [, <var>sh</var> ] )<dd>
+
+    <p>Returns an <code id=pixel-manipulation:imagedata-3><a href=#imagedata>ImageData</a></code> object using the data provided in the <code id=pixel-manipulation:idl-uint8clampedarray><a data-x-internal=idl-uint8clampedarray href=https://heycam.github.io/webidl/#idl-Uint8ClampedArray>Uint8ClampedArray</a></code> argument, interpreted using the given
+    dimensions.</p>
+
+    <p>As each pixel in the data is represented by four numbers, the length of the data needs to be
+    a multiple of four times the given width. If the height is provided as well, then the length
+    needs to be exactly the width times the height times 4.</p>
+
+    <p>Throws an <a id=pixel-manipulation:indexsizeerror-2 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=pixel-manipulation:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the given
+    data and dimensions can't be interpreted consistently, or if either dimension is zero.</p>
+
+   <dt><var>imagedata</var> = <var>context</var> . <code id=pixel-manipulation:dom-context-2d-getimagedata><a href=#dom-context-2d-getimagedata>getImageData</a></code>(<var>sx</var>, <var>sy</var>, <var>sw</var>, <var>sh</var>)<dd>
+
+    <p>Returns an <code id=pixel-manipulation:imagedata-4><a href=#imagedata>ImageData</a></code> object containing the image data for the given rectangle of
+    the bitmap.</p>
+
+    <p>Throws an <a id=pixel-manipulation:indexsizeerror-3 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=pixel-manipulation:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the either
+    of the width or height arguments are zero.</p>
+
+   <dt><var>imagedata</var> . <code id=pixel-manipulation:dom-imagedata-width><a href=#dom-imagedata-width>width</a></code><dt><var>imagedata</var> . <code id=pixel-manipulation:dom-imagedata-height><a href=#dom-imagedata-height>height</a></code><dd>
+
+    <p>Returns the actual dimensions of the data in the <code id=pixel-manipulation:imagedata-5><a href=#imagedata>ImageData</a></code> object, in
+    pixels.</p>
+
+   <dt><var>imagedata</var> . <code id=pixel-manipulation:dom-imagedata-data><a href=#dom-imagedata-data>data</a></code><dd>
+
+    <p>Returns the one-dimensional array containing the data in RGBA order, as integers in the range
+    0 to 255.</p>
+
+   <dt><var>context</var> . <code id=pixel-manipulation:dom-context-2d-putimagedata><a href=#dom-context-2d-putimagedata>putImageData</a></code>(<var>imagedata</var>, <var>dx</var>, <var>dy</var> [, <var>dirtyX</var>, <var>dirtyY</var>, <var>dirtyWidth</var>, <var>dirtyHeight</var> ] )<dd>
+
+    <p>Paints the data from the given <code id=pixel-manipulation:imagedata-6><a href=#imagedata>ImageData</a></code> object onto the bitmap. If a dirty
+    rectangle is provided, only the pixels from that rectangle are painted.</p>
+
+    <p>The <code id=pixel-manipulation:dom-context-2d-globalalpha><a href=#dom-context-2d-globalalpha>globalAlpha</a></code> and <code id=pixel-manipulation:dom-context-2d-globalcompositeoperation><a href=#dom-context-2d-globalcompositeoperation>globalCompositeOperation</a></code> attributes, as
+    well as the shadow attributes, are ignored for the purposes of this method call; pixels in the
+    canvas are replaced wholesale, with no composition, alpha blending, no shadows, etc.</p>
+
+    <p>Throws an <a id=pixel-manipulation:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=pixel-manipulation:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the
+    <var>imagedata</var> object's data's <a href=#detached id=pixel-manipulation:detached>[[Detached]]</a> internal slot value is true.</p>
+
+   </dl>
+
+  
+
+  <p>Objects that implement the <code id=pixel-manipulation:canvasimagedata><a href=#canvasimagedata>CanvasImageData</a></code> interface provide the following methods
+  for reading and writing pixel data to the bitmap.</p>
+
+  <p>The <dfn id=dom-imagedata><code>ImageData()</code></dfn> constructors and the
+  <dfn id=dom-context-2d-createimagedata><code>createImageData()</code></dfn> methods are
+  used to instantiate new <code id=pixel-manipulation:imagedata-7><a href=#imagedata>ImageData</a></code> objects.</p>
+
+  <p><code id=pixel-manipulation:imagedata-8><a href=#imagedata>ImageData</a></code> objects are <a href=#cloneable-objects id=pixel-manipulation:cloneable-objects>cloneable objects</a>.</p>
+
+  <p>Each <code id=pixel-manipulation:imagedata-9><a href=#imagedata>ImageData</a></code> object's <a href=#clone-() id=pixel-manipulation:clone-()>[[Clone]](<var>targetRealm</var>,
+  <var>memory</var>)</a> internal method must run these steps:</p>
+
+  <ol><li><p>Let <var>inputData</var> be the value of <b>this</b>'s <code id=pixel-manipulation:dom-imagedata-data-2><a href=#dom-imagedata-data>data</a></code> attribute.<li><p>Let <var>clonedData</var> be ? <a href=#structuredclone id=pixel-manipulation:structuredclone>StructuredClone</a>(<var>inputData</var>,
+   <var>targetRealm</var>, <var>memory</var>).<li><p>Return the result of <a href=#create-an-imagedata-object id=pixel-manipulation:create-an-imagedata-object>creating an
+   <code>ImageData</code> object</a>, with parameter <var>pixelsPerRow</var> set to the value of
+   <b>this</b>'s <code id=pixel-manipulation:dom-imagedata-width-2><a href=#dom-imagedata-width>width</a></code> attribute, <var>rows</var> set to
+   the value of <b>this</b>'s <code id=pixel-manipulation:dom-imagedata-height-2><a href=#dom-imagedata-height>height</a></code> attribute, and using
+   <var>clonedData</var>.</ol>
+
+  <p>When the <code id=pixel-manipulation:dom-imagedata-3><a href=#dom-imagedata>ImageData()</a></code> constructor is invoked with two
+  numeric arguments <var>sw</var> and <var>sh</var>, it must <a href=#create-an-imagedata-object id=pixel-manipulation:create-an-imagedata-object-2>create an <code>ImageData</code>
+  object</a> with parameter <var>pixelsPerRow</var> set to <var>sw</var>, and <var>rows</var> set
+  to <var>sh</var>. The image data of the newly created <code id=pixel-manipulation:imagedata-10><a href=#imagedata>ImageData</a></code> object must be
+  intializedzed to transparent black. If both <var>sw</var> and <var>sh</var> are non-zero, then
+  return the new <code id=pixel-manipulation:imagedata-11><a href=#imagedata>ImageData</a></code> object. If one or both of <var>sw</var> and <var>sh</var>
+  are zero, then the constructor must throw an <a id=pixel-manipulation:indexsizeerror-4 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a>
+  <code id=pixel-manipulation:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> instead.</p>
+
+  <p>When the <code id=pixel-manipulation:dom-imagedata-4><a href=#dom-imagedata>ImageData()</a></code> constructor is invoked with its first
+  argument being an <code id=pixel-manipulation:idl-uint8clampedarray-2><a data-x-internal=idl-uint8clampedarray href=https://heycam.github.io/webidl/#idl-Uint8ClampedArray>Uint8ClampedArray</a></code> <var>source</var>
+  and its second and optional third arguments being numeric arguments <var>sw</var> and
+  <var>sh</var>, it must run these steps:</p>
+
+  <ol><li><p>Let <var>length</var> be the number of bytes in <var>source</var>.<li><p>If <var>length</var> is not a non-zero integral multiple of four, then throw an
+   <a id=pixel-manipulation:invalidstateerror-2 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=pixel-manipulation:domexception-6><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+   steps.<li><p>Let <var>length</var> be <var>length</var> divided by four.</p>
+
+   <li>
+
+    <p>If <var>length</var> is not an integral multiple of <var>sw</var>, then throw an
+    <a id=pixel-manipulation:indexsizeerror-5 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=pixel-manipulation:domexception-7><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.</p>
+
+    <p class=note>At this step, the length is guaranteed to be greater than zero (otherwise the
+    second step above would have aborted the steps), so if <var>sw</var> is zero, this
+    step will throw the exception and abort these steps.</p>
+
+   <li><p>Let <var>height</var> be <var>length</var> divided by <var>sw</var>.<li><p>If the <var>sh</var> argument was not omitted, and its value is not equal to
+   <var>height</var>, then throw an <a id=pixel-manipulation:indexsizeerror-6 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a>
+   <code id=pixel-manipulation:domexception-8><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li>
+
+    <p><a href=#create-an-imagedata-object id=pixel-manipulation:create-an-imagedata-object-3>Create an <code>ImageData</code> object</a>, with parameter <var>pixelsPerRow</var>
+    set to <var>sw</var>, <var>rows</var> set to <var>sh</var>, and using <var>source</var>.
+    Return the newly created <code id=pixel-manipulation:imagedata-12><a href=#imagedata>ImageData</a></code> object.</p>
+
+    <p class=note>The resulting object's data is not a <em>copy</em> of <var>source</var>, it's
+    the actual <code id=pixel-manipulation:idl-uint8clampedarray-3><a data-x-internal=idl-uint8clampedarray href=https://heycam.github.io/webidl/#idl-Uint8ClampedArray>Uint8ClampedArray</a></code> object passed as the
+    first argument to the constructor.</p>
+
+   </ol>
+
+  <p>When the <code id=pixel-manipulation:dom-context-2d-createimagedata-3><a href=#dom-context-2d-createimagedata>createImageData()</a></code> method is
+  invoked with two numeric arguments <var>sw</var> and <var>sh</var>, it must <a href=#create-an-imagedata-object id=pixel-manipulation:create-an-imagedata-object-4>create an
+  <code>ImageData</code> object</a>, with parameter <var>pixelsPerRow</var> set to the
+  absolute magnitude of <var>sw</var>, and parameter <var>rows</var> set to the absolute magnitude
+  of <var>sh</var>. Initialize the image data of the new <code id=pixel-manipulation:imagedata-13><a href=#imagedata>ImageData</a></code> object to
+  transparent black. If both <var>sw</var> and <var>sh</var> are non-zero, then return
+  the new <code id=pixel-manipulation:imagedata-14><a href=#imagedata>ImageData</a></code> object. If one or both of <var>sw</var> and <var>sh</var> are
+  zero, then throw an <a id=pixel-manipulation:indexsizeerror-7 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=pixel-manipulation:domexception-9><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>
+  instead.</p>
+
+  <p>When the <code id=pixel-manipulation:dom-context-2d-createimagedata-4><a href=#dom-context-2d-createimagedata>createImageData()</a></code> method is
+  invoked with a single <var>imagedata</var> argument, it must <a href=#create-an-imagedata-object id=pixel-manipulation:create-an-imagedata-object-5>create an
+  <code>ImageData</code> object</a>, with parameter <var>pixelsPerRow</var> set to the value of
+  the <code id=pixel-manipulation:dom-imagedata-width-3><a href=#dom-imagedata-width>width</a></code> attribute of the <code id=pixel-manipulation:imagedata-15><a href=#imagedata>ImageData</a></code>
+  object passed as the argument, and the <var>rows</var> parameter set to the value of the
+  <code id=pixel-manipulation:dom-imagedata-height-3><a href=#dom-imagedata-height>height</a></code> attribute.
+  Initialize the image data of the new <code id=pixel-manipulation:imagedata-16><a href=#imagedata>ImageData</a></code> object to transparent black. Return
+  the newly created <code id=pixel-manipulation:imagedata-17><a href=#imagedata>ImageData</a></code> object.</p>
+
+  <p>The <dfn id=dom-context-2d-getimagedata><code>getImageData(<var>sx</var>,
+  <var>sy</var>, <var>sw</var>, <var>sh</var>)</code></dfn> method, when invoked, must,
+  if either the <var>sw</var> or <var>sh</var> arguments are zero, throw an
+  <a id=pixel-manipulation:indexsizeerror-8 href=https://heycam.github.io/webidl/#indexsizeerror data-x-internal=indexsizeerror>"<code>IndexSizeError</code>"</a> <code id=pixel-manipulation:domexception-10><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>; otherwise,
+  
+  if the <code id=pixel-manipulation:canvasrenderingcontext2d><a href=#canvasrenderingcontext2d>CanvasRenderingContext2D</a></code>'s <a href=#concept-canvas-origin-clean id=pixel-manipulation:concept-canvas-origin-clean>origin-clean</a> flag is set to false, it must throw a
+  <a id=pixel-manipulation:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=pixel-manipulation:domexception-11><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>;
+  
+  otherwise, it must <a href=#create-an-imagedata-object id=pixel-manipulation:create-an-imagedata-object-6>create an <code>ImageData</code> object</a>, with parameter
+  <var>pixelsPerRow</var> set to <var>sw</var>, and parameter <var>rows</var> set to <var>sh</var>.
+  Set the pixel values of the image data of the newly created <code id=pixel-manipulation:imagedata-18><a href=#imagedata>ImageData</a></code> object to
+  represent the <a href=#output-bitmap id=pixel-manipulation:output-bitmap>output bitmap</a> for the area of that bitmap denoted by the rectangle
+  whose corners are the four points (<var>sx</var>, <var>sy</var>), (<span><var>sx</var>+<var>sw</var></span>, <var>sy</var>), (<span><var>sx</var>+<var>sw</var></span>, <span><var>sy</var>+<var>sh</var></span>), (<var>sx</var>,
+  <span><var>sy</var>+<var>sh</var></span>), in the bitmap's coordinate space units.
+  Pixels outside the <a href=#output-bitmap id=pixel-manipulation:output-bitmap-2>output bitmap</a> must be set to transparent black. Pixel values
+  must not be premultiplied by alpha.</p>
+
+  <p>When the user agent is required to <dfn id=create-an-imagedata-object>create an <code>ImageData</code> object</dfn>, given a
+  positive integer number of rows <var>rows</var>, a positive integer number of pixels per row
+  <var>pixelsPerRow</var>, and an optional <code id=pixel-manipulation:idl-uint8clampedarray-4><a data-x-internal=idl-uint8clampedarray href=https://heycam.github.io/webidl/#idl-Uint8ClampedArray>Uint8ClampedArray</a></code> <var>source</var>, it must run these
+  steps:</p>
+
+  <ol><li><p>Let <var>imageData</var> be a new uninitialized <a href=#imagedata id=pixel-manipulation:imagedata-19>ImageData</a> object.<li><p>If <var>source</var> is specified, then assign the <dfn id=dom-imagedata-data><code>data</code></dfn> attribute of <var>imageData</var> to
+   <var>source</var>.<li>
+    <p>If <var>source</var> is not specified, then initialize the <code id=pixel-manipulation:dom-imagedata-data-3><a href=#dom-imagedata-data>data</a></code> attribute of <var>imageData</var> to a new <code id=pixel-manipulation:idl-uint8clampedarray-5><a data-x-internal=idl-uint8clampedarray href=https://heycam.github.io/webidl/#idl-Uint8ClampedArray>Uint8ClampedArray</a></code> object. The <code id=pixel-manipulation:idl-uint8clampedarray-6><a data-x-internal=idl-uint8clampedarray href=https://heycam.github.io/webidl/#idl-Uint8ClampedArray>Uint8ClampedArray</a></code> object must use a new <a href=#canvas-pixel-arraybuffer id=pixel-manipulation:canvas-pixel-arraybuffer>Canvas
+    Pixel <code>ArrayBuffer</code></a> for its storage, and must have a
+    zero start offset and a length equal to the length of its storage, in bytes. The <a href=#canvas-pixel-arraybuffer id=pixel-manipulation:canvas-pixel-arraybuffer-2>Canvas
+    Pixel <code>ArrayBuffer</code></a> must have the correct size to
+    store <var>rows</var> × <var>pixelsPerRow</var> pixels.</p>
+
+    <p>If the <a href=#canvas-pixel-arraybuffer id=pixel-manipulation:canvas-pixel-arraybuffer-3>Canvas Pixel <code>ArrayBuffer</code></a> cannot be
+    allocated, then rethrow the <code id=pixel-manipulation:js-rangeerror><a data-x-internal=js-rangeerror href=https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror>RangeError</a></code> thrown by JavaScript,
+    and abort these steps.</p>
+   <li><p>Initialize the <dfn id=dom-imagedata-width><code>width</code></dfn> attribute of
+   <var>imageData</var> to <var>pixelsPerRow</var>.<li><p>Initialize the <dfn id=dom-imagedata-height><code>height</code></dfn> attribute of
+   <var>imageData</var> to <var>rows</var>.<li><p>Return <var>imageData</var>.</ol>
+
+  <p>A <dfn id=canvas-pixel-arraybuffer>Canvas Pixel <code>ArrayBuffer</code></dfn> is an <code id=pixel-manipulation:idl-arraybuffer><a data-x-internal=idl-arraybuffer href=https://heycam.github.io/webidl/#idl-ArrayBuffer>ArrayBuffer</a></code> whose data is represented in left-to-right order, row
+  by row top to bottom, starting with the top left, with each pixel's red, green, blue, and alpha
+  components being given in that order for each pixel. Each component of each pixel represented in
+  this array must be in the range 0..255, representing the 8 bit value for that component. The
+  components must be assigned consecutive indices starting with 0 for the top left pixel's red
+  component.</p>
+
+  <p>The <dfn id=dom-context-2d-putimagedata><code>putImageData()</code></dfn> method writes
+  data from <code id=pixel-manipulation:imagedata-20><a href=#imagedata>ImageData</a></code> structures back to the rendering context's <a href=#output-bitmap id=pixel-manipulation:output-bitmap-3>output
+  bitmap</a>. Its arguments are: <var>imagedata</var>, <var>dx</var>, <var>dy</var>,
+  <var>dirtyX</var>, <var>dirtyY</var>, <var>dirtyWidth</var>, and <var>dirtyHeight</var>.</p>
+
+  <p>When the last four arguments to this method are omitted, they must be assumed to have the
+  values 0, 0, the <code id=pixel-manipulation:dom-imagedata-width-4><a href=#dom-imagedata-width>width</a></code> member of the <var>imagedata</var> structure, and the <code id=pixel-manipulation:dom-imagedata-height-4><a href=#dom-imagedata-height>height</a></code>
+  member of the <var>imagedata</var> structure, respectively.</p>
+
+  <p>The method, when invoked, must act as follows:</p>
+
+  <ol><li>
+
+    <p>If <var>imagedata</var>'s <code id=pixel-manipulation:dom-imagedata-data-4><a href=#dom-imagedata-data>data</a></code> attribute value's
+    <a href=#detached id=pixel-manipulation:detached-2>[[Detached]]</a> internal slot value is true, then throw an
+    <a id=pixel-manipulation:invalidstateerror-3 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=pixel-manipulation:domexception-12><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these
+    steps.</p>
+
+   <li>
+
+    <p>If <var>dirtyWidth</var> is negative, then let <var>dirtyX</var> be <span><var>dirtyX</var>+<var>dirtyWidth</var></span>, and let <var>dirtyWidth</var> be equal
+    to the absolute magnitude of <var>dirtyWidth</var>.</p>
+
+    <p>If <var>dirtyHeight</var> is negative, then let <var>dirtyY</var> be <span><var>dirtyY</var>+<var>dirtyHeight</var></span>, and let <var>dirtyHeight</var> be
+    equal to the absolute magnitude of <var>dirtyHeight</var>.</p>
+
+   <li>
+
+    <p>If <var>dirtyX</var> is negative, then let <var>dirtyWidth</var> be <span><var>dirtyWidth</var>+<var>dirtyX</var></span>, and let <var>dirtyX</var> be zero.</p>
+
+    <p>If <var>dirtyY</var> is negative, then let <var>dirtyHeight</var> be <span><var>dirtyHeight</var>+<var>dirtyY</var></span>, and let <var>dirtyY</var> be zero.</p>
+
+   <li>
+
+    <p>If <span><var>dirtyX</var>+<var>dirtyWidth</var></span> is greater than the <code id=pixel-manipulation:dom-imagedata-width-5><a href=#dom-imagedata-width>width</a></code> attribute of the <var>imagedata</var> argument, then
+    let <var>dirtyWidth</var> be the value of that <code id=pixel-manipulation:dom-imagedata-width-6><a href=#dom-imagedata-width>width</a></code>
+    attribute, minus the value of <var>dirtyX</var>.</p>
+
+    <p>If <span><var>dirtyY</var>+<var>dirtyHeight</var></span> is greater than the <code id=pixel-manipulation:dom-imagedata-height-5><a href=#dom-imagedata-height>height</a></code> attribute of the <var>imagedata</var> argument, then
+    let <var>dirtyHeight</var> be the value of that <code id=pixel-manipulation:dom-imagedata-height-6><a href=#dom-imagedata-height>height</a></code> attribute, minus the value of <var>dirtyY</var>.</p>
+
+   <li>
+
+    <p>If, after those changes, either <var>dirtyWidth</var> or <var>dirtyHeight</var> are negative
+    or zero, then abort these steps without affecting any bitmaps.</p>
+
+   <li><p>For all integer values of <var>x</var> and <var>y</var> where <span><var>dirtyX</var> ≤ <var>x</var> &lt; <span><var>dirtyX</var>+<var>dirtyWidth</var></span></span> and <span><var>dirtyY</var> ≤ <var>y</var> &lt; <span><var>dirtyY</var>+<var>dirtyHeight</var></span></span>, copy the
+   four channels of the pixel with coordinate (<var>x</var>, <var>y</var>) in
+   the <var>imagedata</var> data structure's <a href=#canvas-pixel-arraybuffer id=pixel-manipulation:canvas-pixel-arraybuffer-4>Canvas Pixel
+   <code>ArrayBuffer</code></a> to the pixel with coordinate (<span><var>dx</var>+<var>x</var></span>, <span><var>dy</var>+<var>y</var></span>)
+   in the rendering context's <a href=#output-bitmap id=pixel-manipulation:output-bitmap-4>output bitmap</a>.</ol>
+
+  <p>The handling of pixel rounding when the specified coordinates are not integers is not defined
+  by this specification, except that the following must result in no visible changes to the
+  rendering:</p>
+
+  <pre>context.putImageData(context.getImageData(x, y, w, h), p, q);</pre>
+
+  <p>...for any value of <var>x</var>, <var>y</var>, <var>w</var>, and
+  <var>h</var> and where <var>p</var> is the smaller of <var>x</var>
+  and the sum of <var>x</var> and <var>w</var>, and <var>q</var> is
+  the smaller of <var>y</var> and the sum of <var>y</var> and <var>h</var>; and except that the following two calls:</p>
+
+  <pre>context.createImageData(w, h);
+context.getImageData(0, 0, w, h);</pre>
+
+  <p>...must return <code id=pixel-manipulation:imagedata-21><a href=#imagedata>ImageData</a></code> objects with the same dimensions as each other, for any
+  value of <var>w</var> and <var>h</var>. In other words, while user agents may
+  round the arguments of these methods, any rounding performed must be performed consistently for
+  all of the methods described in this section. (The constructors only work with integer
+  values.)</p>
+
+  <p class=note>Due to the lossy nature of converting to and from premultiplied alpha color
+  values, pixels that have just been set using <code id=pixel-manipulation:dom-context-2d-putimagedata-2><a href=#dom-context-2d-putimagedata>putImageData()</a></code> might be returned to an equivalent
+  <code id=pixel-manipulation:dom-context-2d-getimagedata-2><a href=#dom-context-2d-getimagedata>getImageData()</a></code> as different values.</p>
+
+  <p>The current path, <a href=#transformations id=pixel-manipulation:transformations>transformation matrix</a>,
+  <a href=#shadows id=pixel-manipulation:shadows>shadow attributes</a>, <a href=#dom-context-2d-globalalpha id=pixel-manipulation:dom-context-2d-globalalpha-2>global
+  alpha</a>, the <a href=#clipping-region id=pixel-manipulation:clipping-region>clipping region</a>, and <a href=#dom-context-2d-globalcompositeoperation id=pixel-manipulation:dom-context-2d-globalcompositeoperation-2>global composition operator</a> must not
+  affect the methods described in this section.</p>
+
+  
+
+  <div class=example>
+
+   <p>In the following example, the script generates an <code id=pixel-manipulation:imagedata-22><a href=#imagedata>ImageData</a></code> object so that it can
+   draw onto it.</p>
+
+   <pre>// canvas is a reference to a &lt;canvas> element
+var context = canvas.getContext('2d');
+
+// create a blank slate
+var data = context.createImageData(canvas.width, canvas.height);
+
+// create some plasma
+FillPlasma(data, 'green'); // green plasma
+
+// add a cloud to the plasma
+AddCloud(data, data.width/2, data.height/2); // put a cloud in the middle
+
+// paint the plasma+cloud on the canvas
+context.putImageData(data, 0, 0);
+
+// support methods
+function FillPlasma(data, color) { ... }
+function AddCloud(data, x, y) { ... }</pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here is an example of using <code id=pixel-manipulation:dom-context-2d-getimagedata-3><a href=#dom-context-2d-getimagedata>getImageData()</a></code> and <code id=pixel-manipulation:dom-context-2d-putimagedata-3><a href=#dom-context-2d-putimagedata>putImageData()</a></code> to implement an edge detection
+   filter.</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>Edge detection demo&lt;/title>
+  &lt;script>
+   var image = new Image();
+   function init() {
+     image.onload = demo;
+     image.src = "image.jpeg";
+   }
+   function demo() {
+     var canvas = document.getElementsByTagName('canvas')[0];
+     var context = canvas.getContext('2d');
+
+     // draw the image onto the canvas
+     context.drawImage(image, 0, 0);
+
+     // get the image data to manipulate
+     var input = context.getImageData(0, 0, canvas.width, canvas.height);
+
+     // get an empty slate to put the data into
+     var output = context.createImageData(canvas.width, canvas.height);
+
+     // alias some variables for convenience
+     // In this case input.width and input.height
+     // match canvas.width and canvas.height
+     // but we'll use the former to keep the code generic.
+     var w = input.width, h = input.height;
+     var inputData = input.data;
+     var outputData = output.data;
+
+     // edge detection
+     for (var y = 1; y &lt; h-1; y += 1) {
+       for (var x = 1; x &lt; w-1; x += 1) {
+         for (var c = 0; c &lt; 3; c += 1) {
+           var i = (y*w + x)*4 + c;
+           outputData[i] = 127 + -inputData[i - w*4 - 4] -   inputData[i - w*4] - inputData[i - w*4 + 4] +
+                                 -inputData[i - 4]       + 8*inputData[i]       - inputData[i + 4] +
+                                 -inputData[i + w*4 - 4] -   inputData[i + w*4] - inputData[i + w*4 + 4];
+         }
+         outputData[(y*w + x)*4 + 3] = 255; // alpha
+       }
+     }
+
+     // put the image data back after manipulation
+     context.putImageData(output, 0, 0);
+   }
+  &lt;/script>
+ &lt;/head>
+ &lt;body onload="init()">
+  &lt;canvas>&lt;/canvas>
+ &lt;/body>
+&lt;/html></pre>
+
+  </div>
+
+
+
+
+  <h6 id=compositing>4.12.5.1.16 Compositing<a href=#compositing class=self-link></a></h6>
+
+  <dl class=domintro><dt><var>context</var> . <code id=compositing:dom-context-2d-globalalpha><a href=#dom-context-2d-globalalpha>globalAlpha</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current alpha value applied to rendering operations.</p>
+
+    <p>Can be set, to change the alpha value. Values outside of the range 0.0 .. 1.0 are
+    ignored.</p>
+
+   <dt><var>context</var> . <code id=compositing:dom-context-2d-globalcompositeoperation><a href=#dom-context-2d-globalcompositeoperation>globalCompositeOperation</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current composition operation, from the values defined in the Compositing and
+    Blending specification. <a href=#refsCOMPOSITE>[COMPOSITE]</a>.</p>
+
+    <p>Can be set, to change the composition operation. Unknown values are ignored.</p>
+
+   </dl>
+
+  
+
+  <p>All drawing operations on an object which implements the <code id=compositing:canvascompositing><a href=#canvascompositing>CanvasCompositing</a></code>
+  interface are affected by the global compositing attributes, <code id=compositing:dom-context-2d-globalalpha-2><a href=#dom-context-2d-globalalpha>globalAlpha</a></code> and <code id=compositing:dom-context-2d-globalcompositeoperation-2><a href=#dom-context-2d-globalcompositeoperation>globalCompositeOperation</a></code>.</p>
+
+  
+
+  <p>The <dfn id=dom-context-2d-globalalpha><code>globalAlpha</code></dfn> attribute gives an
+  alpha value that is applied to shapes and images before they are composited onto the <a href=#output-bitmap id=compositing:output-bitmap>output
+  bitmap</a>. The value must be in the range from 0.0 (fully transparent) to 1.0 (no additional
+  transparency). If an attempt is made to set the attribute to a value outside this range, including
+  Infinity and Not-a-Number (NaN) values, then the attribute must retain its previous value. When
+  the context is created, the <code id=compositing:dom-context-2d-globalalpha-3><a href=#dom-context-2d-globalalpha>globalAlpha</a></code> attribute
+  must initially have the value 1.0.</p>
+
+  <p>The <dfn id=dom-context-2d-globalcompositeoperation><code>globalCompositeOperation</code></dfn> attribute
+  sets the <dfn id=current-composition-operator>current composition operator</dfn>, which controls how shapes and images are drawn onto the
+  <a href=#output-bitmap id=compositing:output-bitmap-2>output bitmap</a>, once they have had <code id=compositing:dom-context-2d-globalalpha-4><a href=#dom-context-2d-globalalpha>globalAlpha</a></code> and the current transformation matrix
+  applied. The possible values are those defined in the Compositing and Blending specification, and
+  include the values <dfn id=gcop-source-over><code>source-over</code></dfn>
+  and <dfn id=gcop-copy><code>copy</code></dfn>.
+  <a href=#refsCOMPOSITE>[COMPOSITE]</a><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27313" title="It seems like this should be defined in terms of an IDL enum. If not, please clarify the relationshi [...]">27313</a></div>
+
+  <p>These values are all case-sensitive — they must be used exactly as defined. User agents
+  must not recognize values that are not a <a href=#case-sensitive id=compositing:case-sensitive>case-sensitive</a> match for one of the values
+  given in the Compositing and Blending specification. <a href=#refsCOMPOSITE>[COMPOSITE]</a></p>
+
+  <p>On setting, if the user agent does not recognize the specified value, it must be ignored,
+  leaving the value of <code id=compositing:dom-context-2d-globalcompositeoperation-3><a href=#dom-context-2d-globalcompositeoperation>globalCompositeOperation</a></code> unaffected.
+  Otherwise, the attribute must be set to the given new value.</p>
+
+  <p>When the context is created, the <code id=compositing:dom-context-2d-globalcompositeoperation-4><a href=#dom-context-2d-globalcompositeoperation>globalCompositeOperation</a></code> attribute must
+  initially have the value <code id=compositing:gcop-source-over><a href=#gcop-source-over>source-over</a></code>.</p>
+
+  
+
+
+
+  <h6 id=image-smoothing>4.12.5.1.17 Image smoothing<a href=#image-smoothing class=self-link></a></h6>
+
+  <dl class=domintro><dt><var>context</var> . <code id=image-smoothing:dom-context-2d-imagesmoothingenabled><a href=#dom-context-2d-imagesmoothingenabled>imageSmoothingEnabled</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns whether pattern fills and the <code id=image-smoothing:dom-context-2d-drawimage><a href=#dom-context-2d-drawimage>drawImage()</a></code> method will attempt to smooth images if
+    their pixels don't line up exactly with the display, when scaling images up.</p>
+
+    <p>Can be set, to change whether images are smoothed (true) or not (false).</p>
+
+   <dt><var>context</var> . <code id=image-smoothing:dom-context-2d-imagesmoothingquality><a href=#dom-context-2d-imagesmoothingquality>imageSmoothingQuality</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current image-smoothing-quality preference.</p>
+
+    <p>Can be set, to change the preferred quality of image smoothing. The possible values are
+    "<code id=image-smoothing:dom-context-2d-imagesmoothingquality-low><a href=#dom-context-2d-imagesmoothingquality-low>low</a></code>", "<code id=image-smoothing:dom-context-2d-imagesmoothingquality-medium><a href=#dom-context-2d-imagesmoothingquality-medium>medium</a></code>" and "<code id=image-smoothing:dom-context-2d-imagesmoothingquality-high><a href=#dom-context-2d-imagesmoothingquality-high>high</a></code>". Unknown values are ignored.</p>
+
+   </dl>
+
+  
+
+  <p>Objects that implement the <code id=image-smoothing:canvasimagesmoothing><a href=#canvasimagesmoothing>CanvasImageSmoothing</a></code> interface have attributes that
+  control how image smoothing is performed.</p>
+
+  <p>The <dfn id=dom-context-2d-imagesmoothingenabled><code>imageSmoothingEnabled</code></dfn>
+  attribute, on getting, must return the last value it was set to. On setting, it must be set to the
+  new value. When the object implementing the <code id=image-smoothing:canvasimagesmoothing-2><a href=#canvasimagesmoothing>CanvasImageSmoothing</a></code> interface is
+  created, the attribute must be set to true.</p>
+
+  <p>The <dfn id=dom-context-2d-imagesmoothingquality><code>imageSmoothingQuality</code></dfn>
+  attribute, on getting, must return the last value it was set to. On setting, it must be set to the
+  new value. When the object implementing the <code id=image-smoothing:canvasimagesmoothing-3><a href=#canvasimagesmoothing>CanvasImageSmoothing</a></code> interface is
+  created, the attribute must be set to "<code id=image-smoothing:dom-context-2d-imagesmoothingquality-low-2><a href=#dom-context-2d-imagesmoothingquality-low>low</a></code>".</p>
+
+  
+
+
+  <h6 id=shadows>4.12.5.1.18 <dfn>Shadows</dfn><a href=#shadows class=self-link></a></h6>
+
+  <p>All drawing operations on an object which implements the <code id=shadows:canvasshadowstyles><a href=#canvasshadowstyles>CanvasShadowStyles</a></code>
+  interface are affected by the four global shadow attributes.</p>
+
+  <dl class=domintro><dt><var>context</var> . <code id=shadows:dom-context-2d-shadowcolor><a href=#dom-context-2d-shadowcolor>shadowColor</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current shadow color.</p>
+
+    <p>Can be set, to change the shadow color. Values that cannot be parsed as CSS colors are ignored.</p>
+
+   <dt><var>context</var> . <code id=shadows:dom-context-2d-shadowoffsetx><a href=#dom-context-2d-shadowoffsetx>shadowOffsetX</a></code> [ = <var>value</var> ]<dt><var>context</var> . <code id=shadows:dom-context-2d-shadowoffsety><a href=#dom-context-2d-shadowoffsety>shadowOffsetY</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current shadow offset.</p>
+
+    <p>Can be set, to change the shadow offset. Values that are not finite numbers are ignored.</p>
+
+   <dt><var>context</var> . <code id=shadows:dom-context-2d-shadowblur><a href=#dom-context-2d-shadowblur>shadowBlur</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current level of blur applied to shadows.</p>
+
+    <p>Can be set, to change the blur level. Values that are not finite numbers greater than or
+    equal to zero are ignored.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-context-2d-shadowcolor><code>shadowColor</code></dfn> attribute sets the
+  color of the shadow.</p>
+
+  <p>When the context is created, the <code id=shadows:dom-context-2d-shadowcolor-2><a href=#dom-context-2d-shadowcolor>shadowColor</a></code>
+  attribute initially must be fully-transparent black.</p>
+
+  <p>On getting, the <a href=#serialisation-of-a-color id=shadows:serialisation-of-a-color>serialization of the color</a>
+  must be returned.</p>
+
+  <p>On setting, the new value must be <a href=#parsed-as-a-css-color-value id=shadows:parsed-as-a-css-color-value>parsed as a CSS &lt;color> value</a> and the
+  color assigned. If the value cannot be <a href=#parsed-as-a-css-color-value id=shadows:parsed-as-a-css-color-value-2>parsed as a CSS &lt;color> value</a> then it
+  must be ignored, and the attribute must retain its previous value. <a href=#refsCSSCOLOR>[CSSCOLOR]</a></p>
+
+  <p>The <dfn id=dom-context-2d-shadowoffsetx><code>shadowOffsetX</code></dfn> and <dfn id=dom-context-2d-shadowoffsety><code>shadowOffsetY</code></dfn> attributes specify the distance
+  that the shadow will be offset in the positive horizontal and positive vertical distance
+  respectively. Their values are in coordinate space units. They are not affected by the current
+  transformation matrix.</p>
+
+  <p>When the context is created, the shadow offset attributes must initially have the value
+  0.</p>
+
+  <p>On getting, they must return their current value. On setting, the attribute being set must be
+  set to the new value, except if the value is infinite or NaN, in which case the new value must be
+  ignored.</p>
+
+  <p>The <dfn id=dom-context-2d-shadowblur><code>shadowBlur</code></dfn> attribute specifies
+  the level of the blurring effect. (The units do not map to coordinate space units, and are not
+  affected by the current transformation matrix.)</p>
+
+  <p>When the context is created, the <code id=shadows:dom-context-2d-shadowblur-2><a href=#dom-context-2d-shadowblur>shadowBlur</a></code>
+  attribute must initially have the value 0.</p>
+
+  <p>On getting, the attribute must return its current value. On setting the attribute must be set
+  to the new value, except if the value is negative, infinite or NaN, in which case the new value
+  must be ignored.</p>
+
+  <p><dfn id=when-shadows-are-drawn>Shadows are only drawn if</dfn> the opacity component of
+  the alpha component of the color of <code id=shadows:dom-context-2d-shadowcolor-3><a href=#dom-context-2d-shadowcolor>shadowColor</a></code> is
+  non-zero and either the <code id=shadows:dom-context-2d-shadowblur-3><a href=#dom-context-2d-shadowblur>shadowBlur</a></code> is non-zero, or
+  the <code id=shadows:dom-context-2d-shadowoffsetx-2><a href=#dom-context-2d-shadowoffsetx>shadowOffsetX</a></code> is non-zero, or the <code id=shadows:dom-context-2d-shadowoffsety-2><a href=#dom-context-2d-shadowoffsety>shadowOffsetY</a></code> is non-zero.</p>
+
+  <p><a href=#when-shadows-are-drawn id=shadows:when-shadows-are-drawn>When shadows are drawn</a>, they must be rendered as follows:</p>
+
+  <ol><li><p>Let <var>A</var> be an infinite transparent black bitmap on which the source
+   image for which a shadow is being created has been rendered.<li><p>Let <var>B</var> be an infinite transparent black bitmap, with a coordinate
+   space and an origin identical to <var>A</var>.<li><p>Copy the alpha channel of <var>A</var> to <var>B</var>, offset by <code id=shadows:dom-context-2d-shadowoffsetx-3><a href=#dom-context-2d-shadowoffsetx>shadowOffsetX</a></code> in the positive <var>x</var>
+   direction, and <code id=shadows:dom-context-2d-shadowoffsety-3><a href=#dom-context-2d-shadowoffsety>shadowOffsetY</a></code> in the positive
+   <var>y</var> direction.<li>
+
+    <p>If <code id=shadows:dom-context-2d-shadowblur-4><a href=#dom-context-2d-shadowblur>shadowBlur</a></code> is greater than 0:</p>
+
+    <ol><li> <p>Let <var>σ</var> be half the value of <code id=shadows:dom-context-2d-shadowblur-5><a href=#dom-context-2d-shadowblur>shadowBlur</a></code>.<li> <p>Perform a 2D Gaussian Blur on <var>B</var>, using <var>σ</var>
+     as the standard deviation.</p>  </ol>
+
+    <p>User agents may limit values of <var>σ</var> to an implementation-specific
+    maximum value to avoid exceeding hardware limitations during the Gaussian blur operation.</p>
+
+   <li><p>Set the red, green, and blue components of every pixel in <var>B</var> to the
+   red, green, and blue components (respectively) of the color of <code id=shadows:dom-context-2d-shadowcolor-4><a href=#dom-context-2d-shadowcolor>shadowColor</a></code>.<li><p>Multiply the alpha component of every pixel in <var>B</var> by the alpha
+   component of the color of <code id=shadows:dom-context-2d-shadowcolor-5><a href=#dom-context-2d-shadowcolor>shadowColor</a></code>.<li><p>The shadow is in the bitmap <var>B</var>, and is rendered as part of the
+   <a href=#drawing-model id=shadows:drawing-model>drawing model</a> described below.</ol>
+
+  
+
+  <p>If the current composition operation is <code id=shadows:gcop-copy><a href=#gcop-copy>copy</a></code>, then shadows
+  effectively won't render (since the shape will overwrite the shadow).</p>
+
+  <h6 id=filters>4.12.5.1.19 Filters<a href=#filters class=self-link></a></h6>
+
+  <p>All drawing operations on an object which implements the <code id=filters:canvasfilters><a href=#canvasfilters>CanvasFilters</a></code>
+  interface are affected by the global <dfn id=dom-context-2d-filter><code>filter</code></dfn>
+  attribute.</p>
+
+  <dl class=domintro><dt><var>context</var> . <code id=filters:dom-context-2d-filter><a href=#dom-context-2d-filter>filter</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current filter.</p>
+
+    <p>Can be set, to change the filter. Values that cannot be parsed as a
+    <a id=filters:filter-function-list href=https://drafts.fxtf.org/filters/#typedef-filter-function-list data-x-internal=filter-function-list>&lt;filter-function-list></a> value are ignored.</p>
+
+   </dl>
+
+  
+
+  <p>The <code id=filters:dom-context-2d-filter-2><a href=#dom-context-2d-filter>filter</a></code> attribute, on getting, must
+  return the last value it was successfully set to. The value must not be re-serialized. On setting,
+  if the new value is 'none' (not the empty string, null, or undefined), filters must be disabled
+  for the context. Otherwise, the value must be parsed as a
+  <a id=filters:filter-function-list-2 href=https://drafts.fxtf.org/filters/#typedef-filter-function-list data-x-internal=filter-function-list>&lt;filter-function-list></a> value. If the value cannot be parsed as a
+  <a id=filters:filter-function-list-3 href=https://drafts.fxtf.org/filters/#typedef-filter-function-list data-x-internal=filter-function-list>&lt;filter-function-list></a> value, where using property-independent style sheet
+  syntax like 'inherit' or 'initial' is considered an invalid value, then it must be ignored, and
+  the attribute must retain its previous value. When creating the object implementing the
+  <code id=filters:canvasfilters-2><a href=#canvasfilters>CanvasFilters</a></code> interface, the attribute must be set to 'none'.</p>
+
+  <p>A <a id=filters:filter-function-list-4 href=https://drafts.fxtf.org/filters/#typedef-filter-function-list data-x-internal=filter-function-list>&lt;filter-function-list></a> value consists of a sequence of one or more
+  filter functions or references to SVG filters. The input to the filter is used as the input
+  to the first item in the list. Subsequent items take the output of the previous item as
+  their input. <a href=#refsFILTERS>[FILTERS]</a></p>
+
+  <p>Coordinates used in the value of the <code id=filters:dom-context-2d-filter-3><a href=#dom-context-2d-filter>filter</a></code> attribute are interpreted such that one pixel is
+  equivalent to one SVG user space unit and to one canvas coordinate space unit. Filter coordinates
+  are not affected by the <a href=#transformations id=filters:transformations>current transformation
+  matrix</a>. The current transformation matrix affects only the input to the filter. Filters
+  are applied in the <a href=#output-bitmap id=filters:output-bitmap>output bitmap</a>'s coordinate space.</p>
+
+  <p>When the value of the <code id=filters:dom-context-2d-filter-4><a href=#dom-context-2d-filter>filter</a></code> attribute defines
+  lengths using percentages or using <a id="filters:'em'" href=https://drafts.csswg.org/css-values/#em data-x-internal="'em'">'em'</a> or <a id="filters:'ex'" href=https://drafts.csswg.org/css-values/#ex data-x-internal="'ex'">'ex'</a> units, these must be
+  interpreted relative to the <a id=filters:computed-value href=https://drafts.csswg.org/css-cascade/#computed-value data-x-internal=computed-value>computed value</a> of the <a id="filters:'font-size'" href=https://drafts.csswg.org/css-fonts/#font-size-prop data-x-internal="'font-size'">'font-size'</a> property
+  of the <a href=#font-style-source-object id=filters:font-style-source-object>font style source object</a> at the time that the attribute is set, if it is an
+  element. If the <a href=https://drafts.csswg.org/css-cascade/#computed-value id=filters:computed-value-2 data-x-internal=computed-value>computed values</a> are undefined for a
+  particular case (e.g. because the <a href=#font-style-source-object id=filters:font-style-source-object-2>font style source object</a> is not an element or is
+  not <a href=#being-rendered id=filters:being-rendered>being rendered</a>), then the relative keywords must be interpreted relative to the
+  default value of the <code id=filters:dom-context-2d-font><a href=#dom-context-2d-font>font</a></code> attribute. The 'larger' and
+  'smaller' keywords are not supported.</p>
+
+  <p>If the value of the <code id=filters:dom-context-2d-filter-5><a href=#dom-context-2d-filter>filter</a></code> attribute refers to an
+  SVG filter in the same document, and this SVG filter changes, then the changed filter is used for
+  the next draw operation.</p>
+
+  <p>If the value of the <code id=filters:dom-context-2d-filter-6><a href=#dom-context-2d-filter>filter</a></code> attribute refers to an
+  SVG filter in an external resource document and that document is not loaded when a drawing
+  operation is invoked, then the drawing operation must proceed with no filtering.</p>
+
+  
+
+  <h6 id=working-with-externally-defined-svg-filters>4.12.5.1.20 Working with externally-defined SVG filters<a href=#working-with-externally-defined-svg-filters class=self-link></a></h6>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Since drawing is performed using filter value 'none' until an externally-defined
+  filter has finished loading, authors might wish to determine whether such a filter
+  has finished loading before proceeding with a drawing operation. One way to accomplish
+  this is to load the externally-defined filter elsewhere within the same page in some
+  element that sends a <code>load</code> event (for example, an <a id=working-with-externally-defined-svg-filters:svg-use href=https://www.w3.org/TR/SVG11/struct.html#UseElement data-x-internal=svg-use>SVG
+  <code>use</code></a> element), and wait for the <code>load</code> event to be
+  dispatched.</p>
+
+  
+
+  <h6 id=drawing-model>4.12.5.1.21 <dfn>Drawing model</dfn><a href=#drawing-model class=self-link></a></h6>
+
+  <p>When a shape or image is painted, user agents must follow these steps, in the order given (or
+  act as if they do):</p>
+
+  <ol><li><p>Render the shape or image onto an infinite transparent black bitmap, creating image <var>A</var>, as described in the previous sections. For shapes, the current fill, stroke,
+   and line styles must be honored, and the stroke must itself also be subjected to the current
+   transformation matrix.<li><p>When the filter attribute is set to a value other than 'none' and all the
+   externally-defined filters it references, if any, are in documents that are currently loaded,
+   then use image <var>A</var> as the input to the <code id=drawing-model:dom-context-2d-filter><a href=#dom-context-2d-filter>filter</a></code>, creating image <var>B</var>. Otherwise, let
+   <var>B</var> be an alias for <var>A</var>.<li><p><a href=#when-shadows-are-drawn id=drawing-model:when-shadows-are-drawn>When shadows are drawn</a>, render the shadow from image <var>B</var>,
+   using the current shadow styles, creating image <var>C</var>.<li><p><a href=#when-shadows-are-drawn id=drawing-model:when-shadows-are-drawn-2>When shadows are drawn</a>, multiply the alpha component of every pixel in <var>C</var> by <code id=drawing-model:dom-context-2d-globalalpha><a href=#dom-context-2d-globalalpha>globalAlpha</a></code>.<li><p><a href=#when-shadows-are-drawn id=drawing-model:when-shadows-are-drawn-3>When shadows are drawn</a>, composite <var>C</var> within the
+   <a href=#clipping-region id=drawing-model:clipping-region>clipping region</a> over the current <a href=#output-bitmap id=drawing-model:output-bitmap>output bitmap</a> using the <a href=#current-composition-operator id=drawing-model:current-composition-operator>current
+   composition operator</a>.<li><p>Multiply the alpha component of every pixel in <var>B</var> by <code id=drawing-model:dom-context-2d-globalalpha-2><a href=#dom-context-2d-globalalpha>globalAlpha</a></code>.<li><p>Composite <var>B</var> within the <a href=#clipping-region id=drawing-model:clipping-region-2>clipping region</a> over the current
+   <a href=#output-bitmap id=drawing-model:output-bitmap-2>output bitmap</a> using the <a href=#current-composition-operator id=drawing-model:current-composition-operator-2>current composition operator</a>.</ol>
+
+  <p>When compositing onto the <a href=#output-bitmap id=drawing-model:output-bitmap-3>output bitmap</a>, pixels that would fall outside of the
+  <a href=#output-bitmap id=drawing-model:output-bitmap-4>output bitmap</a> must be discarded.</p>
+
+  
+
+
+
+
+  <h6 id=best-practices>4.12.5.1.22 Best practices<a href=#best-practices class=self-link></a></h6>
+
+  <p>When a canvas is interactive, authors should include focusable elements in the element's
+  fallback content corresponding to each focusable part of the canvas, as in the <a href=#drawCustomFocusRingExample>example above</a>.</p>
+
+  <p>When rendering focus rings, to ensure that focus rings have the appearance of native focus
+  rings, authors should use the <code id=best-practices:dom-context-2d-drawfocusifneeded><a href=#dom-context-2d-drawfocusifneeded>drawFocusIfNeeded()</a></code> method, passing it the
+  element for which a ring is being drawn. This method only draws the focus ring if the element is
+  <a href=#focused id=best-practices:focused>focused</a>, so that it can simply be called whenever drawing the element, without
+  checking whether the element is focused or not first.</p>
+
+  <p>In addition to drawing focus rings, authors should use the <code id=best-practices:dom-context-2d-scrollpathintoview><a href=#dom-context-2d-scrollpathintoview>scrollPathIntoView()</a></code> method when an element in
+  the canvas is focused, to make sure it is visible on the screen (if applicable).</p>
+
+  <p id=no-text-editing-in-canvas-please>Authors should avoid implementing text editing controls
+  using the <code id=best-practices:the-canvas-element><a href=#the-canvas-element>canvas</a></code> element. Doing so has a large number of disadvantages:</p>
+
+  <ul><li>Mouse placement of the caret has to be reimplemented.<li>Keyboard movement of the caret has to be reimplemented (possibly across lines, for multiline
+   text input).<li>Scrolling of the text control has to be implemented (horizontally for long lines, vertically
+   for multiline input).<li>Native features such as copy-and-paste have to be reimplemented.<li>Native features such as spell-checking have to be reimplemented.<li>Native features such as drag-and-drop have to be reimplemented.<li>Native features such as page-wide text search have to be reimplemented.<li>Native features specific to the user, for example custom text services, have to be
+   reimplemented. This is close to impossible since each user might have different services
+   installed, and there is an unbounded set of possible such services.<li>Bidirectional text editing has to be reimplemented.<li>For multiline text editing, line wrapping has to be implemented for all relevant
+   languages.<li>Text selection has to be reimplemented.<li>Dragging of bidirectional text selections has to be reimplemented.<li>Platform-native keyboard shortcuts have to be reimplemented.<li>Platform-native input method editors (IMEs) have to be reimplemented.<li>Undo and redo functionality has to be reimplemented.<li>Accessibility features such as magnification following the caret or selection have to be
+   reimplemented.</ul>
+
+  <p>This is a huge amount of work, and authors are most strongly encouraged to avoid doing any of
+  it by instead using the <code id=best-practices:the-input-element><a href=#the-input-element>input</a></code> element, the <code id=best-practices:the-textarea-element><a href=#the-textarea-element>textarea</a></code> element, or the
+  <code id=best-practices:attr-contenteditable><a href=#attr-contenteditable>contenteditable</a></code> attribute.</p>
+
+
+  <h6 id=examples>4.12.5.1.23 Examples<a href=#examples class=self-link></a></h6>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <div class=example>
+
+  <p>Here is an example of a script that uses canvas to draw <a href="data:text/html;charset=utf-8;base64,PCFET0NUWVBFIEhUTUw%2BDQo8aHRtbCBsYW5nPSJlbiI%2BDQogPGhlYWQ%2BDQogIDx0aXRsZT5QcmV0dHkgR2xvd2luZyBMaW5lczwvdGl0bGU%2BDQogPC9oZWFkPg0KIDxib2R5Pg0KPGNhbnZhcyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQ1MCI%2BPC9jYW52YXM%2BDQo8c2NyaXB0Pg0KDQogdmFyIGNvbnRleHQgPSBkb2N1bWVudC5nZXRFbGVtZW50c0J5VGFnTmFtZSgnY2FudmFzJylbMF0uZ2V0Q29udGV4dCgnMmQnKTsNCg0KIHZhciBsYXN0WCA9IGNvbnRleHQuY2FudmFzLndpZHRoICogTWF0aC5yYW5kb20oKTsNCiB2YXIgbGFzdFkgPSBjb250ZXh0LmNhbnZhcy5oZWlnaHQgKiBNYXRoLnJhbmRvbSgpOw0KIHZhciBodWUgPSAwOw0KIGZ1bmN0aW9uIGxpbmUoKSB7DQogICBjb250ZXh0LnNhdmUoKTsNCiAgIGNvbnRleHQudHJhbnNsYXRlKGNvbnRleHQuY2FudmFzLndpZHRoLzIsIGNvbnRleHQuY2FudmFzLmhlaWdodC8yKTsNCiAgIGNvbnRleHQuc2NhbGUoMC45LCAwLjkpOw0KICAgY29udGV4dC50cmFuc2xhdGUoLWNvbnRleHQuY2FudmFzLndpZHRoLzIsIC1jb250ZXh0LmNhbnZhcy5oZWlnaHQvMik7DQogICBjb250ZXh0LmJlZ2luUGF0aCgpOw0KICAgY29udGV4dC5saW5lV2lkdGggPSA1ICsgTWF0aC5yYW5kb20oKSAqIDEwOw0KICAgY29udGV4dC5tb3ZlVG8obGFzdFgsIGxhc3RZKTsNCiAgIGxhc3RYID0gY29udGV4dC5jYW52YXMud2lkdGggKiBNYXRoLnJhbmRvbSgpOw0KICAgbGFzdFkgPSBjb250ZXh0LmNhbnZhcy5oZWlnaHQgKiBNYXRoLnJhbmRvbSgpOw0KICAgY29udGV4dC5iZXppZXJDdXJ2ZVRvKGNvbnRleHQuY2FudmFzLndpZHRoICogTWF0aC5yYW5kb20oKSwNCiAgICAgICAgICAgICAgICAgICAgICAgICBjb250ZXh0LmNhbnZhcy5oZWlnaHQgKiBNYXRoLnJhbmRvbSgpLA0KICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnRleHQuY2FudmFzLndpZHRoICogTWF0aC5yYW5kb20oKSwNCiAgICAgICAgICAgICAgICAgICAgICAgICBjb250ZXh0LmNhbnZhcy5oZWlnaHQgKiBNYXRoLnJhbmRvbSgpLA0KICAgICAgICAgICAgICAgICAgICAgICAgIGxhc3RYLCBsYXN0WSk7DQoNCiAgIGh1ZSA9IGh1ZSArIDEwICogTWF0aC5yYW5kb20oKTsNCiAgIGNvbnRleHQuc3Ryb2tlU3R5bGUgPSAnaHNsKCcgKyBodWUgKyAnLCA1MCUsIDUwJSknOw0KICAgY29udGV4dC5zaGFkb3dDb2xvciA9ICd3aGl0ZSc7DQogICBjb250ZXh0LnNoYWRvd0JsdXIgPSAxMDsNCiAgIGNvbnRleHQuc3Ryb2tlKCk7DQogICBjb250ZXh0LnJlc3RvcmUoKTsNCiB9DQogc2V0SW50ZXJ2YWwobGluZSwgNTApOw0KDQogZnVuY3Rpb24gYmxhbmsoKSB7DQogICBjb250ZXh0LmZpbGxTdHlsZSA9ICdyZ2JhKDAsMCwwLDAuMSknOw0KICAgY29udGV4dC5maWxsUmVjdCgwLCAwLCBjb250ZXh0LmNhbnZhcy53aWR0aCwgY29udGV4dC5jYW52YXMuaGVpZ2h0KTsNCiB9DQogc2V0SW50ZXJ2YWwoYmxhbmssIDQwKTsNCg0KPC9zY3JpcHQ%2BDQogPC9ib2R5Pg0KPC9odG1sPg0K">pretty glowing lines</a>.</p>
+
+  <pre>&lt;canvas width="800" height="450">&lt;/canvas>
+&lt;script>
+
+ var context = document.getElementsByTagName('canvas')[0].getContext('2d');
+
+ var lastX = context.canvas.width * Math.random();
+ var lastY = context.canvas.height * Math.random();
+ var hue = 0;
+ function line() {
+   context.save();
+   context.translate(context.canvas.width/2, context.canvas.height/2);
+   context.scale(0.9, 0.9);
+   context.translate(-context.canvas.width/2, -context.canvas.height/2);
+   context.beginPath();
+   context.lineWidth = 5 + Math.random() * 10;
+   context.moveTo(lastX, lastY);
+   lastX = context.canvas.width * Math.random();
+   lastY = context.canvas.height * Math.random();
+   context.bezierCurveTo(context.canvas.width * Math.random(),
+                         context.canvas.height * Math.random(),
+                         context.canvas.width * Math.random(),
+                         context.canvas.height * Math.random(),
+                         lastX, lastY);
+
+   hue = hue + 10 * Math.random();
+   context.strokeStyle = 'hsl(' + hue + ', 50%, 50%)';
+   context.shadowColor = 'white';
+   context.shadowBlur = 10;
+   context.stroke();
+   context.restore();
+ }
+ setInterval(line, 50);
+
+ function blank() {
+   context.fillStyle = 'rgba(0,0,0,0.1)';
+   context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+ }
+ setInterval(blank, 40);
+
+&lt;/script></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>The 2D rendering context for <code id=examples:the-canvas-element><a href=#the-canvas-element>canvas</a></code> is often used for sprite-based games. The
+   following example demonstrates this:</p>
+
+   <iframe src=/demos/canvas/blue-robot/index-idle.html width=396 height=216></iframe>
+
+   <p>Here is the source for this example:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;meta charset="utf-8">
+&lt;title>Blue Robot Demo&lt;/title>
+&lt;style>
+  html { overflow: hidden; min-height: 200px; min-width: 380px; }
+  body { height: 200px; position: relative; margin: 8px; }
+  .buttons { position: absolute; bottom: 0px; left: 0px; margin: 4px; }
+&lt;/style>
+&lt;canvas width="380" height="200">&lt;/canvas>
+&lt;script>
+ var Landscape = function (context, width, height) {
+   this.offset = 0;
+   this.width = width;
+   this.advance = function (dx) {
+     this.offset += dx;
+   };
+   this.horizon = height * 0.7;
+   // This creates the sky gradient (from a darker blue to white at the bottom)
+   this.sky = context.createLinearGradient(0, 0, 0, this.horizon);
+   this.sky.addColorStop(0.0, 'rgb(55,121,179)');
+   this.sky.addColorStop(0.7, 'rgb(121,194,245)');
+   this.sky.addColorStop(1.0, 'rgb(164,200,214)');
+   // this creates the grass gradient (from a darker green to a lighter green)
+   this.earth = context.createLinearGradient(0, this.horizon, 0, height);
+   this.earth.addColorStop(0.0, 'rgb(81,140,20)');
+   this.earth.addColorStop(1.0, 'rgb(123,177,57)');
+   this.paintBackground = function (context, width, height) {
+     // first, paint the sky and grass rectangles
+     context.fillStyle = this.sky;
+     context.fillRect(0, 0, width, this.horizon);
+     context.fillStyle = this.earth;
+     context.fillRect(0, this.horizon, width, height-this.horizon);
+     // then, draw the cloudy banner
+     // we make it cloudy by having the draw text off the top of the
+     // canvas, and just having the blurred shadow shown on the canvas
+     context.save();
+     context.translate(width-((this.offset+(this.width*3.2)) % (this.width*4.0))+0, 0);
+     context.shadowColor = 'white';
+     context.shadowOffsetY = 30+this.horizon/3; // offset down on canvas
+     context.shadowBlur = '5';
+     context.fillStyle = 'white';
+     context.textAlign = 'left';
+     context.textBaseline = 'top';
+     context.font = '20px sans-serif';
+     context.fillText('WHATWG ROCKS', 10, -30); // text up above canvas
+     context.restore();
+     // then, draw the background tree
+     context.save();
+     context.translate(width-((this.offset+(this.width*0.2)) % (this.width*1.5))+30, 0);
+     context.beginPath();
+     context.fillStyle = 'rgb(143,89,2)';
+     context.lineStyle = 'rgb(10,10,10)';
+     context.lineWidth = 2;
+     context.rect(0, this.horizon+5, 10, -50); // trunk
+     context.fill();
+     context.stroke();
+     context.beginPath();
+     context.fillStyle = 'rgb(78,154,6)';
+     context.arc(5, this.horizon-60, 30, 0, Math.PI*2); // leaves
+     context.fill();
+     context.stroke();
+     context.restore();
+   };
+   this.paintForeground = function (context, width, height) {
+     // draw the box that goes in front
+     context.save();
+     context.translate(width-((this.offset+(this.width*0.7)) % (this.width*1.1))+0, 0);
+     context.beginPath();
+     context.rect(0, this.horizon - 5, 25, 25);
+     context.fillStyle = 'rgb(220,154,94)';
+     context.lineStyle = 'rgb(10,10,10)';
+     context.lineWidth = 2;
+     context.fill();
+     context.stroke();

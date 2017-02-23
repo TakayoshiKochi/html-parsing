@@ -1,0 +1,850 @@
+   thousandth-of-a-second accuracy or more):</p>
+
+   <pre>&lt;input name=favtime type=time step=any></pre>
+
+   <p>Normally, time controls are limited to an accuracy of one minute.</p>
+
+  </div>
+
+
+
+  <h6 id=the-list-attribute>4.10.5.3.9 The <code id=the-list-attribute:attr-input-list><a href=#attr-input-list>list</a></code> attribute<a href=#the-list-attribute class=self-link></a></h6>
+
+  
+
+  <p>The <dfn id=attr-input-list><code>list</code></dfn> attribute is used to identify an
+  element that lists predefined options suggested to the user.</p>
+
+  <p>If present, its value must be the <a href=https://dom.spec.whatwg.org/#concept-id id=the-list-attribute:concept-id data-x-internal=concept-id>ID</a> of a <code id=the-list-attribute:the-datalist-element><a href=#the-datalist-element>datalist</a></code>
+  element in the same <a id=the-list-attribute:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a>.</p>
+
+  
+
+  <p>The <dfn id=concept-input-list>suggestions source element</dfn> is the first element in
+  the <a id=the-list-attribute:tree-2 href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a> in <a id=the-list-attribute:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> to have an <a href=https://dom.spec.whatwg.org/#concept-id id=the-list-attribute:concept-id-2 data-x-internal=concept-id>ID</a>
+  equal to the value of the <code id=the-list-attribute:attr-input-list-2><a href=#attr-input-list>list</a></code> attribute, if that element is
+  a <code id=the-list-attribute:the-datalist-element-2><a href=#the-datalist-element>datalist</a></code> element. If there is no <code id=the-list-attribute:attr-input-list-3><a href=#attr-input-list>list</a></code>
+  attribute, or if there is no element with that <a href=https://dom.spec.whatwg.org/#concept-id id=the-list-attribute:concept-id-3 data-x-internal=concept-id>ID</a>, or if the
+  first element with that <a href=https://dom.spec.whatwg.org/#concept-id id=the-list-attribute:concept-id-4 data-x-internal=concept-id>ID</a> is not a <code id=the-list-attribute:the-datalist-element-3><a href=#the-datalist-element>datalist</a></code>
+  element, then there is no <a href=#concept-input-list id=the-list-attribute:concept-input-list>suggestions source element</a>.</p>
+
+  <p>If there is a <a href=#concept-input-list id=the-list-attribute:concept-input-list-2>suggestions source element</a>, then, when
+  the user agent is allowing the user to edit the <code id=the-list-attribute:the-input-element><a href=#the-input-element>input</a></code> element's <a href=#concept-fe-value id=the-list-attribute:concept-fe-value>value</a>, the user agent should offer the suggestions represented by
+  the <a href=#concept-input-list id=the-list-attribute:concept-input-list-3>suggestions source element</a> to the user in a manner
+  suitable for the type of control used. If appropriate, the user agent should use the suggestion's
+  <a href=#concept-option-label id=the-list-attribute:concept-option-label>label</a> and <a href=#concept-option-value id=the-list-attribute:concept-option-value>value</a> to identify the suggestion to the user.</p>
+
+  <p>User agents are encouraged to filter the suggestions represented by the <a href=#concept-input-list id=the-list-attribute:concept-input-list-4>suggestions source element</a> when the number of suggestions is
+  large, including only the most relevant ones (e.g. based on the user's input so far). No precise
+  threshold is defined, but capping the list at four to seven values is reasonable. If filtering
+  based on the user's input, user agents should use substring matching against both the suggestions'
+  <a href=#concept-option-label id=the-list-attribute:concept-option-label-2>label</a> and <a href=#concept-option-value id=the-list-attribute:concept-option-value-2>value</a>.</p>
+
+  <div class=example>
+   <p>This text field allows you to choose a type of JavaScript function.</p>
+
+   <pre>&lt;input type="text" list="function-types">
+&lt;datalist id="function-types">
+  &lt;option value="function">function&lt;/option>
+  &lt;option value="async function">async function&lt;/option>
+  &lt;option value="function*">generator function&lt;/option>
+  &lt;option value="=>">arrow function&lt;/option>
+  &lt;option value="async =>">async arrow function&lt;/option>
+  &lt;option value="async function*">async generator function&lt;/option>
+&lt;/datalist></pre>
+
+   <p>For user agents that follow the above suggestions, both the <a href=#concept-option-label id=the-list-attribute:concept-option-label-3>label</a> and <a href=#concept-option-value id=the-list-attribute:concept-option-value-3>value</a>
+   would be shown:</p>
+
+   <p><img src=/images/sample-datalist.svg width=280 alt="A text box with a drop down button on the right hand side; with, below, a drop down box containing a list of the six values the left and the six labels on the right." height=150></p>
+
+   <p>Then, typing "<kbd>arrow</kbd>" or "<kbd>=></kbd>" would filter the list to the entries with
+   labels "arrow function" and "async arrow function". Typing "<kbd>generator</kbd>" or
+   "<kbd>*</kbd>" would filter the list to the entries with labels "generator function" and "async
+   generator function".</p>
+  </div>
+
+  <p class=note>As always, user agents are free to make user interface decisions which are
+  appropriate for their particular requirements and for the user's particular circumstances. However,
+  this has historically been an area of confusion for implementers, web developers, and users alike,
+  so we've given some "should" suggestions above.</p>
+
+
+  <p>How user selections of suggestions are handled depends on whether the element is a control
+  accepting a single value only, or whether it accepts multiple values:</p>
+
+  <dl class=switch><dt>If the element does not have a <code id=the-list-attribute:attr-input-multiple><a href=#attr-input-multiple>multiple</a></code> attribute
+   specified or if the <code id=the-list-attribute:attr-input-multiple-2><a href=#attr-input-multiple>multiple</a></code> attribute <a href=#do-not-apply id=the-list-attribute:do-not-apply>does not apply</a><dd>
+
+    <p>When the user selects a suggestion, the <code id=the-list-attribute:the-input-element-2><a href=#the-input-element>input</a></code> element's <a href=#concept-fe-value id=the-list-attribute:concept-fe-value-2>value</a> must be set to the selected suggestion's <a href=#concept-option-value id=the-list-attribute:concept-option-value-4>value</a>, as if the user had written that value themself.</p>
+
+   <dt>If the element's <code id=the-list-attribute:attr-input-type><a href=#attr-input-type>type</a></code> attribute is in the <a href="#e-mail-state-(type=email)" id="the-list-attribute:e-mail-state-(type=email)">Email</a> state and the element has a <code id=the-list-attribute:attr-input-multiple-3><a href=#attr-input-multiple>multiple</a></code> attribute specified<dd>
+
+    <p>When the user selects a suggestion, the user agent must either add a new entry to the
+    <code id=the-list-attribute:the-input-element-3><a href=#the-input-element>input</a></code> element's <a href=#concept-fe-values id=the-list-attribute:concept-fe-values>values</a>, whose value
+    is the selected suggestion's <a href=#concept-option-value id=the-list-attribute:concept-option-value-5>value</a>, or change an
+    existing entry in the <code id=the-list-attribute:the-input-element-4><a href=#the-input-element>input</a></code> element's <a href=#concept-fe-values id=the-list-attribute:concept-fe-values-2>values</a> to have the value given by the selected
+    suggestion's <a href=#concept-option-value id=the-list-attribute:concept-option-value-6>value</a>, as if the user had themself added
+    an entry with that value, or edited an existing entry to be that value. Which behavior is to be
+    applied depends on the user interface in a user-agent-defined manner.</p>
+
+   </dl>
+
+  <hr>
+
+  <p>If the <code id=the-list-attribute:attr-input-list-4><a href=#attr-input-list>list</a></code> attribute <a href=#do-not-apply id=the-list-attribute:do-not-apply-2>does not
+  apply</a>, there is no <a href=#concept-input-list id=the-list-attribute:concept-input-list-5>suggestions source element</a>.</p>
+
+  
+
+  <div class=example>
+
+   <p>This URL field offers some suggestions.</p>
+
+   <pre>&lt;label>Homepage: &lt;input name=hp type=url list=hpurls>&lt;/label>
+&lt;datalist id=hpurls>
+ &lt;option value="https://www.google.com/" label="Google">
+ &lt;option value="https://www.reddit.com/" label="Reddit">
+&lt;/datalist></pre>
+
+   <p>Other URLs from the user's history might show also; this is up to the user agent.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>This example demonstrates how to design a form that uses the autocompletion list feature while
+   still degrading usefully in legacy user agents.</p>
+
+   <p>If the autocompletion list is merely an aid, and is not important to the content, then simply
+   using a <code id=the-list-attribute:the-datalist-element-4><a href=#the-datalist-element>datalist</a></code> element with children <code id=the-list-attribute:the-option-element><a href=#the-option-element>option</a></code> elements is enough. To
+   prevent the values from being rendered in legacy user agents, they need to be placed inside the
+   <code id=the-list-attribute:attr-option-value><a href=#attr-option-value>value</a></code> attribute instead of inline.</p>
+
+   <pre>&lt;p>
+ &lt;label>
+  Enter a breed:
+  &lt;input type="text" name="breed" list="breeds">
+  &lt;datalist id="breeds">
+   &lt;option value="Abyssinian">
+   &lt;option value="Alpaca">
+   &lt;!-- ... -->
+  &lt;/datalist>
+ &lt;/label>
+&lt;/p></pre>
+
+   <p>However, if the values need to be shown in legacy UAs, then fallback content can be placed
+   inside the <code id=the-list-attribute:the-datalist-element-5><a href=#the-datalist-element>datalist</a></code> element, as follows:</p>
+
+   <pre>&lt;p>
+ &lt;label>
+  Enter a breed:
+  &lt;input type="text" name="breed" list="breeds">
+ &lt;/label>
+ &lt;datalist id="breeds">
+  &lt;label>
+   or select one from the list:
+   &lt;select name="breed">
+    &lt;option value=""> (none selected)
+    &lt;option>Abyssinian
+    &lt;option>Alpaca
+    &lt;!-- ... -->
+   &lt;/select>
+  &lt;/label>
+ &lt;/datalist>
+&lt;/p>
+</pre>
+
+   <p>The fallback content will only be shown in UAs that don't support <code id=the-list-attribute:the-datalist-element-6><a href=#the-datalist-element>datalist</a></code>. The
+   options, on the other hand, will be detected by all UAs, even though they are not children of the
+   <code id=the-list-attribute:the-datalist-element-7><a href=#the-datalist-element>datalist</a></code> element.</p>
+
+   <p>Note that if an <code id=the-list-attribute:the-option-element-2><a href=#the-option-element>option</a></code> element used in a <code id=the-list-attribute:the-datalist-element-8><a href=#the-datalist-element>datalist</a></code> is <code id=the-list-attribute:attr-option-selected><a href=#attr-option-selected>selected</a></code>, it will be selected by default by legacy UAs
+   (because it affects the <code id=the-list-attribute:the-select-element><a href=#the-select-element>select</a></code>), but it will not have any effect on the
+   <code id=the-list-attribute:the-input-element-5><a href=#the-input-element>input</a></code> element in UAs that support <code id=the-list-attribute:the-datalist-element-9><a href=#the-datalist-element>datalist</a></code>.</p>
+
+  </div>
+
+
+
+  <h6 id=the-placeholder-attribute>4.10.5.3.10 The <code id=the-placeholder-attribute:attr-input-placeholder><a href=#attr-input-placeholder>placeholder</a></code> attribute<a href=#the-placeholder-attribute class=self-link></a></h6>
+
+  
+
+  <p>The <dfn id=attr-input-placeholder><code>placeholder</code></dfn> attribute represents a
+  <em>short</em> hint (a word or short phrase) intended to aid the user with data entry when the
+  control has no value. A hint could be a sample value or a brief description of the expected
+  format. The attribute, if specified, must have a value that contains no U+000A LINE FEED (LF) or
+  U+000D CARRIAGE RETURN (CR) characters.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> input-placeholder<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>4+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>3.2+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>4+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>4.2+</span></span><span class="safari yes"><span>Safari</span> <span>5+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>11.5+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=input-placeholder">caniuse.com</a></div>
+
+  <p>The <code id=the-placeholder-attribute:attr-input-placeholder-2><a href=#attr-input-placeholder>placeholder</a></code> attribute should not be used as an
+  alternative to a <code id=the-placeholder-attribute:the-label-element><a href=#the-label-element>label</a></code>. For a longer hint or other advisory text, the <code id=the-placeholder-attribute:attr-title><a href=#attr-title>title</a></code> attribute is more appropriate.</p>
+
+  <p class=note>These mechanisms are very similar but subtly different: the hint given by the
+  control's <code id=the-placeholder-attribute:the-label-element-2><a href=#the-label-element>label</a></code> is shown at all times; the short hint given in the <code id=the-placeholder-attribute:attr-input-placeholder-3><a href=#attr-input-placeholder>placeholder</a></code> attribute is shown before the user enters a
+  value; and the hint in the <code id=the-placeholder-attribute:attr-title-2><a href=#attr-title>title</a></code> attribute is shown when the user
+  requests further help.</p>
+
+  
+
+  <p>User agents should present this hint to the user, after having <a href=#strip-line-breaks id=the-placeholder-attribute:strip-line-breaks>stripped line breaks</a> from it, when the element's <a href=#concept-fe-value id=the-placeholder-attribute:concept-fe-value>value</a> is the empty string, especially if the control is not <a href=#focused id=the-placeholder-attribute:focused>focused</a>.</p>
+
+  <p>If a user agent normally doesn't show this hint to the user when the control is
+  <a href=#focused id=the-placeholder-attribute:focused-2>focused</a>, then the user agent should nonetheless show the hint for the control if it
+  was focused as a result of the <code id=the-placeholder-attribute:attr-fe-autofocus><a href=#attr-fe-autofocus>autofocus</a></code> attribute, since
+  in that case the user will not have had an opportunity to examine the control before focusing
+  it.</p>
+
+  
+
+  <div class=example>
+
+   <p>Here is an example of a mail configuration user interface that uses the <code id=the-placeholder-attribute:attr-input-placeholder-4><a href=#attr-input-placeholder>placeholder</a></code> attribute:</p>
+
+   <pre>&lt;fieldset>
+ &lt;legend>Mail Account&lt;/legend>
+ &lt;p>&lt;label>Name: &lt;input type="text" name="fullname" placeholder="John Ratzenberger">&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Address: &lt;input type="email" name="address" placeholder="john@example.net">&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Password: &lt;input type="password" name="password">&lt;/label>&lt;/p>
+ &lt;p>&lt;label>Description: &lt;input type="text" name="desc" placeholder="My Email Account">&lt;/label>&lt;/p>
+&lt;/fieldset></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In situations where the control's content has one directionality but the placeholder needs to
+   have a different directionality, Unicode's bidirectional-algorithm formatting characters can be
+   used in the attribute value:</p>
+
+   <pre>&lt;input name=t1 type=tel placeholder="<strong>&amp;#x202B;</strong> <bdo dir=rtl>رقم الهاتف 1</bdo> <strong>&amp;#x202E;</strong>">
+&lt;input name=t2 type=tel placeholder="<strong>&amp;#x202B;</strong> <bdo dir=rtl>رقم الهاتف 2</bdo> <strong>&amp;#x202E;</strong>"></pre>
+
+   <p>For slightly more clarity, here's the same example using numeric character references instead of inline Arabic:</p>
+
+   <pre>&lt;input name=t1 type=tel placeholder="<strong>&amp;#x202B;</strong>&amp;#1585;&amp;#1602;&amp;#1605; &amp;#1575;&amp;#1604;&amp;#1607;&amp;#1575;&amp;#1578;&amp;#1601; 1<strong>&amp;#x202E;</strong>">
+&lt;input name=t2 type=tel placeholder="<strong>&amp;#x202B;</strong>&amp;#1585;&amp;#1602;&amp;#1605; &amp;#1575;&amp;#1604;&amp;#1607;&amp;#1575;&amp;#1578;&amp;#1601; 2<strong>&amp;#x202E;</strong>"></pre>
+
+  </div>
+
+
+
+
+
+  <h5 id=common-input-element-apis>4.10.5.4 Common <code id=common-input-element-apis:the-input-element><a href=#the-input-element>input</a></code> element APIs<a href=#common-input-element-apis class=self-link></a></h5>
+
+  <dl class=domintro><dt><var>input</var> . <code id=common-input-element-apis:dom-input-value><a href=#dom-input-value>value</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value>value</a> of the form control.</p>
+
+    <p>Can be set, to change the value.</p>
+
+    <p>Throws an <a id=common-input-element-apis:invalidstateerror href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=common-input-element-apis:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if it is
+    set to any value other than the empty string when the control is a file upload control.</p>
+
+   <dt><var>input</var> . <code id=common-input-element-apis:dom-input-checked><a href=#dom-input-checked>checked</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the current <a href=#concept-fe-checked id=common-input-element-apis:concept-fe-checked>checkedness</a> of the form
+    control.</p>
+
+    <p>Can be set, to change the <a href=#concept-fe-checked id=common-input-element-apis:concept-fe-checked-2>checkedness</a>.</p>
+
+   <dt><var>input</var> . <code id=common-input-element-apis:dom-input-files><a href=#dom-input-files>files</a></code> <dd>
+
+    <p>Returns a <code id=common-input-element-apis:filelist><a data-x-internal=filelist href=https://w3c.github.io/FileAPI/#filelist-section>FileList</a></code> object listing the <a href=#concept-input-type-file-selected id=common-input-element-apis:concept-input-type-file-selected>selected files</a> of the form control.</p>
+
+    <p>Returns null if the control isn't a file control.</p>
+
+
+
+   <dt><var>input</var> . <code id=common-input-element-apis:dom-input-valueasdate><a href=#dom-input-valueasdate>valueAsDate</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns a <code id=common-input-element-apis:date><a data-x-internal=date href=https://tc39.github.io/ecma262/#sec-date-objects>Date</a></code> object representing the form control's <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-2>value</a>, if applicable; otherwise, returns null.</p>
+
+    <p>Can be set, to change the value.</p>
+
+    <p>Throws an <a id=common-input-element-apis:invalidstateerror-2 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=common-input-element-apis:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the
+    control isn't date- or time-based.</p>
+
+   <dt><var>input</var> . <code id=common-input-element-apis:dom-input-valueasnumber><a href=#dom-input-valueasnumber>valueAsNumber</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns a number representing the form control's <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-3>value</a>,
+    if applicable; otherwise, returns NaN.</p>
+
+    <p>Can be set, to change the value. Setting this to NaN will set the underlying value to the
+    empty string.</p>
+
+    <p>Throws an <a id=common-input-element-apis:invalidstateerror-3 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=common-input-element-apis:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the
+    control is neither date- or time-based nor numeric.</p>
+
+   <dt><var>input</var> . <code id=common-input-element-apis:dom-input-stepup><a href=#dom-input-stepup>stepUp</a></code>( [ <var>n</var> ] )<dt><var>input</var> . <code id=common-input-element-apis:dom-input-stepdown><a href=#dom-input-stepdown>stepDown</a></code>( [ <var>n</var> ] )<dd>
+
+    <p>Changes the form control's <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-4>value</a> by the value given in
+    the <code id=common-input-element-apis:attr-input-step><a href=#attr-input-step>step</a></code> attribute, multiplied by <var>n</var>.
+    The default value for <var>n</var> is 1.</p>
+
+    <p>Throws <a id=common-input-element-apis:invalidstateerror-4 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=common-input-element-apis:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> if the control
+    is neither date- or time-based nor numeric, or if the <code id=common-input-element-apis:attr-input-step-2><a href=#attr-input-step>step</a></code>
+    attribute's value is "<code>any</code>".</p>
+
+   <dt><var>input</var> . <code id=common-input-element-apis:dom-input-list><a href=#dom-input-list>list</a></code><dd>
+
+    <p>Returns the <code id=common-input-element-apis:the-datalist-element><a href=#the-datalist-element>datalist</a></code> element indicated by the <code id=common-input-element-apis:attr-input-list><a href=#attr-input-list>list</a></code> attribute.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-input-value><code>value</code></dfn> IDL attribute allows scripts to
+  manipulate the <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-5>value</a> of an <code id=common-input-element-apis:the-input-element-2><a href=#the-input-element>input</a></code> element. The
+  attribute is in one of the following modes, which define its behavior:</p>
+
+  <dl><dt><dfn id=dom-input-value-value>value</dfn>
+
+   <dd>
+
+    <p>On getting, it must return the current <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-6>value</a> of the
+    element. On setting, it must set the element's <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-7>value</a> to
+    the new value, set the element's <a href=#concept-input-value-dirty-flag id=common-input-element-apis:concept-input-value-dirty-flag>dirty value
+    flag</a> to true, invoke the <a href=#value-sanitization-algorithm id=common-input-element-apis:value-sanitization-algorithm>value sanitization algorithm</a>, if the element's
+    <code id=common-input-element-apis:attr-input-type><a href=#attr-input-type>type</a></code> attribute's current state defines one, and then, if
+    the element has a text entry cursor position, should move the text entry cursor position to the
+    end of the text control, unselecting any selected text and resetting the selection direction to
+    <i>none</i>.</p>
+
+   <dt><dfn id=dom-input-value-default>default</dfn>
+
+   <dd>
+
+    <p>On getting, if the element has a <code id=common-input-element-apis:attr-input-value><a href=#attr-input-value>value</a></code> attribute, it
+    must return that attribute's value; otherwise, it must return the empty string. On setting, it
+    must set the element's <code id=common-input-element-apis:attr-input-value-2><a href=#attr-input-value>value</a></code> attribute to the new
+    value.</p>
+
+   <dt><dfn id=dom-input-value-default-on>default/on</dfn>
+
+   <dd>
+
+    <p>On getting, if the element has a <code id=common-input-element-apis:attr-input-value-3><a href=#attr-input-value>value</a></code> attribute, it
+    must return that attribute's value; otherwise, it must return the string "<code>on</code>". On setting, it must set the element's <code id=common-input-element-apis:attr-input-value-4><a href=#attr-input-value>value</a></code> attribute to the new value.</p>
+
+   <dt><dfn id=dom-input-value-filename>filename</dfn>
+
+   <dd id=fakepath-orly>
+
+    <p>On getting, it must return the string "<code>C:\fakepath\</code>" followed by the
+    name of the first file in the list of <a href=#concept-input-type-file-selected id=common-input-element-apis:concept-input-type-file-selected-2>selected
+    files</a>, if any, or the empty string if the list is empty. On setting, if the new value is
+    the empty string, it must empty the list of <a href=#concept-input-type-file-selected id=common-input-element-apis:concept-input-type-file-selected-3>selected files</a>; otherwise, it must throw an
+    <a id=common-input-element-apis:invalidstateerror-5 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=common-input-element-apis:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+    <p class=note>This "fakepath" requirement is a sad accident of history. See <a href=#fakepath-srsly>the example in the File Upload state section</a> for more
+    information.</p>
+
+    <p class=note>Since <a href=#concept-input-file-path id=common-input-element-apis:concept-input-file-path>path components</a> are not
+    permitted in file names in the list of <a href=#concept-input-type-file-selected id=common-input-element-apis:concept-input-type-file-selected-4>selected
+    files</a>, the "\fakepath\" cannot be mistaken for a path component.</p>
+
+   </dl>
+
+  <hr>
+
+  <p>The <dfn id=dom-input-checked><code>checked</code></dfn> IDL attribute allows scripts to
+  manipulate the <a href=#concept-fe-checked id=common-input-element-apis:concept-fe-checked-3>checkedness</a> of an <code id=common-input-element-apis:the-input-element-3><a href=#the-input-element>input</a></code>
+  element. On getting, it must return the current <a href=#concept-fe-checked id=common-input-element-apis:concept-fe-checked-4>checkedness</a> of the element; and on setting, it must set the
+  element's <a href=#concept-fe-checked id=common-input-element-apis:concept-fe-checked-5>checkedness</a> to the new value and set the
+  element's <a href=#concept-input-checked-dirty-flag id=common-input-element-apis:concept-input-checked-dirty-flag>dirty checkedness flag</a> to
+  true.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-input-files><code>files</code></dfn> IDL attribute allows scripts to
+  access the element's <a href=#concept-input-type-file-selected id=common-input-element-apis:concept-input-type-file-selected-5>selected files</a>. On
+  getting, if the IDL attribute <a href=#concept-input-apply id=common-input-element-apis:concept-input-apply>applies</a>, it must return a
+  <code id=common-input-element-apis:filelist-2><a data-x-internal=filelist href=https://w3c.github.io/FileAPI/#filelist-section>FileList</a></code> object that represents the current <a href=#concept-input-type-file-selected id=common-input-element-apis:concept-input-type-file-selected-6>selected files</a>. The same object must be returned
+  until the list of <a href=#concept-input-type-file-selected id=common-input-element-apis:concept-input-type-file-selected-7>selected files</a> changes. If
+  the IDL attribute <a href=#do-not-apply id=common-input-element-apis:do-not-apply>does not apply</a>, then it must instead return
+  null. <a href=#refsFILEAPI>[FILEAPI]</a></p>
+
+  <hr>
+
+  <p>The <dfn id=dom-input-valueasdate><code>valueAsDate</code></dfn> IDL attribute represents
+  the <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-8>value</a> of the element, interpreted as a date.</p>
+
+  <p>On getting, if the <code id=common-input-element-apis:dom-input-valueasdate-2><a href=#dom-input-valueasdate>valueAsDate</a></code> attribute <a href=#do-not-apply id=common-input-element-apis:do-not-apply-2>does not apply</a>, as defined for the <code id=common-input-element-apis:the-input-element-4><a href=#the-input-element>input</a></code> element's <code id=common-input-element-apis:attr-input-type-2><a href=#attr-input-type>type</a></code> attribute's current state, then return null. Otherwise, run
+  the <a href=#concept-input-value-string-date id=common-input-element-apis:concept-input-value-string-date>algorithm to convert a string to a
+  <code>Date</code> object</a> defined for that state to the element's <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-9>value</a>; if the algorithm returned a <code id=common-input-element-apis:date-2><a data-x-internal=date href=https://tc39.github.io/ecma262/#sec-date-objects>Date</a></code> object, then
+  return it, otherwise, return null.</p>
+
+  <p>On setting, if the <code id=common-input-element-apis:dom-input-valueasdate-3><a href=#dom-input-valueasdate>valueAsDate</a></code> attribute <a href=#do-not-apply id=common-input-element-apis:do-not-apply-3>does not apply</a>, as defined for the <code id=common-input-element-apis:the-input-element-5><a href=#the-input-element>input</a></code> element's <code id=common-input-element-apis:attr-input-type-3><a href=#attr-input-type>type</a></code> attribute's current state, then throw an
+  <a id=common-input-element-apis:invalidstateerror-6 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=common-input-element-apis:domexception-6><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>; otherwise, if the new
+  value is not null and not a <code id=common-input-element-apis:date-3><a data-x-internal=date href=https://tc39.github.io/ecma262/#sec-date-objects>Date</a></code> object throw a <code id=common-input-element-apis:typeerror><a data-x-internal=typeerror href=https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror>TypeError</a></code> exception;
+  otherwise if the new value is null or a <code id=common-input-element-apis:date-4><a data-x-internal=date href=https://tc39.github.io/ecma262/#sec-date-objects>Date</a></code> object representing the NaN time value,
+  then set the <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-10>value</a> of the element to the empty string;
+  otherwise, run the <a href=#concept-input-value-date-string id=common-input-element-apis:concept-input-value-date-string>algorithm to convert a
+  <code>Date</code> object to a string</a>, as defined for that state, on the new value, and set
+  the <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-11>value</a> of the element to the resulting string.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-input-valueasnumber><code>valueAsNumber</code></dfn> IDL attribute
+  represents the <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-12>value</a> of the element, interpreted as a
+  number.</p>
+
+  <p>On getting, if the <code id=common-input-element-apis:dom-input-valueasnumber-2><a href=#dom-input-valueasnumber>valueAsNumber</a></code> attribute <a href=#do-not-apply id=common-input-element-apis:do-not-apply-4>does not apply</a>, as defined for the <code id=common-input-element-apis:the-input-element-6><a href=#the-input-element>input</a></code> element's <code id=common-input-element-apis:attr-input-type-4><a href=#attr-input-type>type</a></code> attribute's current state, then return a Not-a-Number (NaN)
+  value. Otherwise, run the <a href=#concept-input-value-string-number id=common-input-element-apis:concept-input-value-string-number>algorithm to convert a
+  string to a number</a> defined for that state to the element's <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-13>value</a>; if the algorithm returned a number, then return it,
+  otherwise, return a Not-a-Number (NaN) value.</p>
+
+  <p>On setting, if the new value is infinite, then throw a <code id=common-input-element-apis:typeerror-2><a data-x-internal=typeerror href=https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror>TypeError</a></code> exception.
+  Otherwise, if the <code id=common-input-element-apis:dom-input-valueasnumber-3><a href=#dom-input-valueasnumber>valueAsNumber</a></code> attribute <a href=#do-not-apply id=common-input-element-apis:do-not-apply-5>does not apply</a>, as defined for the <code id=common-input-element-apis:the-input-element-7><a href=#the-input-element>input</a></code> element's <code id=common-input-element-apis:attr-input-type-5><a href=#attr-input-type>type</a></code> attribute's current state, then throw an
+  <a id=common-input-element-apis:invalidstateerror-7 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=common-input-element-apis:domexception-7><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>. Otherwise, if the new
+  value is a Not-a-Number (NaN) value, then set the <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-14>value</a> of
+  the element to the empty string. Otherwise, run the <a href=#concept-input-value-number-string id=common-input-element-apis:concept-input-value-number-string>algorithm to convert a number to a string</a>, as
+  defined for that state, on the new value, and set the <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-15>value</a>
+  of the element to the resulting string.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-input-stepdown><code>stepDown(<var>n</var>)</code></dfn> and <dfn id=dom-input-stepup><code>stepUp(<var>n</var>)</code></dfn> methods, when invoked,
+  must run the following algorithm:</p>
+
+  <ol><li><p>If the <code id=common-input-element-apis:dom-input-stepdown-2><a href=#dom-input-stepdown>stepDown()</a></code> and <code id=common-input-element-apis:dom-input-stepup-2><a href=#dom-input-stepup>stepUp()</a></code> methods <a href=#do-not-apply id=common-input-element-apis:do-not-apply-6>do not apply</a>, as defined for the
+   <code id=common-input-element-apis:the-input-element-8><a href=#the-input-element>input</a></code> element's <code id=common-input-element-apis:attr-input-type-6><a href=#attr-input-type>type</a></code> attribute's current state,
+   then throw an <a id=common-input-element-apis:invalidstateerror-8 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=common-input-element-apis:domexception-8><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>, and abort
+   these steps.<li><p>If the element has no <a href=#concept-input-step id=common-input-element-apis:concept-input-step>allowed value step</a>, then
+   throw an <a id=common-input-element-apis:invalidstateerror-9 href=https://heycam.github.io/webidl/#invalidstateerror data-x-internal=invalidstateerror>"<code>InvalidStateError</code>"</a> <code id=common-input-element-apis:domexception-9><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>, and abort these
+   steps.<li><p>If the element has a <a href=#concept-input-min id=common-input-element-apis:concept-input-min>minimum</a> and a <a href=#concept-input-max id=common-input-element-apis:concept-input-max>maximum</a> and the <a href=#concept-input-min id=common-input-element-apis:concept-input-min-2>minimum</a>
+   is greater than the <a href=#concept-input-max id=common-input-element-apis:concept-input-max-2>maximum</a>, then abort these steps.</p>
+
+   <li><p>If the element has a <a href=#concept-input-min id=common-input-element-apis:concept-input-min-3>minimum</a> and a <a href=#concept-input-max id=common-input-element-apis:concept-input-max-3>maximum</a> and there is no value greater than or equal to the
+   element's <a href=#concept-input-min id=common-input-element-apis:concept-input-min-4>minimum</a> and less than or equal to the element's
+   <a href=#concept-input-max id=common-input-element-apis:concept-input-max-4>maximum</a> that, when subtracted from the <a href=#concept-input-min-zero id=common-input-element-apis:concept-input-min-zero>step base</a>, is an integral multiple of the <a href=#concept-input-step id=common-input-element-apis:concept-input-step-2>allowed value step</a>, then abort these steps.</p>
+
+   <li><p>If applying the <a href=#concept-input-value-string-number id=common-input-element-apis:concept-input-value-string-number-2>algorithm to convert a
+   string to a number</a> to the string given by the element's <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-16>value</a> does not result in an error, then let <var>value</var> be the result of that algorithm. Otherwise, let <var>value</var>
+   be zero.<li><p>Let <var>valueBeforeStepping</var> be <var>value</var>.<li>
+
+    <p>If <var>value</var> subtracted from the <a href=#concept-input-min-zero id=common-input-element-apis:concept-input-min-zero-2>step
+    base</a> is not an integral multiple of the <a href=#concept-input-step id=common-input-element-apis:concept-input-step-3>allowed value
+    step</a>, then set <var>value</var> to the nearest value that, when subtracted from
+    the <a href=#concept-input-min-zero id=common-input-element-apis:concept-input-min-zero-3>step base</a>, is an integral multiple of the <a href=#concept-input-step id=common-input-element-apis:concept-input-step-4>allowed value step</a>, and that is less than <var>value</var> if
+    the method invoked was the <code id=common-input-element-apis:dom-input-stepdown-3><a href=#dom-input-stepdown>stepDown()</a></code> method, and more
+    than <var>value</var> otherwise.</p>
+
+    <p>Otherwise (<var>value</var> subtracted from the <a href=#concept-input-min-zero id=common-input-element-apis:concept-input-min-zero-4>step base</a> is an integral multiple of the <a href=#concept-input-step id=common-input-element-apis:concept-input-step-5>allowed value step</a>), run the following substeps:</p>
+
+    <ol><li><p>Let <var>n</var> be the argument.<li><p>Let <var>delta</var> be the <a href=#concept-input-step id=common-input-element-apis:concept-input-step-6>allowed value
+     step</a> multiplied by <var>n</var>.<li><p>If the method invoked was the <code id=common-input-element-apis:dom-input-stepdown-4><a href=#dom-input-stepdown>stepDown()</a></code> method,
+     negate <var>delta</var>.<li><p>Let <var>value</var> be the result of adding <var>delta</var> to <var>value</var>.</ol>
+
+   <li><p>If the element has a <a href=#concept-input-min id=common-input-element-apis:concept-input-min-5>minimum</a>, and <var>value</var> is less than that <a href=#concept-input-min id=common-input-element-apis:concept-input-min-6>minimum</a>, then set
+   <var>value</var> to the smallest value that, when subtracted from the <a href=#concept-input-min-zero id=common-input-element-apis:concept-input-min-zero-5>step base</a>, is an integral multiple of the <a href=#concept-input-step id=common-input-element-apis:concept-input-step-7>allowed value step</a>, and that is more than or equal to <var>minimum</var>.<li><p>If the element has a <a href=#concept-input-min id=common-input-element-apis:concept-input-min-7>maximum</a>, and <var>value</var> is greater than that <a href=#concept-input-min id=common-input-element-apis:concept-input-min-8>maximum</a>, then
+   set <var>value</var> to the largest value that, when subtracted from the <a href=#concept-input-min-zero id=common-input-element-apis:concept-input-min-zero-6>step base</a>, is an integral multiple of the <a href=#concept-input-step id=common-input-element-apis:concept-input-step-8>allowed value step</a>, and that is less than or equal to <var>maximum</var>.<li>
+    <p>If either the method invoked was the <code id=common-input-element-apis:dom-input-stepdown-5><a href=#dom-input-stepdown>stepDown()</a></code>
+    method and <var>value</var> is greater than <var>valueBeforeStepping</var>, or the method
+    invoked was the <code id=common-input-element-apis:dom-input-stepup-3><a href=#dom-input-stepup>stepUp()</a></code> method and <var>value</var> is
+    less than <var>valueBeforeStepping</var>, then abort these steps.</p>
+
+    <div class=example>
+     <p>This ensures that invoking the <code id=common-input-element-apis:dom-input-stepup-4><a href=#dom-input-stepup>stepUp()</a></code> method on the
+     <code id=common-input-element-apis:the-input-element-9><a href=#the-input-element>input</a></code> element in the following example does not change the <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-17>value</a> of that element:</p>
+
+     <pre>&lt;input type=number value=1 max=0></pre>
+    </div>
+   <li><p>Let <var>value as string</var> be the result of running the <a href=#concept-input-value-number-string id=common-input-element-apis:concept-input-value-number-string-2>algorithm to convert a number to a string</a>, as
+   defined for the <code id=common-input-element-apis:the-input-element-10><a href=#the-input-element>input</a></code> element's <code id=common-input-element-apis:attr-input-type-7><a href=#attr-input-type>type</a></code>
+   attribute's current state, on <var>value</var>.<li><p>Set the <a href=#concept-fe-value id=common-input-element-apis:concept-fe-value-18>value</a> of the element to <var>value
+   as string</var>.</ol>
+
+  <hr>
+
+  <p>The <dfn id=dom-input-list><code>list</code></dfn> IDL attribute must return the current
+  <a href=#concept-input-list id=common-input-element-apis:concept-input-list>suggestions source element</a>, if any, or null otherwise.</p>
+
+  
+
+
+
+  
+
+  <h5 id=common-input-element-events>4.10.5.5 Common event behaviors<a href=#common-input-element-events class=self-link></a></h5>
+
+  <p>When the <code id=common-input-element-events:event-input><a href=#event-input>input</a></code> and <code id=common-input-element-events:event-change><a href=#event-change>change</a></code> events <a href=#concept-input-apply id=common-input-element-events:concept-input-apply>apply</a>
+  (which is the case for all <code id=common-input-element-events:the-input-element><a href=#the-input-element>input</a></code> controls other than <a href=#concept-button id=common-input-element-events:concept-button>buttons</a> and those with the <code id=common-input-element-events:attr-input-type><a href=#attr-input-type>type</a></code> attribute in the <a href="#hidden-state-(type=hidden)" id="common-input-element-events:hidden-state-(type=hidden)">Hidden</a> state), the events are fired to indicate that the
+  user has interacted with the control. The <code id=common-input-element-events:event-input-2><a href=#event-input>input</a></code> event fires
+  whenever the user has modified the data of the control. The <code id=common-input-element-events:event-change-2><a href=#event-change>change</a></code> event fires when the value is committed, if that makes sense
+  for the control, or else when the control <a href=#unfocus-causes-change-event>loses focus</a>.
+  In all cases, the <code id=common-input-element-events:event-input-3><a href=#event-input>input</a></code> event comes before the corresponding
+  <code id=common-input-element-events:event-change-3><a href=#event-change>change</a></code> event (if any).</p>
+
+  <p>When an <code id=common-input-element-events:the-input-element-2><a href=#the-input-element>input</a></code> element has a defined <a href=#input-activation-behavior id=common-input-element-events:input-activation-behavior>input activation behavior</a>, the
+  rules for dispatching these events, if they <a href=#concept-input-apply id=common-input-element-events:concept-input-apply-2>apply</a>, are
+  given in the section above that defines the <code id=common-input-element-events:attr-input-type-2><a href=#attr-input-type>type</a></code> attribute's
+  state. (This is the case for all <code id=common-input-element-events:the-input-element-3><a href=#the-input-element>input</a></code> controls with the <code id=common-input-element-events:attr-input-type-3><a href=#attr-input-type>type</a></code> attribute in the <a href="#checkbox-state-(type=checkbox)" id="common-input-element-events:checkbox-state-(type=checkbox)">Checkbox</a> state, the <a href="#radio-button-state-(type=radio)" id="common-input-element-events:radio-button-state-(type=radio)">Radio Button</a> state, or the <a href="#file-upload-state-(type=file)" id="common-input-element-events:file-upload-state-(type=file)">File Upload</a> state.)</p>
+
+  <p>For <code id=common-input-element-events:the-input-element-4><a href=#the-input-element>input</a></code> elements without a defined <a href=#input-activation-behavior id=common-input-element-events:input-activation-behavior-2>input activation behavior</a>, but
+  to which these events <a href=#concept-input-apply id=common-input-element-events:concept-input-apply-3>apply</a>, and for which the user
+  interface involves both interactive manipulation and an explicit commit action, then when the user
+  changes the element's <a href=#concept-fe-value id=common-input-element-events:concept-fe-value>value</a>, the user agent must
+  <a href=#queue-a-task id=common-input-element-events:queue-a-task>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=common-input-element-events:concept-event-fire data-x-internal=concept-event-fire>fire an event</a> named <code id=common-input-element-events:event-input-4><a href=#event-input>input</a></code> at the <code id=common-input-element-events:the-input-element-5><a href=#the-input-element>input</a></code> element, with the <code id=common-input-element-events:dom-event-bubbles><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true, and any time the user
+  commits the change, the user agent must <a href=#queue-a-task id=common-input-element-events:queue-a-task-2>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=common-input-element-events:concept-event-fire-2 data-x-internal=concept-event-fire>fire an event</a> named <code id=common-input-element-events:event-change-4><a href=#event-change>change</a></code>
+  at the <code id=common-input-element-events:the-input-element-6><a href=#the-input-element>input</a></code> element, with the <code id=common-input-element-events:dom-event-bubbles-2><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code>
+  attribute initialized to true.</p>
+
+  <p class=example>An example of a user interface involving both interactive manipulation and a
+  commit action would be a <a href="#range-state-(type=range)" id="common-input-element-events:range-state-(type=range)">Range</a> controls that use a
+  slider, when manipulated using a pointing device. While the user is dragging the control's knob,
+  <code id=common-input-element-events:event-input-5><a href=#event-input>input</a></code> events would fire whenever the position changed,
+  whereas the <code id=common-input-element-events:event-change-5><a href=#event-change>change</a></code> event would only fire when the user
+  let go of the knob, committing to a specific value.</p>
+
+  <p>For <code id=common-input-element-events:the-input-element-7><a href=#the-input-element>input</a></code> elements without a defined <a href=#input-activation-behavior id=common-input-element-events:input-activation-behavior-3>input activation behavior</a>, but
+  to which these events <a href=#concept-input-apply id=common-input-element-events:concept-input-apply-4>apply</a>, and for which the user
+  interface involves an explicit commit action but no intermediate manipulation, then any time the
+  user commits a change to the element's <a href=#concept-fe-value id=common-input-element-events:concept-fe-value-2>value</a>, the user
+  agent must <a href=#queue-a-task id=common-input-element-events:queue-a-task-3>queue a task</a> to first <a href=https://dom.spec.whatwg.org/#concept-event-fire id=common-input-element-events:concept-event-fire-3 data-x-internal=concept-event-fire>fire an
+  event</a> named <code id=common-input-element-events:event-input-6><a href=#event-input>input</a></code> at the <code id=common-input-element-events:the-input-element-8><a href=#the-input-element>input</a></code> element, with
+  the <code id=common-input-element-events:dom-event-bubbles-3><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true, and then <a href=https://dom.spec.whatwg.org/#concept-event-fire id=common-input-element-events:concept-event-fire-4 data-x-internal=concept-event-fire>fire an event</a> named <code id=common-input-element-events:event-change-6><a href=#event-change>change</a></code>
+  at the <code id=common-input-element-events:the-input-element-9><a href=#the-input-element>input</a></code> element, with the <code id=common-input-element-events:dom-event-bubbles-4><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code>
+  attribute initialized to true.</p>
+
+  <p class=example>An example of a user interface with a commit action would be a <a href="#color-state-(type=color)" id="common-input-element-events:color-state-(type=color)">Color</a> control that consists of a single button that brings
+  up a color wheel: if the <a href=#concept-fe-value id=common-input-element-events:concept-fe-value-3>value</a> only changes when the dialog
+  is closed, then that would be the explicit commit action. On the other hand, if manipulating the
+  control changes the color interactively, then there might be no commit action.</p>
+
+  <p class=example>Another example of a user interface with a commit action would be a <a href="#date-state-(type=date)" id="common-input-element-events:date-state-(type=date)">Date</a> control that allows both text-based user input and user
+  selection from a drop-down calendar: while text input might not have an explicit commit step,
+  selecting a date from the drop down calendar and then dismissing the drop down would be a commit
+  action.</p>
+
+  <p>For <code id=common-input-element-events:the-input-element-10><a href=#the-input-element>input</a></code> elements without a defined <a href=#input-activation-behavior id=common-input-element-events:input-activation-behavior-4>input activation behavior</a>, but
+  to which these events <a href=#concept-input-apply id=common-input-element-events:concept-input-apply-5>apply</a>, any time the user causes
+  the element's <a href=#concept-fe-value id=common-input-element-events:concept-fe-value-4>value</a> to change without an explicit commit
+  action, the user agent must <a href=#queue-a-task id=common-input-element-events:queue-a-task-4>queue a task</a> to <a href=https://dom.spec.whatwg.org/#concept-event-fire id=common-input-element-events:concept-event-fire-5 data-x-internal=concept-event-fire>fire an
+  event</a> named <code id=common-input-element-events:event-input-7><a href=#event-input>input</a></code> at the <code id=common-input-element-events:the-input-element-11><a href=#the-input-element>input</a></code> element, with
+  the <code id=common-input-element-events:dom-event-bubbles-5><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true. The
+  corresponding <code id=common-input-element-events:event-change-7><a href=#event-change>change</a></code> event, if any, will be fired when
+  the control <a href=#unfocus-causes-change-event>loses focus</a>.</p>
+
+  <p class=example>Examples of a user changing the element's <a href=#concept-fe-value id=common-input-element-events:concept-fe-value-5>value</a> would include the user typing into a text control, pasting
+  a new value into the control, or undoing an edit in that control. Some user interactions do not
+  cause changes to the value, e.g., hitting the "delete" key in an empty text control, or replacing
+  some text in the control with text from the clipboard that happens to be exactly the same
+  text.</p>
+
+  <p class=example>A <a href="#range-state-(type=range)" id="common-input-element-events:range-state-(type=range)-2">Range</a> control in the form of a
+  slider that the user has <a href=#focused id=common-input-element-events:focused>focused</a> and is interacting with using a keyboard would be
+  another example of the user changing the element's <a href=#concept-fe-value id=common-input-element-events:concept-fe-value-6>value</a>
+  without a commit step.</p>
+
+  <p>In the case of <a href=#concept-task id=common-input-element-events:concept-task>tasks</a> that just fire an <code id=common-input-element-events:event-input-8><a href=#event-input>input</a></code> event, user agents may wait for a suitable break in the
+  user's interaction before <a href=#queue-a-task id=common-input-element-events:queue-a-task-5>queuing</a> the tasks; for example, a
+  user agent could wait for the user to have not hit a key for 100ms, so as to only fire the event
+  when the user pauses, instead of continuously for each keystroke. 
+
+  <p>When the user agent is to change an <code id=common-input-element-events:the-input-element-12><a href=#the-input-element>input</a></code> element's <a href=#concept-fe-value id=common-input-element-events:concept-fe-value-7>value</a> on behalf of the user (e.g. as part of a form prefilling
+  feature), the user agent must <a href=#queue-a-task id=common-input-element-events:queue-a-task-6>queue a task</a> to first update the <a href=#concept-fe-value id=common-input-element-events:concept-fe-value-8>value</a> accordingly, then <a href=https://dom.spec.whatwg.org/#concept-event-fire id=common-input-element-events:concept-event-fire-6 data-x-internal=concept-event-fire>fire an
+  event</a> named <code id=common-input-element-events:event-input-9><a href=#event-input>input</a></code> at the <code id=common-input-element-events:the-input-element-13><a href=#the-input-element>input</a></code> element, with
+  the <code id=common-input-element-events:dom-event-bubbles-6><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code> attribute initialized to true, then <a href=https://dom.spec.whatwg.org/#concept-event-fire id=common-input-element-events:concept-event-fire-7 data-x-internal=concept-event-fire>fire an event</a> named <code id=common-input-element-events:event-change-8><a href=#event-change>change</a></code>
+  at the <code id=common-input-element-events:the-input-element-14><a href=#the-input-element>input</a></code> element, with the <code id=common-input-element-events:dom-event-bubbles-7><a data-x-internal=dom-event-bubbles href=https://dom.spec.whatwg.org/#dom-event-bubbles>bubbles</a></code>
+  attribute initialized to true.</p>
+
+  <p class=note>These events are not fired in response to changes made to the values of form
+  controls by scripts. (This is to make it easier to update the values of form controls in response
+  to the user manipulating the controls, without having to then filter out the script's own changes
+  to avoid an infinite loop.)</p>
+
+  <p>The <a href=#task-source id=common-input-element-events:task-source>task source</a> for these <a href=#concept-task id=common-input-element-events:concept-task-2>tasks</a> is the
+  <a href=#user-interaction-task-source id=common-input-element-events:user-interaction-task-source>user interaction task source</a>.</p>
+
+  
+
+
+
+  <h4 id=the-button-element>4.10.6 The <dfn><code>button</code></dfn> element<a href=#the-button-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-button-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-button-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-button-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#interactive-content-2 id=the-button-element:interactive-content-2>Interactive content</a>.<dd><a href=#category-listed id=the-button-element:category-listed>Listed</a>, <a href=#category-label id=the-button-element:category-label>labelable</a>, and <a href=#category-submit id=the-button-element:category-submit>submittable</a> <a href=#form-associated-element id=the-button-element:form-associated-element>form-associated element</a>.<dd><a href=#palpable-content-2 id=the-button-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-button-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-button-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-button-element:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-button-element:phrasing-content-2-3>Phrasing content</a>, but there must be no <a href=#interactive-content-2 id=the-button-element:interactive-content-2-2>interactive content</a> descendant.<dt><a href=#concept-element-tag-omission id=the-button-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-button-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-button-element:global-attributes>Global attributes</a><dd><code id=the-button-element:attr-fe-autofocus><a href=#attr-fe-autofocus>autofocus</a></code> — Automatically focus the form control when the page is loaded<dd><code id=the-button-element:attr-fe-disabled><a href=#attr-fe-disabled>disabled</a></code> — Whether the form control is disabled<dd><code id=the-button-element:attr-fae-form><a href=#attr-fae-form>form</a></code> — Associates the control with a <code id=the-button-element:the-form-element><a href=#the-form-element>form</a></code> element<dd><code id=the-button-element:attr-fs-formaction><a href=#attr-fs-formaction>formaction</a></code> — <a id=the-button-element:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> to use for <a href=#form-submission-2 id=the-button-element:form-submission-2>form submission</a><dd><code id=the-button-element:attr-fs-formenctype><a href=#attr-fs-formenctype>formenctype</a></code> — Form data set encoding type to use for <a href=#form-submission-2 id=the-button-element:form-submission-2-2>form submission</a><dd><code id=the-button-element:attr-fs-formmethod><a href=#attr-fs-formmethod>formmethod</a></code> — HTTP method to use for <a href=#form-submission-2 id=the-button-element:form-submission-2-3>form submission</a><dd><code id=the-button-element:attr-fs-formnovalidate><a href=#attr-fs-formnovalidate>formnovalidate</a></code> — Bypass form control validation for <a href=#form-submission-2 id=the-button-element:form-submission-2-4>form submission</a><dd><code id=the-button-element:attr-fs-formtarget><a href=#attr-fs-formtarget>formtarget</a></code> — <a href=#browsing-context id=the-button-element:browsing-context>Browsing context</a> for <a href=#form-submission-2 id=the-button-element:form-submission-2-5>form submission</a><dd><code id=the-button-element:attr-button-menu><a href=#attr-button-menu>menu</a></code> — Specifies the element's <a href=#designated-pop-up-menu id=the-button-element:designated-pop-up-menu>designated pop-up menu</a><dd><code id=the-button-element:attr-fe-name><a href=#attr-fe-name>name</a></code> — Name of form control to use for <a href=#form-submission-2 id=the-button-element:form-submission-2-6>form submission</a> and in the <code id=the-button-element:dom-form-elements><a href=#dom-form-elements>form.elements</a></code> API <dd><code id=the-button-element:attr-button-type><a href=#attr-button-type>type</a></code> — Type of button<dd><code id=the-button-element:attr-button-value><a href=#attr-button-value>value</a></code> — Value to be used for <a href=#form-submission-2 id=the-button-element:form-submission-2-7>form submission</a><dt><a href=#concept-element-dom id=the-button-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-button-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlbuttonelement>HTMLButtonElement</dfn> : <a href=#htmlelement id=the-button-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-button-element:cereactions>CEReactions</a>] attribute boolean <a href=#dom-fe-autofocus id=the-button-element:dom-fe-autofocus>autofocus</a>;
+  [<a href=#cereactions id=the-button-element:cereactions-2>CEReactions</a>] attribute boolean <a href=#dom-fe-disabled id=the-button-element:dom-fe-disabled>disabled</a>;
+  readonly attribute <a href=#htmlformelement id=the-button-element:htmlformelement>HTMLFormElement</a>? <a href=#dom-fae-form id=the-button-element:dom-fae-form>form</a>;
+  [<a href=#cereactions id=the-button-element:cereactions-3>CEReactions</a>] attribute USVString <a href=#dom-fs-formaction id=the-button-element:dom-fs-formaction>formAction</a>;
+  [<a href=#cereactions id=the-button-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-fs-formenctype id=the-button-element:dom-fs-formenctype>formEnctype</a>;
+  [<a href=#cereactions id=the-button-element:cereactions-5>CEReactions</a>] attribute DOMString <a href=#dom-fs-formmethod id=the-button-element:dom-fs-formmethod>formMethod</a>;
+  [<a href=#cereactions id=the-button-element:cereactions-6>CEReactions</a>] attribute boolean <a href=#dom-fs-formnovalidate id=the-button-element:dom-fs-formnovalidate>formNoValidate</a>;
+  [<a href=#cereactions id=the-button-element:cereactions-7>CEReactions</a>] attribute DOMString <a href=#dom-fs-formtarget id=the-button-element:dom-fs-formtarget>formTarget</a>;
+  [<a href=#cereactions id=the-button-element:cereactions-8>CEReactions</a>] attribute DOMString <a href=#dom-fe-name id=the-button-element:dom-fe-name>name</a>;
+  [<a href=#cereactions id=the-button-element:cereactions-9>CEReactions</a>] attribute DOMString <a href=#dom-button-type id=the-button-element:dom-button-type>type</a>;
+  [<a href=#cereactions id=the-button-element:cereactions-10>CEReactions</a>] attribute DOMString <a href=#dom-button-value id=the-button-element:dom-button-value>value</a>;
+  [<a href=#cereactions id=the-button-element:cereactions-11>CEReactions</a>] attribute <a href=#htmlmenuelement id=the-button-element:htmlmenuelement>HTMLMenuElement</a>? <a href=#dom-button-menu id=the-button-element:dom-button-menu>menu</a>;
+
+  readonly attribute boolean <a href=#dom-cva-willvalidate id=the-button-element:dom-cva-willvalidate>willValidate</a>;
+  readonly attribute <a href=#validitystate id=the-button-element:validitystate>ValidityState</a> <a href=#dom-cva-validity id=the-button-element:dom-cva-validity>validity</a>;
+  readonly attribute DOMString <a href=#dom-cva-validationmessage id=the-button-element:dom-cva-validationmessage>validationMessage</a>;
+  boolean <a href=#dom-cva-checkvalidity id=the-button-element:dom-cva-checkvalidity>checkValidity</a>();
+  boolean <a href=#dom-cva-reportvalidity id=the-button-element:dom-cva-reportvalidity>reportValidity</a>();
+  void <a href=#dom-cva-setcustomvalidity id=the-button-element:dom-cva-setcustomvalidity>setCustomValidity</a>(DOMString error);
+
+  [SameObject] readonly attribute <a id=the-button-element:nodelist href=https://dom.spec.whatwg.org/#interface-nodelist data-x-internal=nodelist>NodeList</a> <a href=#dom-lfe-labels id=the-button-element:dom-lfe-labels>labels</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-button-element:the-button-element><a href=#the-button-element>button</a></code> element <a href=#represents id=the-button-element:represents>represents</a> a button labeled by its contents.</p>
+
+  <p>The element is a <a href=#concept-button id=the-button-element:concept-button>button</a>.</p>
+
+  <p>The <dfn id=attr-button-type><code>type</code></dfn> attribute controls the behavior of
+  the button when it is activated. It is an <a href=#enumerated-attribute id=the-button-element:enumerated-attribute>enumerated attribute</a>. The following table
+  lists the keywords and states for the attribute — the keywords in the left column map to the
+  states in the cell in the second column on the same row as the keyword.</p>
+
+  <table><thead><tr><th> Keyword
+     <th> State
+     <th> Brief description
+   <tbody><tr><td><dfn id=attr-button-type-submit><code>submit</code></dfn>
+     <td><a href=#attr-button-type-submit-state id=the-button-element:attr-button-type-submit-state>Submit Button</a>
+     <td>Submits the form.
+    <tr><td><dfn id=attr-button-type-reset><code>reset</code></dfn>
+     <td><a href=#attr-button-type-reset-state id=the-button-element:attr-button-type-reset-state>Reset Button</a>
+     <td>Resets the form.
+    <tr><td><dfn id=attr-button-type-button><code>button</code></dfn>
+     <td><a href=#attr-button-type-button-state id=the-button-element:attr-button-type-button-state>Button</a>
+     <td>Does nothing.
+    <tr><td><dfn id=attr-button-type-menu><code>menu</code></dfn>
+     <td><a href=#attr-button-type-menu-state id=the-button-element:attr-button-type-menu-state>Menu</a>
+     <td>Shows a menu.
+  </table>
+
+  <p>The <i id=the-button-element:missing-value-default><a href=#missing-value-default>missing value default</a></i> is the <a href=#attr-button-type-submit-state id=the-button-element:attr-button-type-submit-state-2>Submit
+  Button</a> state.</p>
+
+  <p>If the <code id=the-button-element:attr-button-type-2><a href=#attr-button-type>type</a></code> attribute is in the <a href=#attr-button-type-submit-state id=the-button-element:attr-button-type-submit-state-3>Submit Button</a> state, the element is specifically a
+  <a href=#concept-submit-button id=the-button-element:concept-submit-button>submit button</a>.</p>
+
+  
+
+  <p><strong>Constraint validation</strong>: If the <code id=the-button-element:attr-button-type-3><a href=#attr-button-type>type</a></code>
+  attribute is in the <a href=#attr-button-type-reset-state id=the-button-element:attr-button-type-reset-state-2>Reset Button</a> state, the
+  <a href=#attr-button-type-button-state id=the-button-element:attr-button-type-button-state-2>Button</a> state, or the <a href=#attr-button-type-menu-state id=the-button-element:attr-button-type-menu-state-2>Menu</a> state, the element is <a href=#barred-from-constraint-validation id=the-button-element:barred-from-constraint-validation>barred from constraint
+  validation</a>.</p>
+
+  <p>A <code id=the-button-element:the-button-element-2><a href=#the-button-element>button</a></code> element's <a id=the-button-element:activation-behaviour href=https://dom.spec.whatwg.org/#eventtarget-activation-behavior data-x-internal=activation-behaviour>activation behavior</a> is to run the steps defined in
+  the following list for the current state of this element's <code id=the-button-element:attr-button-type-4><a href=#attr-button-type>type</a></code> attribute, if this element is not <a href=#concept-fe-disabled id=the-button-element:concept-fe-disabled>disabled</a>, and do nothing otherwise:</p>
+
+  <dl><dt> <dfn id=attr-button-type-submit-state>Submit Button</dfn> <dd><p>If the element has a <a href=#form-owner id=the-button-element:form-owner>form owner</a> and the element's <a id=the-button-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is
+   <a href=#fully-active id=the-button-element:fully-active>fully active</a>, the element must <a href=#concept-form-submit id=the-button-element:concept-form-submit>submit</a> the
+   <a href=#form-owner id=the-button-element:form-owner-2>form owner</a> from the <code id=the-button-element:the-button-element-3><a href=#the-button-element>button</a></code> element.<dt> <dfn id=attr-button-type-reset-state>Reset Button</dfn> <dd><p>If the element has a <a href=#form-owner id=the-button-element:form-owner-3>form owner</a> and the element's <a id=the-button-element:node-document-2 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is
+   <a href=#fully-active id=the-button-element:fully-active-2>fully active</a>, the element must <a href=#concept-form-reset id=the-button-element:concept-form-reset>reset</a> the
+   <a href=#form-owner id=the-button-element:form-owner-4>form owner</a>.<dt> <dfn id=attr-button-type-button-state>Button</dfn>
+
+   <dd><p>Do nothing.<dt> <dfn id=attr-button-type-menu-state>Menu</dfn>
+
+   <dd>
+
+    <p>The element must follow these steps:</p>
+
+    <ol><li><p>If the <code id=the-button-element:the-button-element-4><a href=#the-button-element>button</a></code> is not <a href=#being-rendered id=the-button-element:being-rendered>being rendered</a>, abort these
+     steps.<li><p>If the <code id=the-button-element:the-button-element-5><a href=#the-button-element>button</a></code> element's <a id=the-button-element:node-document-3 href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is not <a href=#fully-active id=the-button-element:fully-active-3>fully
+     active</a>, abort these steps.<li><p>Let <var>menu</var> be the element's <a href=#designated-pop-up-menu id=the-button-element:designated-pop-up-menu-2>designated pop-up menu</a>, if
+     any. If there isn't one, then abort these steps.<li><p>Let <var>build</var> be the result of <a href=https://dom.spec.whatwg.org/#concept-event-fire id=the-button-element:concept-event-fire data-x-internal=concept-event-fire>firing an
+     event</a> named <code id=the-button-element:event-show><a href=#event-show>show</a></code> at <var>menu</var>, using
+     <code id=the-button-element:relatedevent><a href=#relatedevent>RelatedEvent</a></code>, with the <code id=the-button-element:dom-event-cancelable><a data-x-internal=dom-event-cancelable href=https://dom.spec.whatwg.org/#dom-event-cancelable>cancelable</a></code>
+     attribute initialized to true and the <code id=the-button-element:dom-relatedevent-relatedtarget><a href=#dom-relatedevent-relatedtarget>relatedTarget</a></code> attribute initialized to the
+     <code id=the-button-element:the-button-element-6><a href=#the-button-element>button</a></code> element.<li><p>If <var>build</var> is true, then <a href=#build-and-show-a-menu id=the-button-element:build-and-show-a-menu>build and
+     show</a> the menu for <var>menu</var>, with the <code id=the-button-element:the-button-element-7><a href=#the-button-element>button</a></code> element as the
+     subject.</ol>
+
+   </dl>
+
+  
+
+  <p>The <code id=the-button-element:attr-fae-form-2><a href=#attr-fae-form>form</a></code> attribute is used to explicitly associate the
+  <code id=the-button-element:the-button-element-8><a href=#the-button-element>button</a></code> element with its <a href=#form-owner id=the-button-element:form-owner-5>form owner</a>. The <code id=the-button-element:attr-fe-name-2><a href=#attr-fe-name>name</a></code> attribute represents the element's name. The <code id=the-button-element:attr-fe-disabled-2><a href=#attr-fe-disabled>disabled</a></code> attribute is used to make the control non-interactive and
+  to prevent its value from being submitted. The <code id=the-button-element:attr-fe-autofocus-2><a href=#attr-fe-autofocus>autofocus</a></code>
+  attribute controls focus. The <code id=the-button-element:attr-fs-formaction-2><a href=#attr-fs-formaction>formaction</a></code>, <code id=the-button-element:attr-fs-formenctype-2><a href=#attr-fs-formenctype>formenctype</a></code>, <code id=the-button-element:attr-fs-formmethod-2><a href=#attr-fs-formmethod>formmethod</a></code>, <code id=the-button-element:attr-fs-formnovalidate-2><a href=#attr-fs-formnovalidate>formnovalidate</a></code>, and <code id=the-button-element:attr-fs-formtarget-2><a href=#attr-fs-formtarget>formtarget</a></code> attributes are <a href=#attributes-for-form-submission id=the-button-element:attributes-for-form-submission>attributes for form
+  submission</a>.</p>
+
+  <p class=note>The <code id=the-button-element:attr-fs-formnovalidate-3><a href=#attr-fs-formnovalidate>formnovalidate</a></code> attribute can be
+  used to make submit buttons that do not trigger the constraint validation.</p>
+
+  <p>The <code id=the-button-element:attr-fs-formaction-3><a href=#attr-fs-formaction>formaction</a></code>, <code id=the-button-element:attr-fs-formenctype-3><a href=#attr-fs-formenctype>formenctype</a></code>, <code id=the-button-element:attr-fs-formmethod-3><a href=#attr-fs-formmethod>formmethod</a></code>, <code id=the-button-element:attr-fs-formnovalidate-4><a href=#attr-fs-formnovalidate>formnovalidate</a></code>, and <code id=the-button-element:attr-fs-formtarget-3><a href=#attr-fs-formtarget>formtarget</a></code> must not be specified if the element's <code id=the-button-element:attr-button-type-5><a href=#attr-button-type>type</a></code> attribute is not in the <a href=#attr-button-type-submit-state id=the-button-element:attr-button-type-submit-state-4>Submit Button</a> state.</p>
+
+  <p>The <dfn id=attr-button-value><code>value</code></dfn> attribute gives the element's value
+  for the purposes of form submission. The element's <a href=#concept-fe-value id=the-button-element:concept-fe-value>value</a> is
+  the value of the element's <code id=the-button-element:attr-button-value-2><a href=#attr-button-value>value</a></code> attribute, if there is
+  one, or the empty string otherwise.</p>
+
+  <p class=note>A button (and its value) is only included in the form submission if the button
+  itself was used to initiate the form submission.</p>
+
+  <hr>
+
+  <p>If the element's <code id=the-button-element:attr-button-type-6><a href=#attr-button-type>type</a></code> attribute is in the <a href=#attr-button-type-menu-state id=the-button-element:attr-button-type-menu-state-3>Menu</a> state, the <dfn id=attr-button-menu><code>menu</code></dfn> attribute must be specified to give the element's
+  menu. The value must be the <a href=https://dom.spec.whatwg.org/#concept-id id=the-button-element:concept-id data-x-internal=concept-id>ID</a> of a <code id=the-button-element:the-menu-element><a href=#the-menu-element>menu</a></code> element in
+  the same <a id=the-button-element:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a> whose <code id=the-button-element:attr-menu-type><a href=#attr-menu-type>type</a></code> attribute is in the
+  <a href=#popup-menu-state id=the-button-element:popup-menu-state>popup menu</a> state. The attribute must not be specified if
+  the element's <code id=the-button-element:attr-button-type-7><a href=#attr-button-type>type</a></code> attribute is not in the <a href=#attr-button-type-menu-state id=the-button-element:attr-button-type-menu-state-4>Menu</a> state.</p>
+
+  
+
+  <p>A <code id=the-button-element:the-button-element-9><a href=#the-button-element>button</a></code> element's <dfn id=designated-pop-up-menu>designated pop-up menu</dfn> is the first element in the
+  <code id=the-button-element:the-button-element-10><a href=#the-button-element>button</a></code>'s <a id=the-button-element:tree-2 href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a> whose ID is that given by the <code id=the-button-element:the-button-element-11><a href=#the-button-element>button</a></code>
+  element's <code id=the-button-element:attr-button-menu-2><a href=#attr-button-menu>menu</a></code> attribute, if there is such an element and
+  its <code id=the-button-element:attr-menu-type-2><a href=#attr-menu-type>type</a></code> attribute is in the <a href=#popup-menu-state id=the-button-element:popup-menu-state-2>popup menu</a> state; otherwise, the element has no <a href=#designated-pop-up-menu id=the-button-element:designated-pop-up-menu-3>designated pop-up
+  menu</a>.</p>
+
+  <hr>
+
+  <p>The <dfn id=dom-button-value><code>value</code></dfn> and <dfn id=dom-button-menu><code>menu</code></dfn> IDL attributes must <a href=#reflect id=the-button-element:reflect>reflect</a> the
+  content attributes of the same name.</p>
+
+  <p>The <dfn id=dom-button-type><code>type</code></dfn> IDL attribute must
+  <a href=#reflect id=the-button-element:reflect-2>reflect</a> the content attribute of the same name, <a href=#limited-to-only-known-values id=the-button-element:limited-to-only-known-values>limited to only known
+  values</a>.</p>
+
+  <p>The <code id=the-button-element:dom-cva-willvalidate-2><a href=#dom-cva-willvalidate>willValidate</a></code>, <code id=the-button-element:dom-cva-validity-2><a href=#dom-cva-validity>validity</a></code>, and <code id=the-button-element:dom-cva-validationmessage-2><a href=#dom-cva-validationmessage>validationMessage</a></code> IDL attributes, and the <code id=the-button-element:dom-cva-checkvalidity-2><a href=#dom-cva-checkvalidity>checkValidity()</a></code>, <code id=the-button-element:dom-cva-reportvalidity-2><a href=#dom-cva-reportvalidity>reportValidity()</a></code>, and <code id=the-button-element:dom-cva-setcustomvalidity-2><a href=#dom-cva-setcustomvalidity>setCustomValidity()</a></code> methods, are part of the
+  <a href=#the-constraint-validation-api id=the-button-element:the-constraint-validation-api>constraint validation API</a>. The <code id=the-button-element:dom-lfe-labels-2><a href=#dom-lfe-labels>labels</a></code> IDL
+  attribute provides a list of the element's <code id=the-button-element:the-label-element><a href=#the-label-element>label</a></code>s. The <code id=the-button-element:dom-fe-autofocus-2><a href=#dom-fe-autofocus>autofocus</a></code>, <code id=the-button-element:dom-fe-disabled-2><a href=#dom-fe-disabled>disabled</a></code>, <code id=the-button-element:dom-fae-form-2><a href=#dom-fae-form>form</a></code>, and <code id=the-button-element:dom-fe-name-2><a href=#dom-fe-name>name</a></code> IDL attributes are
+  part of the element's forms API.</p>
+
+  
+
+  <div class=example>
+
+   <p>The following button is labeled "Show hint" and pops up a dialog box when activated:</p>
+
+   <pre>&lt;button type=button
+        onclick="alert('This 15-20 minute piece was composed by George Gershwin.')">
+ Show hint
+&lt;/button></pre>
+
+  </div>
+
+
+
+
+  <h4 id=the-select-element>4.10.7 The <dfn><code>select</code></dfn> element<a href=#the-select-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=25027" title="<select> needs to not allow changing its height via line-height">25027</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-select-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-select-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-select-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#interactive-content-2 id=the-select-element:interactive-content-2>Interactive content</a>.<dd><a href=#category-listed id=the-select-element:category-listed>Listed</a>, <a href=#category-label id=the-select-element:category-label>labelable</a>, <a href=#category-submit id=the-select-element:category-submit>submittable</a>, and <a href=#category-reset id=the-select-element:category-reset>resettable</a> <a href=#form-associated-element id=the-select-element:form-associated-element>form-associated element</a>.<dd><a href=#palpable-content-2 id=the-select-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-select-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-select-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-select-element:concept-element-content-model>Content model</a>:<dd>Zero or more <code id=the-select-element:the-option-element><a href=#the-option-element>option</a></code>, <code id=the-select-element:the-optgroup-element><a href=#the-optgroup-element>optgroup</a></code>, and <a href=#script-supporting-elements-2 id=the-select-element:script-supporting-elements-2>script-supporting</a> elements.<dt><a href=#concept-element-tag-omission id=the-select-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-select-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-select-element:global-attributes>Global attributes</a><dd><code id=the-select-element:attr-fe-autocomplete><a href=#attr-fe-autocomplete>autocomplete</a></code> — Hint for form autofill feature<dd><code id=the-select-element:attr-fe-autofocus><a href=#attr-fe-autofocus>autofocus</a></code> — Automatically focus the form control when the page is loaded<dd><code id=the-select-element:attr-fe-disabled><a href=#attr-fe-disabled>disabled</a></code> — Whether the form control is disabled<dd><code id=the-select-element:attr-fae-form><a href=#attr-fae-form>form</a></code> — Associates the control with a <code id=the-select-element:the-form-element><a href=#the-form-element>form</a></code> element<dd><code id=the-select-element:attr-select-multiple><a href=#attr-select-multiple>multiple</a></code> — Whether to allow multiple values<dd><code id=the-select-element:attr-fe-name><a href=#attr-fe-name>name</a></code> — Name of form control to use for <a href=#form-submission-2 id=the-select-element:form-submission-2>form submission</a> and in the <code id=the-select-element:dom-form-elements><a href=#dom-form-elements>form.elements</a></code> API <dd><code id=the-select-element:attr-select-required><a href=#attr-select-required>required</a></code> — Whether the control is required for <a href=#form-submission-2 id=the-select-element:form-submission-2-2>form submission</a><dd><code id=the-select-element:attr-select-size><a href=#attr-select-size>size</a></code> — Size of the control<dt><a href=#concept-element-dom id=the-select-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-select-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlselectelement>HTMLSelectElement</dfn> : <a href=#htmlelement id=the-select-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-select-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-fe-autocomplete id=the-select-element:dom-fe-autocomplete>autocomplete</a>;
+  [<a href=#cereactions id=the-select-element:cereactions-2>CEReactions</a>] attribute boolean <a href=#dom-fe-autofocus id=the-select-element:dom-fe-autofocus>autofocus</a>;
+  [<a href=#cereactions id=the-select-element:cereactions-3>CEReactions</a>] attribute boolean <a href=#dom-fe-disabled id=the-select-element:dom-fe-disabled>disabled</a>;
+  readonly attribute <a href=#htmlformelement id=the-select-element:htmlformelement>HTMLFormElement</a>? <a href=#dom-fae-form id=the-select-element:dom-fae-form>form</a>;
+  [<a href=#cereactions id=the-select-element:cereactions-4>CEReactions</a>] attribute boolean <a href=#dom-select-multiple id=the-select-element:dom-select-multiple>multiple</a>;
+  [<a href=#cereactions id=the-select-element:cereactions-5>CEReactions</a>] attribute DOMString <a href=#dom-fe-name id=the-select-element:dom-fe-name>name</a>;
+  [<a href=#cereactions id=the-select-element:cereactions-6>CEReactions</a>] attribute boolean <a href=#dom-select-required id=the-select-element:dom-select-required>required</a>;
+  [<a href=#cereactions id=the-select-element:cereactions-7>CEReactions</a>] attribute unsigned long <a href=#dom-select-size id=the-select-element:dom-select-size>size</a>;
+
+  readonly attribute DOMString <a href=#dom-select-type id=the-select-element:dom-select-type>type</a>;
+
+  [SameObject] readonly attribute <a href=#htmloptionscollection id=the-select-element:htmloptionscollection>HTMLOptionsCollection</a> <a href=#dom-select-options id=the-select-element:dom-select-options>options</a>;
+  [<a href=#cereactions id=the-select-element:cereactions-8>CEReactions</a>] attribute unsigned long <a href=#dom-select-length id=the-select-element:dom-select-length>length</a>;
+  getter <a id=the-select-element:element href=https://dom.spec.whatwg.org/#interface-element data-x-internal=element>Element</a>? <a href=#dom-select-item id=the-select-element:dom-select-item>item</a>(unsigned long index);
+  <a href=#htmloptionelement id=the-select-element:htmloptionelement>HTMLOptionElement</a>? <a href=#dom-select-nameditem id=the-select-element:dom-select-nameditem>namedItem</a>(DOMString name);
+  [<a href=#cereactions id=the-select-element:cereactions-9>CEReactions</a>] void <a href=#dom-select-add id=the-select-element:dom-select-add>add</a>((<a href=#htmloptionelement id=the-select-element:htmloptionelement-2>HTMLOptionElement</a> or <a href=#htmloptgroupelement id=the-select-element:htmloptgroupelement>HTMLOptGroupElement</a>) element, optional (<a href=#htmlelement id=the-select-element:htmlelement-2>HTMLElement</a> or long)? before = null);
+  [<a href=#cereactions id=the-select-element:cereactions-10>CEReactions</a>] void <a href=#dom-select-remove id=the-select-element:dom-select-remove>remove</a>(); // ChildNode overload
+  [<a href=#cereactions id=the-select-element:cereactions-11>CEReactions</a>] void <a href=#dom-select-remove id=the-select-element:dom-select-remove-2>remove</a>(long index);
+  [<a href=#cereactions id=the-select-element:cereactions-12>CEReactions</a>] <a href=#dom-select-setter>setter</a> void (unsigned long index, <a href=#htmloptionelement id=the-select-element:htmloptionelement-3>HTMLOptionElement</a>? option);
+
+  [SameObject] readonly attribute <a id=the-select-element:htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-select-selectedoptions id=the-select-element:dom-select-selectedoptions>selectedOptions</a>;
+  attribute long <a href=#dom-select-selectedindex id=the-select-element:dom-select-selectedindex>selectedIndex</a>;
+  attribute DOMString <a href=#dom-select-value id=the-select-element:dom-select-value>value</a>;
+
+  readonly attribute boolean <a href=#dom-cva-willvalidate id=the-select-element:dom-cva-willvalidate>willValidate</a>;
+  readonly attribute <a href=#validitystate id=the-select-element:validitystate>ValidityState</a> <a href=#dom-cva-validity id=the-select-element:dom-cva-validity>validity</a>;
+  readonly attribute DOMString <a href=#dom-cva-validationmessage id=the-select-element:dom-cva-validationmessage>validationMessage</a>;
+  boolean <a href=#dom-cva-checkvalidity id=the-select-element:dom-cva-checkvalidity>checkValidity</a>();
+  boolean <a href=#dom-cva-reportvalidity id=the-select-element:dom-cva-reportvalidity>reportValidity</a>();
+  void <a href=#dom-cva-setcustomvalidity id=the-select-element:dom-cva-setcustomvalidity>setCustomValidity</a>(DOMString error);
+
+  [SameObject] readonly attribute <a id=the-select-element:nodelist href=https://dom.spec.whatwg.org/#interface-nodelist data-x-internal=nodelist>NodeList</a> <a href=#dom-lfe-labels id=the-select-element:dom-lfe-labels>labels</a>;
+};</pre>
+   </dl>
+
+  
+
+  <p>The <code id=the-select-element:the-select-element><a href=#the-select-element>select</a></code> element represents a control for selecting amongst a set of
+  options.</p>
+
+  <p>The <dfn id=attr-select-multiple><code>multiple</code></dfn> attribute is a <a href=#boolean-attribute id=the-select-element:boolean-attribute>boolean
+  attribute</a>. If the attribute is present, then the <code id=the-select-element:the-select-element-2><a href=#the-select-element>select</a></code> element
+  <a href=#represents id=the-select-element:represents>represents</a> a control for selecting zero or more options from the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list>list of options</a>. If the attribute is absent, then the
+  <code id=the-select-element:the-select-element-3><a href=#the-select-element>select</a></code> element <a href=#represents id=the-select-element:represents-2>represents</a> a control for selecting a single option from
+  the <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-2>list of options</a>.</p>
+
+  <p>The <dfn id=attr-select-size><code>size</code></dfn> attribute gives the number of options
+  to show to the user. The <code id=the-select-element:attr-select-size-2><a href=#attr-select-size>size</a></code> attribute, if specified, must
+  have a value that is a <a href=#valid-non-negative-integer id=the-select-element:valid-non-negative-integer>valid non-negative integer</a> greater than zero.</p>
+
+  
+
+  <p>The <dfn id=concept-select-size>display size</dfn> of a <code id=the-select-element:the-select-element-4><a href=#the-select-element>select</a></code> element is the
+  result of applying the <a href=#rules-for-parsing-non-negative-integers id=the-select-element:rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</a> to the value of
+  element's <code id=the-select-element:attr-select-size-3><a href=#attr-select-size>size</a></code> attribute, if it has one and parsing it is
+  successful. If applying those rules to the attribute's value is not successful, or if the <code id=the-select-element:attr-select-size-4><a href=#attr-select-size>size</a></code> attribute is absent, then the element's <a href=#concept-select-size id=the-select-element:concept-select-size>display size</a> is 4 if the element's <code id=the-select-element:attr-select-multiple-2><a href=#attr-select-multiple>multiple</a></code> content attribute is present, and 1 otherwise.</p>
+
+  
+
+  <p>The <dfn id=concept-select-option-list>list of options</dfn> for a <code id=the-select-element:the-select-element-5><a href=#the-select-element>select</a></code>
+  element consists of all the <code id=the-select-element:the-option-element-2><a href=#the-option-element>option</a></code> element children of the <code id=the-select-element:the-select-element-6><a href=#the-select-element>select</a></code>
+  element, and all the <code id=the-select-element:the-option-element-3><a href=#the-option-element>option</a></code> element children of all the <code id=the-select-element:the-optgroup-element-2><a href=#the-optgroup-element>optgroup</a></code> element
+  children of the <code id=the-select-element:the-select-element-7><a href=#the-select-element>select</a></code> element, in <a id=the-select-element:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>.</p>
+
+  <p>The <dfn id=attr-select-required><code>required</code></dfn> attribute is a <a href=#boolean-attribute id=the-select-element:boolean-attribute-2>boolean
+  attribute</a>. When specified, the user will be required to select a value before submitting
+  the form.</p>
+
+  <p>If a <code id=the-select-element:the-select-element-8><a href=#the-select-element>select</a></code> element has a <code id=the-select-element:attr-select-required-2><a href=#attr-select-required>required</a></code>
+  attribute specified, does not have a <code id=the-select-element:attr-select-multiple-3><a href=#attr-select-multiple>multiple</a></code> attribute
+  specified, and has a <a href=#concept-select-size id=the-select-element:concept-select-size-2>display size</a> of 1; and if the <a href=#concept-option-value id=the-select-element:concept-option-value>value</a> of the first <code id=the-select-element:the-option-element-4><a href=#the-option-element>option</a></code> element in the
+  <code id=the-select-element:the-select-element-9><a href=#the-select-element>select</a></code> element's <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-3>list of options</a> (if
+  any) is the empty string, and that <code id=the-select-element:the-option-element-5><a href=#the-option-element>option</a></code> element's parent node is the
+  <code id=the-select-element:the-select-element-10><a href=#the-select-element>select</a></code> element (and not an <code id=the-select-element:the-optgroup-element-3><a href=#the-optgroup-element>optgroup</a></code> element), then that
+  <code id=the-select-element:the-option-element-6><a href=#the-option-element>option</a></code> is the <code id=the-select-element:the-select-element-11><a href=#the-select-element>select</a></code> element's <dfn id=placeholder-label-option>placeholder label option</dfn>.</p>
+
+  <p>If a <code id=the-select-element:the-select-element-12><a href=#the-select-element>select</a></code> element has a <code id=the-select-element:attr-select-required-3><a href=#attr-select-required>required</a></code>
+  attribute specified, does not have a <code id=the-select-element:attr-select-multiple-4><a href=#attr-select-multiple>multiple</a></code> attribute
+  specified, and has a <a href=#concept-select-size id=the-select-element:concept-select-size-3>display size</a> of 1, then the
+  <code id=the-select-element:the-select-element-13><a href=#the-select-element>select</a></code> element must have a <a href=#placeholder-label-option id=the-select-element:placeholder-label-option>placeholder label option</a>.</p>
+
+  <p class=note>In practice, the requirement stated in the paragraph above can only apply when a
+  <code id=the-select-element:the-select-element-14><a href=#the-select-element>select</a></code> element does not have a <code id=the-select-element:attr-link-sizes><a href=#attr-link-sizes>sizes</a></code> attribute
+  with a value greater than 1.</p>
+
+  
+
+  <p><strong>Constraint validation</strong>: If the element has its <code id=the-select-element:attr-select-required-4><a href=#attr-select-required>required</a></code> attribute specified, and either none of the
+  <code id=the-select-element:the-option-element-7><a href=#the-option-element>option</a></code> elements in the <code id=the-select-element:the-select-element-15><a href=#the-select-element>select</a></code> element's <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-4>list of options</a> have their <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness>selectedness</a> set to true, or the only
+  <code id=the-select-element:the-option-element-8><a href=#the-option-element>option</a></code> element in the <code id=the-select-element:the-select-element-16><a href=#the-select-element>select</a></code> element's <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-5>list of options</a> with its <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-2>selectedness</a> set to true is the <a href=#placeholder-label-option id=the-select-element:placeholder-label-option-2>placeholder label
+  option</a>, then the element is <a href=#suffering-from-being-missing id=the-select-element:suffering-from-being-missing>suffering from being missing</a>.</p>
+
+  
+
+  
+
+  <p>If the <code id=the-select-element:attr-select-multiple-5><a href=#attr-select-multiple>multiple</a></code> attribute is absent, and the element
+  is not <a href=#concept-fe-disabled id=the-select-element:concept-fe-disabled>disabled</a>, then the user agent should allow the
+  user to pick an <code id=the-select-element:the-option-element-9><a href=#the-option-element>option</a></code> element in its <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-6>list
+  of options</a> that is itself not <a href=#concept-option-disabled id=the-select-element:concept-option-disabled>disabled</a>. Upon
+  this <code id=the-select-element:the-option-element-10><a href=#the-option-element>option</a></code> element being <dfn id=concept-select-pick>picked</dfn> (either
+  through a click, or through unfocusing the element after changing its value, or through a <a href=#using-the-option-element-to-define-a-command id=the-select-element:using-the-option-element-to-define-a-command>menu command</a>, or through any other mechanism), and before the
+  relevant user interaction event  is queued (e.g. before the
+  <code id=the-select-element:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event), the user agent must set the <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-3>selectedness</a> of the picked <code id=the-select-element:the-option-element-11><a href=#the-option-element>option</a></code> element
+  to true, set its <a href=#concept-option-dirtiness id=the-select-element:concept-option-dirtiness>dirtiness</a> to true, and then
+  <a href=#send-select-update-notifications id=the-select-element:send-select-update-notifications>send <code>select</code> update notifications</a>.</p>
+
+  <p>If the <code id=the-select-element:attr-select-multiple-6><a href=#attr-select-multiple>multiple</a></code> attribute is absent, whenever an
+  <code id=the-select-element:the-option-element-12><a href=#the-option-element>option</a></code> element in the <code id=the-select-element:the-select-element-17><a href=#the-select-element>select</a></code> element's <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-7>list of options</a> has its <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-4>selectedness</a> set to true, and whenever an
+  <code id=the-select-element:the-option-element-13><a href=#the-option-element>option</a></code> element with its <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-5>selectedness</a> set to true is added to the
+  <code id=the-select-element:the-select-element-18><a href=#the-select-element>select</a></code> element's <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-8>list of options</a>,
+  the user agent must set the <a href=#concept-option-selectedness id=the-select-element:concept-option-selectedness-6>selectedness</a> of all
+  the other <code id=the-select-element:the-option-element-14><a href=#the-option-element>option</a></code> elements in its <a href=#concept-select-option-list id=the-select-element:concept-select-option-list-9>list of
+  options</a> to false.</p>
+
+  <p>If the <code id=the-select-element:attr-select-multiple-7><a href=#attr-select-multiple>multiple</a></code> attribute is absent and the
+  element's <a href=#concept-select-size id=the-select-element:concept-select-size-4>display size</a> is greater than 1, then the user

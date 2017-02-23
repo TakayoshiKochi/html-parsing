@@ -1,0 +1,850 @@
+
+     <td><code id=mediaevents:event-29><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The cue has become active.
+
+    <tr><td><dfn id=event-media-exit><code>exit</code></dfn>
+
+     <td><code id=mediaevents:event-30><a data-x-internal=event href=https://dom.spec.whatwg.org/#interface-event>Event</a></code>
+
+     <td>The cue has stopped being active.
+
+  </table>
+
+
+
+  
+
+  <h5 id=security-and-privacy-considerations>4.8.12.17 Security and privacy considerations<a href=#security-and-privacy-considerations class=self-link></a></h5>
+
+  <p>The main security and privacy implications of the <code id=security-and-privacy-considerations:the-video-element><a href=#the-video-element>video</a></code> and <code id=security-and-privacy-considerations:the-audio-element><a href=#the-audio-element>audio</a></code>
+  elements come from the ability to embed media cross-origin. There are two directions that threats
+  can flow: from hostile content to a victim page, and from a hostile page to victim content.</p>
+
+  <hr>
+
+  <p>If a victim page embeds hostile content, the threat is that the content might contain scripted
+  code that attempts to interact with the <code id=security-and-privacy-considerations:document><a href=#document>Document</a></code> that embeds the content. To avoid
+  this, user agents must ensure that there is no access from the content to the embedding page. In
+  the case of media content that uses DOM concepts, the embedded content must be treated as if it
+  was in its own unrelated <a href=#top-level-browsing-context id=security-and-privacy-considerations:top-level-browsing-context>top-level browsing context</a>.</p>
+
+  <p class=example>For instance, if an SVG animation was embedded in a <code id=security-and-privacy-considerations:the-video-element-2><a href=#the-video-element>video</a></code> element,
+  the user agent would not give it access to the DOM of the outer page. From the perspective of
+  scripts in the SVG resource, the SVG file would appear to be in a lone top-level browsing context
+  with no parent.</p>
+
+  <hr>
+
+  <p>If a hostile page embeds victim content, the threat is that the embedding page could obtain
+  information from the content that it would not otherwise have access to. The API does expose some
+  information: the existence of the media, its type, its duration, its size, and the performance
+  characteristics of its host. Such information is already potentially problematic, but in practice
+  the same information can more or less be obtained using the <code id=security-and-privacy-considerations:the-img-element><a href=#the-img-element>img</a></code> element, and so it
+  has been deemed acceptable.</p>
+
+  <p>However, significantly more sensitive information could be obtained if the user agent further
+  exposes metadata within the content such as subtitles or chapter titles. Such information is
+  therefore only exposed if the video resource uses CORS. The <code id=security-and-privacy-considerations:attr-media-crossorigin><a href=#attr-media-crossorigin>crossorigin</a></code> attribute allows authors to enable CORS. <a href=#refsFETCH>[FETCH]</a></p>
+
+  <p class=example>Without this restriction, an attacker could trick a user running within a
+  corporate network into visiting a site that attempts to load a video from a previously leaked
+  location on the corporation's intranet. If such a video included confidential plans for a new
+  product, then being able to read the subtitles would present a serious confidentiality breach.</p>
+
+  
+
+
+
+  <h5 id=best-practices-for-authors-using-media-elements>4.8.12.18 Best practices for authors using media elements<a href=#best-practices-for-authors-using-media-elements class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>Playing audio and video resources on small devices such as set-top boxes or mobile phones is
+  often constrained by limited hardware resources in the device. For example, a device might only
+  support three simultaneous videos. For this reason, it is a good practice to release resources
+  held by <a href=#media-element id=best-practices-for-authors-using-media-elements:media-element>media elements</a> when they are done playing, either by
+  being very careful about removing all references to the element and allowing it to be garbage
+  collected, or, even better, by removing the element's <code id=best-practices-for-authors-using-media-elements:attr-media-src><a href=#attr-media-src>src</a></code>
+  attribute and any <code id=best-practices-for-authors-using-media-elements:the-source-element><a href=#the-source-element>source</a></code> element descendants, and invoking the element's <code id=best-practices-for-authors-using-media-elements:dom-media-load><a href=#dom-media-load>load()</a></code> method.</p>
+
+  <p>Similarly, when the playback rate is not exactly 1.0, hardware, software, or format limitations
+  can cause video frames to be dropped and audio to be choppy or muted.</p>
+
+
+  
+
+  <h5 id=best-practices-for-implementors-of-media-elements>4.8.12.19 Best practices for implementors of media elements<a href=#best-practices-for-implementors-of-media-elements class=self-link></a></h5>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>How accurately various aspects of the <a href=#media-element id=best-practices-for-implementors-of-media-elements:media-element>media element</a> API are implemented is
+  considered a quality-of-implementation issue.</p>
+
+  <p>For example, when implementing the <code id=best-practices-for-implementors-of-media-elements:dom-media-buffered><a href=#dom-media-buffered>buffered</a></code> attribute,
+  how precise an implementation reports the ranges that have been buffered depends on how carefully
+  the user agent inspects the data. Since the API reports ranges as times, but the data is obtained
+  in byte streams, a user agent receiving a variable-bitrate stream might only be able to determine
+  precise times by actually decoding all of the data. User agents aren't required to do this,
+  however; they can instead return estimates (e.g. based on the average bitrate seen so far) which
+  get revised as more information becomes available.</p>
+
+  <p>As a general rule, user agents are urged to be conservative rather than optimistic. For
+  example, it would be bad to report that everything had been buffered when it had not.</p>
+
+  <p>Another quality-of-implementation issue would be playing a video backwards when the codec is
+  designed only for forward playback (e.g. there aren't many key frames, and they are far apart, and
+  the intervening frames only have deltas from the previous frame). User agents could do a poor job,
+  e.g. only showing key frames; however, better implementations would do more work and thus do a
+  better job, e.g. actually decoding parts of the video forwards, storing the complete frames, and
+  then playing the frames backwards.</p>
+
+  <p>Similarly, while implementations are allowed to drop buffered data at any time (there is no
+  requirement that a user agent keep all the media data obtained for the lifetime of the media
+  element), it is again a quality of implementation issue: user agents with sufficient resources to
+  keep all the data around are encouraged to do so, as this allows for a better user experience. For
+  example, if the user is watching a live stream, a user agent could allow the user only to view the
+  live video; however, a better user agent would buffer everything and allow the user to seek
+  through the earlier material, pause it, play it forwards and backwards, etc.</p>
+
+  <hr>
+
+  <p>When a <a href=#media-element id=best-practices-for-implementors-of-media-elements:media-element-2>media element</a> that is paused is <a href=#remove-an-element-from-a-document id=best-practices-for-implementors-of-media-elements:remove-an-element-from-a-document>removed from a document</a> and not reinserted before the next time the <a href=#event-loop id=best-practices-for-implementors-of-media-elements:event-loop>event
+  loop</a> reaches <a href=#step1>step 1</a>, implementations that are resource constrained are encouraged to take
+  that opportunity to release all hardware resources (like video planes, networking resources, and
+  data buffers) used by the <a href=#media-element id=best-practices-for-implementors-of-media-elements:media-element-3>media element</a>. (User agents still have to keep track of the
+  playback position and so forth, though, in case playback is later restarted.)</p>
+
+  
+
+
+
+  <h4 id=the-map-element>4.8.13 The <dfn><code>map</code></dfn> element<a href=#the-map-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-map-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-map-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-map-element:phrasing-content-2>Phrasing content</a>.<dd><a href=#palpable-content-2 id=the-map-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-map-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-map-element:phrasing-content-2-2>phrasing content</a> is expected.<dt><a href=#concept-element-content-model id=the-map-element:concept-element-content-model>Content model</a>:<dd><a href=#transparent id=the-map-element:transparent>Transparent</a>.<dt><a href=#concept-element-tag-omission id=the-map-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-map-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-map-element:global-attributes>Global attributes</a><dd><code id=the-map-element:attr-map-name><a href=#attr-map-name>name</a></code> — Name of <a href=#image-map id=the-map-element:image-map>image map</a> to reference from the <code id=the-map-element:attr-hyperlink-usemap><a href=#attr-hyperlink-usemap>usemap</a></code> attribute<dt><a href=#concept-element-dom id=the-map-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-map-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlmapelement>HTMLMapElement</dfn> : <a href=#htmlelement id=the-map-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-map-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-map-name id=the-map-element:dom-map-name>name</a>;
+  [SameObject] readonly attribute <a id=the-map-element:htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-map-areas id=the-map-element:dom-map-areas>areas</a>;
+};</pre>
+   </dl>
+
+  <p>The <code id=the-map-element:the-map-element><a href=#the-map-element>map</a></code> element, in conjunction with an <code id=the-map-element:the-img-element><a href=#the-img-element>img</a></code> element and any
+  <code id=the-map-element:the-area-element><a href=#the-area-element>area</a></code> element descendants, defines an <a href=#image-map id=the-map-element:image-map-2>image map</a>. The element
+  <a href=#represents id=the-map-element:represents>represents</a> its children.</p>
+
+  <p>The <dfn id=attr-map-name><code>name</code></dfn> attribute gives the map a name so that
+  it can be referenced. The attribute must be present and must have a non-empty value with no <a href=#space-character id=the-map-element:space-character>space characters</a>. The value of the <code id=the-map-element:attr-map-name-2><a href=#attr-map-name>name</a></code> attribute must not be equal to the value of the <code id=the-map-element:attr-map-name-3><a href=#attr-map-name>name</a></code> attribute of another <code id=the-map-element:the-map-element-2><a href=#the-map-element>map</a></code> element in the same
+  <a id=the-map-element:tree href=https://dom.spec.whatwg.org/#concept-tree data-x-internal=tree>tree</a>. If the <code id=the-map-element:the-id-attribute><a href=#the-id-attribute>id</a></code> attribute is also specified, both
+  attributes must have the same value.</p>
+
+  <dl class=domintro><dt><var>map</var> . <code id=the-map-element:dom-map-areas-2><a href=#dom-map-areas>areas</a></code><dd>
+
+    <p>Returns an <code id=the-map-element:htmlcollection-2><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> of the <code id=the-map-element:the-area-element-2><a href=#the-area-element>area</a></code> elements in the
+    <code id=the-map-element:the-map-element-3><a href=#the-map-element>map</a></code>.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-map-areas><code>areas</code></dfn> attribute must return an
+  <code id=the-map-element:htmlcollection-3><a data-x-internal=htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection>HTMLCollection</a></code> rooted at the <code id=the-map-element:the-map-element-4><a href=#the-map-element>map</a></code> element, whose filter matches only
+  <code id=the-map-element:the-area-element-3><a href=#the-area-element>area</a></code> elements.</p>
+
+  <p>The IDL attribute <dfn id=dom-map-name><code>name</code></dfn> must <a href=#reflect id=the-map-element:reflect>reflect</a>
+  the content attribute of the same name.</p>
+
+  
+
+
+  <div class=example>
+
+   <p>Image maps can be defined in conjunction with other content on the page, to ease maintenance.
+   This example is of a page with an image map at the top of the page and a corresponding set of
+   text links at the bottom.</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;HTML LANG="EN">
+&lt;TITLE>Babies™: Toys&lt;/TITLE>
+&lt;HEADER>
+ &lt;H1>Toys&lt;/H1>
+ &lt;IMG SRC="/images/menu.gif"
+      ALT="Babies™ navigation menu. Select a department to go to its page."
+      USEMAP="#NAV">
+&lt;/HEADER>
+ ...
+&lt;FOOTER>
+ &lt;MAP NAME="NAV">
+  &lt;P>
+   &lt;A HREF="/clothes/">Clothes&lt;/A>
+   &lt;AREA ALT="Clothes" COORDS="0,0,100,50" HREF="/clothes/"> |
+   &lt;A HREF="/toys/">Toys&lt;/A>
+   &lt;AREA ALT="Toys" COORDS="100,0,200,50" HREF="/toys/"> |
+   &lt;A HREF="/food/">Food&lt;/A>
+   &lt;AREA ALT="Food" COORDS="200,0,300,50" HREF="/food/"> |
+   &lt;A HREF="/books/">Books&lt;/A>
+   &lt;AREA ALT="Books" COORDS="300,0,400,50" HREF="/books/">
+  &lt;/P>
+ &lt;/MAP>
+&lt;/FOOTER></pre>
+
+  </div>
+
+
+
+  <h4 id=the-area-element>4.8.14 The <dfn><code>area</code></dfn> element<a href=#the-area-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-area-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-area-element:flow-content-2>Flow content</a>.<dd><a href=#phrasing-content-2 id=the-area-element:phrasing-content-2>Phrasing content</a>.<dt><a href=#concept-element-contexts id=the-area-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#phrasing-content-2 id=the-area-element:phrasing-content-2-2>phrasing content</a> is expected, but only if there is a <code id=the-area-element:the-map-element><a href=#the-map-element>map</a></code> element ancestor.<dt><a href=#concept-element-content-model id=the-area-element:concept-element-content-model>Content model</a>:<dd><a href=#concept-content-nothing id=the-area-element:concept-content-nothing>Nothing</a>.<dt><a href=#concept-element-tag-omission id=the-area-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>No <a href=#syntax-end-tag id=the-area-element:syntax-end-tag>end tag</a>.<dt><a href=#concept-element-attributes id=the-area-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-area-element:global-attributes>Global attributes</a><dd><code id=the-area-element:attr-area-alt><a href=#attr-area-alt>alt</a></code> — Replacement text for use when images are not available<dd><code id=the-area-element:attr-area-coords><a href=#attr-area-coords>coords</a></code> — Coordinates for the shape to be created in an <a href=#image-map id=the-area-element:image-map>image map</a><dd><code id=the-area-element:attr-area-shape><a href=#attr-area-shape>shape</a></code> — The kind of shape to be created in an <a href=#image-map id=the-area-element:image-map-2>image map</a><dd><code id=the-area-element:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> — Address of the <a href=#hyperlink id=the-area-element:hyperlink>hyperlink</a><dd><code id=the-area-element:attr-hyperlink-target><a href=#attr-hyperlink-target>target</a></code> — <a href=#browsing-context id=the-area-element:browsing-context>Browsing context</a> for <a href=#hyperlink id=the-area-element:hyperlink-2>hyperlink</a> <a href=#navigate id=the-area-element:navigate>navigation</a><dd><code id=the-area-element:attr-hyperlink-download><a href=#attr-hyperlink-download>download</a></code> — Whether to download the resource instead of navigating to it, and its file name if so<dd><code id=the-area-element:ping><a href=#ping>ping</a></code> — <a href=https://url.spec.whatwg.org/#concept-url id=the-area-element:url data-x-internal=url>URLs</a> to ping<dd><code id=the-area-element:attr-hyperlink-rel><a href=#attr-hyperlink-rel>rel</a></code> — Relationship between the location in the document containing the hyperlink and the destination resource<dd><code id=the-area-element:attr-hyperlink-referrerpolicy><a href=#attr-hyperlink-referrerpolicy>referrerpolicy</a></code> — Determines the <a id=the-area-element:referrer-policy href=https://w3c.github.io/webappsec-referrer-policy/#referrer-policy data-x-internal=referrer-policy>referrer policy</a> for <a href=https://fetch.spec.whatwg.org/#concept-fetch id=the-area-element:concept-fetch data-x-internal=concept-fetch>fetches</a> initiated by the element<dt><a href=#concept-element-dom id=the-area-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-area-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlareaelement>HTMLAreaElement</dfn> : <a href=#htmlelement id=the-area-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-area-element:cereactions>CEReactions</a>] attribute DOMString <a href=#dom-area-alt id=the-area-element:dom-area-alt>alt</a>;
+  [<a href=#cereactions id=the-area-element:cereactions-2>CEReactions</a>] attribute DOMString <a href=#dom-area-coords id=the-area-element:dom-area-coords>coords</a>;
+  [<a href=#cereactions id=the-area-element:cereactions-3>CEReactions</a>] attribute DOMString <a href=#dom-area-shape id=the-area-element:dom-area-shape>shape</a>;
+  [<a href=#cereactions id=the-area-element:cereactions-4>CEReactions</a>] attribute DOMString <a href=#dom-area-target id=the-area-element:dom-area-target>target</a>;
+  [<a href=#cereactions id=the-area-element:cereactions-5>CEReactions</a>] attribute DOMString <a href=#dom-area-download id=the-area-element:dom-area-download>download</a>;
+  [<a href=#cereactions id=the-area-element:cereactions-6>CEReactions</a>] attribute USVString <a href=#dom-area-ping id=the-area-element:dom-area-ping>ping</a>;
+  [<a href=#cereactions id=the-area-element:cereactions-7>CEReactions</a>] attribute DOMString <a href=#dom-area-rel id=the-area-element:dom-area-rel>rel</a>;
+  [<a href=#cereactions id=the-area-element:cereactions-8>CEReactions</a>, SameObject, PutForwards=<a href=https://dom.spec.whatwg.org/#dom-domtokenlist-value id=the-area-element:dom-domtokenlist-value data-x-internal=dom-domtokenlist-value>value</a>] readonly attribute <a id=the-area-element:domtokenlist href=https://dom.spec.whatwg.org/#interface-domtokenlist data-x-internal=domtokenlist>DOMTokenList</a> <a href=#dom-area-rellist id=the-area-element:dom-area-rellist>relList</a>;
+  [<a href=#cereactions id=the-area-element:cereactions-9>CEReactions</a>] attribute DOMString <a href=#dom-area-referrerpolicy id=the-area-element:dom-area-referrerpolicy>referrerPolicy</a>;
+
+  // <a href="#HTMLAreaElement-partial">also has obsolete members</a>
+};
+<a href=#htmlareaelement id=the-area-element:htmlareaelement>HTMLAreaElement</a> implements <a href=#htmlhyperlinkelementutils id=the-area-element:htmlhyperlinkelementutils>HTMLHyperlinkElementUtils</a>;</pre>
+   </dl>
+
+  <p>The <code id=the-area-element:the-area-element><a href=#the-area-element>area</a></code> element <a href=#represents id=the-area-element:represents>represents</a> either a hyperlink with some text and a
+  corresponding area on an <a href=#image-map id=the-area-element:image-map-3>image map</a>, or a dead area on an image map.</p>
+
+  <p>An <code id=the-area-element:the-area-element-2><a href=#the-area-element>area</a></code> element with a parent node must have a <code id=the-area-element:the-map-element-2><a href=#the-map-element>map</a></code> element
+  ancestor.</p>
+
+  <p>If the <code id=the-area-element:the-area-element-3><a href=#the-area-element>area</a></code> element has an <code id=the-area-element:attr-hyperlink-href-2><a href=#attr-hyperlink-href>href</a></code>
+  attribute, then the <code id=the-area-element:the-area-element-4><a href=#the-area-element>area</a></code> element represents a <a href=#hyperlink id=the-area-element:hyperlink-3>hyperlink</a>. In this case,
+  the <dfn id=attr-area-alt><code>alt</code></dfn> attribute must be present. It specifies the
+  text of the hyperlink. Its value must be text that, when presented with the texts specified for
+  the other hyperlinks of the <a href=#image-map id=the-area-element:image-map-4>image map</a>, and with the alternative text of the image,
+  but without the image itself, provides the user with the same kind of choice as the hyperlink
+  would when used without its text but with its shape applied to the image. The <code id=the-area-element:attr-area-alt-2><a href=#attr-area-alt>alt</a></code> attribute may be left blank if there is another <code id=the-area-element:the-area-element-5><a href=#the-area-element>area</a></code>
+  element in the same <a href=#image-map id=the-area-element:image-map-5>image map</a> that points to the same resource and has a non-blank
+  <code id=the-area-element:attr-area-alt-3><a href=#attr-area-alt>alt</a></code> attribute.</p>
+
+  <p>If the <code id=the-area-element:the-area-element-6><a href=#the-area-element>area</a></code> element has no <code id=the-area-element:attr-hyperlink-href-3><a href=#attr-hyperlink-href>href</a></code>
+  attribute, then the area represented by the element cannot be selected, and the <code id=the-area-element:attr-area-alt-4><a href=#attr-area-alt>alt</a></code> attribute must be omitted.</p>
+
+  <p>In both cases, the <code id=the-area-element:attr-area-shape-2><a href=#attr-area-shape>shape</a></code> and <code id=the-area-element:attr-area-coords-2><a href=#attr-area-coords>coords</a></code> attributes specify the area.</p>
+
+  <p>The <dfn id=attr-area-shape><code>shape</code></dfn> attribute is an <a href=#enumerated-attribute id=the-area-element:enumerated-attribute>enumerated
+  attribute</a>. The following table lists the keywords defined for this attribute. The states
+  given in the first cell of the rows with keywords give the states to which those keywords map.
+  Some of the keywords are non-conforming, as noted in the last
+  column.</p>
+
+  <table><thead><tr><th>State
+     <th>Keywords
+     <th>Notes
+   <tbody><tr><td rowspan=2><a href=#attr-area-shape-circle id=the-area-element:attr-area-shape-circle>Circle state</a>
+     <td><dfn id=attr-area-shape-keyword-circle><code>circle</code></dfn>
+     <td>
+    <tr><td><dfn id=attr-area-shape-keyword-circ><code>circ</code></dfn>
+     <td>Non-conforming
+    <tr><td><a href=#attr-area-shape-default id=the-area-element:attr-area-shape-default>Default state</a>
+     <td><dfn id=attr-area-shape-keyword-default><code>default</code></dfn>
+     <td>
+    <tr><td rowspan=2><a href=#attr-area-shape-poly id=the-area-element:attr-area-shape-poly>Polygon state</a>
+     <td><dfn id=attr-area-shape-keyword-poly><code>poly</code></dfn>
+     <td>
+    <tr><td><dfn id=attr-area-shape-keyword-polygon><code>polygon</code></dfn>
+     <td>Non-conforming
+    <tr><td rowspan=2><a href=#attr-area-shape-rect id=the-area-element:attr-area-shape-rect>Rectangle state</a>
+     <td><dfn id=attr-area-shape-keyword-rect><code>rect</code></dfn>
+     <td>
+    <tr><td><dfn id=attr-area-shape-keyword-rectangle><code>rectangle</code></dfn>
+     <td>Non-conforming
+  </table>
+
+  <p>The attribute may be omitted. The <i id=the-area-element:missing-value-default><a href=#missing-value-default>missing value default</a></i> is the <a href=#attr-area-shape-rect id=the-area-element:attr-area-shape-rect-2>rectangle</a> state.</p>
+
+  <p>The <dfn id=attr-area-coords><code>coords</code></dfn> attribute must, if specified,
+  contain a <a href=#valid-list-of-floating-point-numbers id=the-area-element:valid-list-of-floating-point-numbers>valid list of floating-point numbers</a>. This attribute gives the coordinates
+  for the shape described by the <code id=the-area-element:attr-area-shape-3><a href=#attr-area-shape>shape</a></code> attribute. The processing for this attribute is described as part of the <a href=#image-map id=the-area-element:image-map-6>image map</a>
+  processing model.</p>
+
+  
+
+  <p>In the <dfn id=attr-area-shape-circle>circle state</dfn>, <code id=the-area-element:the-area-element-7><a href=#the-area-element>area</a></code> elements must
+  have a <code id=the-area-element:attr-area-coords-3><a href=#attr-area-coords>coords</a></code> attribute present, with three integers, the
+  last of which must be non-negative. The first integer must be the distance in <a href=https://drafts.csswg.org/css-values/#px id="the-area-element:'px'" data-x-internal="'px'">CSS pixels</a> from the left edge of the image to the center of the circle, the
+  second integer must be the distance in <a href=https://drafts.csswg.org/css-values/#px id="the-area-element:'px'-2" data-x-internal="'px'">CSS pixels</a> from the top edge of
+  the image to the center of the circle, and the third integer must be the radius of the circle,
+  again in <a href=https://drafts.csswg.org/css-values/#px id="the-area-element:'px'-3" data-x-internal="'px'">CSS pixels</a>.</p>
+
+  <p>In the <dfn id=attr-area-shape-default>default state</dfn> state, <code id=the-area-element:the-area-element-8><a href=#the-area-element>area</a></code>
+  elements must not have a <code id=the-area-element:attr-area-coords-4><a href=#attr-area-coords>coords</a></code> attribute. (The area is the
+  whole image.)</p>
+
+  <p>In the <dfn id=attr-area-shape-poly>polygon state</dfn>, <code id=the-area-element:the-area-element-9><a href=#the-area-element>area</a></code> elements must
+  have a <code id=the-area-element:attr-area-coords-5><a href=#attr-area-coords>coords</a></code> attribute with at least six integers, and the
+  number of integers must be even. Each pair of integers must represent a coordinate given as the
+  distances from the left and the top of the image in <a href=https://drafts.csswg.org/css-values/#px id="the-area-element:'px'-4" data-x-internal="'px'">CSS pixels</a>
+  respectively, and all the coordinates together must represent the points of the polygon, in
+  order.</p>
+
+  <p>In the <dfn id=attr-area-shape-rect>rectangle state</dfn>, <code id=the-area-element:the-area-element-10><a href=#the-area-element>area</a></code> elements
+  must have a <code id=the-area-element:attr-area-coords-6><a href=#attr-area-coords>coords</a></code> attribute with exactly four integers,
+  the first of which must be less than the third, and the second of which must be less than the
+  fourth. The four points must represent, respectively, the distance from the left edge of the image
+  to the left side of the rectangle, the distance from the top edge to the top side, the distance
+  from the left edge to the right side, and the distance from the top edge to the bottom side, all
+  in <a href=https://drafts.csswg.org/css-values/#px id="the-area-element:'px'-5" data-x-internal="'px'">CSS pixels</a>.</p>
+
+  
+
+  <p>When user agents allow users to <a href=#following-hyperlinks-2 id=the-area-element:following-hyperlinks-2>follow hyperlinks</a> or
+  <a href=#downloading-hyperlinks id=the-area-element:downloading-hyperlinks>download hyperlinks</a> created using the
+  <code id=the-area-element:the-area-element-11><a href=#the-area-element>area</a></code> element, as described in the next section, the <code id=the-area-element:attr-hyperlink-href-4><a href=#attr-hyperlink-href>href</a></code>, <code id=the-area-element:attr-hyperlink-target-2><a href=#attr-hyperlink-target>target</a></code>, <code id=the-area-element:attr-hyperlink-download-2><a href=#attr-hyperlink-download>download</a></code>, and <code id=the-area-element:ping-2><a href=#ping>ping</a></code>
+  attributes decide how the link is followed. The <code id=the-area-element:attr-hyperlink-rel-2><a href=#attr-hyperlink-rel>rel</a></code>
+  attribute may be used to indicate to the user the likely nature of the target resource before the
+  user follows the link.</p>
+
+  
+
+  <p>The <code id=the-area-element:attr-hyperlink-target-3><a href=#attr-hyperlink-target>target</a></code>, <code id=the-area-element:attr-hyperlink-download-3><a href=#attr-hyperlink-download>download</a></code>, <code id=the-area-element:ping-3><a href=#ping>ping</a></code>,
+  <code id=the-area-element:attr-hyperlink-rel-3><a href=#attr-hyperlink-rel>rel</a></code>, and <code id=the-area-element:attr-hyperlink-referrerpolicy-2><a href=#attr-hyperlink-referrerpolicy>referrerpolicy</a></code> attributes must be omitted if the
+  <code id=the-area-element:attr-hyperlink-href-5><a href=#attr-hyperlink-href>href</a></code> attribute is not present.</p>
+
+  <p>If the <code id=the-area-element:names:-the-itemprop-attribute><a href=#names:-the-itemprop-attribute>itemprop</a></code> attribute is specified on an
+  <code id=the-area-element:the-area-element-12><a href=#the-area-element>area</a></code> element, then the <code id=the-area-element:attr-hyperlink-href-6><a href=#attr-hyperlink-href>href</a></code> attribute must
+  also be specified.</p>
+
+  
+
+  <p>The <a id=the-area-element:activation-behaviour href=https://dom.spec.whatwg.org/#eventtarget-activation-behavior data-x-internal=activation-behaviour>activation behavior</a> of <code id=the-area-element:the-area-element-13><a href=#the-area-element>area</a></code> elements is to run the following
+  steps:</p>
+
+  <ol><li><p>If the <code id=the-area-element:the-area-element-14><a href=#the-area-element>area</a></code> element's <a id=the-area-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> is not <a href=#fully-active id=the-area-element:fully-active>fully active</a>,
+   then abort these steps.<li>
+
+    <p>If the user has not indicated a specific <a href=#browsing-context id=the-area-element:browsing-context-2>browsing context</a> for following the
+    link, and the element's <code id=the-area-element:attr-hyperlink-target-4><a href=#attr-hyperlink-target>target</a></code> attribute is present,
+    and applying <a href=#the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name id=the-area-element:the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name>the rules for choosing a browsing context given a browsing context
+    name</a>, using the value of the <code id=the-area-element:attr-hyperlink-target-5><a href=#attr-hyperlink-target>target</a></code> attribute
+    as the browsing context name, would result in there not being a chosen browsing context, then
+    run these substeps:</p>
+
+    <ol><li><p>If there is an <a href=#entry-settings-object id=the-area-element:entry-settings-object>entry settings object</a>, throw an
+     <a id=the-area-element:invalidaccesserror href=https://heycam.github.io/webidl/#invalidaccesserror data-x-internal=invalidaccesserror>"<code>InvalidAccessError</code>"</a> <code id=the-area-element:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Abort these steps without following the hyperlink.</ol>
+
+   <li><p>Otherwise, the user agent must <a href=#following-hyperlinks-2 id=the-area-element:following-hyperlinks-2-2>follow the
+   hyperlink</a> or <a href=#downloading-hyperlinks id=the-area-element:downloading-hyperlinks-2>download the hyperlink</a> created
+   by the <code id=the-area-element:the-area-element-15><a href=#the-area-element>area</a></code> element, if any, and as determined by the <code id=the-area-element:attr-hyperlink-download-4><a href=#attr-hyperlink-download>download</a></code> attribute and any expressed user
+   preference.</ol>
+
+  <p>The IDL attributes <dfn id=dom-area-alt><code>alt</code></dfn>, <dfn id=dom-area-coords><code>coords</code></dfn>, <dfn id=dom-area-target><code>target</code></dfn>, <dfn id=dom-area-download><code>download</code></dfn>, <dfn id=dom-area-ping><code>ping</code></dfn>, and <dfn id=dom-area-rel><code>rel</code></dfn>,
+  each must <a href=#reflect id=the-area-element:reflect>reflect</a> the respective content attributes of the same name.</p>
+
+  <p>The IDL attribute <dfn id=dom-area-shape><code>shape</code></dfn> must
+  <a href=#reflect id=the-area-element:reflect-2>reflect</a> the <code id=the-area-element:attr-area-shape-4><a href=#attr-area-shape>shape</a></code> content attribute.</p>
+
+  <p>The IDL attribute <dfn id=dom-area-rellist><code>relList</code></dfn> must
+  <a href=#reflect id=the-area-element:reflect-3>reflect</a> the <code id=the-area-element:attr-hyperlink-rel-4><a href=#attr-hyperlink-rel>rel</a></code> content attribute.</p>
+
+  <p>The IDL attribute <dfn id=dom-area-referrerpolicy><code>referrerPolicy</code></dfn> must
+  <a href=#reflect id=the-area-element:reflect-4>reflect</a> the <code id=the-area-element:attr-hyperlink-referrerpolicy-3><a href=#attr-hyperlink-referrerpolicy>referrerpolicy</a></code>
+  content attribute, <a href=#limited-to-only-known-values id=the-area-element:limited-to-only-known-values>limited to only known values</a>.</p>
+
+  
+
+
+
+  <h4 id=image-maps>4.8.15 Image maps<a href=#image-maps class=self-link></a></h4>
+
+  
+
+  
+
+  <h5 id=authoring>4.8.15.1 Authoring<a href=#authoring class=self-link></a></h5>
+
+  
+
+  <p>An <dfn id=image-map>image map</dfn> allows geometric areas on an image to be associated with <a href=#hyperlink id=authoring:hyperlink>hyperlinks</a>.</p>
+
+  <p>An image, in the form of an <code id=authoring:the-img-element><a href=#the-img-element>img</a></code> element or an <code id=authoring:the-object-element><a href=#the-object-element>object</a></code> element
+  representing an image, may be associated with an image map (in the form of a <code id=authoring:the-map-element><a href=#the-map-element>map</a></code>
+  element) by specifying a <dfn id=attr-hyperlink-usemap><code>usemap</code></dfn> attribute on
+  the <code id=authoring:the-img-element-2><a href=#the-img-element>img</a></code> or <code id=authoring:the-object-element-2><a href=#the-object-element>object</a></code> element. The <code id=authoring:attr-hyperlink-usemap><a href=#attr-hyperlink-usemap>usemap</a></code> attribute, if specified, must be a <a href=#valid-hash-name-reference id=authoring:valid-hash-name-reference>valid
+  hash-name reference</a> to a <code id=authoring:the-map-element-2><a href=#the-map-element>map</a></code> element.</p>
+
+  <div class=example>
+
+   <p>Consider an image that looks as follows:</p>
+
+   <p><img src=/images/sample-usemap.png width=600 alt="A line with four shapes in it, equally spaced: a red hollow box, a green circle, a blue triangle, and a yellow four-pointed star." height=150></p>
+
+   <p>If we wanted just the colored areas to be clickable, we could do it as follows:</p>
+
+   <pre>&lt;p>
+ Please select a shape:
+ &lt;img src="shapes.png" usemap="#shapes"
+      alt="Four shapes are available: a red hollow box, a green circle, a blue triangle, and a yellow four-pointed star.">
+ &lt;map name="shapes">
+  &lt;area shape=rect coords="50,50,100,100"> &lt;!-- the hole in the red box -->
+  &lt;area shape=rect coords="25,25,125,125" href="red.html" alt="Red box.">
+  &lt;area shape=circle coords="200,75,50" href="green.html" alt="Green circle.">
+  &lt;area shape=poly coords="325,25,262,125,388,125" href="blue.html" alt="Blue triangle.">
+  &lt;area shape=poly coords="450,25,435,60,400,75,435,90,450,125,465,90,500,75,465,60"
+        href="yellow.html" alt="Yellow star.">
+ &lt;/map>
+&lt;/p></pre>
+
+  </div>
+
+  
+
+  <h5 id=image-map-processing-model>4.8.15.2 <span id=processing-model></span>Processing model<a href=#image-map-processing-model class=self-link></a></h5>
+
+  <p>If an <code id=image-map-processing-model:the-img-element><a href=#the-img-element>img</a></code> element or an <code id=image-map-processing-model:the-object-element><a href=#the-object-element>object</a></code> element representing an image has a
+  <code id=image-map-processing-model:attr-hyperlink-usemap><a href=#attr-hyperlink-usemap>usemap</a></code> attribute specified, user agents must process it
+  as follows:</p>
+
+  <ol><li><p>Parse the attribute's value using the <a href=#rules-for-parsing-a-hash-name-reference id=image-map-processing-model:rules-for-parsing-a-hash-name-reference>rules for parsing a hash-name reference</a>
+   to a <code id=image-map-processing-model:the-map-element><a href=#the-map-element>map</a></code> element, with the element as the context node. This will return either an
+   element (the <var>map</var>) or null.<li><p>If that returned null, then abort these steps. The image is not associated with an image
+   map after all.<li><p>Otherwise, the user agent must collect all the <code id=image-map-processing-model:the-area-element><a href=#the-area-element>area</a></code> elements that are
+   descendants of the <var>map</var>. Let those be the <var>areas</var>.</ol>
+
+  <p>Having obtained the list of <code id=image-map-processing-model:the-area-element-2><a href=#the-area-element>area</a></code> elements that form the image map (the <var>areas</var>), interactive user agents must process the list in one of two ways.</p>
+
+  <p>If the user agent intends to show the text that the <code id=image-map-processing-model:the-img-element-2><a href=#the-img-element>img</a></code> element represents, then
+  it must use the following steps.</p>
+
+  <p class=note>In user agents that do not support images, or that have images disabled,
+  <code id=image-map-processing-model:the-object-element-2><a href=#the-object-element>object</a></code> elements cannot represent images, and thus this section never applies (the
+  <a href=#fallback-content id=image-map-processing-model:fallback-content>fallback content</a> is shown instead). The following steps therefore only apply to
+  <code id=image-map-processing-model:the-img-element-3><a href=#the-img-element>img</a></code> elements.</p>
+
+  <ol><li><p>Remove all the <code id=image-map-processing-model:the-area-element-3><a href=#the-area-element>area</a></code> elements in <var>areas</var> that have no <code id=image-map-processing-model:attr-hyperlink-href><a href=#attr-hyperlink-href>href</a></code> attribute.<li><p>Remove all the <code id=image-map-processing-model:the-area-element-4><a href=#the-area-element>area</a></code> elements in <var>areas</var> that have no <code id=image-map-processing-model:attr-area-alt><a href=#attr-area-alt>alt</a></code> attribute, or whose <code id=image-map-processing-model:attr-area-alt-2><a href=#attr-area-alt>alt</a></code>
+   attribute's value is the empty string, <em>if</em> there is another <code id=image-map-processing-model:the-area-element-5><a href=#the-area-element>area</a></code> element in
+   <var>areas</var> with the same value in the <code id=image-map-processing-model:attr-hyperlink-href-2><a href=#attr-hyperlink-href>href</a></code> attribute and with a non-empty <code id=image-map-processing-model:attr-area-alt-3><a href=#attr-area-alt>alt</a></code> attribute.<li><p>Each remaining <code id=image-map-processing-model:the-area-element-6><a href=#the-area-element>area</a></code> element in <var>areas</var> represents a
+   <a href=#hyperlink id=image-map-processing-model:hyperlink>hyperlink</a>. Those hyperlinks should all be made available to the user in a manner
+   associated with the text of the <code id=image-map-processing-model:the-img-element-4><a href=#the-img-element>img</a></code>.</p>
+
+   <p>In this context, user agents may represent <code id=image-map-processing-model:the-area-element-7><a href=#the-area-element>area</a></code> and <code id=image-map-processing-model:the-img-element-5><a href=#the-img-element>img</a></code> elements
+   with no specified <code>alt</code> attributes, or whose <code>alt</code>
+   attributes are the empty string or some other non-visible text, in a user-agent-defined fashion
+   intended to indicate the lack of suitable author-provided text.</ol>
+
+  <p>If the user agent intends to show the image and allow interaction with the image to select
+  hyperlinks, then the image must be associated with a set of layered shapes, taken from the
+  <code id=image-map-processing-model:the-area-element-8><a href=#the-area-element>area</a></code> elements in <var>areas</var>, in reverse <a id=image-map-processing-model:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a> (so the last
+  specified <code id=image-map-processing-model:the-area-element-9><a href=#the-area-element>area</a></code> element in the <var>map</var> is the bottom-most shape, and
+  the first element in the <var>map</var>, in <a id=image-map-processing-model:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>, is the top-most shape).</p>
+
+  <p>Each <code id=image-map-processing-model:the-area-element-10><a href=#the-area-element>area</a></code> element in <var>areas</var> must be processed as follows to
+  obtain a shape to layer onto the image:</p>
+
+  <ol><li><p>Find the state that the element's <code id=image-map-processing-model:attr-area-shape><a href=#attr-area-shape>shape</a></code> attribute
+   represents.<li><p>Use the <a href=#rules-for-parsing-a-list-of-floating-point-numbers id=image-map-processing-model:rules-for-parsing-a-list-of-floating-point-numbers>rules for parsing a list of floating-point numbers</a> to parse the
+   element's <code id=image-map-processing-model:attr-area-coords><a href=#attr-area-coords>coords</a></code> attribute, if it is present, and let the
+   result be the <var>coords</var> list. If the attribute is absent, let the <var>coords</var> list
+   be the empty list.<li>
+
+    <p>If the number of items in the <var>coords</var> list is less than the minimum number
+    given for the <code id=image-map-processing-model:the-area-element-11><a href=#the-area-element>area</a></code> element's current state, as per the following table, then the
+    shape is empty; abort these steps.</p>
+
+    <table><thead><tr><th>State
+       <th>Minimum number of items
+     <tbody><tr><td><a href=#attr-area-shape-circle id=image-map-processing-model:attr-area-shape-circle>Circle state</a>
+       <td>3
+      <tr><td><a href=#attr-area-shape-default id=image-map-processing-model:attr-area-shape-default>Default state</a>
+       <td>0
+      <tr><td><a href=#attr-area-shape-poly id=image-map-processing-model:attr-area-shape-poly>Polygon state</a>
+       <td>6
+      <tr><td><a href=#attr-area-shape-rect id=image-map-processing-model:attr-area-shape-rect>Rectangle state</a>
+       <td>4
+    </table>
+
+   <li>
+
+    <p>Check for excess items in the <var>coords</var> list as per the entry in the
+    following list corresponding to the <code id=image-map-processing-model:attr-area-shape-2><a href=#attr-area-shape>shape</a></code> attribute's
+    state:</p>
+
+    <dl class=switch><dt><a href=#attr-area-shape-circle id=image-map-processing-model:attr-area-shape-circle-2>Circle state</a><dd>Drop any items in the list beyond the third.<dt><a href=#attr-area-shape-default id=image-map-processing-model:attr-area-shape-default-2>Default state</a><dd>Drop all items in the list.<dt><a href=#attr-area-shape-poly id=image-map-processing-model:attr-area-shape-poly-2>Polygon state</a><dd>Drop the last item if there's an odd number of items.<dt><a href=#attr-area-shape-rect id=image-map-processing-model:attr-area-shape-rect-2>Rectangle state</a><dd>Drop any items in the list beyond the fourth.</dl>
+
+   <li><p>If the <code id=image-map-processing-model:attr-area-shape-3><a href=#attr-area-shape>shape</a></code> attribute represents the <a href=#attr-area-shape-rect id=image-map-processing-model:attr-area-shape-rect-3>rectangle state</a>, and the first number in the list is
+   numerically greater than the third number in the list, then swap those two numbers around.<li><p>If the <code id=image-map-processing-model:attr-area-shape-4><a href=#attr-area-shape>shape</a></code> attribute represents the <a href=#attr-area-shape-rect id=image-map-processing-model:attr-area-shape-rect-4>rectangle state</a>, and the second number in the list is
+   numerically greater than the fourth number in the list, then swap those two numbers around.<li><p>If the <code id=image-map-processing-model:attr-area-shape-5><a href=#attr-area-shape>shape</a></code> attribute represents the <a href=#attr-area-shape-circle id=image-map-processing-model:attr-area-shape-circle-3>circle state</a>, and the third number in the list is less than
+   or equal to zero, then the shape is empty; abort these steps.<li><p>Now, the shape represented by the element is the one described for the entry in the list
+   below corresponding to the state of the <code id=image-map-processing-model:attr-area-shape-6><a href=#attr-area-shape>shape</a></code> attribute:</p>
+
+    <dl class=switch><dt><a href=#attr-area-shape-circle id=image-map-processing-model:attr-area-shape-circle-4>Circle state</a><dd>
+
+      <p>Let <var>x</var> be the first number in <var>coords</var>, <var>y</var> be the second number, and <var>r</var> be the third number.</p>
+
+      <p>The shape is a circle whose center is <var>x</var> <a href=https://drafts.csswg.org/css-values/#px id="image-map-processing-model:'px'" data-x-internal="'px'">CSS pixels</a>
+      from the left edge of the image and <var>y</var> <a href=https://drafts.csswg.org/css-values/#px id="image-map-processing-model:'px'-2" data-x-internal="'px'">CSS pixels</a> from
+      the top edge of the image, and whose radius is <var>r</var> <a href=https://drafts.csswg.org/css-values/#px id="image-map-processing-model:'px'-3" data-x-internal="'px'">CSS
+      pixels</a>.</p>
+
+     <dt><a href=#attr-area-shape-default id=image-map-processing-model:attr-area-shape-default-3>Default state</a><dd>
+
+      <p>The shape is a rectangle that exactly covers the entire image.</p>
+
+     <dt><a href=#attr-area-shape-poly id=image-map-processing-model:attr-area-shape-poly-3>Polygon state</a><dd>
+
+      <p>Let <var>x<sub><var>i</var></sub></var> be the <span>(2<var>i</var>)</span>th entry in <var>coords</var>, and <var>y<sub><var>i</var></sub></var> be the <span>(2<var>i</var>+1)</span>th entry in <var>coords</var> (the first entry in <var>coords</var> being the one with index 0).</p>
+
+      <p>Let <var>the coordinates</var> be (<var>x<sub><var>i</var></sub></var>, <var>y<sub><var>i</var></sub></var>),
+      interpreted in <a href=https://drafts.csswg.org/css-values/#px id="image-map-processing-model:'px'-4" data-x-internal="'px'">CSS pixels</a> measured from the top left of the image,
+      for all integer values of <var>i</var> from 0 to <span>(<var>N</var>/2)-1</span>,
+      where <var>N</var> is the number of items in <var>coords</var>.</p>
+
+      <p>The shape is a polygon whose vertices are given by <var>the coordinates</var>, and
+      whose interior is established using the even-odd rule. <a href=#refsGRAPHICS>[GRAPHICS]</a></p>
+
+      
+
+     <dt><a href=#attr-area-shape-rect id=image-map-processing-model:attr-area-shape-rect-5>Rectangle state</a><dd>
+
+      <p>Let <var>x<sub>1</sub></var> be the first number in <var>coords</var>, <var>y<sub>1</sub></var> be the second number, <var>x<sub>2</sub></var> be the third number, and <var>y<sub>2</sub></var> be the fourth number.</p>
+
+      <p>The shape is a rectangle whose top-left corner is given by the coordinate (<var>x<sub>1</sub></var>, <var>y<sub>1</sub></var>) and whose
+      bottom right corner is given by the coordinate (<var>x<sub>2</sub></var>,
+      <var>y<sub>2</sub></var>), those coordinates being interpreted as <a href=https://drafts.csswg.org/css-values/#px id="image-map-processing-model:'px'-5" data-x-internal="'px'">CSS
+      pixels</a> from the top left corner of the image.</p>
+
+     </dl>
+
+    <p>For historical reasons, the coordinates must be interpreted relative to the
+    <em>displayed</em> image after any stretching caused by the CSS <a id="image-map-processing-model:'width'" href=https://drafts.csswg.org/css2/visudet.html#the-width-property data-x-internal="'width'">'width'</a> and
+    <a id="image-map-processing-model:'height'" href=https://drafts.csswg.org/css2/visudet.html#the-height-property data-x-internal="'height'">'height'</a> properties (or, for non-CSS browsers, the image element's <code>width</code> and <code>height</code> attributes — CSS browsers map
+    those attributes to the aforementioned CSS properties).</p>
+
+    <p class=note>Browser zoom features and transforms applied using CSS or SVG do not affect the
+    coordinates.</p>
+
+   </ol>
+
+  <p>Pointing device interaction with an image associated with a set of layered shapes per the above
+  algorithm must result in the relevant user interaction events being first fired to the top-most
+  shape covering the point that the pointing device indicated, if any, or to the image element
+  itself, if there is no shape covering that point. User agents may also allow individual
+  <code id=image-map-processing-model:the-area-element-12><a href=#the-area-element>area</a></code> elements representing <a href=#hyperlink id=image-map-processing-model:hyperlink-2>hyperlinks</a> to be selected
+  and activated (e.g. using a keyboard).</p>
+
+  <p class=note>Because a <code id=image-map-processing-model:the-map-element-2><a href=#the-map-element>map</a></code> element (and its <code id=image-map-processing-model:the-area-element-13><a href=#the-area-element>area</a></code> elements) can be
+  associated with multiple <code id=image-map-processing-model:the-img-element-6><a href=#the-img-element>img</a></code> and <code id=image-map-processing-model:the-object-element-3><a href=#the-object-element>object</a></code> elements, it is possible for an
+  <code id=image-map-processing-model:the-area-element-14><a href=#the-area-element>area</a></code> element to correspond to multiple <i id=image-map-processing-model:focusable-area><a href=#focusable-area>focusable areas</a></i>
+  of the document.</p>
+
+  <p>Image maps are <a href=#live id=image-map-processing-model:live>live</a>; if the DOM is mutated, then the user agent must act as if it
+  had rerun the algorithms for image maps.</p>
+
+  
+
+
+
+  <h4 id=mathml>4.8.16 MathML<a href=#mathml class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> mathml<span class="chrome no"><span>Chrome (removed)</span> <span>-24</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc partial"><span>UC Browser for Android (limited)</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>2+</span></span><span class="ie no"><span>IE</span> <span>None</span></span><span class="safari yes"><span>Safari</span> <span>10+</span></span><span class="edge no"><span>Edge</span> <span>None</span></span><span class="opera no"><span>Opera (removed)</span> <span>-12.1</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=mathml">caniuse.com</a></div>
+
+  <p>The <a id=mathml:mathml-math href=https://www.w3.org/Math/draft-spec/chapter2.html#interf.toplevel data-x-internal=mathml-math>MathML <code>math</code></a> element falls into the <a href=#embedded-content-category id=mathml:embedded-content-category>embedded content</a>,
+  <a href=#phrasing-content-2 id=mathml:phrasing-content-2>phrasing content</a>, <a href=#flow-content-2 id=mathml:flow-content-2>flow content</a>, and <a href=#palpable-content-2 id=mathml:palpable-content-2>palpable content</a>
+  categories for the purposes of the content models in this specification.</p>
+
+  <p>When the <a id=mathml:mathml-annotation-xml href=https://www.w3.org/Math/draft-spec/chapter5.html#mixing.elements.annotation.xml data-x-internal=mathml-annotation-xml>MathML <code>annotation-xml</code></a> element contains elements from the
+  <a id=mathml:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>, such elements must all be <a href=#flow-content-2 id=mathml:flow-content-2-2>flow content</a>.</p>
+
+  <p>When the MathML token elements (<code id=mathml:mathml-mi><a data-x-internal=mathml-mi href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.mi>mi</a></code>, <code id=mathml:mathml-mo><a data-x-internal=mathml-mo href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.mo>mo</a></code>, <code id=mathml:mathml-mn><a data-x-internal=mathml-mn href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.mn>mn</a></code>, <code id=mathml:mathml-ms><a data-x-internal=mathml-ms href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.ms>ms</a></code>, and <code id=mathml:mathml-mtext><a data-x-internal=mathml-mtext href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.mtext>mtext</a></code>) are descendants of HTML elements, they may contain
+  <a href=#phrasing-content-2 id=mathml:phrasing-content-2-2>phrasing content</a> elements from the <a id=mathml:html-namespace-2-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>.</p>
+  
+
+  
+
+  
+
+  <p>User agents must handle text other than <a href=#inter-element-whitespace id=mathml:inter-element-whitespace>inter-element whitespace</a> found in MathML
+  elements whose content models do not allow straight text by pretending for the purposes of MathML
+  content models, layout, and rendering that the text is actually wrapped in a <a id=mathml:mathml-mtext-2 href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.mtext data-x-internal=mathml-mtext>MathML
+  <code>mtext</code></a> element. (Such text is not, however, conforming.)</p>
+
+  <p>User agents must act as if any MathML element whose contents does not match the element's
+  content model was replaced, for the purposes of MathML layout and rendering, by a <a id=mathml:mathml-merror href=https://www.w3.org/Math/draft-spec/chapter3.html#presm.merror data-x-internal=mathml-merror>MathML
+  <code>merror</code></a> element containing some appropriate error message.</p>
+
+  <p>To enable authors to use MathML tools that only accept MathML in its XML form, interactive HTML
+  user agents are encouraged to provide a way to export any MathML fragment as an XML
+  namespace-well-formed XML fragment.</p>
+
+  
+
+  <p>The semantics of MathML elements are defined by the MathML specification and <a href=#other-applicable-specifications id=mathml:other-applicable-specifications>other
+  applicable specifications</a>. <a href=#refsMATHML>[MATHML]</a></p>
+
+  <div class=example>
+
+   <p>Here is an example of the use of MathML in an HTML document:</p>
+
+   <pre>&lt;!DOCTYPE html>
+&lt;html lang="en">
+ &lt;head>
+  &lt;title>The quadratic formula&lt;/title>
+ &lt;/head>
+ &lt;body>
+  &lt;h1>The quadratic formula&lt;/h1>
+  &lt;p>
+   &lt;math>
+    &lt;mi>x&lt;/mi>
+    &lt;mo>=&lt;/mo>
+    &lt;mfrac>
+     &lt;mrow>
+      &lt;mo form="prefix">−&lt;/mo> &lt;mi>b&lt;/mi>
+      &lt;mo>±&lt;/mo>
+      &lt;msqrt>
+       &lt;msup> &lt;mi>b&lt;/mi> &lt;mn>2&lt;/mn> &lt;/msup>
+       &lt;mo>−&lt;/mo>
+       &lt;mn>4&lt;/mn> &lt;mo>⁢&lt;/mo> &lt;mi>a&lt;/mi> &lt;mo>⁢&lt;/mo> &lt;mi>c&lt;/mi>
+      &lt;/msqrt>
+     &lt;/mrow>
+     &lt;mrow>
+      &lt;mn>2&lt;/mn> &lt;mo>⁢&lt;/mo> &lt;mi>a&lt;/mi>
+     &lt;/mrow>
+    &lt;/mfrac>
+   &lt;/math>
+  &lt;/p>
+ &lt;/body>
+&lt;/html></pre>
+
+  </div>
+
+
+
+  <h4 id=svg-0>4.8.17 SVG<a href=#svg-0 class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> svg-html5<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>7+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc yes"><span>UC Browser for Android</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>4+</span></span><span class="ie yes"><span>IE</span> <span>9+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini yes"><span>Opera Mini</span> <span>all+</span></span><span class="android yes"><span>Android Browser</span> <span>3+</span></span><span class="safari yes"><span>Safari</span> <span>5.1+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>11.6+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=svg-html5">caniuse.com</a></div>
+
+  <p>The <a id=svg-0:svg-svg href=https://www.w3.org/TR/SVG11/struct.html#SVGElement data-x-internal=svg-svg>SVG <code>svg</code></a> element falls into the <a href=#embedded-content-category id=svg-0:embedded-content-category>embedded content</a>,
+  <a href=#phrasing-content-2 id=svg-0:phrasing-content-2>phrasing content</a>, <a href=#flow-content-2 id=svg-0:flow-content-2>flow content</a>, and <a href=#palpable-content-2 id=svg-0:palpable-content-2>palpable content</a>
+  categories for the purposes of the content models in this specification.</p>
+
+  
+
+  <p>To enable authors to use SVG tools that only accept SVG in its XML form, interactive HTML user
+  agents are encouraged to provide a way to export any SVG fragment as an XML namespace-well-formed
+  XML fragment.</p>
+
+  
+
+  <p>When the <a id=svg-0:svg-foreignobject href=https://www.w3.org/TR/SVG11/extend.html#ForeignObjectElement data-x-internal=svg-foreignobject>SVG <code>foreignObject</code></a> element contains elements from the
+  <a id=svg-0:html-namespace-2 href=https://infra.spec.whatwg.org/#html-namespace data-x-internal=html-namespace-2>HTML namespace</a>, such elements must all be <a href=#flow-content-2 id=svg-0:flow-content-2-2>flow content</a>.</p>
+
+  <p>The content model for the <a id=svg-0:svg-title href=https://www.w3.org/TR/SVG11/struct.html#TitleElement data-x-internal=svg-title>SVG <code>title</code></a> element inside <a id=svg-0:html-documents href=https://dom.spec.whatwg.org/#html-document data-x-internal=html-documents>HTML
+  documents</a> is <a href=#phrasing-content-2 id=svg-0:phrasing-content-2-2>phrasing content</a>. (This further constrains the requirements given
+  in the SVG specification.)</p>
+
+  <p>The semantics of SVG elements are defined by the SVG specification and <a href=#other-applicable-specifications id=svg-0:other-applicable-specifications>other applicable
+  specifications</a>. <a href=#refsSVG>[SVG]</a></p>
+
+  <hr>
+
+
+
+  <dl class=domintro><dt><var>doc</var> = <var>iframe</var> . <code id=svg-0:dom-media-getsvgdocument><a href=#dom-media-getsvgdocument>getSVGDocument</a></code>()<dt><var>doc</var> = <var>embed</var> . <code id=svg-0:dom-media-getsvgdocument-2><a href=#dom-media-getsvgdocument>getSVGDocument</a></code>()<dt><var>doc</var> = <var>object</var> . <code id=svg-0:dom-media-getsvgdocument-3><a href=#dom-media-getsvgdocument>getSVGDocument</a></code>()<dd>
+
+    <p>Returns the <code id=svg-0:document><a href=#document>Document</a></code> object, in the case of <code id=svg-0:the-iframe-element><a href=#the-iframe-element>iframe</a></code>, <code id=svg-0:the-embed-element><a href=#the-embed-element>embed</a></code>, or <code id=svg-0:the-object-element><a href=#the-object-element>object</a></code> elements being used to embed SVG images.</p>
+
+   </dl>
+
+  
+
+  <p>The <dfn id=dom-media-getsvgdocument><code>getSVGDocument()</code></dfn> method must run
+  the following steps:</p>
+
+  <ol><li><p>If the element's <a href=#nested-browsing-context id=svg-0:nested-browsing-context>nested browsing context</a> is null, then return null.<li><p>If the <a href=#concept-origin id=svg-0:concept-origin>origin</a> of the <a href=#active-document id=svg-0:active-document>active document</a> of the <a href=#nested-browsing-context id=svg-0:nested-browsing-context-2>nested
+   browsing context</a> is not <a href=#same-origin-domain id=svg-0:same-origin-domain>same origin-domain</a> with the element's <a id=svg-0:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node
+   document</a>'s <a href=#concept-origin id=svg-0:concept-origin-2>origin</a>, then return null.<li><p>If the <a href=#nested-browsing-context id=svg-0:nested-browsing-context-3>nested browsing context</a>'s <a href=#active-document id=svg-0:active-document-2>active document</a> was created by
+   the <a href=#read-xml id=svg-0:read-xml>page load processing model for XML files</a> section because
+   the <a href=https://mimesniff.spec.whatwg.org/#computed-mime-type id=svg-0:content-type-sniffing-2 data-x-internal=content-type-sniffing-2>computed type of the resource</a> in the
+   <a href=#navigate id=svg-0:navigate>navigate</a> algorithm was <code id=svg-0:image/svg+xml><a href=#image/svg+xml>image/svg+xml</a></code>, then return that
+   <code id=svg-0:document-2><a href=#document>Document</a></code> object.<li><p>Otherwise, return null.</ol>
+
+  
+
+
+
+
+
+  <h4 id=dimension-attributes>4.8.18 <dfn>Dimension attributes</dfn><a href=#dimension-attributes class=self-link></a></h4>
+
+  <p><strong>Author requirements</strong>: The <dfn id=attr-dim-width><code>width</code></dfn> and <dfn id=attr-dim-height><code>height</code></dfn> attributes on <code id=dimension-attributes:the-img-element><a href=#the-img-element>img</a></code>, <code id=dimension-attributes:the-iframe-element><a href=#the-iframe-element>iframe</a></code>,
+  <code id=dimension-attributes:the-embed-element><a href=#the-embed-element>embed</a></code>, <code id=dimension-attributes:the-object-element><a href=#the-object-element>object</a></code>, <code id=dimension-attributes:the-video-element><a href=#the-video-element>video</a></code>, and, when their <code id=dimension-attributes:attr-input-type><a href=#attr-input-type>type</a></code> attribute is in the <a href="#image-button-state-(type=image)" id="dimension-attributes:image-button-state-(type=image)">Image Button</a> state, <code id=dimension-attributes:the-input-element><a href=#the-input-element>input</a></code> elements may be
+  specified to give the dimensions of the visual content of the element (the width and height
+  respectively, relative to the nominal direction of the output medium), in <a href=https://drafts.csswg.org/css-values/#px id="dimension-attributes:'px'" data-x-internal="'px'">CSS
+  pixels</a>. The attributes, if specified, must have values that are <a href=#valid-non-negative-integer id=dimension-attributes:valid-non-negative-integer>valid non-negative integers</a>.</p>
+
+  <p>The specified dimensions given may differ from the dimensions specified in the resource itself,
+  since the resource may have a resolution that differs from the CSS pixel resolution. (On screens,
+  <a href=https://drafts.csswg.org/css-values/#px id="dimension-attributes:'px'-2" data-x-internal="'px'">CSS pixels</a> have a resolution of 96ppi, but in general the CSS pixel
+  resolution depends on the reading distance.) If both attributes are specified, then one of the
+  following statements must be true:</p>
+
+  <ul><li><span><var>specified width</var> - 0.5 ≤
+             <var>specified height</var> * <var>target ratio</var> ≤
+             <var>specified width</var> + 0.5</span><li><span><var>specified height</var> - 0.5 ≤
+             <var>specified width</var> / <var>target ratio</var> ≤
+             <var>specified height</var> + 0.5</span><li><span><var>specified height</var> = <var>specified width</var> = 0</span></ul>
+
+  <p>The <var>target ratio</var> is the ratio of the <a href=#intrinsic-width id=dimension-attributes:intrinsic-width>intrinsic width</a> to the
+  <a href=#intrinsic-height id=dimension-attributes:intrinsic-height>intrinsic height</a> in the resource. The <var>specified width</var> and <var>specified
+  height</var> are the values of the <code id=dimension-attributes:attr-dim-width><a href=#attr-dim-width>width</a></code> and <code id=dimension-attributes:attr-dim-height><a href=#attr-dim-height>height</a></code> attributes respectively.</p>
+
+  <p>The two attributes must be omitted if the resource in question does not have both an
+  <a href=#intrinsic-width id=dimension-attributes:intrinsic-width-2>intrinsic width</a> and an <a href=#intrinsic-height id=dimension-attributes:intrinsic-height-2>intrinsic height</a>.</p>
+
+  <p>If the two attributes are both zero, it indicates that the element is not intended for the user
+  (e.g. it might be a part of a service to count page views).</p>
+
+  <p class=note>The dimension attributes are not intended to be used to stretch the image.</p>
+
+  
+
+  <p><strong>User agent requirements</strong>: User agents are expected to use these attributes <a href=#dimRendering>as hints for the rendering</a>.</p>
+
+  <p>The <dfn id=dom-dim-width><code>width</code></dfn> and <dfn id=dom-dim-height><code>height</code></dfn> IDL attributes on the <code id=dimension-attributes:the-iframe-element-2><a href=#the-iframe-element>iframe</a></code>,
+  <code id=dimension-attributes:the-embed-element-2><a href=#the-embed-element>embed</a></code>, <code id=dimension-attributes:the-object-element-2><a href=#the-object-element>object</a></code>, and <code id=dimension-attributes:the-video-element-2><a href=#the-video-element>video</a></code> elements must <a href=#reflect id=dimension-attributes:reflect>reflect</a>
+  the respective content attributes of the same name.</p>
+
+  <p class=note>For <code id=dimension-attributes:the-iframe-element-3><a href=#the-iframe-element>iframe</a></code>, <code id=dimension-attributes:the-embed-element-3><a href=#the-embed-element>embed</a></code>, and <code id=dimension-attributes:the-object-element-3><a href=#the-object-element>object</a></code> the IDL
+  attributes are <code id=dimension-attributes:idl-domstring><a data-x-internal=idl-domstring href=https://heycam.github.io/webidl/#idl-DOMString>DOMString</a></code>; for <code id=dimension-attributes:the-video-element-3><a href=#the-video-element>video</a></code> the IDL attributes are <code id=dimension-attributes:idl-unsigned-long><a data-x-internal=idl-unsigned-long href=https://heycam.github.io/webidl/#idl-unsigned-long>unsigned long</a></code>.</p>
+
+  <p class=note>The corresponding IDL attributes for <code id=dimension-attributes:dom-img-height><a href=#dom-img-height>img</a></code> and
+  <code id=dimension-attributes:dom-input-height><a href=#dom-input-height>input</a></code> elements are defined in those respective elements'
+  sections, as they are slightly more specific to those elements' other behaviors.</p>
+
+  
+
+
+
+  <h3 id=tables>4.9 Tabular data<a href=#tables class=self-link></a></h3>
+
+
+  <h4 id=the-table-element>4.9.1 The <dfn><code>table</code></dfn> element<a href=#the-table-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-table-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-table-element:flow-content-2>Flow content</a>.<dd><a href=#palpable-content-2 id=the-table-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-table-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-table-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-table-element:concept-element-content-model>Content model</a>:<dd>In this order: optionally a <code id=the-table-element:the-caption-element><a href=#the-caption-element>caption</a></code> element, followed by zero or more
+   <code id=the-table-element:the-colgroup-element><a href=#the-colgroup-element>colgroup</a></code> elements, followed optionally by a <code id=the-table-element:the-thead-element><a href=#the-thead-element>thead</a></code> element, followed by
+   either zero or more <code id=the-table-element:the-tbody-element><a href=#the-tbody-element>tbody</a></code> elements or one or more <code id=the-table-element:the-tr-element><a href=#the-tr-element>tr</a></code> elements, followed
+   optionally by a <code id=the-table-element:the-tfoot-element><a href=#the-tfoot-element>tfoot</a></code> element, optionally intermixed with one or more
+   <a href=#script-supporting-elements-2 id=the-table-element:script-supporting-elements-2>script-supporting elements</a>.<dt><a href=#concept-element-tag-omission id=the-table-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-table-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-table-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-table-element:concept-element-dom>DOM interface</a>:<dd>
+<pre class=idl>[<a href=#htmlconstructor id=the-table-element:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmltableelement>HTMLTableElement</dfn> : <a href=#htmlelement id=the-table-element:htmlelement>HTMLElement</a> {
+  [<a href=#cereactions id=the-table-element:cereactions>CEReactions</a>] attribute <a href=#htmltablecaptionelement id=the-table-element:htmltablecaptionelement>HTMLTableCaptionElement</a>? <a href=#dom-table-caption id=the-table-element:dom-table-caption>caption</a>;
+  <a href=#htmltablecaptionelement id=the-table-element:htmltablecaptionelement-2>HTMLTableCaptionElement</a> <a href=#dom-table-createcaption id=the-table-element:dom-table-createcaption>createCaption</a>();
+  [<a href=#cereactions id=the-table-element:cereactions-2>CEReactions</a>] void <a href=#dom-table-deletecaption id=the-table-element:dom-table-deletecaption>deleteCaption</a>();
+
+  [<a href=#cereactions id=the-table-element:cereactions-3>CEReactions</a>] attribute <a href=#htmltablesectionelement id=the-table-element:htmltablesectionelement>HTMLTableSectionElement</a>? <a href=#dom-table-thead id=the-table-element:dom-table-thead>tHead</a>;
+  <a href=#htmltablesectionelement id=the-table-element:htmltablesectionelement-2>HTMLTableSectionElement</a> <a href=#dom-table-createthead id=the-table-element:dom-table-createthead>createTHead</a>();
+  [<a href=#cereactions id=the-table-element:cereactions-4>CEReactions</a>] void <a href=#dom-table-deletethead id=the-table-element:dom-table-deletethead>deleteTHead</a>();
+
+  [<a href=#cereactions id=the-table-element:cereactions-5>CEReactions</a>] attribute <a href=#htmltablesectionelement id=the-table-element:htmltablesectionelement-3>HTMLTableSectionElement</a>? <a href=#dom-table-tfoot id=the-table-element:dom-table-tfoot>tFoot</a>;
+  <a href=#htmltablesectionelement id=the-table-element:htmltablesectionelement-4>HTMLTableSectionElement</a> <a href=#dom-table-createtfoot id=the-table-element:dom-table-createtfoot>createTFoot</a>();
+  [<a href=#cereactions id=the-table-element:cereactions-6>CEReactions</a>] void <a href=#dom-table-deletetfoot id=the-table-element:dom-table-deletetfoot>deleteTFoot</a>();
+
+  [SameObject] readonly attribute <a id=the-table-element:htmlcollection href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-table-tbodies id=the-table-element:dom-table-tbodies>tBodies</a>;
+  <a href=#htmltablesectionelement id=the-table-element:htmltablesectionelement-5>HTMLTableSectionElement</a> <a href=#dom-table-createtbody id=the-table-element:dom-table-createtbody>createTBody</a>();
+
+  [SameObject] readonly attribute <a id=the-table-element:htmlcollection-2 href=https://dom.spec.whatwg.org/#interface-htmlcollection data-x-internal=htmlcollection>HTMLCollection</a> <a href=#dom-table-rows id=the-table-element:dom-table-rows>rows</a>;
+  <a href=#htmltablerowelement id=the-table-element:htmltablerowelement>HTMLTableRowElement</a> <a href=#dom-table-insertrow id=the-table-element:dom-table-insertrow>insertRow</a>(optional long index = -1);
+  [<a href=#cereactions id=the-table-element:cereactions-7>CEReactions</a>] void <a href=#dom-table-deleterow id=the-table-element:dom-table-deleterow>deleteRow</a>(long index);
+
+  // <a href="#HTMLTableElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>The <code id=the-table-element:the-table-element><a href=#the-table-element>table</a></code> element <a href=#represents id=the-table-element:represents>represents</a> data with more than one dimension, in
+  the form of a <a href=#concept-table id=the-table-element:concept-table>table</a>.</p>
+
+  <p>The <code id=the-table-element:the-table-element-2><a href=#the-table-element>table</a></code> element takes part in the <a href=#table-model id=the-table-element:table-model>table
+  model</a>. Tables have rows, columns, and cells given by their descendants. The rows and
+  columns form a grid; a table's cells must completely cover that grid without overlap.</p>
+
+  
+
+  <p class=note>Precise rules for determining whether this conformance requirement is met are
+  described in the description of the <a href=#table-model id=the-table-element:table-model-2>table model</a>.</p>
+
+  
+
+  <p>Authors are encouraged to provide information describing how to interpret complex tables.
+  Guidance on how to <a href=#table-descriptions-techniques>provide such information</a> is given
+  below.</p>
+
+  <p>Tables must not be used as layout aids. Historically, some Web authors have misused tables in
+  HTML as a way to control their page layout. This usage is non-conforming, because tools attempting
+  to extract tabular data from such documents would obtain very confusing results. In particular,
+  users of accessibility tools like screen readers are likely to find it very difficult to navigate
+  pages with tables used for layout.</p>
+
+  <p class=note>There are a variety of alternatives to using HTML tables for layout, primarily
+  using CSS positioning and the CSS table model. <a href=#refsCSS>[CSS]</a></p>
+
+  
+
+  <hr>
+
+  <p>Tables can be complicated to understand and navigate. To help users with this, user agents
+  should clearly delineate cells in a table from each other, unless the user agent has classified
+  the table as a (non-conforming) layout table.</p>
+
+  
+
+  <p class=note>Authors and implementors are encouraged to consider
+  using some of the <a href=#table-layout-techniques>table design techniques</a> described below
+  to make tables easier to navigate for users.</p>
+
+  
+
+  <p>User agents, especially those that do table analysis on arbitrary content, are encouraged to
+  find heuristics to determine which tables actually contain data and which are merely being used
+  for layout. This specification does not define a precise heuristic, but the following are
+  suggested as possible indicators:</p>
+
+  <table><thead><tr><th>Feature
+     <th>Indication
+   <tbody><tr><td>The use of the <code id=the-table-element:attr-aria-role><a href=#attr-aria-role>role</a></code> attribute with the value <code id=the-table-element:attr-aria-role-presentation><a data-x-internal=attr-aria-role-presentation href=https://w3c.github.io/aria/aria/aria.html#presentation>presentation</a></code>
+     <td>Probably a layout table
+    <tr><td>The use of the non-conforming <code id=the-table-element:attr-table-border><a href=#attr-table-border>border</a></code> attribute with the non-conforming value 0
+     <td>Probably a layout table
+    <tr><td>The use of the non-conforming <code id=the-table-element:attr-table-cellspacing><a href=#attr-table-cellspacing>cellspacing</a></code> and
+     <code id=the-table-element:attr-table-cellpadding><a href=#attr-table-cellpadding>cellpadding</a></code> attributes with the value 0
+     <td>Probably a layout table
+   <tbody><tr><td>The use of <code id=the-table-element:the-caption-element-2><a href=#the-caption-element>caption</a></code>, <code id=the-table-element:the-thead-element-2><a href=#the-thead-element>thead</a></code>, or <code id=the-table-element:the-th-element><a href=#the-th-element>th</a></code> elements
+     <td>Probably a non-layout table
+    <tr><td>The use of the <code id=the-table-element:attr-tdth-headers><a href=#attr-tdth-headers>headers</a></code> and <code id=the-table-element:attr-th-scope><a href=#attr-th-scope>scope</a></code> attributes
+     <td>Probably a non-layout table
+    <tr><td>The use of the non-conforming <code id=the-table-element:attr-table-border-2><a href=#attr-table-border>border</a></code> attribute with a value other than 0
+     <td>Probably a non-layout table
+    <tr><td>Explicit visible borders set using CSS
+     <td>Probably a non-layout table
+   <tbody><tr><td>The use of the <code id=the-table-element:attr-table-summary><a href=#attr-table-summary>summary</a></code> attribute
+     <td>Not a good indicator (both layout and non-layout tables have historically been given this attribute)
+  </table>
+
+  <p class=note>It is quite possible that the above suggestions are wrong. Implementors are urged
+  to provide feedback elaborating on their experiences with trying to create a layout table
+  detection heuristic.</p>
+
+  <p>If a <code id=the-table-element:the-table-element-3><a href=#the-table-element>table</a></code> element has a (non-conforming) <code id=the-table-element:attr-table-summary-2><a href=#attr-table-summary>summary</a></code> attribute, and the user agent has not classified the
+  table as a layout table, the user agent may report the contents of that attribute to the user.</p>
+
+  
+
+  <hr>
+
+
+  <dl class=domintro><dt><var>table</var> . <code id=the-table-element:dom-table-caption-2><a href=#dom-table-caption>caption</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the table's <code id=the-table-element:the-caption-element-3><a href=#the-caption-element>caption</a></code> element.</p>
+
+    <p>Can be set, to replace the <code id=the-table-element:the-caption-element-4><a href=#the-caption-element>caption</a></code> element.</p>
+
+   <dt><var>caption</var> = <var>table</var> . <code id=the-table-element:dom-table-createcaption-2><a href=#dom-table-createcaption>createCaption</a></code>()<dd>
+
+    <p>Ensures the table has a <code id=the-table-element:the-caption-element-5><a href=#the-caption-element>caption</a></code> element, and returns it.</p>
+

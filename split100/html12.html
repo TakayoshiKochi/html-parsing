@@ -1,0 +1,850 @@
+   &lt;p>While I'm thinking about it, I wanted to say something about
+   posting. Posting is fun!&lt;/p>
+  &lt;/aside>
+  &lt;footer>
+   &lt;p>&lt;a href="/first-post" rel=bookmark>Permalink&lt;/a>
+  &lt;/footer>
+ &lt;/article>
+ &lt;footer>
+  &lt;nav>
+   &lt;a href="/archives">Archives&lt;/a> —
+   &lt;a href="/about">About me&lt;/a> —
+   &lt;a href="/copyright">Copyright&lt;/a>
+  &lt;/nav>
+ &lt;/footer>
+&lt;/body></pre>
+
+  </div>
+
+
+
+  <h4 id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>4.3.6 The <dfn id=the-h1-element><code>h1</code></dfn>, <dfn id=the-h2-element><code>h2</code></dfn>, <dfn id=the-h3-element><code>h3</code></dfn>, <dfn id=the-h4-element><code>h4</code></dfn>, <dfn id=the-h5-element><code>h5</code></dfn>, and
+  <dfn id=the-h6-element><code>h6</code></dfn> elements<a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:flow-content-2>Flow content</a>.<dd><a href=#heading-content-2 id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:heading-content-2>Heading content</a>.<dd><a href=#palpable-content-2 id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:concept-element-contexts>Contexts in which this element can be used</a>:<dd>As a child of an <code id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code> element.<dd>Where <a href=#flow-content-2 id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:concept-element-content-model>Content model</a>:<dd><a href=#phrasing-content-2 id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:phrasing-content-2>Phrasing content</a>.<dt><a href=#concept-element-tag-omission id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:concept-element-dom>DOM interface</a>:<dd>
+    <pre class=idl>[<a href=#htmlconstructor id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:htmlconstructor>HTMLConstructor</a>]
+interface <dfn id=htmlheadingelement>HTMLHeadingElement</dfn> : <a href=#htmlelement id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:htmlelement>HTMLElement</a> {
+  // <a href="#HTMLHeadingElement-partial">also has obsolete members</a>
+};</pre>
+   </dl>
+
+  <p>These elements <a href=#represents id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:represents>represent</a> headings for their sections.</p>
+
+  <p>The semantics and meaning of these elements are defined in the section on <a href=#headings-and-sections id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:headings-and-sections>headings and
+  sections</a>.</p>
+
+  <p>These elements have a <dfn id=rank>rank</dfn> given by the number in their name. The <code id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>
+  element is said to have the highest rank, the <code id=the-h1,-h2,-h3,-h4,-h5,-and-h6-elements:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> element has the lowest rank, and two
+  elements with the same name have equal rank.</p>
+
+  <div class=example>
+
+   <p>As far as their respective document outlines (their heading and section structures) are
+   concerned, these two snippets are semantically equivalent:</p>
+
+   <pre>&lt;body>
+&lt;h1>Let's call it a draw(ing surface)&lt;/h1>
+&lt;h2>Diving in&lt;/h2>
+&lt;h2>Simple shapes&lt;/h2>
+&lt;h2>Canvas coordinates&lt;/h2>
+&lt;h3>Canvas coordinates diagram&lt;/h3>
+&lt;h2>Paths&lt;/h2>
+&lt;/body></pre>
+
+   <pre>&lt;body>
+ &lt;h1>Let's call it a draw(ing surface)&lt;/h1>
+ &lt;section>
+  &lt;h1>Diving in&lt;/h1>
+ &lt;/section>
+ &lt;section>
+  &lt;h1>Simple shapes&lt;/h1>
+ &lt;/section>
+ &lt;section>
+  &lt;h1>Canvas coordinates&lt;/h1>
+  &lt;section>
+   &lt;h1>Canvas coordinates diagram&lt;/h1>
+  &lt;/section>
+ &lt;/section>
+ &lt;section>
+  &lt;h1>Paths&lt;/h1>
+ &lt;/section>
+&lt;/body></pre>
+
+   <p>Authors might prefer the former style for its terseness, or the latter style for its
+   convenience in the face of heavy editing; which is best is purely an issue of preferred authoring
+   style.</p>
+
+   <p>The two styles can be combined, for compatibility with legacy tools while still
+   future-proofing for when that compatibility is no longer needed. This third snippet again has the
+   same outline as the previous two:</p>
+
+   <pre>&lt;body>
+ &lt;h1>Let's call it a draw(ing surface)&lt;/h1>
+ &lt;section>
+  &lt;h2>Diving in&lt;/h2>
+ &lt;/section>
+ &lt;section>
+  &lt;h2>Simple shapes&lt;/h2>
+ &lt;/section>
+ &lt;section>
+  &lt;h2>Canvas coordinates&lt;/h2>
+  &lt;section>
+   &lt;h3>Canvas coordinates diagram&lt;/h3>
+  &lt;/section>
+ &lt;/section>
+ &lt;section>
+  &lt;h2>Paths&lt;/h2>
+ &lt;/section>
+&lt;/body></pre>
+
+  </div>
+
+
+
+
+  <h4 id=the-hgroup-element>4.3.7 The <dfn><code>hgroup</code></dfn> element<a href=#the-hgroup-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-hgroup-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-hgroup-element:flow-content-2>Flow content</a>.<dd><a href=#heading-content-2 id=the-hgroup-element:heading-content-2>Heading content</a>.<dd><a href=#palpable-content-2 id=the-hgroup-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-hgroup-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-hgroup-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-hgroup-element:concept-element-content-model>Content model</a>:<dd>One or more <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>, <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h2</a></code>, <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-3><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h3</a></code>, <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-4><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h4</a></code>, <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-5><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h5</a></code>, <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-6><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code>, and <code id=the-hgroup-element:the-template-element><a href=#the-template-element>template</a></code> elements.<dt><a href=#concept-element-tag-omission id=the-hgroup-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-hgroup-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-hgroup-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-hgroup-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-hgroup-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-hgroup-element:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code> element <a href=#represents id=the-hgroup-element:represents>represents</a> the heading of a section, which
+  consists of all the <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-7><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-8><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> element children of the
+  <code id=the-hgroup-element:the-hgroup-element-2><a href=#the-hgroup-element>hgroup</a></code> element. The element is used to group a set of
+  <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-9><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-10><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> elements when the heading has multiple levels, such as
+  subheadings, alternative titles, or taglines.</p>
+
+  <p>The <a href=#rank id=the-hgroup-element:rank>rank</a> of an <code id=the-hgroup-element:the-hgroup-element-3><a href=#the-hgroup-element>hgroup</a></code> element is the rank of the highest-ranked
+  <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-11><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-12><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> element descendant of the <code id=the-hgroup-element:the-hgroup-element-4><a href=#the-hgroup-element>hgroup</a></code> element, if
+  there are any such elements, or otherwise the same as for an <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-13><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> element (the highest
+  rank). Other <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-14><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-15><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> elements of <a href=#heading-content-2 id=the-hgroup-element:heading-content-2-2>heading content</a> in the
+  <code id=the-hgroup-element:the-hgroup-element-5><a href=#the-hgroup-element>hgroup</a></code> element indicate subheadings or subtitles or (secondary) alternative
+  titles.</p>
+
+  <p>The section on <a href=#headings-and-sections id=the-hgroup-element:headings-and-sections>headings and sections</a> defines how <code id=the-hgroup-element:the-hgroup-element-6><a href=#the-hgroup-element>hgroup</a></code> elements are
+  assigned to individual sections.</p>
+
+  <div class=example>
+
+   <p>Here are some examples of valid headings.</p>
+
+    <pre>&lt;hgroup>
+ &lt;h1>The reality dysfunction&lt;/h1>
+ &lt;h2>Space is not the only void&lt;/h2>
+&lt;/hgroup></pre>
+
+    <pre>&lt;hgroup>
+ &lt;h1>Dr. Strangelove&lt;/h1>
+ &lt;h2>Or: How I Learned to Stop Worrying and Love the Bomb&lt;/h2>
+&lt;/hgroup></pre>
+
+   <p>The point of using <code id=the-hgroup-element:the-hgroup-element-7><a href=#the-hgroup-element>hgroup</a></code> in these examples is to mask the <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-16><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h2</a></code>
+   element (which acts as a secondary title) from the <a href=#outline id=the-hgroup-element:outline>outline</a> algorithm.</p>
+   
+
+   <p>How a user agent exposes such multi-level headings in user interfaces (e.g. in tables of
+   contents or search results) is left open to implementors, as it is a user interface issue. The
+   first example above could be rendered as:</p>
+
+   <pre>The reality dysfunction: Space is not the only void</pre>
+
+   <p>Alternatively, it could look like this:
+
+   <pre>The reality dysfunction (Space is not the only void)</pre>
+
+   <p>In interfaces where a title can be rendered on multiple lines, it could be rendered as
+   follows, maybe with the first line in a bigger font size:</p>
+
+   <pre>The reality dysfunction
+Space is not the only void</pre>
+
+  </div>
+
+  <div class=example>
+   <p>The following two examples show ways in which two <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-17><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> headings could be used
+   within an <code id=the-hgroup-element:the-hgroup-element-8><a href=#the-hgroup-element>hgroup</a></code> element to group the US and UK names for the same movie.</p>
+
+   <pre>&lt;hgroup>
+ &lt;h1>The Avengers&lt;/h1>
+ &lt;h1>Avengers Assemble&lt;/h1>
+&lt;/hgroup>
+
+&lt;hgroup>
+ &lt;h1>Avengers Assemble&lt;/h1>
+ &lt;h1>The Avengers&lt;/h1>
+&lt;/hgroup></pre>
+
+   <p>The first example above shows how the movie names might be grouped in a publication in the US,
+   with the US name <i>The Avengers</i> as the (primary) title, and the UK name <i>Avengers
+   Assemble</i> as the (secondary) alternative title. The second example above shows how the movie
+   names might be grouped in a publication in the UK, with the UK name as the (primary) title, and
+   the US name as the (secondary) alternative title.</p>
+
+   <p>In both cases it is important to note the use of the <code id=the-hgroup-element:the-hgroup-element-9><a href=#the-hgroup-element>hgroup</a></code> element to group the
+   two titles indicates that the titles are not equivalent; instead the first <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-18><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> gives
+   the (primary) title while the second gives the (secondary) alternative title. Even though both the
+   title and alternative title are marked up with <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-19><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> elements, the second
+   <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-20><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> in the <code id=the-hgroup-element:the-hgroup-element-10><a href=#the-hgroup-element>hgroup</a></code> will be masked from the <a href=#outline id=the-hgroup-element:outline-2>outline</a>
+   algorithm, and it would be reasonable in some contexts to render the contents of the second
+   <code id=the-hgroup-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-21><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> in way that clearly indicates it is secondary; for example:
+
+   <p>In a US publication:</p>
+   <pre>The Avengers (Avengers Assemble)</pre>
+
+   <p>In a UK publication:</p>
+   <pre>Avengers Assemble (The Avengers)</pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>In the following example, an <code id=the-hgroup-element:the-hgroup-element-11><a href=#the-hgroup-element>hgroup</a></code> element is used to mark up a two-level
+   heading in a wizard-style dialog box:</p>
+
+   <pre>&lt;dialog onclose="walletSetup.continue(this.returnValue)">
+ &lt;hgroup>
+  &lt;h1>Wallet Setup&lt;/h1>
+  &lt;h2>Configure your Wallet funding source&lt;/h2>
+ &lt;/hgroup>
+ &lt;p>Your Wallet can be used to buy wands at the merchant in town, to buy potions from travelling
+ salesmen you may find in the dungeons, and to pay for mercenaries.&lt;/p>
+ &lt;p>We support two payment sources:&lt;/p>
+ &lt;form method=dialog>
+  &lt;fieldset oninput="this.getElementsByTagName('input')[0].checked = true">
+   &lt;legend> &lt;label> &lt;input type=radio name=payment-type value=cc> Credit Card &lt;/label> &lt;/legend>
+   &lt;p>&lt;label>Name on card: &lt;input name=cc1 autocomplete="section-cc cc-name" placeholder="Y. Name">&lt;/label>
+   &lt;p>&lt;label>Card number: &lt;input name=cc2 inputmode=numeric autocomplete="section-cc cc-number" placeholder="6331 1019 9999 0016">&lt;/label>
+   &lt;p>&lt;label>Expiry Date: &lt;input name=cc3 type=month autocomplete="section-cc cc-exp" placeholder="2020-02">&lt;/label>
+   &lt;p>&lt;label>Security Code: &lt;input name=cc4 inputmode=numeric autocomplete="section-cc cc-csc" placeholder="246">&lt;/label>
+  &lt;/fieldset>
+  &lt;fieldset oninput="this.getElementsByTagName('input')[0].checked = true">
+   &lt;legend> &lt;label> &lt;input type=radio name=payment-type value=bank> Checking Account &lt;/label> &lt;/legend>
+   &lt;p>&lt;label>Name on account: &lt;input name=bank1 autocomplete="section-bank cc-name">&lt;/label>
+   &lt;p>&lt;label>Routing number: &lt;input name=bank2 inputmode=numeric>&lt;/label>
+   &lt;p>&lt;label>Account number: &lt;input name=bank3 inputmode=numeric>&lt;/label>
+  &lt;/fieldset>
+  &lt;button type=submit value="back"> ← Back &lt;/button>
+  &lt;button type=submit value="next"> Next → &lt;/button>
+ &lt;/form>
+&lt;/dialog></pre>
+
+  </div>
+
+
+
+  <h4 id=the-header-element>4.3.8 The <dfn><code>header</code></dfn> element<a href=#the-header-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-header-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-header-element:flow-content-2>Flow content</a>.<dd><a href=#palpable-content-2 id=the-header-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-header-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-header-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-header-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-header-element:flow-content-2-3>Flow content</a>, but with no <code id=the-header-element:the-header-element><a href=#the-header-element>header</a></code>, <code id=the-header-element:the-footer-element><a href=#the-footer-element>footer</a></code>, or <code id=the-header-element:the-main-element><a href=#the-main-element>main</a></code> element descendants.<dt><a href=#concept-element-tag-omission id=the-header-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-header-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-header-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-header-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-header-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-header-element:the-header-element-2><a href=#the-header-element>header</a></code> element <a href=#represents id=the-header-element:represents>represents</a> a group of introductory or navigational
+  aids.</p>
+
+  <p class=note>A <code id=the-header-element:the-header-element-3><a href=#the-header-element>header</a></code> element is intended to usually contain the section's heading
+  (an <code id=the-header-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=the-header-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> element or an <code id=the-header-element:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code> element), but this is
+  not required. The <code id=the-header-element:the-header-element-4><a href=#the-header-element>header</a></code> element can also be used to wrap a section's table of
+  contents, a search form, or any relevant logos.</p>
+
+  <div class=example>
+
+  <p>Here are some sample headers. This first one is for a game:</p>
+
+   <pre>&lt;header>
+ &lt;p>Welcome to...&lt;/p>
+ &lt;h1>Voidwars!&lt;/h1>
+&lt;/header></pre>
+
+   <p>The following snippet shows how the element can be used to mark
+   up a specification's header:</p>
+
+   <pre>&lt;header>
+ &lt;hgroup>
+  &lt;h1>Fullscreen API&lt;/h1>
+  &lt;h2>Living Standard — Last Updated 19 October 2015&lt;/h2>
+ &lt;/hgroup>
+ &lt;dl>
+  &lt;dt>Participate:&lt;/dt>
+  &lt;dd>&lt;a href="https://github.com/whatwg/fullscreen">GitHub whatwg/fullscreen&lt;/a>&lt;/dd>
+  &lt;dt>Commits:&lt;/dt>
+  &lt;dd>&lt;a href="https://github.com/whatwg/fullscreen/commits">GitHub whatwg/fullscreen/commits&lt;/a>&lt;/dd>
+ &lt;/dl>
+&lt;/header></pre>
+
+  </div>
+
+  <p class=note>The <code id=the-header-element:the-header-element-5><a href=#the-header-element>header</a></code> element is not <a href=#sectioning-content-2 id=the-header-element:sectioning-content-2>sectioning content</a>; it doesn't
+  introduce a new section.</p>
+
+  <div class=example>
+
+  <p>In this example, the page has a page heading given by the <code id=the-header-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-3><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> element, and two
+  subsections whose headings are given by <code id=the-header-element:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-4><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h2</a></code> elements. The content after the
+  <code id=the-header-element:the-header-element-6><a href=#the-header-element>header</a></code> element is still part of the last subsection started in the
+  <code id=the-header-element:the-header-element-7><a href=#the-header-element>header</a></code> element, because the <code id=the-header-element:the-header-element-8><a href=#the-header-element>header</a></code> element doesn't take part in the
+  <a href=#outline id=the-header-element:outline>outline</a> algorithm.</p>
+
+   <pre>&lt;body>
+ &lt;header>
+  &lt;h1>Little Green Guys With Guns&lt;/h1>
+  &lt;nav>
+   &lt;ul>
+    &lt;li>&lt;a href="/games">Games&lt;/a>
+    &lt;li>&lt;a href="/forum">Forum&lt;/a>
+    &lt;li>&lt;a href="/download">Download&lt;/a>
+   &lt;/ul>
+  &lt;/nav>
+  &lt;h2>Important News&lt;/h2> &lt;!-- this starts a second subsection -->
+  &lt;!-- this is part of the subsection entitled "Important News" -->
+  &lt;p>To play today's games you will need to update your client.&lt;/p>
+  &lt;h2>Games&lt;/h2> &lt;!-- this starts a third subsection -->
+ &lt;/header>
+ &lt;p>You have three active games:&lt;/p>
+ &lt;!-- this is still part of the subsection entitled "Games" -->
+ ...</pre>
+
+  </div>
+
+
+
+
+  <h4 id=the-footer-element>4.3.9 The <dfn><code>footer</code></dfn> element<a href=#the-footer-element class=self-link></a></h4><div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=bugs><strong>Spec bugs:</strong> <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=12990" title="Nested <footer>s might make sense in some cases, but are currently disallowed">12990</a></div>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-footer-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-footer-element:flow-content-2>Flow content</a>.<dd><a href=#palpable-content-2 id=the-footer-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-footer-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-footer-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-footer-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-footer-element:flow-content-2-3>Flow content</a>, but with no <code id=the-footer-element:the-header-element><a href=#the-header-element>header</a></code>, <code id=the-footer-element:the-footer-element><a href=#the-footer-element>footer</a></code>, or <code id=the-footer-element:the-main-element><a href=#the-main-element>main</a></code> element descendants.<dt><a href=#concept-element-tag-omission id=the-footer-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-footer-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-footer-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-footer-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-footer-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-footer-element:the-footer-element-2><a href=#the-footer-element>footer</a></code> element <a href=#represents id=the-footer-element:represents>represents</a> a footer for its nearest ancestor
+  <a href=#sectioning-content-2 id=the-footer-element:sectioning-content-2>sectioning content</a> or <a href=#sectioning-root id=the-footer-element:sectioning-root>sectioning root</a> element. A footer typically
+  contains information about its section such as who wrote it, links to related documents, copyright
+  data, and the like.</p>
+
+  <p>When the <code id=the-footer-element:the-footer-element-3><a href=#the-footer-element>footer</a></code> element contains entire sections, they <a href=#represents id=the-footer-element:represents-2>represent</a> appendices, indexes, long colophons, verbose license
+  agreements, and other such content.</p>
+
+  <p class=note>Contact information for the author or editor of a section belongs in an
+  <code id=the-footer-element:the-address-element><a href=#the-address-element>address</a></code> element, possibly itself inside a <code id=the-footer-element:the-footer-element-4><a href=#the-footer-element>footer</a></code>. Bylines and other
+  information that could be suitable for both a <code id=the-footer-element:the-header-element-2><a href=#the-header-element>header</a></code> or a <code id=the-footer-element:the-footer-element-5><a href=#the-footer-element>footer</a></code> can be
+  placed in either (or neither). The primary purpose of these elements is merely to help the author
+  write self-explanatory markup that is easy to maintain and style; they are not intended to impose
+  specific structures on authors.</p>
+
+  <p>Footers don't necessarily have to appear at the <em>end</em> of a section, though they usually
+  do.</p>
+
+  <p>When the nearest ancestor <a href=#sectioning-content-2 id=the-footer-element:sectioning-content-2-2>sectioning content</a> or <a href=#sectioning-root id=the-footer-element:sectioning-root-2>sectioning root</a>
+  element is <a href=#the-body-element-2 id=the-footer-element:the-body-element-2>the body element</a>, then it applies to the whole page.</p>
+
+  <p class=note>The <code id=the-footer-element:the-footer-element-6><a href=#the-footer-element>footer</a></code> element is not <a href=#sectioning-content-2 id=the-footer-element:sectioning-content-2-3>sectioning content</a>; it doesn't
+  introduce a new section.</p>
+
+  <div class=example>
+
+   <p>Here is a page with two footers, one at the top and one at the bottom, with the same
+   content:</p>
+
+   <pre>&lt;body>
+ &lt;footer>&lt;a href="../">Back to index...&lt;/a>&lt;/footer>
+ &lt;hgroup>
+  &lt;h1>Lorem ipsum&lt;/h1>
+  &lt;h2>The ipsum of all lorems&lt;/h2>
+ &lt;/hgroup>
+ &lt;p>A dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+ veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+ ea commodo consequat. Duis aute irure dolor in reprehenderit in
+ voluptate velit esse cillum dolore eu fugiat nulla
+ pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+ culpa qui officia deserunt mollit anim id est laborum.&lt;/p>
+ &lt;footer>&lt;a href="../">Back to index...&lt;/a>&lt;/footer>
+&lt;/body></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Here is an example which shows the <code id=the-footer-element:the-footer-element-7><a href=#the-footer-element>footer</a></code> element being used both for a site-wide
+   footer and for a section footer.</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;HTML LANG="en">&lt;HEAD>
+&lt;TITLE>The Ramblings of a Scientist&lt;/TITLE>
+&lt;BODY>
+&lt;H1>The Ramblings of a Scientist&lt;/H1>
+&lt;ARTICLE>
+ &lt;H1>Episode 15&lt;/H1>
+ &lt;VIDEO SRC="/fm/015.ogv" CONTROLS PRELOAD>
+  &lt;P>&lt;A HREF="/fm/015.ogv">Download video&lt;/A>.&lt;/P>
+ &lt;/VIDEO>
+ &lt;FOOTER> &lt;!-- footer for article -->
+  &lt;P>Published &lt;TIME DATETIME="2009-10-21T18:26-07:00">on 2009/10/21 at 6:26pm&lt;/TIME>&lt;/P>
+ &lt;/FOOTER>
+&lt;/ARTICLE>
+&lt;ARTICLE>
+ &lt;H1>My Favorite Trains&lt;/H1>
+ &lt;P>I love my trains. My favorite train of all time is a Köf.&lt;/P>
+ &lt;P>It is fun to see them pull some coal cars because they look so
+ dwarfed in comparison.&lt;/P>
+ &lt;FOOTER> &lt;!-- footer for article -->
+  &lt;P>Published &lt;TIME DATETIME="2009-09-15T14:54-07:00">on 2009/09/15 at 2:54pm&lt;/TIME>&lt;/P>
+ &lt;/FOOTER>
+&lt;/ARTICLE>
+&lt;FOOTER> &lt;!-- site wide footer -->
+ &lt;NAV>
+  &lt;P>&lt;A HREF="/credits.html">Credits&lt;/A> —
+     &lt;A HREF="/tos.html">Terms of Service&lt;/A> —
+     &lt;A HREF="/index.html">Blog Index&lt;/A>&lt;/P>
+ &lt;/NAV>
+ &lt;P>Copyright © 2009 Gordon Freeman&lt;/P>
+&lt;/FOOTER>
+&lt;/BODY>
+&lt;/HTML></pre>
+
+  </div>
+
+  <div class=example>
+
+   <p>Some site designs have what is sometimes referred to as "fat footers" — footers that
+   contain a lot of material, including images, links to other articles, links to pages for sending
+   feedback, special offers... in some ways, a whole "front page" in the footer.</p>
+
+   <p>This fragment shows the bottom of a page on a site with a "fat footer":</p>
+
+   <pre>...
+ &lt;footer>
+  &lt;nav>
+   &lt;section>
+    &lt;h1>Articles&lt;/h1>
+    &lt;p>&lt;img src="images/somersaults.jpeg" alt=""> Go to the gym with
+    our somersaults class! Our teacher Jim takes you through the paces
+    in this two-part article. &lt;a href="articles/somersaults/1">Part
+    1&lt;/a> · &lt;a href="articles/somersaults/2">Part 2&lt;/a>&lt;/p>
+    &lt;p>&lt;img src="images/kindplus.jpeg"> Tired of walking on the edge of
+    a clif&lt;!-- sic -->? Our guest writer Lara shows you how to bumble
+    your way through the bars. &lt;a href="articles/kindplus/1">Read
+    more...&lt;/a>&lt;/p>
+    &lt;p>&lt;img src="images/crisps.jpeg"> The chips are down, now all
+    that's left is a potato. What can you do with it? &lt;a
+    href="articles/crisps/1">Read more...&lt;/a>&lt;/p>
+   &lt;/section>
+   &lt;ul>
+    &lt;li> &lt;a href="/about">About us...&lt;/a>
+    &lt;li> &lt;a href="/feedback">Send feedback!&lt;/a>
+    &lt;li> &lt;a href="/sitemap">Sitemap&lt;/a>
+   &lt;/ul>
+  &lt;/nav>
+  &lt;p>&lt;small>Copyright © 2015 The Snacker —
+  &lt;a href="/tos">Terms of Service&lt;/a>&lt;/small>&lt;/p>
+ &lt;/footer>
+&lt;/body></pre>
+
+  </div>
+
+
+  <h4 id=the-address-element>4.3.10 The <dfn><code>address</code></dfn> element<a href=#the-address-element class=self-link></a></h4>
+
+  <dl class=element><dt><a href=#concept-element-categories id=the-address-element:concept-element-categories>Categories</a>:<dd><a href=#flow-content-2 id=the-address-element:flow-content-2>Flow content</a>.<dd><a href=#palpable-content-2 id=the-address-element:palpable-content-2>Palpable content</a>.<dt><a href=#concept-element-contexts id=the-address-element:concept-element-contexts>Contexts in which this element can be used</a>:<dd>Where <a href=#flow-content-2 id=the-address-element:flow-content-2-2>flow content</a> is expected.<dt><a href=#concept-element-content-model id=the-address-element:concept-element-content-model>Content model</a>:<dd><a href=#flow-content-2 id=the-address-element:flow-content-2-3>Flow content</a>, but with no <a href=#heading-content-2 id=the-address-element:heading-content-2>heading
+   content</a> descendants, no <a href=#sectioning-content-2 id=the-address-element:sectioning-content-2>sectioning content</a>
+   descendants, and no <code id=the-address-element:the-header-element><a href=#the-header-element>header</a></code>, <code id=the-address-element:the-footer-element><a href=#the-footer-element>footer</a></code>, or
+   <code id=the-address-element:the-address-element><a href=#the-address-element>address</a></code> element descendants.<dt><a href=#concept-element-tag-omission id=the-address-element:concept-element-tag-omission>Tag omission in text/html</a>:<dd>Neither tag is omissible.<dt><a href=#concept-element-attributes id=the-address-element:concept-element-attributes>Content attributes</a>:<dd><a href=#global-attributes id=the-address-element:global-attributes>Global attributes</a><dt><a href=#concept-element-dom id=the-address-element:concept-element-dom>DOM interface</a>:<dd>Uses <code id=the-address-element:htmlelement><a href=#htmlelement>HTMLElement</a></code>.</dl>
+
+  <p>The <code id=the-address-element:the-address-element-2><a href=#the-address-element>address</a></code> element <a href=#represents id=the-address-element:represents>represents</a> the contact information for its
+  nearest <code id=the-address-element:the-article-element><a href=#the-article-element>article</a></code> or <code id=the-address-element:the-body-element><a href=#the-body-element>body</a></code> element ancestor. If that is <a href=#the-body-element-2 id=the-address-element:the-body-element-2>the body
+  element</a>, then the contact information applies to the document as a whole.</p>
+
+  <div class=example>
+   <p>For example, a page at the W3C Web site related to HTML might
+   include the following contact information:</p>
+   <pre>&lt;ADDRESS>
+ &lt;A href="../People/Raggett/">Dave Raggett&lt;/A>,
+ &lt;A href="../People/Arnaud/">Arnaud Le Hors&lt;/A>,
+ contact persons for the &lt;A href="Activity">W3C HTML Activity&lt;/A>
+&lt;/ADDRESS></pre>
+  </div>
+
+  <p>The <code id=the-address-element:the-address-element-3><a href=#the-address-element>address</a></code> element must not be used to represent arbitrary addresses (e.g. postal
+  addresses), unless those addresses are in fact the relevant contact information. (The
+  <code id=the-address-element:the-p-element><a href=#the-p-element>p</a></code> element is the appropriate element for marking up postal addresses in general.)</p>
+
+  <p>The <code id=the-address-element:the-address-element-4><a href=#the-address-element>address</a></code> element must not contain information other than contact
+  information.</p>
+
+  <div class=example>
+   <p>For example, the following is non-conforming use of the
+   <code id=the-address-element:the-address-element-5><a href=#the-address-element>address</a></code> element:</p>
+   <pre class=bad>&lt;ADDRESS>Last Modified: 1999/12/24 23:37:50&lt;/ADDRESS></pre>
+  </div>
+
+  <p>Typically, the <code id=the-address-element:the-address-element-6><a href=#the-address-element>address</a></code> element would be included along with other information in a
+  <code id=the-address-element:the-footer-element-2><a href=#the-footer-element>footer</a></code> element.</p>
+
+  
+
+  <p>The contact information for a node <var>node</var> is a collection of
+  <code id=the-address-element:the-address-element-7><a href=#the-address-element>address</a></code> elements defined by the first applicable entry from the following list:</p>
+
+  <dl class=switch><dt>If <var>node</var> is an <code id=the-address-element:the-article-element-2><a href=#the-article-element>article</a></code> element<dt>If <var>node</var> is a <code id=the-address-element:the-body-element-3><a href=#the-body-element>body</a></code> element<dd>
+
+    <p>The contact information consists of all the <code id=the-address-element:the-address-element-8><a href=#the-address-element>address</a></code> elements that have <var>node</var> as an ancestor and do not have another <code id=the-address-element:the-body-element-4><a href=#the-body-element>body</a></code> or
+    <code id=the-address-element:the-article-element-3><a href=#the-article-element>article</a></code> element ancestor that is a descendant of <var>node</var>.</p>
+
+   <dt>If <var>node</var> has an ancestor element that is an <code id=the-address-element:the-article-element-4><a href=#the-article-element>article</a></code> element<dt>If <var>node</var> has an ancestor element that is a <code id=the-address-element:the-body-element-5><a href=#the-body-element>body</a></code> element<dd>
+
+    <p>The contact information of <var>node</var> is the same as the contact information of
+    the nearest <code id=the-address-element:the-article-element-5><a href=#the-article-element>article</a></code> or <code id=the-address-element:the-body-element-6><a href=#the-body-element>body</a></code> element ancestor, whichever is
+    nearest.</p>
+
+   <dt>If <var>node</var>'s <a id=the-address-element:node-document href=https://dom.spec.whatwg.org/#concept-node-document data-x-internal=node-document>node document</a> has <a href=#the-body-element-2 id=the-address-element:the-body-element-2-2>a body
+   element</a><dd>
+
+    <p>The contact information of <var>node</var> is the same as the contact information of
+    <a href=#the-body-element-2 id=the-address-element:the-body-element-2-3>the body element</a> of the <code id=the-address-element:document><a href=#document>Document</a></code>.</p>
+
+   <dt>Otherwise<dd>
+
+    <p>There is no contact information for <var>node</var>.</p>
+
+   </dl>
+
+  <p>User agents may expose the contact information of a node to the user, or use it for other
+  purposes, such as indexing sections based on the sections' contact information.</p>
+
+  
+
+  <div class=example>
+
+   <p>In this example the footer contains contact information and a copyright notice.</p>
+
+   <pre>&lt;footer>
+ &lt;address>
+  For more details, contact
+  &lt;a href="mailto:js@example.com">John Smith&lt;/a>.
+ &lt;/address>
+ &lt;p>&lt;small>© copyright 2038 Example Corp.&lt;/small>&lt;/p>
+&lt;/footer></pre>
+
+  </div>
+
+
+
+  <h4 id=headings-and-sections>4.3.11 <dfn>Headings and sections</dfn><a href=#headings-and-sections class=self-link></a></h4>
+
+  <p>The <code id=headings-and-sections:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=headings-and-sections:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> elements and the <code id=headings-and-sections:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code> element are
+  headings.</p>
+
+  <p>The first element of <a href=#heading-content-2 id=headings-and-sections:heading-content-2>heading content</a> in an element of <a href=#sectioning-content-2 id=headings-and-sections:sectioning-content-2>sectioning
+  content</a> <a href=#represents id=headings-and-sections:represents>represents</a> the heading for that section. Subsequent headings of equal
+  or higher <a href=#rank id=headings-and-sections:rank>rank</a> start new (implied) sections, headings of lower <a href=#rank id=headings-and-sections:rank-2>rank</a>
+  start implied subsections that are part of the previous one. In both cases, the element
+  <a href=#represents id=headings-and-sections:represents-2>represents</a> the heading of the implied section.</p>
+
+  <p>Certain elements are said to be <dfn id=sectioning-root>sectioning roots</dfn>, including
+  <code id=headings-and-sections:the-blockquote-element><a href=#the-blockquote-element>blockquote</a></code> and <code id=headings-and-sections:the-td-element><a href=#the-td-element>td</a></code> elements. These elements can have their own outlines,
+  but the sections and headings inside these elements do not contribute to the outlines of their
+  ancestors.</p>
+
+  
+  <ul class="brief category-list"><li><code id=headings-and-sections:the-blockquote-element-2><a href=#the-blockquote-element>blockquote</a></code><li><code id=headings-and-sections:the-body-element><a href=#the-body-element>body</a></code><li><code id=headings-and-sections:the-details-element><a href=#the-details-element>details</a></code><li><code id=headings-and-sections:the-dialog-element><a href=#the-dialog-element>dialog</a></code><li><code id=headings-and-sections:the-fieldset-element><a href=#the-fieldset-element>fieldset</a></code><li><code id=headings-and-sections:the-figure-element><a href=#the-figure-element>figure</a></code><li><code id=headings-and-sections:the-td-element-2><a href=#the-td-element>td</a></code></ul>
+
+  
+
+  <p><a href=#sectioning-content-2 id=headings-and-sections:sectioning-content-2-2>Sectioning content</a> elements are always considered subsections of their nearest
+  ancestor <a href=#sectioning-root id=headings-and-sections:sectioning-root>sectioning root</a> or their nearest ancestor element of <a href=#sectioning-content-2 id=headings-and-sections:sectioning-content-2-3>sectioning
+  content</a>, whichever is nearest, regardless of what implied sections other headings may have
+  created.</p>
+
+  <div class=example>
+   <p>For the following fragment:</p>
+   <pre>&lt;body>
+ &lt;h1>Foo&lt;/h1>
+ &lt;h2>Bar&lt;/h2>
+ &lt;blockquote>
+  &lt;h3>Bla&lt;/h3>
+ &lt;/blockquote>
+ &lt;p>Baz&lt;/p>
+ &lt;h2>Quux&lt;/h2>
+ &lt;section>
+  &lt;h3>Thud&lt;/h3>
+ &lt;/section>
+ &lt;p>Grunt&lt;/p>
+&lt;/body></pre>
+   <p>...the structure would be:</p>
+   <ol><li>
+     Foo (heading of explicit <code id=headings-and-sections:the-body-element-2><a href=#the-body-element>body</a></code> section, containing the "Grunt" paragraph)
+     <ol><li>
+       Bar (heading starting implied section, containing a block quote and the "Baz" paragraph)
+      <li>
+       Quux (heading starting implied section with no content other than the heading itself)
+      <li>
+       Thud (heading of explicit <code id=headings-and-sections:the-section-element><a href=#the-section-element>section</a></code> section)
+      </ol>
+    </ol>
+   <p>Notice how the <code id=headings-and-sections:the-section-element-2><a href=#the-section-element>section</a></code> ends the earlier implicit section so that a later
+   paragraph ("Grunt") is back at the top level.</p>
+  </div>
+
+  <p>Sections may contain headings of any <a href=#rank id=headings-and-sections:rank-3>rank</a>, but authors are strongly encouraged to
+  either use only <code id=headings-and-sections:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-3><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code> elements, or to use elements of the appropriate <a href=#rank id=headings-and-sections:rank-4>rank</a>
+  for the section's nesting level.</p>
+
+  <p>Authors are also encouraged to explicitly wrap sections in elements of <a href=#sectioning-content-2 id=headings-and-sections:sectioning-content-2-4>sectioning
+  content</a>, instead of relying on the implicit sections generated by having multiple headings
+  in one element of <a href=#sectioning-content-2 id=headings-and-sections:sectioning-content-2-5>sectioning content</a>.</p>
+
+  <div class=example>
+   <p>For example, the following is correct:</p>
+
+   <pre>&lt;body>
+ &lt;h4>Apples&lt;/h4>
+ &lt;p>Apples are fruit.&lt;/p>
+ &lt;section>
+  &lt;h2>Taste&lt;/h2>
+  &lt;p>They taste lovely.&lt;/p>
+  &lt;h6>Sweet&lt;/h6>
+  &lt;p>Red apples are sweeter than green ones.&lt;/p>
+  &lt;h1>Color&lt;/h1>
+  &lt;p>Apples come in various colors.&lt;/p>
+ &lt;/section>
+&lt;/body></pre>
+
+   <p>However, the same document would be more clearly expressed as:</p>
+
+   <pre>&lt;body>
+ &lt;h1>Apples&lt;/h1>
+ &lt;p>Apples are fruit.&lt;/p>
+ &lt;section>
+  &lt;h2>Taste&lt;/h2>
+  &lt;p>They taste lovely.&lt;/p>
+  &lt;section>
+   &lt;h3>Sweet&lt;/h3>
+   &lt;p>Red apples are sweeter than green ones.&lt;/p>
+  &lt;/section>
+ &lt;/section>
+ &lt;section>
+  &lt;h2>Color&lt;/h2>
+  &lt;p>Apples come in various colors.&lt;/p>
+ &lt;/section>
+&lt;/body></pre>
+
+   <p>Both of the documents above are semantically identical and would produce the same outline in
+   compliant user agents.</p>
+
+   <p>This third example is also semantically identical, and might be easier to maintain (e.g. if
+   sections are often moved around in editing):</p>
+
+   <pre>&lt;body>
+ &lt;h1>Apples&lt;/h1>
+ &lt;p>Apples are fruit.&lt;/p>
+ &lt;section>
+  &lt;h1>Taste&lt;/h1>
+  &lt;p>They taste lovely.&lt;/p>
+  &lt;section>
+   &lt;h1>Sweet&lt;/h1>
+   &lt;p>Red apples are sweeter than green ones.&lt;/p>
+  &lt;/section>
+ &lt;/section>
+ &lt;section>
+  &lt;h1>Color&lt;/h1>
+  &lt;p>Apples come in various colors.&lt;/p>
+ &lt;/section>
+&lt;/body></pre>
+
+   <p>This final example would need explicit style rules to be rendered well in legacy browsers.
+   Legacy browsers without CSS support would render all the headings as top-level headings.</p>
+
+  </div>
+
+
+  <h5 id=outlines>4.3.11.1 Creating an outline<a href=#outlines class=self-link></a></h5>
+
+  
+
+  
+
+  <p>This section defines an algorithm for creating an outline for a <a href=#sectioning-content-2 id=outlines:sectioning-content-2>sectioning content</a>
+  element or a <a href=#sectioning-root id=outlines:sectioning-root>sectioning root</a> element. It is defined in terms of a walk over the nodes
+  of a DOM tree, in <a id=outlines:tree-order href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>, with each node being visited when it is <i>entered</i> and when it
+  is <i>exited</i> during the walk.</p>
+
+  
+
+  <p>The <dfn id=outline>outline</dfn> for a <a href=#sectioning-content-2 id=outlines:sectioning-content-2-2>sectioning content</a> element or a <a href=#sectioning-root id=outlines:sectioning-root-2>sectioning
+  root</a> element consists of a list of one or more potentially nested <a href=#concept-section id=outlines:concept-section>sections</a>. The element for which an <a href=#outline id=outlines:outline>outline</a> is created
+  is said to be <dfn id="the-outline's-owner">the outline's owner</dfn>.</p>
+
+  <p>A <dfn id=concept-section>section</dfn> is a container that corresponds to some nodes in
+  the original DOM tree. Each section can have one heading associated with it, and can contain any
+  number of further nested sections. The algorithm for the outline also
+  associates each node in the DOM tree with a particular section and potentially a heading.
+  (The sections in the outline aren't <code id=outlines:the-section-element><a href=#the-section-element>section</a></code> elements, though some may correspond to
+  such elements — they are merely conceptual sections.)</p>
+
+  <div class=example>
+
+   <p>The following markup fragment:</p>
+
+   <pre>&lt;body>
+  &lt;hgroup id="document-title">
+    &lt;h1>HTML&lt;/h1>
+    &lt;h2>Living Standard — Last Updated 12 August 2016&lt;/h2>
+  &lt;/hgroup>
+  &lt;p>Some intro to the document.&lt;/p>
+  &lt;h2>Table of contents&lt;/h2>
+  &lt;ol id=toc>...&lt;/ol>
+  &lt;h2>First section&lt;/h2>
+  &lt;p>Some intro to the first section.&lt;/p>
+&lt;/body></pre>
+
+   <p>...results in the following outline being created for the <code id=outlines:the-body-element><a href=#the-body-element>body</a></code> node (and thus the
+   entire document):</p>
+
+   <ol class=brief><li>
+     <p><strong>Section created for <code id=outlines:the-body-element-2><a href=#the-body-element>body</a></code> node</strong>.</p>
+     <p>Associated with heading <code>&lt;hgroup
+     id="document-title">...&lt;/hgroup></code> consisting of primary heading <code>&lt;h1>HTML&lt;/h1></code> and secondary heading <code>&lt;h2>Living
+     Standard — Last Updated 12 August 2016&lt;/h2></code>.</p>
+     <p>Also associated with the paragraph <code>&lt;p>Some intro to the
+     document.&lt;/p></code> (though it likely would not be shown in a rendered view of the
+     outline).</p>
+     <p>Nested sections:</p>
+     <ol class=brief><li>
+       <p><strong>Section implied for first <code id=outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h2</a></code> element.</strong></p>
+       <p>Associated with heading <code>&lt;h2>Table of contents&lt;/h2></code>.</p>
+       <p>Also associated with the ordered list <code>&lt;ol id=toc>...&lt;/ol></code>
+       (though it likely would not be shown in a rendered view of the outline).</p>
+       <p>No nested sections.</p>
+      <li>
+       <p><strong>Section implied for second <code id=outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-2><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h2</a></code> element.</strong></p>
+       <p>Associated with heading <code>&lt;h2>First section&lt;/h2></code>.</p>
+       <p>Also associated with the paragraph <code>&lt;p>Some intro to the first
+       section.&lt;/p></code> (though it likely would not be shown in a rendered view of the
+       outline).</p>
+       <p>No nested sections.</p>
+      </ol>
+    </ol>
+
+   <p>The following image shows what a rendered view of the outline might look like.</p>
+
+   <p><img src=/images/outline.svg width=465 alt="Top-level section with the
+   multi-level heading &quot;HTML: Living Standard — Last Updated 12 August 2016&quot; and two
+   subsections; &quot;Table of contents&quot; and &quot;First section&quot;." height=120></p>
+  </div>
+
+  
+
+  <p>The algorithm that must be followed during a walk of a DOM subtree rooted at a <a href=#sectioning-content-2 id=outlines:sectioning-content-2-3>sectioning
+  content</a> element or a <a href=#sectioning-root id=outlines:sectioning-root-3>sectioning root</a> element to determine that element's
+  <a href=#outline id=outlines:outline-2>outline</a> is as follows:</p>
+
+  <ol><li><p>Let <var>current outline target</var> be null. (It holds the element whose
+   <a href=#outline id=outlines:outline-3>outline</a> is being created.)<li><p>Let <var>current section</var> be null. (It holds a pointer to a <a href=#concept-section id=outlines:concept-section-2>section</a>, so that elements in the DOM can all be associated with a
+   section.)<li><p>Create a stack to hold elements, which is used to handle nesting. Initialize this stack to
+   empty.<li>
+
+    <p>Walk over the DOM in <a id=outlines:tree-order-2 href=https://dom.spec.whatwg.org/#concept-tree-order data-x-internal=tree-order>tree order</a>, starting with the <a href=#sectioning-content-2 id=outlines:sectioning-content-2-4>sectioning
+    content</a> element or <a href=#sectioning-root id=outlines:sectioning-root-4>sectioning root</a> element at the root of the subtree for
+    which an outline is to be created, and trigger the first relevant step below for each element as
+    the walk enters and exits it.</p>
+
+    <dl class=switch><dt>When exiting an element, if that element is the element at the top of the stack<dd>
+
+      <p class=note>The element being exited is a <a href=#heading-content-2 id=outlines:heading-content-2>heading content</a> element or an
+      element with a <code id=outlines:the-hidden-attribute><a href=#the-hidden-attribute>hidden</a></code> attribute.</p>
+
+      <p>Pop that element from the stack.</p>
+
+     <dt>If the top of the stack is a <a href=#heading-content-2 id=outlines:heading-content-2-2>heading content</a> element or an element with a
+     <code id=outlines:the-hidden-attribute-2><a href=#the-hidden-attribute>hidden</a></code> attribute<dd><p>Do nothing.<dt>When entering an element with a <code id=outlines:the-hidden-attribute-3><a href=#the-hidden-attribute>hidden</a></code> attribute<dd>
+
+      <p>Push the element being entered onto the stack. (This causes the algorithm to skip that
+      element and any descendants of the element.)</p>
+
+     <dt>When entering a <a href=#sectioning-content-2 id=outlines:sectioning-content-2-5>sectioning content</a> element<dd>
+
+      <p>Run these steps:</p>
+
+      <ol><li>
+
+        <p>If <var>current outline target</var> is not null, run these substeps:</p>
+
+        <ol><li><p>If the <var>current section</var> has no heading, create an implied
+         heading and let that be the heading for the <var>current section</var>.<li><p>Push <var>current outline target</var> onto the stack.</ol>
+
+       <li><p>Let <var>current outline target</var> be the element that is being
+       entered.<li><p>Let <var>current section</var> be a newly created <a href=#concept-section id=outlines:concept-section-3>section</a> for the <var>current outline target</var>
+       element.<li><p>Associate <var>current outline target</var> with <var>current
+       section</var>.<li><p>Let there be a new <a href=#outline id=outlines:outline-4>outline</a> for the new <var>current outline
+       target</var>, initialized with just the new <var>current section</var> as the only
+       <a href=#concept-section id=outlines:concept-section-4>section</a> in the outline.</ol>
+
+     <dt>When exiting a <a href=#sectioning-content-2 id=outlines:sectioning-content-2-6>sectioning content</a> element, if the stack is not empty<dd>
+
+      <p>Run these steps:</p>
+
+      <ol><li><p>If the <var>current section</var> has no heading, create an implied heading
+       and let that be the heading for the <var>current section</var>.<li><p>Pop the top element from the stack, and let the <var>current outline
+       target</var> be that element.<li><p>Let <var>current section</var> be the last section in the
+       <a href=#outline id=outlines:outline-5>outline</a> of the <var>current outline target</var> element.<li><p>Append the <a href=#outline id=outlines:outline-6>outline</a> of the <a href=#sectioning-content-2 id=outlines:sectioning-content-2-7>sectioning content</a> element being
+       exited to the <var>current section</var>. (This does not change which section is
+       the last section in the <a href=#outline id=outlines:outline-7>outline</a>.)</ol>
+
+     <dt>When entering a <a href=#sectioning-root id=outlines:sectioning-root-5>sectioning root</a> element<dd>
+
+      <p>Run these steps:</p>
+
+      <ol><li><p>If <var>current outline target</var> is not null, push <var>current outline target</var> onto the stack.<li><p>Let <var>current outline target</var> be the element that is being
+       entered.<li><p>Let <var>current outline target</var>'s <i>parent section</i> be <var>current section</var>.<li><p>Let <var>current section</var> be a newly created <a href=#concept-section id=outlines:concept-section-5>section</a> for the <var>current outline target</var>
+       element.<li><p>Let there be a new <a href=#outline id=outlines:outline-8>outline</a> for the new <var>current outline
+       target</var>, initialized with just the new <var>current section</var> as the only
+       <a href=#concept-section id=outlines:concept-section-6>section</a> in the outline.</ol>
+
+     <dt>When exiting a <a href=#sectioning-root id=outlines:sectioning-root-6>sectioning root</a> element, if the stack is not empty<dd>
+
+      <p>Run these steps:</p>
+
+      <ol><li><p>If the <var>current section</var> has no heading, create an implied heading
+       and let that be the heading for the <var>current section</var>.<li><p>Let <var>current section</var> be <var>current outline
+       target</var>'s <i>parent section</i>.<li><p>Pop the top element from the stack, and let the <var>current outline
+       target</var> be that element.</ol>
+
+     <dt>When exiting a <a href=#sectioning-content-2 id=outlines:sectioning-content-2-8>sectioning content</a> element or a <a href=#sectioning-root id=outlines:sectioning-root-7>sectioning root</a>
+     element (when the stack is empty)<dd>
+
+      <p class=note>The <var>current outline target</var> is the element being exited,
+      and it is the <a href=#sectioning-content-2 id=outlines:sectioning-content-2-9>sectioning content</a> element or a <a href=#sectioning-root id=outlines:sectioning-root-8>sectioning root</a>
+      element at the root of the subtree for which an outline is being generated.</p>
+
+      <p>If the <var>current section</var> has no heading, create an implied heading and
+      let that be the heading for the <var>current section</var>.</p>
+
+      <p>Skip to the next step in the overall set of steps. (The walk is over.)</p>
+
+     <dt>When entering a <a href=#heading-content-2 id=outlines:heading-content-2-3>heading content</a> element<dd>
+
+      <p>If the <var>current section</var> has no heading, let the element being entered be
+      the heading for the <var>current section</var>.</p>
+
+      <p class=note>If the element being entered is an <code id=outlines:the-hgroup-element><a href=#the-hgroup-element>hgroup</a></code> element, that
+      <code id=outlines:the-hgroup-element-2><a href=#the-hgroup-element>hgroup</a></code> as a whole is a <em>multi-level</em> heading for the <var>current
+      section</var>, with the highest-<a href=#rank id=outlines:rank>ranked</a>
+      <code id=outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-3><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-4><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> descendant of the <code id=outlines:the-hgroup-element-3><a href=#the-hgroup-element>hgroup</a></code> providing the
+      primary heading for the <var>current section</var>, and with other
+      <code id=outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-5><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h1</a></code>–<code id=outlines:the-h1,-h2,-h3,-h4,-h5,-and-h6-elements-6><a href=#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements>h6</a></code> descendants of the <code id=outlines:the-hgroup-element-4><a href=#the-hgroup-element>hgroup</a></code> providing
+      secondary headings for the <var>current section</var>.</p>
+
+      <p>Otherwise, if the element being entered has a <a href=#rank id=outlines:rank-2>rank</a> equal to or higher than the
+      heading of the last section of the <a href=#outline id=outlines:outline-9>outline</a> of the <var>current outline
+      target</var>, or if the heading of the last section of the <a href=#outline id=outlines:outline-10>outline</a> of the <var>current outline target</var> is an implied heading, then create a new <a href=#concept-section id=outlines:concept-section-7>section</a> and append it to the <a href=#outline id=outlines:outline-11>outline</a> of the <var>current outline target</var> element, so that this new section is the new last
+      section of that outline. Let <var>current section</var> be that new section. Let the
+      element being entered be the new heading for the <var>current section</var>.</p>
+
+      <p>Otherwise, run these substeps:</p>
+
+      <ol><li><p>Let <var>candidate section</var> be <var>current
+       section</var>.<li><p><i>Heading loop</i>: If the element being entered has a <a href=#rank id=outlines:rank-3>rank</a> lower than
+       the <a href=#rank id=outlines:rank-4>rank</a> of the heading of the <var>candidate section</var>, then create a new
+       <a href=#concept-section id=outlines:concept-section-8>section</a>, and append it to <var>candidate
+       section</var>. (This does not change which section is the last section in the outline.) Let
+       <var>current section</var> be this new section. Let the element being entered be the
+       new heading for the <var>current section</var>. Abort these substeps.</p>
+
+       <li><p>Let <var>new candidate section</var> be the <a href=#concept-section id=outlines:concept-section-9>section</a> that contains <var>candidate section</var> in
+       the <a href=#outline id=outlines:outline-12>outline</a> of <var>current outline target</var>.<li><p>Let <var>candidate section</var> be <var>new candidate
+       section</var>.<li><p>Return to the step labeled <i>heading loop</i>.</ol>
+
+      <p>Push the element being entered onto the stack. (This causes the algorithm to skip any
+      descendants of the element.)</p>

@@ -1,0 +1,850 @@
+   <p>An example of the latter would be something like keeping track of the precise coordinate from
+   which a pop-up <code id=the-session-history-of-browsing-contexts:the-div-element><a href=#the-div-element>div</a></code> was made to animate, so that if the user goes back, it can be
+   made to animate to the same location. Or alternatively, it could be used to keep a pointer into a
+   cache of data that would be fetched from the server based on the information in the
+   <a id=the-session-history-of-browsing-contexts:url-5 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>, so that when going back and forward, the information doesn't have to be fetched
+   again.</p>
+
+  </div>
+
+  <hr>
+
+  <p>At any point, one of the entries in the session history is the <dfn id=current-entry>current entry</dfn>. This
+  is the entry representing the <a href=#active-document id=the-session-history-of-browsing-contexts:active-document>active document</a> of the <a href=#browsing-context id=the-session-history-of-browsing-contexts:browsing-context-5>browsing context</a>.
+  Which entry is the <a href=#current-entry id=the-session-history-of-browsing-contexts:current-entry>current entry</a> is changed by the algorithms defined in this
+  specification, e.g. during <a href=#traverse-the-history id=the-session-history-of-browsing-contexts:traverse-the-history>session history
+  traversal</a>.</p>
+
+  <p class=note>The <a href=#current-entry id=the-session-history-of-browsing-contexts:current-entry-2>current entry</a> is usually an entry for the <a href=https://dom.spec.whatwg.org/#concept-document-url id="the-session-history-of-browsing-contexts:the-document's-address" data-x-internal="the-document's-address">URL</a> of the <code id=the-session-history-of-browsing-contexts:document-11><a href=#document>Document</a></code>. However, it can also be one
+  of the entries for <a href=#state-object id=the-session-history-of-browsing-contexts:state-object-5>state objects</a> added to the history by that
+  document.</p>
+
+  <p><dfn id=an-entry-with-persisted-user-state>An entry with persisted user state</dfn> is one that also has user-agent defined state.
+  This specification does not specify what kind of state can be stored.</p>
+
+  <p class=example>For example, some user agents might want to persist the scroll position, or the
+  values of form controls.</p>
+
+  <p class=note>User agents that persist the value of form controls are encouraged to also persist
+  their directionality (the value of the element's <code id=the-session-history-of-browsing-contexts:the-dir-attribute><a href=#the-dir-attribute>dir</a></code> attribute).
+  This prevents values from being displayed incorrectly after a history traversal when the user had
+  originally entered the values with an explicit, non-default directionality.</p>
+
+  <p>An entry's <dfn id=scroll-restoration-mode>scroll restoration mode</dfn> indicates whether the user agent should
+  restore the persisted scroll position (if any) when traversing to it. The scroll restoration
+  mode may be one of the following:</p>
+
+  <dl><dt>"<dfn id=dom-scrollrestoration-auto><code>auto</code></dfn>"<dd>The user agent is responsible for restoring the scroll position upon navigation.<dt>"<dfn id=dom-scrollrestoration-manual><code>manual</code></dfn>"<dd>The page is responsible for restoring the scroll position and the user agent does not
+   attempt to do so automatically</dl>
+
+  <p>If unspecified, the <a href=#scroll-restoration-mode id=the-session-history-of-browsing-contexts:scroll-restoration-mode-2>scroll restoration mode</a> of a new entry must be set to
+  "<code id=the-session-history-of-browsing-contexts:dom-scrollrestoration-auto><a href=#dom-scrollrestoration-auto>auto</a></code>".</p>
+
+  <p>Entries that consist of <a href=#state-object id=the-session-history-of-browsing-contexts:state-object-6>state objects</a> share the same
+  <code id=the-session-history-of-browsing-contexts:document-12><a href=#document>Document</a></code> as the entry for the page that was active when they were added.</p>
+
+  <p>Contiguous entries that differ just by their <a href=https://url.spec.whatwg.org/#concept-url id=the-session-history-of-browsing-contexts:url-6 data-x-internal=url>URLs</a>' <a href=https://url.spec.whatwg.org/#concept-url-fragment id=the-session-history-of-browsing-contexts:concept-url-fragment data-x-internal=concept-url-fragment>fragments</a> also share the same <code id=the-session-history-of-browsing-contexts:document-13><a href=#document>Document</a></code>.</p>
+
+  <p class=note>All entries that share the same <code id=the-session-history-of-browsing-contexts:document-14><a href=#document>Document</a></code> (and that are therefore
+  merely different states of one particular document) are contiguous by definition.</p>
+
+  <p>Each <code id=the-session-history-of-browsing-contexts:document-15><a href=#document>Document</a></code> in a <a href=#browsing-context id=the-session-history-of-browsing-contexts:browsing-context-6>browsing context</a> can also have a <dfn id=latest-entry>latest
+  entry</dfn>. This is the entry for that <code id=the-session-history-of-browsing-contexts:document-16><a href=#document>Document</a></code> to which the <a href=#browsing-context id=the-session-history-of-browsing-contexts:browsing-context-7>browsing
+  context</a>'s <a href=#session-history id=the-session-history-of-browsing-contexts:session-history-3>session history</a> was most recently traversed. When a
+  <code id=the-session-history-of-browsing-contexts:document-17><a href=#document>Document</a></code> is created, it initially has no <a href=#latest-entry id=the-session-history-of-browsing-contexts:latest-entry>latest entry</a>.</p>
+
+  
+
+  <p>User agents may <a href=#discard-a-document id=the-session-history-of-browsing-contexts:discard-a-document-2>discard</a> the <code id=the-session-history-of-browsing-contexts:document-18><a href=#document>Document</a></code>
+  objects of entries other than the <a href=#current-entry id=the-session-history-of-browsing-contexts:current-entry-3>current entry</a> that are not referenced from any
+  script, reloading the pages afresh when the user or script navigates back to such pages. This
+  specification does not specify when user agents should discard <code id=the-session-history-of-browsing-contexts:document-19><a href=#document>Document</a></code> objects and
+  when they should cache them.</p>
+
+  <p>Entries that have had their <code id=the-session-history-of-browsing-contexts:document-20><a href=#document>Document</a></code> objects discarded must, for the purposes of
+  the algorithms given below, act as if they had not. When the user or script navigates back or
+  forwards to a page which has no in-memory DOM objects, any other entries that shared the same
+  <code id=the-session-history-of-browsing-contexts:document-21><a href=#document>Document</a></code> object with it must share the new object as well.</p>
+
+  
+
+
+
+
+  <h4 id=the-history-interface>7.7.2 The <code id=the-history-interface:history-3><a href=#history-3>History</a></code> interface<a href=#the-history-interface class=self-link></a></h4>
+
+  <pre class=idl>enum <dfn id=scrollrestoration>ScrollRestoration</dfn> { "<a href=#dom-scrollrestoration-auto id=the-history-interface:dom-scrollrestoration-auto>auto</a>", "<a href=#dom-scrollrestoration-manual id=the-history-interface:dom-scrollrestoration-manual>manual</a>" };
+
+interface <dfn id=history-3>History</dfn> {
+  readonly attribute unsigned long <a href=#dom-history-length id=the-history-interface:dom-history-length>length</a>;
+  attribute <a href=#scrollrestoration id=the-history-interface:scrollrestoration>ScrollRestoration</a> <a href=#dom-history-scroll-restoration id=the-history-interface:dom-history-scroll-restoration>scrollRestoration</a>;
+  readonly attribute any <a href=#dom-history-state id=the-history-interface:dom-history-state>state</a>;
+  void <a href=#dom-history-go id=the-history-interface:dom-history-go>go</a>(optional long delta = 0);
+  void <a href=#dom-history-back id=the-history-interface:dom-history-back>back</a>();
+  void <a href=#dom-history-forward id=the-history-interface:dom-history-forward>forward</a>();
+  void <a href=#dom-history-pushstate id=the-history-interface:dom-history-pushstate>pushState</a>(any data, DOMString title, optional USVString? url = null);
+  void <a href=#dom-history-replacestate id=the-history-interface:dom-history-replacestate>replaceState</a>(any data, DOMString title, optional USVString? url = null);
+};</pre>
+
+  <dl class=domintro><dt><var>window</var> . <code id=the-history-interface:dom-history><a href=#dom-history>history</a></code> . <code id=the-history-interface:dom-history-length-2><a href=#dom-history-length>length</a></code><dd>
+
+    <p>Returns the number of entries in the <a href=#joint-session-history id=the-history-interface:joint-session-history>joint session history</a>.</p>
+
+   <dt><var>window</var> . <code id=the-history-interface:dom-history-2><a href=#dom-history>history</a></code> . <code id=the-history-interface:dom-history-scroll-restoration-2><a href=#dom-history-scroll-restoration>scrollRestoration</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns the <a href=#scroll-restoration-mode id=the-history-interface:scroll-restoration-mode>scroll restoration mode</a> of the current entry in the <a href=#session-history id=the-history-interface:session-history>session
+    history</a>.</p>
+
+    <p>Can be set, to change the <a href=#scroll-restoration-mode id=the-history-interface:scroll-restoration-mode-2>scroll restoration mode</a> of the current entry in the <a href=#session-history id=the-history-interface:session-history-2>session history</a>.</p>
+
+   <dt><var>window</var> . <code id=the-history-interface:dom-history-3><a href=#dom-history>history</a></code> . <code id=the-history-interface:dom-history-state-2><a href=#dom-history-state>state</a></code><dd>
+
+    <p>Returns the current <a href=#state-object id=the-history-interface:state-object>state object</a>.</p>
+
+   <dt><var>window</var> . <code id=the-history-interface:dom-history-4><a href=#dom-history>history</a></code> . <code id=the-history-interface:dom-history-go-2><a href=#dom-history-go>go</a></code>( [ <var>delta</var> ] )<dd>
+
+    <p>Goes back or forward the specified number of steps in the <a href=#joint-session-history id=the-history-interface:joint-session-history-2>joint session history</a>.</p>
+
+    <p>A zero delta will reload the current page.</p>
+
+    <p>If the delta is out of range, does nothing.</p>
+
+   <dt><var>window</var> . <code id=the-history-interface:dom-history-5><a href=#dom-history>history</a></code> . <code id=the-history-interface:dom-history-back-2><a href=#dom-history-back>back</a></code>()<dd>
+
+    <p>Goes back one step in the <a href=#joint-session-history id=the-history-interface:joint-session-history-3>joint session history</a>.</p>
+
+    <p>If there is no previous page, does nothing.</p>
+
+   <dt><var>window</var> . <code id=the-history-interface:dom-history-6><a href=#dom-history>history</a></code> . <code id=the-history-interface:dom-history-forward-2><a href=#dom-history-forward>forward</a></code>()<dd>
+
+    <p>Goes forward one step in the <a href=#joint-session-history id=the-history-interface:joint-session-history-4>joint session history</a>.</p>
+
+    <p>If there is no next page, does nothing.</p>
+
+   <dt><var>window</var> . <code id=the-history-interface:dom-history-7><a href=#dom-history>history</a></code> . <code id=the-history-interface:dom-history-pushstate-2><a href=#dom-history-pushstate>pushState</a></code>(<var>data</var>, <var>title</var> [, <var>url</var> ] )<dd>
+
+    <p>Pushes the given data onto the session history, with the given title, and, if provided and
+    not null, the given URL.</p>
+
+   <dt><var>window</var> . <code id=the-history-interface:dom-history-8><a href=#dom-history>history</a></code> . <code id=the-history-interface:dom-history-replacestate-2><a href=#dom-history-replacestate>replaceState</a></code>(<var>data</var>, <var>title</var> [, <var>url</var> ] )<dd>
+
+    <p>Updates the current entry in the session history to have the given data, title, and, if
+    provided and not null, URL.</p>
+
+   </dl>
+
+
+
+  <p>The <dfn id=joint-session-history>joint session history</dfn> of a <a href=#top-level-browsing-context id=the-history-interface:top-level-browsing-context>top-level browsing context</a> is the union
+  of all the <a href=#session-history id=the-history-interface:session-history-3>session histories</a> of all <a href=#concept-document-bc id=the-history-interface:concept-document-bc>browsing contexts</a> of all the <a href=#fully-active id=the-history-interface:fully-active>fully active</a>
+  <code id=the-history-interface:document><a href=#document>Document</a></code> objects that share that <a href=#top-level-browsing-context id=the-history-interface:top-level-browsing-context-2>top-level browsing context</a>, with all
+  the entries that are <a href=#current-entry id=the-history-interface:current-entry>current entries</a> in their respective <a href=#session-history id=the-history-interface:session-history-4>session histories</a> removed except for the <a href=#current-entry-of-the-joint-session-history id=the-history-interface:current-entry-of-the-joint-session-history>current entry of
+  the joint session history</a>.</p>
+
+  <p>The <dfn id=current-entry-of-the-joint-session-history>current entry of the joint session history</dfn> is the entry that most recently
+  became a <a href=#current-entry id=the-history-interface:current-entry-2>current entry</a> in its <a href=#session-history id=the-history-interface:session-history-5>session history</a>.</p>
+
+  <p>Entries in the <a href=#joint-session-history id=the-history-interface:joint-session-history-5>joint session history</a> are ordered chronologically by the time they
+  were added to their respective <a href=#session-history id=the-history-interface:session-history-6>session histories</a>. Each entry
+  has an index; the earliest entry has index 0, and the subsequent entries are numbered with
+  consecutively increasing integers (1, 2, 3, etc).</p>
+
+  <p class=note>Since each <code id=the-history-interface:document-2><a href=#document>Document</a></code> in a <a href=#browsing-context id=the-history-interface:browsing-context>browsing context</a> might have a
+  different <a href=#event-loop id=the-history-interface:event-loop>event loop</a>, the actual state of the <a href=#joint-session-history id=the-history-interface:joint-session-history-6>joint session history</a> can
+  be somewhat nebulous. For example, two sibling <code id=the-history-interface:the-iframe-element><a href=#the-iframe-element>iframe</a></code> elements could both <a href=#traverse-the-history id=the-history-interface:traverse-the-history>traverse</a> from one unique origin to another at the same time,
+  so their precise order might not be well-defined; similarly, since they might only find out about
+  each other later, they might disagree about the length of the <a href=#joint-session-history id=the-history-interface:joint-session-history-7>joint session
+  history</a>.</p>
+
+
+
+  
+
+  <p>The <dfn id=dom-history-length><code>length</code></dfn> attribute of the
+  <code id=the-history-interface:history-3-2><a href=#history-3>History</a></code> interface, on getting, must return the number of entries in the
+  <a href=#top-level-browsing-context id=the-history-interface:top-level-browsing-context-3>top-level browsing context</a>'s <a href=#joint-session-history id=the-history-interface:joint-session-history-8>joint session history</a>. If this
+  <code id=the-history-interface:history-3-3><a href=#history-3>History</a></code> object is associated with a <code id=the-history-interface:document-3><a href=#document>Document</a></code> that is not
+  <a href=#fully-active id=the-history-interface:fully-active-2>fully active</a>, getting must instead throw a <a id=the-history-interface:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a>
+  <code id=the-history-interface:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+  <p>The actual entries are not accessible from script.</p>
+
+  <p>The <dfn id=dom-history-scroll-restoration><code>scrollRestoration</code></dfn> attribute
+  of the History interface, on getting, must return the <a href=#scroll-restoration-mode id=the-history-interface:scroll-restoration-mode-3>scroll restoration mode</a> of the
+  current entry in the <a href=#session-history id=the-history-interface:session-history-7>session history</a>. On setting, the <a href=#scroll-restoration-mode id=the-history-interface:scroll-restoration-mode-4>scroll restoration mode
+  </a> of the current entry in the <a href=#session-history id=the-history-interface:session-history-8>session history</a> must be set to the new
+  value.  If this <code id=the-history-interface:history-3-4><a href=#history-3>History</a></code> object is associated with a <code id=the-history-interface:document-4><a href=#document>Document</a></code> that is
+  not <a href=#fully-active id=the-history-interface:fully-active-3>fully active</a>, both getting and setting must instead throw a
+  <a id=the-history-interface:securityerror-2 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-history-interface:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+  <p>The <dfn id=dom-history-state><code>state</code></dfn> attribute of the
+  <code id=the-history-interface:history-3-5><a href=#history-3>History</a></code> interface, on getting, must return the last value it was set to by the user
+  agent. If this <code id=the-history-interface:history-3-6><a href=#history-3>History</a></code> object is associated with a <code id=the-history-interface:document-5><a href=#document>Document</a></code> that is
+  not <a href=#fully-active id=the-history-interface:fully-active-4>fully active</a>, getting must instead throw a
+  <a id=the-history-interface:securityerror-3 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-history-interface:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>. Initially, its value must be
+  null.</p>
+
+  <p>When the <dfn id=dom-history-go><code>go(<var>delta</var>)</code></dfn> method is
+  invoked, if <var>delta</var> is zero, the user agent must act as if the
+  <code id=the-history-interface:dom-location-reload><a href=#dom-location-reload>location.reload()</a></code> method was called instead. Otherwise,
+  the user agent must <a href=#traverse-the-history-by-a-delta id=the-history-interface:traverse-the-history-by-a-delta>traverse the history by a delta</a> whose value is
+  <var>delta</var>. If this <code id=the-history-interface:history-3-7><a href=#history-3>History</a></code> object is associated with a <code id=the-history-interface:document-6><a href=#document>Document</a></code>
+  that is not <a href=#fully-active id=the-history-interface:fully-active-5>fully active</a>, invoking must instead throw a
+  <a id=the-history-interface:securityerror-4 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-history-interface:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+  <p>When the <dfn id=dom-history-back><code>back()</code></dfn> method is invoked, the user
+  agent must <a href=#traverse-the-history-by-a-delta id=the-history-interface:traverse-the-history-by-a-delta-2>traverse the history by a delta</a> −1. If this <code id=the-history-interface:history-3-8><a href=#history-3>History</a></code>
+  object is associated with a <code id=the-history-interface:document-7><a href=#document>Document</a></code> that is not <a href=#fully-active id=the-history-interface:fully-active-6>fully active</a>,
+  invoking must instead throw a <a id=the-history-interface:securityerror-5 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a>
+  <code id=the-history-interface:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+  <p>When the <dfn id=dom-history-forward><code>forward()</code></dfn> method is invoked, the
+  user agent must <a href=#traverse-the-history-by-a-delta id=the-history-interface:traverse-the-history-by-a-delta-3>traverse the history by a delta</a> +1. If this <code id=the-history-interface:history-3-9><a href=#history-3>History</a></code>
+  object is associated with a <code id=the-history-interface:document-8><a href=#document>Document</a></code> that is not <a href=#fully-active id=the-history-interface:fully-active-7>fully active</a>,
+  invoking must instead throw a <a id=the-history-interface:securityerror-6 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a>
+  <code id=the-history-interface:domexception-6><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.</p>
+
+
+
+  <hr>
+
+  <p>Each <a href=#top-level-browsing-context id=the-history-interface:top-level-browsing-context-4>top-level browsing context</a> has a <dfn id=session-history-traversal-queue>session history traversal queue</dfn>,
+  initially empty, to which <a href=#concept-task id=the-history-interface:concept-task>tasks</a> can be added.</p>
+
+  <p>Each <a href=#top-level-browsing-context id=the-history-interface:top-level-browsing-context-5>top-level browsing context</a>, when created, must begin running
+  the following algorithm, known as the <dfn id=session-history-event-loop>session history event loop</dfn> for that
+  <a href=#top-level-browsing-context id=the-history-interface:top-level-browsing-context-6>top-level browsing context</a>, <a href=#in-parallel id=the-history-interface:in-parallel>in parallel</a>:</p>
+
+  <ol><li><p>Wait until this <a href=#top-level-browsing-context id=the-history-interface:top-level-browsing-context-7>top-level browsing context</a>'s <a href=#session-history-traversal-queue id=the-history-interface:session-history-traversal-queue>session history traversal
+   queue</a> is not empty.<li><p>Pull the first <a href=#concept-task id=the-history-interface:concept-task-2>task</a> from this <a href=#top-level-browsing-context id=the-history-interface:top-level-browsing-context-8>top-level browsing
+   context</a>'s <a href=#session-history-traversal-queue id=the-history-interface:session-history-traversal-queue-2>session history traversal queue</a>, and execute it.<li><p>Return to the first step of this algorithm.</p>
+
+  </ol>
+
+  <p>The <a href=#session-history-event-loop id=the-history-interface:session-history-event-loop>session history event loop</a> helps coordinate cross-browsing-context transitions
+  of the <a href=#joint-session-history id=the-history-interface:joint-session-history-9>joint session history</a>: since each <a href=#browsing-context id=the-history-interface:browsing-context-2>browsing context</a> might, at any
+  particular time, have a different <a href=#event-loop id=the-history-interface:event-loop-2>event loop</a> (this can happen if the user agent has
+  more than one <a href=#event-loop id=the-history-interface:event-loop-3>event loop</a> per <a href=#unit-of-related-browsing-contexts id=the-history-interface:unit-of-related-browsing-contexts>unit of related browsing contexts</a>),
+  transitions would otherwise have to involve cross-event-loop synchronization.</p>
+
+  <hr>
+
+  <p>To <dfn id=traverse-the-history-by-a-delta>traverse the history by a delta</dfn> <var>delta</var>, the user agent must
+  append a <a href=#concept-task id=the-history-interface:concept-task-3>task</a> to this <a href=#top-level-browsing-context id=the-history-interface:top-level-browsing-context-9>top-level browsing context</a>'s
+  <a href=#session-history-traversal-queue id=the-history-interface:session-history-traversal-queue-3>session history traversal queue</a>, the <a href=#concept-task id=the-history-interface:concept-task-4>task</a>
+  consisting of running the following steps:</p>
+
+  <ol><li><p>If the index of the <a href=#current-entry-of-the-joint-session-history id=the-history-interface:current-entry-of-the-joint-session-history-2>current entry of the joint session history</a> plus <var>delta</var> is less than zero or greater than or equal to the number of items in the
+   <a href=#joint-session-history id=the-history-interface:joint-session-history-10>joint session history</a>, then abort these steps.</p>
+
+   <li><p>Let <var>specified entry</var> be the entry in the <a href=#joint-session-history id=the-history-interface:joint-session-history-11>joint session
+   history</a> whose index is the sum of <var>delta</var> and the index of the
+   <a href=#current-entry-of-the-joint-session-history id=the-history-interface:current-entry-of-the-joint-session-history-3>current entry of the joint session history</a>.<li><p>Let <var>specified browsing context</var> be the <a href=#browsing-context id=the-history-interface:browsing-context-3>browsing context</a> of
+   the <var>specified entry</var>.<li><p>If the <var>specified browsing context</var>'s <a href=#active-document id=the-history-interface:active-document>active document</a>'s
+   <a href=#unload-a-document id=the-history-interface:unload-a-document>unload a document</a> algorithm is currently running, abort these steps.<li>
+
+    <p><a href=#queue-a-task id=the-history-interface:queue-a-task>Queue a task</a> that consists of running the following substeps. The relevant
+    <a href=#event-loop id=the-history-interface:event-loop-4>event loop</a> is that of the <var>specified browsing context</var>'s
+    <a href=#active-document id=the-history-interface:active-document-2>active document</a>. The <a href=#task-source id=the-history-interface:task-source>task source</a> for the queued task is the
+    <a href=#history-traversal-task-source id=the-history-interface:history-traversal-task-source>history traversal task source</a>.</p>
+
+    <ol><li><p>If there is an ongoing attempt to navigate <var>specified browsing context</var>
+     that has not yet <a href=#concept-navigate-mature id=the-history-interface:concept-navigate-mature>matured</a> (i.e. it has not passed the
+     point of making its <code id=the-history-interface:document-9><a href=#document>Document</a></code> the <a href=#active-document id=the-history-interface:active-document-3>active document</a>), then cancel that
+     attempt to navigate the <a href=#browsing-context id=the-history-interface:browsing-context-4>browsing context</a>.<li>
+
+      <p>If the <var>specified browsing context</var>'s <a href=#active-document id=the-history-interface:active-document-4>active document</a> is not
+      the same <code id=the-history-interface:document-10><a href=#document>Document</a></code> as the <code id=the-history-interface:document-11><a href=#document>Document</a></code> of the <var>specified
+      entry</var>, then run these substeps:</p>
+
+      <ol><li><p><a href=#prompt-to-unload-a-document id=the-history-interface:prompt-to-unload-a-document>Prompt to unload</a> the <a href=#active-document id=the-history-interface:active-document-5>active
+       document</a> of the <var>specified browsing context</var>. If the user
+       <a href=#refused-to-allow-the-document-to-be-unloaded id=the-history-interface:refused-to-allow-the-document-to-be-unloaded>refused to allow the document to be unloaded</a>, then abort these steps.<li><p><a href=#unload-a-document id=the-history-interface:unload-a-document-2>Unload</a> the <a href=#active-document id=the-history-interface:active-document-6>active document</a> of the
+       <var>specified browsing context</var> with the <var>recycle</var> parameter
+       set to false.</ol>
+
+     <li><p><a href=#traverse-the-history id=the-history-interface:traverse-the-history-2>Traverse the history</a> of the <var>specified browsing context</var> to
+     the <var>specified entry</var>.</p>
+
+    </ol>
+
+   </ol>
+
+  <p>When the user navigates through a <a href=#browsing-context id=the-history-interface:browsing-context-5>browsing context</a>, e.g. using a browser's back
+  and forward buttons, the user agent must <a href=#traverse-the-history-by-a-delta id=the-history-interface:traverse-the-history-by-a-delta-4>traverse the history by a delta</a> equivalent
+  to the action specified by the user.</p>
+
+  <hr id=history-1> 
+
+  <p>The <dfn id=dom-history-pushstate><code>pushState(<var>data</var>, <var>title</var>, <var>url</var>)</code></dfn> method adds a state object entry to
+  the history.<div class=status><input onclick=toggleStatus(this) value=⋰ type=button><p class=support><strong>Support:</strong> history<span class="and_chr yes"><span>Chrome for Android</span> <span>55+</span></span><span class="chrome yes"><span>Chrome</span> <span>5+</span></span><span class="ios_saf yes"><span>iOS Safari</span> <span>5.0+</span></span><span class="and_uc partial"><span>UC Browser for Android (limited)</span> <span>11+</span></span><span class="firefox yes"><span>Firefox</span> <span>4+</span></span><span class="ie yes"><span>IE</span> <span>10+</span></span><span class="samsung yes"><span>Samsung Internet</span> <span>4+</span></span><span class="op_mini no"><span>Opera Mini</span> <span>None</span></span><span class="android yes"><span>Android Browser</span> <span>4.2+</span></span><span class="safari yes"><span>Safari</span> <span>6+</span></span><span class="edge yes"><span>Edge</span> <span>12+</span></span><span class="opera yes"><span>Opera</span> <span>11.5+</span></span><p class=caniuse>Source: <a href="http://caniuse.com/#feat=history">caniuse.com</a></div>
+
+  <p>The <dfn id=dom-history-replacestate><code>replaceState(<var>data</var>, <var>title</var>, <var>url</var>)</code></dfn> method updates the state object,
+  title, and optionally the <a id=the-history-interface:url href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a> of the <a href=#current-entry id=the-history-interface:current-entry-3>current entry</a> in the history.</p>
+
+  <p>When either of these methods is invoked, the user agent must run the following steps:</p>
+
+  <ol><li><p>Let <var>document</var> be the unique <code id=the-history-interface:document-12><a href=#document>Document</a></code> object this
+   <code id=the-history-interface:history-3-10><a href=#history-3>History</a></code> object is associated with.<li><p>If <var>document</var> is not <a href=#fully-active id=the-history-interface:fully-active-8>fully active</a>, throw a
+   <a id=the-history-interface:securityerror-7 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-history-interface:domexception-7><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Optionally, abort these steps. (For example, the user agent might disallow calls to these
+   methods that are invoked on a timer, or from event listeners that are not triggered in response
+   to a clear user action, or that are invoked in rapid succession.)<li><p>Let <var>targetRealm</var> be this <code id=the-history-interface:history-3-11><a href=#history-3>History</a></code> object's <a href=#concept-relevant-realm id=the-history-interface:concept-relevant-realm>relevant Realm</a>.<li><p>Let <var>cloned data</var> be <a href=#structuredclone id=the-history-interface:structuredclone>StructuredClone</a>(<var>data</var>,
+   <var>targetRealm</var>). Rethrow any exceptions.<li>
+
+    <p>If the third argument is not null, run these substeps:</p>
+
+    <ol><li><a href=#parse-a-url id=the-history-interface:parse-a-url>Parse</a> the value of the third argument, relative to the
+     <a href=#relevant-settings-object id=the-history-interface:relevant-settings-object>relevant settings object</a> of this <code id=the-history-interface:history-3-12><a href=#history-3>History</a></code> object.<li>If that fails, throw a <a id=the-history-interface:securityerror-8 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-history-interface:domexception-8><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>
+     and abort these steps.<li><p>Let <var>new URL</var> be the <a href=#resulting-url-record id=the-history-interface:resulting-url-record>resulting URL record</a>.<li>Compare <var>new URL</var> to <var>document</var>'s <a href=https://dom.spec.whatwg.org/#concept-document-url id="the-history-interface:the-document's-address" data-x-internal="the-document's-address">URL</a>. If any component of these two <a href=https://url.spec.whatwg.org/#concept-url id=the-history-interface:url-record data-x-internal=url-record>URL records</a> differ other than the <a href=https://url.spec.whatwg.org/#concept-url-path id=the-history-interface:concept-url-path data-x-internal=concept-url-path>path</a>,
+     <a href=https://url.spec.whatwg.org/#concept-url-query id=the-history-interface:concept-url-query data-x-internal=concept-url-query>query</a>, and <a href=https://url.spec.whatwg.org/#concept-url-fragment id=the-history-interface:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a> components, then throw a
+     <a id=the-history-interface:securityerror-9 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-history-interface:domexception-9><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and abort these steps.<li>If the <a href=https://url.spec.whatwg.org/#concept-url-origin id=the-history-interface:concept-url-origin data-x-internal=concept-url-origin>origin</a> of <var>new URL</var> is not
+     <a href=#same-origin id=the-history-interface:same-origin>same origin</a> with the <a href=#concept-origin id=the-history-interface:concept-origin>origin</a> of <var>document</var>, and either the
+     <a href=https://url.spec.whatwg.org/#concept-url-path id=the-history-interface:concept-url-path-2 data-x-internal=concept-url-path>path</a> or <a href=https://url.spec.whatwg.org/#concept-url-query id=the-history-interface:concept-url-query-2 data-x-internal=concept-url-query>query</a>
+     components of the two <a href=https://url.spec.whatwg.org/#concept-url id=the-history-interface:url-record-2 data-x-internal=url-record>URL records</a> compared in the previous
+     step differ, throw a <a id=the-history-interface:securityerror-10 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-history-interface:domexception-10><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code> and
+     abort these steps. (This prevents sandboxed content from spoofing other pages on the same
+     origin.)</ol>
+
+   <li><p>If the third argument is null, then let <var>new URL</var> be the <a id=the-history-interface:url-2 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>
+   of the <a href=#current-entry id=the-history-interface:current-entry-4>current entry</a>.<li>
+
+    <p>If the method invoked was the <code id=the-history-interface:dom-history-pushstate-3><a href=#dom-history-pushstate>pushState()</a></code>
+    method:</p>
+
+    <ol><li>
+
+      <p>Remove all the entries in the <a href=#browsing-context id=the-history-interface:browsing-context-6>browsing context</a>'s <a href=#session-history id=the-history-interface:session-history-9>session history</a>
+      after the <a href=#current-entry id=the-history-interface:current-entry-5>current entry</a>. If the <a href=#current-entry id=the-history-interface:current-entry-6>current entry</a> is the last entry in
+      the session history, then no entries are removed.</p>
+
+      <p class=note>This <a href=#history-notes>doesn't necessarily have to affect</a> the user
+      agent's user interface.</p>
+
+     <li><p>Remove any <a href=#concept-task id=the-history-interface:concept-task-5>tasks</a> queued by the <a href=#history-traversal-task-source id=the-history-interface:history-traversal-task-source-2>history traversal
+     task source</a> that are associated with any <code id=the-history-interface:document-13><a href=#document>Document</a></code> objects in the
+     <a href=#top-level-browsing-context id=the-history-interface:top-level-browsing-context-10>top-level browsing context</a>'s <a href=#document-family id=the-history-interface:document-family>document family</a>.<li><p>If appropriate, update the <a href=#current-entry id=the-history-interface:current-entry-7>current entry</a> to reflect any state that the user
+     agent wishes to persist. The entry is then said to be <a href=#an-entry-with-persisted-user-state id=the-history-interface:an-entry-with-persisted-user-state>an entry with persisted user
+     state</a>.<li><p>Add a <a href=#state-object id=the-history-interface:state-object-2>state object</a> entry to the session history, after the <a href=#current-entry id=the-history-interface:current-entry-8>current
+     entry</a>, with <var>cloned data</var> as the <a href=#state-object id=the-history-interface:state-object-3>state object</a>, the given
+     <var>title</var> as the title, <var>new URL</var> as the <a id=the-history-interface:url-3 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>
+     of the entry, and the <a href=#scroll-restoration-mode id=the-history-interface:scroll-restoration-mode-5>scroll restoration mode</a> of the current entry in the
+     <a href=#session-history id=the-history-interface:session-history-10>session history</a> as the scroll restoration mode.<li><p>Update the <a href=#current-entry id=the-history-interface:current-entry-9>current entry</a> to be this newly added entry.</ol>
+
+    <p>Otherwise, if the method invoked was the <code id=the-history-interface:dom-history-replacestate-3><a href=#dom-history-replacestate>replaceState()</a></code> method:</p>
+
+    <ol><li><p>Update the <a href=#current-entry id=the-history-interface:current-entry-10>current entry</a> in the session history so that <var>cloned data</var> is the entry's new state object, the given <var>title</var>
+     is the new title, and <var>new URL</var> is the entry's new <a id=the-history-interface:url-4 href=https://url.spec.whatwg.org/#concept-url data-x-internal=url>URL</a>.</ol>
+
+   <li><p>If the <a href=#current-entry id=the-history-interface:current-entry-11>current entry</a> in the session history represents a non-GET request
+   (e.g. it was the result of a POST submission) then update it to instead represent a GET
+   request.<li>
+
+    <p>Set <var>document</var>'s <a href=https://dom.spec.whatwg.org/#concept-document-url id="the-history-interface:the-document's-address-2" data-x-internal="the-document's-address">URL</a> to <var>new
+    URL</var>.</p>
+
+    <p class=note>Since this is neither a <a href=#navigate id=the-history-interface:navigate>navigation</a> of the
+    <a href=#browsing-context id=the-history-interface:browsing-context-7>browsing context</a> nor a <a href=#traverse-the-history id=the-history-interface:traverse-the-history-3>history traversal</a>,
+    it does not cause a <code id=the-history-interface:event-hashchange><a href=#event-hashchange>hashchange</a></code> event to be fired.</p>
+
+   <li>
+
+    <p>Set <code id=the-history-interface:dom-history-state-3><a href=#dom-history-state>history.state</a></code> to
+    <a href=#structuredclone id=the-history-interface:structuredclone-2>StructuredClone</a>(<var>cloned data</var>, <var>targetRealm</var>).</p> 
+
+   <li><p>Set the <a href=#current-entry id=the-history-interface:current-entry-12>current entry</a>'s <code id=the-history-interface:document-14><a href=#document>Document</a></code> object's <a href=#latest-entry id=the-history-interface:latest-entry>latest
+   entry</a> to the <a href=#current-entry id=the-history-interface:current-entry-13>current entry</a>.</ol>
+
+  <p class=note>The <var>title</var> is purely advisory. User agents might use the title
+  in the user interface.</p>
+
+  <p>User agents may limit the number of state objects added to the session history per page. If a
+  page hits the UA-defined limit, user agents must remove the entry immediately after the first
+  entry for that <code id=the-history-interface:document-15><a href=#document>Document</a></code> object in the session history after having added the new
+  entry. (Thus the state history acts as a FIFO buffer for eviction, but as a LIFO buffer for
+  navigation.)</p>
+
+  
+
+  <div class=example>
+
+   <p>Consider a game where the user can navigate along a line, such that the user is always at some
+   coordinate, and such that the user can bookmark the page corresponding to a particular
+   coordinate, to return to it later.</p>
+
+   <p>A static page implementing the x=5 position in such a game could look like the following:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;!-- this is https://example.com/line?x=5 -->
+&lt;html lang="en">
+&lt;title>Line Game - 5&lt;/title>
+&lt;p>You are at coordinate 5 on the line.&lt;/p>
+&lt;p>
+ &lt;a href="?x=6">Advance to 6&lt;/a> or
+ &lt;a href="?x=4">retreat to 4&lt;/a>?
+&lt;/p></pre>
+
+   <p>The problem with such a system is that each time the user clicks, the whole page has to be
+   reloaded. Here instead is another way of doing it, using script:</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;!-- this starts off as https://example.com/line?x=5 -->
+&lt;html lang="en">
+&lt;title>Line Game - 5&lt;/title>
+&lt;p>You are at coordinate &lt;span id="coord">5&lt;/span> on the line.&lt;/p>
+&lt;p>
+ &lt;a href="?x=6" onclick="go(1); return false;">Advance to 6&lt;/a> or
+ &lt;a href="?x=4" onclick="go(-1); return false;">retreat to 4&lt;/a>?
+&lt;/p>
+&lt;script>
+ var currentPage = 5; // prefilled by server
+ function go(d) {
+   setupPage(currentPage + d);
+   history.pushState(currentPage, document.title, '?x=' + currentPage);
+ }
+ onpopstate = function(event) {
+   setupPage(event.state);
+ }
+ function setupPage(page) {
+   currentPage = page;
+   document.title = 'Line Game - ' + currentPage;
+   document.getElementById('coord').textContent = currentPage;
+   document.links[0].href = '?x=' + (currentPage+1);
+   document.links[0].textContent = 'Advance to ' + (currentPage+1);
+   document.links[1].href = '?x=' + (currentPage-1);
+   document.links[1].textContent = 'retreat to ' + (currentPage-1);
+ }
+&lt;/script></pre>
+
+   <p>In systems without script, this still works like the previous example. However, users that
+   <em>do</em> have script support can now navigate much faster, since there is no network access
+   for the same experience. Furthermore, contrary to the experience the user would have with just a
+   naïve script-based approach, bookmarking and navigating the session history still work.</p>
+
+   <p>In the example above, the <var>data</var> argument to the <code id=the-history-interface:dom-history-pushstate-4><a href=#dom-history-pushstate>pushState()</a></code> method is the same information as would be sent
+   to the server, but in a more convenient form, so that the script doesn't have to parse the URL
+   each time the user navigates.</p>
+
+  </div>
+
+  <div class=example>
+
+   <p>Applications might not use the same title for a <a href=#session-history-entry id=the-history-interface:session-history-entry>session history entry</a> as the
+   value of the document's <code id=the-history-interface:the-title-element><a href=#the-title-element>title</a></code> element at that time. For example, here is a simple
+   page that shows a block in the <code id=the-history-interface:the-title-element-2><a href=#the-title-element>title</a></code> element. Clearly, when navigating backwards to
+   a previous state the user does not go back in time, and therefore it would be inappropriate to
+   put the time in the session history title.</p>
+
+   <pre>&lt;!DOCTYPE HTML>
+&lt;HTML LANG=EN>
+&lt;TITLE>Line&lt;/TITLE>
+&lt;SCRIPT>
+ setInterval(function () { document.title = 'Line - ' + new Date(); }, 1000);
+ var i = 1;
+ function inc() {
+   set(i+1);
+   history.pushState(i, 'Line - ' + i);
+ }
+ function set(newI) {
+   i = newI;
+   document.forms.F.I.value = newI;
+ }
+&lt;/SCRIPT>
+&lt;BODY ONPOPSTATE="set(event.state)">
+&lt;FORM NAME=F>
+State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE="Increment" TYPE=BUTTON ONCLICK="inc()">
+&lt;/FORM></pre>
+
+  </div>
+
+  <div class=example>
+   <p>Most applications want to use the same <a href=#scroll-restoration-mode id=the-history-interface:scroll-restoration-mode-6>scroll restoration mode</a> value for all of
+   their history entries. To achieve this they should set the <code id=the-history-interface:dom-history-scroll-restoration-3><a href=#dom-history-scroll-restoration>scrollRestoration</a></code> attribute as soon as possible
+   (e.g., in the first <code id=the-history-interface:the-script-element><a href=#the-script-element>script</a></code> element in the document's <code id=the-history-interface:the-head-element><a href=#the-head-element>head</a></code> element) to
+   ensure that any entry added to the history session gets the desired scroll restoration mode.</p>
+
+   <pre>&lt;head>
+  &lt;script>
+       if ('scrollRestoration' in history)
+            history.scrollRestoration = 'manual';
+  &lt;/script>
+&lt;/head>
+   </pre>
+  </div>
+
+
+  
+
+  <h4 id=history-notes>7.7.3 Implementation notes for session history<a href=#history-notes class=self-link></a></h4>
+  
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>The <code id=history-notes:history-3><a href=#history-3>History</a></code> interface is not meant to place restrictions on how implementations
+  represent the session history to the user.</p>
+
+  <p>For example, session history could be implemented in a tree-like manner, with each page having
+  multiple "forward" pages. This specification doesn't define how the linear list of pages in the
+  <code id=history-notes:dom-history><a href=#dom-history>history</a></code> object are derived from the actual session history as
+  seen from the user's perspective.</p>
+
+  <p>Similarly, a page containing two <code id=history-notes:the-iframe-element><a href=#the-iframe-element>iframe</a></code>s has a <code id=history-notes:dom-history-2><a href=#dom-history>history</a></code> object distinct from the <code id=history-notes:the-iframe-element-2><a href=#the-iframe-element>iframe</a></code>s' <code id=history-notes:dom-history-3><a href=#dom-history>history</a></code> objects, despite the fact that typical Web browsers present the
+  user with just one "Back" button, with a session history that interleaves the navigation of the
+  two inner frames and the outer page.</p>
+
+
+  <p><strong>Security</strong>: It is suggested that to avoid letting a page "hijack" the history
+  navigation facilities of a UA by abusing <code id=history-notes:dom-history-pushstate><a href=#dom-history-pushstate>pushState()</a></code>,
+  the UA provide the user with a way to jump back to the previous page (rather than just going back
+  to the previous state). For example, the back button could have a drop down showing just the pages
+  in the session history, and not showing any of the states. Similarly, an aural browser could have
+  two "back" commands, one that goes back to the previous state, and one that jumps straight back to
+  the previous page.</p>
+
+  <p>For both <code id=history-notes:dom-history-pushstate-2><a href=#dom-history-pushstate>pushState()</a></code> and <code id=history-notes:dom-history-replacestate><a href=#dom-history-replacestate>replaceState()</a></code>, user agents are encouraged to prevent
+  abuse of these APIs via too-frequent calls or over-large state objects. As detailed above, the
+  algorithm explicitly allows user agents to ignore any such calls when appropriate.</p>
+
+
+  
+
+
+  <h4 id=the-location-interface>7.7.4 The <code id=the-location-interface:location><a href=#location>Location</a></code> interface<a href=#the-location-interface class=self-link></a></h4>
+
+  <p>Each <code id=the-location-interface:window><a href=#window>Window</a></code> object is associated with a unique instance of a <code id=the-location-interface:location-2><a href=#location>Location</a></code>
+  object, allocated when the <code id=the-location-interface:window-2><a href=#window>Window</a></code> object is created.</p>
+
+  
+
+  <p class=warning>The <code id=the-location-interface:location-3><a href=#location>Location</a></code> exotic object is defined through a mishmash of IDL,
+  invocation of JavaScript internal methods post-creation, and overridden JavaScript internal
+  methods. Coupled with its scary security policy, please take extra care while implementing
+  this excrescence.</p>
+
+  <p>To create a <code id=the-location-interface:location-4><a href=#location>Location</a></code> object, run these steps:</p>
+
+  <ol><li><p>Let <var>location</var> be a new <code id=the-location-interface:location-5><a href=#location>Location</a></code> <a id=the-location-interface:platform-object href=https://heycam.github.io/webidl/#dfn-platform-object data-x-internal=platform-object>platform
+   object</a>.<li><p>Perform ! <var>location</var>.[[DefineOwnProperty]]("<code>toString</code>", {
+   [[Value]]: <a id=the-location-interface:%objproto_tostring% href=https://tc39.github.io/ecma262/#sec-object.prototype.tostring data-x-internal=%objproto_tostring%>%ObjProto_toString%</a>,
+   [[Writable]]: false,
+   [[Enumerable]]: false,
+   [[Configurable]]: false }).<li><p>Perform ! <var>location</var>.[[DefineOwnProperty]]("<code>toJSON</code>", {
+   [[Value]]: undefined,
+   [[Writable]]: false,
+   [[Enumerable]]: false,
+   [[Configurable]]: false }).<li><p>Perform ! <var>location</var>.[[DefineOwnProperty]]("<code>valueOf</code>", {
+   [[Value]]: <a id=the-location-interface:%objproto_valueof% href=https://tc39.github.io/ecma262/#sec-object.prototype.valueof data-x-internal=%objproto_valueof%>%ObjProto_valueOf%</a>,
+   [[Writable]]: false,
+   [[Enumerable]]: false,
+   [[Configurable]]: false }).<li><p>Perform ! <var>location</var>.[[DefineOwnProperty]](<a href=#@@toprimitive id=the-location-interface:@@toprimitive>@@toPrimitive</a>, {
+   [[Value]]: undefined,
+   [[Writable]]: false,
+   [[Enumerable]]: false,
+   [[Configurable]]: false }).<li><p>Set the value of the <a href=#defaultproperties id=the-location-interface:defaultproperties>[[DefaultProperties]]</a> internal slot of
+   <var>location</var> to <var>location</var>.[[OwnPropertyKeys]]().<li><p>Return <var>location</var>.</ol>
+
+  
+
+  <dl class=domintro><dt><var>document</var> . <code id=the-location-interface:dom-document-location><a href=#dom-document-location>location</a></code> [ = <var>value</var> ]<dt><var>window</var> . <code id=the-location-interface:dom-location><a href=#dom-location>location</a></code> [ = <var>value</var> ]<dd>
+
+    <p>Returns a <code id=the-location-interface:location-6><a href=#location>Location</a></code> object with the current page's location.</p>
+
+    <p>Can be set, to navigate to another page.</p>
+
+   </dl>
+
+  
+
+  <p>The <code id=the-location-interface:document><a href=#document>Document</a></code> object's <dfn id=dom-document-location><code>location</code></dfn> attribute's getter must return this
+  <code id=the-location-interface:document-2><a href=#document>Document</a></code> object's <a href=#concept-relevant-global id=the-location-interface:concept-relevant-global>relevant global
+  object</a>'s <code id=the-location-interface:location-7><a href=#location>Location</a></code> object, if this <code id=the-location-interface:document-3><a href=#document>Document</a></code> object is <a href=#fully-active id=the-location-interface:fully-active>fully
+  active</a>, and null otherwise.</p>
+
+  <p>The <code id=the-location-interface:window-3><a href=#window>Window</a></code> object's <dfn id=dom-location><code>location</code></dfn>
+  attribute's getter must return this <code id=the-location-interface:window-4><a href=#window>Window</a></code> object's <code id=the-location-interface:location-8><a href=#location>Location</a></code> object.</p>
+
+  
+
+  <p><code id=the-location-interface:location-9><a href=#location>Location</a></code> objects provide a representation of the <a href=https://dom.spec.whatwg.org/#concept-document-url id="the-location-interface:the-document's-address" data-x-internal="the-document's-address">URL</a> of the <a href=#active-document id=the-location-interface:active-document>active document</a> of their
+  <code id=the-location-interface:document-4><a href=#document>Document</a></code>'s <a href=#concept-document-bc id=the-location-interface:concept-document-bc>browsing context</a>, and allow the
+  <a href=#current-entry id=the-location-interface:current-entry>current entry</a> of the <a href=#browsing-context id=the-location-interface:browsing-context>browsing context</a>'s session history to be changed,
+  by adding or replacing entries in the <code id=the-location-interface:dom-history><a href=#dom-history>history</a></code> object.</p>
+
+  <pre class=idl>interface <dfn id=location>Location</dfn> {
+  [Unforgeable] stringifier attribute USVString <a href=#dom-location-href id=the-location-interface:dom-location-href>href</a>;
+  [Unforgeable] readonly attribute USVString <a href=#dom-location-origin id=the-location-interface:dom-location-origin>origin</a>;
+  [Unforgeable] attribute USVString <a href=#dom-location-protocol id=the-location-interface:dom-location-protocol>protocol</a>;
+  [Unforgeable] attribute USVString <a href=#dom-location-host id=the-location-interface:dom-location-host>host</a>;
+  [Unforgeable] attribute USVString <a href=#dom-location-hostname id=the-location-interface:dom-location-hostname>hostname</a>;
+  [Unforgeable] attribute USVString <a href=#dom-location-port id=the-location-interface:dom-location-port>port</a>;
+  [Unforgeable] attribute USVString <a href=#dom-location-pathname id=the-location-interface:dom-location-pathname>pathname</a>;
+  [Unforgeable] attribute USVString <a href=#dom-location-search id=the-location-interface:dom-location-search>search</a>;
+  [Unforgeable] attribute USVString <a href=#dom-location-hash id=the-location-interface:dom-location-hash>hash</a>;
+
+  [Unforgeable] void <a href=#dom-location-assign id=the-location-interface:dom-location-assign>assign</a>(USVString url);
+  [Unforgeable] void <a href=#dom-location-replace id=the-location-interface:dom-location-replace>replace</a>(USVString url);
+  [Unforgeable] void <a href=#dom-location-reload id=the-location-interface:dom-location-reload>reload</a>();
+
+  [Unforgeable, SameObject] readonly attribute <a href=#domstringlist id=the-location-interface:domstringlist>DOMStringList</a> <a href=#dom-location-ancestororigins id=the-location-interface:dom-location-ancestororigins>ancestorOrigins</a>;
+};</pre>
+
+  <dl class=domintro><dt><var>location</var> . <code>toString()</code><dt><var>location</var> . <code id=the-location-interface:dom-location-href-2><a href=#dom-location-href>href</a></code><dd>
+    <p>Returns the <code id=the-location-interface:location-10><a href=#location>Location</a></code> object's URL.</p>
+    <p>Can be set, to navigate to the given URL.</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-origin-2><a href=#dom-location-origin>origin</a></code><dd>
+    <p>Returns the <code id=the-location-interface:location-11><a href=#location>Location</a></code> object's URL's origin.</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-protocol-2><a href=#dom-location-protocol>protocol</a></code><dd>
+    <p>Returns the <code id=the-location-interface:location-12><a href=#location>Location</a></code> object's URL's scheme.</p>
+    <p>Can be set, to navigate to the same URL with a changed scheme.</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-host-2><a href=#dom-location-host>host</a></code><dd>
+    <p>Returns the <code id=the-location-interface:location-13><a href=#location>Location</a></code> object's URL's host and port (if different from the default
+    port for the scheme).</p>
+    <p>Can be set, to navigate to the same URL with a changed host and port.</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-hostname-2><a href=#dom-location-hostname>hostname</a></code><dd>
+    <p>Returns the <code id=the-location-interface:location-14><a href=#location>Location</a></code> object's URL's host.</p>
+    <p>Can be set, to navigate to the same URL with a changed host.</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-port-2><a href=#dom-location-port>port</a></code><dd>
+    <p>Returns the <code id=the-location-interface:location-15><a href=#location>Location</a></code> object's URL's port.</p>
+    <p>Can be set, to navigate to the same URL with a changed port.</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-pathname-2><a href=#dom-location-pathname>pathname</a></code><dd>
+    <p>Returns the <code id=the-location-interface:location-16><a href=#location>Location</a></code> object's URL's path.</p>
+    <p>Can be set, to navigate to the same URL with a changed path.</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-search-2><a href=#dom-location-search>search</a></code><dd>
+    <p>Returns the <code id=the-location-interface:location-17><a href=#location>Location</a></code> object's URL's query (includes leading "<code>?</code>" if non-empty).</p>
+    <p>Can be set, to navigate to the same URL with a changed query (ignores leading "<code>?</code>").</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-hash-2><a href=#dom-location-hash>hash</a></code><dd>
+    <p>Returns the <code id=the-location-interface:location-18><a href=#location>Location</a></code> object's URL's fragment (includes leading "<code>#</code>" if non-empty).</p>
+    <p>Can be set, to navigate to the same URL with a changed fragment (ignores leading "<code>#</code>").</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-assign-2><a href=#dom-location-assign>assign</a></code>(<var>url</var>)<dd>
+    <p>Navigates to the given URL.</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-replace-2><a href=#dom-location-replace>replace</a></code>(<var>url</var>)<dd>
+    <p>Removes the current page from the session history and navigates to the given URL.</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-reload-2><a href=#dom-location-reload>reload</a></code>()<dd>
+    <p>Reloads the current page.</p>
+   <dt><var>location</var> . <code id=the-location-interface:dom-location-ancestororigins-2><a href=#dom-location-ancestororigins>ancestorOrigins</a></code><dd>
+    <p>Returns a <code id=the-location-interface:domstringlist-2><a href=#domstringlist>DOMStringList</a></code> object listing the origins of the ancestor <a href=#browsing-context id=the-location-interface:browsing-context-2>browsing contexts</a>, from the <a href=#parent-browsing-context id=the-location-interface:parent-browsing-context>parent browsing
+    context</a> to the <a href=#top-level-browsing-context id=the-location-interface:top-level-browsing-context>top-level browsing context</a>.</p>
+   </dl>
+
+  
+
+  <p>A <code id=the-location-interface:location-19><a href=#location>Location</a></code> object has an associated <dfn id=relevant-document>relevant <code>Document</code></dfn>,
+  which is this <code id=the-location-interface:location-20><a href=#location>Location</a></code> object's associated <code id=the-location-interface:document-5><a href=#document>Document</a></code> object's <a href=#concept-document-bc id=the-location-interface:concept-document-bc-2>browsing context</a>'s <a href=#active-document id=the-location-interface:active-document-2>active document</a>.</p>
+
+  <p>A <code id=the-location-interface:location-21><a href=#location>Location</a></code> object has an associated <dfn id=concept-location-url>url</dfn>,
+  which is this <code id=the-location-interface:location-22><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document>relevant <code>Document</code></a>'s <a href=https://dom.spec.whatwg.org/#concept-document-url id="the-location-interface:the-document's-address-2" data-x-internal="the-document's-address">URL</a>.</p>
+
+  <p>A <code id=the-location-interface:location-23><a href=#location>Location</a></code> object has an associated <dfn id=concept-location-ancestor-origins-list>ancestor origins list</dfn>. When a
+  <code id=the-location-interface:location-24><a href=#location>Location</a></code> object is created, its <a href=#concept-location-ancestor-origins-list id=the-location-interface:concept-location-ancestor-origins-list>ancestor origins list</a> must be set to a
+  <code id=the-location-interface:domstringlist-3><a href=#domstringlist>DOMStringList</a></code> object whose associated list is the <a id=the-location-interface:list href=https://infra.spec.whatwg.org/#list data-x-internal=list>list</a> of strings that
+  the following steps would produce:</p>
+
+  <ol><li><p>Let <var>output</var> be a new <a id=the-location-interface:list-2 href=https://infra.spec.whatwg.org/#list data-x-internal=list>list</a> of strings.<li><p>Let <var>current</var> be the <a href=#concept-document-bc id=the-location-interface:concept-document-bc-3>browsing context</a>
+   of the <code id=the-location-interface:document-6><a href=#document>Document</a></code> with which this <code id=the-location-interface:location-25><a href=#location>Location</a></code> object is associated.<li><p><i>Loop</i>: If <var>current</var> has no <a href=#parent-browsing-context id=the-location-interface:parent-browsing-context-2>parent browsing context</a>, jump to
+   the step labeled <i>end</i>.<li><p>Let <var>current</var> be <var>current</var>'s <a href=#parent-browsing-context id=the-location-interface:parent-browsing-context-3>parent browsing
+   context</a>.<li><p><a href=https://infra.spec.whatwg.org/#list-append id=the-location-interface:list-append data-x-internal=list-append>Append</a> the <a href=#unicode-serialisation-of-an-origin id=the-location-interface:unicode-serialisation-of-an-origin>Unicode serialization</a> of <var>current</var>'s <a href=#active-document id=the-location-interface:active-document-3>active document</a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin>origin</a> to <var>output</var>.<li><p>Return to the step labeled <i>loop</i>.<li><p><i>End</i>: Return <var>output</var>.</ol>
+
+  <p>A <code id=the-location-interface:location-26><a href=#location>Location</a></code> object has an associated <dfn id=location-object-setter-navigate><code>Location</code>-object-setter
+  navigate</dfn> algorithm, which given a <var>url</var>, runs these steps:</p>
+
+  <ol><li>
+    <p>If any of the following conditions are met, let <var>replacement flag</var> be unset;
+    otherwise, let it be set:</p>
+
+    <ul class=brief><li>This <code id=the-location-interface:location-27><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-2>relevant <code>Document</code></a> has
+     <a href=#completely-loaded id=the-location-interface:completely-loaded>completely loaded</a>, or<li>In the <a href=#concept-task id=the-location-interface:concept-task>task</a> in which the algorithm is running, an
+     <a id=the-location-interface:activation-behaviour href=https://dom.spec.whatwg.org/#eventtarget-activation-behavior data-x-internal=activation-behaviour>activation behavior</a> is currently being processed whose <code id=the-location-interface:event-click><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event's <code id=the-location-interface:dom-event-istrusted><a data-x-internal=dom-event-istrusted href=https://dom.spec.whatwg.org/#dom-event-istrusted>isTrusted</a></code>
+     attribute is true, or<li>In the <a href=#concept-task id=the-location-interface:concept-task-2>task</a> in which the algorithm is running, the event
+     listener for a <code id=the-location-interface:event-click-2><a data-x-internal=event-click href=https://w3c.github.io/uievents/#event-type-click>click</a></code> event, whose <code id=the-location-interface:dom-event-istrusted-2><a data-x-internal=dom-event-istrusted href=https://dom.spec.whatwg.org/#dom-event-istrusted>isTrusted</a></code> attribute is true, is being handled.</ul>
+   <li><p><a href=#location-object-navigate id=the-location-interface:location-object-navigate><code>Location</code>-object navigate</a>, given <var>url</var> and
+   <var>replacement flag</var>.</ol>
+
+  <p>To <dfn id=location-object-navigate><code>Location</code>-object navigate</dfn>, given a <var>url</var> and
+  <var>replacement flag</var>, run these steps:</p>
+
+  <ol><li><p>The <a href=#source-browsing-context id=the-location-interface:source-browsing-context>source browsing context</a> is the <a href=#responsible-browsing-context id=the-location-interface:responsible-browsing-context>responsible browsing context</a>
+   specified by the <a href=#incumbent-settings-object id=the-location-interface:incumbent-settings-object>incumbent settings object</a>.<li>
+    <p><a href=#navigate id=the-location-interface:navigate>Navigate</a> the <a href=#browsing-context id=the-location-interface:browsing-context-3>browsing context</a> to
+    <var>url</var>, with the <var><a href=#exceptions-enabled id=the-location-interface:exceptions-enabled>exceptions enabled flag</a></var> set. Rethrow any
+    exceptions.</p>
+
+    <p>If the <var>replacement flag</var> is set or the <a href=#browsing-context id=the-location-interface:browsing-context-4>browsing context</a>'s
+    <a href=#session-history id=the-location-interface:session-history>session history</a> contains only one <code id=the-location-interface:document-7><a href=#document>Document</a></code>, and that was the
+    <code id=the-location-interface:about:blank><a href=#about:blank>about:blank</a></code> <code id=the-location-interface:document-8><a href=#document>Document</a></code> created when the <a href=#browsing-context id=the-location-interface:browsing-context-5>browsing context</a>
+    was created, then the navigation must be done with <a href=#replacement-enabled id=the-location-interface:replacement-enabled>replacement enabled</a>.</p>
+    
+   </ol>
+
+  <p>The <dfn id=dom-location-href><code>href</code></dfn> attribute's getter must run these
+  steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-28><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-3>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-2>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin>origin</a>, then throw a
+   <a id=the-location-interface:securityerror href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Return this <code id=the-location-interface:location-29><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url>url</a>,
+   <a href=https://url.spec.whatwg.org/#concept-url-serializer id=the-location-interface:concept-url-serializer data-x-internal=concept-url-serializer>serialized</a>.</ol>
+
+  <p>The <code id=the-location-interface:dom-location-href-3><a href=#dom-location-href>href</a></code> attribute's setter must run these steps:</p>
+
+  <ol><li><p><a href=#parse-a-url id=the-location-interface:parse-a-url>Parse</a> the given value relative to the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-2>entry
+   settings object</a>. If that failed, throw a <code id=the-location-interface:typeerror><a data-x-internal=typeerror href=https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror>TypeError</a></code> exception.<li><p><a href=#location-object-setter-navigate id=the-location-interface:location-object-setter-navigate><code>Location</code>-object-setter navigate</a> to the <a href=#resulting-url-record id=the-location-interface:resulting-url-record>resulting URL
+   record</a>.</ol>
+
+  <p class=note>The <code id=the-location-interface:dom-location-href-4><a href=#dom-location-href>href</a></code> attribute setter intentionally
+  has no security check.</p>
+
+  <p>The <dfn id=dom-location-origin><code>origin</code></dfn> attribute's getter must run
+  these steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-30><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-4>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-3>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-2>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-3>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-2>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-2 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-2><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Return the <a href=#unicode-serialisation-of-an-origin id=the-location-interface:unicode-serialisation-of-an-origin-2>Unicode serialization</a>
+   of this <code id=the-location-interface:location-31><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-2>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-origin id=the-location-interface:concept-url-origin data-x-internal=concept-url-origin>origin</a>.</ol>
+
+  <p class="note no-backref">It returns the Unicode rather than the ASCII serialization for
+  compatibility with <code id=the-location-interface:messageevent><a href=#messageevent>MessageEvent</a></code>.</p>
+
+  <p>The <dfn id=dom-location-protocol><code>protocol</code></dfn> attribute's getter must run
+  these steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-32><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-5>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-4>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-3>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-4>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-3>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-3 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-3><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Return this <code id=the-location-interface:location-33><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-3>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=the-location-interface:concept-url-scheme data-x-internal=concept-url-scheme>scheme</a>,
+   followed by "<code>:</code>".</ol>
+
+  <p>The <code id=the-location-interface:dom-location-protocol-3><a href=#dom-location-protocol>protocol</a></code> attribute's setter must run these
+  steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-34><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-6>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-5>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-4>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-5>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-4>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-4 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-4><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Let <var>copyURL</var> be a copy of this <code id=the-location-interface:location-35><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-4>url</a>.<li><p>Let <var>possibleFailure</var> be the result of <a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=the-location-interface:basic-url-parser data-x-internal=basic-url-parser>basic URL
+   parsing</a> the given value, followed by "<code>:</code>", with <var>copyURL</var>
+   as <var>url</var> and <a id=the-location-interface:scheme-start-state href=https://url.spec.whatwg.org/#scheme-start-state data-x-internal=scheme-start-state>scheme start state</a> as <var>state override</var>.<li><p>If <var>possibleFailure</var> is failure, then throw a
+   <a id=the-location-interface:syntaxerror href=https://heycam.github.io/webidl/#syntaxerror data-x-internal=syntaxerror>"<code>SyntaxError</code>"</a> <code id=the-location-interface:domexception-5><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>If <var>copyURL</var>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=the-location-interface:concept-url-scheme-2 data-x-internal=concept-url-scheme>scheme</a> is not an
+   <a id=the-location-interface:http(s)-scheme href=https://url.spec.whatwg.org/#http-scheme data-x-internal=http(s)-scheme>HTTP(S) scheme</a>, then terminate these steps.<li><p><a href=#location-object-setter-navigate id=the-location-interface:location-object-setter-navigate-2><code>Location</code>-object-setter navigate</a> to <var>copyURL</var>.</ol>
+
+  <p>The <dfn id=dom-location-host><code>host</code></dfn> attribute's getter must run these
+  steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-36><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-7>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-6>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-5>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-6>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-5>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-5 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-6><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Let <var>url</var> be this <code id=the-location-interface:location-37><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-5>url</a>.<li><p>If <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=the-location-interface:concept-url-host data-x-internal=concept-url-host>host</a> is null, return the empty
+   string.<li><p>If <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=the-location-interface:concept-url-port data-x-internal=concept-url-port>port</a> is null, return
+   <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=the-location-interface:concept-url-host-2 data-x-internal=concept-url-host>host</a>, <a href=https://url.spec.whatwg.org/#concept-host-serializer id=the-location-interface:host-serializer data-x-internal=host-serializer>serialized</a>.<li><p>Return <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=the-location-interface:concept-url-host-3 data-x-internal=concept-url-host>host</a>, <a href=https://url.spec.whatwg.org/#concept-host-serializer id=the-location-interface:host-serializer-2 data-x-internal=host-serializer>serialized</a>, followed by "<code>:</code>" and <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=the-location-interface:concept-url-port-2 data-x-internal=concept-url-port>port</a>, <a href=https://url.spec.whatwg.org/#serialize-an-integer id=the-location-interface:serialize-an-integer data-x-internal=serialize-an-integer>serialized</a>.</ol>
+
+  <p>The <code id=the-location-interface:dom-location-host-3><a href=#dom-location-host>host</a></code> attribute's setter must run these steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-38><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-8>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-7>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-6>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-7>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-6>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-6 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-7><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Let <var>copyURL</var> be a copy of this <code id=the-location-interface:location-39><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-6>url</a>.<li><p>If <var>copyURL</var>'s <a id=the-location-interface:cannot-be-a-base-url-flag href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, terminate these
+   steps.<li><p><a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=the-location-interface:basic-url-parser-2 data-x-internal=basic-url-parser>Basic URL parse</a> the given value, with
+   <var>copyURL</var> as <var>url</var> and <a id=the-location-interface:host-state href=https://url.spec.whatwg.org/#host-state data-x-internal=host-state>host state</a> as <var>state
+   override</var>.<li><p><a href=#location-object-setter-navigate id=the-location-interface:location-object-setter-navigate-3><code>Location</code>-object-setter navigate</a> to <var>copyURL</var>.</ol>
+
+  <p>The <dfn id=dom-location-hostname><code>hostname</code></dfn> attribute's getter must
+  run these steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-40><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-9>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-8>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-7>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-8>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-7>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-7 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-8><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>If this <code id=the-location-interface:location-41><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-7>url</a>'s
+   <a href=https://url.spec.whatwg.org/#concept-url-host id=the-location-interface:concept-url-host-4 data-x-internal=concept-url-host>host</a> is null, return the empty string.<li><p>Return this <code id=the-location-interface:location-42><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-8>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=the-location-interface:concept-url-host-5 data-x-internal=concept-url-host>host</a>, <a href=https://url.spec.whatwg.org/#concept-host-serializer id=the-location-interface:host-serializer-3 data-x-internal=host-serializer>serialized</a>.</ol>
+
+  <p>The <code id=the-location-interface:dom-location-hostname-3><a href=#dom-location-hostname>hostname</a></code> attribute's setter must run these
+  steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-43><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-10>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-9>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-8>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-9>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-8>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-8 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-9><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Let <var>copyURL</var> be a copy of this <code id=the-location-interface:location-44><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-9>url</a>.<li><p>If <var>copyURL</var>'s <a id=the-location-interface:cannot-be-a-base-url-flag-2 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, terminate these
+   steps.<li><p><a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=the-location-interface:basic-url-parser-3 data-x-internal=basic-url-parser>Basic URL parse</a> the given value, with
+   <var>copyURL</var> as <var>url</var> and <a id=the-location-interface:hostname-state href=https://url.spec.whatwg.org/#hostname-state data-x-internal=hostname-state>hostname state</a> as <var>state
+   override</var>.<li><p><a href=#location-object-setter-navigate id=the-location-interface:location-object-setter-navigate-4><code>Location</code>-object-setter navigate</a> to <var>copyURL</var>.</ol>
+
+  <p>The <dfn id=dom-location-port><code>port</code></dfn> attribute's getter must run these
+  steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-45><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-11>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-10>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-9>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-10>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-9>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-9 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-10><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>If this <code id=the-location-interface:location-46><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-10>url</a>'s
+   <a href=https://url.spec.whatwg.org/#concept-url-port id=the-location-interface:concept-url-port-3 data-x-internal=concept-url-port>port</a> is null, return the empty string.<li><p>Return this <code id=the-location-interface:location-47><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-11>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=the-location-interface:concept-url-port-4 data-x-internal=concept-url-port>port</a>, <a href=https://url.spec.whatwg.org/#serialize-an-integer id=the-location-interface:serialize-an-integer-2 data-x-internal=serialize-an-integer>serialized</a>.</ol>
+
+  <p>The <code id=the-location-interface:dom-location-port-3><a href=#dom-location-port>port</a></code> attribute's setter must run these steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-48><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-12>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-11>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-10>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-11>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-10>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-10 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-11><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Let <var>copyURL</var> be a copy of this <code id=the-location-interface:location-49><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-12>url</a>.<li><p>If <var>copyURL</var>'s <a href=https://url.spec.whatwg.org/#concept-url-host id=the-location-interface:concept-url-host-6 data-x-internal=concept-url-host>host</a> is null,
+   <var>copyURL</var>'s <a id=the-location-interface:cannot-be-a-base-url-flag-3 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, or <var>copyURL</var>'s <a href=https://url.spec.whatwg.org/#concept-url-scheme id=the-location-interface:concept-url-scheme-3 data-x-internal=concept-url-scheme>scheme</a> is "<code>file</code>", terminate these
+   steps.<li><p>If the given value is the empty string, then set <var>copyURL</var>'s <a href=https://url.spec.whatwg.org/#concept-url-port id=the-location-interface:concept-url-port-5 data-x-internal=concept-url-port>port</a> to null.<li><p>Otherwise, <a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=the-location-interface:basic-url-parser-4 data-x-internal=basic-url-parser>basic URL parse</a> the given value, with
+   <var>copyURL</var> as <var>url</var> and <a id=the-location-interface:port-state href=https://url.spec.whatwg.org/#port-state data-x-internal=port-state>port state</a> as <var>state
+   override</var>.<li><p><a href=#location-object-setter-navigate id=the-location-interface:location-object-setter-navigate-5><code>Location</code>-object-setter navigate</a> to <var>copyURL</var>.</ol>
+
+  <p>The <dfn id=dom-location-pathname><code>pathname</code></dfn> attribute's getter must
+  run these steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-50><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-13>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-12>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-11>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-12>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-11>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-11 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-12><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Let <var>url</var> be this <code id=the-location-interface:location-51><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-13>url</a>.<li><p>If <var>url</var>'s <a id=the-location-interface:cannot-be-a-base-url-flag-4 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, return the first string
+   in <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-path id=the-location-interface:concept-url-path data-x-internal=concept-url-path>path</a>.<li><p>Return "<code>/</code>", followed by the strings in <var>url</var>'s <a href=https://url.spec.whatwg.org/#concept-url-path id=the-location-interface:concept-url-path-2 data-x-internal=concept-url-path>path</a> (including empty strings), separated from each other by
+   "<code>/</code>".</ol>
+
+  <p>The <code id=the-location-interface:dom-location-pathname-3><a href=#dom-location-pathname>pathname</a></code> attribute's setter must run these
+  steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-52><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-14>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-13>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-12>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-13>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-12>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-12 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-13><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Let <var>copyURL</var> be a copy of this <code id=the-location-interface:location-53><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-14>url</a>.<li><p>If <var>copyURL</var>'s <a id=the-location-interface:cannot-be-a-base-url-flag-5 href=https://url.spec.whatwg.org/#url-cannot-be-a-base-url-flag data-x-internal=cannot-be-a-base-url-flag>cannot-be-a-base-URL flag</a> is set, terminate these
+   steps.<li><p>Set <var>copyURL</var>'s <a href=https://url.spec.whatwg.org/#concept-url-path id=the-location-interface:concept-url-path-3 data-x-internal=concept-url-path>path</a> to the empty
+   list.<li><p><a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=the-location-interface:basic-url-parser-5 data-x-internal=basic-url-parser>Basic URL parse</a> the given value, with
+   <var>copyURL</var> as <var>url</var> and <a id=the-location-interface:path-start-state href=https://url.spec.whatwg.org/#path-start-state data-x-internal=path-start-state>path start state</a> as <var>state
+   override</var>.<li><p><a href=#location-object-setter-navigate id=the-location-interface:location-object-setter-navigate-6><code>Location</code>-object-setter navigate</a> to <var>copyURL</var>.</ol>
+
+  <p>The <dfn id=dom-location-search><code>search</code></dfn> attribute's getter must run
+  these steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-54><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-15>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-14>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-13>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-14>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-13>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-13 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-14><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>If this <code id=the-location-interface:location-55><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-15>url</a>'s
+   <a href=https://url.spec.whatwg.org/#concept-url-query id=the-location-interface:concept-url-query data-x-internal=concept-url-query>query</a> is either null or the empty string, return the
+   empty string.<li><p>Return "<code>?</code>", followed by this <code id=the-location-interface:location-56><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-16>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-query id=the-location-interface:concept-url-query-2 data-x-internal=concept-url-query>query</a>.</ol>
+
+  <p>The <code id=the-location-interface:dom-location-search-3><a href=#dom-location-search>search</a></code> attribute's setter must run these
+  steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-57><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-16>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-15>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-14>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-15>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-14>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-14 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-15><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>Let <var>copyURL</var> be a copy of this <code id=the-location-interface:location-58><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-17>url</a>.<li><p>If the given value is the empty string, set <var>copyURL</var>'s <a href=https://url.spec.whatwg.org/#concept-url-query id=the-location-interface:concept-url-query-3 data-x-internal=concept-url-query>query</a> to null.
+
+   <li>
+    <p>Otherwise, run these substeps:</p>
+
+    <ol><li><p>Let <var>input</var> be the given value with a single leading "<code>?</code>"
+     removed, if any.<li><p>Set <var>copyURL</var>'s <a href=https://url.spec.whatwg.org/#concept-url-query id=the-location-interface:concept-url-query-4 data-x-internal=concept-url-query>query</a> to the empty
+     string.<li><p><a href=https://url.spec.whatwg.org/#concept-basic-url-parser id=the-location-interface:basic-url-parser-6 data-x-internal=basic-url-parser>Basic URL parse</a> <var>input</var>, with
+     <var>copyURL</var> as <var>url</var> and <a id=the-location-interface:query-state href=https://url.spec.whatwg.org/#query-state data-x-internal=query-state>query state</a> as <var>state override</var>,
+     and the <a href=#relevant-document id=the-location-interface:relevant-document-17>relevant <code>Document</code></a>'s <a id="the-location-interface:document's-character-encoding" href=https://dom.spec.whatwg.org/#concept-document-encoding data-x-internal="document's-character-encoding">document's character
+     encoding</a> as <var>encoding override</var>.</ol>
+   <li><p><a href=#location-object-setter-navigate id=the-location-interface:location-object-setter-navigate-7><code>Location</code>-object-setter navigate</a> to <var>copyURL</var>.</ol>
+
+  <p>The <dfn id=dom-location-hash><code>hash</code></dfn> attribute's getter must run these
+  steps:</p>
+
+  <ol><li><p>If this <code id=the-location-interface:location-59><a href=#location>Location</a></code> object's <a href=#relevant-document id=the-location-interface:relevant-document-18>relevant <code>Document</code></a>'s
+   <a href=#concept-origin id=the-location-interface:concept-origin-16>origin</a> is not <a href=#same-origin-domain id=the-location-interface:same-origin-domain-15>same origin-domain</a> with the <a href=#entry-settings-object id=the-location-interface:entry-settings-object-16>entry settings
+   object</a>'s <a href=#concept-settings-object-origin id=the-location-interface:concept-settings-object-origin-15>origin</a>, then throw a
+   <a id=the-location-interface:securityerror-15 href=https://heycam.github.io/webidl/#securityerror data-x-internal=securityerror>"<code>SecurityError</code>"</a> <code id=the-location-interface:domexception-16><a data-x-internal=domexception href=https://heycam.github.io/webidl/#dfn-DOMException>DOMException</a></code>.<li><p>If this <code id=the-location-interface:location-60><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-18>url</a>'s
+   <a href=https://url.spec.whatwg.org/#concept-url-fragment id=the-location-interface:concept-url-fragment data-x-internal=concept-url-fragment>fragment</a> is either null or the empty string, return
+   the empty string.<li><p>Return "<code>#</code>", followed by this <code id=the-location-interface:location-61><a href=#location>Location</a></code> object's <a href=#concept-location-url id=the-location-interface:concept-location-url-19>url</a>'s <a href=https://url.spec.whatwg.org/#concept-url-fragment id=the-location-interface:concept-url-fragment-2 data-x-internal=concept-url-fragment>fragment</a>.</ol>
+
+  <p>The <code id=the-location-interface:dom-location-hash-3><a href=#dom-location-hash>hash</a></code> attribute's setter must run these steps:</p>
